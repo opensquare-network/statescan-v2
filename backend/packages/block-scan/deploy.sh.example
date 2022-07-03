@@ -1,0 +1,1 @@
+NODE_ENV=production pm2 start src/index.js --name polkadot-statescan-v2-block-scan-prod --log-date-format 'YYYY-MM-DD HH:mm Z' --env production
