@@ -1,0 +1,15 @@
+{
+  "name": "@statescan/block-scan",
+  "main": "src/index.js",
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">18.0.0"
+  },
+  "dependencies": {
+    "@osn/scan-common": "0.0.17",
+    "dotenv": "^16.0.1",
+    "lodash.omit": "^4.5.0",
+    "mongodb": "^4.7.0"
+  }
+}
