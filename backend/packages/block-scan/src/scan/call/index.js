@@ -1,3 +1,4 @@
+const { isExemptedCall } = require("./exempt");
 const {
   handleCallsInExtrinsic,
   utils: { extractExtrinsicEvents, isExtrinsicSuccess },
@@ -8,6 +9,11 @@ let extrinsicCallIndex = 0;
 let extrinsicCalls = [];
 
 async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
+  const { section, method } = call;
+  if (isExemptedCall(section, method)) {
+    return
+  }
+
   const normalizedCall = normalizeCall(call);
   const indexer = {
     ...extrinsicIndexer,
@@ -17,7 +23,7 @@ async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
   extrinsicCalls.push({
     indexer,
     ...normalizedCall,
-  })
+  });
 
   extrinsicCallIndex++;
 }
