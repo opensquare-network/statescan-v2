@@ -20,9 +20,19 @@ async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
     callIndex: extrinsicCallIndex,
   }
 
+  let eventAttributes = {
+    isCall: false,
+  };
+  if (wrappedEvents.wrapped) {
+    eventAttributes.isCall = true;
+    eventAttributes.offset = wrappedEvents.offset;
+    eventAttributes.offset = wrappedEvents.events.length;
+  }
+
   extrinsicCalls.push({
     indexer,
     ...normalizedCall,
+    eventAttributes,
   });
 
   extrinsicCallIndex++;
@@ -38,11 +48,14 @@ async function extractCalls(extrinsics, allEvents = [], blockIndexer) {
       continue;
     }
 
+    // todo: filter out extrinsics which don't contain business calls
+    //  sections include: timestamp, parachainSystem, parainherent, parainclusion, parascheduler,
+
     const extrinsicIndexer = { ...blockIndexer, extrinsicIndex: index++ };
     await handleCallsInExtrinsic(extrinsic, events, extrinsicIndexer, handleCall)
   }
 
-  return extrinsicCalls;
+  return [...extrinsicCalls];
 }
 
 module.exports = {
