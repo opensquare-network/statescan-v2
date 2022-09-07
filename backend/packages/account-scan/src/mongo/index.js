@@ -14,7 +14,23 @@ const mongoUrl = process.env.MONGO_SCAN_URL || "mongodb://127.0.0.1:27017";
 let client = null;
 let db = null;
 
+async function getCollection(colName) {
+  return new Promise((resolve, reject) => {
+    db.listCollections({ name: colName }).next(async (err, info) => {
+      if (!info) {
+        const col = await db.createCollection(colName);
+        resolve(col);
+      } else if (err) {
+        reject(err);
+      }
+
+      resolve(db.collection(colName));
+    });
+  });
+}
+
 let addressCol = null;
+let statusCol = null;
 
 async function initDb() {
   client = await MongoClient.connect(mongoUrl, {
@@ -26,7 +42,8 @@ async function initDb() {
 
   db = client.db(dbName);
 
-  addressCol = await db.collection("address");
+  addressCol = await getCollection("address");
+  statusCol = await getCollection("status");
   await _createIndexes();
 }
 
@@ -50,6 +67,11 @@ async function getAddressCollection() {
   return addressCol;
 }
 
+async function getStatusCollection() {
+  await tryInit(statusCol);
+  return statusCol;
+}
+
 async function closeDb() {
   if (client) {
     await client.close();
@@ -58,5 +80,6 @@ async function closeDb() {
 
 module.exports = {
   getAddressCollection,
+  getStatusCollection,
   closeDb,
 };
