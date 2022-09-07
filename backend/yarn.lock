@@ -550,23 +550,6 @@
   resolved "https://registry.npmjs.org/@noble/secp256k1/-/secp256k1-1.6.3.tgz#7eed12d9f4404b416999d0c87686836c4c5c9b94"
   integrity sha512-T04e4iTurVy7I8Sw4+c5OSN9/RkPlo1uKxAomtxQNLq8j1uPAqnsqG1bqvY3Jv7c13gyr6dui0zmh/I3+f/JaQ==
 
-"@osn/scan-common@0.1.2":
-  version "0.1.2"
-  resolved "https://registry.npmjs.org/@osn/scan-common/-/scan-common-0.1.2.tgz#02f03702ea71a3b7f595064493ea7930eac9c858"
-  integrity sha512-AjrvwkUaIeZTEIbG/ST9/yaaYDF5l00DXl7q0OaQOnlt4IS2x4j0jQtWpDb/OOXt40Ll79imAAGzXoyCzc5lAw==
-  dependencies:
-    "@polkadot/api" "9.2.4"
-    "@polkadot/api-derive" "9.2.4"
-    "@polkadot/types" "9.2.4"
-    "@polkadot/util" "10.1.6"
-    "@polkadot/util-crypto" "10.1.6"
-    bignumber.js "^9.0.2"
-    lodash.findlast "^4.6.0"
-    lodash.last "^3.0.0"
-    lodash.omit "^4.5.0"
-    log4js "^6.5.1"
-    mongodb "^4.6.0"
-
 "@osn/scan-common@0.1.3":
   version "0.1.3"
   resolved "https://registry.npmjs.org/@osn/scan-common/-/scan-common-0.1.3.tgz#8ded7c4ea91c735b92ea892949d5d31c07dd7e29"

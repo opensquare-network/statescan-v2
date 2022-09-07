@@ -6,7 +6,6 @@ const { upsertBlock } = require("../mongo/services/block");
 const { normalizeBlock } = require("./block");
 const { normalizeEvents } = require("./event");
 const { normalizeExtrinsics } = require("./extrinsic");
-const { getNextScanHeight, updateScanHeight } = require("../mongo/services/status");
 const {
   chain: {
     getBlockIndexer,
@@ -16,7 +15,8 @@ const {
   },
   utils: {
     sleep,
-  }
+  },
+  mongo: {scan: {getNextScanHeight, updateScanHeight}}
 } = require("@osn/scan-common");
 
 async function handleBlock({ block, author, events, height }) {
