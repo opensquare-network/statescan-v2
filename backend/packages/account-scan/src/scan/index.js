@@ -1,4 +1,3 @@
-const { getNextScanHeight, updateScanHeight } = require("../mongo/services/status");
 const {
   chain: {
     getBlockIndexer,
@@ -8,12 +7,19 @@ const {
   },
   utils: {
     sleep,
+  },
+  mongo: {
+    scan: {
+      getNextScanHeight, updateScanHeight
+    }
   }
 } = require("@osn/scan-common");
 
 async function handleBlock({ block, author, events, height }) {
   const blockIndexer = getBlockIndexer(block);
   // todo: handle account related business in block
+
+  console.log('blockIndexer', blockIndexer);
 
   await updateScanHeight(height);
 }
