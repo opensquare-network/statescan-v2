@@ -1,15 +1,9 @@
-const { MongoClient } = require("mongodb");
-
-function getDbName() {
-  const dbName = process.env.MONGO_DB_SCAN_NAME;
-  if (!dbName) {
-    throw new Error("MONGO_ACCOUNT_DB_NAME not set");
-  }
-
-  return dbName;
-}
-
-const mongoUrl = process.env.MONGO_SCAN_URL || "mongodb://127.0.0.1:27017";
+const {
+  mongo: {
+    scan: { initScanDb },
+    common: { getCollection },
+  },
+} = require("@osn/scan-common");
 
 let client = null;
 let db = null;
@@ -17,16 +11,9 @@ let db = null;
 let addressCol = null;
 
 async function initDb() {
-  client = await MongoClient.connect(mongoUrl, {
-    useUnifiedTopology: true,
-  });
+  db = await initScanDb();
+  addressCol = await getCollection(db, "address");
 
-  const dbName = getDbName();
-  console.log(`Use scan DB name:`, dbName);
-
-  db = client.db(dbName);
-
-  addressCol = await db.collection("address");
   await _createIndexes();
 }
 
@@ -39,14 +26,14 @@ async function _createIndexes() {
   addressCol.createIndex({ address: 1 });
 }
 
-async function tryInit(col) {
+async function makeSureInit(col) {
   if (!col) {
     await initDb();
   }
 }
 
 async function getAddressCollection() {
-  await tryInit(addressCol);
+  await makeSureInit(addressCol);
   return addressCol;
 }
 

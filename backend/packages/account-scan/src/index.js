@@ -10,6 +10,7 @@ const {
     isUseMetaDb,
   }
 } = require("@osn/scan-common");
+const { scan } = require("./scan");
 
 async function main() {
   await subscribeChainHeight();
@@ -18,7 +19,7 @@ async function main() {
     checkSpecs();
   }
 
-  // todo: scan blocks
+  await scan();
 }
 
 main()

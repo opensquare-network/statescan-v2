@@ -32,6 +32,9 @@ async function main() {
   }
 
   logger.info(`account updated, total ${total}`);
+
+  // todo: delete accounts whose balance is 0.
+
   await disconnect();
   await closeDb();
 }
