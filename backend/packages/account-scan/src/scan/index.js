@@ -20,6 +20,10 @@ const {
 
 async function updateBlockAccounts(height) {
   const addrs = getAddresses(height)
+  if (addrs.length <= 0) {
+    return
+  }
+
   const onChainDataArr = await getOnChainAccounts(addrs);
   if (onChainDataArr.length <= 0) {
     return
