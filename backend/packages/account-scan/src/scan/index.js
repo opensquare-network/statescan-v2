@@ -1,6 +1,7 @@
 const { bulkUpdateAccounts } = require("../mongo/services/bulkUpdate");
 const { getOnChainAccounts } = require("../common/getOnChainAccounts");
-const { getAddresses } = require("./store/address");
+const { getAddresses, addAddress } = require("./store/address");
+const { handleExtrinsics } = require("./extrinsic");
 const {
   chain: {
     getBlockIndexer,
@@ -37,8 +38,9 @@ async function handleBlock({ block, author, events, height }) {
 
   // todo: handle account related business in block
   //   1. check balances module events, and save related accounts to block accounts store
-  //   2. add block signer to block accounts store
-  //   3. check other modules, and store related accounts to block accounts store
+  //   2. check other modules, and store related accounts to block accounts store
+  addAddress(height, author);
+  await handleExtrinsics(block.extrinsics, blockIndexer);
 
   console.log('blockIndexer', blockIndexer);
 
