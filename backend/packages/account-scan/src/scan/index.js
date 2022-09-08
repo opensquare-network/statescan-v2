@@ -34,7 +34,11 @@ async function updateBlockAccounts(height) {
 
 async function handleBlock({ block, author, events, height }) {
   const blockIndexer = getBlockIndexer(block);
+
   // todo: handle account related business in block
+  //   1. check balances module events, and save related accounts to block accounts store
+  //   2. add block signer to block accounts store
+  //   3. check other modules, and store related accounts to block accounts store
 
   console.log('blockIndexer', blockIndexer);
 
