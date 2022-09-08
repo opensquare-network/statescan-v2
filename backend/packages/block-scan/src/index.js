@@ -11,8 +11,10 @@ const {
     isUseMetaDb,
   }
 } = require("@osn/scan-common");
+const { block: { initBlockDb } } = require("@statescan/mongo");
 
 async function main() {
+  await initBlockDb();
   await subscribeChainHeight();
   if (isUseMetaDb()) {
     await updateSpecs();

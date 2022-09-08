@@ -1,4 +1,4 @@
-const { getCallCollection } = require("../index");
+const { block: { getCallCollection } } = require("@statescan/mongo");
 
 async function batchUpsertCalls(calls = []) {
   if (calls.length <= 0) {

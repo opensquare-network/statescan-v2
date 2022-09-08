@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "@statescan/server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "license": "Apache-2.0",
   "licenses": [
     {

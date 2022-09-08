@@ -1,8 +1,8 @@
 const {
   mongo: {
-    scan: { initScanDb },
-    common: { getCollection },
+    ScanDb,
   },
+  env: { getEnvOrThrow },
 } = require("@osn/scan-common");
 
 let db = null;
@@ -12,13 +12,17 @@ let eventCol = null;
 let extrinsicCol = null;
 let callCol = null;
 
-async function initDb() {
-  db = await initScanDb();
+async function initBlockDb() {
+  db = new ScanDb(
+    getEnvOrThrow("MONGO_BLOCK_SCAN_URL"),
+    getEnvOrThrow("MONGO_BLOCK_SCAN_NAME"),
+  );
+  await db.init();
 
-  blockCol = await getCollection(db, "block");
-  eventCol = await getCollection(db, "event");
-  extrinsicCol = await getCollection(db, "extrinsic");
-  callCol = await getCollection(db, "call");
+  blockCol = await db.createCol("block");
+  eventCol = await db.createCol("event");
+  extrinsicCol = await db.createCol("extrinsic");
+  callCol = await db.createCol("call");
 
   await _createIndexes();
 }
@@ -32,33 +36,39 @@ async function _createIndexes() {
   // todo: create indexes
 }
 
-async function tryInit(col) {
+async function makeSureInit(col) {
   if (!col) {
-    await initDb();
+    await initBlockDb();
   }
 }
 
 async function getBlockCollection() {
-  await tryInit(blockCol);
+  await makeSureInit(blockCol);
   return blockCol;
 }
 
 async function getExtrinsicCollection() {
-  await tryInit(extrinsicCol);
+  await makeSureInit(extrinsicCol);
   return extrinsicCol;
 }
 
 async function getEventCollection() {
-  await tryInit(eventCol);
+  await makeSureInit(eventCol);
   return eventCol;
 }
 
 async function getCallCollection() {
-  await tryInit(callCol);
+  await makeSureInit(callCol);
   return callCol;
 }
 
+function getBlockDb() {
+  return db;
+}
+
 module.exports = {
+  initBlockDb,
+  getBlockDb,
   getBlockCollection,
   getExtrinsicCollection,
   getEventCollection,

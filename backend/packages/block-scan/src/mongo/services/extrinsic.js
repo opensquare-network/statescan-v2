@@ -1,4 +1,4 @@
-const { getExtrinsicCollection } = require("../index");
+const { block: { getExtrinsicCollection } } = require("@statescan/mongo");
 
 async function batchUpsertExtrinsics(extrinsics = []) {
   if (extrinsics.length <= 0) {

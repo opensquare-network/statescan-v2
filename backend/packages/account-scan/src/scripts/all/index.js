@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-const { closeDb } = require("../../mongo");
 const { bulkUpdateAccounts } = require("../../mongo/services/bulkUpdate");
 const { normalizeEntry } = require("./nomalize");
 const { queryEntries } = require("./entries");
@@ -9,10 +8,12 @@ const {
   chain: { getApi, disconnect },
   logger,
 } = require("@osn/scan-common");
+const { account: { initAccountScanDb } } = require("@statescan/mongo");
 
 const queryCount = 1000;
 
 async function main() {
+  await initAccountScanDb();
   let total = 0;
   let startKey = null;
   let entries = await queryEntries(startKey, queryCount);
@@ -36,7 +37,6 @@ async function main() {
   // todo: delete accounts whose balance is 0.
 
   await disconnect();
-  await closeDb();
 }
 
 main()

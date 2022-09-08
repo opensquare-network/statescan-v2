@@ -1,4 +1,4 @@
-const { getEventCollection } = require("../index");
+const { block: { getEventCollection } } = require("@statescan/mongo");
 
 async function batchUpsertEvents(events = []) {
   if (events.length <= 0) {
