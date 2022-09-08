@@ -29,8 +29,7 @@ async function handleBlock({ block, author, events, height }) {
   const blockIndexer = getBlockIndexer(block);
 
   // todo: handle account related business in block
-  //   1. check balances module events, and save related accounts to block accounts store
-  //   2. check other modules, and store related accounts to block accounts store
+  //   1. check other modules, and store related accounts to block accounts store
   addAddress(height, author);
   await handleExtrinsics(block.extrinsics, blockIndexer);
   await handleEvents(events, blockIndexer);
