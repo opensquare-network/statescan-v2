@@ -1,22 +1,13 @@
+const { handleEvents } = require("./events");
 const { bulkUpdateAccounts } = require("../mongo/services/bulkUpdate");
 const { getOnChainAccounts } = require("../common/getOnChainAccounts");
-const { getAddresses, addAddress } = require("./store/address");
+const { getAddresses, addAddress, clearAddresses } = require("./store/address");
 const { handleExtrinsics } = require("./extrinsic");
 const {
-  chain: {
-    getBlockIndexer,
-  },
-  scan: {
-    oneStepScan,
-  },
-  utils: {
-    sleep,
-  },
-  mongo: {
-    scan: {
-      getNextScanHeight, updateScanHeight
-    }
-  }
+  chain: { getBlockIndexer },
+  scan: { oneStepScan },
+  utils: { sleep },
+  mongo: { scan: { getNextScanHeight, updateScanHeight } }
 } = require("@osn/scan-common");
 
 async function updateBlockAccounts(height) {
@@ -31,6 +22,7 @@ async function updateBlockAccounts(height) {
   }
 
   await bulkUpdateAccounts(onChainDataArr);
+  clearAddresses(height);
 }
 
 async function handleBlock({ block, author, events, height }) {
@@ -41,8 +33,7 @@ async function handleBlock({ block, author, events, height }) {
   //   2. check other modules, and store related accounts to block accounts store
   addAddress(height, author);
   await handleExtrinsics(block.extrinsics, blockIndexer);
-
-  console.log('blockIndexer', blockIndexer);
+  await handleEvents(events, blockIndexer);
 
   await updateBlockAccounts(height);
   await updateScanHeight(height);

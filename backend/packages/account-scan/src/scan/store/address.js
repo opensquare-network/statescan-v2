@@ -2,18 +2,20 @@
 const addressesMap = {};
 
 function addAddress(height, addr) {
-  if (!addressesMap[height]) {
+  const nowAddrs = addressesMap[height];
+  if (!nowAddrs) {
     addressesMap[height] = [addr];
   } else {
-    addressesMap[height].push(addr);
+    addressesMap[height] = [...new Set([...nowAddrs, addr])];
   }
 }
 
 function addAddresses(height, addrs = []) {
-  if (!addressesMap[height]) {
+  const nowAddrs = addressesMap[height];
+  if (!nowAddrs) {
     addressesMap[height] = addrs;
   } else {
-    addressesMap[height].push(...addrs);
+    addressesMap[height] = [...new Set([...nowAddrs, ...addrs])];
   }
 }
 
