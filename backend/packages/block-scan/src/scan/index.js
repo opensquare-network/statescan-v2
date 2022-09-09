@@ -40,7 +40,7 @@ async function scan() {
   const db = getBlockDb();
   let toScanHeight = await db.getNextScanHeight();
   while (true) {
-    toScanHeight = await oneStepScan(toScanHeight, handleBlock)
+    toScanHeight = await oneStepScan(toScanHeight, handleBlock, true);
     await sleep(1);
   }
 }
