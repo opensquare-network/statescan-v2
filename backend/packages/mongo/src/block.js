@@ -33,7 +33,8 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  // todo: create indexes
+  blockCol.createIndex({ hash: 1 });
+  blockCol.createIndex({ height: 1 });
 }
 
 async function makeSureInit(col) {
