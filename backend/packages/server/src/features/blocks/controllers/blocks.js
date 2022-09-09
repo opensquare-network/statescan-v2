@@ -12,7 +12,7 @@ async function getBlocks(ctx) {
 
   const col = await getBlockCollection()
   const items = await col
-    .find({})
+    .find({}, { projection: { digest: 0, _id: 0 } })
     .sort({ "height": -1 })
     .skip(page * pageSize)
     .limit(pageSize)
