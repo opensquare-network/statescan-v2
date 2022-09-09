@@ -7,6 +7,10 @@ const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const cors = require("@koa/cors");
 const { handleThrow } = require("./middlewares/handleThrow");
+const {
+  block: { initBlockDb },
+  account: { initAccountScanDb },
+} = require("@statescan/mongo");
 
 const app = new Koa();
 
@@ -20,6 +24,12 @@ require("./routes")(app);
 
 const server = http.createServer(app.callback());
 const port = parseInt(process.env.PORT) || 5010;
-server.listen(port, () =>
-  console.log(`✅  The server is running at http://127.0.0.1:${port}/`)
-);
+
+;(async () => {
+  await initBlockDb();
+  await initAccountScanDb();
+
+  server.listen(port, () =>
+    console.log(`✅  The server is running at http://127.0.0.1:${ port }/`)
+  );
+})()

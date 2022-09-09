@@ -1,7 +1,9 @@
 const Router = require("koa-router");
 const router = new Router();
 
-const routes = [];
+const routes = [
+  require("./features/blocks/routes"),
+];
 
 module.exports = (app) => {
   for (const r of routes) {
