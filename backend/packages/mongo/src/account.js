@@ -1,19 +1,19 @@
 const {
-  mongo: {
-    scan: { initScanDb },
-    common: { getCollection },
-  },
+  mongo: { ScanDb },
+  env: { getEnvOrThrow },
 } = require("@osn/scan-common");
 
-let client = null;
 let db = null;
-
 let addressCol = null;
 
-async function initDb() {
-  db = await initScanDb();
-  addressCol = await getCollection(db, "address");
+async function initAccountScanDb() {
+  db = new ScanDb(
+    getEnvOrThrow("MONGO_ACCOUNT_SCAN_URL"),
+    getEnvOrThrow("MONGO_ACCOUNT_SCAN_NAME"),
+  );
+  await db.init();
 
+  addressCol = await db.createCol("address");
   await _createIndexes();
 }
 
@@ -28,7 +28,7 @@ async function _createIndexes() {
 
 async function makeSureInit(col) {
   if (!col) {
-    await initDb();
+    await initAccountScanDb();
   }
 }
 
@@ -37,13 +37,12 @@ async function getAddressCollection() {
   return addressCol;
 }
 
-async function closeDb() {
-  if (client) {
-    await client.close();
-  }
+function getAccountDb() {
+  return db;
 }
 
 module.exports = {
+  initAccountScanDb,
   getAddressCollection,
-  closeDb,
+  getAccountDb,
 };

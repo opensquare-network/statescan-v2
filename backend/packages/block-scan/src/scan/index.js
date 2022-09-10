@@ -16,8 +16,8 @@ const {
   utils: {
     sleep,
   },
-  mongo: {scan: {getNextScanHeight, updateScanHeight}}
 } = require("@osn/scan-common");
+const { block: { getBlockDb } } = require("@statescan/mongo");
 
 async function handleBlock({ block, author, events, height }) {
   const blockIndexer = getBlockIndexer(block);
@@ -32,13 +32,15 @@ async function handleBlock({ block, author, events, height }) {
   await batchUpsertExtrinsics(normalizedExtrinsics);
   await batchUpsertCalls(normalizedCalls);
 
-  await updateScanHeight(height);
+  const db = getBlockDb();
+  await db.updateScanHeight(height);
 }
 
 async function scan() {
-  let toScanHeight = await getNextScanHeight();
+  const db = getBlockDb();
+  let toScanHeight = await db.getNextScanHeight();
   while (true) {
-    toScanHeight = await oneStepScan(toScanHeight, handleBlock)
+    toScanHeight = await oneStepScan(toScanHeight, handleBlock, true);
     await sleep(1);
   }
 }

@@ -10,9 +10,11 @@ const {
     isUseMetaDb,
   }
 } = require("@osn/scan-common");
+const { account: { initAccountScanDb } } = require("@statescan/mongo");
 const { scan } = require("./scan");
 
 async function main() {
+  await initAccountScanDb();
   await subscribeChainHeight();
   if (isUseMetaDb()) {
     await updateSpecs();

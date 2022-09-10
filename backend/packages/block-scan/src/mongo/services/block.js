@@ -1,4 +1,4 @@
-const { getBlockCollection } = require("../index");
+const { block: { getBlockCollection } } = require("@statescan/mongo");
 
 async function upsertBlock(block) {
   const col = await getBlockCollection();

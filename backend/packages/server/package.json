@@ -1,0 +1,23 @@
+{
+  "name": "@statescan/server",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "dependencies": {
+    "@koa/cors": "^3.4.1",
+    "@statescan/mongo": "1.0.0",
+    "bignumber.js": "^9.1.0",
+    "dotenv": "^16.0.2",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-helmet": "^6.1.0",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^12.0.0"
+  }
+}

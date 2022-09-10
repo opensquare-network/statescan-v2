@@ -1,4 +1,4 @@
-const { getAddressCollection } = require("../index");
+const { account: { getAddressCollection } } = require("@statescan/mongo");
 
 async function bulkUpdateAccounts(accounts = []) {
   if (accounts.length < 1) {

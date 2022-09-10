@@ -7,8 +7,8 @@ const {
   chain: { getBlockIndexer },
   scan: { oneStepScan },
   utils: { sleep },
-  mongo: { scan: { getNextScanHeight, updateScanHeight } }
 } = require("@osn/scan-common");
+const { account: { getAccountDb } } = require("@statescan/mongo");
 
 async function updateBlockAccounts(height) {
   const addrs = getAddresses(height)
@@ -30,16 +30,20 @@ async function handleBlock({ block, author, events, height }) {
 
   // todo: handle account related business in block
   //   1. check other modules, and store related accounts to block accounts store
-  addAddress(height, author);
+  if (author) {
+    addAddress(height, author);
+  }
   await handleExtrinsics(block.extrinsics, blockIndexer);
   await handleEvents(events, blockIndexer);
 
   await updateBlockAccounts(height);
-  await updateScanHeight(height);
+  const db = getAccountDb();
+  await db.updateScanHeight(height);
 }
 
 async function scan() {
-  let toScanHeight = await getNextScanHeight();
+  const db = getAccountDb();
+  let toScanHeight = await db.getNextScanHeight();
 
   while (true) {
     toScanHeight = await oneStepScan(toScanHeight, handleBlock)
