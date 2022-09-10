@@ -34,6 +34,8 @@ async function handleBlock({ block, author, events, height }) {
 
   const db = getBlockDb();
   await db.updateScanHeight(height);
+
+  // todo: update unFinalized data
 }
 
 async function scan() {
