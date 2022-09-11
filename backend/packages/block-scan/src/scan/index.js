@@ -1,3 +1,4 @@
+const { updateUnFinalized } = require("./unFinalized");
 const { batchUpsertCalls } = require("../mongo/services/call");
 const { extractCalls } = require("./call");
 const { batchUpsertExtrinsics } = require("../mongo/services/extrinsic");
@@ -9,6 +10,7 @@ const { normalizeExtrinsics } = require("./extrinsic");
 const {
   chain: {
     getBlockIndexer,
+    getLatestFinalizedHeight,
   },
   scan: {
     oneStepScan,
@@ -35,7 +37,10 @@ async function handleBlock({ block, author, events, height }) {
   const db = getBlockDb();
   await db.updateScanHeight(height);
 
-  // todo: update unFinalized data
+  const finalizedHeight = getLatestFinalizedHeight();
+  if (height >= finalizedHeight) {
+    await updateUnFinalized(finalizedHeight);
+  }
 }
 
 async function scan() {

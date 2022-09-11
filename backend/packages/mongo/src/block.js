@@ -12,6 +12,11 @@ let eventCol = null;
 let extrinsicCol = null;
 let callCol = null;
 
+let unFinalizedBlockCol = null;
+let unFinalizedEventCol = null;
+let unFinalizedExtrinsicCol = null;
+let unFinalizedCallCol = null;
+
 async function initBlockDb() {
   db = new ScanDb(
     getEnvOrThrow("MONGO_BLOCK_SCAN_URL"),
@@ -23,6 +28,11 @@ async function initBlockDb() {
   eventCol = await db.createCol("event");
   extrinsicCol = await db.createCol("extrinsic");
   callCol = await db.createCol("call");
+
+  unFinalizedBlockCol = await db.createCol("unFinalizedBlock");
+  unFinalizedEventCol = await db.createCol("unFinalizedEvent");
+  unFinalizedExtrinsicCol = await db.createCol("unFinalizedExtrinsic");
+  unFinalizedCallCol = await db.createCol("unFinalizedCall");
 
   await _createIndexes();
 }
@@ -63,6 +73,26 @@ async function getCallCollection() {
   return callCol;
 }
 
+async function getUnFinalizedBlockCollection() {
+  await makeSureInit(unFinalizedBlockCol);
+  return unFinalizedBlockCol;
+}
+
+async function getUnFinalizedEventCollection() {
+  await makeSureInit(unFinalizedEventCol);
+  return unFinalizedEventCol;
+}
+
+async function getUnFinalizedExtrinsicCollection() {
+  await makeSureInit(unFinalizedExtrinsicCol);
+  return unFinalizedExtrinsicCol;
+}
+
+async function getUnFinalizedCallCollection() {
+  await makeSureInit(unFinalizedCallCol);
+  return unFinalizedCallCol;
+}
+
 function getBlockDb() {
   return db;
 }
@@ -74,4 +104,9 @@ module.exports = {
   getExtrinsicCollection,
   getEventCollection,
   getCallCollection,
+
+  getUnFinalizedBlockCollection,
+  getUnFinalizedEventCollection,
+  getUnFinalizedExtrinsicCollection,
+  getUnFinalizedCallCollection,
 }
