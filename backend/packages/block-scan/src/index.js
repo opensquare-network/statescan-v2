@@ -3,7 +3,8 @@ require("dotenv").config();
 const { scan } = require("./scan");
 const {
   chain: {
-    subscribeChainHeight,
+    subscribeLatestHeight,
+    subscribeFinalizedHeight,
     updateSpecs,
     checkSpecs,
   },
@@ -15,7 +16,8 @@ const { block: { initBlockDb } } = require("@statescan/mongo");
 
 async function main() {
   await initBlockDb();
-  await subscribeChainHeight();
+  await subscribeLatestHeight();
+  await subscribeFinalizedHeight();
   if (isUseMetaDb()) {
     await updateSpecs();
     checkSpecs();
