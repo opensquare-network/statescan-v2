@@ -9,7 +9,7 @@ const {
 } = require("@osn/scan-common");
 
 function isExemptedCall(section, method) {
-  if ([Modules.Timestamp, Modules.ParachainSystem, Modules.ParaInherent].includes(section)) {
+  if ([Modules.Timestamp, Modules.ParachainSystem, Modules.ParaInherent, "parachains"].includes(section)) {
     return true;
   }
 
