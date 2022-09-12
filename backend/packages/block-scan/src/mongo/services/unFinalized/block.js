@@ -1,7 +1,7 @@
-const { block: { getUnFinalizedEventCollection } } = require("@statescan/mongo");
+const { block: { getUnFinalizedBlockCollection } } = require("@statescan/mongo");
 
 async function upsertUnFinalizedBlock(block) {
-  const col = await getUnFinalizedEventCollection();
+  const col = await getUnFinalizedBlockCollection();
   await col.updateOne(
     { height: block.height },
     {

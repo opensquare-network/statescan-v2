@@ -9,6 +9,7 @@ const { normalizeEvents } = require("../event");
 const { normalizeBlock } = require("../block");
 const {
   chain: {
+    getBlockIndexer,
     getLatestFinalizedHeight,
     getLatestUnFinalizedHeight,
     fetchBlocks,
