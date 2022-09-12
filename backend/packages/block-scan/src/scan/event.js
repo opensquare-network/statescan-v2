@@ -1,8 +1,22 @@
+function checkIsExtrinsicResult(section, method) {
+  return "system" === section && ["ExtrinsicSuccess", "ExtrinsicFailed"].includes(method);
+}
+
 function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
   const { event, phase } = wrappedEvent;
+  const isExtrinsic = phase.isApplyExtrinsic;
+
+  let indexer = {
+    ...blockIndexer,
+    eventIndex
+  }
 
   const { section, method } = event;
-  const extrinsicIndex = phase.value.toNumber();
+  if (isExtrinsic) {
+    const extrinsicIndex = phase.value.toNumber();
+    indexer = { ...indexer, extrinsicIndex };
+  }
+  const isExtrinsicResult = checkIsExtrinsicResult(section, method);
 
   const args = [];
   let dataIndex = 0;
@@ -21,14 +35,10 @@ function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
     dataIndex++;
   }
 
-  const indexer = {
-    ...blockIndexer,
-    extrinsicIndex,
-    eventIndex,
-  }
-
   return {
     indexer,
+    isExtrinsic,
+    isExtrinsicResult,
     section,
     method,
     args,
