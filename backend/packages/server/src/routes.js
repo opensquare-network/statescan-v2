@@ -4,6 +4,7 @@ const router = new Router();
 const routes = [
   require("./features/blocks/routes"),
   require("./features/extrinsics/routes"),
+  require("./features/events/routes"),
 ];
 
 module.exports = (app) => {
