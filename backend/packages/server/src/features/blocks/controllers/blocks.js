@@ -10,7 +10,7 @@ async function getBlocks(ctx) {
     return;
   }
 
-  const col = await getBlockCollection()
+  const col = await getBlockCollection();
   const items = await col
     .find({}, { projection: { digest: 0, _id: 0 } })
     .sort({ "height": -1 })
