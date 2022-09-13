@@ -1,6 +1,11 @@
 const {
-  block: { getExtrinsicCollection }
+  block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection }
 } = require("@statescan/mongo");
+
+async function findExtrinsic(col, q, isFinalized = true) {
+  const extrinsic = await col.findOne(q, { projection: { _id: 0 } });
+  return extrinsic ? { ...extrinsic, isFinalized } : extrinsic;
+}
 
 async function getExtrinsic(ctx) {
   const { indexOrHash } = ctx.params;
@@ -17,8 +22,11 @@ async function getExtrinsic(ctx) {
     q = { hash: indexOrHash };
   }
 
-  const col = await getExtrinsicCollection();
-  ctx.body = await col.findOne(q, { projection: { _id: 0 } });
+  let extrinsic = await findExtrinsic(await getExtrinsicCollection(), q);
+  if (!extrinsic) {
+    extrinsic = await findExtrinsic(await getUnFinalizedExtrinsicCollection(), q, false);
+  }
+  ctx.body = extrinsic;
 }
 
 module.exports = {

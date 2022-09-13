@@ -1,15 +1,25 @@
 const {
-  block: { getCallCollection }
+  block: { getCallCollection, getUnFinalizedCallCollection }
 } = require("@statescan/mongo");
+
+async function findCall(col, q, isFinalized = true) {
+  const call = await col.findOne(q, { projection: { _id: 0 } });
+  return call ? { ...call, isFinalized } : call;
+}
 
 async function getCall(ctx) {
   const { blockHeight, extrinsicIndex, callIndex } = ctx.params;
-  const col = await getCallCollection();
-  ctx.body = await col.findOne({
+  const q = {
     "indexer.blockHeight": Number(blockHeight),
     "indexer.extrinsicIndex": Number(extrinsicIndex),
     "indexer.callIndex": Number(callIndex),
-  }, { projection: { _id: 0 } });
+  }
+
+  let call = await findCall(await getCallCollection(), q);
+  if (!call) {
+    call = await findCall(await getUnFinalizedCallCollection(), q, false);
+  }
+  ctx.body = call;
 }
 
 module.exports = {

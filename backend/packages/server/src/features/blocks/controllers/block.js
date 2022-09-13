@@ -1,6 +1,11 @@
 const {
-  block: { getBlockCollection }
+  block: { getBlockCollection, getUnFinalizedBlockCollection }
 } = require("@statescan/mongo");
+
+async function findBlock(col, q, isFinalized = true) {
+  const block = await col.findOne(q, { projection: { _id: 0 } });
+  return block ? { ...block, isFinalized } : block;
+}
 
 async function getBlock(ctx) {
   const { heightOrHash } = ctx.params;
@@ -12,13 +17,12 @@ async function getBlock(ctx) {
     q["height"] = parseInt(heightOrHash);
   }
 
-  const col = await getBlockCollection();
-  const block = await col.findOne(q);
-
-  ctx.body = {
-    ...block,
-    isFinalized: true,
+  let block = await findBlock(await getBlockCollection(), q, true);
+  if (!block) {
+    block = await findBlock(await getUnFinalizedBlockCollection(), q, true);
   }
+
+  ctx.body = block;
 }
 
 module.exports = {

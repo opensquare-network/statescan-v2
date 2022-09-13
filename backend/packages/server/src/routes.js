@@ -6,6 +6,7 @@ const routes = [
   require("./features/extrinsics/routes"),
   require("./features/events/routes"),
   require("./features/calls/routes"),
+  require("./features/unfinalized/routes"),
 ];
 
 module.exports = (app) => {
