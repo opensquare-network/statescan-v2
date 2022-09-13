@@ -45,6 +45,8 @@ async function _createIndexes() {
 
   blockCol.createIndex({ hash: 1 });
   blockCol.createIndex({ height: 1 });
+
+  extrinsicCol.createIndex({ "indexer.blockHeight": -1, "indexer.extrinsicIndex": 1 });
 }
 
 async function makeSureInit(col) {
