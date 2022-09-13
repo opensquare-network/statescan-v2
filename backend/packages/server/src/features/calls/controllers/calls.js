@@ -1,19 +1,28 @@
 const { extractPage } = require("../../../utils");
 const {
-  block: { getBlockCollection }
+  block: { getCallCollection }
 } = require("@statescan/mongo");
 
-async function getBlocks(ctx) {
+async function getCalls(ctx) {
   const { page, pageSize } = extractPage(ctx);
   if (pageSize === 0 || page < 0) {
     ctx.status = 400;
     return;
   }
 
-  const col = await getBlockCollection();
+  const { section, method } = ctx.query;
+  const q = {};
+  if (section) {
+    q.section = section;
+  }
+  if (method) {
+    q.name = method;
+  }
+
+  const col = await getCallCollection();
   const items = await col
-    .find({}, { projection: { digest: 0, _id: 0 } })
-    .sort({ "height": -1 })
+    .find(q, { projection: { _id: 0 } })
+    .sort({ "indexer.blockHeight": -1, "indexer.extrinsicIndex": 1, "indexer.callIndex": 1 })
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
@@ -28,5 +37,5 @@ async function getBlocks(ctx) {
 }
 
 module.exports = {
-  getBlocks,
+  getCalls,
 }
