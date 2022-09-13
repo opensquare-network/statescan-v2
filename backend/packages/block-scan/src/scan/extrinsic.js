@@ -25,32 +25,40 @@ function getLifetime(extrinsic, indexer) {
 
 function normalizeExtrinsic(extrinsic, events, indexer) {
   const hash = extrinsic.hash.toHex();
-  const nonce = extrinsic.nonce.toNumber();
-  const tip = extrinsic.tip.toBigInt().toString();
   const version = extrinsic.version;
   const isSuccess = isExtrinsicSuccess(events);
   const call = normalizeCall(extrinsic.method);
 
   const listIgnore = ignoreInExtrinsicList(extrinsic.method);
   const isSigned = extrinsic.isSigned;
-  const signer = isSigned ? extrinsic.signer.toString() : "";
-  const signature = isSigned ? extrinsic.signature.toString() : "";
-  const lifetime = getLifetime(extrinsic, indexer);
-
-  return {
+  let obj = {
     indexer,
+    version,
     hash,
     isSuccess,
-    ...call,
-    nonce,
-    tip,
-    version,
+    call,
     isSigned,
-    signer,
-    signature,
-    lifetime,
     listIgnore,
   }
+
+  if (isSigned) {
+    const tip = extrinsic.tip.toBigInt().toString();
+    const nonce = extrinsic.nonce.toNumber();
+    const signer = extrinsic.signer.toString();
+    const signature = extrinsic.signature.toString();
+    const lifetime = getLifetime(extrinsic, indexer);
+
+    obj = {
+      ...obj,
+      nonce,
+      signer,
+      signature,
+      tip,
+      lifetime,
+    }
+  }
+
+  return obj;
 }
 
 function normalizeExtrinsics(extrinsics = [], blockEvents = [], blockIndexer) {
