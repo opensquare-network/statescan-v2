@@ -8,7 +8,9 @@ const {
   chain: { getApi, disconnect },
   logger,
 } = require("@osn/scan-common");
-const { account: { initAccountScanDb } } = require("@statescan/mongo");
+const {
+  account: { initAccountScanDb, getAccountDb },
+} = require("@statescan/mongo");
 
 const queryCount = 1000;
 
@@ -22,7 +24,9 @@ async function main() {
   const ss58Format = api.registry.chainSS58;
 
   while (entries.length > 0) {
-    const normalizedAccounts = entries.map(entry => normalizeEntry(entry, ss58Format));
+    const normalizedAccounts = entries.map((entry) =>
+      normalizeEntry(entry, ss58Format),
+    );
     await bulkUpdateAccounts(normalizedAccounts);
     logger.info(`${entries.length} accounts saved!`);
 
@@ -37,6 +41,10 @@ async function main() {
   // todo: delete accounts whose balance is 0.
 
   await disconnect();
+  const accountDb = getAccountDb();
+  if (accountDb) {
+    await accountDb.close();
+  }
 }
 
 main()
