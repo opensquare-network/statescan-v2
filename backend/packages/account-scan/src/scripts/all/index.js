@@ -6,7 +6,6 @@ const { queryEntries } = require("./entries");
 const { u8aToHex } = require("@polkadot/util");
 const {
   chain: { getApi, disconnect },
-  logger,
 } = require("@osn/scan-common");
 const {
   account: { initAccountScanDb, getAccountDb },
@@ -28,7 +27,7 @@ async function main() {
       normalizeEntry(entry, ss58Format),
     );
     await bulkUpdateAccounts(normalizedAccounts);
-    logger.info(`${entries.length} accounts saved!`);
+    console.log(`${entries.length} accounts saved!`);
 
     total += normalizedAccounts.length;
 
@@ -36,7 +35,7 @@ async function main() {
     entries = await queryEntries(startKey, queryCount);
   }
 
-  logger.info(`account updated, total ${total}`);
+  console.log(`account updated, total ${total}`);
 
   // todo: delete accounts whose balance is 0.
 

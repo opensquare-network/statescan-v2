@@ -1,1 +1,1 @@
-NODE_ENV=production pm2 start src/scripts/all/index.js --name statescan-v2-prod-polkadot-account-all --log-date-format 'YYYY-MM-DD HH:mm Z' --env production --cron-restart='*/1 * * * *' --no-autorestart
+NODE_ENV=production pm2 start src/scripts/all/index.js --name statescan-v2-prod-polkadot-account-all --log-date-format 'YYYY-MM-DD HH:mm Z' --env production --cron-restart='*/5 * * * *' --no-autorestart
