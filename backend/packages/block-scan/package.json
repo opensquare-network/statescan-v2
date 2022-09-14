@@ -7,7 +7,7 @@
     "node": ">18.0.0"
   },
   "dependencies": {
-    "@osn/scan-common": "0.1.12",
+    "@osn/scan-common": "0.1.13",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
     "lodash.omit": "^4.5.0",
