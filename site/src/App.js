@@ -1,10 +1,16 @@
+import { HashRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/index";
+import Blocks from "./pages/blocks";
+
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-       <h1>Statescan-v2</h1>
-      </header>
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/blocks" element={<Blocks/>}/>
+      </Routes>
+    </HashRouter>
   );
 }
 
