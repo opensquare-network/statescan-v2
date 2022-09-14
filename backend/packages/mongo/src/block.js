@@ -1,7 +1,5 @@
 const {
-  mongo: {
-    ScanDb,
-  },
+  mongo: { ScanDb },
   env: { getEnvOrThrow },
 } = require("@osn/scan-common");
 
@@ -46,7 +44,14 @@ async function _createIndexes() {
   blockCol.createIndex({ hash: 1 });
   blockCol.createIndex({ height: 1 });
 
-  extrinsicCol.createIndex({ "indexer.blockHeight": -1, "indexer.extrinsicIndex": 1 });
+  extrinsicCol.createIndex({ "indexer.blockHeight": 1 });
+  extrinsicCol.createIndex({
+    "indexer.blockHeight": -1,
+    "indexer.extrinsicIndex": 1,
+  });
+
+  eventCol.createIndex({ "indexer.blockHeight": 1 });
+  callCol.createIndex({ "indexer.blockHeight": 1 });
 }
 
 async function makeSureInit(col) {
@@ -111,4 +116,4 @@ module.exports = {
   getUnFinalizedEventCollection,
   getUnFinalizedExtrinsicCollection,
   getUnFinalizedCallCollection,
-}
+};

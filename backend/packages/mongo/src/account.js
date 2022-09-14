@@ -24,6 +24,7 @@ async function _createIndexes() {
   }
 
   addressCol.createIndex({ address: 1 });
+  addressCol.createIndex({ "data.total": 1 });
 }
 
 async function makeSureInit(col) {
