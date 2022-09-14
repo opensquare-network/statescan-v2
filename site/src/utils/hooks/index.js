@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState, useCallback } from "react";
+
 export function useOnClickOutside(ref, handler) {
   useEffect(() => {
     const listener = (event) => {
@@ -22,11 +24,6 @@ export function useIsMounted() {
     return () => void (isMountedRef.current = false);
   }, []);
   return isMounted;
-}
-
-export function useHomePage() {
-  const router = useRouter();
-  return router.pathname === "/" && router.asPath !== "/404";
 }
 
 export function useWindowSize() {
