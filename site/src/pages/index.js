@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import BlocksList from "../components/block/list";
 
-function Home() {
+function Blocks() {
+  const [listLoading, setListLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setListLoading(false);
+    }, 500);
+  }, []);
+
   return (
-
-      <div className="App">
-        <header className="App-header">
-          <h1>Statescan-v2</h1>
-        </header>
-      </div>
+    <div className="App">
+      <header className="App-header">
+        <h1>Blocks</h1>
+        <BlocksList listLoading={listLoading} />
+      </header>
+    </div>
   );
 }
 
-export default Home;
+export default Blocks;
