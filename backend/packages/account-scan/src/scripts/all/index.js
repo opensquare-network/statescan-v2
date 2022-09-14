@@ -6,6 +6,7 @@ const { queryEntries } = require("./entries");
 const { u8aToHex } = require("@polkadot/util");
 const {
   chain: { getApi, disconnect },
+  env: { currentChain },
 } = require("@osn/scan-common");
 const {
   account: { initAccountScanDb, getAccountDb },
@@ -15,6 +16,8 @@ const queryCount = 1000;
 
 async function main() {
   await initAccountScanDb();
+  console.log(`Begin to update ${currentChain()} accounts`);
+
   let total = 0;
   let startKey = null;
   let entries = await queryEntries(startKey, queryCount);
