@@ -1,4 +1,3 @@
-// @ts-nocheck
 const paramsKeyConvert = (str = "") =>
   str.replace(/[A-Z]/g, ([s]) => `_${s.toLowerCase()}`);
 
@@ -26,9 +25,9 @@ class Api {
                     message: data.message,
                     data: data.data,
                   },
-                })
+                }),
               )
-            : resp.json().then((result) => resolve({ result }))
+            : resp.json().then((result) => resolve({ result })),
         )
         .catch((e) =>
           resolve({
@@ -36,8 +35,8 @@ class Api {
               status: 500,
               message: e.message,
             },
-          })
-        )
+          }),
+        ),
     );
   };
 
@@ -49,8 +48,8 @@ class Api {
         method: "POST",
         credentials: "same-origin",
         body: body ? JSON.stringify(body) : null,
-        headers: {"Content-Type": "application/json"},
-      }
+        headers: { "Content-Type": "application/json" },
+      },
     );
   };
 }
