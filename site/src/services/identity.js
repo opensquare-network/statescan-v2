@@ -29,12 +29,12 @@ const delayQuery = debounce(() => {
     };
 
     fetch(
-      `${process.env.NEXT_PUBLIC_IDENTITY_SERVER_HOST}/${chain}/short-ids`,
+      `${process.env.REACT_APP_PUBLIC_IDENTITY_SERVER_HOST}/${chain}/short-ids`,
       {
         headers,
         method: "POST",
         body: JSON.stringify({ addresses }),
-      }
+      },
     )
       .then((res) => res.json())
       .then((data) => {
@@ -72,7 +72,7 @@ export function fetchIdentity(chain, address) {
           const promise = pending.get(idName);
           promise.push(resolve, reject);
           delayQuery();
-        }, 0)
+        }, 0),
       ),
     ]);
   }
