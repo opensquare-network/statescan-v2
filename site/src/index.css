@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "SF Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../public/fonts/SFMono-Semibold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "SF Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../public/fonts/SFMono-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../public/fonts/inter-v3-latin-regular.woff2") format("woff2"),
+    /* Super Modern Browsers */
+      url("../public/fonts/inter-v3-latin-regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../public/fonts/inter-v3-latin-500.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("../public/fonts/inter-v3-latin-500.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  src: url("../public/fonts/inter-v3-latin-600.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("../public/fonts/inter-v3-latin-600.woff")
+      format("woff"),
+    /* Modern Browsers */ url("../public/fonts/inter-v3-latin-600.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../public/fonts/inter-v3-latin-700.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("../public/fonts/inter-v3-latin-700.woff")
+      format("woff");
+}
