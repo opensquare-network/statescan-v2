@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  max-width: 1200px;
+  max-width: 1312px;
   margin: 0 auto;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1312px) {
     margin: 0 24px;
   }
 `;
