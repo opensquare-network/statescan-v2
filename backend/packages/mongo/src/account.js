@@ -23,7 +23,7 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  addressCol.createIndex({ address: 1 });
+  addressCol.createIndex({ address: 1 }, { unique: true });
   addressCol.createIndex({ "data.total": 1 });
 }
 
