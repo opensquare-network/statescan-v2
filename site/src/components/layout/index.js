@@ -4,6 +4,7 @@ import Header from "../header";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme, themeSelector } from "../../store/reducers/themeSlice";
 import light from "../../styles/theme/light";
+import Background from "../dotBackground";
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ export default function Layout({ children }) {
 
   return (
     <ThemeProvider theme={theme}>
+      <Background />
       <Wrapper>
         <Header />
         <Main>

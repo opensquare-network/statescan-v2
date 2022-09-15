@@ -9,6 +9,6 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Container({ children }) {
-  return <Wrapper>{children}</Wrapper>;
+export default function Container({ children, style = {} }) {
+  return <Wrapper style={style}>{children}</Wrapper>;
 }
