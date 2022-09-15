@@ -27,7 +27,7 @@ const MenuItem = styled.div`
     padding: 6px 12px;
     :hover {
       color: inherit;
-      background: #fafafa;
+      background: ${(p) => p.theme.fillPanel};
     }
 
     :not(:first-child) {
@@ -37,7 +37,7 @@ const MenuItem = styled.div`
     ${(p) =>
       p.selected &&
       css`
-        background: #fafafa;
+        background: ${(p) => p.theme.fillPanel};
       `}
   }
 `;

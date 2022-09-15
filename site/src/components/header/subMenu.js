@@ -4,9 +4,11 @@ import { useWindowSize } from "../../utils/hooks";
 
 const Wrapper = styled.div`
   position: relative;
+
   :not(:first-child) {
     margin-left: 40px;
   }
+
   @media screen and (max-width: 900px) {
     :not(:first-child) {
       margin-left: 0;
@@ -19,34 +21,41 @@ const TitleWrapper = styled.div`
   font-size: 15px;
   line-height: 20px;
   text-decoration: none;
-  color: #111111;
+  color: ${(p) => p.theme.fontPrimary};
   cursor: pointer;
+
   :hover {
     color: ${(p) => p.themecolor};
+
     > svg {
       stroke: ${(p) => p.themecolor};
     }
   }
+
   display: flex;
   align-items: center;
+
   > svg {
-    stroke: #111111;
+    stroke: ${(p) => p.theme.fontPrimary};
     stroke-width: 1.5;
   }
+
   ${(p) =>
     p.isActive &&
     css`
       color: ${(p) => p.themecolor};
+
       > svg {
         stroke: ${(p) => p.themecolor};
       }
-    `}
-  @media screen and (max-width: 900px) {
+    `} @media screen and(max-width: 900 px) {
     padding: 6px 12px;
     cursor: auto;
+
     :hover {
       color: inherit;
     }
+
     > svg {
       display: none;
     }
@@ -69,7 +78,7 @@ const MouseWrapper = styled.div`
 
 const MenuWrapper = styled.div`
   min-width: 136px;
-  background: #ffffff;
+  background: ${(p) => p.theme.fillPanel};
   padding: 8px 0;
   @media screen and (max-width: 900px) {
     position: static;
@@ -86,10 +95,12 @@ const MenuItem = styled.div`
   font-weight: 500;
   font-size: 15px;
   line-height: 20px;
+
   :hover {
-    background: #fafafa;
-    color: ${(p) => p.themecolor};
+    background: ${(p) => p.theme.fillPanelHover};
+    color: ${(p) => p.theme.fontPrimary};
   }
+
   @media screen and (max-width: 900px) {
     padding: 8px 12px 8px 24px;
     color: rgba(17, 17, 17, 0.65);
@@ -97,12 +108,12 @@ const MenuItem = styled.div`
   ${(p) =>
     p.selected &&
     css`
-      background: #fafafa;
+      background: ${(p) => p.theme.fillPanelHover};
     `}
   ${(p) =>
     p.disabled &&
     css`
-      background: #ffffff;
+      background: ${(p) => p.theme.fillPanel};
       cursor: not-allowed;
       pointer-events: none;
     `}
@@ -115,7 +126,7 @@ const SubMenuItem = styled(MenuItem)`
 const Divider = styled.div`
   margin: 8px 0;
   height: 1px;
-  background: #f8f8f8;
+  background: ${(p) => p.theme.fillBase};
   @media screen and (max-width: 900px) {
     display: none;
   }
