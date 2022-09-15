@@ -1,13 +1,11 @@
 import React from "react";
+import Layout from "../components/layout";
 
 function Blocks() {
   return (
-
-    <div className="App">
-      <header className="App-header">
-        <h1>Blocks</h1>
-      </header>
-    </div>
+    <Layout>
+      <h1>Blocks</h1>
+    </Layout>
   );
 }
 
