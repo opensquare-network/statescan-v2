@@ -1,19 +1,11 @@
-import React, { useEffect, useState } from "react";
-import BlocksList from "../components/block/list";
+import React from "react";
 import Layout from "../components/layout";
+import Explore from "../components/home/explore";
 
 function Blocks() {
-  const [listLoading, setListLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setListLoading(false);
-    }, 500);
-  }, []);
-
   return (
     <Layout>
-      <BlocksList listLoading={listLoading} />
+      <Explore />
     </Layout>
   );
 }

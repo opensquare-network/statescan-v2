@@ -52,7 +52,7 @@ const menusBlockchain = [
 
 export default function Header() {
   return (
-    <Container>
+    <Container style={{ zIndex: 1 }}>
       <Wrapper>
         <Flex>
           <img
