@@ -1,0 +1,74 @@
+import styled, { css } from "styled-components";
+import SubMenu from "./subMenu";
+import Container from "../layout/container";
+import { Flex, FlexBetween } from "../styled/flex";
+import { Inter_14_500 } from "../../styles/text";
+
+const Wrapper = styled(FlexBetween)`
+  margin: 0 auto;
+  height: 68px;
+`;
+
+const MenuWrapper = styled.div`
+  display: flex;
+  margin-left: 64px;
+`;
+
+const MenuItem = styled.div`
+  ${Inter_14_500};
+  cursor: pointer;
+  text-decoration: none;
+
+  :not(:first-child) {
+    margin-left: 40px;
+  }
+
+  @media screen and (max-width: 900px) {
+    padding: 6px 12px;
+    :hover {
+      color: inherit;
+      background: #fafafa;
+    }
+
+    :not(:first-child) {
+      margin-left: 0;
+    }
+
+    ${(p) =>
+      p.selected &&
+      css`
+        background: #fafafa;
+      `}
+  }
+`;
+
+const menusBlockchain = [
+  {
+    name: "Blocks",
+    value: "blocks",
+  },
+];
+
+export default function Header() {
+  return (
+    <Container>
+      <Wrapper>
+        <Flex>
+          <img
+            className="logo-full"
+            src="/imgs/logo.svg"
+            alt="logo"
+            style={{ cursor: "pointer" }}
+          />
+
+          <MenuWrapper>
+            <a href={`/`}>
+              <MenuItem>Home</MenuItem>
+            </a>
+            <SubMenu category="BlockChain" menus={menusBlockchain} />
+          </MenuWrapper>
+        </Flex>
+      </Wrapper>
+    </Container>
+  );
+}

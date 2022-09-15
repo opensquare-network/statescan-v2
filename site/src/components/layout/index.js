@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Container from "./container";
+import Header from "../header";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const Main = styled.main`
 export default function Layout({ children }) {
   return (
     <Wrapper>
+      <Header />
       <Main>
         <Container>{children}</Container>
       </Main>
