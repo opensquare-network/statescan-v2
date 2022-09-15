@@ -1,5 +1,9 @@
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import Container from "./container";
+import Header from "../header";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme, themeSelector } from "../../store/reducers/themeSlice";
+import light from "../../styles/theme/light";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,11 +18,20 @@ const Main = styled.main`
 `;
 
 export default function Layout({ children }) {
+  const dispatch = useDispatch();
+  //fix me : make theme dynamic
+  dispatch(setTheme(light));
+
+  const theme = useSelector(themeSelector);
+
   return (
-    <Wrapper>
-      <Main>
-        <Container>{children}</Container>
-      </Main>
-    </Wrapper>
+    <ThemeProvider theme={theme}>
+      <Wrapper>
+        <Header />
+        <Main>
+          <Container>{children}</Container>
+        </Main>
+      </Wrapper>
+    </ThemeProvider>
   );
 }

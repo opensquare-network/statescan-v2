@@ -13,7 +13,6 @@ function Blocks() {
 
   return (
     <Layout>
-      <h1>Blocks</h1>
       <BlocksList listLoading={listLoading} />
     </Layout>
   );
