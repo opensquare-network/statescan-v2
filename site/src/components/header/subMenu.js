@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, Fragment } from "react";
 import styled, { css } from "styled-components";
 import { useWindowSize } from "../../utils/hooks";
 import Link from "../styled/link";
+import { Panel } from "../styled/panel";
 
 const Wrapper = styled.div`
   position: relative;
@@ -63,8 +64,8 @@ const TitleWrapper = styled.div`
   }
 `;
 
-const MouseWrapper = styled.div`
-  z-index: 99;
+const MouseWrapper = styled(Panel)`
+  z-index: 1;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
