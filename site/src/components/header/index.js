@@ -1,8 +1,9 @@
-import styled, { css } from "styled-components";
-import SubMenu from "./subMenu";
-import Container from "../layout/container";
 import { Flex, FlexBetween } from "../styled/flex";
 import { Inter_14_500 } from "../../styles/text";
+import styled, { css } from "styled-components";
+import Container from "../layout/container";
+import Link from "../styled/link";
+import SubMenu from "./subMenu";
 
 const Wrapper = styled(FlexBetween)`
   margin: 0 auto;
@@ -62,9 +63,9 @@ export default function Header() {
           />
 
           <MenuWrapper>
-            <a href={`/`}>
+            <Link to={`/`}>
               <MenuItem>Home</MenuItem>
-            </a>
+            </Link>
             <SubMenu category="BlockChain" menus={menusBlockchain} />
           </MenuWrapper>
         </Flex>

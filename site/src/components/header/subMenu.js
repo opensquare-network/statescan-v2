@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 import styled, { css } from "styled-components";
 import { useWindowSize } from "../../utils/hooks";
+import Link from "../styled/link";
+import { Panel } from "../styled/panel";
 
 const Wrapper = styled.div`
   position: relative;
@@ -62,8 +64,8 @@ const TitleWrapper = styled.div`
   }
 `;
 
-const MouseWrapper = styled.div`
-  z-index: 99;
+const MouseWrapper = styled(Panel)`
+  z-index: 1;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -168,7 +170,7 @@ export default function SubMenu({
           <MenuWrapper ref={ref}>
             {menus.map((item, index) => (
               <Fragment key={index}>
-                <a href={`/${item.value}`}>
+                <Link to={`/${item.value}`}>
                   <MenuItem
                     onClick={() => {
                       closeMenu();
@@ -178,12 +180,12 @@ export default function SubMenu({
                   >
                     {item.name}
                   </MenuItem>
-                </a>
+                </Link>
                 {index === divideIndex && <Divider />}
                 {(item.children ?? []).map((child, index) => {
                   return (
                     <Fragment key={index}>
-                      <a href={`/${child.value}`}>
+                      <Link to={`/${child.value}`}>
                         <SubMenuItem
                           onClick={() => {
                             closeMenu();
@@ -193,7 +195,7 @@ export default function SubMenu({
                         >
                           {child.name}
                         </SubMenuItem>
-                      </a>
+                      </Link>
                     </Fragment>
                   );
                 })}
