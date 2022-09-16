@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const { clearEmptyAccount } = require("./clear");
 const { bulkUpdateAccounts } = require("../../mongo/services/bulkUpdate");
 const { normalizeEntry } = require("./nomalize");
 const { queryEntries } = require("./entries");
@@ -17,6 +18,8 @@ const queryCount = 1000;
 async function main() {
   await initAccountScanDb();
   console.log(`Begin to update ${currentChain()} accounts`);
+
+  await clearEmptyAccount();
 
   let total = 0;
   let startKey = null;
