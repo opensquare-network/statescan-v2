@@ -42,7 +42,7 @@ async function _createIndexes() {
   }
 
   blockCol.createIndex({ hash: 1 });
-  blockCol.createIndex({ height: 1 });
+  blockCol.createIndex({ height: 1 }, { unique: true });
 
   extrinsicCol.createIndex({ "indexer.blockHeight": 1 });
   extrinsicCol.createIndex({
