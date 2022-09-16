@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { useWindowSize } from "../../utils/hooks";
 import Link from "../styled/link";
 import { Panel } from "../styled/panel";
+import { Inter_14_500 } from "../../styles/text";
 
 const Wrapper = styled.div`
   position: relative;
@@ -94,9 +95,7 @@ const MenuWrapper = styled.div`
 const MenuItem = styled.div`
   cursor: pointer;
   padding: 8px 12px;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 20px;
+  ${Inter_14_500};
 
   :hover {
     background: ${(p) => p.theme.fillPanelHover};
