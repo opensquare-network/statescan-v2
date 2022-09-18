@@ -1,3 +1,4 @@
+const { queryBlockHash } = require("./queryBlockHash");
 const {
   chain: { getProvider },
 } = require("@osn/scan-common");
@@ -8,14 +9,7 @@ async function getRuntimeVersion(blockHeight) {
   }
 
   const provider = await getProvider();
-  let blockHash;
-  try {
-    blockHash = await provider.send("chain_getBlockHash", [blockHeight]);
-  } catch (e) {
-    console.error("Can not get block hash");
-    throw e;
-  }
-
+  const blockHash = await queryBlockHash(blockHeight);
   const runtimeVersion = await provider.send("state_getRuntimeVersion", [
     blockHash,
   ]);

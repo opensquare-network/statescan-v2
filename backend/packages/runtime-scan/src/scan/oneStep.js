@@ -7,11 +7,12 @@ const {
   logger,
 } = require("@osn/scan-common");
 const last = require("lodash.last");
+const { batchInsertVersions } = require("../common/batchInsert");
+const { getMetadata } = require("../common/queryMetadata");
 
 let latestVersion = null;
 
 async function oneStepScan(startHeight) {
-  // todo: delete runtime from startHeight
   const chainHeight = getLatestFinalizedHeight();
   if (startHeight > chainHeight) {
     // Just wait if the to scan height greater than current chain height
@@ -42,7 +43,12 @@ async function oneStepScan(startHeight) {
     versions,
     latestVersion?.runtimeVersion,
   );
-  // todo: insert different versions
+
+  for (const version of differentVersions) {
+    const metadata = await getMetadata(version.height);
+    Object.assign(version, { metadata });
+  }
+  await batchInsertVersions(differentVersions);
 
   if (versions.length > 0) {
     latestVersion = versions[versions.length - 1];

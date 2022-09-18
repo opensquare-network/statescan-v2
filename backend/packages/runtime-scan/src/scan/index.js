@@ -1,3 +1,4 @@
+const { deleteFrom } = require("./delete");
 const { oneStepScan } = require("./oneStep");
 const {
   runtime: { getRuntimeDb, getLatestRuntimeVersion },
@@ -12,6 +13,7 @@ async function scan() {
   latestVersion = await getLatestRuntimeVersion();
   const db = getRuntimeDb();
   let toScanHeight = await db.getNextScanHeight();
+  await deleteFrom(toScanHeight);
 
   while (true) {
     toScanHeight = await oneStepScan(toScanHeight);
