@@ -557,7 +557,7 @@
   resolved "https://registry.npmjs.org/@noble/secp256k1/-/secp256k1-1.6.3.tgz#7eed12d9f4404b416999d0c87686836c4c5c9b94"
   integrity sha512-T04e4iTurVy7I8Sw4+c5OSN9/RkPlo1uKxAomtxQNLq8j1uPAqnsqG1bqvY3Jv7c13gyr6dui0zmh/I3+f/JaQ==
 
-"@osn/scan-common@0.1.14":
+"@osn/scan-common@0.1.14", "@osn/scan-common@^0.1.14":
   version "0.1.14"
   resolved "https://registry.npmjs.org/@osn/scan-common/-/scan-common-0.1.14.tgz#9dd03062208a02aeaeba872a339c0288b8f377cb"
   integrity sha512-1HQpyaF4UMx9H8WXaKLiPJsRd6TnDr62vIieQ4Vd2jy0nw2tYqapd/vPxYa409XLM7IVF8nM+9k8+Ritk/u90Q==
