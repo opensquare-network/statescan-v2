@@ -2,6 +2,13 @@ import styled from "styled-components";
 import { Flex } from "../styled/flex";
 import { Inter_14_500 } from "../../styles/text";
 import { PC } from "../styled/responsive";
+import { ReactComponent as Logo } from "./logo-opensquare.svg";
+
+const StyledLogo = styled(Logo)`
+  * {
+    fill: ${(p) => p.theme.fontTertiary};
+  }
+`;
 
 const Wrapper = styled(Flex)`
   padding-left: 50px;
@@ -43,7 +50,7 @@ export default function Producer() {
         target="_blank"
         rel="noreferrer"
       >
-        <img src="/imgs/logo-opensquare.svg" alt="opensquare" />
+        <StyledLogo />
       </a>
     </Wrapper>
   );

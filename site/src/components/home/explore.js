@@ -12,6 +12,7 @@ const Title = styled.h1`
   display: block;
   ${Inter_24_700};
   text-transform: capitalize;
+  color: ${(props) => props.theme.fontPrimary};
 `;
 
 export default function Explore() {

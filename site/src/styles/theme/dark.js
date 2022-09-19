@@ -1,10 +1,10 @@
 const dark = {
   fontPrimary: "#FFFFFF",
   fontPrimaryInverse: "#fff",
-  fontSecondary: "rgba(27, 32, 44, 0.6)",
-  fontTertiary: "rgba(0, 0, 0, 0.3)",
+  fontSecondary: "rgba(255, 255, 255, 0.55)",
+  fontTertiary: "rgba(255, 255, 255, 0.25)",
   strokeBase: "#1B202C",
-  strokeBox: "#ddd",
+  strokeBox: "#4B505A",
   fillPanel: "#1F2532",
   fillPanelHover: "#FAFAFA",
   fillSub: "#EFEFF0",

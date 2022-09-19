@@ -18,6 +18,10 @@ const Link = styled.a`
   cursor: pointer;
   text-decoration: none;
 
+  svg * {
+    fill: ${(p) => p.theme.fontTertiary};
+  }
+
   &:hover {
     svg {
       * {

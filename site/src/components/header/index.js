@@ -1,9 +1,16 @@
+import { ReactComponent as Logo } from "./logo.svg";
 import { Flex, FlexBetween } from "../styled/flex";
 import { Inter_14_500 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import Container from "../layout/container";
 import Link from "../styled/link";
 import SubMenu from "./subMenu";
+
+const StyleLogo = styled(Logo)`
+  path {
+    fill: ${(props) => props.theme.fontPrimary};
+  }
+`;
 
 const Wrapper = styled(FlexBetween)`
   margin: 0 auto;
@@ -55,13 +62,7 @@ export default function Header() {
     <Container style={{ zIndex: 1 }}>
       <Wrapper>
         <Flex>
-          <img
-            className="logo-full"
-            src="/imgs/logo.svg"
-            alt="logo"
-            style={{ cursor: "pointer" }}
-          />
-
+          <StyleLogo />
           <MenuWrapper>
             <Link to={`/`}>
               <MenuItem>Home</MenuItem>
