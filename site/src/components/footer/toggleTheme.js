@@ -11,6 +11,7 @@ export default function ToggleTheme() {
 
   return (
     <Switch
+      on={mode === "dark"}
       onToggle={(on) => {
         dispatch(setMode(on ? "dark" : "light"));
       }}

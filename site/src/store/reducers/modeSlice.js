@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CACHE_KEY } from "../../utils/constants";
-import { getCookie, setCookie } from "../../utils/viewFuncs/cookie";
 
 const mode = Object.freeze({
   light: "light",
@@ -10,7 +9,7 @@ const mode = Object.freeze({
 export function getInitMode() {
   let result;
   try {
-    result = getCookie(CACHE_KEY.themeMode) ?? mode.light;
+    result = localStorage.getItem(CACHE_KEY.themeMode) ?? mode.light;
   } catch (e) {
     // ignore parse error
     result = mode.light;
@@ -26,11 +25,9 @@ const settingSlice = createSlice({
   },
   reducers: {
     setMode(state, { payload }) {
-      if (getCookie(CACHE_KEY.themeMode) !== payload) {
-        setCookie(CACHE_KEY.themeMode, payload);
-      }
-      // console.log(payload,111)
+      localStorage.setItem(CACHE_KEY.themeMode, payload);
       state.mode = payload;
+      console.log(payload);
     },
   },
 });
