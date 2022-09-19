@@ -4,6 +4,7 @@ import Container from "../layout/container";
 import Producer from "./producer";
 import SocialMedia from "./socialMedia";
 import ToggleTheme from "./toggleTheme";
+import { Flex } from "../styled/flex";
 
 const Wrapper = styled.div`
   height: 84px;
@@ -30,8 +31,10 @@ export default function Footer() {
     <Container>
       <Wrapper>
         <Producer />
-        <SocialMedia />
-        <ToggleTheme />
+        <Flex style={{ gap: 16 }}>
+          <SocialMedia />
+          <ToggleTheme />
+        </Flex>
       </Wrapper>
     </Container>
   );
