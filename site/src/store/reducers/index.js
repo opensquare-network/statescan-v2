@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-import themeReducer from "./themeSlice";
+import modeReducer from "./modeSlice";
 
 export default combineReducers({
-  theme: themeReducer,
+  mode: modeReducer,
 });
