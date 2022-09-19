@@ -1,10 +1,7 @@
 import React from "react";
 
 function findTrueInArray(deps) {
-  if (!deps.length) {
-    return false;
-  }
-  return deps.reduce((result, each) => result || !!each, false);
+  return (deps || []).some((item) => !!item);
 }
 
 function arrayed(loadingStates) {
@@ -14,9 +11,10 @@ function arrayed(loadingStates) {
 export const withLoading = (_deps) => {
   return (Component) => {
     return (props) => {
-      let deps;
-      if (typeof _deps === "function") deps = _deps(props);
-      else deps = _deps;
+      let deps = _deps;
+      if (typeof _deps === "function") {
+        deps = _deps(props);
+      }
 
       if (findTrueInArray(arrayed(deps))) {
         return <div>Loading....</div>;
