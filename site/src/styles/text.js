@@ -19,7 +19,7 @@ export const Inter_24_700 = css`
   line-height: 24px;
 `;
 
-export const Inter_20_700 = css`
+export const Inter_18_700 = css`
   ${Inter};
   font-weight: 700;
   font-size: 20px;
