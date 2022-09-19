@@ -1,19 +1,10 @@
 const { deleteFrom } = require("../mongo/services/delete");
 const { updateUnFinalized } = require("./unFinalized");
-const {
-  batchUpsertCalls,
-  batchInsertCalls,
-} = require("../mongo/services/call");
+const { batchInsertCalls } = require("../mongo/services/call");
 const { extractCalls } = require("./call");
-const {
-  batchUpsertExtrinsics,
-  batchInsertExtrinsics,
-} = require("../mongo/services/extrinsic");
-const {
-  batchUpsertEvents,
-  batchInsertEvents,
-} = require("../mongo/services/event");
-const { upsertBlock, insertBlock } = require("../mongo/services/block");
+const { batchInsertExtrinsics } = require("../mongo/services/extrinsic");
+const { batchInsertEvents } = require("../mongo/services/event");
+const { insertBlock } = require("../mongo/services/block");
 const { normalizeBlock } = require("./block");
 const { normalizeEvents } = require("./event");
 const { normalizeExtrinsics } = require("./extrinsic");
