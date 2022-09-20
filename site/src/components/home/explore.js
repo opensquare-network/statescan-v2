@@ -4,7 +4,17 @@ import Input from "../styled/input";
 import { Button } from "../styled/buttons";
 import { Flex } from "../styled/flex";
 
-const Wrapper = styled.div``;
+const Wrapper = styled(Flex)`
+  gap: 16px;
+
+  @media screen and (max-width: 600px) {
+    flex-wrap: wrap;
+    input,
+    button {
+      flex-basis: 100%;
+    }
+  }
+`;
 
 const Title = styled.h1`
   all: unset;
@@ -17,12 +27,12 @@ const Title = styled.h1`
 
 export default function Explore() {
   return (
-    <Wrapper>
+    <div>
       <Title>{process.env.REACT_APP_PUBLIC_NETWORK} Explorer</Title>
-      <Flex style={{ gap: 16 }}>
+      <Wrapper style={{ gap: 16 }}>
         <Input placeholder={"Block / Address / Extrinsic / Asset /..."} />
         <Button>Explore</Button>
-      </Flex>
-    </Wrapper>
+      </Wrapper>
+    </div>
   );
 }

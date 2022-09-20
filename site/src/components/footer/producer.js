@@ -11,12 +11,16 @@ const StyledLogo = styled(Logo)`
 `;
 
 const Wrapper = styled(Flex)`
-  padding-left: 50px;
-  padding-right: 50px;
   flex-wrap: nowrap;
 
   > :not(:first-child) {
     margin-left: 8px;
+  }
+
+  .wrap-on-mobile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   @media screen and (max-width: 600px) {
@@ -24,6 +28,12 @@ const Wrapper = styled(Flex)`
     flex-wrap: wrap;
     div {
       flex-wrap: nowrap;
+    }
+
+    .wrap-on-mobile {
+      flex-basis: 100%;
+      justify-content: center;
+      height: 20px;
     }
   }
 
@@ -44,14 +54,16 @@ export default function Producer() {
       <PC>
         <Text>·</Text>
       </PC>
-      <Text>Powered by</Text>
-      <a
-        href="https://www.opensquare.network/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <StyledLogo />
-      </a>
+      <div className="wrap-on-mobile">
+        <Text>Powered by</Text>
+        <a
+          href="https://www.opensquare.network/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <StyledLogo />
+        </a>
+      </div>
     </Wrapper>
   );
 }
