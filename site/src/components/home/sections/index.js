@@ -1,4 +1,3 @@
-import Container from "../../layout/container";
 import { FlexBetween } from "../../styled/flex";
 import LatestBlocks from "./latestBlocks";
 import { useEffect, useState } from "react";
@@ -14,10 +13,8 @@ export default function Sections() {
   }, []);
 
   return (
-    <Container>
-      <FlexBetween>
-        <LatestBlocks blocks={blocks} />
-      </FlexBetween>
-    </Container>
+    <FlexBetween>
+      <LatestBlocks blocks={blocks} />
+    </FlexBetween>
   );
 }

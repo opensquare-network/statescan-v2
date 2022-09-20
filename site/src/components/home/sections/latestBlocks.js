@@ -17,13 +17,14 @@ import Link from "../../styled/link";
 
 const Title = styled.h2`
   ${Inter_18_700};
+  color: ${(props) => props.theme.fontPrimary};
 `;
 
 const Rows = styled.ul`
   margin: 0;
   padding-left: 0;
   padding-top: 8px;
-  width: 500px;
+  max-width: 500px;
 `;
 
 const Row = styled.li`
@@ -57,12 +58,14 @@ const Time = styled.span`
 
 const Bold = styled.span`
   ${Inter_12_500};
+  color: ${(props) => props.theme.fontPrimary};
 `;
 
 const Address = styled.p`
   margin: 0;
   ${SF_Mono_14_500};
   text-align: right;
+  color: ${(props) => props.theme.fontPrimary};
 `;
 
 const Label = styled.span`

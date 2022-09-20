@@ -8,12 +8,13 @@ const TextInput = styled.input`
   border-radius: 8px;
 
   ::placeholder {
-    color: rgba(17, 17, 17, 0.35);
+    color: ${(props) => props.theme.fontTertiary};
   }
 
   ${Inter_14_400};
   width: 100%;
   max-width: 529px;
+  color: ${(props) => props.theme.fontPrimary};
 `;
 
 export default function Input(props) {

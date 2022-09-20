@@ -14,6 +14,7 @@ const Wrapper = styled.div`
 
   @media screen and (max-width: 900px) {
     :not(:first-child) {
+      padding: 6px 12px;
       margin-left: 0;
     }
   }
@@ -164,7 +165,7 @@ export default function SubMenu({
   return (
     <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
       <TitleWrapper isActive={isActive}>{category}</TitleWrapper>
-      {(isActive || width <= 900) && (
+      {isActive && (
         <MouseWrapper>
           <MenuWrapper ref={ref}>
             {menus.map((item, index) => (
