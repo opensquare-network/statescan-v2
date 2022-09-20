@@ -80,6 +80,7 @@ const Bold = styled.span`
 
 const Address = styled.p`
   margin: 0;
+  margin-bottom: 4px;
   ${SF_Mono_14_500};
   text-align: right;
   color: ${(props) => props.theme.fontPrimary};
