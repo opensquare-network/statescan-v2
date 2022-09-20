@@ -7,6 +7,7 @@ const routes = [
   require("./features/extrinsics/routes"),
   require("./features/events/routes"),
   require("./features/calls/routes"),
+  require("./features/transfers/routes"),
   require("./features/unfinalized/routes"),
 ];
 
