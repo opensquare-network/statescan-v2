@@ -54,4 +54,6 @@ class Api {
   };
 }
 
-export default Api;
+export default new Api(
+  new URL(process.env.REACT_APP_PUBLIC_API_END_POINT).href,
+);
