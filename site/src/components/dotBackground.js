@@ -14,15 +14,14 @@ const Masked = styled.div`
   opacity: 0.8;
   position: relative;
   top: -8px;
+
   background: radial-gradient(
     87.94% 100% at 50% 100%,
-    #f1f1f1 0%,
-    ${(p) => p.theme.fillPanelHover} 64.58%,
-    ${(p) => p.theme.fillPanel} 100%
+    ${(p) => p.theme.fillAlpha} 0%,
+    ${(p) => p.theme.fillBeta} 64.58%,
+    ${(p) => p.theme.fillGamma} 100%
   );
-  -webkit-mask-image: url("/imgs/pattern-dot.svg");
   mask-image: url("/imgs/pattern-dot.svg");
-  -webkit-mask-repeat: repeat;
   mask-repeat: repeat;
 `;
 
