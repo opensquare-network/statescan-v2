@@ -62,7 +62,9 @@ export default function Header() {
     <Container style={{ zIndex: 1 }}>
       <Wrapper>
         <Flex>
-          <StyleLogo />
+          <Link to={`/`}>
+            <StyleLogo />
+          </Link>
           <MenuWrapper>
             <Link to={`/`}>
               <MenuItem>Home</MenuItem>
