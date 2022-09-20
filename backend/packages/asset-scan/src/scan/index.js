@@ -15,6 +15,8 @@ async function handleBlock({ block, author, events, height }) {
   await handleEvents(events, blockIndexer, block.extrinsics);
 
   // todo: handle block business
+  const db = getAssetDb();
+  await db.updateScanHeight(height);
 }
 
 async function wrappedHandleBlock(wrappedBlock) {
