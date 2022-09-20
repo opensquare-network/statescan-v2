@@ -1,3 +1,4 @@
+const { handleEvents } = require("./events");
 const {
   chain: { getBlockIndexer },
   scan: { oneStepScan },
@@ -10,6 +11,8 @@ const {
 
 async function handleBlock({ block, author, events, height }) {
   const blockIndexer = getBlockIndexer(block);
+
+  await handleEvents(events, blockIndexer, block.extrinsics);
 
   // todo: handle block business
 }
