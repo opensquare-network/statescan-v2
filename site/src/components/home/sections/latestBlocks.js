@@ -25,6 +25,8 @@ const Rows = styled.ul`
   padding-left: 0;
   padding-top: 8px;
   max-width: 500px;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const Row = styled.li`
