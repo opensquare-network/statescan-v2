@@ -3,16 +3,18 @@ const dark = {
   fontPrimaryInverse: "#fff",
   fontSecondary: "rgba(255, 255, 255, 0.55)",
   fontTertiary: "rgba(255, 255, 255, 0.25)",
-  strokeBase: "#1B202C",
+  strokeBase: "#252B37",
   strokeBox: "#4B505A",
   fillPanel: "#1F2532",
-  fillPanelHover: "#FAFAFA",
-  fillSub: "#EFEFF0",
-  fillSubDark: "#262B37",
-  fillBase: "#FAFAFA",
-  fillButton: "#000000",
+  fillPanelHover: "#242A36",
+  fillSub: "#262B37",
+  fillBase: "#1B202C",
+  fillButton: "#1B202C",
   shadowPanel:
     "0px 6px 25px rgba(0, 0, 0, 0.04), 0px 1.80882px 5.94747px rgba(0, 0, 0, 0.0260636), 0px 0.751293px 0.932578px rgba(0, 0, 0, 0.02), 0px 0.271728px 0px rgba(0, 0, 0, 0.0139364)",
+  fillAlpha: "rgba(255, 255, 255, 0.05)",
+  fillBeta: "rgba(255, 255, 255, 0.02)",
+  fillGamma: "rgba(255, 255, 255, 0)",
 };
 
 export default dark;

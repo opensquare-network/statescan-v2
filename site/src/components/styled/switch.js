@@ -15,7 +15,7 @@ const Wrapper = styled.label`
   }
 
   input:checked + .slider-wrapper {
-    background: ${(p) => p.theme.fillSubDark};
+    background: ${(p) => p.theme.fillSub};
   }
 
   input:checked + .slider-wrapper > * {

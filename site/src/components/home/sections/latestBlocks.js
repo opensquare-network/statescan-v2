@@ -11,9 +11,24 @@ import {
 import { withLoading } from "../../../HOC/withLoading";
 import React from "react";
 import { timeDuration } from "../../../utils/viewFuncs/time";
-import { ReactComponent as BlockIcon } from "./block.svg";
+import { ReactComponent as Block } from "./block.svg";
 import { addressEllipsis } from "../../../utils/viewFuncs";
 import Link from "../../styled/link";
+
+const BlockIcon = styled(Block)`
+  path {
+    stroke: ${({ theme }) => theme.fontTertiary};
+  }
+
+  #paint0_linear_5874_7536 {
+    stop:first-child {
+      stop-color: ${({ theme }) => theme.fontPrimary};
+    }
+    stop:last-child {
+      stop-color: ${({ theme }) => theme.fontPrimary};
+    }
+  }
+`;
 
 const Title = styled.h2`
   ${Inter_18_700};
