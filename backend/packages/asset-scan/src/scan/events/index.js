@@ -1,4 +1,8 @@
+const { getBlockNativeTransfers } = require("../../store/nativeTransfers");
 const { handleBalancesEvent } = require("./balances");
+const {
+  asset: { batchInsertTransfers },
+} = require("@statescan/mongo");
 
 async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
@@ -23,6 +27,9 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
 
     await handleBalancesEvent(event, indexer, extrinsic);
   }
+
+  const transfers = getBlockNativeTransfers(blockIndexer.blockHash);
+  await batchInsertTransfers(transfers);
 }
 
 module.exports = {

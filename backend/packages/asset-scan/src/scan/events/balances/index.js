@@ -1,5 +1,6 @@
+const { handleTransfer } = require("./transfer");
 const {
-  consts: { Modules },
+  consts: { Modules, BalancesEvents },
 } = require("@osn/scan-common");
 
 async function handleBalancesEvent(event, indexer, extrinsic) {
@@ -9,7 +10,9 @@ async function handleBalancesEvent(event, indexer, extrinsic) {
     return false;
   }
 
-  // todo: handle various events
+  if (BalancesEvents.Transfer === method) {
+    await handleTransfer(...arguments);
+  }
 }
 
 module.exports = {

@@ -1,0 +1,10 @@
+{
+  "name": "@statescan/common",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "mongodb": "^4.7.0",
+    "bignumber.js": "^9.1.0"
+  }
+}
