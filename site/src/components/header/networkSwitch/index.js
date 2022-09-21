@@ -1,10 +1,23 @@
 import { useState, useRef } from "react";
 import styled, { css } from "styled-components";
-
-import { useOnClickOutside } from "utils/hooks";
+import { ReactComponent as Polkadot } from "../../icons/polkadot.svg";
+import { ReactComponent as Kusama } from "../../icons/kusama.svg";
+import { ReactComponent as Westend } from "../../icons/westend.svg";
+import { ReactComponent as ArrowDown } from "../../icons/caret-down.svg";
+import { useOnClickOutside } from "../../../utils/hooks";
 import { nodes } from "../../../utils/constants";
-import { card_border } from "styles/textStyles";
 import { Flex } from "../../styled/flex";
+
+const ArrowDownIcon = styled(ArrowDown)`
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  right: 6px;
+
+  path {
+    stroke: ${({ theme }) => theme.fontPrimary};
+  }
+`;
 
 const Wrapper = styled.div`
   position: relative;
@@ -12,56 +25,47 @@ const Wrapper = styled.div`
 `;
 
 const Dropdown = styled.div`
+  box-sizing: border-box;
   height: 36px;
-  width: 156px;
-  background: #ffffff;
-  border: 1px solid #eeeeee;
+  width: 160px;
+  background: ${({ theme }) => theme.fillPanel};
+  border: 1px solid ${({ theme }) => theme.strokeBox};
   border-radius: 8px;
   display: flex;
   align-items: center;
   padding: 8px;
   cursor: pointer;
-  :hover {
-    border-color: #bbbbbb;
+
+  svg {
+    margin-right: 8px;
   }
+
+  :hover {
+    border-color: ${({ theme }) => theme.strokeBoxSelected};
+  }
+
   ${(p) =>
     p.active &&
     css`
-      border-color: #bbbbbb;
+      border-color: ${({ theme }) => theme.strokeBoxSelected};
     `}
-`;
-
-const Icon = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
 `;
 
 const Text = styled.p`
   font-weight: 600;
   font-size: 15px;
   line-height: 20px;
-  color: #111111;
+  color: ${({ theme }) => theme.fontPrimary};
 `;
 
 const Sub = styled.p`
   font-size: 14px;
   line-height: 20px;
-  color: rgba(17, 17, 17, 0.35);
-`;
-
-const ArrowDown = styled.img`
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-  right: 6px;
+  color: ${({ theme }) => theme.fontTertiary};
 `;
 
 const Options = styled.div`
-  background: #ffffff;
-  ${card_border};
+  background: ${({ theme }) => theme.fillPopup};
   padding: 8px 0;
   width: 222px;
   position: absolute;
@@ -76,18 +80,27 @@ const Item = styled.a`
   justify-content: space-between;
   padding: 0 8px;
   cursor: pointer;
+
   :hover {
-    background: #fafafa;
+    background: ${({ theme }) => theme.fillPopupHover};
   }
+
   ${(p) =>
     p.active &&
     css`
-      background: #fafafa;
+      background: ${({ theme }) => theme.fillPopupHover};
     `}
 `;
 
-export default function NetworkSwitcher({ node }) {
-  const currentNode = nodes.find((item) => item.value === node);
+const ChainIconMap = new Map([
+  ["polkadot", <Polkadot />],
+  ["kusama", <Kusama />],
+  ["westend", <Westend />],
+]);
+
+export default function ChainSwitcher() {
+  const chain = process.env.REACT_APP_PUBLIC_CHAIN;
+  const currentNode = nodes.find((item) => item.value === chain);
   const [show, setShow] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
@@ -97,11 +110,11 @@ export default function NetworkSwitcher({ node }) {
       <Dropdown active={show} onClick={() => setShow((state) => !state)}>
         {currentNode && (
           <>
-            <Icon src={currentNode.icon} alt={currentNode.value} />
+            {ChainIconMap.get(currentNode.chainIcon)}
             <Text>{currentNode.name}</Text>
           </>
         )}
-        <ArrowDown src="/imgs/icons/arrow-down.svg" />
+        <ArrowDownIcon />
       </Dropdown>
       {show && (
         <Options>
@@ -113,14 +126,14 @@ export default function NetworkSwitcher({ node }) {
                 active={item.value === currentNode?.value}
                 onClick={() => {
                   if (item.value === currentNode?.value) {
-                    location.href = "/";
+                    window.location.href = "/";
                   } else {
                     window.open(`https://${item.value}.statescan.io`, "_blank");
                   }
                 }}
               >
-                <Flex>
-                  <Icon src={item.icon} alt={item.value} />
+                <Flex style={{ gap: 8 }}>
+                  {ChainIconMap.get(item.chainIcon)}
                   <Text>{item.name}</Text>
                 </Flex>
                 <Sub>{item.sub}</Sub>
