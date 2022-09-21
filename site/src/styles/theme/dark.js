@@ -13,7 +13,7 @@ const dark = {
   fillBase: "#1B202C",
   fillButton: "#1B202C",
   shadowPanel:
-    "0px 6px 25px rgba(0, 0, 0, 0.04), 0px 1.80882px 5.94747px rgba(0, 0, 0, 0.0260636), 0px 0.751293px 0.932578px rgba(0, 0, 0, 0.02), 0px 0.271728px 0px rgba(0, 0, 0, 0.0139364)",
+    "0px 6px 16px rgba(27, 32, 44, 0.05), 0px 2px 4px rgba(27, 32, 44, 0.03), 0px 0.5px 1px rgba(27, 32, 44, 0.02)",
   fillAlpha: "rgba(255, 255, 255, 0.05)",
   fillBeta: "rgba(255, 255, 255, 0.02)",
   fillGamma: "rgba(255, 255, 255, 0)",
