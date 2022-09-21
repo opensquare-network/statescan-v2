@@ -165,7 +165,7 @@ export default function SubMenu({
   return (
     <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
       <TitleWrapper isActive={isActive}>{category}</TitleWrapper>
-      {true && (
+      {isActive && (
         <MouseWrapper>
           <MenuWrapper ref={ref}>
             {menus.map((item, index) => (
