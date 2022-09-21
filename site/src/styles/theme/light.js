@@ -8,7 +8,7 @@ const light = {
   strokeBoxSelected: "#CBCCCE",
   fillPanel: "#fff",
   fillPopup: "#fff",
-  fillPopupHover: "#E1E2E4",
+  fillPopupHover: "#F8F8F9",
   fillSub: "#EFEFF0",
   fillSubDark: "#262B37",
   fillBase: "#FAFAFA",
