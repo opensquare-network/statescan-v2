@@ -98,8 +98,11 @@ const ChainIconMap = new Map([
   ["westend", <Westend />],
 ]);
 
-export default function ChainSwitcher() {
+export default function ChainSwitch() {
   const chain = process.env.REACT_APP_PUBLIC_CHAIN;
+  if (!chain) {
+    throw new Error("CHAIN is not defined");
+  }
   const currentNode = nodes.find((item) => item.value === chain);
   const [show, setShow] = useState(false);
   const ref = useRef();
