@@ -71,19 +71,19 @@ const MouseWrapper = styled(Panel)`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  padding-top: 10px;
+  padding: 8px 0;
   @media screen and (max-width: 900px) {
     position: static;
     left: 0;
     transform: none;
     padding-top: 0;
   }
+  overflow: hidden;
 `;
 
 const MenuWrapper = styled.div`
-  min-width: 136px;
+  min-width: 160px;
   background: ${(p) => p.theme.fillPanel};
-  padding: 8px 0;
   @media screen and (max-width: 900px) {
     position: static;
     box-shadow: none;
@@ -165,7 +165,7 @@ export default function SubMenu({
   return (
     <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
       <TitleWrapper isActive={isActive}>{category}</TitleWrapper>
-      {isActive && (
+      {true && (
         <MouseWrapper>
           <MenuWrapper ref={ref}>
             {menus.map((item, index) => (
