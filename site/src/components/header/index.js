@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import Container from "../layout/container";
 import Link from "../styled/link";
 import SubMenu from "./subMenu";
+import ChainSwitcher from "./networkSwitch";
 
 const StyleLogo = styled(Logo)`
   path {
@@ -72,6 +73,7 @@ export default function Header() {
             <SubMenu category="BlockChain" menus={menusBlockchain} />
           </MenuWrapper>
         </Flex>
+        <ChainSwitcher />
       </Wrapper>
     </Container>
   );

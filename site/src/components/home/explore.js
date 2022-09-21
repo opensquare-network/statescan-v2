@@ -28,7 +28,7 @@ const Title = styled.h1`
 export default function Explore() {
   return (
     <div>
-      <Title>{process.env.REACT_APP_PUBLIC_NETWORK} Explorer</Title>
+      <Title>{process.env.REACT_APP_PUBLIC_CHAIN} Explorer</Title>
       <Wrapper style={{ gap: 16 }}>
         <Input placeholder={"Block / Address / Extrinsic / Asset /..."} />
         <Button>Explore</Button>
