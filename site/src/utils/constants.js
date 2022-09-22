@@ -2,7 +2,7 @@ export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
 
-export const nodes = [
+export const chains = [
   {
     name: "Statemine",
     sub: "Kusama",

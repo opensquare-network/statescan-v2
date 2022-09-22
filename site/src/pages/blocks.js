@@ -1,10 +1,11 @@
 import React from "react";
 import Layout from "../components/layout";
+import BreadCrumb from "../components/breadCrumb";
 
 function Blocks() {
   return (
     <Layout>
-      <h1>Blocks</h1>
+      <BreadCrumb data={[{ name: "Blocks" }]} />
     </Layout>
   );
 }
