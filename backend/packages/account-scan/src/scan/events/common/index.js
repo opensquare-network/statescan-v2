@@ -1,15 +1,15 @@
-const { isValidAddressPolkadotAddress } = require("../../../utils/address");
+const { isValidPolkadotAddress } = require("../../../utils/address");
 const { addAddress } = require("../../store/address");
 
 async function handleCommonEvent(event, indexer) {
   const { data = [] } = event;
   for (const arg of data) {
     if (!arg.toString) {
-      continue
+      continue;
     }
 
     const argStr = arg.toString();
-    if (isValidAddressPolkadotAddress(argStr)) {
+    if (isValidPolkadotAddress(argStr)) {
       addAddress(indexer.blockHeight, argStr);
     }
   }
@@ -17,4 +17,4 @@ async function handleCommonEvent(event, indexer) {
 
 module.exports = {
   handleCommonEvent,
-}
+};

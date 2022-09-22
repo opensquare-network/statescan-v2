@@ -1,10 +1,10 @@
 // record the addresses which may change in one scanning block
-const { isValidAddressPolkadotAddress } = require("../../utils/address");
+const { isValidPolkadotAddress } = require("../../utils/address");
 const addressesMap = {};
 
 function addAddress(height, addr) {
-  if (!isValidAddressPolkadotAddress(addr)) {
-    return
+  if (!isValidPolkadotAddress(addr)) {
+    return;
   }
 
   const nowAddrs = addressesMap[height];

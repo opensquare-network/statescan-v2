@@ -1,13 +1,9 @@
-const { decodeAddress, encodeAddress } = require('@polkadot/keyring');
-const { hexToU8a, isHex } = require('@polkadot/util');
+const { decodeAddress, encodeAddress } = require("@polkadot/keyring");
+const { hexToU8a, isHex } = require("@polkadot/util");
 
-function isValidAddressPolkadotAddress(address) {
+function isValidPolkadotAddress(address) {
   try {
-    encodeAddress(
-      isHex(address)
-        ? hexToU8a(address)
-        : decodeAddress(address)
-    );
+    encodeAddress(isHex(address) ? hexToU8a(address) : decodeAddress(address));
 
     return true;
   } catch (error) {
@@ -16,5 +12,5 @@ function isValidAddressPolkadotAddress(address) {
 }
 
 module.exports = {
-  isValidAddressPolkadotAddress,
-}
+  isValidPolkadotAddress,
+};
