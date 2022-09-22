@@ -5,3 +5,9 @@ export const PC = styled.div`
     display: none;
   }
 `;
+
+export const Mobile = styled.div`
+  @media screen and (min-width: 600px) {
+    display: none;
+  }
+`;

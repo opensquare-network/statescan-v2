@@ -28,6 +28,9 @@ const Dropdown = styled.div`
   box-sizing: border-box;
   height: 36px;
   width: 160px;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
   background: ${({ theme }) => theme.fillPanel};
   border: 1px solid ${({ theme }) => theme.strokeBox};
   border-radius: 8px;
@@ -68,6 +71,9 @@ const Options = styled.div`
   background: ${({ theme }) => theme.fillPopup};
   padding: 8px 0;
   width: 222px;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
   position: absolute;
   top: 44px;
   right: 0;

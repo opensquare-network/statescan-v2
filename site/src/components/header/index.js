@@ -3,9 +3,18 @@ import { Flex, FlexBetween } from "../styled/flex";
 import { Inter_14_500 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import Container from "../layout/container";
+import { Mobile, PC } from "../styled/responsive";
+import MobileButton from "./mobile/button";
+import ChainSwitch from "./chainSwitch";
+import { Panel } from "../styled/panel";
 import Link from "../styled/link";
 import SubMenu from "./subMenu";
-import ChainSwitch from "./chainSwitch";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  mobileMenuFoldedSelector,
+  toggle,
+} from "../../store/reducers/mobileMenuSlice";
 
 const StyleLogo = styled(Logo)`
   path {
@@ -58,7 +67,18 @@ const menusBlockchain = [
   },
 ];
 
+const MobileMenu = styled(Panel)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  border: 1px solid ${(p) => p.theme.strokeBoxSelected};
+`;
+
 export default function Header() {
+  const showMobileMenu = useSelector(mobileMenuFoldedSelector);
+  const dispatch = useDispatch();
   return (
     <Container style={{ zIndex: 1 }}>
       <Wrapper>
@@ -66,14 +86,29 @@ export default function Header() {
           <Link to={`/`}>
             <StyleLogo />
           </Link>
-          <MenuWrapper>
-            <Link to={`/`}>
-              <MenuItem>Home</MenuItem>
-            </Link>
-            <SubMenu category="BlockChain" menus={menusBlockchain} />
-          </MenuWrapper>
+          <PC>
+            <MenuWrapper>
+              <Link to={`/`}>
+                <MenuItem>Home</MenuItem>
+              </Link>
+              <SubMenu category="BlockChain" menus={menusBlockchain} />
+            </MenuWrapper>
+          </PC>
         </Flex>
-        <ChainSwitch />
+        <PC>
+          <ChainSwitch />
+        </PC>
+        <Mobile>
+          <MobileMenu>
+            <MobileButton
+              onClick={() => {
+                // setMobileMenuFolded(!mobileMenuFolded);
+                dispatch(toggle());
+              }}
+              mobileMenuFolded={!showMobileMenu}
+            />
+          </MobileMenu>
+        </Mobile>
       </Wrapper>
     </Container>
   );
