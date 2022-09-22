@@ -37,6 +37,10 @@ const MenuItem = styled.div`
   text-decoration: none;
   color: ${(p) => p.theme.fontPrimary};
 
+  :hover {
+    color: ${(p) => p.theme.theme500};
+  }
+
   :not(:first-child) {
     margin-left: 40px;
   }

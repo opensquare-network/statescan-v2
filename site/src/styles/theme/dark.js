@@ -17,6 +17,8 @@ const dark = {
   fillAlpha: "rgba(255, 255, 255, 0.05)",
   fillBeta: "rgba(255, 255, 255, 0.02)",
   fillGamma: "rgba(255, 255, 255, 0)",
+  //todo: read this from .env
+  theme500: "#E6007A",
 };
 
 export default dark;
