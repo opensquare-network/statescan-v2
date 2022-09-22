@@ -1,16 +1,15 @@
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Logo } from "./logo.svg";
 import { Flex, FlexBetween } from "../styled/flex";
-import { Inter_14_500 } from "../../styles/text";
-import styled, { css } from "styled-components";
-import Container from "../layout/container";
 import { Mobile, PC } from "../styled/responsive";
+import { Inter_14_500, Inter_14_600 } from "../../styles/text";
+import styled, { css } from "styled-components";
 import MobileButton from "./mobile/button";
 import ChainSwitch from "./chainSwitch";
 import { Panel } from "../styled/panel";
 import Link from "../styled/link";
 import SubMenu from "./subMenu";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import {
   mobileMenuFoldedSelector,
   toggle,
@@ -33,9 +32,10 @@ const MenuWrapper = styled.div`
 `;
 
 const MenuItem = styled.div`
-  ${Inter_14_500};
+  ${Inter_14_600};
   cursor: pointer;
   text-decoration: none;
+  color: ${(p) => p.theme.fontPrimary};
 
   :not(:first-child) {
     margin-left: 40px;
@@ -67,49 +67,35 @@ const menusBlockchain = [
   },
 ];
 
-const MobileMenu = styled(Panel)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 36px;
-  width: 36px;
-  border: 1px solid ${(p) => p.theme.strokeBoxSelected};
-`;
-
 export default function Header() {
   const showMobileMenu = useSelector(mobileMenuFoldedSelector);
   const dispatch = useDispatch();
   return (
-    <Container style={{ zIndex: 1 }}>
-      <Wrapper>
-        <Flex>
-          <Link to={`/`}>
-            <StyleLogo />
-          </Link>
-          <PC>
-            <MenuWrapper>
-              <Link to={`/`}>
-                <MenuItem>Home</MenuItem>
-              </Link>
-              <SubMenu category="BlockChain" menus={menusBlockchain} />
-            </MenuWrapper>
-          </PC>
-        </Flex>
+    <Wrapper>
+      <Flex>
+        <Link to={`/`}>
+          <StyleLogo />
+        </Link>
         <PC>
-          <ChainSwitch />
+          <MenuWrapper>
+            <Link to={`/`}>
+              <MenuItem>Home</MenuItem>
+            </Link>
+            <SubMenu category="BlockChain" menus={menusBlockchain} />
+          </MenuWrapper>
         </PC>
-        <Mobile>
-          <MobileMenu>
-            <MobileButton
-              onClick={() => {
-                // setMobileMenuFolded(!mobileMenuFolded);
-                dispatch(toggle());
-              }}
-              mobileMenuFolded={!showMobileMenu}
-            />
-          </MobileMenu>
-        </Mobile>
-      </Wrapper>
-    </Container>
+      </Flex>
+      <PC>
+        <ChainSwitch />
+      </PC>
+      <Mobile>
+        <MobileButton
+          onClick={() => {
+            dispatch(toggle());
+          }}
+          mobileMenuFolded={!showMobileMenu}
+        />
+      </Mobile>
+    </Wrapper>
   );
 }

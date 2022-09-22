@@ -1,41 +1,39 @@
+import styled, { css } from "styled-components";
+import { Panel } from "../../styled/panel";
+import { ReactComponent as MenuFolded } from "./menu-folded.svg";
+import { ReactComponent as MenuOpened } from "./menu-opened.svg";
+
+const MenuIconStyle = css`
+  path {
+    stroke: ${(p) => p.theme.fontPrimary};
+  }
+`;
+
+const MenuFoldedIcon = styled(MenuFolded)`
+  ${MenuIconStyle};
+`;
+
+const MenuOpenedIcon = styled(MenuOpened)`
+  ${MenuIconStyle};
+`;
+
+const MobileButtonWrapper = styled(Panel)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  border: 1px solid ${(p) => p.theme.strokeBoxSelected};
+`;
+
 export default function MobileButton(props) {
   const { mobileMenuFolded } = props;
+  let icon;
   if (mobileMenuFolded) {
-    return (
-      <svg
-        {...props}
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M4 5H16M4 10H16M4 15H16"
-          stroke="#1B202C"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
+    icon = <MenuFoldedIcon />;
+  } else {
+    icon = <MenuOpenedIcon />;
   }
-  return (
-    <svg
-      {...props}
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M4 5H16M10 10H16M10 15H16"
-        stroke="#1B202C"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+
+  return <MobileButtonWrapper {...props}>{icon}</MobileButtonWrapper>;
 }
