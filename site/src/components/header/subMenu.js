@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef, Fragment } from "react";
-import styled, { css } from "styled-components";
-import { useWindowSize } from "../../utils/hooks";
-import Link from "../styled/link";
-import { Panel } from "../styled/panel";
+import { useState, useRef, Fragment } from "react";
 import { Inter_14_500 } from "../../styles/text";
+import styled, { css } from "styled-components";
+import { Panel } from "../styled/panel";
+import Link from "../styled/link";
 
 const Wrapper = styled.div`
   position: relative;
@@ -121,19 +120,6 @@ const MenuItem = styled.div`
     `}
 `;
 
-const SubMenuItem = styled(MenuItem)`
-  padding: 8px 24px;
-`;
-
-const Divider = styled.div`
-  margin: 8px 0;
-  height: 1px;
-  background: ${(p) => p.theme.fillBase};
-  @media screen and (max-width: 900px) {
-    display: none;
-  }
-`;
-
 export default function SubMenu({
   category,
   menus,
@@ -141,25 +127,14 @@ export default function SubMenu({
   divideIndex = 2,
 }) {
   const [isActive, setIsActive] = useState(false);
-  const { width } = useWindowSize();
   const ref = useRef();
 
-  useEffect(() => {
-    if (width <= 900) {
-      setIsActive(false);
-    }
-  }, [width]);
-
   const onMouseOver = () => {
-    if (width > 900) {
-      setIsActive(true);
-    }
+    setIsActive(true);
   };
 
   const onMouseLeave = () => {
-    if (width > 900) {
-      setIsActive(false);
-    }
+    setIsActive(false);
   };
 
   return (
@@ -181,24 +156,6 @@ export default function SubMenu({
                     {item.name}
                   </MenuItem>
                 </Link>
-                {index === divideIndex && <Divider />}
-                {(item.children ?? []).map((child, index) => {
-                  return (
-                    <Fragment key={index}>
-                      <Link to={`/${child.value}`}>
-                        <SubMenuItem
-                          onClick={() => {
-                            closeMenu();
-                            setIsActive(false);
-                          }}
-                          disabled={child.value === ""}
-                        >
-                          {child.name}
-                        </SubMenuItem>
-                      </Link>
-                    </Fragment>
-                  );
-                })}
               </Fragment>
             ))}
           </MenuWrapper>

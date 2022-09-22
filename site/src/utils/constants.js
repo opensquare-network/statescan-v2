@@ -36,3 +36,10 @@ export const nodes = [
     buttonColor: "#DA68A7",
   },
 ];
+
+export const menusBlockchain = [
+  {
+    name: "Blocks",
+    value: "blocks",
+  },
+];

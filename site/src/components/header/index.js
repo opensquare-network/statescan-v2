@@ -1,11 +1,19 @@
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Logo } from "./logo.svg";
 import { Flex, FlexBetween } from "../styled/flex";
-import { Inter_14_500 } from "../../styles/text";
+import { Mobile, PC } from "../styled/responsive";
+import { Inter_14_500, Inter_14_600 } from "../../styles/text";
 import styled, { css } from "styled-components";
-import Container from "../layout/container";
+import MobileButton from "./mobile/button";
+import ChainSwitch from "./chainSwitch";
+import { Panel } from "../styled/panel";
 import Link from "../styled/link";
 import SubMenu from "./subMenu";
-import ChainSwitch from "./chainSwitch";
+
+import {
+  mobileMenuFoldedSelector,
+  toggle,
+} from "../../store/reducers/mobileMenuSlice";
 
 const StyleLogo = styled(Logo)`
   path {
@@ -24,9 +32,10 @@ const MenuWrapper = styled.div`
 `;
 
 const MenuItem = styled.div`
-  ${Inter_14_500};
+  ${Inter_14_600};
   cursor: pointer;
   text-decoration: none;
+  color: ${(p) => p.theme.fontPrimary};
 
   :not(:first-child) {
     margin-left: 40px;
@@ -59,22 +68,34 @@ const menusBlockchain = [
 ];
 
 export default function Header() {
+  const showMobileMenu = useSelector(mobileMenuFoldedSelector);
+  const dispatch = useDispatch();
   return (
-    <Container style={{ zIndex: 1 }}>
-      <Wrapper>
-        <Flex>
-          <Link to={`/`}>
-            <StyleLogo />
-          </Link>
+    <Wrapper>
+      <Flex>
+        <Link to={`/`}>
+          <StyleLogo />
+        </Link>
+        <PC>
           <MenuWrapper>
             <Link to={`/`}>
               <MenuItem>Home</MenuItem>
             </Link>
             <SubMenu category="BlockChain" menus={menusBlockchain} />
           </MenuWrapper>
-        </Flex>
+        </PC>
+      </Flex>
+      <PC>
         <ChainSwitch />
-      </Wrapper>
-    </Container>
+      </PC>
+      <Mobile>
+        <MobileButton
+          onClick={() => {
+            dispatch(toggle());
+          }}
+          mobileMenuFolded={!showMobileMenu}
+        />
+      </Mobile>
+    </Wrapper>
   );
 }
