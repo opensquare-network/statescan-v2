@@ -5,7 +5,7 @@ import { ReactComponent as Kusama } from "../../icons/kusama.svg";
 import { ReactComponent as Westend } from "../../icons/westend.svg";
 import { ReactComponent as ArrowDown } from "../../icons/caret-down.svg";
 import { useOnClickOutside } from "../../../utils/hooks";
-import { nodes } from "../../../utils/constants";
+import { chains } from "../../../utils/constants";
 import { Flex } from "../../styled/flex";
 
 const ArrowDownIcon = styled(ArrowDown)`
@@ -112,7 +112,7 @@ export default function ChainSwitch() {
   if (!chain) {
     throw new Error("CHAIN is not defined");
   }
-  const currentNode = nodes.find((item) => item.value === chain);
+  const currentNode = chains.find((item) => item.value === chain);
   const [show, setShow] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
@@ -130,7 +130,7 @@ export default function ChainSwitch() {
       </Dropdown>
       {show && (
         <Options>
-          {nodes
+          {chains
             .filter((item) => !item?.hidden)
             .map((item, index) => (
               <Item
