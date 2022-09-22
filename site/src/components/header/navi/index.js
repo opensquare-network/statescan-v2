@@ -32,7 +32,7 @@ const MenuItem = styled(MenuLabel)`
   ${(p) =>
     p.selected &&
     css`
-      background: ${(p) => p.theme.fillPanelHover};
+      background: ${(p) => p.theme.fillPopupHover};
     `}
   ${(p) =>
     p.disabled &&
