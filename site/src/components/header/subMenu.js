@@ -3,6 +3,11 @@ import { Inter_14_500 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import { Panel } from "../styled/panel";
 import Link from "../styled/link";
+import { ReactComponent as CaretDown } from "./caret-down.svg";
+
+const CaretDownIcon = styled(CaretDown)`
+  margin-left: 4px;
+`;
 
 const Wrapper = styled.div`
   position: relative;
@@ -25,6 +30,15 @@ const TitleWrapper = styled.div`
   line-height: 20px;
   text-decoration: none;
   color: ${(p) => p.theme.fontPrimary};
+  ${(p) =>
+    p.isActive &&
+    css`
+      color: ${(p) => p.theme.theme500};
+
+      svg path {
+        stroke: ${(p) => p.theme.theme500};
+      }
+    `}
   cursor: pointer;
 
   :hover {
@@ -100,7 +114,7 @@ const MenuItem = styled.div`
 
   :hover {
     background: ${(p) => p.theme.fillPopupHover};
-    color: ${(p) => p.theme.fontPrimary};
+    color: ${(p) => p.theme.theme500};
   }
 
   @media screen and (max-width: 900px) {
@@ -140,7 +154,10 @@ export default function SubMenu({
 
   return (
     <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
-      <TitleWrapper isActive={isActive}>{category}</TitleWrapper>
+      <TitleWrapper isActive={isActive}>
+        {category}
+        <CaretDownIcon />
+      </TitleWrapper>
       {isActive && (
         <MouseWrapper>
           <MenuWrapper ref={ref}>
