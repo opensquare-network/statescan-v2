@@ -2,17 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Logo } from "./logo.svg";
 import { Flex, FlexBetween } from "../styled/flex";
 import { Mobile, PC } from "../styled/responsive";
-import { Inter_14_500, Inter_14_600 } from "../../styles/text";
+import { Inter_14_600 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import MobileButton from "./mobile/button";
 import ChainSwitch from "./chainSwitch";
-import { Panel } from "../styled/panel";
 import Link from "../styled/link";
 import SubMenu from "./subMenu";
 
 import {
   mobileMenuFoldedSelector,
   toggle,
+  closeMobileMenu,
 } from "../../store/reducers/mobileMenuSlice";
 
 const StyleLogo = styled(Logo)`
@@ -68,12 +68,17 @@ const menusBlockchain = [
 ];
 
 export default function Header() {
-  const showMobileMenu = useSelector(mobileMenuFoldedSelector);
+  const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
   const dispatch = useDispatch();
   return (
     <Wrapper>
       <Flex>
-        <Link to={`/`}>
+        <Link
+          to={`/`}
+          onClick={() => {
+            dispatch(closeMobileMenu());
+          }}
+        >
           <StyleLogo />
         </Link>
         <PC>

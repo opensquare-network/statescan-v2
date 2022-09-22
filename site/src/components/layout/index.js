@@ -1,15 +1,20 @@
 import styled, { css, ThemeProvider } from "styled-components";
 import Container from "./container";
 import Header from "../header";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { modeSelector } from "../../store/reducers/modeSlice";
 import light from "../../styles/theme/light";
 import Background from "../dotBackground";
 import Footer from "../footer";
 import dark from "../../styles/theme/dark";
 import ChainSwitch from "../header/chainSwitch";
-import { mobileMenuFoldedSelector } from "../../store/reducers/mobileMenuSlice";
+import {
+  closeMobileMenu,
+  mobileMenuFoldedSelector,
+} from "../../store/reducers/mobileMenuSlice";
 import Navi from "../header/navi";
+import { useWindowSize } from "../../utils/hooks";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,25 +36,34 @@ const MobileMenuWrapper = styled.div`
     padding: 0 16px;
   }
   box-sizing: border-box;
-  z-index: 1;
   position: fixed !important;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   overflow: scroll;
+  z-index: 2;
 `;
 
 export default function Layout({ children }) {
   const mode = useSelector(modeSelector);
   const theme = mode === "light" ? light : dark;
-  const showMobileMenu = useSelector(mobileMenuFoldedSelector);
+  const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
+  const dispatch = useDispatch();
+
+  const { width } = useWindowSize();
+
+  useEffect(() => {
+    if (width > 600) {
+      dispatch(closeMobileMenu());
+    }
+  }, [width]);
 
   return (
     <ThemeProvider theme={theme}>
       <Background />
       <Wrapper>
-        <Container style={{ zIndex: 1 }}>
+        <Container style={{ zIndex: 2 }}>
           <Header />
         </Container>
         <Main>

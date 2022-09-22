@@ -78,11 +78,12 @@ const MouseWrapper = styled(Panel)`
     padding-top: 0;
   }
   overflow: hidden;
+  background: ${(p) => p.theme.fillPopup};
 `;
 
 const MenuWrapper = styled.div`
   min-width: 160px;
-  background: ${(p) => p.theme.fillPanel};
+  background: ${(p) => p.theme.fillPopup};
   @media screen and (max-width: 900px) {
     position: static;
     box-shadow: none;
@@ -98,7 +99,7 @@ const MenuItem = styled.div`
   ${Inter_14_500};
 
   :hover {
-    background: ${(p) => p.theme.fillPanelHover};
+    background: ${(p) => p.theme.fillPopupHover};
     color: ${(p) => p.theme.fontPrimary};
   }
 
@@ -109,7 +110,7 @@ const MenuItem = styled.div`
   ${(p) =>
     p.selected &&
     css`
-      background: ${(p) => p.theme.fillPanelHover};
+      background: ${(p) => p.theme.fillPopupHover};
     `}
   ${(p) =>
     p.disabled &&
@@ -148,7 +149,7 @@ export default function SubMenu({
                 <Link to={`/${item.value}`}>
                   <MenuItem
                     onClick={() => {
-                      closeMenu();
+                      closeMenu && closeMenu();
                       setIsActive(false);
                     }}
                     disabled={item.value === ""}

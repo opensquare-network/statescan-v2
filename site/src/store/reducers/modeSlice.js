@@ -27,7 +27,6 @@ const settingSlice = createSlice({
     setMode(state, { payload }) {
       localStorage.setItem(CACHE_KEY.themeMode, payload);
       state.mode = payload;
-      console.log(payload);
     },
   },
 });

@@ -21,7 +21,7 @@ const ArrowDownIcon = styled(ArrowDown)`
 
 const Wrapper = styled.div`
   position: relative;
-  z-index: 9;
+  z-index: 1;
 `;
 
 const Dropdown = styled.div`
@@ -77,6 +77,9 @@ const Options = styled.div`
   position: absolute;
   top: 44px;
   right: 0;
+  border: 1px solid ${({ theme }) => theme.strokeBase};
+  box-shadow: ${({ theme }) => theme.shadowPanel};
+  border-radius: 8px;
 `;
 
 const Item = styled.a`
