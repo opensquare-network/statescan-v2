@@ -8,6 +8,11 @@ import {
 } from "../../../store/reducers/preferenceSlice";
 import { useEffect } from "react";
 
+const Tr = styled.tr`
+  border-bottom: 1px solid ${(p) => p.theme.strokeBase};
+  text-align: left;
+`;
+
 const Th = styled.th`
   box-sizing: border-box;
   padding: 16px 24px;
@@ -31,20 +36,28 @@ export default function TableHead({ heads }) {
     dispatch(setTimeType(timeType));
   };
 
-  return heads.map(({ name, align, type, width }, index) => {
-    const style = {
-      textAlign: align ?? "left",
-      width: width ?? "100%",
-    };
+  return (
+    <thead>
+      <Tr>
+        {heads.map(({ name, align, type, width }, index) => {
+          const style = {
+            textAlign: align ?? "left",
+            width: width ?? "100%",
+          };
 
-    let content = name;
-    if (type === "time")
-      content = <TimeHead timeType={timeType} setTimeType={doSetTimeType} />;
+          let content = name;
+          if (type === "time")
+            content = (
+              <TimeHead timeType={timeType} setTimeType={doSetTimeType} />
+            );
 
-    return (
-      <Th style={style} key={index}>
-        {content}
-      </Th>
-    );
-  });
+          return (
+            <Th style={style} key={index}>
+              {content}
+            </Th>
+          );
+        })}
+      </Tr>
+    </thead>
+  );
 }

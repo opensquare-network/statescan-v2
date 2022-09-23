@@ -21,29 +21,29 @@ const Td = styled.td`
   ${Inter_14_500};
 `;
 
-export default function Table({ heads = [] }) {
+export default function Table({ heads = [], data = [] }) {
   return (
     <StyledTable>
-      <thead>
-        <Tr>
-          <TableHead heads={heads} />
-        </Tr>
-      </thead>
+      <TableHead heads={heads} />
 
       <tbody>
-        <Tr>
-          <Td>111</Td>
-          <Td>111</Td>
-          <Td>111</Td>
-          <Td>111</Td>
-        </Tr>
-
-        <Tr>
-          <Td>111</Td>
-          <Td>111</Td>
-          <Td>111</Td>
-          <Td>111</Td>
-        </Tr>
+        {data.map((items, index) => {
+          return (
+            <Tr key={index}>
+              {items.map((item, index) => {
+                const { align } = heads[index];
+                const style = {
+                  textAlign: align ?? "left",
+                };
+                return (
+                  <Td style={style} key={index}>
+                    {item}
+                  </Td>
+                );
+              })}
+            </Tr>
+          );
+        })}
       </tbody>
     </StyledTable>
   );
