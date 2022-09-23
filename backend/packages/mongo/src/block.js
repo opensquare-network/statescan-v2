@@ -41,21 +41,21 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  blockCol.createIndex({ hash: 1 });
-  blockCol.createIndex({ height: 1 }, { unique: true });
+  await blockCol.createIndex({ hash: 1 });
+  await blockCol.createIndex({ height: 1 }, { unique: true });
 
-  extrinsicCol.createIndex({ "indexer.blockHeight": 1 });
-  extrinsicCol.createIndex({
+  await extrinsicCol.createIndex({ "indexer.blockHeight": 1 });
+  await extrinsicCol.createIndex({
     "indexer.blockHeight": -1,
     "indexer.extrinsicIndex": 1,
   });
 
-  eventCol.createIndex({ "indexer.blockHeight": 1 });
-  eventCol.createIndex({
+  await eventCol.createIndex({ "indexer.blockHeight": 1 });
+  await eventCol.createIndex({
     "indexer.blockHeight": -1,
     "indexer.eventIndex": 1,
   });
-  callCol.createIndex({ "indexer.blockHeight": 1 });
+  await callCol.createIndex({ "indexer.blockHeight": 1 });
 }
 
 async function makeSureInit(col) {
