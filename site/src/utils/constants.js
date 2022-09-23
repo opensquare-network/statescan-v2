@@ -47,11 +47,11 @@ export const menusBlockchain = [
 export const blocksHead = [
   { name: "Height", width: 136 },
   { name: "Time", type: "time", width: 200 },
-  { name: "Status", width: 160 },
-  { name: "Hash", width: 280 },
-  { name: "Validator", width: 152 },
-  { name: "Extrinsics", align: "right" },
-  { name: "Events", align: "right" },
+  { name: "Status", align: "center", width: 160 },
+  { name: "Hash", width: 240 },
+  { name: "Validator", width: 200 },
+  { name: "Extrinsics", align: "right", width: 152 },
+  { name: "Events", align: "right", width: 160 },
 ];
 
 export const timeTypes = {

@@ -7,6 +7,7 @@ import {
   timeTypeSelector,
 } from "../../../store/reducers/preferenceSlice";
 import { useEffect } from "react";
+import { useWindowSize } from "../../../utils/hooks";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -24,6 +25,7 @@ const Th = styled.th`
 export default function TableHead({ heads }) {
   const dispatch = useDispatch();
   const timeType = useSelector(timeTypeSelector);
+  const { width: screenWidth } = useWindowSize();
 
   useEffect(() => {
     const timeType = localStorage.getItem("timeType");
@@ -42,7 +44,7 @@ export default function TableHead({ heads }) {
         {heads.map(({ name, align, type, width }, index) => {
           const style = {
             textAlign: align ?? "left",
-            width: width ?? "100%",
+            ...(width ? { width } : {}),
           };
 
           let content = name;
