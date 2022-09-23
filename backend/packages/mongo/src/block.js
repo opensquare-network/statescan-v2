@@ -51,6 +51,10 @@ async function _createIndexes() {
   });
 
   eventCol.createIndex({ "indexer.blockHeight": 1 });
+  eventCol.createIndex({
+    "indexer.blockHeight": -1,
+    "indexer.eventIndex": 1,
+  });
   callCol.createIndex({ "indexer.blockHeight": 1 });
 }
 
