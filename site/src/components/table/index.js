@@ -24,23 +24,27 @@ const Td = styled.td`
 export default function Table({ heads = [] }) {
   return (
     <StyledTable>
-      <Tr>
-        <TableHead heads={heads} />
-      </Tr>
+      <thead>
+        <Tr>
+          <TableHead heads={heads} />
+        </Tr>
+      </thead>
 
-      <Tr>
-        <Td>111</Td>
-        <Td>111</Td>
-        <Td>111</Td>
-        <Td>111</Td>
-      </Tr>
+      <tbody>
+        <Tr>
+          <Td>111</Td>
+          <Td>111</Td>
+          <Td>111</Td>
+          <Td>111</Td>
+        </Tr>
 
-      <Tr>
-        <Td>111</Td>
-        <Td>111</Td>
-        <Td>111</Td>
-        <Td>111</Td>
-      </Tr>
+        <Tr>
+          <Td>111</Td>
+          <Td>111</Td>
+          <Td>111</Td>
+          <Td>111</Td>
+        </Tr>
+      </tbody>
     </StyledTable>
   );
 }

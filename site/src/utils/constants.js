@@ -53,3 +53,8 @@ export const blocksHead = [
   { name: "Extrinsics", align: "right" },
   { name: "Events", align: "right" },
 ];
+
+export const timeTypes = {
+  age: "age",
+  date: "date",
+};
