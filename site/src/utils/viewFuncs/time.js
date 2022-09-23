@@ -1,5 +1,12 @@
 import moment from "moment";
 
+export function time(time) {
+  if (!time) {
+    return "Unknown";
+  }
+  return moment(time).format("YYYY-MM-DD HH:mm:ss");
+}
+
 export function timeDuration(time, roughly = false) {
   if (!time) {
     return "Unknown time";

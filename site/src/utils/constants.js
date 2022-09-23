@@ -43,3 +43,18 @@ export const menusBlockchain = [
     value: "blocks",
   },
 ];
+
+export const blocksHead = [
+  { name: "Height", width: 136 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "Status", align: "center", width: 160 },
+  { name: "Hash", width: 240 },
+  { name: "Validator", width: 200 },
+  { name: "Extrinsics", align: "right", width: 152 },
+  { name: "Events", align: "right", width: 160 },
+];
+
+export const timeTypes = {
+  age: "age",
+  date: "date",
+};
