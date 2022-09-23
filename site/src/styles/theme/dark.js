@@ -3,6 +3,7 @@ const dark = {
   fontPrimaryInverse: "#fff",
   fontSecondary: "rgba(255, 255, 255, 0.55)",
   fontTertiary: "rgba(255, 255, 255, 0.25)",
+  fontQuaternary: "rgba(255, 255, 255, 0.1)",
   strokeBase: "#252B37",
   strokeBox: "#4B505A",
   strokeBoxSelected: "#81848C",
@@ -18,6 +19,7 @@ const dark = {
   fillBeta: "rgba(255, 255, 255, 0.02)",
   fillGamma: "rgba(255, 255, 255, 0)",
   //todo: read this from .env
+  theme100: "#FDE5F2",
   theme500: "#E6007A",
 };
 
