@@ -3,6 +3,7 @@ const light = {
   fontPrimaryInverse: "#fff",
   fontSecondary: "rgba(27, 32, 44, 0.6)",
   fontTertiary: "rgba(0, 0, 0, 0.3)",
+  fontQuaternary: "rgba(27, 32, 44, 0.1)",
   strokeBase: "#F6F6F7",
   strokeBox: "#ddd",
   strokeBoxSelected: "#CBCCCE",
@@ -21,6 +22,7 @@ const light = {
   fillBeta: "rgba(27, 32, 44, 0.02)",
   fillGamma: "rgba(27, 32, 44, 0)",
   //todo: read this from .env
+  theme100: "#FDE5F2",
   theme500: "#E6007A",
 };
 

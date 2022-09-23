@@ -4,7 +4,6 @@ import TableBody from "./body";
 
 const StyledTable = styled.table`
   margin-top: 8px;
-  margin-bottom: 8px;
   width: 100%;
   table-layout: fixed;
   background: ${(p) => p.theme.fillPanel};

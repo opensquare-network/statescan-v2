@@ -11,6 +11,9 @@ import styled from "styled-components";
 import Api from "../services/api";
 import { SF_Mono_14_500 } from "../styles/text";
 import { no_scroll_bar } from "../styles";
+import Pagination from "../components/pagination";
+import * as queryString from "query-string";
+import { useLocation } from "react-router-dom";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -27,13 +30,19 @@ const ColoredMonoLink = styled(Link)`
 `;
 
 function Blocks() {
+  const location = useLocation();
   const [blocks, setBlocks] = useState([]);
+  const [total, setTotal] = useState(0);
+  const page = queryString.parse(location.search)?.page ?? 1;
 
   useEffect(() => {
-    Api.fetch(`/blocks`).then(({ result }) => {
+    Api.fetch(`/blocks`, {
+      page: queryString.parse(location.search)?.page ?? 1,
+    }).then(({ result }) => {
       setBlocks(result?.items ?? []);
+      setTotal(result?.total ?? 0);
     });
-  }, []);
+  }, [location.search]);
 
   const data = blocks.map((block, index) => {
     return [
@@ -56,6 +65,7 @@ function Blocks() {
       <BreadCrumb data={[{ name: "Blocks" }]} />
       <StyledPanel>
         <Table heads={blocksHead} data={data} />
+        <Pagination page={parseInt(page)} pageSize={10} total={total} />
       </StyledPanel>
     </Layout>
   );
