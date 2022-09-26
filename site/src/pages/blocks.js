@@ -31,11 +31,12 @@ const ColoredMonoLink = styled(Link)`
 
 function Blocks() {
   const location = useLocation();
-  const [blocks, setBlocks] = useState([]);
+  const [blocks, setBlocks] = useState(null);
   const [total, setTotal] = useState(0);
   const page = queryString.parse(location.search)?.page ?? 1;
 
   useEffect(() => {
+    setBlocks(null);
     Api.fetch(`/blocks`, {
       page: queryString.parse(location.search)?.page ?? 1,
     }).then(({ result }) => {
@@ -44,21 +45,22 @@ function Blocks() {
     });
   }, [location.search]);
 
-  const data = blocks.map((block, index) => {
-    return [
-      <ColoredLink key={`${index}-1`} to={`/block/${block?.height}`}>
-        {block?.height?.toLocaleString()}
-      </ColoredLink>,
-      block?.time,
-      <CheckIcon />,
-      <ColoredMonoLink to={""}>{hashEllipsis(block.hash)}</ColoredMonoLink>,
-      <ColoredMonoLink to={""}>
-        {addressEllipsis(block.validator)}
-      </ColoredMonoLink>,
-      block?.extrinsicsCount,
-      block?.eventsCount,
-    ];
-  });
+  const data =
+    blocks?.map((block, index) => {
+      return [
+        <ColoredLink key={`${index}-1`} to={`/block/${block?.height}`}>
+          {block?.height?.toLocaleString()}
+        </ColoredLink>,
+        block?.time,
+        <CheckIcon />,
+        <ColoredMonoLink to={""}>{hashEllipsis(block.hash)}</ColoredMonoLink>,
+        <ColoredMonoLink to={""}>
+          {addressEllipsis(block.validator)}
+        </ColoredMonoLink>,
+        block?.extrinsicsCount,
+        block?.eventsCount,
+      ];
+    }) ?? null;
 
   return (
     <Layout>

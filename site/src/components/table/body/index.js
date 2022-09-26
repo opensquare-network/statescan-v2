@@ -3,6 +3,8 @@ import { Inter_14_500 } from "../../../styles/text";
 import { useSelector } from "react-redux";
 import { timeTypeSelector } from "../../../store/reducers/preferenceSlice";
 import TimeBody from "./time";
+import { withLoading } from "../../../HOC/withLoading";
+import TableLoading from "../../loadings/tableLoading";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -13,8 +15,22 @@ const Td = styled.td`
   padding: 16px 24px;
   ${Inter_14_500};
 `;
-export default function TableBody({ heads, data }) {
+
+const mapLoadingState = (props) => {
+  const { data } = props;
+  return {
+    loadingStates: [data === null],
+    loadingComponent: <TableLoading />,
+  };
+};
+
+function TableBody({ heads, data = null }) {
   const timeType = useSelector(timeTypeSelector);
+
+  if (data === null) {
+    return null;
+  }
+
   return (
     <tbody>
       {data.map((items, index) => {
@@ -42,3 +58,5 @@ export default function TableBody({ heads, data }) {
     </tbody>
   );
 }
+
+export default withLoading(mapLoadingState)(TableBody);

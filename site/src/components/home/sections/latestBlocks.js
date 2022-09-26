@@ -24,6 +24,7 @@ const BlockIcon = styled(Block)`
     stop:first-child {
       stop-color: ${({ theme }) => theme.fontPrimary};
     }
+
     stop:last-child {
       stop-color: ${({ theme }) => theme.fontPrimary};
     }
@@ -101,7 +102,7 @@ const Anchor = styled(Link)`
 
 const mapLoadingState = (props) => {
   const { blocks } = props;
-  return [blocks?.length === 0];
+  return { loadingStates: [blocks?.length === 0] };
 };
 
 function LatestBlocks({ blocks }) {
