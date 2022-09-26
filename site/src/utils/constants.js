@@ -54,6 +54,16 @@ export const blocksHead = [
   { name: "Events", align: "right", width: 160 },
 ];
 
+export const extrinsicsHead = [
+  { name: "ID", width: 160 },
+  { name: "Height", width: 136 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "Hash", width: 200 },
+  { name: "Result", width: 160, align: "center" },
+  { name: "Call", width: 200 },
+  { name: "Data", type: "data", align: "right", display: "table" },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",

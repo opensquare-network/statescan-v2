@@ -5,7 +5,7 @@ const light = {
   fontTertiary: "rgba(0, 0, 0, 0.3)",
   fontQuaternary: "rgba(27, 32, 44, 0.1)",
   strokeBase: "#F6F6F7",
-  strokeBox: "#ddd",
+  strokeBox: "#e1e2e4",
   strokeBoxSelected: "#CBCCCE",
   fillPanel: "#fff",
   fillPopup: "#fff",

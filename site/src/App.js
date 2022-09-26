@@ -1,14 +1,15 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/index";
+import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
-
+import Home from "./pages/index";
 
 function App() {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/blocks" element={<Blocks/>}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/blocks" element={<Blocks />} />
+        <Route path="/extrinsics" element={<Extrinsics />} />
       </Routes>
     </HashRouter>
   );
