@@ -11,7 +11,7 @@ const StyledTable = styled.table`
   color: ${(p) => p.theme.fontPrimary};
 `;
 
-export default function Table({ heads = [], data = [] }) {
+export default function Table({ heads = [], data = null }) {
   return (
     <StyledTable>
       <TableHead heads={heads} />

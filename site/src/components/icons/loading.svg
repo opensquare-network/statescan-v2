@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Keyshape -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+    <style>
+@keyframes a0_t { 0% { transform: translate(22.5px,22.5px); } 25% { transform: translate(41.5px,22.5px); } 50% { transform: translate(41.5px,41.5px); } 75% { transform: translate(22.5px,41.5px); } 100% { transform: translate(22.5px,22.5px); } }
+@keyframes a1_t { 0% { transform: translate(41.5px,22.5px); } 25% { transform: translate(41.5px,41.5px); } 50% { transform: translate(22.5px,41.5px); } 75% { transform: translate(22.5px,22.5px); } 100% { transform: translate(41.5px,22.5px); } }
+@keyframes a2_t { 0% { transform: translate(41.5px,41.5px); } 25% { transform: translate(22.5px,41.5px); } 50% { transform: translate(22.5px,22.5px); } 75% { transform: translate(41.5px,22.5px); } 100% { transform: translate(41.5px,41.5px); } }
+@keyframes a3_t { 0% { transform: translate(22.5px,41.5px); } 25% { transform: translate(22.5px,22.5px); } 50% { transform: translate(41.5px,22.5px); } 75% { transform: translate(41.5px,41.5px); } 100% { transform: translate(22.5px,41.5px); } }
+    </style>
+    <ellipse fill="rgba(0,0,0,0.30)" rx="3.5" ry="3.5" transform="translate(22.5,22.5)" style="animation: 2s linear infinite both a0_t;"/>
+    <ellipse fill="rgba(0,0,0,0.10)" rx="3.5" ry="3.5" transform="translate(41.5,22.5)" style="animation: 2s linear infinite both a1_t;"/>
+    <ellipse fill="rgba(0,0,0,0.30)" rx="3.5" ry="3.5" transform="translate(41.5,41.5)" style="animation: 2s linear infinite both a2_t;"/>
+    <ellipse fill="rgba(0,0,0,0.10)" rx="3.5" ry="3.5" transform="translate(22.5,41.5)" style="animation: 2s linear infinite both a3_t;"/>
+</svg>
