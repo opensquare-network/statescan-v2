@@ -69,6 +69,10 @@ const menusBlockchain = [
     name: "Blocks",
     value: "blocks",
   },
+  {
+    name: "Extrinsics",
+    value: "extrinsics",
+  },
 ];
 
 export default function Header() {

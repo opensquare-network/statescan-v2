@@ -48,10 +48,15 @@ export default function TableHead({ heads }) {
           };
 
           let content = name;
-          if (type === "time")
+          if (type === "time") {
             content = (
               <TimeHead timeType={timeType} setTimeType={doSetTimeType} />
             );
+          }
+          if (type === "data") {
+            style.width = "100%";
+            content = "";
+          }
 
           return (
             <Th style={style} key={index}>
