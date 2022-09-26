@@ -1,6 +1,6 @@
 import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
 import { ReactComponent as CrossIcon } from "../components/icons/cross.svg";
-import { addressEllipsis, hashEllipsis } from "../utils/viewFuncs/text";
+import { hashEllipsis } from "../utils/viewFuncs/text";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
@@ -13,8 +13,8 @@ import Api from "../services/api";
 import { SF_Mono_14_500 } from "../styles/text";
 import { no_scroll_bar } from "../styles";
 import Pagination from "../components/pagination";
-import * as queryString from "query-string";
 import { useLocation } from "react-router-dom";
+import { getPageFromQuery } from "../utils/viewFuncs";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -34,12 +34,12 @@ function Extrinsics() {
   const location = useLocation();
   const [extrinsics, setExtrinsics] = useState(null);
   const [total, setTotal] = useState(0);
-  const page = queryString.parse(location.search)?.page ?? 1;
+  const page = getPageFromQuery(location);
 
   useEffect(() => {
     setExtrinsics(null);
     Api.fetch(`/extrinsics`, {
-      page: queryString.parse(location.search)?.page ?? 1,
+      page: getPageFromQuery(location) - 1,
     }).then(({ result }) => {
       setExtrinsics(result?.items ?? []);
       setTotal(result?.total ?? 0);

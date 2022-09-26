@@ -12,8 +12,8 @@ import Api from "../services/api";
 import { SF_Mono_14_500 } from "../styles/text";
 import { no_scroll_bar } from "../styles";
 import Pagination from "../components/pagination";
-import * as queryString from "query-string";
 import { useLocation } from "react-router-dom";
+import { getPageFromQuery } from "../utils/viewFuncs";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -33,12 +33,12 @@ function Blocks() {
   const location = useLocation();
   const [blocks, setBlocks] = useState(null);
   const [total, setTotal] = useState(0);
-  const page = queryString.parse(location.search)?.page ?? 1;
+  const page = getPageFromQuery(location);
 
   useEffect(() => {
     setBlocks(null);
     Api.fetch(`/blocks`, {
-      page: queryString.parse(location.search)?.page ?? 1,
+      page: getPageFromQuery(location) - 1,
     }).then(({ result }) => {
       setBlocks(result?.items ?? []);
       setTotal(result?.total ?? 0);
