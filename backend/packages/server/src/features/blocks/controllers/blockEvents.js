@@ -4,7 +4,11 @@ const {
 } = require("@statescan/mongo");
 
 async function getBlockEvents(ctx) {
-  ctx.body = await getBlockItems(await getEventCollection(), ctx);
+  ctx.body = await getBlockItems(
+    await getEventCollection(),
+    ctx,
+    "indexer.eventIndex",
+  );
 }
 
 module.exports = {
