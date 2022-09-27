@@ -28,7 +28,6 @@ const TextTertiary = styled.span`
   color: ${({ theme }) => theme.fontTertiary};
 `;
 const TextSecondaryWithCopy = withCopy(TextSecondary);
-const TextTertiaryWithCopy = withCopy(TextTertiary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
 function DetailedTime({ ts }) {
@@ -42,12 +41,39 @@ function DetailedTime({ ts }) {
 
 function Block() {
   const { id } = useParams();
+  const [listData, setListData] = useState({});
   const [block, setBlock] = useState(null);
 
   useEffect(() => {
     if (id) {
-      Api.fetch(`/blocks/${id}`, {}).then(({ result }) => {
-        setBlock(result);
+      Api.fetch(`/blocks/${id}`, {}).then(({ result: block }) => {
+        setBlock(block);
+        const data = {
+          "Block Time": <DetailedTime ts={block?.time} />,
+          Status: <CheckIcon />,
+          Hash: <TextSecondaryWithCopy>{block?.hash}</TextSecondaryWithCopy>,
+          "Parent Hash": (
+            <ColoredMonoLinkWithCopy
+              to={`/block/${(Number.parseInt(block?.height) - 1).toString()}`}
+            >
+              {block?.parentHash}
+            </ColoredMonoLinkWithCopy>
+          ),
+          "State Root": (
+            <TextSecondaryWithCopy>{block?.stateRoot}</TextSecondaryWithCopy>
+          ),
+          "Extrinsics Root": (
+            <TextSecondaryWithCopy>
+              {block?.extrinsicsRoot}
+            </TextSecondaryWithCopy>
+          ),
+          Validator: (
+            <ColoredMonoLinkWithCopy to={""}>
+              {block?.validator}
+            </ColoredMonoLinkWithCopy>
+          ),
+        };
+        setListData(data);
       });
     }
   }, [id]);
@@ -55,36 +81,13 @@ function Block() {
   return (
     <Layout>
       <BreadCrumb
-        data={[{ name: "Blocks", path: "/blocks" }, { name: block?.height }]}
+        data={[
+          { name: "Blocks", path: "/blocks" },
+          { name: block?.height ?? "..." },
+        ]}
       />
       <Panel>
-        <List
-          data={{
-            "Block Time": <DetailedTime ts={block?.time} />,
-            Status: <CheckIcon />,
-            Hash: <TextSecondaryWithCopy>{block?.hash}</TextSecondaryWithCopy>,
-            "Parent Hash": (
-              <ColoredMonoLinkWithCopy
-                to={`/block/${(Number.parseInt(block?.height) - 1).toString()}`}
-              >
-                {block?.parentHash}
-              </ColoredMonoLinkWithCopy>
-            ),
-            "State Root": (
-              <TextSecondaryWithCopy>{block?.stateRoot}</TextSecondaryWithCopy>
-            ),
-            "Extrinsics Root": (
-              <TextSecondaryWithCopy>
-                {block?.extrinsicsRoot}
-              </TextSecondaryWithCopy>
-            ),
-            Validator: (
-              <ColoredMonoLinkWithCopy to={""}>
-                {block?.validator}
-              </ColoredMonoLinkWithCopy>
-            ),
-          }}
-        />
+        <List data={listData} />
       </Panel>
     </Layout>
   );

@@ -1,4 +1,6 @@
+import { withLoading } from "../../HOC/withLoading";
 import { Inter_14_600 } from "../../styles/text";
+import Loading from "../loadings/loading";
 import styled from "styled-components";
 import { Flex } from "../styled/flex";
 
@@ -43,6 +45,14 @@ const Value = styled(Flex)`
   word-break: break-all;
 `;
 
+const mapLoadingState = (props) => {
+  const { data } = props;
+  return {
+    loadingStates: [!(Object?.keys(data)?.length > 0)],
+    loadingComponent: <Loading />,
+  };
+};
+
 function List({ data }) {
   return (
     <Wrapper>
@@ -58,4 +68,4 @@ function List({ data }) {
   );
 }
 
-export default List;
+export default withLoading(mapLoadingState)(List);
