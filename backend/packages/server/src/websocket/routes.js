@@ -1,7 +1,19 @@
-const { latestBlocksRoom, latestBlocksKey, firstPageBlocksRoom, firstPageBlocksKey } = require("./consts");
+const { feedLatestSignedTransfers } = require("./feeds/latestSignedTransfers");
+const {
+  latestBlocksRoom,
+  latestBlocksKey,
+  firstPageBlocksRoom,
+  firstPageBlocksKey,
+  latestSignedTransfersRoom,
+  latestSignedTransfersKey,
+} = require("./consts");
 const { feedLatestBlocks } = require("./feeds/latestBlocks");
 const { feedFirstPageBlocks } = require("./feeds/firstPageBlocks");
-const { getLatestBlocks, getFirstPageBlocks } = require("./store");
+const {
+  getLatestBlocks,
+  getFirstPageBlocks,
+  getLatestSignedTransfers,
+} = require("./store");
 
 async function setSocketSubscriptions(io, socket) {
   socket.on("subscribe", (room) => {
@@ -13,6 +25,9 @@ async function setSocketSubscriptions(io, socket) {
     } else if (firstPageBlocksRoom === room) {
       const firstPageBlocks = getFirstPageBlocks();
       io.to(room).emit(firstPageBlocksKey, firstPageBlocks);
+    } else if (latestSignedTransfersRoom === room) {
+      const transfers = getLatestSignedTransfers();
+      io.to(room).emit(latestSignedTransfersKey, transfers);
     }
   });
 
@@ -22,8 +37,9 @@ async function setSocketSubscriptions(io, socket) {
 
   await feedLatestBlocks(io);
   await feedFirstPageBlocks(io);
+  await feedLatestSignedTransfers(io);
 }
 
 module.exports = {
   setSocketSubscriptions,
-}
+};

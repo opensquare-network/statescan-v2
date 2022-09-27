@@ -1,17 +1,20 @@
 const latestBlocksRoom = "LATEST_BLOCKS";
 const firstPageBlocksRoom = "FIRST_PAGE_BLOCKS";
-const latestSignedTransfers = "LATEST_SIGNED_TRANSFERS";
+const latestSignedTransfersRoom = "LATEST_SIGNED_TRANSFERS";
 const feedInterval = 6000;
 
 const latestBlocksKey = "latest_blocks";
 const firstPageBlocksKey = "first_page_blocks";
+const latestSignedTransfersKey = "latest_signed_transfers";
 
 module.exports = {
   latestBlocksRoom,
   firstPageBlocksRoom,
-  latestSignedTransfers,
+  latestSignedTransfersRoom,
+
   feedInterval,
 
   latestBlocksKey,
   firstPageBlocksKey,
-}
+  latestSignedTransfersKey,
+};
