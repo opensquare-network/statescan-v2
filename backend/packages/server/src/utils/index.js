@@ -1,7 +1,7 @@
 const BigNumber = require("bignumber.js");
 
-function extractPage(ctx) {
-  const { page_size: queryPageSize, page: queryPage } = ctx.query;
+function extractPage(ctx = {}) {
+  const { page_size: queryPageSize, page: queryPage } = ctx.query || {};
 
   let pageSize;
   try {
