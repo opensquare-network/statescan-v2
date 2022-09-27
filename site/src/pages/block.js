@@ -41,22 +41,21 @@ function DetailedTime({ ts }) {
 }
 
 function Block() {
-  const { height } = useParams();
+  const { id } = useParams();
   const [block, setBlock] = useState(null);
 
   useEffect(() => {
-    if (height) {
-      Api.fetch(`/blocks/${height}`, {}).then(({ result }) => {
-        console.log(result);
+    if (id) {
+      Api.fetch(`/blocks/${id}`, {}).then(({ result }) => {
         setBlock(result);
       });
     }
-  }, [height]);
+  }, [id]);
 
   return (
     <Layout>
       <BreadCrumb
-        data={[{ name: "Blocks", path: "/blocks" }, { name: height }]}
+        data={[{ name: "Blocks", path: "/blocks" }, { name: block?.height }]}
       />
       <Panel>
         <List

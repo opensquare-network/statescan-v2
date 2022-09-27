@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blocks" element={<Blocks />} />
-        <Route path="/block/:height" element={<Block />} />
+        <Route path="/block/:id" element={<Block />} />
         <Route path="/extrinsics" element={<Extrinsics />} />
       </Routes>
     </HashRouter>
