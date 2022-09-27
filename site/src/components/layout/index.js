@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: ${(props) => props.theme.fillPanel};
+  background: ${(props) => props.theme.fillBase};
 `;
 
 const Main = styled.main`

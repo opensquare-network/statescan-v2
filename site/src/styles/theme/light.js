@@ -14,6 +14,7 @@ const light = {
   fillSubDark: "#262B37",
   fillBase: "#FAFAFA",
   fillButton: "#000000",
+  fillBub: "#EFEFF0",
   fillGradientIcon:
     "linear-gradient(135deg, rgba(27, 32, 44, 0.05) 0%, rgba(27, 32, 44, 0) 100%)",
   shadowPanel:
