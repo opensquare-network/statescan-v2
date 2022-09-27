@@ -33,7 +33,10 @@ const Nav = styled(Flex)`
   }
 
   :hover {
-    background: ${(props) => props.theme.grey100Bg};
+    background: ${(props) => props.theme.theme100};
+    svg path {
+      stroke: ${(props) => props.theme.theme500};
+    }
   }
 
   ${(p) =>
