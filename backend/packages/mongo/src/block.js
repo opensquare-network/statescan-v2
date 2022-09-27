@@ -45,6 +45,7 @@ async function _createIndexes() {
   await blockCol.createIndex({ height: 1 }, { unique: true });
 
   await extrinsicCol.createIndex({ "indexer.blockHeight": 1 });
+  await extrinsicCol.createIndex({ "indexer.blockHash": 1 });
   await extrinsicCol.createIndex({
     "indexer.blockHeight": -1,
     "indexer.extrinsicIndex": 1,
