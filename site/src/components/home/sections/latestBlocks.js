@@ -117,7 +117,10 @@ function LatestBlocks({ blocks }) {
                 <Flex style={{ gap: 16 }}>
                   <BlockIcon />
                   <div>
-                    <ThemeText>{block.height}</ThemeText>
+                    <Link to={`/block/${block.height}`}>
+                      {" "}
+                      <ThemeText>{block.height}</ThemeText>
+                    </Link>
                     <Time> {timeDuration(block.time)} </Time>
                   </div>
                 </Flex>
