@@ -52,6 +52,7 @@ async function _createIndexes() {
   });
 
   await eventCol.createIndex({ "indexer.blockHeight": 1 });
+  await eventCol.createIndex({ "indexer.blockHash": 1 });
   await eventCol.createIndex({
     "indexer.blockHeight": -1,
     "indexer.eventIndex": 1,
