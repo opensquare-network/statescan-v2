@@ -53,7 +53,9 @@ function Blocks() {
         </ColoredLink>,
         block?.time,
         <CheckIcon />,
-        <ColoredMonoLink to={""}>{hashEllipsis(block.hash)}</ColoredMonoLink>,
+        <ColoredMonoLink to={`/block/${block?.height}`}>
+          {hashEllipsis(block.hash)}
+        </ColoredMonoLink>,
         <ColoredMonoLink to={""}>
           {addressEllipsis(block.validator)}
         </ColoredMonoLink>,
