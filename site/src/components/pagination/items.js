@@ -1,35 +1,22 @@
-import constructGroups from "../../utils/viewFuncs/pagination";
-import React, { Fragment } from "react";
-import PageItem from "./item";
-import styled from "styled-components";
 import { Inter_14_500 } from "../../styles/text";
+import React, { Fragment } from "react";
+import styled from "styled-components";
+import PageItem from "./item";
 
 const Ellipsis = styled.div`
   ${Inter_14_500};
-  color: ${(props) => props.theme.fontSecondary};
+  color: ${(props) => props.theme.fontTertiary};
 `;
 
-export default function Items({ total = 0, page, onPageChange = null }) {
+export default function Items({ total = 0, page }) {
   let key = 0;
   const items = [];
-  const groups = constructGroups(total, page - 1);
-  for (let i = 0; i < groups.length; i++) {
-    const group = groups[i];
-    for (let j = 0; j < group.length; j++) {
-      items.push(
-        <PageItem
-          now={page}
-          page={group[j]}
-          key={key++}
-          onPageChange={onPageChange}
-        />,
-      );
-    }
 
-    if (i < groups.length - 1) {
-      items.push(<Ellipsis key={key++}>...</Ellipsis>);
-    }
-  }
+  items.push(<PageItem now={page} page={page - 1} key={key++} />);
+
+  items.push(<Ellipsis key={key++}>of</Ellipsis>);
+
+  items.push(<PageItem now={page} page={total + 1} key={key++} />);
 
   return <Fragment>{items}</Fragment>;
 }

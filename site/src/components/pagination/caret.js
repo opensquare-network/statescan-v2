@@ -1,6 +1,4 @@
 import React from "react";
-import { ReactComponent as CaretLeft } from "../icons/caret-left.svg";
-import { ReactComponent as CaretRight } from "../icons/caret-right.svg";
 import Link from "../styled/link";
 import styled from "styled-components";
 import encodeUriQuery from "../../utils/viewFuncs";
@@ -16,7 +14,7 @@ const LinkInnerWrapper = styled.div`
   align-items: center;
 `;
 
-export default function PageCaret({ isPre = true, page, onPageChange = null }) {
+export default function PageCaret({ children, page, onPageChange = null }) {
   const location = useLocation();
   return (
     <StyledLink
@@ -29,7 +27,7 @@ export default function PageCaret({ isPre = true, page, onPageChange = null }) {
           onPageChange && onPageChange(e, page);
         }}
       >
-        {isPre ? <CaretLeft /> : <CaretRight />}
+        {children}
       </LinkInnerWrapper>
     </StyledLink>
   );

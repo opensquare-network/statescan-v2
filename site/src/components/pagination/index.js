@@ -3,6 +3,11 @@ import styled, { css } from "styled-components";
 import PageCaret from "./caret";
 import Items from "./items";
 import { Flex } from "../styled/flex";
+import { ReactComponent as CaretLeft } from "../icons/caret-left.svg";
+import { ReactComponent as CaretRight } from "../icons/caret-right.svg";
+import { ReactComponent as CaretDoubleLeft } from "../icons/caret-first.svg";
+import { ReactComponent as CaretDoubleRight } from "../icons/caret-last.svg";
+import { PC } from "../styled/responsive";
 
 const Wrapper = styled(Flex)`
   padding-right: 24px;
@@ -63,13 +68,31 @@ export default function Pagination({
 
   return (
     <Wrapper>
+      <PC>
+        <Nav disabled={page === 1}>
+          <PageCaret page={1} onPageChange={onPageChange}>
+            <CaretDoubleLeft />
+          </PageCaret>
+        </Nav>
+      </PC>
       <Nav disabled={page === 1}>
-        <PageCaret isPre={true} page={prevPage} onPageChange={onPageChange} />
+        <PageCaret page={prevPage} onPageChange={onPageChange}>
+          <CaretLeft />
+        </PageCaret>
       </Nav>
       <Items page={page} total={totalPages - 1} onPageChange={onPageChange} />
       <Nav disabled={page === totalPages}>
-        <PageCaret isPre={false} page={nextPage} onPageChange={onPageChange} />
+        <PageCaret page={nextPage} onPageChange={onPageChange}>
+          <CaretRight />
+        </PageCaret>
       </Nav>
+      <PC>
+        <Nav disabled={page === totalPages}>
+          <PageCaret page={totalPages} onPageChange={onPageChange}>
+            <CaretDoubleRight />
+          </PageCaret>
+        </Nav>
+      </PC>
     </Wrapper>
   );
 }
