@@ -1,11 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { CACHE_KEY, chainNames, chains } from "../../utils/constants";
-
-// check env `CHAIN` setting
-const chain = process.env.REACT_APP_PUBLIC_CHAIN;
-if (!chainNames.includes(chain)) {
-  throw new Error(`Invalid REACT_APP_PUBLIC_CHAIN setting: ${chain}`);
-}
+import { CACHE_KEY, chains } from "../../utils/constants";
+import { getEnvChain } from "../../utils/env";
 
 const mode = Object.freeze({
   light: "light",
@@ -28,7 +23,7 @@ const settingSlice = createSlice({
   name: "setting",
   initialState: {
     mode: getInitMode(),
-    chain,
+    chain: getEnvChain(),
   },
   reducers: {
     setMode(state, { payload }) {
