@@ -42,13 +42,13 @@ const StyledLink = styled.div`
 `;
 
 export default function BreadCrumb({ data }) {
-  const setting = useSelector(chainSettingSelector);
+  const chainSetting = useSelector(chainSettingSelector);
 
   return (
     <Wrapper>
       <BreadCrumbWrapper>
         <Link to={`/`}>
-          <StyledLink>{setting.name}</StyledLink>
+          <StyledLink>{chainSetting.name}</StyledLink>
         </Link>
         {(data || []).map((item, index) =>
           item.path ? (
