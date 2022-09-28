@@ -8,6 +8,7 @@ import { overviewSelector } from "../../../store/reducers/chainSlice";
 
 const Wrapper = styled(Panel)`
   padding: 24px;
+  margin-top: 40px;
 `;
 
 const ItemWrapper = styled.div`
@@ -37,7 +38,35 @@ export default function Overview() {
             title="Block Height"
             icon="blocks.svg"
             link="/blocks"
-            text={123123}
+            text={"1"}
+          />
+          <OverviewItem
+            title="Transfers"
+            icon="transfers.svg"
+            link="/transfers"
+            text={"2"}
+          />
+          <OverviewItem
+            title="Assets"
+            icon="asset.svg"
+            link="/assets"
+            text={"3"}
+          />
+          <OverviewItem title="Holders" icon="holder.svg" text={"4"} />
+          <OverviewItem
+            title="NFT Class"
+            icon="nft-class.svg"
+            text={"5"}
+            textSec={"6"}
+            link="/nft"
+            tip="Recognized / All"
+          />
+          <OverviewItem
+            title="NFT Instance"
+            icon="nft-class.svg"
+            text={"7"}
+            textSec={"8"}
+            tip="Recognized / All"
           />
         </ItemWrapper>
         <ChartWrapper>

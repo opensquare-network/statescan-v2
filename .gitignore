@@ -105,4 +105,5 @@ dist
 .tern-port
 
 .idea
+.DS_Store
 *.deploy.sh

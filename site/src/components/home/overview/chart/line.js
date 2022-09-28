@@ -2,11 +2,14 @@ import { Axis, Chart, LineAdvance, Tooltip } from "bizcharts";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
+import { Inter_12_500 } from "../../../../styles/text";
+import { Flex } from "../../../styled/flex";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+
   svg,
   img {
     margin-top: 17px;
@@ -15,9 +18,9 @@ const Wrapper = styled.div`
 
 const Title = styled.h2`
   margin: 0;
-  font-size: 12px;
+  ${Inter_12_500};
   text-align: right;
-  color: rgba(17, 17, 17, 0.65);
+  color: ${(props) => props.theme.fontPrimary};
   font-weight: normal;
   line-height: 16px;
 `;
@@ -27,9 +30,7 @@ const ChartWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const NoData = styled.div`
-  display: flex;
-  align-items: center;
+const NoData = styled(Flex)`
   height: 100%;
 `;
 

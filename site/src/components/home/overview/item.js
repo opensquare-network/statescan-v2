@@ -33,12 +33,12 @@ const TitleWrapper = styled.div`
 const Title = styled.p`
   all: unset;
   ${Inter_12_500};
-  color: rgba(17, 17, 17, 0.35);
+  color: ${({ theme }) => theme.fontTertiary};
 `;
 
 const Text = styled.div`
   ${Inter_20_700};
-  color: #111111;
+  color: ${({ theme }) => theme.fontPrimary};
   margin: 0;
 
   :hover {
@@ -51,7 +51,7 @@ const Text = styled.div`
 
   > :not(:first-child) {
     margin-left: 4px;
-    color: rgba(17, 17, 17, 0.35);
+    color: ${({ theme }) => theme.fontTertiary};
   }
 `;
 
