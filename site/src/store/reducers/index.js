@@ -1,11 +1,11 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-import modeReducer from "./modeSlice";
+import settingReducer from "./settingSlice";
 import mobileMenuReducer from "./mobileMenuSlice";
 import preferenceReducer from "./preferenceSlice";
 
 export default combineReducers({
-  mode: modeReducer,
+  setting: settingReducer,
   mobileMenu: mobileMenuReducer,
   preference: preferenceReducer,
 });

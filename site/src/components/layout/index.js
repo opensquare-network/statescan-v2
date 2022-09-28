@@ -2,7 +2,7 @@ import styled, { ThemeProvider } from "styled-components";
 import Container from "./container";
 import Header from "../header";
 import { useDispatch, useSelector } from "react-redux";
-import { modeSelector } from "../../store/reducers/modeSlice";
+import { modeSelector } from "../../store/reducers/settingSlice";
 import light from "../../styles/theme/light";
 import Background from "../dotBackground";
 import Footer from "../footer";

@@ -31,7 +31,7 @@ const settingSlice = createSlice({
   },
 });
 
-export const modeSelector = (state) => state.mode.mode;
+export const modeSelector = (state) => state.setting.mode;
 
 export const { setMode } = settingSlice.actions;
 
