@@ -56,6 +56,21 @@ export const blocksHead = [
   { name: "Events", align: "right", width: 160 },
 ];
 
+export const blockExtrinsicsHead = [
+  { name: "ID", width: 160 },
+  { name: "Hash", width: 200 },
+  { name: "Result", width: 160, align: "center" },
+  { name: "Call", width: 200 },
+  { name: "Data", type: "data", align: "right", display: "table" },
+];
+
+export const blockEventsHead = [
+  { name: "ID", width: 160 },
+  { name: "Extrinsic ID", width: 200 },
+  { name: "Call", width: 200 },
+  { name: "Data", type: "data", align: "right", display: "table" },
+];
+
 export const extrinsicsHead = [
   { name: "ID", width: 160 },
   { name: "Height", width: 136 },

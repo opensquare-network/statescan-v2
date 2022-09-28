@@ -7,11 +7,16 @@ import Layout from "../components/layout";
 import styled from "styled-components";
 import Api from "../services/api";
 import { Inter_14_500, SF_Mono_14_500 } from "../styles/text";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import List from "../components/list";
 import { time, timeDuration } from "../utils/viewFuncs/time";
 import { Flex } from "../components/styled/flex";
 import { withCopy } from "../HOC/withCopy";
+import ExtrinsicsTable from "../components/block/tabTables/extrinsicsTable";
+import EventsTable from "../components/block/tabTables/eventsTable";
+import { useNavigate } from "react-router-dom";
+import { getTabFromQuery } from "../utils/viewFuncs";
+import Tab from "../components/tab";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -41,6 +46,10 @@ function DetailedTime({ ts }) {
 
 function Block() {
   const { id } = useParams();
+  const location = useLocation();
+  const selectedTab = getTabFromQuery(location, "extrinsics");
+  const navigate = useNavigate();
+  const [tab, setTab] = useState(selectedTab);
   const [listData, setListData] = useState({});
   const [block, setBlock] = useState(null);
 
@@ -89,6 +98,29 @@ function Block() {
       <Panel>
         <List data={listData} />
       </Panel>
+
+      <Flex>
+        <Tab
+          active={tab === "extrinsics"}
+          text={"Extrinsics"}
+          count={block?.extrinsicsCount}
+          onClick={() => {
+            navigate({ search: `?tab=extrinsics&page=1` });
+            setTab("extrinsics");
+          }}
+        />
+        <Tab
+          active={tab === "events"}
+          text={"Events"}
+          count={block?.eventsCount}
+          onClick={() => {
+            navigate({ search: `?tab=events&page=1` });
+            setTab("events");
+          }}
+        />
+      </Flex>
+      {tab === "extrinsics" && <ExtrinsicsTable height={block?.height} />}
+      {tab === "events" && <EventsTable height={block?.height} />}
     </Layout>
   );
 }

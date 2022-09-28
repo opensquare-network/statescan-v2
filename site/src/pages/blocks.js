@@ -1,6 +1,6 @@
 import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
 import { addressEllipsis, hashEllipsis } from "../utils/viewFuncs/text";
-import { Panel } from "../components/styled/panel";
+import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
 import { blocksHead } from "../utils/constants";
@@ -10,15 +10,9 @@ import Table from "../components/table";
 import styled from "styled-components";
 import Api from "../services/api";
 import { SF_Mono_14_500 } from "../styles/text";
-import { no_scroll_bar } from "../styles";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
-
-const StyledPanel = styled(Panel)`
-  overflow-x: scroll;
-  ${no_scroll_bar};
-`;
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -67,10 +61,10 @@ function Blocks() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Blocks" }]} />
-      <StyledPanel>
+      <StyledPanelTableWrapper>
         <Table heads={blocksHead} data={data} />
         <Pagination page={parseInt(page)} pageSize={10} total={total} />
-      </StyledPanel>
+      </StyledPanelTableWrapper>
     </Layout>
   );
 }

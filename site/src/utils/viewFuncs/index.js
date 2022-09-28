@@ -16,3 +16,7 @@ export default function encodeUriQuery(q) {
 export function getPageFromQuery(location) {
   return parseInt(queryString.parse(location.search)?.page ?? 1);
 }
+
+export function getTabFromQuery(location, byDefault = "") {
+  return queryString.parse(location.search)?.tab ?? byDefault;
+}
