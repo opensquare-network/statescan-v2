@@ -1,3 +1,7 @@
+import { getChainSettingByEnv } from "../../utils/env";
+
+const chainSetting = getChainSettingByEnv();
+
 const light = {
   fontPrimary: "#000000",
   fontPrimaryInverse: "#fff",
@@ -22,9 +26,8 @@ const light = {
   fillAlpha: "rgba(27, 32, 44, 0.05)",
   fillBeta: "rgba(27, 32, 44, 0.02)",
   fillGamma: "rgba(27, 32, 44, 0)",
-  //todo: read this from .env
-  theme100: "#FDE5F2",
-  theme500: "#E6007A",
+  theme500: chainSetting.color,
+  theme100: chainSetting.colorSecondary,
 };
 
 export default light;
