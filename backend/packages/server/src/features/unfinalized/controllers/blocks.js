@@ -1,19 +1,22 @@
 const {
-  block: { getUnFinalizedBlockCollection }
+  block: { getUnFinalizedBlockCollection },
 } = require("@statescan/mongo");
 
-async function getUnFinalizedBlocks(ctx) {
+async function queryUnFinalizedBlocks() {
   const col = await getUnFinalizedBlockCollection();
-  const items = await col
+  return await col
     .find({}, { projection: { digest: 0, _id: 0 } })
-    .sort({ "height": -1 })
+    .sort({ height: -1 })
     .toArray();
+}
 
+async function getUnFinalizedBlocks(ctx) {
   ctx.body = {
-    items,
+    items: await queryUnFinalizedBlocks(),
   };
 }
 
 module.exports = {
   getUnFinalizedBlocks,
-}
+  queryUnFinalizedBlocks,
+};
