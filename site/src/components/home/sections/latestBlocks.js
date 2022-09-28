@@ -65,7 +65,7 @@ const Row = styled.li`
 
 const ThemeText = styled.p`
   margin: 0;
-  color: #e6007a;
+  color: ${(p) => p.theme.theme500};
   ${Inter_14_600};
 `;
 
@@ -97,7 +97,7 @@ const Anchor = styled(Link)`
   ${Inter_14_500};
   line-height: 52px;
   text-align: right;
-  color: #e6007a;
+  color: ${(p) => p.theme.theme500};
 `;
 
 const mapLoadingState = (props) => {
