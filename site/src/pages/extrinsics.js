@@ -44,7 +44,7 @@ function Extrinsics() {
       setExtrinsics(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location.search]);
+  }, [location]);
 
   const data =
     extrinsics?.map((extrinsic, index) => {

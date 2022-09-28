@@ -43,7 +43,7 @@ function Blocks() {
       setBlocks(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location.search]);
+  }, [location]);
 
   const data =
     blocks?.map((block, index) => {

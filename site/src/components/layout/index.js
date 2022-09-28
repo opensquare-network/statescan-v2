@@ -1,4 +1,4 @@
-import styled, { css, ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import Container from "./container";
 import Header from "../header";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,7 +57,7 @@ export default function Layout({ children }) {
     if (width > 600) {
       dispatch(closeMobileMenu());
     }
-  }, [width]);
+  }, [dispatch, width]);
 
   return (
     <ThemeProvider theme={theme}>
