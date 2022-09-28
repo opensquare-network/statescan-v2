@@ -1,7 +1,7 @@
 import { ReactComponent as SunIcon } from "./sun.svg";
 import { ReactComponent as MoonIcon } from "./moon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { modeSelector, setMode } from "../../store/reducers/modeSlice";
+import { modeSelector, setMode } from "../../store/reducers/settingSlice";
 import styled from "styled-components";
 import { Flex } from "../styled/flex";
 

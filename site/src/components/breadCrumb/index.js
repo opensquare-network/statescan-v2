@@ -1,8 +1,9 @@
 import { Inter_20_700 } from "../../styles/text";
-import { chains } from "../../utils/constants";
 import styled from "styled-components";
 import { Flex } from "../styled/flex";
 import Link from "../styled/link";
+import { useSelector } from "react-redux";
+import { chainSettingSelector } from "../../store/reducers/settingSlice";
 
 const Wrapper = styled(Flex)`
   margin-bottom: 16px;
@@ -41,22 +42,18 @@ const StyledLink = styled.div`
 `;
 
 export default function BreadCrumb({ data }) {
-  const chain = process.env.REACT_APP_PUBLIC_CHAIN;
-  if (!chain) {
-    throw new Error("CHAIN is not defined");
-  }
-  const chainName = chains.find((item) => item.value === chain)?.name;
+  const chainSetting = useSelector(chainSettingSelector);
 
   return (
     <Wrapper>
-      <BreadCrumbWrapper chain={chain}>
+      <BreadCrumbWrapper>
         <Link to={`/`}>
-          <StyledLink chain={chain}>{chainName}</StyledLink>
+          <StyledLink>{chainSetting.name}</StyledLink>
         </Link>
         {(data || []).map((item, index) =>
           item.path ? (
             <Link to={item.path} key={index}>
-              <StyledLink chain={chain}>{item.name}</StyledLink>
+              <StyledLink>{item.name}</StyledLink>
             </Link>
           ) : (
             <span key={index}>{item.name}</span>

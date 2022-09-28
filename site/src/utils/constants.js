@@ -37,6 +37,8 @@ export const chains = [
   },
 ];
 
+export const chainNames = chains.map((item) => item.value);
+
 export const menusBlockchain = [
   {
     name: "Blocks",
