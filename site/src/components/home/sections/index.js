@@ -18,7 +18,7 @@ const Anchor = styled(Link)`
   ${Inter_14_500};
   line-height: 52px;
   text-align: right;
-  color: #e6007a;
+  color: ${(props) => props.theme.theme500};
 `;
 
 const StyledPanel = styled(Panel)`
