@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "../styled/link";
 import styled from "styled-components";
+import * as queryString from "query-string";
 import encodeUriQuery from "../../utils/viewFuncs";
 
 import { useLocation } from "react-router-dom";
@@ -19,6 +20,7 @@ export default function PageCaret({ children, page, onPageChange = null }) {
   return (
     <StyledLink
       to={`${location.pathname}?${encodeUriQuery({
+        ...queryString.parse(location.search),
         page,
       })}`}
     >

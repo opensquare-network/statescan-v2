@@ -16,7 +16,7 @@ export default function Items({ total = 0, page }) {
 
   items.push(<Ellipsis key={key++}>of</Ellipsis>);
 
-  items.push(<PageItem now={page} page={total + 1} key={key++} />);
+  items.push(<PageItem now={page} page={total} key={key++} />);
 
   return <Fragment>{items}</Fragment>;
 }

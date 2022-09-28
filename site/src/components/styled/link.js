@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link as RouteLink } from "react-router-dom";
+import { SF_Mono_14_500 } from "../../styles/text";
 
 const Link = styled(RouteLink)`
   color: ${(props) => props.theme.fontPrimary};
@@ -7,3 +8,12 @@ const Link = styled(RouteLink)`
 `;
 
 export default Link;
+
+export const ColoredLink = styled(Link)`
+  color: ${({ theme }) => theme.theme500};
+`;
+
+export const ColoredMonoLink = styled(Link)`
+  color: ${({ theme }) => theme.theme500};
+  ${SF_Mono_14_500};
+`;
