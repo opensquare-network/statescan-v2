@@ -1,7 +1,17 @@
 const { extractPage } = require("../../../utils");
 const {
-  block: { getBlockCollection }
+  block: { getBlockCollection },
 } = require("@statescan/mongo");
+
+async function queryBlocks(page, pageSize) {
+  const col = await getBlockCollection();
+  return await col
+    .find({}, { projection: { digest: 0, _id: 0 } })
+    .sort({ height: -1 })
+    .skip(page * pageSize)
+    .limit(pageSize)
+    .toArray();
+}
 
 async function getBlocks(ctx) {
   const { page, pageSize } = extractPage(ctx);
@@ -10,13 +20,8 @@ async function getBlocks(ctx) {
     return;
   }
 
+  const items = await queryBlocks(page, pageSize);
   const col = await getBlockCollection();
-  const items = await col
-    .find({}, { projection: { digest: 0, _id: 0 } })
-    .sort({ "height": -1 })
-    .skip(page * pageSize)
-    .limit(pageSize)
-    .toArray();
   const total = await col.estimatedDocumentCount();
 
   ctx.body = {
@@ -29,4 +34,5 @@ async function getBlocks(ctx) {
 
 module.exports = {
   getBlocks,
-}
+  queryBlocks,
+};

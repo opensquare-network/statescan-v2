@@ -1,12 +1,16 @@
 const { getLatestBlocks, setLatestBlocks } = require("../store");
 const util = require("util");
-const { getBlocks } = require("../../features/blocks/controllers/blocks");
-const { latestBlocksRoom, feedInterval, latestBlocksKey } = require("../consts");
+const { queryBlocks } = require("../../features/blocks/controllers/blocks");
+const {
+  latestBlocksRoom,
+  feedInterval,
+  latestBlocksKey,
+} = require("../consts");
 
 async function feedLatestBlocks(io) {
   try {
     const oldData = await getLatestBlocks();
-    const blocks = await getBlocks(5);
+    const blocks = await queryBlocks(0, 5);
     if (util.isDeepStrictEqual(oldData, blocks)) {
       return;
     }
@@ -22,4 +26,4 @@ async function feedLatestBlocks(io) {
 
 module.exports = {
   feedLatestBlocks,
-}
+};

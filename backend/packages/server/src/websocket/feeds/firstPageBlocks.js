@@ -1,12 +1,16 @@
 const util = require("util");
-const { firstPageBlocksRoom, firstPageBlocksKey, feedInterval } = require("../consts");
-const { getBlocks } = require("../../features/blocks/controllers/blocks");
+const {
+  firstPageBlocksRoom,
+  firstPageBlocksKey,
+  feedInterval,
+} = require("../consts");
+const { queryBlocks } = require("../../features/blocks/controllers/blocks");
 const { getFirstPageBlocks, setFirstPageBlocks } = require("../store");
 
 async function feedFirstPageBlocks(io) {
   try {
     const oldData = await getFirstPageBlocks();
-    const blocks = await getBlocks(25);
+    const blocks = await queryBlocks(0, 25);
     if (util.isDeepStrictEqual(oldData, blocks)) {
       return;
     }
@@ -22,4 +26,4 @@ async function feedFirstPageBlocks(io) {
 
 module.exports = {
   feedFirstPageBlocks,
-}
+};
