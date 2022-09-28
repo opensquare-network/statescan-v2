@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { ReactComponent as Polkadot } from "../../icons/polkadot.svg";
 import { ReactComponent as Kusama } from "../../icons/kusama.svg";
@@ -7,6 +7,8 @@ import { ReactComponent as ArrowDown } from "../../icons/caret-down.svg";
 import { useOnClickOutside } from "../../../utils/hooks";
 import { chains } from "../../../utils/constants";
 import { Flex } from "../../styled/flex";
+import { useSelector } from "react-redux";
+import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 
 const ArrowDownIcon = styled(ArrowDown)`
   position: absolute;
@@ -108,11 +110,7 @@ const ChainIconMap = new Map([
 ]);
 
 export default function ChainSwitch() {
-  const chain = process.env.REACT_APP_PUBLIC_CHAIN;
-  if (!chain) {
-    throw new Error("CHAIN is not defined");
-  }
-  const currentNode = chains.find((item) => item.value === chain);
+  const currentNode = useSelector(chainSettingSelector);
   const [show, setShow] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
@@ -120,12 +118,8 @@ export default function ChainSwitch() {
   return (
     <Wrapper ref={ref}>
       <Dropdown active={show} onClick={() => setShow((state) => !state)}>
-        {currentNode && (
-          <>
-            {ChainIconMap.get(currentNode.chainIcon)}
-            <Text>{currentNode.name}</Text>
-          </>
-        )}
+        {ChainIconMap.get(currentNode.chainIcon)}
+        <Text>{currentNode.name}</Text>
         <ArrowDownIcon />
       </Dropdown>
       {show && (

@@ -3,6 +3,8 @@ import { Inter_24_700 } from "../../styles/text";
 import Input from "../styled/input";
 import { Button } from "../styled/buttons";
 import { Flex } from "../styled/flex";
+import { useSelector } from "react-redux";
+import { chainSelector } from "../../store/reducers/settingSlice";
 
 const Wrapper = styled(Flex)`
   gap: 16px;
@@ -26,9 +28,11 @@ const Title = styled.h1`
 `;
 
 export default function Explore() {
+  const chain = useSelector(chainSelector);
+
   return (
     <div>
-      <Title>{process.env.REACT_APP_PUBLIC_CHAIN} Explorer</Title>
+      <Title>{chain} Explorer</Title>
       <Wrapper style={{ gap: 16 }}>
         <Input placeholder={"Block / Address / Extrinsic / Asset /..."} />
         <Button>Explore</Button>
