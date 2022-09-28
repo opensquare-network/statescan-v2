@@ -6,6 +6,11 @@ import {
   latestSignedTransfersRoom,
 } from "./consts";
 import { getEnvEndpoint } from "../../utils/env";
+import { store } from "../../store";
+import {
+  setLatestBlocks,
+  setLatestSignedTransfers,
+} from "../../store/reducers/socketSlice";
 
 let socket = null;
 
@@ -25,9 +30,17 @@ export function connect() {
 
     socket.on(latestBlocksKey, (data) => {
       console.log("latestBlocksKey data", data);
+      store.dispatch(setLatestBlocks(data));
     });
     socket.on(latestSignedTransfersKey, (transferData) => {
-      console.log("transferData", transferData);
+      store.dispatch(setLatestSignedTransfers(transferData));
     });
   });
+}
+
+export function unSubscribeHomepageInfo() {
+  if (socket) {
+    socket.emit("unsubscribe", latestBlocksRoom);
+    socket.emit("unsubscribe", latestSignedTransfersRoom);
+  }
 }
