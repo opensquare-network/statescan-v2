@@ -29,7 +29,6 @@ export function connect() {
     socket.emit("subscribe", latestSignedTransfersRoom);
 
     socket.on(latestBlocksKey, (data) => {
-      console.log("latestBlocksKey data", data);
       store.dispatch(setLatestBlocks(data));
     });
     socket.on(latestSignedTransfersKey, (transferData) => {
