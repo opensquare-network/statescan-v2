@@ -5,7 +5,7 @@ import styled from "styled-components";
 const Wrapper = styled(Flex)`
   font-size: 14px;
   line-height: 16px;
-  color: rgba(17, 17, 17, 0.35);
+  color: ${(p) => p.theme.theme500};
 `;
 
 const Item = styled.div`
