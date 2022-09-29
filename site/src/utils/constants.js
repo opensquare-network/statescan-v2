@@ -8,6 +8,7 @@ export const chains = [
     sub: "Kusama",
     value: "statemine",
     symbol: "KSM",
+    decimals: 12,
     chainIcon: "kusama",
     color: "#3765DC",
     colorSecondary: "#EAF0FF",
@@ -19,6 +20,7 @@ export const chains = [
     sub: "Polkadot",
     value: "statemint",
     symbol: "DOT",
+    decimals: 10,
     chainIcon: "polkadot",
     color: "#E6007A",
     colorSecondary: "#FDE5F2",
@@ -30,6 +32,7 @@ export const chains = [
     sub: "Westend",
     value: "westmint",
     symbol: "WND",
+    decimals: 12,
     chainIcon: "westend",
     color: "#DA68A7",
     colorSecondary: "#FAE6F2",
@@ -51,7 +54,7 @@ export const menusBlockchain = [
 ];
 
 export const blocksHead = [
-  { name: "Height", width: 136 },
+  { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Status", align: "center", width: 160 },
   { name: "Hash", width: 240 },
@@ -88,7 +91,7 @@ export const blockLogsHead = [
 
 export const extrinsicsHead = [
   { name: "ID", width: 160 },
-  { name: "Height", width: 136 },
+  { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Hash", width: 200 },
   { name: "Result", width: 160, align: "center" },
@@ -103,6 +106,16 @@ export const eventsHead = [
   { name: "Extrinsic ID", width: 160 },
   { name: "Action" },
   { name: "Data", type: "data", align: "right", width: 76, display: "table" },
+];
+
+export const transfersHead = [
+  { name: "Event ID", width: 160 },
+  { name: "Extrinsic ID", width: 160 },
+  { name: "Block", width: 160 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "From", width: 200 },
+  { name: "To", width: 200 },
+  { name: "Value", align: "right" },
 ];
 
 export const timeTypes = {

@@ -5,6 +5,7 @@ import Home from "./pages/index";
 import Block from "./pages/block";
 import Events from "./pages/events";
 import Extrinsic from "./pages/extrinsic";
+import Transfers from "./pages/transfers";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/extrinsics" element={<Extrinsics />} />
         <Route path="/extrinsic/:id" element={<Extrinsic />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/transfers" element={<Transfers />} />
       </Routes>
     </HashRouter>
   );
