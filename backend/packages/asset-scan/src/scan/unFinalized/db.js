@@ -2,7 +2,7 @@ const {
   asset: { getUnFinalizedTransferCol },
 } = require("@statescan/mongo");
 
-async function deleteUnFinalizedFrom(height) {
+async function deleteUnFinalizedLte(height) {
   if (!height) {
     throw new Error("No height given when deleting unFinalized transfers");
   }
@@ -37,6 +37,6 @@ async function batchUpsertTransfers(transfers = []) {
 }
 
 module.exports = {
-  deleteUnFinalizedFrom,
+  deleteUnFinalizedLte,
   batchUpsertTransfers,
 };
