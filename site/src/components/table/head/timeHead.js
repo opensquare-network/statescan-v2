@@ -6,6 +6,7 @@ const Wrapper = styled(Flex)`
   font-size: 14px;
   line-height: 16px;
   color: ${(p) => p.theme.theme500};
+  user-select: none;
 `;
 
 const Item = styled.div`
