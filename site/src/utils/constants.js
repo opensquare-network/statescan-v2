@@ -94,6 +94,15 @@ export const extrinsicsHead = [
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 
+export const eventsHead = [
+  { name: "Event ID", width: 160 },
+  { name: "Block", width: 160 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "Extrinsic ID", width: 160 },
+  { name: "Action" },
+  { name: "Data", type: "data", align: "right", width: 76, display: "table" },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",

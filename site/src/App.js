@@ -3,6 +3,7 @@ import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
 import Home from "./pages/index";
 import Block from "./pages/block";
+import Events from "./pages/events";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/blocks" element={<Blocks />} />
         <Route path="/block/:id" element={<Block />} />
         <Route path="/extrinsics" element={<Extrinsics />} />
+        <Route path="/events" element={<Events />} />
       </Routes>
     </HashRouter>
   );
