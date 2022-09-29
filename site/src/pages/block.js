@@ -9,7 +9,6 @@ import Api from "../services/api";
 import { Inter_14_500, SF_Mono_14_500 } from "../styles/text";
 import { useLocation, useParams } from "react-router-dom";
 import List from "../components/list";
-import { time, timeDuration } from "../utils/viewFuncs/time";
 import { Flex } from "../components/styled/flex";
 import { withCopy } from "../HOC/withCopy";
 import ExtrinsicsTable from "../components/block/tabTables/extrinsicsTable";
@@ -17,6 +16,9 @@ import EventsTable from "../components/block/tabTables/eventsTable";
 import { useNavigate } from "react-router-dom";
 import { getTabFromQuery } from "../utils/viewFuncs";
 import Tab from "../components/tab";
+import { blockTabs, Events, Extrinsics, Logs } from "../utils/constants";
+import { DetailedTime } from "../components/styled/time";
+import LogsTable from "../components/block/tabTables/logsTable";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -28,28 +30,28 @@ const TextSecondary = styled.span`
   color: ${({ theme }) => theme.fontSecondary};
 `;
 
-const TextTertiary = styled.span`
-  ${Inter_14_500};
-  color: ${({ theme }) => theme.fontTertiary};
-`;
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
-function DetailedTime({ ts }) {
-  return (
-    <Flex style={{ gap: 8 }}>
-      <TextSecondary>{time(ts)}</TextSecondary>
-      <TextTertiary>{timeDuration(ts)}</TextTertiary>
-    </Flex>
-  );
+function getCountByType(block, type) {
+  if (type === Extrinsics) {
+    return block?.extrinsicsCount;
+  }
+  if (type === Events) {
+    return block?.eventsCount;
+  }
+  if (type === Logs) {
+    return block?.digest?.logs?.length;
+  }
 }
 
 function Block() {
   const { id } = useParams();
   const location = useLocation();
-  const selectedTab = getTabFromQuery(location, "extrinsics");
   const navigate = useNavigate();
-  const [tab, setTab] = useState(selectedTab);
+  const [selectedTab, setTab] = useState(
+    getTabFromQuery(location, "extrinsics"),
+  );
   const [listData, setListData] = useState({});
   const [block, setBlock] = useState(null);
 
@@ -100,27 +102,24 @@ function Block() {
       </Panel>
 
       <Flex>
-        <Tab
-          active={tab === "extrinsics"}
-          text={"Extrinsics"}
-          count={block?.extrinsicsCount}
-          onClick={() => {
-            navigate({ search: `?tab=extrinsics&page=1` });
-            setTab("extrinsics");
-          }}
-        />
-        <Tab
-          active={tab === "events"}
-          text={"Events"}
-          count={block?.eventsCount}
-          onClick={() => {
-            navigate({ search: `?tab=events&page=1` });
-            setTab("events");
-          }}
-        />
+        {blockTabs.map((tab, index) => (
+          <Tab
+            key={index}
+            active={tab === selectedTab}
+            text={tab}
+            count={getCountByType(block, tab)}
+            onClick={() => {
+              navigate({ search: `?tab=${tab}&page=1` });
+              setTab(tab);
+            }}
+          />
+        ))}
       </Flex>
-      {tab === "extrinsics" && <ExtrinsicsTable height={block?.height} />}
-      {tab === "events" && <EventsTable height={block?.height} />}
+      {selectedTab === Extrinsics && <ExtrinsicsTable height={block?.height} />}
+      {selectedTab === Events && <EventsTable height={block?.height} />}
+      {selectedTab === Logs && (
+        <LogsTable height={block?.height} logs={block?.digest?.logs} />
+      )}
     </Layout>
   );
 }
