@@ -77,6 +77,8 @@ export const blockEventsHead = [
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 
+export const extrinsicEventsHead = blockEventsHead;
+
 export const blockLogsHead = [
   { name: "Log Index", width: 160 },
   { name: "Block", width: 200 },
