@@ -19,7 +19,7 @@ function Home() {
       dispatch(setLatestSignedTransfers([]));
       dispatch(setLatestBlocks([]));
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Layout>
