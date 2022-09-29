@@ -9,11 +9,10 @@ const {
   setLatestSignedTransfers,
 } = require("../store");
 const {
-  asset: { getTransferCollection },
+  asset: { getTransferCollection, getUnFinalizedTransferCol },
 } = require("@statescan/mongo");
 
-async function queryTransfers(size = 5) {
-  const col = await getTransferCollection();
+async function query(col, size = 5) {
   return await col
     .find({}, { projection: { _id: 0 } })
     .sort({ "indexer.blockHeight": -1, "indexer.eventIndex": 1 })
@@ -21,10 +20,33 @@ async function queryTransfers(size = 5) {
     .toArray();
 }
 
+async function queryUnFinalizedTransfers(size = 5) {
+  const col = await getUnFinalizedTransferCol();
+  return await query(col, size);
+}
+
+async function queryTransfers(size = 5) {
+  const col = await getTransferCollection();
+  return await query(col, size);
+}
+
+function normalizeTransfer(transfer = {}, isFinalized = true) {
+  return {
+    ...transfer,
+    isFinalized,
+  };
+}
+
 async function feedLatestSignedTransfers(io) {
   try {
     const oldData = await getLatestSignedTransfers();
-    const transfers = await queryTransfers();
+    const unFinalizedTransfers = await queryUnFinalizedTransfers();
+    const finalizedTransfers = await queryTransfers();
+    const transfers = [
+      ...unFinalizedTransfers.map((item) => normalizeTransfer(item, false)),
+      ...finalizedTransfers.map((item) => normalizeTransfer(item, true)),
+    ].slice(0, 5);
+
     if (util.isDeepStrictEqual(oldData, transfers)) {
       return;
     }
