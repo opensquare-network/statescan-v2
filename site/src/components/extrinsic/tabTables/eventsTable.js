@@ -1,36 +1,37 @@
-import { blockEventsHead } from "../../../utils/constants";
+import { toEventTabTableItem } from "../../../utils/viewFuncs/toTableItem";
+import { extrinsicEventsHead } from "../../../utils/constants";
+import { StyledPanelTableWrapper } from "../../styled/panel";
+import { getPageFromQuery } from "../../../utils/viewFuncs";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Pagination from "../../pagination";
+import Api from "../../../services/api";
 import Table from "../../table";
 import React from "react";
-import { StyledPanelTableWrapper } from "../../styled/panel";
-import Pagination from "../../pagination";
-import { getPageFromQuery } from "../../../utils/viewFuncs";
-import { useEffect, useState } from "react";
-import Api from "../../../services/api";
-import { useLocation } from "react-router-dom";
-import { toEventTabTableItem } from "../../../utils/viewFuncs/toTableItem";
 
-function EventsTable({ height }) {
+function EventsTable({ extrinsicId, setEventsCount }) {
   const location = useLocation();
   const [events, setEvents] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
 
   useEffect(() => {
-    if (!height) {
+    if (!extrinsicId) {
       return;
     }
     setEvents(null);
-    Api.fetch(`/blocks/${height}/events`, {
+    Api.fetch(`/extrinsics/${extrinsicId}/events`, {
       page: getPageFromQuery(location) - 1,
     }).then(({ result }) => {
       setEvents(result?.items ?? []);
       setTotal(result?.total ?? 0);
+      setEventsCount(result?.total ?? 0);
     });
-  }, [location, height]);
+  }, [location, extrinsicId, setEventsCount]);
 
   return (
     <StyledPanelTableWrapper>
-      <Table heads={blockEventsHead} data={toEventTabTableItem(events)} />
+      <Table heads={extrinsicEventsHead} data={toEventTabTableItem(events)} />
       <Pagination page={parseInt(page)} pageSize={10} total={total} />
     </StyledPanelTableWrapper>
   );
