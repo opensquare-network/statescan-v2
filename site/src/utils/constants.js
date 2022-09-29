@@ -39,6 +39,10 @@ export const chains = [
 
 export const chainNames = chains.map((item) => item.value);
 
+export const Extrinsics = "extrinsics";
+export const Events = "events";
+export const Logs = "logs";
+
 export const menusBlockchain = [
   {
     name: "Blocks",
@@ -56,6 +60,8 @@ export const blocksHead = [
   { name: "Events", align: "right", width: 160 },
 ];
 
+export const blockTabs = [Extrinsics, Events, Logs];
+
 export const blockExtrinsicsHead = [
   { name: "ID", width: 160 },
   { name: "Hash", width: 200 },
@@ -68,6 +74,13 @@ export const blockEventsHead = [
   { name: "ID", width: 160 },
   { name: "Extrinsic ID", width: 200 },
   { name: "Call", width: 200 },
+  { name: "Data", type: "data", align: "right", display: "table" },
+];
+
+export const blockLogsHead = [
+  { name: "Log Index", width: 160 },
+  { name: "Block", width: 200 },
+  { name: "Type", width: 200 },
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 

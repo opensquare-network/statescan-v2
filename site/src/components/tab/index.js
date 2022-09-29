@@ -19,8 +19,8 @@ const TabText = styled.div`
   padding-bottom: 12px;
   ${Inter_20_700};
   color: ${(p) => p.theme.fontTertiary};
-
   border-bottom: 3px solid ${(p) => p.theme.fillBase};
+  text-transform: capitalize;
 
   &:hover {
     ${active};
