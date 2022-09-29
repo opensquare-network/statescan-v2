@@ -5,6 +5,7 @@ const {
 
 let db = null;
 let transferCol = null;
+let unFinalizedTransferCol = null;
 
 async function initAssetScanDb() {
   db = new ScanDb(
@@ -14,6 +15,7 @@ async function initAssetScanDb() {
   await db.init();
 
   transferCol = await db.createCol("transfer");
+  unFinalizedTransferCol = await db.createCol("unFinalizedTransfer");
   await _createIndexes();
 }
 
@@ -42,6 +44,11 @@ async function getTransferCollection() {
   return transferCol;
 }
 
+async function getUnFinalizedTransferCol() {
+  await makeSureInit(unFinalizedTransferCol);
+  return unFinalizedTransferCol;
+}
+
 function getAssetDb() {
   return db;
 }
@@ -62,6 +69,7 @@ async function batchInsertTransfers(transfers = []) {
 module.exports = {
   initAssetScanDb,
   getTransferCollection,
+  getUnFinalizedTransferCol,
   getAssetDb,
   batchInsertTransfers,
 };
