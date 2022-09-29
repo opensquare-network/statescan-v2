@@ -1,6 +1,8 @@
+const { updateUnFinalized } = require("./unFinalized");
+const { deleteFrom } = require("./delete");
 const { handleEvents } = require("./events");
 const {
-  chain: { getBlockIndexer },
+  chain: { getBlockIndexer, getLatestFinalizedHeight },
   scan: { oneStepScan },
   utils: { sleep },
   logger,
@@ -17,6 +19,11 @@ async function handleBlock({ block, author, events, height }) {
   // todo: handle block business
   const db = getAssetDb();
   await db.updateScanHeight(height);
+
+  const finalizedHeight = getLatestFinalizedHeight();
+  if (height >= finalizedHeight) {
+    await updateUnFinalized(finalizedHeight);
+  }
 }
 
 async function wrappedHandleBlock(wrappedBlock) {
@@ -31,6 +38,7 @@ async function wrappedHandleBlock(wrappedBlock) {
 async function scan() {
   const db = getAssetDb();
   let toScanHeight = await db.getNextScanHeight();
+  await deleteFrom(toScanHeight);
 
   // todo: handle business
   while (true) {
