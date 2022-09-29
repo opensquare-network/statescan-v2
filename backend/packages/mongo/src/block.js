@@ -58,6 +58,15 @@ async function _createIndexes() {
     "indexer.eventIndex": 1,
   });
   await callCol.createIndex({ "indexer.blockHeight": 1 });
+  await callCol.createIndex({
+    "indexer.blockHeight": -1,
+    "indexer.extrinsicIndex": 1,
+  });
+  await callCol.createIndex({
+    "indexer.blockHeight": -1,
+    "indexer.extrinsicIndex": 1,
+    "indexer.callIndex": 1,
+  });
 }
 
 async function makeSureInit(col) {
