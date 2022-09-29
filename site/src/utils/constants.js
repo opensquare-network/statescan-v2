@@ -118,6 +118,12 @@ export const transfersHead = [
   { name: "Value", align: "right" },
 ];
 
+export const accountsHead = [
+  { name: "Rank", width: 96 },
+  { name: "Account", width: 200 },
+  { name: "Balance", width: 240, align: "right" },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
