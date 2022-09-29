@@ -16,4 +16,5 @@ export const ColoredLink = styled(Link)`
 export const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
   ${SF_Mono_14_500};
+  word-break: break-all;
 `;

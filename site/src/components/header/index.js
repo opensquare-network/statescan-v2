@@ -81,6 +81,10 @@ const menusBlockchain = [
     name: "Transfers",
     value: "transfers",
   },
+  {
+    name: "Accounts",
+    value: "accounts",
+  },
 ];
 
 export default function Header() {
