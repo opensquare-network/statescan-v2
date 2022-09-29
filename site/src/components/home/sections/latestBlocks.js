@@ -12,6 +12,8 @@ import { ReactComponent as Block } from "./block.svg";
 import { addressEllipsis } from "../../../utils/viewFuncs";
 import Link from "../../styled/link";
 import Loading from "../../loadings/loading";
+import { ReactComponent as CheckIcon } from "../../icons/check.svg";
+import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 
 const BlockIcon = styled(Block)`
   path {
@@ -70,6 +72,11 @@ const Time = styled.span`
 const Bold = styled.span`
   ${Inter_12_500};
   color: ${(props) => props.theme.fontPrimary};
+
+  &:hover {
+    color: ${(props) => props.theme.theme500};
+    text-decoration: underline;
+  }
 `;
 
 const Address = styled.p`
@@ -107,27 +114,33 @@ function LatestBlocks({ blocks }) {
       {blocks.slice(0, 5).map((block, i) => (
         <Row key={i}>
           <FlexBetween>
-            <Flex style={{ gap: 16 }}>
+            <Flex gap={16}>
               <BlockIcon />
               <div>
                 <Link to={`/block/${block.height}`}>
-                  {" "}
                   <ThemeText>{block.height}</ThemeText>
                 </Link>
-                <Time> {timeDuration(block.time)} </Time>
+                <Flex gap={8}>
+                  {block.isFinalized ? <CheckIcon /> : <TimerIcon />}
+                  <Time> {timeDuration(block.time)} </Time>
+                </Flex>
               </div>
             </Flex>
 
             <div>
               <Address>{addressEllipsis(block.validator)}</Address>
-              <Flex style={{ fontSize: 12, gap: 16 }}>
-                <Flex style={{ gap: 8 }}>
+              <Flex style={{ fontSize: 12 }} gap={8}>
+                <Flex gap={8}>
                   <Label>Extrinsics</Label>
-                  <Bold>{block.extrinsicsCount}</Bold>
+                  <Link to={`/block/${block.height}?tab=extrinsics`}>
+                    <Bold>{block.extrinsicsCount}</Bold>
+                  </Link>
                 </Flex>
-                <Flex style={{ gap: 8 }}>
+                <Flex gap={8}>
                   <Label>Events</Label>
-                  <Bold>{block.eventsCount}</Bold>{" "}
+                  <Link to={`/block/${block.height}?tab=events`}>
+                    <Bold>{block.eventsCount}</Bold>
+                  </Link>
                 </Flex>
               </Flex>
             </div>
