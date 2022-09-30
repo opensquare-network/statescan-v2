@@ -109,7 +109,7 @@ function LatestBlocks({ blocks }) {
               <BlockIcon />
               <div>
                 <Link to={`/block/${block.height}`}>
-                  <ThemeText>{block.height}</ThemeText>
+                  <ThemeText>{block.height?.toLocaleString?.()}</ThemeText>
                 </Link>
                 <Flex gap={8}>
                   {block.isFinalized ? <CheckIcon /> : <TimerIcon />}
