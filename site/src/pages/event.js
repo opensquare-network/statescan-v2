@@ -51,12 +51,12 @@ function Event() {
           ),
           Module: <TagHighContrast>{event?.section}</TagHighContrast>,
           "Event Name": <Tag>{event?.method}</Tag>,
-          Description: (
-            <TextSecondaryWithCopy>
-              {event?.args?.[0].docs?.join("") || ""}
-            </TextSecondaryWithCopy>
-          ),
-          // TODO: is this right & what about Value?
+          // Description: (
+          //   <TextSecondaryWithCopy>
+          //     {event?.args?.[0].docs?.join("") || ""}
+          //   </TextSecondaryWithCopy>
+          // ),
+          // TODO: Value field for transfer event
         };
         setListData(data);
       });
