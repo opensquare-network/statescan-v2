@@ -6,7 +6,11 @@ import { Inter_14_500, Inter_18_700 } from "../../../styles/text";
 import Link from "../../styled/link";
 import { Panel } from "../../styled/panel";
 import { useSelector } from "react-redux";
-import { latestBlocksSelector } from "../../../store/reducers/socketSlice";
+import {
+  latestBlocksSelector,
+  latestSignedTransfersSelector,
+} from "../../../store/reducers/socketSlice";
+import LatestTransfers from "./latestTransfers";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -26,18 +30,37 @@ const StyledPanel = styled(Panel)`
   max-width: 644px;
 `;
 
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const SectionsWrapper = styled(FlexBetween)`
+  align-items: unset;
+`;
+
 export default function Sections() {
   const blocks = useSelector(latestBlocksSelector);
+  const transfers = useSelector(latestSignedTransfersSelector);
 
   return (
-    <FlexBetween>
-      <div>
+    <SectionsWrapper gap={24}>
+      <Section>
         <Title>Latest Blocks</Title>
         <StyledPanel>
           <LatestBlocks blocks={blocks} />
           <Anchor to={"/blocks"}>View All</Anchor>
         </StyledPanel>
-      </div>
-    </FlexBetween>
+      </Section>
+
+      <Section>
+        <Title>Latest Transfers</Title>
+        <StyledPanel>
+          <LatestTransfers transfers={transfers} />
+          <Anchor to={"/transfers"}>View All</Anchor>
+        </StyledPanel>
+      </Section>
+    </SectionsWrapper>
   );
 }
