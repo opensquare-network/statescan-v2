@@ -88,21 +88,12 @@ const Address = styled.span`
   ${SF_Mono_12_500};
 `;
 
-const LoadingContainer = styled.div`
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-`;
-
 const mapLoadingState = (props) => {
   const { transfers = [] } = props;
 
   return {
     loadingStates: [!transfers?.length],
-    loadingComponent: (
-      <LoadingContainer>
-        <Loading />
-      </LoadingContainer>
-    ),
+    loadingComponent: <Loading />,
   };
 };
 
