@@ -12,8 +12,11 @@ import { ReactComponent as TransferRight } from "./transferRight.svg";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import { timeDuration } from "../../../utils/viewFuncs/time";
-import { addressEllipsis } from "../../../utils/viewFuncs";
+import { addressEllipsis, toPrecision } from "../../../utils/viewFuncs";
 import Link from "../../styled/link";
+import ValueDisplay from "../../../components/displayValue";
+import { useSelector } from "react-redux";
+import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 
 const TransferIcon = styled(Transfer)`
   path {
@@ -99,6 +102,9 @@ const mapLoadingState = (props) => {
 
 function LatestTransfers({ transfers }) {
   console.log(transfers);
+
+  const chainSetting = useSelector(chainSettingSelector);
+
   return (
     <Rows>
       {transfers?.slice(0, 5).map((transfer, i) => (
@@ -123,8 +129,15 @@ function LatestTransfers({ transfers }) {
             </Flex>
 
             <div>
-              {/* FIXME: with symbol */}
-              <Value>{transfer.balance.$numberDecimal}</Value>
+              <Value>
+                <ValueDisplay
+                  value={toPrecision(
+                    transfer.balance.$numberDecimal,
+                    chainSetting.decimals,
+                  )}
+                  symbol={chainSetting.symbol}
+                />
+              </Value>
               <Flex gap={16}>
                 <Address>{addressEllipsis(transfer.from)}</Address>
                 <TransferRightIcon />
