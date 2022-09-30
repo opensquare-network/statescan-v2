@@ -91,20 +91,11 @@ const Label = styled.span`
   color: ${(props) => props.theme.fontTertiary};
 `;
 
-const LoadingContainer = styled.div`
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-`;
-
 const mapLoadingState = (props) => {
   const { blocks } = props;
   return {
     loadingStates: [blocks?.length === 0],
-    loadingComponent: (
-      <LoadingContainer>
-        <Loading />
-      </LoadingContainer>
-    ),
+    loadingComponent: <Loading />,
   };
 };
 
