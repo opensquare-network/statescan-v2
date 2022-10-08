@@ -106,7 +106,11 @@ export default function Header() {
             <Link to={`/`}>
               <MenuItem>Home</MenuItem>
             </Link>
-            <SubMenu category="BlockChain" menus={menusBlockchain} />
+            <SubMenu
+              category="BlockChain"
+              menus={menusBlockchain}
+              divideIndex={4}
+            />
           </MenuWrapper>
         </PC>
       </Flex>

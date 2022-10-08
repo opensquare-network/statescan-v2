@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import { Panel } from "../styled/panel";
 import Link from "../styled/link";
 import { ReactComponent as CaretDown } from "./caret-down.svg";
+import Divider from "../styled/divider";
 
 const CaretDownIcon = styled(CaretDown)`
   margin-left: 4px;
@@ -161,21 +162,24 @@ export default function SubMenu({
       {isActive && (
         <MouseWrapper>
           <MenuWrapper ref={ref}>
-            {menus.map((item, index) => (
-              <Fragment key={index}>
-                <Link to={`/${item.value}`}>
-                  <MenuItem
-                    onClick={() => {
-                      closeMenu && closeMenu();
-                      setIsActive(false);
-                    }}
-                    disabled={item.value === ""}
-                  >
-                    {item.name}
-                  </MenuItem>
-                </Link>
-              </Fragment>
-            ))}
+            {menus.map((item, index) => {
+              return (
+                <Fragment key={index}>
+                  {index === divideIndex && <Divider />}
+                  <Link to={`/${item.value}`}>
+                    <MenuItem
+                      onClick={() => {
+                        closeMenu && closeMenu();
+                        setIsActive(false);
+                      }}
+                      disabled={item.value === ""}
+                    >
+                      {item.name}
+                    </MenuItem>
+                  </Link>
+                </Fragment>
+              );
+            })}
           </MenuWrapper>
         </MouseWrapper>
       )}
