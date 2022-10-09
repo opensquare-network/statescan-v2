@@ -9,6 +9,7 @@ import Transfers from "./pages/transfers";
 import Accounts from "./pages/accounts";
 import Event from "./pages/event";
 import Account from "./pages/account";
+import Calls from "./pages/calls";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/transfers" element={<Transfers />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/account/:id" element={<Account />} />
+        <Route path="/calls" element={<Calls />} />
       </Routes>
     </HashRouter>
   );
