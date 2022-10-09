@@ -36,7 +36,7 @@ function Account() {
       Api.fetch(`/accounts/${id}`, {}).then(({ result: account }) => {
         const data = {
           Address: <TextMonoSecondaryWithCopy>{id}</TextMonoSecondaryWithCopy>,
-          //add links
+          //todo: add links
           "Total Balance": (
             <Tooltip
               tip={`${toPrecision(
