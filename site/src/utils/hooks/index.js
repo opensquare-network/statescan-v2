@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { modeSelector } from "../../store/reducers/settingSlice";
 
 export function useOnClickOutside(ref, handler) {
   useEffect(() => {
@@ -46,4 +48,11 @@ export function useWindowSize() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return windowSize;
+}
+
+export function useIsDark() {
+  const mode = useSelector(modeSelector);
+  const isDark = useMemo(() => mode === "dark", [mode]);
+
+  return isDark;
 }
