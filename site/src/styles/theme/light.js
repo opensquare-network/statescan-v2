@@ -16,7 +16,7 @@ const light = {
   fillPopupHover: "#F8F8F9",
   fillSub: "#EFEFF0",
   fillSubDark: "#262B37",
-  fillBase: "#FAFAFA",
+  fillBase: "#F8F8F9",
   fillButton: "#000000",
   fillBub: "#EFEFF0",
   fillTooltip: "rgba(0, 0, 0, 0.85)",
