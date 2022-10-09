@@ -14,6 +14,7 @@ import Link from "../../styled/link";
 import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
+import Tooltip from "../../tooltip";
 
 const BlockIcon = styled(Block)`
   path {
@@ -64,6 +65,10 @@ const ThemeText = styled.p`
   ${Inter_14_600};
 `;
 
+const BlockHeight = styled(ThemeText)`
+  margin-bottom: 4px;
+`;
+
 const Time = styled.span`
   color: ${(props) => props.theme.fontTertiary};
   ${Inter_12_500};
@@ -109,7 +114,7 @@ function LatestBlocks({ blocks }) {
               <BlockIcon />
               <div>
                 <Link to={`/block/${block.height}`}>
-                  <ThemeText>{block.height?.toLocaleString?.()}</ThemeText>
+                  <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
                 </Link>
                 <Flex gap={8}>
                   {block.isFinalized ? <CheckIcon /> : <TimerIcon />}
@@ -119,7 +124,9 @@ function LatestBlocks({ blocks }) {
             </Flex>
 
             <div>
-              <Address>{addressEllipsis(block.validator)}</Address>
+              <Tooltip tip={block.validator}>
+                <Address>{addressEllipsis(block.validator)}</Address>
+              </Tooltip>
               <Flex style={{ fontSize: 12 }} gap={8}>
                 <Flex gap={8}>
                   <Label>Extrinsics</Label>

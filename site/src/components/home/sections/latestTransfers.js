@@ -73,6 +73,10 @@ const ThemeText = styled.p`
   ${Inter_14_600};
 `;
 
+const BlockHeight = styled(ThemeText)`
+  margin-bottom: 4px;
+`;
+
 const Value = styled.p`
   margin: 0;
   margin-bottom: 4px;
@@ -101,8 +105,6 @@ const mapLoadingState = (props) => {
 };
 
 function LatestTransfers({ transfers }) {
-  console.log(transfers);
-
   const chainSetting = useSelector(chainSettingSelector);
 
   return (
@@ -116,10 +118,10 @@ function LatestTransfers({ transfers }) {
                 <Link
                   to={`/extrinsic/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
                 >
-                  <ThemeText>
+                  <BlockHeight>
                     {transfer?.indexer?.blockHeight?.toLocaleString()}-
                     {transfer?.indexer?.extrinsicIndex}
-                  </ThemeText>
+                  </BlockHeight>
                 </Link>
                 <Flex gap={8}>
                   {transfer.isFinalized ? <CheckIcon /> : <TimerIcon />}

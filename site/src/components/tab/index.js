@@ -2,7 +2,10 @@ import styled, { css } from "styled-components";
 import { Inter_12_600, Inter_20_700 } from "../../styles/text";
 import { Flex } from "../styled/flex";
 
-const TabWrapper = styled(Flex)`
+const TabWrapper = styled.button`
+  all: unset;
+  display: flex;
+  align-items: center;
   margin-top: 32px;
   margin-bottom: 16px;
   margin-right: 32px;

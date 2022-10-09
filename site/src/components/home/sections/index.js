@@ -18,7 +18,10 @@ const Title = styled.h2`
 `;
 
 const Anchor = styled(Link)`
+  margin: auto;
+  margin-right: 0;
   display: block;
+  width: fit-content;
   padding-right: 24px;
   ${Inter_14_500};
   line-height: 52px;
