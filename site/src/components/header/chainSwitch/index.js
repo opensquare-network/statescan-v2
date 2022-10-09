@@ -1,14 +1,12 @@
 import { useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { ReactComponent as Polkadot } from "../../icons/polkadot.svg";
-import { ReactComponent as Kusama } from "../../icons/kusama.svg";
-import { ReactComponent as Westend } from "../../icons/westend.svg";
 import { ReactComponent as ArrowDown } from "../../icons/caret-down.svg";
 import { useOnClickOutside } from "../../../utils/hooks";
 import { chains } from "../../../utils/constants";
 import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
+import { useChainIcons } from "../../../utils/hooks/useChainIcons";
 
 const ArrowDownIcon = styled(ArrowDown)`
   position: absolute;
@@ -103,22 +101,24 @@ const Item = styled.a`
     `}
 `;
 
-const ChainIconMap = new Map([
-  ["polkadot", <Polkadot />],
-  ["kusama", <Kusama />],
-  ["westend", <Westend />],
-]);
-
 export default function ChainSwitch() {
   const currentNode = useSelector(chainSettingSelector);
   const [show, setShow] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
 
+  const { Statemine, Statemint, Westmint } = useChainIcons();
+
+  const CHAIN_ICONS_MAP = {
+    polkadot: <Statemint />,
+    kusama: <Statemine />,
+    westend: <Westmint />,
+  };
+
   return (
     <Wrapper ref={ref}>
       <Dropdown active={show} onClick={() => setShow((state) => !state)}>
-        {ChainIconMap.get(currentNode.chainIcon)}
+        {CHAIN_ICONS_MAP[currentNode.chainIcon]}
         <Text>{currentNode.name}</Text>
         <ArrowDownIcon />
       </Dropdown>
@@ -139,7 +139,7 @@ export default function ChainSwitch() {
                 }}
               >
                 <Flex style={{ gap: 8 }}>
-                  {ChainIconMap.get(item.chainIcon)}
+                  {CHAIN_ICONS_MAP[item.chainIcon]}
                   <Text>{item.name}</Text>
                 </Flex>
                 <Sub>{item.sub}</Sub>
