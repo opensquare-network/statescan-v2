@@ -34,7 +34,6 @@ function Calls() {
       .then(({ result }) => {
         setCalls(result?.items ?? []);
         setTotal(result?.total ?? 0);
-        console.log(result);
       });
   }, [location, page]);
 
