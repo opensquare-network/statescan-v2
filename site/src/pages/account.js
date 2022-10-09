@@ -13,6 +13,8 @@ import ValueDisplay from "../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Tooltip from "../components/tooltip";
+import Tab from "../components/tab";
+import TransfersTable from "../components/account/tabTables/transfersTable";
 
 const TextMonoSecondary = styled.span`
   ${SF_Mono_14_500};
@@ -29,6 +31,7 @@ const TextMonoSecondaryWithCopy = withCopy(TextMonoSecondary);
 function Account() {
   const { id } = useParams();
   const [listData, setListData] = useState({});
+  const [transfersCount, setTransfersCount] = useState(0);
   const chainSetting = useSelector(chainSettingSelector);
 
   useEffect(() => {
@@ -85,7 +88,7 @@ function Account() {
               <TextSecondary>
                 <ValueDisplay
                   value={toPrecision(
-                    account?.data?.reversed,
+                    account?.data?.reserved,
                     chainSetting.decimals,
                   )}
                   symbol={chainSetting.symbol}
@@ -112,6 +115,9 @@ function Account() {
       <Panel>
         <List data={listData} />
       </Panel>
+
+      <Tab text={"Transfers"} count={transfersCount} active />
+      <TransfersTable address={id} setTransfersCount={setTransfersCount} />
     </Layout>
   );
 }

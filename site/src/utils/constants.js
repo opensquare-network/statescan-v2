@@ -146,6 +146,15 @@ export const accountsHead = [
   { name: "Balance", width: 240, align: "right" },
 ];
 
+export const accountTransfersHead = [
+  { name: "Event ID", width: 160 },
+  { name: "Extrinsic ID", width: 160 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "From", width: 200 },
+  { name: "To", width: 200 },
+  { name: "Balance", align: "right" },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
