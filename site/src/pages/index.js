@@ -8,6 +8,11 @@ import {
   setLatestBlocks,
   setLatestSignedTransfers,
 } from "../store/reducers/socketSlice";
+import styled from "styled-components";
+
+const SectionsWrapper = styled.div`
+  margin-top: 32px;
+`;
 
 function Home() {
   const dispatch = useDispatch();
@@ -24,7 +29,10 @@ function Home() {
   return (
     <Layout>
       <Explore />
-      <Sections />
+
+      <SectionsWrapper>
+        <Sections />
+      </SectionsWrapper>
     </Layout>
   );
 }
