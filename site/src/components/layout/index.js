@@ -15,6 +15,8 @@ import {
 import Navi from "../header/navi";
 import { useWindowSize } from "../../utils/hooks";
 import { useEffect } from "react";
+import Tip from "../tooltip/tip";
+import { tooltipContentSelector } from "../../store/reducers/tooltipSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,6 +51,7 @@ export default function Layout({ children }) {
   const mode = useSelector(modeSelector);
   const theme = mode === "light" ? light : dark;
   const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
+  const tooltipContent = useSelector(tooltipContentSelector);
   const dispatch = useDispatch();
 
   const { width } = useWindowSize();
@@ -77,6 +80,7 @@ export default function Layout({ children }) {
           </MobileMenuWrapper>
         )}
         <Footer />
+        <Tip>{tooltipContent}</Tip>
       </Wrapper>
     </ThemeProvider>
   );
