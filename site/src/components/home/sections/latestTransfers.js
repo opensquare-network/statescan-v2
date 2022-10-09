@@ -98,7 +98,6 @@ const mapLoadingState = (props) => {
 };
 
 function LatestTransfers({ transfers }) {
-  console.log(transfers);
   return (
     <Rows>
       {transfers?.slice(0, 5).map((transfer, i) => (

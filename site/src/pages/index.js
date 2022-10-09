@@ -8,6 +8,7 @@ import {
   setLatestBlocks,
   setLatestSignedTransfers,
 } from "../store/reducers/socketSlice";
+import Tooltip from "../components/tooltip";
 
 function Home() {
   const dispatch = useDispatch();
@@ -23,6 +24,9 @@ function Home() {
 
   return (
     <Layout>
+      <Tooltip>
+        <h1>test</h1>
+      </Tooltip>
       <Explore />
       <Sections />
     </Layout>

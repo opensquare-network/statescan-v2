@@ -14,6 +14,7 @@ import Link from "../../styled/link";
 import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
+import Tooltip from "../../tooltip";
 
 const BlockIcon = styled(Block)`
   path {
@@ -119,7 +120,9 @@ function LatestBlocks({ blocks }) {
             </Flex>
 
             <div>
-              <Address>{addressEllipsis(block.validator)}</Address>
+              <Tooltip content={block.validator} tip={block.validator}>
+                <Address>{addressEllipsis(block.validator)}</Address>
+              </Tooltip>
               <Flex style={{ fontSize: 12 }} gap={8}>
                 <Flex gap={8}>
                   <Label>Extrinsics</Label>
