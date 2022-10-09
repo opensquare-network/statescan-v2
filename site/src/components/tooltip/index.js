@@ -32,7 +32,7 @@ export default function Tooltip({ children, tip = "" }) {
         dispatch(toggleTooltip(false));
       });
     }
-  }, []);
+  }, [dispatch, tip]);
 
   return <Wrapper ref={ref}>{children}</Wrapper>;
 }
