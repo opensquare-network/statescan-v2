@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {
   abbreviateBigNumber,
+  bigNumberToLocaleString,
   getEffectiveNumbers,
 } from "../utils/viewFuncs/index";
 
@@ -13,12 +14,20 @@ const NotEqual = styled.div`
   }
 `;
 
-export default function ValueDisplay({ value, symbol, noWrap }) {
+export default function ValueDisplay({
+  value,
+  symbol,
+  noWrap,
+  abbreviate = true,
+}) {
   if (isNaN(value) || noWrap) {
     return `${value} ${symbol}`;
   }
 
-  if (Number(value) >= 1000000 || getEffectiveNumbers(value)?.length >= 11) {
+  if (
+    (Number(value) >= 1000000 || getEffectiveNumbers(value)?.length >= 11) &&
+    abbreviate
+  ) {
     const abbreviated = abbreviateBigNumber(value, 2);
     let display = `${abbreviated} ${symbol}`;
     if (getEffectiveNumbers(abbreviated) !== getEffectiveNumbers(value)) {
@@ -34,11 +43,11 @@ export default function ValueDisplay({ value, symbol, noWrap }) {
 
   const [int, decimal] = String(value).split(".");
   if (decimal?.length > 5) {
-    const shortDeciaml = decimal.substring(0, 5);
+    const shortDeciaml = decimal.substring(0, 3);
     return (
       <NotEqual>
         <span className="figures">
-          {int}.{shortDeciaml}
+          {bigNumberToLocaleString(int)}.{shortDeciaml}
         </span>{" "}
         <span className="symbol">{symbol}</span>
       </NotEqual>

@@ -8,6 +8,7 @@ import Extrinsic from "./pages/extrinsic";
 import Transfers from "./pages/transfers";
 import Accounts from "./pages/accounts";
 import Event from "./pages/event";
+import Account from "./pages/account";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/event/:id" element={<Event />} />
         <Route path="/transfers" element={<Transfers />} />
         <Route path="/accounts" element={<Accounts />} />
+        <Route path="/account/:id" element={<Account />} />
       </Routes>
     </HashRouter>
   );

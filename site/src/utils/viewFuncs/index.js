@@ -65,3 +65,8 @@ export function abbreviateBigNumber(x, fixed = 2) {
   BigNumber.config({ FORMAT: fmt });
   return new BigNumber(n.dividedBy(divideBy).toFixed(fixed)).toFormat();
 }
+
+export function bigNumberToLocaleString(n) {
+  const x = new BigNumber(n);
+  return x.toFormat();
+}

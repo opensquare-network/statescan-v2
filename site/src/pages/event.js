@@ -18,7 +18,6 @@ const TextSecondary = styled.span`
   color: ${({ theme }) => theme.fontSecondary};
 `;
 
-const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
 function Event() {
