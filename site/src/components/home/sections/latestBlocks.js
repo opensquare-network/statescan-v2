@@ -65,6 +65,10 @@ const ThemeText = styled.p`
   ${Inter_14_600};
 `;
 
+const BlockHeight = styled(ThemeText)`
+  margin-bottom: 4px;
+`;
+
 const Time = styled.span`
   color: ${(props) => props.theme.fontTertiary};
   ${Inter_12_500};
@@ -110,7 +114,7 @@ function LatestBlocks({ blocks }) {
               <BlockIcon />
               <div>
                 <Link to={`/block/${block.height}`}>
-                  <ThemeText>{block.height?.toLocaleString?.()}</ThemeText>
+                  <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
                 </Link>
                 <Flex gap={8}>
                   {block.isFinalized ? <CheckIcon /> : <TimerIcon />}
