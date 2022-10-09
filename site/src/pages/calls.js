@@ -25,6 +25,8 @@ function Calls() {
   const page = getPageFromQuery(location);
 
   useEffect(() => {
+    setCalls(null);
+
     api
       .fetch("/calls", {
         page: page - 1,
