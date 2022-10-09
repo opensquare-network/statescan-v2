@@ -38,6 +38,28 @@ export const chains = [
     colorSecondary: "#FAE6F2",
     buttonColor: "#DA68A7",
   },
+  {
+    name: "Litmus",
+    sub: "Litentry",
+    value: "litmus",
+    symbol: "LIT",
+    decimals: 12,
+    chainIcon: "litmus",
+    color: "#6431EC",
+    colorSecondary: "#FAE6F2",
+    buttonColor: "#6431EC",
+  },
+  {
+    name: "Litentry",
+    sub: "Litentry",
+    value: "litentry",
+    symbol: "LIT",
+    decimals: 12,
+    chainIcon: "litentry",
+    color: "#1CC776",
+    colorSecondary: "#FAE6F2",
+    buttonColor: "#1CC776",
+  },
 ];
 
 export const chainNames = chains.map((item) => item.value);
