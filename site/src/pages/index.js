@@ -24,9 +24,6 @@ function Home() {
 
   return (
     <Layout>
-      <Tooltip>
-        <h1>test</h1>
-      </Tooltip>
       <Explore />
       <Sections />
     </Layout>
