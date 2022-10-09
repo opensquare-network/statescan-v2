@@ -120,7 +120,7 @@ function LatestBlocks({ blocks }) {
             </Flex>
 
             <div>
-              <Tooltip content={block.validator} tip={block.validator}>
+              <Tooltip tip={block.validator}>
                 <Address>{addressEllipsis(block.validator)}</Address>
               </Tooltip>
               <Flex style={{ fontSize: 12 }} gap={8}>
