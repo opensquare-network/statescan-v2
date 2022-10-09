@@ -8,7 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 const Wrapper = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 1;
   left: ${(p) => p?.position?.left ?? 0}px;
   top: ${(p) => p?.position?.top ?? 0}px;

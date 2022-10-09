@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { Inter_12_600, Inter_20_700 } from "../../styles/text";
+import { abbreviateBigNumber } from "../../utils/viewFuncs";
 
 const TabWrapper = styled.button`
   all: unset;
@@ -43,7 +44,7 @@ function Tab({ text, count, active, onClick }) {
   return (
     <TabWrapper onClick={onClick}>
       <TabText active={active}>{text}</TabText>
-      {count > -1 && <TabTag>{count}</TabTag>}
+      {count > -1 && <TabTag>{abbreviateBigNumber(count)}</TabTag>}
     </TabWrapper>
   );
 }
