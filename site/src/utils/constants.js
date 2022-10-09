@@ -130,6 +130,16 @@ export const eventsHead = [
   { name: "Data", type: "data", align: "right", width: 76, display: "table" },
 ];
 
+export const callsHead = [
+  { name: "Call ID", width: 160 },
+  { name: "Extrinsic ID", width: 160 },
+  { name: "Block", width: 160 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "Method", width: 200 },
+  { name: "Call" },
+  { name: "Data", type: "data", align: "right", width: 76, display: "table" },
+];
+
 export const transfersHead = [
   { name: "Event ID", width: 160 },
   { name: "Extrinsic ID", width: 160 },
