@@ -1,3 +1,4 @@
+const { deleteAllUnFinalizedData } = require("./unFinalized/delete");
 const { deleteFrom } = require("../mongo/services/delete");
 const { updateUnFinalized } = require("./unFinalized");
 const { batchInsertCalls } = require("../mongo/services/call");
@@ -63,6 +64,11 @@ async function scan() {
   await deleteFrom(toScanHeight);
 
   while (true) {
+    const finalizedHeight = getLatestFinalizedHeight();
+    if (toScanHeight < finalizedHeight - 100) {
+      await deleteAllUnFinalizedData();
+    }
+
     toScanHeight = await oneStepScan(toScanHeight, wrappedHandleBlock, true);
     await sleep(1);
   }
