@@ -13,7 +13,7 @@ const Tag = styled(TagOrigin)`
  * @description page call table
  * @property data
  */
-export default function CallTable(props) {
+export default function CallsTable(props) {
   const { data = [] } = props ?? {};
 
   const tableData = data?.map((item) => {

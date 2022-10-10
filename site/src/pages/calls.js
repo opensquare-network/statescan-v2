@@ -7,7 +7,7 @@ import Pagination from "../components/pagination";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import api from "../services/api";
 import { getPageFromQuery } from "../utils/viewFuncs";
-import CallTable from "../components/call/table";
+import CallsTable from "../components/call/callsTable";
 
 function Calls() {
   const location = useLocation();
@@ -33,7 +33,7 @@ function Calls() {
       <BreadCrumb data={[{ name: "Calls" }]} />
 
       <StyledPanelTableWrapper>
-        <CallTable data={data} />
+        <CallsTable data={data} />
         <Pagination page={parseInt(page)} pageSize={10} total={total} />
       </StyledPanelTableWrapper>
     </Layout>
