@@ -98,7 +98,14 @@ function Extrinsic() {
   return (
     <Layout>
       <BreadCrumb
-        data={[{ name: "Extrinsics", path: "/extrinsics" }, { name: id }]}
+        data={[
+          { name: "Extrinsics", path: "/extrinsics" },
+          {
+            name:
+              `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}` ??
+              "...",
+          },
+        ]}
       />
       <Panel>
         <List data={listData} />
