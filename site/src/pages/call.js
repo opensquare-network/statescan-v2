@@ -21,6 +21,11 @@ const Link = styled(ColoredLink)`
   ${Inter_14_500}
 `;
 
+const CallText = styled.span`
+  color: ${(p) => p.theme.fontSecondary};
+  ${Inter_14_500};
+`;
+
 function Call() {
   const { id } = useParams();
   const [call, setCall] = useState(null);
@@ -34,7 +39,7 @@ function Call() {
     api.fetch(`/calls/${id}`).then(({ result: data }) => {
       setCall(data);
 
-      const { indexer, method } = data ?? {};
+      const { indexer, method, section } = data ?? {};
 
       const list = {
         "Call ID": (
@@ -56,7 +61,11 @@ function Call() {
         ),
         Timestamp: <DetailedTime ts={indexer?.blockTime} />,
         Method: <Tag>{method}</Tag>,
-        Call: "--",
+        Call: (
+          <CallText>
+            {section}({method})
+          </CallText>
+        ),
       };
       setList(list);
     });
