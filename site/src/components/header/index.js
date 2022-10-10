@@ -78,6 +78,10 @@ const menusBlockchain = [
     value: "events",
   },
   {
+    name: "Calls",
+    value: "calls",
+  },
+  {
     name: "Transfers",
     value: "transfers",
   },
