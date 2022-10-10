@@ -63,12 +63,12 @@ async function scan() {
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
 
-  while (true) {
-    const finalizedHeight = getLatestFinalizedHeight();
-    if (toScanHeight < finalizedHeight - 100) {
-      await deleteAllUnFinalizedData();
-    }
+  const finalizedHeight = getLatestFinalizedHeight();
+  if (toScanHeight < finalizedHeight - 100) {
+    await deleteAllUnFinalizedData();
+  }
 
+  while (true) {
     toScanHeight = await oneStepScan(toScanHeight, wrappedHandleBlock, true);
     await sleep(1);
   }
