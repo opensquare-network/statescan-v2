@@ -15,6 +15,7 @@ import { no_scroll_bar } from "../styles";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
+import Filter from "../components/filter";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -29,6 +30,21 @@ const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
   ${SF_Mono_14_500};
 `;
+
+const filter = [
+  {
+    value: "",
+    name: "Sign",
+    query: "sign",
+    options: [
+      {
+        text: "Signed only",
+        value: "",
+      },
+      { text: "All", value: "all" },
+    ],
+  },
+];
 
 function Extrinsics() {
   const location = useLocation();
@@ -75,6 +91,10 @@ function Extrinsics() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Extrinsics" }]} />
+      <Filter
+        title={`All ${total.toLocaleString()} extrinsics`}
+        data={filter}
+      />
       <StyledPanel>
         <Table heads={extrinsicsHead} data={data} />
         <Pagination page={parseInt(page)} pageSize={10} total={total} />
