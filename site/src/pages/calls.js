@@ -40,7 +40,7 @@ function Calls() {
   const data = calls?.map((call) => {
     return [
       <ColoredLink
-        to={`/call/${call?.indexer?.blockHeight}-${call?.indexer?.callIndex}`}
+        to={`/call/${call?.indexer?.blockHeight}-${call?.indexer?.extrinsicIndex}-${call?.indexer?.callIndex}`}
       >
         {call?.indexer?.blockHeight.toLocaleString()}-{call?.indexer?.callIndex}
       </ColoredLink>,
