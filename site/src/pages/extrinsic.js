@@ -16,6 +16,9 @@ import Tab from "../components/tab";
 import { DetailedTime } from "../components/styled/time";
 import { Tag, TagHighContrast } from "../components/tag";
 import DataTable from "../components/table/dataTable";
+import { Flex } from "../components/styled/flex";
+import CallsTable from "../components/extrinsic/tabTables/callsTable";
+import { useMemo } from "react";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -34,7 +37,39 @@ function Extrinsic() {
   const { id } = useParams();
   const [listData, setListData] = useState({});
   const [extrinsic, setExtrinsic] = useState(null);
-  const [eventsCount, setEventsCount] = useState(null);
+  const [eventsCount, setEventsCount] = useState(0);
+  const [callsCount, setCallsCount] = useState(0);
+
+  const tabs = [
+    { name: "Events", count: eventsCount },
+    { name: "Calls", count: callsCount },
+  ];
+
+  const [activeTab, setActiveTab] = useState(tabs[0].name);
+
+  const extrinsicId = useMemo(
+    () =>
+      `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`,
+    [extrinsic],
+  );
+
+  const tables = [
+    {
+      name: "Events",
+      table: (
+        <EventsTable
+          extrinsicId={extrinsicId}
+          setEventsCount={setEventsCount}
+        />
+      ),
+    },
+    {
+      name: "Calls",
+      table: (
+        <CallsTable extrinsicId={extrinsicId} setCallsCount={setCallsCount} />
+      ),
+    },
+  ];
 
   useEffect(() => {
     if (id) {
@@ -112,11 +147,26 @@ function Extrinsic() {
         <DataTable data={extrinsic?.call} title="Parameters" />
       </Panel>
 
-      <Tab text={"Events"} count={eventsCount} active />
-      <EventsTable
-        extrinsicId={`${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
-        setEventsCount={setEventsCount}
-      />
+      <Flex>
+        {tabs.map((item) => (
+          <Tab
+            key={item.name}
+            text={item.name}
+            count={item.count}
+            active={activeTab === item.name}
+            onClick={() => setActiveTab(item.name)}
+          />
+        ))}
+      </Flex>
+
+      {tables.map((item) => (
+        <div
+          key={item.name}
+          style={{ display: activeTab === item.name ? "block" : "none" }}
+        >
+          {item.table}
+        </div>
+      ))}
     </Layout>
   );
 }
