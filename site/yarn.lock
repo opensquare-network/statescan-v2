@@ -1580,6 +1580,25 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@osn/common@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@osn/common/-/common-1.2.0.tgz#c4b72939f64b9f8d5722441370ffcff0cbdf9f7c"
+  integrity sha512-PLKwX/ObTNgnL2p//Zc22EYs3zK9c64KfaS7WbvXzR4N3haW8zv1pwHn7/LrKvUCTsHzICP8bsyNVnK3J1q8Iw==
+  dependencies:
+    "@osn/provider-options" "^1.0.2"
+    bignumber.js "^9.1.0"
+    lodash.debounce "^4.0.8"
+
+"@osn/constants@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/@osn/constants/-/constants-1.1.2.tgz#6b8bf547b066800949fdb8232e3ff5913ea60659"
+  integrity sha512-jHKIDY4FQK/m40O11nPUeZ9HIgXrfi4ZkfU4hDGkwtl3FbIQ9jynqj5H/6BQm/nAVFUYR/II+sd0PEnWMtwRaw==
+
+"@osn/provider-options@^1.0.2":
+  version "1.0.14"
+  resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.14.tgz#bb7d11f76983ee195a43b5a2711daed77d34d758"
+  integrity sha512-GitYA/FGDcLIjxQgsIronal9150QN9SRXc9FM+I1se6apLq5lUNFqsO1PUuZx2VKnMPPDJH0pjceEyEp8QbSvg==
+
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.7.tgz#58f8217ba70069cc6a73f5d7e05e85b458c150e2"
