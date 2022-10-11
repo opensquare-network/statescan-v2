@@ -17,6 +17,7 @@ import Link from "../../styled/link";
 import ValueDisplay from "../../../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
+import { OnlyDesktop } from "../../../components/screen/onlyDesktop";
 
 const TransferIcon = styled(Transfer)`
   path {
@@ -44,7 +45,6 @@ const Rows = styled.ul`
   margin: 0;
   padding-left: 0;
   padding-top: 8px;
-  max-width: 644px;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -113,7 +113,9 @@ function LatestTransfers({ transfers }) {
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <TransferIcon />
+              <OnlyDesktop>
+                <TransferIcon />
+              </OnlyDesktop>
               <div>
                 <Link
                   to={`/extrinsic/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
@@ -141,8 +143,10 @@ function LatestTransfers({ transfers }) {
                 />
               </Value>
               <Flex gap={16}>
-                <Address>{addressEllipsis(transfer.from)}</Address>
-                <TransferRightIcon />
+                <OnlyDesktop>
+                  <Address>{addressEllipsis(transfer.from)}</Address>
+                  <TransferRightIcon />
+                </OnlyDesktop>
                 <Address>{addressEllipsis(transfer.to)}</Address>
               </Flex>
             </div>

@@ -15,6 +15,7 @@ import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import Tooltip from "../../tooltip";
+import { OnlyDesktop } from "../../screen/onlyDesktop";
 
 const BlockIcon = styled(Block)`
   path {
@@ -36,7 +37,6 @@ const Rows = styled.ul`
   margin: 0;
   padding-left: 0;
   padding-top: 8px;
-  max-width: 644px;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -111,7 +111,9 @@ function LatestBlocks({ blocks }) {
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <BlockIcon />
+              <OnlyDesktop>
+                <BlockIcon />
+              </OnlyDesktop>
               <div>
                 <Link to={`/block/${block.height}`}>
                   <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
