@@ -169,3 +169,18 @@ export const timeTypes = {
   age: "age",
   date: "date",
 };
+
+export const basicFilters = [
+  {
+    value: "true",
+    name: "Sign",
+    query: "signed_only",
+    options: [
+      {
+        text: "Signed only",
+        value: "true",
+      },
+      { text: "All", value: "false" },
+    ],
+  },
+];
