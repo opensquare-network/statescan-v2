@@ -123,7 +123,7 @@ function LatestBlocks({ blocks }) {
 
             <div>
               <Tooltip tip={block.validator} pullRight>
-                <Address to={`/account/block.validator`}>
+                <Address to={`/account/${block.validator}`}>
                   {addressEllipsis(block.validator)}
                 </Address>
               </Tooltip>
