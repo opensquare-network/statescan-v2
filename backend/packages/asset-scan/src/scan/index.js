@@ -9,6 +9,7 @@ const {
 } = require("@osn/scan-common");
 const {
   asset: { getAssetDb },
+  block: { getBlockDb },
 } = require("@statescan/mongo");
 
 async function handleBlock({ block, author, events, height }) {
@@ -40,9 +41,15 @@ async function scan() {
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
 
-  // todo: handle business
+  const blockDb = await getBlockDb();
   while (true) {
-    toScanHeight = await oneStepScan(toScanHeight, wrappedHandleBlock);
+    const blockScanHeight = await blockDb.getScanHeight();
+    toScanHeight = await oneStepScan(
+      toScanHeight,
+      wrappedHandleBlock,
+      false,
+      blockScanHeight,
+    );
     await sleep(1);
   }
 }

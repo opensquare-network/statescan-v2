@@ -7,9 +7,11 @@ const {
 } = require("@osn/scan-common");
 const {
   asset: { initAssetScanDb },
+  block: { initBlockDb },
 } = require("@statescan/mongo");
 
 async function main() {
+  await initBlockDb();
   await initAssetScanDb();
   await subscribeFinalizedHeight();
   if (isUseMetaDb()) {
