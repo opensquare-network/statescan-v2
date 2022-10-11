@@ -1,16 +1,12 @@
 import { Flex, FlexBetween } from "../../styled/flex";
 import styled from "styled-components";
-import {
-  Inter_12_500,
-  Inter_14_600,
-  SF_Mono_14_500,
-} from "../../../styles/text";
+import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import React from "react";
 import { timeDuration } from "../../../utils/viewFuncs/time";
 import { ReactComponent as Block } from "./block.svg";
 import { addressEllipsis } from "../../../utils/viewFuncs";
-import Link from "../../styled/link";
+import Link, { ColoredMonoLink } from "../../styled/link";
 import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
@@ -84,12 +80,12 @@ const Bold = styled.span`
   }
 `;
 
-const Address = styled.p`
+const Address = styled(ColoredMonoLink)`
+  display: block;
   margin: 0;
   margin-bottom: 4px;
-  ${SF_Mono_14_500};
+  line-height: 24px;
   text-align: right;
-  color: ${(props) => props.theme.fontPrimary};
 `;
 
 const Label = styled.span`
@@ -126,8 +122,10 @@ function LatestBlocks({ blocks }) {
             </Flex>
 
             <div>
-              <Tooltip tip={block.validator}>
-                <Address>{addressEllipsis(block.validator)}</Address>
+              <Tooltip tip={block.validator} pullRight>
+                <Address to={`/account/block.validator`}>
+                  {addressEllipsis(block.validator)}
+                </Address>
               </Tooltip>
               <Flex style={{ fontSize: 12 }} gap={8}>
                 <Flex gap={8}>

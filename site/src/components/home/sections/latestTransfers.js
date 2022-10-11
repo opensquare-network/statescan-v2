@@ -13,11 +13,12 @@ import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import { timeDuration } from "../../../utils/viewFuncs/time";
 import { addressEllipsis, toPrecision } from "../../../utils/viewFuncs";
-import Link from "../../styled/link";
+import Link, { ColoredMonoLinkSmall } from "../../styled/link";
 import ValueDisplay from "../../../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import { OnlyDesktop } from "../../../components/screen/onlyDesktop";
+import { OnlyDesktop } from "../../screen/onlyDesktop";
+import Tooltip from "../../tooltip";
 
 const TransferIcon = styled(Transfer)`
   path {
@@ -144,10 +145,18 @@ function LatestTransfers({ transfers }) {
               </Value>
               <Flex gap={16}>
                 <OnlyDesktop>
-                  <Address>{addressEllipsis(transfer.from)}</Address>
+                  <Tooltip tip={transfer.from}>
+                    <ColoredMonoLinkSmall to={`/account/${transfer.from}`}>
+                      {addressEllipsis(transfer.from)}
+                    </ColoredMonoLinkSmall>
+                  </Tooltip>
                   <TransferRightIcon />
                 </OnlyDesktop>
-                <Address>{addressEllipsis(transfer.to)}</Address>
+                <Tooltip tip={transfer.from}>
+                  <ColoredMonoLinkSmall to={`/account/${transfer.to}`}>
+                    {addressEllipsis(transfer.to)}
+                  </ColoredMonoLinkSmall>
+                </Tooltip>
               </Flex>
             </div>
           </FlexBetween>
