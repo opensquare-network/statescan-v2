@@ -1,6 +1,6 @@
 const { extractPage } = require("../../../utils");
 const {
-  block: { getExtrinsicCollection }
+  block: { getExtrinsicCollection },
 } = require("@statescan/mongo");
 
 async function getExtrinsics(ctx) {
@@ -19,7 +19,7 @@ async function getExtrinsics(ctx) {
     q.name = method;
   }
   if (signedOnly === "true") {
-    q.isSigned = false;
+    q.isSigned = true;
   }
 
   const col = await getExtrinsicCollection();
@@ -41,4 +41,4 @@ async function getExtrinsics(ctx) {
 
 module.exports = {
   getExtrinsics,
-}
+};
