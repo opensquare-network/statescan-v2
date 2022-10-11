@@ -14,8 +14,8 @@ import * as queryString from "query-string";
 
 const filter = [
   {
-    value: "",
-    name: "Is Extrinsic",
+    value: "true",
+    name: "Extrinsic",
     query: "is_extrinsic",
     options: [
       {
@@ -26,12 +26,12 @@ const filter = [
     ],
   },
   {
-    value: "",
-    name: "Extrinsic Result",
+    value: "true",
+    name: "Results",
     query: "no_extrinsic_result",
     options: [
       {
-        text: "No result",
+        text: "No Extrinsic results",
         value: "true",
       },
       { text: "All", value: "" },
