@@ -10,7 +10,7 @@ import React from "react";
 import { timeDuration } from "../../../utils/viewFuncs/time";
 import { ReactComponent as Block } from "./block.svg";
 import { addressEllipsis } from "../../../utils/viewFuncs";
-import Link from "../../styled/link";
+import Link, { ColoredMonoLinkSmall } from "../../styled/link";
 import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
@@ -85,6 +85,7 @@ const Bold = styled.span`
 `;
 
 const Address = styled.p`
+  border: 1px solid red;
   margin: 0;
   margin-bottom: 4px;
   ${SF_Mono_14_500};
@@ -126,8 +127,10 @@ function LatestBlocks({ blocks }) {
             </Flex>
 
             <div>
-              <Tooltip tip={block.validator}>
-                <Address>{addressEllipsis(block.validator)}</Address>
+              <Tooltip tip={block.validator} pullRight>
+                <ColoredMonoLinkSmall to={`/account/block.validator`}>
+                  {addressEllipsis(block.validator)}
+                </ColoredMonoLinkSmall>
               </Tooltip>
               <Flex style={{ fontSize: 12 }} gap={8}>
                 <Flex gap={8}>
