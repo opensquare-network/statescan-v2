@@ -1,5 +1,5 @@
 import { Flex, FlexBetween } from "../../styled/flex";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import {
   Inter_12_500,
   Inter_14_600,
@@ -15,7 +15,7 @@ import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import Tooltip from "../../tooltip";
-import { mobileCss } from "../../../utils/mobileCss";
+import { OnlyDesktop } from "../../screen/onlyDesktop";
 
 const BlockIcon = styled(Block)`
   path {
@@ -31,10 +31,6 @@ const BlockIcon = styled(Block)`
       stop-color: ${({ theme }) => theme.fontPrimary};
     }
   }
-
-  ${mobileCss(css`
-    display: none;
-  `)}
 `;
 
 const Rows = styled.ul`
@@ -115,7 +111,9 @@ function LatestBlocks({ blocks }) {
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <BlockIcon />
+              <OnlyDesktop>
+                <BlockIcon />
+              </OnlyDesktop>
               <div>
                 <Link to={`/block/${block.height}`}>
                   <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
