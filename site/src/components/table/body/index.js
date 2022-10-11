@@ -1,5 +1,6 @@
 import { withLoading } from "../../../HOC/withLoading";
 import TableLoading from "../../loadings/tableLoading";
+import TableEmpty from "./empty";
 import TableRow from "./row";
 
 const mapLoadingState = (props) => {
@@ -11,8 +12,8 @@ const mapLoadingState = (props) => {
 };
 
 function TableBody({ heads, data = null }) {
-  if (data === null) {
-    return null;
+  if (!data?.length) {
+    return <TableEmpty />;
   }
 
   return (
