@@ -1,5 +1,5 @@
 import { Flex, FlexBetween } from "../../styled/flex";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   Inter_12_500,
   Inter_14_600,
@@ -15,6 +15,7 @@ import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import Tooltip from "../../tooltip";
+import { mobileCss } from "../../../utils/mobileCss";
 
 const BlockIcon = styled(Block)`
   path {
@@ -30,13 +31,16 @@ const BlockIcon = styled(Block)`
       stop-color: ${({ theme }) => theme.fontPrimary};
     }
   }
+
+  ${mobileCss(css`
+    display: none;
+  `)}
 `;
 
 const Rows = styled.ul`
   margin: 0;
   padding-left: 0;
   padding-top: 8px;
-  max-width: 644px;
   display: flex;
   flex-wrap: wrap;
 `;
