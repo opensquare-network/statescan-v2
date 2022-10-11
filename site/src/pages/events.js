@@ -9,6 +9,35 @@ import Api from "../services/api";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
+import Filter from "../components/filter";
+import * as queryString from "query-string";
+
+const filter = [
+  {
+    value: "",
+    name: "Is Extrinsic",
+    query: "is_extrinsic",
+    options: [
+      {
+        text: "Extrinsic only",
+        value: "true",
+      },
+      { text: "All", value: "" },
+    ],
+  },
+  {
+    value: "",
+    name: "Extrinsic Result",
+    query: "no_extrinsic_result",
+    options: [
+      {
+        text: "No result",
+        value: "true",
+      },
+      { text: "All", value: "" },
+    ],
+  },
+];
 
 function Events() {
   const location = useLocation();
@@ -20,6 +49,7 @@ function Events() {
     setEvents(null);
     Api.fetch(`/events`, {
       page: getPageFromQuery(location) - 1,
+      ...queryString.parse(location.search),
     }).then(({ result }) => {
       setEvents(result?.items ?? []);
       setTotal(result?.total ?? 0);
@@ -58,6 +88,9 @@ function Events() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Events" }]} />
+
+      <Filter title={`All ${total.toLocaleString()} events`} data={filter} />
+
       <StyledPanelTableWrapper>
         <Table heads={eventsHead} data={data} />
         <Pagination page={parseInt(page)} pageSize={10} total={total} />
