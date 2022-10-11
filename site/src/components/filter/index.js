@@ -38,6 +38,7 @@ const Title = styled.h2`
   all: unset;
   font-weight: 600;
   white-space: nowrap;
+  color: ${(p) => p.theme.fontPrimary};
 `;
 
 const HeadWrapper = styled(FlexBetween)`
@@ -55,6 +56,7 @@ const DropdownWrapper = styled(Flex)`
   > :not(:first-child) {
     margin-left: 16px;
   }
+  color: ${(p) => p.theme.fontPrimary};
 `;
 
 const Button = styled.div`
@@ -78,7 +80,7 @@ const FilterWrapper = styled(Flex)`
   }
 `;
 
-export default function Filter({ title, data, allmodulemethods }) {
+export default function Filter({ title, data }) {
   const navigate = useNavigate();
   const [selectData, setDropdownData] = useState(data);
 
@@ -87,23 +89,9 @@ export default function Filter({ title, data, allmodulemethods }) {
   }, [data]);
 
   const onDropdown = (name, value) => {
-    let methods = [];
-    if (name === "Module") {
-      methods = (
-        allmodulemethods.find((item) => item.module === value)?.methods || []
-      ).map((item) => ({
-        value: item,
-        text: item,
-      }));
-      methods.unshift({ text: "All", value: "" });
-    }
     setDropdownData(
       (selectData || []).map((item) => {
-        if (name === "Module" && item.name === "Method") {
-          return { ...item, value: "", options: methods };
-        } else {
-          return item.name === name ? { ...item, value } : item;
-        }
+        return item.name === name ? { ...item, value } : item;
       }),
     );
   };
@@ -121,7 +109,8 @@ export default function Filter({ title, data, allmodulemethods }) {
   const filter_button = (
     <Button
       onClick={() => {
-        navigate({ search: `?${queryString.stringify(getCurrentFilter())}` });
+        const search = queryString.stringify(getCurrentFilter());
+        navigate({ search: `?page=1${search ? "&" : ""}${search}` });
       }}
     >
       Filter
@@ -136,7 +125,7 @@ export default function Filter({ title, data, allmodulemethods }) {
       </HeadWrapper>
       {selectData?.length > 0 && (
         <FilterWrapper>
-          {(selectData.concat(selectData) || []).map((item, index) => (
+          {(selectData || []).map((item, index) => (
             <DropdownWrapper key={index}>
               <span>{item.name}</span>
               <Dropdown

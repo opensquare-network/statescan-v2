@@ -16,6 +16,7 @@ import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
+import * as queryString from "query-string";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -33,15 +34,15 @@ const ColoredMonoLink = styled(Link)`
 
 const filter = [
   {
-    value: "",
+    value: "true",
     name: "Sign",
-    query: "sign",
+    query: "signed_only",
     options: [
       {
         text: "Signed only",
-        value: "",
+        value: "true",
       },
-      { text: "All", value: "all" },
+      { text: "All", value: "false" },
     ],
   },
 ];
@@ -56,6 +57,8 @@ function Extrinsics() {
     setExtrinsics(null);
     Api.fetch(`/extrinsics`, {
       page: getPageFromQuery(location) - 1,
+      signed_only: "true",
+      ...queryString.parse(location.search),
     }).then(({ result }) => {
       setExtrinsics(result?.items ?? []);
       setTotal(result?.total ?? 0);

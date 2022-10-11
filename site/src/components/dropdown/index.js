@@ -1,24 +1,27 @@
-import { ReactComponent as CaretIcon } from "../icons/caret-down.svg";
+import { ReactComponent as Caret } from "../icons/caret-down.svg";
 import { useOnClickOutside } from "../../utils/hooks";
 import styled, { css } from "styled-components";
 import { useState, useRef } from "react";
+import { FlexBetween } from "../styled/flex";
+
+const CaretIcon = styled(Caret)`
+  path {
+    stroke: ${(p) => p.theme.fontPrimary};
+  }
+`;
 
 const Wrapper = styled.div`
   position: relative;
 `;
 
-const SelectWrapper = styled.div`
+const SelectWrapper = styled(FlexBetween)`
   width: 160px;
   height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 400;
-  background: #ffffff;
+  background: ${(p) => p.theme.fillPopup};
   border-radius: 6px;
   padding: 0 6px 0 12px;
   cursor: pointer;
-  border: 1px solid #eeeeee;
+  border: 1px solid ${(p) => p.theme.strokeBox};
   white-space: nowrap;
 
   > span {
@@ -32,13 +35,13 @@ const SelectWrapper = styled.div`
   }
 
   :hover {
-    border-color: #bbbbbb;
+    border-color: ${(p) => p.theme.strokeBoxHover};
   }
 
   ${(p) =>
     p.isActive &&
     css`
-      border-color: #bbbbbb;
+      border-color: ${(p) => p.theme.strokeBoxHover};
 
       :hover {
         color: inherit;
@@ -50,7 +53,7 @@ const OptionWrapper = styled.div`
   z-index: 99;
   position: absolute;
   padding: 8px 0;
-  background: #ffffff;
+  background: ${(p) => p.theme.fillPopup};
   left: 0;
   top: 40px;
   min-width: 100%;
@@ -69,13 +72,13 @@ const OptionItem = styled.div`
   text-overflow: ellipsis;
 
   :hover {
-    background: #fafafa;
+    background: ${(p) => p.theme.fillPopupHover};
   }
 
   ${(p) =>
     p.isActive &&
     css`
-      background: #fafafa;
+      background: ${(p) => p.theme.fillPopupHover};
     `}
 `;
 

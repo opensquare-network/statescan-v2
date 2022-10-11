@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "../styled/link";
 import styled from "styled-components";
 import * as queryString from "query-string";
@@ -17,13 +17,19 @@ const LinkInnerWrapper = styled.div`
 
 export default function PageCaret({ children, page, onPageChange = null }) {
   const location = useLocation();
-  return (
-    <StyledLink
-      to={`${location.pathname}?${encodeUriQuery({
+  const [to, setTo] = React.useState(``);
+
+  useEffect(() => {
+    setTo(
+      `${location.pathname}?${encodeUriQuery({
         ...queryString.parse(location.search),
         page,
-      })}`}
-    >
+      })}`,
+    );
+  }, [location]);
+
+  return (
+    <StyledLink to={to}>
       <LinkInnerWrapper
         onClick={(e) => {
           onPageChange && onPageChange(e, page);
