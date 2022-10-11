@@ -1,7 +1,7 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { transfersHead } from "../utils/constants";
+import { basicFilters, transfersHead } from "../utils/constants";
 import { ColoredLink, ColoredMonoLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -16,6 +16,8 @@ import {
 import ValueDisplay from "../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
+import Filter from "../components/filter";
+import * as queryString from "query-string";
 
 function Transfers() {
   const location = useLocation();
@@ -28,6 +30,7 @@ function Transfers() {
     setTransfers(null);
     Api.fetch(`/transfers`, {
       page: getPageFromQuery(location) - 1,
+      ...queryString.parse(location.search),
     }).then(({ result }) => {
       setTransfers(result?.items ?? []);
       setTotal(result?.total ?? 0);
@@ -77,6 +80,10 @@ function Transfers() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
+      <Filter
+        title={`All ${total.toLocaleString()} transfers`}
+        data={basicFilters}
+      />
       <StyledPanelTableWrapper>
         <Table heads={transfersHead} data={data} />
         <Pagination page={parseInt(page)} pageSize={10} total={total} />

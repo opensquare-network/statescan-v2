@@ -4,7 +4,7 @@ import { hashEllipsis } from "../utils/viewFuncs/text";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { extrinsicsHead } from "../utils/constants";
+import { basicFilters, extrinsicsHead } from "../utils/constants";
 import Link from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -31,21 +31,6 @@ const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
   ${SF_Mono_14_500};
 `;
-
-const filter = [
-  {
-    value: "true",
-    name: "Sign",
-    query: "signed_only",
-    options: [
-      {
-        text: "Signed only",
-        value: "true",
-      },
-      { text: "All", value: "false" },
-    ],
-  },
-];
 
 function Extrinsics() {
   const location = useLocation();
@@ -96,7 +81,7 @@ function Extrinsics() {
       <BreadCrumb data={[{ name: "Extrinsics" }]} />
       <Filter
         title={`All ${total.toLocaleString()} extrinsics`}
-        data={filter}
+        data={basicFilters}
       />
       <StyledPanel>
         <Table heads={extrinsicsHead} data={data} />
