@@ -47,11 +47,13 @@ function Extrinsic() {
 
   const [activeTab, setActiveTab] = useState(tabs[0].name);
 
-  const extrinsicId = useMemo(
-    () =>
-      `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`,
-    [extrinsic],
-  );
+  const extrinsicId = useMemo(() => {
+    if (!extrinsic) {
+      return null;
+    }
+
+    return `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`;
+  }, [extrinsic]);
 
   const tables = [
     {
