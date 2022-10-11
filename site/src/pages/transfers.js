@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
+import Tooltip from "../components/tooltip";
 
 function Transfers() {
   const location = useLocation();
@@ -61,12 +62,16 @@ function Transfers() {
           {transfer?.indexer?.blockHeight.toLocaleString()}
         </ColoredLink>,
         transfer?.indexer?.blockTime,
-        <ColoredMonoLink to={`/accounts/${transfer?.from}`}>
-          {addressEllipsis(transfer?.from)}
-        </ColoredMonoLink>,
-        <ColoredMonoLink to={`/accounts/${transfer?.to}`}>
-          {addressEllipsis(transfer?.to)}
-        </ColoredMonoLink>,
+        <Tooltip tip={transfer?.from}>
+          <ColoredMonoLink to={`/accounts/${transfer?.from}`}>
+            {addressEllipsis(transfer?.from)}
+          </ColoredMonoLink>
+        </Tooltip>,
+        <Tooltip tip={transfer?.to}>
+          <ColoredMonoLink to={`/accounts/${transfer?.to}`}>
+            {addressEllipsis(transfer?.to)}
+          </ColoredMonoLink>
+        </Tooltip>,
         <ValueDisplay
           value={toPrecision(
             transfer?.balance?.$numberDecimal,

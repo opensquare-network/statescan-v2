@@ -13,6 +13,7 @@ import { SF_Mono_14_500 } from "../styles/text";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
+import Tooltip from "../components/tooltip";
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -47,12 +48,16 @@ function Blocks() {
         </ColoredLink>,
         block?.time,
         <CheckIcon />,
-        <ColoredMonoLink to={`/block/${block?.height}`}>
-          {hashEllipsis(block.hash)}
-        </ColoredMonoLink>,
-        <ColoredMonoLink to={""}>
-          {addressEllipsis(block.validator)}
-        </ColoredMonoLink>,
+        <Tooltip tip={block.hash}>
+          <ColoredMonoLink to={`/block/${block?.height}`}>
+            {hashEllipsis(block.hash)}
+          </ColoredMonoLink>
+        </Tooltip>,
+        <Tooltip tip={block.validator}>
+          <ColoredMonoLink to={`/account/${block.validator}`}>
+            {addressEllipsis(block.validator)}
+          </ColoredMonoLink>
+        </Tooltip>,
         block?.extrinsicsCount,
         block?.eventsCount,
       ];

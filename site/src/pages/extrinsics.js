@@ -17,6 +17,7 @@ import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
+import Tooltip from "../components/tooltip";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -67,9 +68,13 @@ function Extrinsics() {
           {extrinsic?.indexer?.blockHeight.toLocaleString()}
         </ColoredLink>,
         extrinsic?.indexer?.blockTime,
-        <ColoredMonoLink to={""}>
-          {hashEllipsis(extrinsic.hash)}
-        </ColoredMonoLink>,
+        <Tooltip tip={extrinsic.hash}>
+          <ColoredMonoLink
+            to={`/extrinsic/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
+          >
+            {hashEllipsis(extrinsic.hash)}
+          </ColoredMonoLink>
+        </Tooltip>,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
         `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
         extrinsic?.call,
