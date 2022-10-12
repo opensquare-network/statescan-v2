@@ -2,17 +2,16 @@ const { updateUnFinalized } = require("./unFinalized");
 const { deleteFrom } = require("./delete");
 const { handleEvents } = require("./events");
 const {
-  chain: { getBlockIndexer, getLatestFinalizedHeight },
+  chain: { getBlockIndexer, getLatestFinalizedHeight, wrapBlockHandler },
   scan: { oneStepScan },
   utils: { sleep },
-  logger,
 } = require("@osn/scan-common");
 const {
   asset: { getAssetDb },
   block: { getBlockDb },
 } = require("@statescan/mongo");
 
-async function handleBlock({ block, author, events, height }) {
+async function handleBlock({ block, events, height }) {
   const blockIndexer = getBlockIndexer(block);
 
   await handleEvents(events, blockIndexer, block.extrinsics);
@@ -27,15 +26,6 @@ async function handleBlock({ block, author, events, height }) {
   }
 }
 
-async function wrappedHandleBlock(wrappedBlock) {
-  try {
-    await handleBlock(wrappedBlock);
-  } catch (e) {
-    logger.error(`${wrappedBlock.height} scan error`, e);
-    throw e;
-  }
-}
-
 async function scan() {
   const db = getAssetDb();
   let toScanHeight = await db.getNextScanHeight();
@@ -46,7 +36,7 @@ async function scan() {
     const blockScanHeight = await blockDb.getScanHeight();
     toScanHeight = await oneStepScan(
       toScanHeight,
-      wrappedHandleBlock,
+      wrapBlockHandler(handleBlock),
       false,
       blockScanHeight,
     );

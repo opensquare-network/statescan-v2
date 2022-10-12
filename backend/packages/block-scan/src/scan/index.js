@@ -10,10 +10,9 @@ const { normalizeBlock } = require("./block");
 const { normalizeEvents } = require("./event");
 const { normalizeExtrinsics } = require("./extrinsic");
 const {
-  chain: { getBlockIndexer, getLatestFinalizedHeight },
+  chain: { getBlockIndexer, getLatestFinalizedHeight, wrapBlockHandler },
   scan: { oneStepScan },
   utils: { sleep },
-  logger,
 } = require("@osn/scan-common");
 const {
   block: { getBlockDb },
@@ -49,15 +48,6 @@ async function handleBlock({ block, author, events, height }) {
   }
 }
 
-async function wrappedHandleBlock(wrappedBlock) {
-  try {
-    await handleBlock(wrappedBlock);
-  } catch (e) {
-    logger.error(`${wrappedBlock.height} scan error`, e);
-    throw e;
-  }
-}
-
 async function scan() {
   const db = getBlockDb();
   let toScanHeight = await db.getNextScanHeight();
@@ -69,7 +59,11 @@ async function scan() {
   }
 
   while (true) {
-    toScanHeight = await oneStepScan(toScanHeight, wrappedHandleBlock, true);
+    toScanHeight = await oneStepScan(
+      toScanHeight,
+      wrapBlockHandler(handleBlock),
+      true,
+    );
     await sleep(1);
   }
 }
