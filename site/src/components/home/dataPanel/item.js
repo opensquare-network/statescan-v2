@@ -3,8 +3,15 @@ import { Inter_12_500, Inter_20_700 } from "../../../styles/text";
 import { OnlyDesktop } from "../../screen/onlyDesktop";
 import { Flex } from "../../styled/flex";
 import ThemedLink from "../../styled/link";
+import TooltipOrigin from "../../tooltip";
+import { ReactComponent as CircledInfoIcon } from "../../icons/circled-info.svg";
 
-const IconWrapper = styled.div`
+const Tooltip = styled(TooltipOrigin)`
+  display: inline-flex;
+  margin-left: 4px;
+`;
+
+const IconWrapper = styled(Flex)`
   margin-right: 16px;
 `;
 
@@ -13,6 +20,7 @@ const ContentLabel = styled.p`
   margin: 0;
   margin-bottom: 8px;
   ${Inter_12_500};
+  display: inline-flex;
 `;
 const ContentValue = styled.p`
   margin: 0;
@@ -23,6 +31,11 @@ const ContentValueTotal = styled.span`
   color: ${(p) => p.theme.fontTertiary};
 `;
 
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Link = styled(ThemedLink)`
   &:hover {
     ${ContentValueTotal} {
@@ -31,7 +44,7 @@ const Link = styled(ThemedLink)`
   }
 `;
 
-export default function DataPanelItem({ icon, label, value, total, to }) {
+export default function DataPanelItem({ icon, label, value, total, to, tip }) {
   const resolveContentValue = (
     <>
       {value}
@@ -46,8 +59,15 @@ export default function DataPanelItem({ icon, label, value, total, to }) {
           <IconWrapper>{icon}</IconWrapper>
         </OnlyDesktop>
 
-        <div>
-          <ContentLabel>{label}</ContentLabel>
+        <ContentWrapper>
+          <ContentLabel>
+            {label}
+            {tip && (
+              <Tooltip tip={tip}>
+                <CircledInfoIcon />
+              </Tooltip>
+            )}
+          </ContentLabel>
           <ContentValue>
             {to ? (
               <Link to={to}>{resolveContentValue}</Link>
@@ -55,7 +75,7 @@ export default function DataPanelItem({ icon, label, value, total, to }) {
               resolveContentValue
             )}
           </ContentValue>
-        </div>
+        </ContentWrapper>
       </Flex>
     </div>
   );
