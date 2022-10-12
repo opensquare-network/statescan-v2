@@ -49,7 +49,7 @@ function Transfers() {
       return [
         <ColoredLink
           key={`${index}-1`}
-          to={`/transfer/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.eventIndex}`}
+          to={`/event/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.eventIndex}`}
         >
           {transfer?.indexer?.blockHeight.toLocaleString()}-
           {transfer?.indexer?.eventIndex}
@@ -69,12 +69,12 @@ function Transfers() {
         </ColoredLink>,
         transfer?.indexer?.blockTime,
         <Tooltip tip={transfer?.from}>
-          <ColoredMonoLink to={`/accounts/${transfer?.from}`}>
+          <ColoredMonoLink to={`/account/${transfer?.from}`}>
             {addressEllipsis(transfer?.from)}
           </ColoredMonoLink>
         </Tooltip>,
         <Tooltip tip={transfer?.to}>
-          <ColoredMonoLink to={`/accounts/${transfer?.to}`}>
+          <ColoredMonoLink to={`/account/${transfer?.to}`}>
             {addressEllipsis(transfer?.to)}
           </ColoredMonoLink>
         </Tooltip>,
