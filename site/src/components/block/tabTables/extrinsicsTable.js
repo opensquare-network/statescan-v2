@@ -14,6 +14,7 @@ import { hashEllipsis } from "../../../utils/viewFuncs/text";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as CrossIcon } from "../../icons/cross.svg";
 import { ColoredLink, ColoredMonoLink } from "../../styled/link";
+import Tooltip from "../../tooltip";
 
 function ExtrinsicsTable({ height }) {
   const location = useLocation();
@@ -46,9 +47,11 @@ function ExtrinsicsTable({ height }) {
           {extrinsic?.indexer?.blockHeight.toLocaleString()}-
           {extrinsic?.indexer?.extrinsicIndex}
         </ColoredLink>,
-        <ColoredMonoLink to={""}>
-          {hashEllipsis(extrinsic.hash)}
-        </ColoredMonoLink>,
+        <Tooltip tip={extrinsic.hash}>
+          <ColoredMonoLink to={""}>
+            {hashEllipsis(extrinsic.hash)}
+          </ColoredMonoLink>
+        </Tooltip>,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
         `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
         extrinsic?.call,
