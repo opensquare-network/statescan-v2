@@ -4,7 +4,11 @@ import { hashEllipsis } from "../utils/viewFuncs/text";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { basicFilters, extrinsicsHead } from "../utils/constants";
+import {
+  basicFilters,
+  extrinsicsHead,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../utils/constants";
 import Link from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -38,18 +42,20 @@ function Extrinsics() {
   const [extrinsics, setExtrinsics] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     setExtrinsics(null);
     Api.fetch(`/extrinsics`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
       signed_only: "true",
       ...queryString.parse(location.search),
     }).then(({ result }) => {
       setExtrinsics(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location]);
+  }, [location, pageSize]);
 
   const data =
     extrinsics?.map((extrinsic, index) => {
@@ -90,7 +96,7 @@ function Extrinsics() {
       />
       <StyledPanel>
         <Table heads={extrinsicsHead} data={data} />
-        <Pagination page={parseInt(page)} pageSize={10} total={total} />
+        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanel>
     </Layout>
   );

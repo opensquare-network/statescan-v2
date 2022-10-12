@@ -1,5 +1,8 @@
 import { toEventTabTableItem } from "../../../utils/viewFuncs/toTableItem";
-import { extrinsicEventsHead } from "../../../utils/constants";
+import {
+  extrinsicEventsHead,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../../../utils/constants";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import { getPageFromQuery } from "../../../utils/viewFuncs";
 import { useLocation } from "react-router-dom";
@@ -14,6 +17,7 @@ function EventsTable({ extrinsicId, setEventsCount }) {
   const [events, setEvents] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     if (!extrinsicId) {
@@ -22,17 +26,18 @@ function EventsTable({ extrinsicId, setEventsCount }) {
     setEvents(null);
     Api.fetch(`/extrinsics/${extrinsicId}/events`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
     }).then(({ result }) => {
       setEvents(result?.items ?? []);
       setTotal(result?.total ?? 0);
       setEventsCount(result?.total ?? 0);
     });
-  }, [location, extrinsicId, setEventsCount]);
+  }, [location, pageSize, extrinsicId, setEventsCount]);
 
   return (
     <StyledPanelTableWrapper>
       <Table heads={extrinsicEventsHead} data={toEventTabTableItem(events)} />
-      <Pagination page={parseInt(page)} pageSize={10} total={total} />
+      <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
     </StyledPanelTableWrapper>
   );
 }

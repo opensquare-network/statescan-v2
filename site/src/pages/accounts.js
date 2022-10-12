@@ -1,7 +1,7 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { accountsHead } from "../utils/constants";
+import { accountsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import Layout from "../components/layout";
 import Table from "../components/table";
 import Api from "../services/api";
@@ -19,18 +19,18 @@ function Accounts() {
   const [accounts, setAccounts] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
-  const pageSize = 10;
-  // todo : improve this
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     setAccounts(null);
     Api.fetch(`/accounts`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
     }).then(({ result }) => {
       setAccounts(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location]);
+  }, [location, pageSize]);
 
   const data =
     accounts?.map((account, index) => {
@@ -51,7 +51,7 @@ function Accounts() {
       <BreadCrumb data={[{ name: "Accounts" }]} />
       <StyledPanelTableWrapper>
         <Table heads={accountsHead} data={data} />
-        <Pagination page={parseInt(page)} pageSize={10} total={total} />
+        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>
   );
