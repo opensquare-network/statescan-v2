@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Inter_12_500, Inter_20_700 } from "../../../styles/text";
 import { Flex } from "../../styled/flex";
+import ThemedLink from "../../styled/link";
 
 const Item = styled.div`
   width: 253.33px;
@@ -25,9 +26,24 @@ const ContentValueTotal = styled.span`
   color: ${(p) => p.theme.fontTertiary};
 `;
 
+const Link = styled(ThemedLink)`
+  ${ContentValueTotal} {
+    &:hover {
+      color: ${(p) => p.theme.theme500};
+    }
+  }
+`;
+
 const ContentWrapper = styled.div``;
 
-export default function DataPanelItem({ icon, label, value, total }) {
+export default function DataPanelItem({ icon, label, value, total, to }) {
+  const resolveContentValue = (
+    <>
+      {value}
+      {total && <ContentValueTotal> / {total}</ContentValueTotal>}
+    </>
+  );
+
   return (
     <Item>
       <Flex>
@@ -36,8 +52,11 @@ export default function DataPanelItem({ icon, label, value, total }) {
         <ContentWrapper>
           <ContentLabel>{label}</ContentLabel>
           <ContentValue>
-            {value}
-            {total && <ContentValueTotal> / {total}</ContentValueTotal>}
+            {to ? (
+              <Link to={to}>{resolveContentValue}</Link>
+            ) : (
+              resolveContentValue
+            )}
           </ContentValue>
         </ContentWrapper>
       </Flex>
