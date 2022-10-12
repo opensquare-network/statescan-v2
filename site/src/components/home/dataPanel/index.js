@@ -1,5 +1,8 @@
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { withLoading } from "../../../HOC/withLoading";
+import { latestBlocksSelector } from "../../../store/reducers/socketSlice";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import HolderSquareIcon from "../../icons/holderSquareIcon";
@@ -22,6 +25,10 @@ const DataPanelItemsWrapper = styled.div`
   row-gap: 32px;
 `;
 
+const DataPanelChartWrapper = styled.div`
+  width: 464px;
+`;
+
 const mapLoadingState = (_props) => {
   return {
     loadingStates: [],
@@ -30,6 +37,9 @@ const mapLoadingState = (_props) => {
 };
 
 function DataPanel() {
+  const blocks = useSelector(latestBlocksSelector);
+  const blockHeight = useMemo(() => blocks[0]?.height ?? 0, [blocks]);
+
   return (
     <StyledPanelTableWrapper>
       <Panel>
@@ -37,17 +47,20 @@ function DataPanel() {
           <DataPanelItem
             icon={<BlockSquareIcon />}
             label="Blocks"
-            value={1157823}
+            to="/blocks"
+            value={blockHeight?.toLocaleString()}
           />
           <DataPanelItem
             icon={<TransferSquareIcon />}
             label="Transfers"
-            value={223333}
+            to="/transfers"
+            value={233333}
           />
           <DataPanelItem
             icon={<AssetSquareIcon />}
             label="Assets"
-            value={134}
+            to="/assets"
+            value={17}
           />
           <DataPanelItem
             icon={<HolderSquareIcon />}
@@ -57,17 +70,21 @@ function DataPanel() {
           <DataPanelItem
             icon={<NftClassSquareIcon />}
             label="NFT Class"
-            value={30}
-            total="32"
+            to="/nft"
+            value={3}
+            total={33}
           />
           <DataPanelItem
             icon={<NftClassSquareIcon />}
             label="NFT Instance"
-            value={80}
-            total="100"
+            value={4}
+            total={5}
           />
         </DataPanelItemsWrapper>
-        <DataPanelChart />
+
+        <DataPanelChartWrapper>
+          <DataPanelChart />
+        </DataPanelChartWrapper>
       </Panel>
     </StyledPanelTableWrapper>
   );
