@@ -9,6 +9,11 @@ import {
   setLatestSignedTransfers,
 } from "../store/reducers/socketSlice";
 import styled from "styled-components";
+import DataPanel from "../components/home/dataPanel";
+
+const DataPanelWrapper = styled.div`
+  margin-top: 40px;
+`;
 
 const SectionsWrapper = styled.div`
   margin-top: 32px;
@@ -29,6 +34,11 @@ function Home() {
   return (
     <Layout>
       <Explore />
+
+      <DataPanelWrapper>
+        <DataPanel />
+      </DataPanelWrapper>
+
       <SectionsWrapper>
         <Sections />
       </SectionsWrapper>
