@@ -19,6 +19,12 @@ export default function Tooltip({ children, tip = "", pullRight = false }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    return () => {
+      dispatch(toggleTooltip(false));
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
     if (ref.current) {
       ref.current.addEventListener("mouseover", () => {
         const position = ref.current.getBoundingClientRect();

@@ -11,7 +11,7 @@ import { Panel } from "../components/styled/panel";
 import List from "../components/list";
 import { DetailedTime } from "../components/styled/time";
 import { Inter_14_500 } from "../styles/text";
-import DataTable from "../components/table/dataTable";
+import DataDisplay from "../components/dataDisplay";
 
 const Tag = styled(TagOrigin)`
   color: ${(p) => p.theme.fontSecondary};
@@ -89,7 +89,11 @@ function Call() {
 
       <Panel>
         <List data={list} />
-        <DataTable title="Attributes" data={call?.args} />
+        <DataDisplay
+          title="Attributes"
+          tableData={call?.args}
+          JSONData={call}
+        />
       </Panel>
     </Layout>
   );

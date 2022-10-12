@@ -11,7 +11,7 @@ import List from "../components/list";
 import { withCopy } from "../HOC/withCopy";
 import { DetailedTime } from "../components/styled/time";
 import { Tag, TagHighContrast } from "../components/tag";
-import DataTable from "../components/table/dataTable";
+import DataDisplay from "../components/dataDisplay";
 
 const TextSecondary = styled.span`
   ${Inter_14_500};
@@ -76,7 +76,11 @@ function Event() {
       />
       <Panel>
         <List data={listData} />
-        <DataTable data={event?.args} title="Attributes" />
+        <DataDisplay
+          tableData={event?.args}
+          JSONData={event}
+          title="Attributes"
+        />
       </Panel>
     </Layout>
   );
