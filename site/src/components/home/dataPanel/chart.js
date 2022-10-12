@@ -1,5 +1,5 @@
 function DataPanelChart() {
-  return null;
+  return <div>data panel chart</div>;
 }
 
 export default DataPanelChart;
