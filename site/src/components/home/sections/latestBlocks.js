@@ -11,7 +11,7 @@ import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import Tooltip from "../../tooltip";
 import { OnlyDesktop } from "../../screen/onlyDesktop";
-import BlockIcon from "../../icons/blockIcon";
+import BlockSquareIcon from "../../icons/blockSquareIcon";
 
 const Rows = styled.ul`
   margin: 0;
@@ -92,7 +92,7 @@ function LatestBlocks({ blocks }) {
           <FlexBetween>
             <Flex gap={16}>
               <OnlyDesktop>
-                <BlockIcon />
+                <BlockSquareIcon />
               </OnlyDesktop>
               <div>
                 <Link to={`/block/${block.height}`}>

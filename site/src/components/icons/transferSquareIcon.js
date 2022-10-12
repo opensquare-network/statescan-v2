@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { ReactComponent as Transfer } from "./transfer.svg";
+import { ReactComponent as TransferSquare } from "./transfer-square.svg";
 
-const TransferIcon = styled(Transfer)`
+const TransferSquareIcon = styled(TransferSquare)`
   path {
     stroke: ${({ theme }) => theme.fontTertiary};
   }
@@ -17,4 +17,4 @@ const TransferIcon = styled(Transfer)`
   }
 `;
 
-export default TransferIcon;
+export default TransferSquareIcon;

@@ -17,8 +17,8 @@ import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { OnlyDesktop } from "../../screen/onlyDesktop";
 import Tooltip from "../../tooltip";
-import TransferIcon from "../../icons/transferIcon";
-import TransferRightIcon from "../../icons/transferRight";
+import TransferSquareIcon from "../../icons/transferSquareIcon";
+import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
 
 const Rows = styled.ul`
   margin: 0;
@@ -93,7 +93,7 @@ function LatestTransfers({ transfers }) {
           <FlexBetween>
             <Flex gap={16}>
               <OnlyDesktop>
-                <TransferIcon />
+                <TransferSquareIcon />
               </OnlyDesktop>
               <div>
                 <Link
@@ -128,7 +128,7 @@ function LatestTransfers({ transfers }) {
                       {addressEllipsis(transfer.from)}
                     </ColoredMonoLinkSmall>
                   </Tooltip>
-                  <TransferRightIcon />
+                  <TransferRightSquareIcon />
                 </OnlyDesktop>
                 <Tooltip tip={transfer.from}>
                   <ColoredMonoLinkSmall to={`/account/${transfer.to}`}>

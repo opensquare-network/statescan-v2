@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { ReactComponent as Block } from "./block.svg";
+import { ReactComponent as BlockSquare } from "./block-square.svg";
 
-const BlockIcon = styled(Block)`
+const BlockSquareIcon = styled(BlockSquare)`
   path {
     stroke: ${({ theme }) => theme.fontTertiary};
   }
@@ -17,4 +17,4 @@ const BlockIcon = styled(Block)`
   }
 `;
 
-export default BlockIcon;
+export default BlockSquareIcon;
