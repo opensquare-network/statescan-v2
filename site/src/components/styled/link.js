@@ -5,6 +5,10 @@ import { SF_Mono_12_500, SF_Mono_14_500 } from "../../styles/text";
 const Link = styled(RouteLink)`
   color: ${(props) => props.theme.fontPrimary};
   text-decoration: none;
+
+  &:hover {
+    color: ${(p) => p.theme.theme500};
+  }
 `;
 
 export default Link;
