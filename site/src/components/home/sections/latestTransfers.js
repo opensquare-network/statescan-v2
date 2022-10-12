@@ -3,8 +3,6 @@ import { Flex, FlexBetween } from "../../styled/flex";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import Loading from "../../loadings/loading";
-import { ReactComponent as Transfer } from "./transfer.svg";
-import { ReactComponent as TransferRight } from "./transferRight.svg";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import { timeDuration } from "../../../utils/viewFuncs/time";
@@ -15,28 +13,8 @@ import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { OnlyDesktop } from "../../screen/onlyDesktop";
 import Tooltip from "../../tooltip";
-
-const TransferIcon = styled(Transfer)`
-  path {
-    stroke: ${({ theme }) => theme.fontTertiary};
-  }
-
-  linearGradient {
-    stop:first-child {
-      stop-color: ${({ theme }) => theme.fontPrimary};
-    }
-
-    stop:last-child {
-      stop-color: ${({ theme }) => theme.fontPrimary};
-    }
-  }
-`;
-
-const TransferRightIcon = styled(TransferRight)`
-  path {
-    stroke: ${({ theme }) => theme.fontTertiary};
-  }
-`;
+import TransferSquareIcon from "../../icons/transferSquareIcon";
+import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
 
 const Rows = styled.ul`
   margin: 0;
@@ -106,7 +84,7 @@ function LatestTransfers({ transfers }) {
           <FlexBetween>
             <Flex gap={16}>
               <OnlyDesktop>
-                <TransferIcon />
+                <TransferSquareIcon />
               </OnlyDesktop>
               <div>
                 <Link
@@ -141,7 +119,7 @@ function LatestTransfers({ transfers }) {
                       {addressEllipsis(transfer.from)}
                     </ColoredMonoLinkSmall>
                   </Tooltip>
-                  <TransferRightIcon />
+                  <TransferRightSquareIcon />
                 </OnlyDesktop>
                 <Tooltip tip={transfer.from}>
                   <ColoredMonoLinkSmall to={`/account/${transfer.to}`}>
