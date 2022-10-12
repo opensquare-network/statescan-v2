@@ -22,7 +22,7 @@ export default function Tooltip({ children, tip = "", pullRight = false }) {
     return () => {
       dispatch(toggleTooltip(false));
     };
-  });
+  }, [dispatch]);
 
   useEffect(() => {
     if (ref.current) {
