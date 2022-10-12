@@ -4,7 +4,6 @@ import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import React from "react";
 import { timeDuration } from "../../../utils/viewFuncs/time";
-import { ReactComponent as Block } from "./block.svg";
 import { addressEllipsis } from "../../../utils/viewFuncs";
 import Link, { ColoredMonoLink } from "../../styled/link";
 import Loading from "../../loadings/loading";
@@ -12,22 +11,7 @@ import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import Tooltip from "../../tooltip";
 import { OnlyDesktop } from "../../screen/onlyDesktop";
-
-const BlockIcon = styled(Block)`
-  path {
-    stroke: ${({ theme }) => theme.fontTertiary};
-  }
-
-  #paint0_linear_5874_7536 {
-    stop:first-child {
-      stop-color: ${({ theme }) => theme.fontPrimary};
-    }
-
-    stop:last-child {
-      stop-color: ${({ theme }) => theme.fontPrimary};
-    }
-  }
-`;
+import BlockIcon from "../../icons/blockIcon";
 
 const Rows = styled.ul`
   margin: 0;
