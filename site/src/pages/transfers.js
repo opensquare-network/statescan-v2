@@ -1,7 +1,11 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { basicFilters, transfersHead } from "../utils/constants";
+import {
+  basicFilters,
+  LIST_DEFAULT_PAGE_SIZE,
+  transfersHead,
+} from "../utils/constants";
 import { ColoredLink, ColoredMonoLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -26,17 +30,19 @@ function Transfers() {
   const [transfers, setTransfers] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     setTransfers(null);
     Api.fetch(`/transfers`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
       ...queryString.parse(location.search),
     }).then(({ result }) => {
       setTransfers(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location]);
+  }, [location, pageSize]);
 
   const data =
     transfers?.map((transfer, index) => {
@@ -91,7 +97,7 @@ function Transfers() {
       />
       <StyledPanelTableWrapper>
         <Table heads={transfersHead} data={data} />
-        <Pagination page={parseInt(page)} pageSize={10} total={total} />
+        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>
   );

@@ -1,4 +1,7 @@
-import { blockExtrinsicsHead } from "../../../utils/constants";
+import {
+  blockExtrinsicsHead,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../../../utils/constants";
 import Table from "../../table";
 import React from "react";
 import { StyledPanelTableWrapper } from "../../styled/panel";
@@ -17,6 +20,7 @@ function ExtrinsicsTable({ height }) {
   const [extrinsics, setExtrinsics] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     if (!height) {
@@ -25,11 +29,12 @@ function ExtrinsicsTable({ height }) {
     setExtrinsics(null);
     Api.fetch(`/blocks/${height}/extrinsics`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
     }).then(({ result }) => {
       setExtrinsics(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location, height]);
+  }, [location, pageSize, height]);
 
   const data =
     extrinsics?.map((extrinsic, index) => {
@@ -53,7 +58,7 @@ function ExtrinsicsTable({ height }) {
   return (
     <StyledPanelTableWrapper>
       <Table heads={blockExtrinsicsHead} data={data} />
-      <Pagination page={parseInt(page)} pageSize={10} total={total} />
+      <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
     </StyledPanelTableWrapper>
   );
 }

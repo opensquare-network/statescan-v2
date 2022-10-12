@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { Flex, FlexBetween } from "../../styled/flex";
-import {
-  Inter_12_500,
-  Inter_14_600,
-  SF_Mono_12_500,
-} from "../../../styles/text";
+import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import Loading from "../../loadings/loading";
 import { ReactComponent as Transfer } from "./transfer.svg";
@@ -89,11 +85,6 @@ const Value = styled.p`
 const Time = styled.span`
   color: ${(props) => props.theme.fontTertiary};
   ${Inter_12_500};
-`;
-
-const Address = styled.span`
-  color: ${(props) => props.theme.theme500};
-  ${SF_Mono_12_500};
 `;
 
 const mapLoadingState = (props) => {

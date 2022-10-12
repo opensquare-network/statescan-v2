@@ -1,4 +1,7 @@
-import { blockEventsHead } from "../../../utils/constants";
+import {
+  blockEventsHead,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../../../utils/constants";
 import Table from "../../table";
 import React from "react";
 import { StyledPanelTableWrapper } from "../../styled/panel";
@@ -14,6 +17,7 @@ function EventsTable({ height }) {
   const [events, setEvents] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     if (!height) {
@@ -22,16 +26,17 @@ function EventsTable({ height }) {
     setEvents(null);
     Api.fetch(`/blocks/${height}/events`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
     }).then(({ result }) => {
       setEvents(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location, height]);
+  }, [location, pageSize, height]);
 
   return (
     <StyledPanelTableWrapper>
       <Table heads={blockEventsHead} data={toEventTabTableItem(events)} />
-      <Pagination page={parseInt(page)} pageSize={10} total={total} />
+      <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
     </StyledPanelTableWrapper>
   );
 }

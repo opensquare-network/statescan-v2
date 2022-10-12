@@ -3,7 +3,7 @@ import { addressEllipsis, hashEllipsis } from "../utils/viewFuncs/text";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { blocksHead } from "../utils/constants";
+import { blocksHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import Link from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -29,16 +29,18 @@ function Blocks() {
   const [blocks, setBlocks] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     setBlocks(null);
     Api.fetch(`/blocks`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
     }).then(({ result }) => {
       setBlocks(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location]);
+  }, [location, pageSize]);
 
   const data =
     blocks?.map((block, index) => {
@@ -68,7 +70,7 @@ function Blocks() {
       <BreadCrumb data={[{ name: "Blocks" }]} />
       <StyledPanelTableWrapper>
         <Table heads={blocksHead} data={data} />
-        <Pagination page={parseInt(page)} pageSize={10} total={total} />
+        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>
   );

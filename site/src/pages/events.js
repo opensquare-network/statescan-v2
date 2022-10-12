@@ -1,7 +1,7 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { eventsHead } from "../utils/constants";
+import { eventsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import { ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -44,17 +44,19 @@ function Events() {
   const [events, setEvents] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     setEvents(null);
     Api.fetch(`/events`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
       ...queryString.parse(location.search),
     }).then(({ result }) => {
       setEvents(result?.items ?? []);
       setTotal(result?.total ?? 0);
     });
-  }, [location]);
+  }, [location, pageSize]);
 
   const data =
     events?.map((event, index) => {
@@ -93,7 +95,7 @@ function Events() {
 
       <StyledPanelTableWrapper>
         <Table heads={eventsHead} data={data} />
-        <Pagination page={parseInt(page)} pageSize={10} total={total} />
+        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>
   );

@@ -26,7 +26,7 @@ export default function PageCaret({ children, page, onPageChange = null }) {
         page,
       })}`,
     );
-  }, [location]);
+  }, [location, page]);
 
   return (
     <StyledLink to={to}>
