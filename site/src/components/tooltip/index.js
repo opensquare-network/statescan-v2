@@ -14,7 +14,12 @@ const Wrapper = styled.div`
   margin-${(p) => p.pull}: 0;
 `;
 
-export default function Tooltip({ children, tip = "", pullRight = false }) {
+export default function Tooltip({
+  children,
+  tip = "",
+  pullRight = false,
+  ...restProps
+}) {
   const ref = useRef();
   const dispatch = useDispatch();
 
@@ -44,7 +49,7 @@ export default function Tooltip({ children, tip = "", pullRight = false }) {
   }, [dispatch, tip]);
 
   return (
-    <Wrapper ref={ref} pull={pullRight ? "right" : "left"}>
+    <Wrapper ref={ref} pull={pullRight ? "right" : "left"} {...restProps}>
       {children}
     </Wrapper>
   );
