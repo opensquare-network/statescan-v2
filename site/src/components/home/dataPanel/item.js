@@ -1,11 +1,8 @@
 import styled from "styled-components";
 import { Inter_12_500, Inter_20_700 } from "../../../styles/text";
+import { OnlyDesktop } from "../../screen/onlyDesktop";
 import { Flex } from "../../styled/flex";
 import ThemedLink from "../../styled/link";
-
-const Item = styled.div`
-  width: 253.33px;
-`;
 
 const IconWrapper = styled.div`
   margin-right: 16px;
@@ -45,9 +42,11 @@ export default function DataPanelItem({ icon, label, value, total, to }) {
   );
 
   return (
-    <Item>
+    <div>
       <Flex>
-        <IconWrapper>{icon}</IconWrapper>
+        <OnlyDesktop>
+          <IconWrapper>{icon}</IconWrapper>
+        </OnlyDesktop>
 
         <ContentWrapper>
           <ContentLabel>{label}</ContentLabel>
@@ -60,6 +59,6 @@ export default function DataPanelItem({ icon, label, value, total, to }) {
           </ContentValue>
         </ContentWrapper>
       </Flex>
-    </Item>
+    </div>
   );
 }

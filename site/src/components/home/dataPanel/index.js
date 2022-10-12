@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { withLoading } from "../../../HOC/withLoading";
 import { latestBlocksSelector } from "../../../store/reducers/socketSlice";
+import { mobileCss } from "../../../utils/mobileCss";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import HolderSquareIcon from "../../icons/holderSquareIcon";
@@ -16,17 +17,38 @@ import DataPanelItem from "./item";
 
 const Panel = styled(Flex)`
   margin: 24px;
+  justify-content: space-between;
+
+  ${mobileCss(css`
+    display: block;
+  `)}
 `;
 
 const DataPanelItemsWrapper = styled.div`
-  flex-grow: 1;
+  --gap: 32px;
+  --cols: 3;
+  --gaps: calc(var(--gap) * calc(var(--cols) - 1));
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 240px);
-  row-gap: 32px;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  grid-template-columns: repeat(
+    var(--cols),
+    calc((100% - var(--gaps)) / var(--cols))
+  );
+
+  ${mobileCss(css`
+    --cols: 2;
+  `)}
 `;
 
 const DataPanelChartWrapper = styled.div`
   width: 464px;
+
+  ${mobileCss(css`
+    width: 100%;
+    margin-top: 40px;
+  `)}
 `;
 
 const mapLoadingState = (_props) => {
