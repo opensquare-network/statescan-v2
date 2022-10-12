@@ -31,8 +31,6 @@ const Link = styled(ThemedLink)`
   }
 `;
 
-const ContentWrapper = styled.div``;
-
 export default function DataPanelItem({ icon, label, value, total, to }) {
   const resolveContentValue = (
     <>
@@ -48,7 +46,7 @@ export default function DataPanelItem({ icon, label, value, total, to }) {
           <IconWrapper>{icon}</IconWrapper>
         </OnlyDesktop>
 
-        <ContentWrapper>
+        <div>
           <ContentLabel>{label}</ContentLabel>
           <ContentValue>
             {to ? (
@@ -57,7 +55,7 @@ export default function DataPanelItem({ icon, label, value, total, to }) {
               resolveContentValue
             )}
           </ContentValue>
-        </ContentWrapper>
+        </div>
       </Flex>
     </div>
   );
