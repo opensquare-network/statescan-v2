@@ -27,8 +27,8 @@ const ContentValueTotal = styled.span`
 `;
 
 const Link = styled(ThemedLink)`
-  ${ContentValueTotal} {
-    &:hover {
+  &:hover {
+    ${ContentValueTotal} {
       color: ${(p) => p.theme.theme500};
     }
   }
