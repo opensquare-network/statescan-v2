@@ -2,6 +2,8 @@ import { Axis, Chart, LineAdvance, Tooltip } from "bizcharts";
 import styled from "styled-components";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
+import { Inter_12_500 } from "../../styles/text";
+import { Flex } from "../styled/flex";
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,13 +15,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const Title = styled.h2`
+const Title = styled.p`
   margin: 0;
-  font-size: 12px;
   text-align: right;
-  color: rgba(17, 17, 17, 0.65);
-  font-weight: normal;
-  line-height: 16px;
+  color: ${(p) => p.theme.fontSecondary};
+  ${Inter_12_500}
 `;
 
 const ChartWrapper = styled.div`
@@ -27,9 +27,7 @@ const ChartWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const NoData = styled.div`
-  display: flex;
-  align-items: center;
+const NoData = styled(Flex)`
   height: 100%;
 `;
 
