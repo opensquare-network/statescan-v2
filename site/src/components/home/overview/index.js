@@ -12,8 +12,8 @@ import TransferSquareIcon from "../../icons/transferSquareIcon";
 import Loading from "../../loadings/loading";
 import { Flex } from "../../styled/flex";
 import { StyledPanelTableWrapper } from "../../styled/panel";
-import DataPanelChart from "./chart";
-import DataPanelItem from "./item";
+import OverviewChart from "./chart";
+import OverviewItem from "./item";
 
 const Panel = styled(Flex)`
   margin: 24px;
@@ -24,7 +24,7 @@ const Panel = styled(Flex)`
   `)}
 `;
 
-const DataPanelItemsWrapper = styled.div`
+const OverviewItemsWrapper = styled.div`
   --gap: 32px;
   --cols: 3;
   --gaps: calc(var(--gap) * calc(var(--cols) - 1));
@@ -42,7 +42,7 @@ const DataPanelItemsWrapper = styled.div`
   `)}
 `;
 
-const DataPanelChartWrapper = styled.div`
+const OverviewChartWrapper = styled.div`
   width: 464px;
 
   ${mobileCss(css`
@@ -58,38 +58,38 @@ const mapLoadingState = (_props) => {
   };
 };
 
-function DataPanel() {
+function Overview() {
   const blocks = useSelector(latestBlocksSelector);
   const blockHeight = useMemo(() => blocks[0]?.height ?? 0, [blocks]);
 
   return (
     <StyledPanelTableWrapper>
       <Panel>
-        <DataPanelItemsWrapper>
-          <DataPanelItem
+        <OverviewItemsWrapper>
+          <OverviewItem
             icon={<BlockSquareIcon />}
             label="Blocks"
             to="/blocks"
             value={blockHeight?.toLocaleString()}
           />
-          <DataPanelItem
+          <OverviewItem
             icon={<TransferSquareIcon />}
             label="Transfers"
             to="/transfers"
             value={233333}
           />
-          <DataPanelItem
+          <OverviewItem
             icon={<AssetSquareIcon />}
             label="Assets"
             to="/assets"
             value={17}
           />
-          <DataPanelItem
+          <OverviewItem
             icon={<HolderSquareIcon />}
             label="Holders"
             value={14444}
           />
-          <DataPanelItem
+          <OverviewItem
             icon={<NftClassSquareIcon />}
             label="NFT Class"
             to="/nft"
@@ -97,21 +97,21 @@ function DataPanel() {
             total={33}
             tip="Recognized / All"
           />
-          <DataPanelItem
+          <OverviewItem
             icon={<NftClassSquareIcon />}
             label="NFT Instance"
             value={4}
             total={5}
             tip="Recognized / All"
           />
-        </DataPanelItemsWrapper>
+        </OverviewItemsWrapper>
 
-        <DataPanelChartWrapper>
-          <DataPanelChart />
-        </DataPanelChartWrapper>
+        <OverviewChartWrapper>
+          <OverviewChart />
+        </OverviewChartWrapper>
       </Panel>
     </StyledPanelTableWrapper>
   );
 }
 
-export default withLoading(mapLoadingState)(DataPanel);
+export default withLoading(mapLoadingState)(Overview);

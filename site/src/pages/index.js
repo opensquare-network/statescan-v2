@@ -9,9 +9,9 @@ import {
   setLatestSignedTransfers,
 } from "../store/reducers/socketSlice";
 import styled from "styled-components";
-import DataPanel from "../components/home/dataPanel";
+import Overview from "../components/home/overview";
 
-const DataPanelWrapper = styled.div`
+const OverviewWrapper = styled.div`
   margin-top: 40px;
 `;
 
@@ -35,9 +35,9 @@ function Home() {
     <Layout>
       <Explore />
 
-      <DataPanelWrapper>
-        <DataPanel />
-      </DataPanelWrapper>
+      <OverviewWrapper>
+        <Overview />
+      </OverviewWrapper>
 
       <SectionsWrapper>
         <Sections />

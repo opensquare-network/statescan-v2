@@ -44,7 +44,7 @@ const Link = styled(ThemedLink)`
   }
 `;
 
-export default function DataPanelItem({ icon, label, value, total, to, tip }) {
+export default function OverviewItem({ icon, label, value, total, to, tip }) {
   const resolveContentValue = (
     <>
       {value}
