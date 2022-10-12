@@ -25,6 +25,7 @@ function Accounts() {
     setAccounts(null);
     Api.fetch(`/accounts`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
     }).then(({ result }) => {
       setAccounts(result?.items ?? []);
       setTotal(result?.total ?? 0);
