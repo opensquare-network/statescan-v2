@@ -95,12 +95,14 @@ function DataPanel() {
             to="/nft"
             value={3}
             total={33}
+            tip="Recognized / All"
           />
           <DataPanelItem
             icon={<NftClassSquareIcon />}
             label="NFT Instance"
             value={4}
             total={5}
+            tip="Recognized / All"
           />
         </DataPanelItemsWrapper>
 
