@@ -15,7 +15,7 @@ import EventsTable from "../components/extrinsic/tabTables/eventsTable";
 import Tab from "../components/tab";
 import { DetailedTime } from "../components/styled/time";
 import { Tag, TagHighContrast } from "../components/tag";
-import DataTable from "../components/table/dataTable";
+import DataDisplay from "../components/dataDisplay";
 import { Flex } from "../components/styled/flex";
 import CallsTable from "../components/extrinsic/tabTables/callsTable";
 import { useMemo } from "react";
@@ -146,7 +146,11 @@ function Extrinsic() {
       />
       <Panel>
         <List data={listData} />
-        <DataTable data={extrinsic?.call} title="Parameters" />
+        <DataDisplay
+          tableData={extrinsic?.call}
+          JSONData={extrinsic?.call}
+          title="Parameters"
+        />
       </Panel>
 
       <Flex>
