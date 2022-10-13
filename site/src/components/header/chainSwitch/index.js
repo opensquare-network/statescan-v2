@@ -16,10 +16,6 @@ const ArrowDownIcon = styled(CaretDownIcon)`
   transform: translateY(-50%);
   top: 50%;
   right: 6px;
-
-  path {
-    stroke: ${({ theme }) => theme.fontPrimary};
-  }
 `;
 
 const Wrapper = styled.div`
