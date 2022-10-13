@@ -1,13 +1,11 @@
-import styled from "styled-components";
+import { useIsScreen } from "../../utils/hooks";
 
-export const PC = styled.div`
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
-`;
+export function PC({ children }) {
+  const { isDesktop } = useIsScreen();
+  return <>{isDesktop && children}</>;
+}
 
-export const Mobile = styled.div`
-  @media screen and (min-width: 600px) {
-    display: none;
-  }
-`;
+export function Mobile({ children }) {
+  const { isMobile } = useIsScreen();
+  return <>{isMobile && children}</>;
+}
