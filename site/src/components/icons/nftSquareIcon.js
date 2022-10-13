@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { ReactComponent as NftClassSquare } from "./nft-class-square.svg";
+import { ReactComponent as NftSquare } from "./nft-square.svg";
 
-const NftClassSquareIcon = styled(NftClassSquare)`
+const NftSquareIcon = styled(NftSquare)`
   path {
     stroke: ${({ theme }) => theme.fontTertiary};
   }
@@ -17,4 +17,4 @@ const NftClassSquareIcon = styled(NftClassSquare)`
   }
 `;
 
-export default NftClassSquareIcon;
+export default NftSquareIcon;
