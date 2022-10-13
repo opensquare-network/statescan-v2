@@ -19,6 +19,7 @@ import Tab from "../components/tab";
 import { blockTabs, Events, Extrinsics, Logs } from "../utils/constants";
 import { DetailedTime } from "../components/styled/time";
 import LogsTable from "../components/block/tabTables/logsTable";
+import { ReactComponent as TimerIcon } from "../components/icons/timer.svg";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -61,7 +62,7 @@ function Block() {
         setBlock(block);
         const data = {
           "Block Time": <DetailedTime ts={block?.time} />,
-          Status: <CheckIcon />,
+          Status: block?.isFinalized ? <CheckIcon /> : <TimerIcon />,
           Hash: <TextSecondaryWithCopy>{block?.hash}</TextSecondaryWithCopy>,
           "Parent Hash": (
             <ColoredMonoLinkWithCopy

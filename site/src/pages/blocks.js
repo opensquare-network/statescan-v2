@@ -14,6 +14,7 @@ import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Tooltip from "../components/tooltip";
+import { ReactComponent as TimerIcon } from "../components/icons/timer.svg";
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -49,7 +50,7 @@ function Blocks() {
           {block?.height?.toLocaleString()}
         </ColoredLink>,
         block?.time,
-        <CheckIcon />,
+        block?.isFinalized ? <CheckIcon /> : <TimerIcon />,
         <Tooltip tip={block.hash}>
           <ColoredMonoLink to={`/block/${block?.height}`}>
             {hashEllipsis(block.hash)}
