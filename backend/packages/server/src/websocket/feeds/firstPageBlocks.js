@@ -1,16 +1,16 @@
 const util = require("util");
+const { queryFinalizedBlocks } = require("../../common/queryFinalizedBlocks");
 const {
   firstPageBlocksRoom,
   firstPageBlocksKey,
   feedInterval,
 } = require("../consts");
-const { queryBlocks } = require("../../features/blocks/controllers/blocks");
 const { getFirstPageBlocks, setFirstPageBlocks } = require("../store");
 
 async function feedFirstPageBlocks(io) {
   try {
     const oldData = await getFirstPageBlocks();
-    const blocks = await queryBlocks(0, 25);
+    const blocks = await queryFinalizedBlocks(0, 25);
     if (util.isDeepStrictEqual(oldData, blocks)) {
       return;
     }
