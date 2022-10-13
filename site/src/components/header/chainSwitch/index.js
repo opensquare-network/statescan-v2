@@ -179,26 +179,26 @@ export default function ChainSwitch() {
       {show && (
         <Options>
           <ChainGroupWrapper>
-            {chainsOptions.map((i) => (
-              <ChainGroup key={i.title}>
-                <ChainGroupTitle>{i.title}</ChainGroupTitle>
+            {chainsOptions.map((chainOption) => (
+              <ChainGroup key={chainOption.title}>
+                <ChainGroupTitle>{chainOption.title}</ChainGroupTitle>
                 <ChainGroupItems>
-                  {i.chains.map((c) => {
-                    const isDiffChain = c.value !== currentNode.value;
+                  {chainOption.chains.map((chain) => {
+                    const isDiffChain = chain.value !== currentNode.value;
 
                     const href = isDiffChain
-                      ? `https://${c.value}.statescan.io`
+                      ? `https://${chain.value}.statescan.io`
                       : "#/";
 
                     return (
                       <ChainGroupItem
-                        key={c.value}
+                        key={chain.value}
                         href={href}
                         target={isDiffChain ? "_blank" : ""}
                       >
-                        {CHAIN_ICONS_MAP[c.value]}
+                        {CHAIN_ICONS_MAP[chain.value]}
                         <ChainGroupItemName>
-                          <span>{c.name}</span>
+                          <span>{chain.name}</span>
                           <ChainGroupItemCaretWrapper>
                             <CaretRightIcon />
                           </ChainGroupItemCaretWrapper>
