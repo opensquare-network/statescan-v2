@@ -1,4 +1,3 @@
-import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
 import { addressEllipsis, hashEllipsis } from "../utils/viewFuncs/text";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
@@ -14,6 +13,7 @@ import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Tooltip from "../components/tooltip";
+import FinalizedState from "../components/states/finalizedState";
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -49,7 +49,7 @@ function Blocks() {
           {block?.height?.toLocaleString()}
         </ColoredLink>,
         block?.time,
-        <CheckIcon />,
+        <FinalizedState finalized={block?.isFinalized} />,
         <Tooltip tip={block.hash}>
           <ColoredMonoLink to={`/block/${block?.height}`}>
             {hashEllipsis(block.hash)}

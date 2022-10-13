@@ -1,4 +1,3 @@
-import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
@@ -19,6 +18,7 @@ import Tab from "../components/tab";
 import { blockTabs, Events, Extrinsics, Logs } from "../utils/constants";
 import { DetailedTime } from "../components/styled/time";
 import LogsTable from "../components/block/tabTables/logsTable";
+import FinalizedState from "../components/states/finalizedState";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -61,7 +61,7 @@ function Block() {
         setBlock(block);
         const data = {
           "Block Time": <DetailedTime ts={block?.time} />,
-          Status: <CheckIcon />,
+          Status: <FinalizedState finalized={block?.isFinalized} />,
           Hash: <TextSecondaryWithCopy>{block?.hash}</TextSecondaryWithCopy>,
           "Parent Hash": (
             <ColoredMonoLinkWithCopy

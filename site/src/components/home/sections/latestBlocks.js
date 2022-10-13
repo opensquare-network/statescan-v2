@@ -7,11 +7,10 @@ import { timeDuration } from "../../../utils/viewFuncs/time";
 import { addressEllipsis } from "../../../utils/viewFuncs";
 import Link, { ColoredMonoLink } from "../../styled/link";
 import Loading from "../../loadings/loading";
-import { ReactComponent as CheckIcon } from "../../icons/check.svg";
-import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import Tooltip from "../../tooltip";
 import { OnlyDesktop } from "../../screen/onlyDesktop";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
+import FinalizedState from "../../states/finalizedState";
 
 const Rows = styled.ul`
   margin: 0;
@@ -99,7 +98,7 @@ function LatestBlocks({ blocks }) {
                   <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
                 </Link>
                 <Flex gap={8}>
-                  {block.isFinalized ? <CheckIcon /> : <TimerIcon />}
+                  <FinalizedState finalized={block?.isFinalized} />
                   <Time> {timeDuration(block.time)} </Time>
                 </Flex>
               </div>
