@@ -52,8 +52,7 @@ const BlockHeight = styled(ThemeText)`
   margin-bottom: 4px;
 `;
 
-const Value = styled.p`
-  margin: 0;
+const Value = styled.div`
   margin-bottom: 4px;
   ${Inter_14_600};
   text-align: right;
