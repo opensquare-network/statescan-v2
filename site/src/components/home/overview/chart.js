@@ -5,7 +5,7 @@ import LineChart from "../../charts/lineChart";
 function OverviewChart() {
   const chainSetting = useSelector(chainSettingSelector);
 
-  return <LineChart token={chainSetting.symbol} />;
+  return <LineChart token={chainSetting.symbol} color={chainSetting.color} />;
 }
 
 export default OverviewChart;
