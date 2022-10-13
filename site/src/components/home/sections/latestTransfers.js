@@ -11,10 +11,10 @@ import Link, { ColoredMonoLinkSmall } from "../../styled/link";
 import ValueDisplay from "../../../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import { OnlyDesktop } from "../../screen/onlyDesktop";
 import Tooltip from "../../tooltip";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
+import { PC } from "../../styled/responsive";
 
 const Rows = styled.ul`
   margin: 0;
@@ -82,9 +82,9 @@ function LatestTransfers({ transfers }) {
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <OnlyDesktop>
+              <PC>
                 <TransferSquareIcon />
-              </OnlyDesktop>
+              </PC>
               <div>
                 <Link
                   to={`/extrinsic/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
@@ -112,14 +112,14 @@ function LatestTransfers({ transfers }) {
                 />
               </Value>
               <Flex gap={16}>
-                <OnlyDesktop>
+                <PC>
                   <Tooltip tip={transfer.from}>
                     <ColoredMonoLinkSmall to={`/account/${transfer.from}`}>
                       {addressEllipsis(transfer.from)}
                     </ColoredMonoLinkSmall>
                   </Tooltip>
                   <TransferRightSquareIcon />
-                </OnlyDesktop>
+                </PC>
                 <Tooltip tip={transfer.from}>
                   <ColoredMonoLinkSmall to={`/account/${transfer.to}`}>
                     {addressEllipsis(transfer.to)}

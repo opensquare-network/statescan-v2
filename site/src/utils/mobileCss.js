@@ -1,4 +1,4 @@
-import { MOBILE_SIZE } from "@osn/constants";
+import { MOBILE_SIZE } from "./constants";
 
 /**
  * @description use in styled css

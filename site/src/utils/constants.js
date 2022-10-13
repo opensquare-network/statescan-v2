@@ -1,5 +1,7 @@
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
+export const MOBILE_SIZE = 600;
+
 export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
