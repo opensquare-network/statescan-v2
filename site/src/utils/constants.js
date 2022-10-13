@@ -6,6 +6,18 @@ export const CACHE_KEY = {
 
 export const chains = [
   {
+    name: "Polkadot",
+    sub: "Polkadot",
+    value: "polkadot",
+    symbol: "DOT",
+    decimals: 10,
+    chainIcon: "originalPolkadot",
+    color: "#E6007A",
+    colorSecondary: "#FDE5F2",
+    buttonColor: "#E6007A",
+    logo: "logo-img-2",
+  },
+  {
     name: "Statemine",
     sub: "Kusama",
     value: "statemine",
