@@ -185,13 +185,18 @@ export default function ChainSwitch() {
                 <ChainGroupTitle>{i.title}</ChainGroupTitle>
                 <ChainGroupItems>
                   {i.chains.map((c) => {
-                    const href =
-                      c.value === currentNode.value
-                        ? "/"
-                        : `https://${c.value}.statescan.io`;
+                    const isDiffChain = c.value !== currentNode.value;
+
+                    const href = isDiffChain
+                      ? `https://${c.value}.statescan.io`
+                      : "#/";
 
                     return (
-                      <ChainGroupItem key={c.value} href={href} target="_blank">
+                      <ChainGroupItem
+                        key={c.value}
+                        href={href}
+                        target={isDiffChain ? "_blank" : ""}
+                      >
                         {CHAIN_ICONS_MAP[c.value]}
                         <ChainGroupItemName>
                           <span>{c.name}</span>
