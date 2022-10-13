@@ -7,7 +7,7 @@ import { mobileCss } from "../../../utils/mobileCss";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import HolderSquareIcon from "../../icons/holderSquareIcon";
-import NftClassSquareIcon from "../../icons/nftClassSquareIcon";
+import NftSquareIcon from "../../icons/nftSquareIcon";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import Loading from "../../loadings/loading";
 import { Flex } from "../../styled/flex";
@@ -90,7 +90,7 @@ function Overview() {
             value={14444}
           />
           <OverviewItem
-            icon={<NftClassSquareIcon />}
+            icon={<NftSquareIcon />}
             label="NFT Class"
             to="/nft"
             value={3}
@@ -98,7 +98,7 @@ function Overview() {
             tip="Recognized / All"
           />
           <OverviewItem
-            icon={<NftClassSquareIcon />}
+            icon={<NftSquareIcon />}
             label="NFT Instance"
             value={4}
             total={5}
