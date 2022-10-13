@@ -153,7 +153,7 @@ export default function ChainSwitch() {
     litentry: <Litentry />,
   };
 
-  const chainsOptions = [
+  const chainOptions = [
     {
       title: "Polkadot & Parachain",
       chains: polkadotChains,
@@ -179,7 +179,7 @@ export default function ChainSwitch() {
       {show && (
         <Options>
           <ChainGroupWrapper>
-            {chainsOptions.map((chainOption) => (
+            {chainOptions.map((chainOption) => (
               <ChainGroup key={chainOption.title}>
                 <ChainGroupTitle>{chainOption.title}</ChainGroupTitle>
                 <ChainGroupItems>
