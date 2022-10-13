@@ -120,6 +120,9 @@ const ChainGroupItem = styled.a`
   display: inline-flex;
   padding: 8px 0;
   width: 136px;
+  ${mobileCss(css`
+    width: 100%;
+  `)}
   text-decoration: none;
 
   &:hover {
