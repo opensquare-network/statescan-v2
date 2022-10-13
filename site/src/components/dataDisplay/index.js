@@ -52,6 +52,10 @@ const Tab = styled.button`
 export default function DataDisplay({ tableData, JSONData, title }) {
   const [format, setFormat] = useState("table");
 
+  if (!tableData && !JSONData) {
+    return null;
+  }
+
   return (
     <Wrapper>
       <Title>{title}</Title>
