@@ -1,11 +1,21 @@
 const { getBlockItems } = require("./blockItems");
 const {
-  block: { getEventCollection },
+  block: { getEventCollection, getUnFinalizedEventCollection },
 } = require("@statescan/mongo");
 
 async function getBlockEvents(ctx) {
-  ctx.body = await getBlockItems(
+  const finalized = await getBlockItems(
     await getEventCollection(),
+    ctx,
+    "indexer.eventIndex",
+  );
+  if (finalized.items.length > 0) {
+    ctx.body = finalized;
+    return;
+  }
+
+  ctx.body = await getBlockItems(
+    await getUnFinalizedEventCollection(),
     ctx,
     "indexer.eventIndex",
   );
