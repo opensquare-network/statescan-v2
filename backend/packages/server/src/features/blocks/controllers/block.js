@@ -1,5 +1,5 @@
 const {
-  block: { getBlockCollection, getUnFinalizedBlockCollection }
+  block: { getBlockCollection, getUnFinalizedBlockCollection },
 } = require("@statescan/mongo");
 
 async function findBlock(col, q, isFinalized = true) {
@@ -19,7 +19,7 @@ async function getBlock(ctx) {
 
   let block = await findBlock(await getBlockCollection(), q, true);
   if (!block) {
-    block = await findBlock(await getUnFinalizedBlockCollection(), q, true);
+    block = await findBlock(await getUnFinalizedBlockCollection(), q, false);
   }
 
   ctx.body = block;
@@ -27,4 +27,4 @@ async function getBlock(ctx) {
 
 module.exports = {
   getBlock,
-}
+};
