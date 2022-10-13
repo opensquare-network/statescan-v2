@@ -3,13 +3,13 @@ const util = require("util");
 const {
   queryUnFinalizedBlocks,
 } = require("../../features/unfinalized/controllers/blocks");
-const { queryBlocks } = require("../../features/blocks/controllers/blocks");
 const {
   latestBlocksRoom,
   feedInterval,
   latestBlocksKey,
 } = require("../consts");
 const omit = require("lodash.omit");
+const { queryFinalizedBlocks } = require("../../common/queryFinalizedBlocks");
 
 function normalizeBlock(block, isFinalized = true) {
   return {
@@ -22,7 +22,7 @@ async function feedLatestBlocks(io) {
   try {
     const oldData = await getLatestBlocks();
     const unFinalizedBlocks = await queryUnFinalizedBlocks();
-    const finalizedBlocks = await queryBlocks(0, 5);
+    const finalizedBlocks = await queryFinalizedBlocks(0, 5);
     const blocks = [
       ...unFinalizedBlocks.map((item) => normalizeBlock(item, false)),
       ...finalizedBlocks.map((item) => normalizeBlock(item, true)),
