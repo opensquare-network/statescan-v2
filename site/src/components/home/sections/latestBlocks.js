@@ -8,9 +8,9 @@ import { addressEllipsis } from "../../../utils/viewFuncs";
 import Link, { ColoredMonoLink } from "../../styled/link";
 import Loading from "../../loadings/loading";
 import Tooltip from "../../tooltip";
-import { OnlyDesktop } from "../../screen/onlyDesktop";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import FinalizedState from "../../states/finalizedState";
+import { PC } from "../../styled/responsive";
 
 const Rows = styled.ul`
   margin: 0;
@@ -90,9 +90,9 @@ function LatestBlocks({ blocks }) {
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <OnlyDesktop>
+              <PC>
                 <BlockSquareIcon />
-              </OnlyDesktop>
+              </PC>
               <div>
                 <Link to={`/block/${block.height}`}>
                   <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
