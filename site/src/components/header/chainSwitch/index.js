@@ -107,9 +107,11 @@ export default function ChainSwitch() {
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
 
-  const { Statemine, Statemint, Westmint, Litmus, Litentry } = useChainIcons();
+  const { Statemine, Statemint, Westmint, Litmus, Litentry, Polkadot } =
+    useChainIcons();
 
   const CHAIN_ICONS_MAP = {
+    originalPolkadot: <Polkadot />,
     polkadot: <Statemint />,
     kusama: <Statemine />,
     westend: <Westmint />,
