@@ -31,11 +31,9 @@ const Dropdown = styled.div`
   box-sizing: border-box;
   height: 36px;
   width: 160px;
-
-  ${mobileCss(css`
+  @media screen and (max-width: 600px) {
     width: 100%;
-  `)}
-
+  }
   background: ${({ theme }) => theme.fillPanel};
   border: 1px solid ${({ theme }) => theme.strokeBox};
   border-radius: 8px;
@@ -123,9 +121,6 @@ const ChainGroupItem = styled.a`
   padding: 8px 0;
   width: 136px;
   text-decoration: none;
-  ${mobileCss(css`
-    width: 100%;
-  `)}
 
   &:hover {
     ${ChainGroupItemName} {
