@@ -16,8 +16,8 @@ import {
 } from "../../store/reducers/mobileMenuSlice";
 import { mobileCss } from "../../utils/mobileCss";
 import { useEffect } from "react";
-import { useWindowSize } from "../../utils/hooks";
 import { menusBlockchain } from "../../utils/constants";
+import { useWindowSize } from "@osn/common";
 
 const headerHeight = 68;
 

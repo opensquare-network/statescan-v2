@@ -1,14 +1,8 @@
+import { useWindowSize } from "@osn/common";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { modeSelector } from "../../store/reducers/settingSlice";
-import {
-  useOnClickOutside,
-  useIsMounted,
-  useWindowSize,
-} from "@osn/common/hooks";
 import { MOBILE_SIZE } from "../constants";
-
-export { useOnClickOutside, useIsMounted, useWindowSize };
 
 export function useIsDark() {
   const mode = useSelector(modeSelector);
