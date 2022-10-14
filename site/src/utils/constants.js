@@ -95,6 +95,26 @@ export const menusBlockchain = [
     name: "Blocks",
     value: "blocks",
   },
+  {
+    name: "Extrinsics",
+    value: "extrinsics",
+  },
+  {
+    name: "Events",
+    value: "events",
+  },
+  {
+    name: "Calls",
+    value: "calls",
+  },
+  {
+    name: "Transfers",
+    value: "transfers",
+  },
+  {
+    name: "Accounts",
+    value: "accounts",
+  },
 ];
 
 export const blocksHead = [
