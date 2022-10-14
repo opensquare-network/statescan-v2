@@ -6,17 +6,17 @@ import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import { timeDuration } from "../../../utils/viewFuncs/time";
-import { addressEllipsis, toPrecision } from "../../../utils/viewFuncs";
-import Link, { ColoredMonoLinkSmall } from "../../styled/link";
+import { toPrecision } from "../../../utils/viewFuncs";
+import Link from "../../styled/link";
 import ValueDisplay from "../../../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import { OnlyDesktop } from "../../screen/onlyDesktop";
 import Tooltip from "../../tooltip";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
 import Address from "../../address";
 import React from "react";
+import { PC } from "../../styled/responsive";
 
 const Rows = styled.ul`
   margin: 0;
@@ -54,8 +54,7 @@ const BlockHeight = styled(ThemeText)`
   margin-bottom: 4px;
 `;
 
-const Value = styled.p`
-  margin: 0;
+const Value = styled.div`
   margin-bottom: 4px;
   ${Inter_14_600};
   text-align: right;
@@ -85,9 +84,9 @@ function LatestTransfers({ transfers }) {
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <OnlyDesktop>
+              <PC>
                 <TransferSquareIcon />
-              </OnlyDesktop>
+              </PC>
               <div>
                 <Link
                   to={`/extrinsic/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
@@ -115,7 +114,7 @@ function LatestTransfers({ transfers }) {
                 />
               </Value>
               <Flex gap={16}>
-                <OnlyDesktop>
+                <PC>
                   <Tooltip tip={transfer.from}>
                     <Address
                       address={transfer?.from}
@@ -124,7 +123,7 @@ function LatestTransfers({ transfers }) {
                     />
                   </Tooltip>
                   <TransferRightSquareIcon />
-                </OnlyDesktop>
+                </PC>
                 <Tooltip tip={transfer.to}>
                   <Address
                     address={transfer?.to}

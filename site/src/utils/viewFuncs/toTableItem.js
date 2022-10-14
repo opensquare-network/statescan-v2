@@ -64,6 +64,7 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
             transfer?.balance?.$numberDecimal,
             chainSetting.decimals,
           )} ${chainSetting.symbol}`}
+          pullRight
         >
           <ValueDisplay
             value={toPrecision(

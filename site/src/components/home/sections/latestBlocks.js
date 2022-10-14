@@ -4,16 +4,15 @@ import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import React from "react";
 import { timeDuration } from "../../../utils/viewFuncs/time";
-import { addressEllipsis } from "../../../utils/viewFuncs";
-import Link, { ColoredMonoLink } from "../../styled/link";
+import Link from "../../styled/link";
 import Loading from "../../loadings/loading";
 import Tooltip from "../../tooltip";
-import { OnlyDesktop } from "../../screen/onlyDesktop";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import FinalizedState from "../../states/finalizedState";
-import Address from "../../address";
+import { PC } from "../../styled/responsive";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
+import Address from "../../address";
 
 const Rows = styled.ul`
   margin: 0;
@@ -87,9 +86,9 @@ function LatestBlocks({ blocks }) {
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <OnlyDesktop>
+              <PC>
                 <BlockSquareIcon />
-              </OnlyDesktop>
+              </PC>
               <div>
                 <Link to={`/block/${block.height}`}>
                   <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>

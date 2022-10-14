@@ -6,14 +6,20 @@ import { Inter_14_600 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import MobileButton from "./mobile/button";
 import ChainSwitch from "./chainSwitch";
-import Link from "../styled/link";
+import LinkOrigin from "../styled/link";
 import SubMenu from "./subMenu";
-
+import Navi from "./navi";
 import {
   mobileMenuFoldedSelector,
   toggle,
   closeMobileMenu,
 } from "../../store/reducers/mobileMenuSlice";
+import { mobileCss } from "../../utils/mobileCss";
+import { useEffect } from "react";
+import { useWindowSize } from "../../utils/hooks";
+import { menusBlockchain } from "../../utils/constants";
+
+const headerHeight = 68;
 
 const StyleLogo = styled(Logo)`
   path {
@@ -21,13 +27,16 @@ const StyleLogo = styled(Logo)`
   }
 `;
 
-const Wrapper = styled(FlexBetween)`
-  margin: 0 auto;
-  height: 68px;
+const Link = styled(LinkOrigin)`
+  display: block;
 `;
 
-const MenuWrapper = styled.div`
-  display: flex;
+const Wrapper = styled(FlexBetween)`
+  margin: 0 auto;
+  height: ${headerHeight}px;
+`;
+
+const MenuWrapper = styled(Flex)`
   margin-left: 64px;
 `;
 
@@ -35,68 +44,42 @@ const MenuItem = styled.div`
   ${Inter_14_600};
   cursor: pointer;
   text-decoration: none;
-  color: ${(p) => p.theme.fontPrimary};
-
-  :hover {
-    color: ${(p) => p.theme.theme500};
-  }
-
-  :not(:first-child) {
-    margin-left: 40px;
-  }
-
-  @media screen and (max-width: 900px) {
-    padding: 6px 12px;
-    :hover {
-      color: inherit;
-      background: ${(p) => p.theme.fillPanel};
-    }
-
-    :not(:first-child) {
-      margin-left: 0;
-    }
-
-    ${(p) =>
-      p.selected &&
-      css`
-        background: ${(p) => p.theme.fillPanel};
-      `}
-  }
+  padding: 8px 12px;
 `;
 
-const menusBlockchain = [
-  {
-    name: "Blocks",
-    value: "blocks",
-  },
-  {
-    name: "Extrinsics",
-    value: "extrinsics",
-  },
-  {
-    name: "Events",
-    value: "events",
-  },
-  {
-    name: "Calls",
-    value: "calls",
-  },
-  {
-    name: "Transfers",
-    value: "transfers",
-  },
-  {
-    name: "Accounts",
-    value: "accounts",
-  },
-];
+const MobileMenuWrapper = styled.div`
+  padding: 0 24px;
+  background-color: ${(p) => p.theme.fillPanel};
+
+  ${mobileCss(css`
+    padding: 0 16px;
+  `)}
+
+  box-sizing: border-box;
+  position: fixed !important;
+  top: ${headerHeight}px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: scroll;
+  z-index: 2;
+`;
 
 export default function Header() {
   const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
   const dispatch = useDispatch();
+
+  const { width } = useWindowSize();
+
+  useEffect(() => {
+    if (width > 600) {
+      dispatch(closeMobileMenu());
+    }
+  }, [dispatch, width]);
+
   return (
     <Wrapper>
-      <Flex>
+      <FlexBetween style={{ flex: 1 }}>
         <Link
           to={`/`}
           onClick={() => {
@@ -105,30 +88,41 @@ export default function Header() {
         >
           <StyleLogo />
         </Link>
+
         <PC>
-          <MenuWrapper>
-            <Link to={`/`}>
-              <MenuItem>Home</MenuItem>
-            </Link>
-            <SubMenu
-              category="BlockChain"
-              menus={menusBlockchain}
-              divideIndex={4}
-            />
-          </MenuWrapper>
+          <FlexBetween style={{ flex: 1 }}>
+            <MenuWrapper>
+              <Link to={`/`}>
+                <MenuItem>Home</MenuItem>
+              </Link>
+              <MenuItem>
+                <SubMenu
+                  category="BlockChain"
+                  menus={menusBlockchain}
+                  divideIndex={4}
+                />
+              </MenuItem>
+            </MenuWrapper>
+
+            <ChainSwitch />
+          </FlexBetween>
         </PC>
-      </Flex>
-      <PC>
-        <ChainSwitch />
-      </PC>
-      <Mobile>
-        <MobileButton
-          onClick={() => {
-            dispatch(toggle());
-          }}
-          mobileMenuFolded={!showMobileMenu}
-        />
-      </Mobile>
+
+        <Mobile>
+          <MobileButton
+            onClick={() => {
+              dispatch(toggle());
+            }}
+            mobileMenuFolded={!showMobileMenu}
+          />
+          {showMobileMenu && (
+            <MobileMenuWrapper>
+              <ChainSwitch />
+              <Navi />
+            </MobileMenuWrapper>
+          )}
+        </Mobile>
+      </FlexBetween>
     </Wrapper>
   );
 }

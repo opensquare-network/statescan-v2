@@ -1,5 +1,7 @@
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
+export const MOBILE_SIZE = 600;
+
 export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
@@ -9,6 +11,7 @@ export const chains = [
     name: "Polkadot",
     sub: "polkadot",
     value: "polkadot",
+    chain: "polkadot",
     symbol: "DOT",
     decimals: 10,
     chainIcon: "originalPolkadot",
@@ -21,6 +24,7 @@ export const chains = [
     name: "Statemine",
     sub: "kusama",
     value: "statemine",
+    chain: "kusama",
     symbol: "KSM",
     decimals: 12,
     chainIcon: "kusama",
@@ -33,6 +37,7 @@ export const chains = [
     name: "Statemint",
     sub: "polkadot",
     value: "statemint",
+    chain: "polkadot",
     symbol: "DOT",
     decimals: 10,
     chainIcon: "polkadot",
@@ -45,6 +50,7 @@ export const chains = [
     name: "Westmint",
     sub: "westend",
     value: "westmint",
+    chain: "westend",
     symbol: "WND",
     decimals: 12,
     chainIcon: "westend",
@@ -56,6 +62,7 @@ export const chains = [
     name: "Litmus",
     sub: "litentry",
     value: "litmus",
+    chain: "kusama",
     symbol: "LIT",
     decimals: 12,
     chainIcon: "litmus",
@@ -67,6 +74,7 @@ export const chains = [
     name: "Litentry",
     sub: "litentry",
     value: "litentry",
+    chain: "polkadot",
     symbol: "LIT",
     decimals: 12,
     chainIcon: "litentry",
@@ -86,6 +94,26 @@ export const menusBlockchain = [
   {
     name: "Blocks",
     value: "blocks",
+  },
+  {
+    name: "Extrinsics",
+    value: "extrinsics",
+  },
+  {
+    name: "Events",
+    value: "events",
+  },
+  {
+    name: "Calls",
+    value: "calls",
+  },
+  {
+    name: "Transfers",
+    value: "transfers",
+  },
+  {
+    name: "Accounts",
+    value: "accounts",
   },
 ];
 

@@ -1,22 +1,26 @@
 import { useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { ReactComponent as ArrowDown } from "../../icons/caret-down.svg";
 import { useOnClickOutside } from "../../../utils/hooks";
 import { chains } from "../../../utils/constants";
 import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import { useChainIcons } from "../../../utils/hooks/useChainIcons";
+import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
+import { mobileCss } from "../../../utils/mobileCss";
+import CaretRightIcon from "../../icons/caretRightIcon";
+import CaretDownIcon from "../../icons/caretDownIcon";
+import Statemint from "../../icons/statemintIcon";
+import Statemine from "../../icons/statemineIcon";
+import Westmint from "../../icons/westmintIcon";
+import { ReactComponent as Litentry } from "../../icons/litentry.svg";
+import { ReactComponent as Litmus } from "../../icons/litmus.svg";
+import { ReactComponent as Polkadot } from "../../icons/polkadot.svg";
 
-const ArrowDownIcon = styled(ArrowDown)`
+const ArrowDownIcon = styled(CaretDownIcon)`
   position: absolute;
   transform: translateY(-50%);
   top: 50%;
   right: 6px;
-
-  path {
-    stroke: ${({ theme }) => theme.fontPrimary};
-  }
 `;
 
 const Wrapper = styled.div`
@@ -61,46 +65,80 @@ const Text = styled.p`
   color: ${({ theme }) => theme.fontPrimary};
 `;
 
-const Sub = styled.p`
-  font-size: 14px;
-  line-height: 20px;
-  color: ${({ theme }) => theme.fontTertiary};
-  text-transform: capitalize;
-`;
-
 const Options = styled.div`
   background: ${({ theme }) => theme.fillPopup};
-  padding: 8px 0;
-  width: 222px;
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
   position: absolute;
   top: 44px;
   right: 0;
   border: 1px solid ${({ theme }) => theme.strokeBase};
   box-shadow: ${({ theme }) => theme.shadowPanel};
   border-radius: 8px;
+  width: 320px;
+
+  ${mobileCss(css`
+    width: 100%;
+  `)}
 `;
 
-const Item = styled.a`
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8px;
-  cursor: pointer;
+const ChainGroupWrapper = styled.div`
+  padding: 16px;
+`;
 
-  :hover {
-    background: ${({ theme }) => theme.fillPopupHover};
+const ChainGroup = styled.div`
+  margin-top: 12px;
+
+  &:first-child {
+    margin-top: 0;
   }
-
-  ${(p) =>
-    p.active &&
-    css`
-      background: ${({ theme }) => theme.fillPopupHover};
-    `}
 `;
+
+const ChainGroupTitle = styled.h5`
+  margin: 0;
+  margin-bottom: 4px;
+  color: ${(p) => p.theme.fontTertiary};
+  ${Inter_12_500};
+`;
+
+const ChainGroupItems = styled(Flex)`
+  flex-wrap: wrap;
+  gap: 0 16px;
+`;
+
+const ChainGroupItemName = styled.span`
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  color: ${(p) => p.theme.fontPrimary};
+  margin-left: 8px;
+  ${Inter_14_600};
+`;
+const ChainGroupItemCaretWrapper = styled.span`
+  display: inline-flex;
+  opacity: 0;
+`;
+const ChainGroupItem = styled.a`
+  display: inline-flex;
+  padding: 8px 0;
+  width: 136px;
+  ${mobileCss(css`
+    width: 100%;
+  `)}
+  text-decoration: none;
+
+  &:hover {
+    ${ChainGroupItemName} {
+      color: ${(p) => p.theme.theme500};
+    }
+    ${ChainGroupItemCaretWrapper} {
+      opacity: 100;
+    }
+  }
+`;
+
+const polkadotChains = chains.filter((i) => i.chain === "polkadot");
+const kusamaChains = chains.filter((i) => i.chain === "kusama");
+const westendChains = chains.filter((i) => i.chain === "westend");
 
 export default function ChainSwitch() {
   const currentNode = useSelector(chainSettingSelector);
@@ -108,48 +146,72 @@ export default function ChainSwitch() {
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
 
-  const { Statemine, Statemint, Westmint, Litmus, Litentry, Polkadot } =
-    useChainIcons();
-
   const CHAIN_ICONS_MAP = {
-    originalPolkadot: <Polkadot />,
-    polkadot: <Statemint />,
-    kusama: <Statemine />,
-    westend: <Westmint />,
+    polkadot: <Polkadot />,
+    statemint: <Statemint />,
+    statemine: <Statemine />,
+    westmint: <Westmint />,
     litmus: <Litmus />,
     litentry: <Litentry />,
   };
 
+  const chainOptions = [
+    {
+      title: "Polkadot & Parachain",
+      chains: polkadotChains,
+    },
+    {
+      title: "Kusama & Parachain",
+      chains: kusamaChains,
+    },
+    {
+      title: "Westend & Parachain",
+      chains: westendChains,
+    },
+  ];
+
   return (
     <Wrapper ref={ref}>
       <Dropdown active={show} onClick={() => setShow((state) => !state)}>
-        {CHAIN_ICONS_MAP[currentNode.chainIcon]}
+        {CHAIN_ICONS_MAP[currentNode.value]}
         <Text>{currentNode.name}</Text>
         <ArrowDownIcon />
       </Dropdown>
+
       {show && (
         <Options>
-          {chains
-            .filter((item) => !item?.hidden)
-            .map((item, index) => (
-              <Item
-                key={index}
-                active={item.value === currentNode?.value}
-                onClick={() => {
-                  if (item.value === currentNode?.value) {
-                    window.location.href = "/";
-                  } else {
-                    window.open(`https://${item.value}.statescan.io`, "_blank");
-                  }
-                }}
-              >
-                <Flex style={{ gap: 8 }}>
-                  {CHAIN_ICONS_MAP[item.chainIcon]}
-                  <Text>{item.name}</Text>
-                </Flex>
-                <Sub>{item.sub}</Sub>
-              </Item>
+          <ChainGroupWrapper>
+            {chainOptions.map((chainOption) => (
+              <ChainGroup key={chainOption.title}>
+                <ChainGroupTitle>{chainOption.title}</ChainGroupTitle>
+                <ChainGroupItems>
+                  {chainOption.chains.map((chain) => {
+                    const isDiffChain = chain.value !== currentNode.value;
+
+                    const href = isDiffChain
+                      ? `https://${chain.value}.statescan.io`
+                      : "#/";
+
+                    return (
+                      <ChainGroupItem
+                        key={chain.value}
+                        href={href}
+                        target={isDiffChain ? "_blank" : ""}
+                      >
+                        {CHAIN_ICONS_MAP[chain.value]}
+                        <ChainGroupItemName>
+                          <span>{chain.name}</span>
+                          <ChainGroupItemCaretWrapper>
+                            <CaretRightIcon />
+                          </ChainGroupItemCaretWrapper>
+                        </ChainGroupItemName>
+                      </ChainGroupItem>
+                    );
+                  })}
+                </ChainGroupItems>
+              </ChainGroup>
             ))}
+          </ChainGroupWrapper>
         </Options>
       )}
     </Wrapper>
