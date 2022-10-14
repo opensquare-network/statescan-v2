@@ -9,6 +9,7 @@ const routes = [
   require("./features/calls/routes"),
   require("./features/transfers/routes"),
   require("./features/unfinalized/routes"),
+  require("./features/search/routes"),
 ];
 
 module.exports = (app) => {
