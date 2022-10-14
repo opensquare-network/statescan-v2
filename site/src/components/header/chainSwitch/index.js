@@ -5,11 +5,16 @@ import { chains } from "../../../utils/constants";
 import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import { useChainIcons } from "../../../utils/hooks/useChainIcons";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { mobileCss } from "../../../utils/mobileCss";
 import CaretRightIcon from "../../icons/caretRightIcon";
 import CaretDownIcon from "../../icons/caretDownIcon";
+import Statemint from "../../icons/statemintIcon";
+import Statemine from "../../icons/statemineIcon";
+import Westmint from "../../icons/westmintIcon";
+import { ReactComponent as Litentry } from "../../icons/litentry.svg";
+import { ReactComponent as Litmus } from "../../icons/litmus.svg";
+import { ReactComponent as Polkadot } from "../../icons/polkadot.svg";
 
 const ArrowDownIcon = styled(CaretDownIcon)`
   position: absolute;
@@ -140,9 +145,6 @@ export default function ChainSwitch() {
   const [show, setShow] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
-
-  const { Statemine, Statemint, Westmint, Litmus, Litentry, Polkadot } =
-    useChainIcons();
 
   const CHAIN_ICONS_MAP = {
     polkadot: <Polkadot />,
