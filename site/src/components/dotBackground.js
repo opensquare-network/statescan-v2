@@ -5,6 +5,7 @@ const Wrapper = styled.div`
   left: 0;
   width: 100%;
   height: 320px;
+  background-color: ${(p) => p.theme.fillPanel};
   z-index: 0;
 `;
 
