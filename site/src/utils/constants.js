@@ -7,7 +7,7 @@ export const CACHE_KEY = {
 export const chains = [
   {
     name: "Polkadot",
-    sub: "Polkadot",
+    sub: "polkadot",
     value: "polkadot",
     symbol: "DOT",
     decimals: 10,
@@ -19,7 +19,7 @@ export const chains = [
   },
   {
     name: "Statemine",
-    sub: "Kusama",
+    sub: "kusama",
     value: "statemine",
     symbol: "KSM",
     decimals: 12,
@@ -31,7 +31,7 @@ export const chains = [
   },
   {
     name: "Statemint",
-    sub: "Polkadot",
+    sub: "polkadot",
     value: "statemint",
     symbol: "DOT",
     decimals: 10,
@@ -43,7 +43,7 @@ export const chains = [
   },
   {
     name: "Westmint",
-    sub: "Westend",
+    sub: "westend",
     value: "westmint",
     symbol: "WND",
     decimals: 12,
@@ -54,7 +54,7 @@ export const chains = [
   },
   {
     name: "Litmus",
-    sub: "Litentry",
+    sub: "litentry",
     value: "litmus",
     symbol: "LIT",
     decimals: 12,
@@ -65,7 +65,7 @@ export const chains = [
   },
   {
     name: "Litentry",
-    sub: "Litentry",
+    sub: "litentry",
     value: "litentry",
     symbol: "LIT",
     decimals: 12,

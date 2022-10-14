@@ -65,6 +65,7 @@ const Sub = styled.p`
   font-size: 14px;
   line-height: 20px;
   color: ${({ theme }) => theme.fontTertiary};
+  text-transform: capitalize;
 `;
 
 const Options = styled.div`

@@ -11,6 +11,9 @@ import Tooltip from "../../tooltip";
 import { OnlyDesktop } from "../../screen/onlyDesktop";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import FinalizedState from "../../states/finalizedState";
+import Address from "../../address";
+import { useSelector } from "react-redux";
+import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 
 const Rows = styled.ul`
   margin: 0;
@@ -63,14 +66,6 @@ const Bold = styled.span`
   }
 `;
 
-const Address = styled(ColoredMonoLink)`
-  display: block;
-  margin: 0;
-  margin-bottom: 4px;
-  line-height: 24px;
-  text-align: right;
-`;
-
 const Label = styled.span`
   color: ${(props) => props.theme.fontTertiary};
 `;
@@ -84,6 +79,8 @@ const mapLoadingState = (props) => {
 };
 
 function LatestBlocks({ blocks }) {
+  const chainSetting = useSelector(chainSettingSelector);
+
   return (
     <Rows>
       {blocks.slice(0, 5).map((block, i) => (
@@ -106,9 +103,10 @@ function LatestBlocks({ blocks }) {
 
             <div>
               <Tooltip tip={block.validator} pullRight>
-                <Address to={`/account/${block.validator}`}>
-                  {addressEllipsis(block.validator)}
-                </Address>
+                <Address
+                  address={block?.validator}
+                  network={chainSetting.value}
+                />
               </Tooltip>
               <Flex style={{ fontSize: 12 }} gap={8}>
                 <Flex gap={8}>
