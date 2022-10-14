@@ -3,10 +3,10 @@ import { ReactComponent as Logo } from "./logo.svg";
 import { Flex, FlexBetween } from "../styled/flex";
 import { Mobile, PC } from "../styled/responsive";
 import { Inter_14_600 } from "../../styles/text";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import MobileButton from "./mobile/button";
 import ChainSwitch from "./chainSwitch";
-import Link from "../styled/link";
+import LinkOrigin from "../styled/link";
 import SubMenu from "./subMenu";
 
 import {
@@ -21,13 +21,16 @@ const StyleLogo = styled(Logo)`
   }
 `;
 
+const Link = styled(LinkOrigin)`
+  display: block;
+`;
+
 const Wrapper = styled(FlexBetween)`
   margin: 0 auto;
   height: 68px;
 `;
 
-const MenuWrapper = styled.div`
-  display: flex;
+const MenuWrapper = styled(Flex)`
   margin-left: 64px;
 `;
 
@@ -35,33 +38,7 @@ const MenuItem = styled.div`
   ${Inter_14_600};
   cursor: pointer;
   text-decoration: none;
-  color: ${(p) => p.theme.fontPrimary};
-
-  :hover {
-    color: ${(p) => p.theme.theme500};
-  }
-
-  :not(:first-child) {
-    margin-left: 40px;
-  }
-
-  @media screen and (max-width: 900px) {
-    padding: 6px 12px;
-    :hover {
-      color: inherit;
-      background: ${(p) => p.theme.fillPanel};
-    }
-
-    :not(:first-child) {
-      margin-left: 0;
-    }
-
-    ${(p) =>
-      p.selected &&
-      css`
-        background: ${(p) => p.theme.fillPanel};
-      `}
-  }
+  padding: 8px 12px;
 `;
 
 const menusBlockchain = [
@@ -96,7 +73,7 @@ export default function Header() {
   const dispatch = useDispatch();
   return (
     <Wrapper>
-      <Flex>
+      <FlexBetween style={{ flex: 1 }}>
         <Link
           to={`/`}
           onClick={() => {
@@ -105,30 +82,35 @@ export default function Header() {
         >
           <StyleLogo />
         </Link>
+
         <PC>
-          <MenuWrapper>
-            <Link to={`/`}>
-              <MenuItem>Home</MenuItem>
-            </Link>
-            <SubMenu
-              category="BlockChain"
-              menus={menusBlockchain}
-              divideIndex={4}
-            />
-          </MenuWrapper>
+          <FlexBetween style={{ flex: 1 }}>
+            <MenuWrapper>
+              <Link to={`/`}>
+                <MenuItem>Home</MenuItem>
+              </Link>
+              <MenuItem>
+                <SubMenu
+                  category="BlockChain"
+                  menus={menusBlockchain}
+                  divideIndex={4}
+                />
+              </MenuItem>
+            </MenuWrapper>
+
+            <ChainSwitch />
+          </FlexBetween>
         </PC>
-      </Flex>
-      <PC>
-        <ChainSwitch />
-      </PC>
-      <Mobile>
-        <MobileButton
-          onClick={() => {
-            dispatch(toggle());
-          }}
-          mobileMenuFolded={!showMobileMenu}
-        />
-      </Mobile>
+
+        <Mobile>
+          <MobileButton
+            onClick={() => {
+              dispatch(toggle());
+            }}
+            mobileMenuFolded={!showMobileMenu}
+          />
+        </Mobile>
+      </FlexBetween>
     </Wrapper>
   );
 }
