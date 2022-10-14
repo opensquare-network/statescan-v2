@@ -22,7 +22,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: ${(props) => props.theme.fillBase};
 `;
 
 const Main = styled.main`
@@ -32,7 +31,6 @@ const Main = styled.main`
 `;
 
 const MobileMenuWrapper = styled.div`
-  background: ${(props) => props.theme.fillPanel};
   padding: 0 24px;
   @media screen and (max-width: 600px) {
     padding: 0 16px;
