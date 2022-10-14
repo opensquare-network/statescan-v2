@@ -6,6 +6,7 @@ const bodyParser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const cors = require("@koa/cors");
+const { startJobs } = require("./jobs");
 const { setupSocketAndEmit } = require("./websocket");
 const { handleThrow } = require("./middlewares/handleThrow");
 const {
@@ -26,12 +27,13 @@ require("./routes")(app);
 const server = http.createServer(app.callback());
 const port = parseInt(process.env.PORT) || 5010;
 
-;(async () => {
+(async () => {
   await initBlockDb();
   await initAccountScanDb();
+  await startJobs();
   await setupSocketAndEmit(server);
 
   server.listen(port, () =>
-    console.log(`✅  The server is running at http://127.0.0.1:${ port }/`)
+    console.log(`✅  The server is running at http://127.0.0.1:${port}/`),
   );
-})()
+})();
