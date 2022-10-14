@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { useOnClickOutside } from "../../../utils/hooks";
 import { chains } from "../../../utils/constants";
 import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
@@ -15,6 +14,7 @@ import Westmint from "../../icons/westmintIcon";
 import { ReactComponent as Litentry } from "../../icons/litentry.svg";
 import { ReactComponent as Litmus } from "../../icons/litmus.svg";
 import { ReactComponent as Polkadot } from "../../icons/polkadot.svg";
+import { useOnClickOutside } from "@osn/common";
 
 const ArrowDownIcon = styled(CaretDownIcon)`
   position: absolute;

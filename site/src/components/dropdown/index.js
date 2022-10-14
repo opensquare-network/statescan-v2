@@ -1,8 +1,8 @@
 import { ReactComponent as Caret } from "../icons/caret-down.svg";
-import { useOnClickOutside } from "../../utils/hooks";
 import styled, { css } from "styled-components";
 import { useState, useRef } from "react";
 import { FlexBetween } from "../styled/flex";
+import { useOnClickOutside } from "@osn/common";
 
 const CaretIcon = styled(Caret)`
   path {
