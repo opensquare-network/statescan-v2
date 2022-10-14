@@ -21,12 +21,11 @@ const Wrapper = styled.div`
 const AddressLink = styled(ColoredMonoLink)`
   display: block;
   margin: 0;
-  margin-bottom: 4px;
   line-height: 24px;
   text-align: right;
 `;
 
-function Address({ address }) {
+function Address({ address, maxWidth = "100%", fontSize = 14 }) {
   const [identity, setIdentity] = useState(null);
   const chainSetting = useSelector(chainSettingSelector);
   const relayChain = chainSetting.sub;
@@ -35,19 +34,17 @@ function Address({ address }) {
   useEffect(() => {
     setIdentity(null);
     fetchIdentity(relayChain, address).then((identity) => {
-      if (isMounted()) {
+      if (isMounted) {
         setIdentity(identity);
       }
     });
   }, [address, relayChain, isMounted]);
-  console.log(identity);
+
   if (!identity) {
     return (
-      <Tooltip tip={address}>
-        <AddressLink to={`/account/${address}`}>
-          {addressEllipsis(address)}
-        </AddressLink>
-      </Tooltip>
+      <AddressLink style={{ fontSize }} to={`/account/${address}`}>
+        {addressEllipsis(address)}
+      </AddressLink>
     );
   }
 
@@ -56,24 +53,12 @@ function Address({ address }) {
       style={{
         display: "flex",
         flexWrap: "wrap",
-        paddingTop: 8,
-        paddingBottom: 8,
+        maxWidth,
       }}
     >
       <Link to={`/account/${address}`}>
-        <Identity identity={identity} />
+        <Identity identity={identity} fontSize={fontSize} />
       </Link>
-      <span text={address}>
-        <span>
-          <span>
-            <Link to={`/account/${address}`}>
-              <a>
-                <span>{address}</span>
-              </a>
-            </Link>
-          </span>
-        </span>
-      </span>
     </Wrapper>
   );
 }

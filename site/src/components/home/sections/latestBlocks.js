@@ -1,4 +1,4 @@
-import { Flex, FlexBetween } from "../../styled/flex";
+import { Flex, FlexBetween, FlexEnd } from "../../styled/flex";
 import styled from "styled-components";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
@@ -106,9 +106,10 @@ function LatestBlocks({ blocks }) {
                 <Address
                   address={block?.validator}
                   network={chainSetting.value}
+                  maxWidth={93}
                 />
               </Tooltip>
-              <Flex style={{ fontSize: 12 }} gap={8}>
+              <FlexEnd style={{ fontSize: 12, marginTop: 4 }} gap={8}>
                 <Flex gap={8}>
                   <Label>Extrinsics</Label>
                   <Link to={`/block/${block.height}?tab=extrinsics`}>
@@ -121,7 +122,7 @@ function LatestBlocks({ blocks }) {
                     <Bold>{block.eventsCount}</Bold>
                   </Link>
                 </Flex>
-              </Flex>
+              </FlexEnd>
             </div>
           </FlexBetween>
         </Row>

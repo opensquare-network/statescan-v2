@@ -15,6 +15,8 @@ import { OnlyDesktop } from "../../screen/onlyDesktop";
 import Tooltip from "../../tooltip";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
+import Address from "../../address";
+import React from "react";
 
 const Rows = styled.ul`
   margin: 0;
@@ -115,16 +117,20 @@ function LatestTransfers({ transfers }) {
               <Flex gap={16}>
                 <OnlyDesktop>
                   <Tooltip tip={transfer.from}>
-                    <ColoredMonoLinkSmall to={`/account/${transfer.from}`}>
-                      {addressEllipsis(transfer.from)}
-                    </ColoredMonoLinkSmall>
+                    <Address
+                      address={transfer?.from}
+                      network={chainSetting.value}
+                      fontSize={12}
+                    />
                   </Tooltip>
                   <TransferRightSquareIcon />
                 </OnlyDesktop>
-                <Tooltip tip={transfer.from}>
-                  <ColoredMonoLinkSmall to={`/account/${transfer.to}`}>
-                    {addressEllipsis(transfer.to)}
-                  </ColoredMonoLinkSmall>
+                <Tooltip tip={transfer.to}>
+                  <Address
+                    address={transfer?.to}
+                    network={chainSetting.value}
+                    fontSize={12}
+                  />
                 </Tooltip>
               </Flex>
             </div>

@@ -13,3 +13,7 @@ export const Flex = styled.div`
 export const FlexBetween = styled(Flex)`
   justify-content: space-between;
 `;
+
+export const FlexEnd = styled(Flex)`
+  justify-content: end;
+`;
