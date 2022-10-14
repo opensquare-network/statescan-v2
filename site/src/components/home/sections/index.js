@@ -1,4 +1,4 @@
-import { FlexBetween } from "../../styled/flex";
+import { FlexBetween, FlexEnd } from "../../styled/flex";
 import LatestBlocks from "./latestBlocks";
 import React from "react";
 import styled, { css } from "styled-components";
@@ -19,13 +19,8 @@ const Title = styled.h2`
 `;
 
 const Anchor = styled(Link)`
-  margin: auto;
-  margin-right: 0;
-  display: block;
   width: fit-content;
-  padding-right: 24px;
   ${Inter_14_500};
-  line-height: 52px;
   text-align: right;
   color: ${(props) => props.theme.theme500};
 `;
@@ -56,6 +51,11 @@ const SectionsWrapper = styled(FlexBetween)`
   `)}
 `;
 
+const AnchorWrapper = styled(FlexEnd)`
+  padding-right: 24px;
+  height: 52px;
+`;
+
 export default function Sections() {
   const blocks = useSelector(latestBlocksSelector);
   const transfers = useSelector(latestSignedTransfersSelector);
@@ -66,7 +66,9 @@ export default function Sections() {
         <Title>Latest Blocks</Title>
         <StyledPanel>
           <LatestBlocks blocks={blocks} />
-          <Anchor to={"/blocks"}>View All</Anchor>
+          <AnchorWrapper>
+            <Anchor to={"/blocks"}>View All</Anchor>
+          </AnchorWrapper>
         </StyledPanel>
       </Section>
 
@@ -74,7 +76,9 @@ export default function Sections() {
         <Title>Latest Transfers</Title>
         <StyledPanel>
           <LatestTransfers transfers={transfers} />
-          <Anchor to={"/transfers"}>View All</Anchor>
+          <AnchorWrapper>
+            <Anchor to={"/transfers"}>View All</Anchor>
+          </AnchorWrapper>
         </StyledPanel>
       </Section>
     </SectionsWrapper>
