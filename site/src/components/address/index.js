@@ -9,6 +9,8 @@ import Link, { ColoredMonoLink } from "../styled/link";
 import Tooltip from "../tooltip";
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   a {
     width: 100%;
   }
@@ -49,13 +51,7 @@ function Address({ address, maxWidth = "100%", fontSize = 14 }) {
   }
 
   return (
-    <Wrapper
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        maxWidth,
-      }}
-    >
+    <Wrapper style={{ maxWidth }}>
       <Link to={`/account/${address}`}>
         <Identity identity={identity} fontSize={fontSize} />
       </Link>
