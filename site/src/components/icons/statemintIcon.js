@@ -6,9 +6,5 @@ import { useMemo } from "react";
 export default function StatemintIcon(props) {
   const isDark = useIsDark();
   const Icon = useMemo(() => (isDark ? StatemintDark : Statemint), [isDark]);
-  return (
-    <>
-      <Icon {...props} />
-    </>
-  );
+  return <Icon {...props} />;
 }

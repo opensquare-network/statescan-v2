@@ -6,9 +6,5 @@ import { useMemo } from "react";
 export default function WestmintIcon(props) {
   const isDark = useIsDark();
   const Icon = useMemo(() => (isDark ? WestmintDark : Westmint), [isDark]);
-  return (
-    <>
-      <Icon {...props} />
-    </>
-  );
+  return <Icon {...props} />;
 }
