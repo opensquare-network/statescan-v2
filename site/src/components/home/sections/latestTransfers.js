@@ -6,14 +6,16 @@ import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import { timeDuration } from "../../../utils/viewFuncs/time";
-import { addressEllipsis, toPrecision } from "../../../utils/viewFuncs";
-import Link, { ColoredMonoLinkSmall } from "../../styled/link";
+import { toPrecision } from "../../../utils/viewFuncs";
+import Link from "../../styled/link";
 import ValueDisplay from "../../../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import Tooltip from "../../tooltip";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
+import Address from "../../address";
+import React from "react";
 import { PC } from "../../styled/responsive";
 
 const Rows = styled.ul`
@@ -114,16 +116,20 @@ function LatestTransfers({ transfers }) {
               <Flex gap={16}>
                 <PC>
                   <Tooltip tip={transfer.from}>
-                    <ColoredMonoLinkSmall to={`/account/${transfer.from}`}>
-                      {addressEllipsis(transfer.from)}
-                    </ColoredMonoLinkSmall>
+                    <Address
+                      address={transfer?.from}
+                      network={chainSetting.value}
+                      fontSize={12}
+                    />
                   </Tooltip>
                   <TransferRightSquareIcon />
                 </PC>
-                <Tooltip tip={transfer.from}>
-                  <ColoredMonoLinkSmall to={`/account/${transfer.to}`}>
-                    {addressEllipsis(transfer.to)}
-                  </ColoredMonoLinkSmall>
+                <Tooltip tip={transfer.to}>
+                  <Address
+                    address={transfer?.to}
+                    network={chainSetting.value}
+                    fontSize={12}
+                  />
                 </Tooltip>
               </Flex>
             </div>
