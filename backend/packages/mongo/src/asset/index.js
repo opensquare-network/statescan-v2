@@ -7,6 +7,8 @@ let db = null;
 let transferCol = null;
 let unFinalizedTransferCol = null;
 
+let assetCol = null;
+
 async function initAssetScanDb() {
   db = new ScanDb(
     getEnvOrThrow("MONGO_ASSET_SCAN_URL"),
@@ -16,6 +18,7 @@ async function initAssetScanDb() {
 
   transferCol = await db.createCol("transfer");
   unFinalizedTransferCol = await db.createCol("unFinalizedTransfer");
+  assetCol = await db.createCol("asset");
   await _createIndexes();
 }
 
@@ -49,6 +52,11 @@ async function getUnFinalizedTransferCol() {
   return unFinalizedTransferCol;
 }
 
+async function getAssetCol() {
+  await makeSureInit(assetCol);
+  return assetCol;
+}
+
 function getAssetDb() {
   return db;
 }
@@ -72,4 +80,5 @@ module.exports = {
   getUnFinalizedTransferCol,
   getAssetDb,
   batchInsertTransfers,
+  getAssetCol,
 };

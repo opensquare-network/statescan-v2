@@ -5,6 +5,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "mongodb": "^4.7.0",
-    "bignumber.js": "^9.1.0"
+    "bignumber.js": "^9.1.0",
+    "@osn/scan-common": "0.1.20"
   }
 }
