@@ -9,17 +9,19 @@ async function handleMetadataSet(event, indexer) {
   const metadata = await queryMetadata(indexer.blockHash, assetId);
   await updateActiveAsset(assetId, { metadata });
 
-  await insertAssetTimeline({
-    assetId,
-    indexer,
-    name: method,
-    args: {
-      name: data[1].toHuman(),
-      symbol: data[2].toHuman(),
-      decimals: data[3].toNumber(),
-      isFrozen: data[4].toJSON(),
+  await insertAssetTimeline(
+    {
+      assetId,
+      name: method,
+      args: {
+        name: data[1].toHuman(),
+        symbol: data[2].toHuman(),
+        decimals: data[3].toNumber(),
+        isFrozen: data[4].toJSON(),
+      },
     },
-  });
+    indexer,
+  );
 }
 
 module.exports = {

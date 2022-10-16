@@ -13,9 +13,9 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
   }
 
   if (method === AssetsEvents.Created) {
-    await handleCreated(event, indexer);
+    await handleCreated(...arguments, false);
   } else if (method === AssetsEvents.ForceCreated) {
-    await handleCreated(event, indexer, true);
+    await handleCreated(...arguments, true);
   } else if (method === AssetsEvents.MetadataSet) {
     await handleMetadataSet(...arguments);
   } else if (method === AssetsEvents.OwnerChanged) {

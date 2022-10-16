@@ -4,9 +4,10 @@ const {
 const isEmpty = require("lodash.isempty");
 const { getActiveAsset } = require("./getActiveAsset");
 const isNil = require("lodash.isnil");
-const {
-  consts: { AssetModule },
-} = require("@statescan/common");
+
+function initObj(timelineObj = {}, indexer) {
+  return { ...timelineObj, indexer };
+}
 
 async function insertAssetTimeline(timelineObj = {}, indexer) {
   if (isEmpty(timelineObj)) {
@@ -14,10 +15,10 @@ async function insertAssetTimeline(timelineObj = {}, indexer) {
   }
 
   const timelineCol = await getAssetTimelineCol();
-
+  const obj = initObj(timelineObj, indexer);
   const { assetId, assetHeight, module } = timelineObj;
   if (!isNil(assetHeight)) {
-    await timelineCol.insertOne(timelineObj);
+    await timelineCol.insertOne(obj);
     return;
   }
 
@@ -28,11 +29,11 @@ async function insertAssetTimeline(timelineObj = {}, indexer) {
     );
   }
 
-  await timelineCol.insertOne({
-    ...timelineObj,
-    assetHeight,
-    module,
+  Object.assign(obj, {
+    assetHeight: activeAsset.assetHeight,
+    module: activeAsset.module,
   });
+  await timelineCol.insertOne(obj);
 }
 
 module.exports = {

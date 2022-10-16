@@ -6,15 +6,17 @@ async function handleIssued(event, indexer) {
   const assetId = data[0].toNumber();
 
   await updateAssetDetail(assetId, indexer);
-  await insertAssetTimeline({
-    assetId,
-    indexer,
-    name: method,
-    args: {
-      beneficiary: data[1].toString(),
-      amount: data[2].toString(),
+  await insertAssetTimeline(
+    {
+      assetId,
+      name: method,
+      args: {
+        beneficiary: data[1].toString(),
+        amount: data[2].toString(),
+      },
     },
-  });
+    indexer,
+  );
 }
 
 module.exports = {

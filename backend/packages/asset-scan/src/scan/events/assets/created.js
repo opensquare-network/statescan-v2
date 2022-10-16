@@ -11,10 +11,11 @@ const {
  *
  * @param event
  * @param indexer
+ * @param extrinsic
  * @param isForced: for `ForceCreated` handling
  * @returns {Promise<void>}
  */
-async function handleCreated(event, indexer, isForced = false) {
+async function handleCreated(event, indexer, extrinsic, isForced = false) {
   const { method, data } = event;
   const assetId = data[0].toNumber();
   const asset = await queryAsset(indexer.blockHash, assetId);
@@ -40,12 +41,15 @@ async function handleCreated(event, indexer, isForced = false) {
     Object.assign(args, { creator: data[1].toString() });
   }
 
-  await insertAssetTimeline({
-    ...assetIdentifier,
+  await insertAssetTimeline(
+    {
+      ...assetIdentifier,
+      indexer,
+      eventMethod: method,
+      args,
+    },
     indexer,
-    name: method,
-    args,
-  });
+  );
 }
 
 module.exports = {

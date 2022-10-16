@@ -6,12 +6,14 @@ async function handleOwnerChanged(event, indexer) {
   const assetId = data[0].toNumber();
 
   await updateAssetDetail(assetId, indexer);
-  await insertAssetTimeline({
-    assetId,
+  await insertAssetTimeline(
+    {
+      assetId,
+      name: method,
+      args: { owner: data[1].toString },
+    },
     indexer,
-    name: method,
-    args: { owner: data[1].toString },
-  });
+  );
 }
 
 module.exports = {
