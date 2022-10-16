@@ -1,3 +1,5 @@
+const { handleBurned } = require("./burned");
+const { handleTeamChanged } = require("./teamChanged");
 const { handleAssetThawed } = require("./assetThawed");
 const { handleAssetFrozen } = require("./assetFrozen");
 const { handleIssued } = require("./issued");
@@ -28,6 +30,10 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleAssetFrozen(...arguments);
   } else if (method === AssetsEvents.AssetThawed) {
     await handleAssetThawed(...arguments);
+  } else if (method === AssetsEvents.TeamChanged) {
+    await handleTeamChanged(...arguments);
+  } else if (method === AssetsEvents.Burned) {
+    await handleBurned(...arguments);
   }
 
   // todo: handle other assets pallet events
