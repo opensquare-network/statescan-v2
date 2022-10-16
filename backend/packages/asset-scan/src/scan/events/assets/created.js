@@ -1,12 +1,20 @@
+const { insertAssetTimeline } = require("../../mongo/assets/insertTimeline");
 const { queryAsset } = require("../../query/assets/asset");
 const {
-  asset: { getAssetCol, getAssetTimelineCol },
+  asset: { getAssetCol },
 } = require("@statescan/mongo");
 const {
   consts: { AssetModule },
 } = require("@statescan/common");
 
-async function handleCreated(event, indexer) {
+/**
+ *
+ * @param event
+ * @param indexer
+ * @param isForced: for `ForceCreated` handling
+ * @returns {Promise<void>}
+ */
+async function handleCreated(event, indexer, isForced = false) {
   const { method, data } = event;
   const assetId = data[0].toNumber();
   const asset = await queryAsset(indexer.blockHash, assetId);
@@ -24,16 +32,19 @@ async function handleCreated(event, indexer) {
     destroyed: false,
   });
 
-  const timelineCol = await getAssetTimelineCol();
-  await timelineCol.insertOne({
+  const args = {
+    assetId,
+    owner: data[2].toString(),
+  };
+  if (!isForced) {
+    Object.assign(args, { creator: data[1].toString() });
+  }
+
+  await insertAssetTimeline({
     ...assetIdentifier,
     indexer,
     name: method,
-    args: {
-      assetId,
-      creator: data[1].toString(),
-      owner: data[2].toString(),
-    },
+    args,
   });
 }
 

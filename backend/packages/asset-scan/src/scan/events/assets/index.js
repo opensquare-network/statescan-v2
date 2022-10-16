@@ -1,3 +1,4 @@
+const { handleMetadataSet } = require("./metadataSet");
 const { handleCreated } = require("./created");
 const { AssetsEvents } = require("./consts");
 
@@ -10,7 +11,11 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
   }
 
   if (method === AssetsEvents.Created) {
-    await handleCreated(...arguments);
+    await handleCreated(event, indexer);
+  } else if (method === AssetsEvents.ForceCreated) {
+    await handleCreated(event, indexer, true);
+  } else if (method === AssetsEvents.MetadataSet) {
+    await handleMetadataSet(...arguments);
   }
 
   // todo: handle other assets pallet events
