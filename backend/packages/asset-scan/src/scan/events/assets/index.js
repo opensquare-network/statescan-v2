@@ -13,7 +13,7 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleCreated(...arguments);
   }
 
-  // todo: handle assets pallet events
+  // todo: handle other assets pallet events
 }
 
 module.exports = {

@@ -8,6 +8,7 @@ let transferCol = null;
 let unFinalizedTransferCol = null;
 
 let assetCol = null;
+let assetTimelineCol = null;
 
 async function initAssetScanDb() {
   db = new ScanDb(
@@ -19,6 +20,7 @@ async function initAssetScanDb() {
   transferCol = await db.createCol("transfer");
   unFinalizedTransferCol = await db.createCol("unFinalizedTransfer");
   assetCol = await db.createCol("asset");
+  assetTimelineCol = await db.createCol("assetTimeline");
   await _createIndexes();
 }
 
@@ -28,12 +30,19 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  transferCol.createIndex({ from: 1 });
-  transferCol.createIndex({ to: 1 });
-  transferCol.createIndex({
+  await transferCol.createIndex({ from: 1 });
+  await transferCol.createIndex({ to: 1 });
+  await transferCol.createIndex({
     "indexer.blockHeight": -1,
     "indexer.eventIndex": 1,
   });
+
+  await assetCol.createIndex(
+    { assetId: 1, assetHeight: 1, module: 1 },
+    { unique: true },
+  );
+
+  // todo: create index for assetTimeline
 }
 
 async function makeSureInit(col) {
@@ -55,6 +64,11 @@ async function getUnFinalizedTransferCol() {
 async function getAssetCol() {
   await makeSureInit(assetCol);
   return assetCol;
+}
+
+async function getAssetTimelineCol() {
+  await makeSureInit(assetTimelineCol);
+  return assetTimelineCol;
 }
 
 function getAssetDb() {
@@ -81,4 +95,5 @@ module.exports = {
   getAssetDb,
   batchInsertTransfers,
   getAssetCol,
+  getAssetTimelineCol,
 };
