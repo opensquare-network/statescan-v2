@@ -1,3 +1,5 @@
+const { handleAssetThawed } = require("./assetThawed");
+const { handleAssetFrozen } = require("./assetFrozen");
 const { handleIssued } = require("./issued");
 const { handleOwnerChanged } = require("./ownerChanged");
 const { handleMetadataSet } = require("./metadataSet");
@@ -22,6 +24,10 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleOwnerChanged(...arguments);
   } else if (method === AssetsEvents.Issued) {
     await handleIssued(...arguments);
+  } else if (method === AssetsEvents.AssetFrozen) {
+    await handleAssetFrozen(...arguments);
+  } else if (method === AssetsEvents.AssetThawed) {
+    await handleAssetThawed(...arguments);
   }
 
   // todo: handle other assets pallet events
