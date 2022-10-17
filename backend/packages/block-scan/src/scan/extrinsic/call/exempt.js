@@ -5,11 +5,18 @@ const {
     MultisigMethods,
     UtilityMethods,
     SudoMethods,
-  }
+  },
 } = require("@osn/scan-common");
 
 function isExemptedCall(section, method) {
-  if ([Modules.Timestamp, Modules.ParachainSystem, Modules.ParaInherent, "parachains"].includes(section)) {
+  if (
+    [
+      Modules.Timestamp,
+      Modules.ParachainSystem,
+      Modules.ParaInherent,
+      "parachains",
+    ].includes(section)
+  ) {
     return true;
   }
 
@@ -17,14 +24,9 @@ function isExemptedCall(section, method) {
     (Modules.Proxy === section && ProxyMethods.proxy === method) ||
     (Modules.Multisig === section && MultisigMethods.asMulti) ||
     (Modules.Utility === section &&
-      [
-        UtilityMethods.batch,
-        UtilityMethods.batchAll,
-      ].includes(method)) ||
-    (Modules.Sudo === section && [
-      SudoMethods.sudo,
-      SudoMethods.sudoAs,
-    ].includes(method))
+      [UtilityMethods.batch, UtilityMethods.batchAll].includes(method)) ||
+    (Modules.Sudo === section &&
+      [SudoMethods.sudo, SudoMethods.sudoAs].includes(method))
   ) {
     return true;
   }
@@ -35,4 +37,4 @@ function isExemptedCall(section, method) {
 
 module.exports = {
   isExemptedCall,
-}
+};

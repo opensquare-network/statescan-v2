@@ -1,5 +1,5 @@
 const {
-  block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection }
+  block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection },
 } = require("@statescan/mongo");
 
 async function findExtrinsic(col, q, isFinalized = true) {
@@ -24,11 +24,15 @@ async function getExtrinsic(ctx) {
 
   let extrinsic = await findExtrinsic(await getExtrinsicCollection(), q);
   if (!extrinsic) {
-    extrinsic = await findExtrinsic(await getUnFinalizedExtrinsicCollection(), q, false);
+    extrinsic = await findExtrinsic(
+      await getUnFinalizedExtrinsicCollection(),
+      q,
+      false,
+    );
   }
   ctx.body = extrinsic;
 }
 
 module.exports = {
   getExtrinsic,
-}
+};
