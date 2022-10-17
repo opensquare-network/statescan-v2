@@ -1,6 +1,41 @@
 const {
-  block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection }
+  block: {
+    getExtrinsicCollection,
+    getUnFinalizedExtrinsicCollection,
+    getEventCollection,
+    getCallCollection,
+  },
 } = require("@statescan/mongo");
+
+async function getExtrinsicEventsCount(blockHeight, extrinsicIndex) {
+  const col = await getEventCollection();
+  const events = await col
+    .find(
+      {
+        "indexer.blockHeight": blockHeight,
+        "indexer.extrinsicIndex": extrinsicIndex,
+      },
+      { projection: { _id: 0 } },
+    )
+    .toArray();
+
+  return events.length;
+}
+
+async function getExtrinsicCallsCount(blockHeight, extrinsicIndex) {
+  const col = await getCallCollection();
+  const calls = await col
+    .find(
+      {
+        "indexer.blockHeight": blockHeight,
+        "indexer.extrinsicIndex": extrinsicIndex,
+      },
+      { projection: { _id: 0 } },
+    )
+    .toArray();
+
+  return calls.length;
+}
 
 async function findExtrinsic(col, q, isFinalized = true) {
   const extrinsic = await col.findOne(q, { projection: { _id: 0 } });
@@ -24,11 +59,15 @@ async function getExtrinsic(ctx) {
 
   let extrinsic = await findExtrinsic(await getExtrinsicCollection(), q);
   if (!extrinsic) {
-    extrinsic = await findExtrinsic(await getUnFinalizedExtrinsicCollection(), q, false);
+    extrinsic = await findExtrinsic(
+      await getUnFinalizedExtrinsicCollection(),
+      q,
+      false,
+    );
   }
   ctx.body = extrinsic;
 }
 
 module.exports = {
   getExtrinsic,
-}
+};
