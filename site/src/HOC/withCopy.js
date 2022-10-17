@@ -30,12 +30,16 @@ const CopyButton = styled.button`
   }
 `;
 
+function defaultRender(children) {
+  return children;
+}
+
 export const withCopy = (Component) => {
-  return ({ children, ...restProps }) => {
+  return ({ children, render = defaultRender, ...restProps }) => {
     const [copied, setCopied] = React.useState(false);
     return (
       <Wrapper>
-        <Component {...restProps}>{children}</Component>
+        <Component {...restProps}>{render(children)}</Component>
         <CopyButton
           onClick={() => {
             copy(children);
