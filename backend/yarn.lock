@@ -574,10 +574,10 @@
   resolved "https://registry.npmjs.org/@noble/secp256k1/-/secp256k1-1.7.0.tgz#d15357f7c227e751d90aa06b05a0e5cf993ba8c1"
   integrity sha512-kbacwGSsH/CTout0ZnZWxnW1B+jH/7r/WAAKLBtrRJ/+CUH7lgmQzl3GTrQua3SGKWNSDsS6lmjnDpIJ5Dxyaw==
 
-"@osn/scan-common@0.1.20":
-  version "0.1.20"
-  resolved "https://registry.npmjs.org/@osn/scan-common/-/scan-common-0.1.20.tgz#2bf036a20511bfc40ff4796c058a642e75ceb88b"
-  integrity sha512-qYZUVfbS2q+WIju8t5994KmjtT4T99Actl1TB7Y0yB4gJt15CoEXKIRrXKeIRswy4LUspRvye+y4aQgDGxTTlw==
+"@osn/scan-common@0.1.21":
+  version "0.1.21"
+  resolved "https://registry.npmjs.org/@osn/scan-common/-/scan-common-0.1.21.tgz#ae61d7cd01bd68cde13ca8dc61476ca0abfeeeff"
+  integrity sha512-X94Uy9M/Wb5HHpTNAUj0P4FWkZf++bO/3MU8CjNzmfrde/ZT/0GHTijSNXdTLLvcYeI1saaNa1J5aYWt0KX5GA==
   dependencies:
     "@polkadot/api" "9.4.1"
     "@polkadot/api-derive" "9.4.1"
