@@ -3,7 +3,7 @@ import { ReactComponent as TimerIcon } from "../components/icons/timer.svg";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import Link, { ColoredLink } from "../components/styled/link";
+import Link, { ColoredInterLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import styled from "styled-components";
 import Api from "../services/api";
@@ -20,6 +20,8 @@ import { Flex } from "../components/styled/flex";
 import CallsTable from "../components/extrinsic/tabTables/callsTable";
 import { useMemo } from "react";
 import Address from "../components/address";
+import { currencify } from "../utils";
+import DetailedBlock from "../components/detail/block";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -32,7 +34,6 @@ const TextSecondary = styled.span`
 `;
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
-const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
 function Extrinsic() {
   const { id } = useParams();
@@ -81,23 +82,19 @@ function Extrinsic() {
         const data = {
           "Extrinsic Time": <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
           Block: (
-            <ColoredMonoLinkWithCopy
-              to={`/block/${extrinsic?.indexer?.blockHeight}`}
-            >
-              {extrinsic?.indexer?.blockHeight}
-            </ColoredMonoLinkWithCopy>
+            <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />
           ),
           ...(extrinsic?.lifetime
             ? {
                 "Life Time": (
                   <>
-                    <ColoredLink to={`/block/${extrinsic?.lifetime?.[0]}`}>
+                    <ColoredInterLink to={`/block/${extrinsic?.lifetime?.[0]}`}>
                       {extrinsic?.lifetime?.[0].toLocaleString()}
-                    </ColoredLink>
-                    {" - "}
-                    <ColoredLink to={`/block/${extrinsic?.lifetime?.[1]}`}>
+                    </ColoredInterLink>
+                    {" ~ "}
+                    <ColoredInterLink to={`/block/${extrinsic?.lifetime?.[1]}`}>
                       {extrinsic?.lifetime?.[1].toLocaleString()}
-                    </ColoredLink>
+                    </ColoredInterLink>
                   </>
                 ),
               }
@@ -138,8 +135,9 @@ function Extrinsic() {
           { name: "Extrinsics", path: "/extrinsics" },
           {
             name:
-              `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}` ??
-              "...",
+              `${currencify(extrinsic?.indexer?.blockHeight)}-${
+                extrinsic?.indexer?.extrinsicIndex
+              }` ?? "...",
           },
         ]}
       />

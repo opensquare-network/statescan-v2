@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import BreadCrumb from "../components/breadCrumb";
 import Layout from "../components/layout";
-import { ColoredLink } from "../components/styled/link";
 import api from "../services/api";
 import { Tag as TagOrigin } from "../components/tag";
 import { Panel } from "../components/styled/panel";
@@ -12,14 +11,13 @@ import List from "../components/list";
 import { DetailedTime } from "../components/styled/time";
 import { Inter_14_500 } from "../styles/text";
 import DataDisplay from "../components/dataDisplay";
+import DetailedCallId from "../components/detail/callId";
+import DetailedExtrinsicId from "../components/detail/extrinsicId";
+import DetailedBlock from "../components/detail/block";
 
 const Tag = styled(TagOrigin)`
   color: ${(p) => p.theme.fontSecondary};
   background-color: ${(p) => p.theme.fillBase};
-`;
-
-const Link = styled(ColoredLink)`
-  ${Inter_14_500}
 `;
 
 const CallText = styled.span`
@@ -44,22 +42,18 @@ function Call() {
 
       const list = {
         "Call ID": (
-          <Link to={`/call/${id}`}>
-            {indexer?.blockHeight.toLocaleString()}-{indexer?.callIndex}
-          </Link>
+          <DetailedCallId
+            blockHeight={indexer?.blockHeight}
+            id={indexer?.callIndex}
+          />
         ),
         "Extrinsics ID": (
-          <Link
-            to={`/extrinsic/${indexer?.blockHeight}-${indexer?.extrinsicIndex}`}
-          >
-            {indexer?.blockHeight?.toLocaleString()}-{indexer?.extrinsicIndex}
-          </Link>
+          <DetailedExtrinsicId
+            blockHeight={indexer?.blockHeight}
+            id={indexer?.extrinsicIndex}
+          />
         ),
-        Block: (
-          <Link to={`/block/${indexer?.blockHeight}`}>
-            {indexer?.blockHeight?.toLocaleString()}
-          </Link>
-        ),
+        Block: <DetailedBlock blockHeight={indexer?.blockHeight} />,
         Timestamp: <DetailedTime ts={indexer?.blockTime} />,
         Method: <Tag>{method}</Tag>,
         Call: (
