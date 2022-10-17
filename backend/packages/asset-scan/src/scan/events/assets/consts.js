@@ -1,3 +1,5 @@
+const AssetsModule = "assets";
+
 const AssetsEvents = Object.freeze({
   // Asset state
   Created: "Created",
@@ -24,6 +26,12 @@ const AssetsEvents = Object.freeze({
   Burned: "Burned",
 });
 
+const AssetsMethods = Object.freeze({
+  forceAssetStatus: "forceAssetStatus",
+});
+
 module.exports = {
   AssetsEvents,
+  AssetsMethods,
+  AssetsModule,
 };

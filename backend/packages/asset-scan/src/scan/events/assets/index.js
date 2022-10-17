@@ -1,3 +1,4 @@
+const { handleAssetStatusChanged } = require("./assetStatusChanged");
 const { handleMetadataCleared } = require("./metadataCleared");
 const { handleBurned } = require("./burned");
 const { handleTeamChanged } = require("./teamChanged");
@@ -37,6 +38,8 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleBurned(...arguments);
   } else if (method === AssetsEvents.MetadataCleared) {
     await handleMetadataCleared(...arguments);
+  } else if (method === AssetsEvents.AssetStatusChanged) {
+    await handleAssetStatusChanged(...arguments);
   }
 
   // todo: handle other assets pallet events
