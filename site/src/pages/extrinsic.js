@@ -3,7 +3,7 @@ import { ReactComponent as TimerIcon } from "../components/icons/timer.svg";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import Link, { ColoredInterLink, ColoredLink } from "../components/styled/link";
+import Link, { ColoredInterLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import styled from "styled-components";
 import Api from "../services/api";
