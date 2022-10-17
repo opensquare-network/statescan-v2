@@ -22,7 +22,7 @@ const Wrapper = styled.div`
     margin: auto;
     max-width: 295px;
     ${Inter_14_500};
-    color: ${({ theme }) => theme.fontPrimary};
+    color: ${({ theme }) => theme.fontTertiary};
   }
 `;
 
