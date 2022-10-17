@@ -6,6 +6,13 @@ import styled from "styled-components";
 import { Inter_14_500, Inter_18_700 } from "../styles/text";
 import { ReactComponent as Icon404 } from "../components/icons/404.svg";
 
+const StyledIcon404 = styled(Icon404)`
+  path {
+    fill: ${({ theme }) => theme.fontQuaternary};
+    fill-opacity: 1;
+  }
+`;
+
 const Wrapper = styled.div`
   text-align: center;
   padding-top: 72px;
@@ -15,7 +22,7 @@ const Wrapper = styled.div`
     margin: auto;
     max-width: 295px;
     ${Inter_14_500};
-    color: ${({ theme }) => theme.fontSecondary};
+    color: ${({ theme }) => theme.fontPrimary};
   }
 `;
 
@@ -23,6 +30,7 @@ const Headline = styled.h2`
   margin-top: 16px;
   margin-bottom: 8px;
   ${Inter_18_700};
+  color: ${({ theme }) => theme.fontPrimary};
 `;
 
 function NotFound() {
@@ -31,7 +39,7 @@ function NotFound() {
       <BreadCrumb data={[{ name: "Error" }]} />
       <Panel>
         <Wrapper>
-          <Icon404 />
+          <StyledIcon404 />
           <Headline title="Page not found">Page not found</Headline>
           <p>You may have mistyped the url or the page may have moved.</p>
         </Wrapper>
