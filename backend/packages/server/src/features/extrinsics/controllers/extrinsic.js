@@ -1,41 +1,6 @@
 const {
-  block: {
-    getExtrinsicCollection,
-    getUnFinalizedExtrinsicCollection,
-    getEventCollection,
-    getCallCollection,
-  },
+  block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection },
 } = require("@statescan/mongo");
-
-async function getExtrinsicEventsCount(blockHeight, extrinsicIndex) {
-  const col = await getEventCollection();
-  const events = await col
-    .find(
-      {
-        "indexer.blockHeight": blockHeight,
-        "indexer.extrinsicIndex": extrinsicIndex,
-      },
-      { projection: { _id: 0 } },
-    )
-    .toArray();
-
-  return events.length;
-}
-
-async function getExtrinsicCallsCount(blockHeight, extrinsicIndex) {
-  const col = await getCallCollection();
-  const calls = await col
-    .find(
-      {
-        "indexer.blockHeight": blockHeight,
-        "indexer.extrinsicIndex": extrinsicIndex,
-      },
-      { projection: { _id: 0 } },
-    )
-    .toArray();
-
-  return calls.length;
-}
 
 async function findExtrinsic(col, q, isFinalized = true) {
   const extrinsic = await col.findOne(q, { projection: { _id: 0 } });
