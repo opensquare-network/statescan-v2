@@ -30,6 +30,7 @@ async function handleCreated(event, indexer, extrinsic, isForced = false) {
   await col.insertOne({
     ...assetIdentifier,
     detail: asset,
+    metadata: null,
     destroyed: false,
   });
 
