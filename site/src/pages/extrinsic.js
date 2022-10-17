@@ -3,7 +3,7 @@ import { ReactComponent as TimerIcon } from "../components/icons/timer.svg";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import Link, { ColoredLink } from "../components/styled/link";
+import Link, { ColoredInterLink, ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import styled from "styled-components";
 import Api from "../services/api";
@@ -25,9 +25,6 @@ import DetailedBlock from "../components/detail/block";
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
   ${SF_Mono_14_500};
-`;
-const ColoredInterLink = styled(ColoredLink)`
-  ${Inter_14_500}
 `;
 
 const TextSecondary = styled.span`
