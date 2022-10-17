@@ -19,6 +19,7 @@ import { blockTabs, Events, Extrinsics, Logs } from "../utils/constants";
 import { DetailedTime } from "../components/styled/time";
 import LogsTable from "../components/block/tabTables/logsTable";
 import FinalizedState from "../components/states/finalizedState";
+import { currencify } from "../utils";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -94,7 +95,7 @@ function Block() {
       <BreadCrumb
         data={[
           { name: "Blocks", path: "/blocks" },
-          { name: block?.height ?? "..." },
+          { name: currencify(block?.height) ?? "..." },
         ]}
       />
       <Panel>

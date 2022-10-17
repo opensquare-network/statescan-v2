@@ -19,10 +19,15 @@ import DataDisplay from "../components/dataDisplay";
 import { Flex } from "../components/styled/flex";
 import CallsTable from "../components/extrinsic/tabTables/callsTable";
 import { useMemo } from "react";
+import { currencify } from "../utils";
+import DetailedBlock from "../components/detail/block";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
   ${SF_Mono_14_500};
+`;
+const ColoredInterLink = styled(ColoredLink)`
+  ${Inter_14_500}
 `;
 
 const TextSecondary = styled.span`
@@ -80,23 +85,19 @@ function Extrinsic() {
         const data = {
           "Extrinsic Time": <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
           Block: (
-            <ColoredMonoLinkWithCopy
-              to={`/block/${extrinsic?.indexer?.blockHeight}`}
-            >
-              {extrinsic?.indexer?.blockHeight}
-            </ColoredMonoLinkWithCopy>
+            <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />
           ),
           ...(extrinsic?.lifetime
             ? {
                 "Life Time": (
                   <>
-                    <ColoredLink to={`/block/${extrinsic?.lifetime?.[0]}`}>
+                    <ColoredInterLink to={`/block/${extrinsic?.lifetime?.[0]}`}>
                       {extrinsic?.lifetime?.[0].toLocaleString()}
-                    </ColoredLink>
-                    {" - "}
-                    <ColoredLink to={`/block/${extrinsic?.lifetime?.[1]}`}>
+                    </ColoredInterLink>
+                    {" ~ "}
+                    <ColoredInterLink to={`/block/${extrinsic?.lifetime?.[1]}`}>
                       {extrinsic?.lifetime?.[1].toLocaleString()}
-                    </ColoredLink>
+                    </ColoredInterLink>
                   </>
                 ),
               }
@@ -139,8 +140,9 @@ function Extrinsic() {
           { name: "Extrinsics", path: "/extrinsics" },
           {
             name:
-              `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}` ??
-              "...",
+              `${currencify(extrinsic?.indexer?.blockHeight)}-${
+                extrinsic?.indexer?.extrinsicIndex
+              }` ?? "...",
           },
         ]}
       />

@@ -1,24 +1,23 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { ColoredMonoLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import styled from "styled-components";
 import Api from "../services/api";
 import { Inter_14_500 } from "../styles/text";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
-import { withCopy } from "../HOC/withCopy";
 import { DetailedTime } from "../components/styled/time";
 import { Tag, TagHighContrast } from "../components/tag";
 import DataDisplay from "../components/dataDisplay";
+import { currencify } from "../utils";
+import DetailedExtrinsicId from "../components/detail/extrinsicId";
+import DetailedBlock from "../components/detail/block";
 
 const TextSecondary = styled.span`
   ${Inter_14_500};
   color: ${({ theme }) => theme.fontSecondary};
 `;
-
-const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
 function Event() {
   const { id } = useParams();
@@ -31,19 +30,12 @@ function Event() {
         setEvent(event);
         const data = {
           "Event Time": <DetailedTime ts={event?.indexer?.blockTime} />,
-          Block: (
-            <ColoredMonoLinkWithCopy
-              to={`/block/${event?.indexer?.blockHeight}`}
-            >
-              {event?.indexer?.blockHeight}
-            </ColoredMonoLinkWithCopy>
-          ),
+          Block: <DetailedBlock blockHeight={event?.indexer?.blockHeight} />,
           "Extrinsic ID": (
-            <ColoredMonoLinkWithCopy
-              to={`/extrinsic/${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
-            >
-              {`${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
-            </ColoredMonoLinkWithCopy>
+            <DetailedExtrinsicId
+              id={event?.indexer?.extrinsicIndex}
+              blockHeight={event?.indexer?.blockHeight}
+            />
           ),
           "Event Index": (
             <TextSecondary>{event?.indexer?.eventIndex}</TextSecondary>
@@ -69,8 +61,9 @@ function Event() {
           { name: "Events", path: "/events" },
           {
             name:
-              `${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}` ??
-              "...",
+              `${currencify(event?.indexer?.blockHeight)}-${
+                event?.indexer?.eventIndex
+              }` ?? "...",
           },
         ]}
       />
