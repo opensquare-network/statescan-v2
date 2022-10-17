@@ -11,11 +11,13 @@ import Event from "./pages/event";
 import Account from "./pages/account";
 import Calls from "./pages/calls";
 import Call from "./pages/call";
+import NotFound from "./pages/notFound";
 
 function App() {
   return (
     <HashRouter>
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/blocks" element={<Blocks />} />
         <Route path="/block/:id" element={<Block />} />
