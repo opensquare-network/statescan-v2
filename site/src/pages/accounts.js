@@ -8,10 +8,17 @@ import Api from "../services/api";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery, toPrecision } from "../utils/viewFuncs";
-import { ColoredMonoLink } from "../components/styled/link";
 import ValueDisplay from "../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
+import Address from "../components/address";
+import styled from "styled-components";
+
+const AlignLeft = styled.div`
+  * {
+    text-align: left;
+  }
+`;
 
 function Accounts() {
   const location = useLocation();
@@ -36,9 +43,9 @@ function Accounts() {
     accounts?.map((account, index) => {
       return [
         `#${(parseInt(page) - 1) * pageSize + index + 1}`,
-        <ColoredMonoLink to={`/account/${account?.address}`}>
-          {account?.address}
-        </ColoredMonoLink>,
+        <AlignLeft>
+          <Address address={account?.address} ellipsis={false} />
+        </AlignLeft>,
         <ValueDisplay
           value={toPrecision(account?.data?.total, chainSetting?.decimals)}
           symbol={chainSetting?.symbol}

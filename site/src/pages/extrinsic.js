@@ -19,6 +19,7 @@ import DataDisplay from "../components/dataDisplay";
 import { Flex } from "../components/styled/flex";
 import CallsTable from "../components/extrinsic/tabTables/callsTable";
 import { useMemo } from "react";
+import Address from "../components/address";
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -109,9 +110,7 @@ function Extrinsic() {
           ...(extrinsic.isSigned
             ? {
                 Singer: (
-                  <ColoredMonoLinkWithCopy to={`/account/${extrinsic?.signer}`}>
-                    {extrinsic?.signer}
-                  </ColoredMonoLinkWithCopy>
+                  <Address address={extrinsic?.signer} ellipsis={false} />
                 ),
               }
             : {}),
