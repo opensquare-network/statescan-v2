@@ -19,6 +19,7 @@ import { blockTabs, Events, Extrinsics, Logs } from "../utils/constants";
 import { DetailedTime } from "../components/styled/time";
 import LogsTable from "../components/block/tabTables/logsTable";
 import FinalizedState from "../components/states/finalizedState";
+import Address from "../components/address";
 import { currencify } from "../utils";
 
 const ColoredMonoLink = styled(Link)`
@@ -79,11 +80,7 @@ function Block() {
               {block?.extrinsicsRoot}
             </TextSecondaryWithCopy>
           ),
-          Validator: (
-            <ColoredMonoLinkWithCopy to={""}>
-              {block?.validator}
-            </ColoredMonoLinkWithCopy>
-          ),
+          Validator: <Address address={block?.validator} ellipsis={false} />,
         };
         setListData(data);
       });

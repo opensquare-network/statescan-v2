@@ -19,6 +19,7 @@ import DataDisplay from "../components/dataDisplay";
 import { Flex } from "../components/styled/flex";
 import CallsTable from "../components/extrinsic/tabTables/callsTable";
 import { useMemo } from "react";
+import Address from "../components/address";
 import { currencify } from "../utils";
 import DetailedBlock from "../components/detail/block";
 
@@ -33,7 +34,6 @@ const TextSecondary = styled.span`
 `;
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
-const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
 function Extrinsic() {
   const { id } = useParams();
@@ -107,9 +107,7 @@ function Extrinsic() {
           ...(extrinsic.isSigned
             ? {
                 Singer: (
-                  <ColoredMonoLinkWithCopy to={`/account/${extrinsic?.signer}`}>
-                    {extrinsic?.signer}
-                  </ColoredMonoLinkWithCopy>
+                  <Address address={extrinsic?.signer} ellipsis={false} />
                 ),
               }
             : {}),

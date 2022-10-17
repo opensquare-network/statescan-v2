@@ -1,4 +1,4 @@
-import { addressEllipsis, hashEllipsis } from "../utils/viewFuncs/text";
+import { hashEllipsis } from "../utils/viewFuncs/text";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Tooltip from "../components/tooltip";
 import FinalizedState from "../components/states/finalizedState";
+import Address from "../components/address";
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -56,9 +57,7 @@ function Blocks() {
           </ColoredMonoLink>
         </Tooltip>,
         <Tooltip tip={block.validator}>
-          <ColoredMonoLink to={`/account/${block.validator}`}>
-            {addressEllipsis(block.validator)}
-          </ColoredMonoLink>
+          <Address address={block.validator} />
         </Tooltip>,
         block?.extrinsicsCount,
         block?.eventsCount,

@@ -6,23 +6,20 @@ import {
   LIST_DEFAULT_PAGE_SIZE,
   transfersHead,
 } from "../utils/constants";
-import { ColoredLink, ColoredMonoLink } from "../components/styled/link";
+import { ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
 import Api from "../services/api";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
-import {
-  addressEllipsis,
-  getPageFromQuery,
-  toPrecision,
-} from "../utils/viewFuncs";
+import { getPageFromQuery, toPrecision } from "../utils/viewFuncs";
 import ValueDisplay from "../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import Tooltip from "../components/tooltip";
+import Address from "../components/address";
 
 function Transfers() {
   const location = useLocation();
@@ -69,14 +66,10 @@ function Transfers() {
         </ColoredLink>,
         transfer?.indexer?.blockTime,
         <Tooltip tip={transfer?.from}>
-          <ColoredMonoLink to={`/account/${transfer?.from}`}>
-            {addressEllipsis(transfer?.from)}
-          </ColoredMonoLink>
+          <Address address={transfer?.from} />
         </Tooltip>,
         <Tooltip tip={transfer?.to}>
-          <ColoredMonoLink to={`/account/${transfer?.to}`}>
-            {addressEllipsis(transfer?.to)}
-          </ColoredMonoLink>
+          <Address address={transfer?.to} />
         </Tooltip>,
         <ValueDisplay
           value={toPrecision(
