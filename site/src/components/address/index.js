@@ -34,18 +34,18 @@ function Address({
 }) {
   const [identity, setIdentity] = useState(null);
   const chainSetting = useSelector(chainSettingSelector);
-  const relayChain = chainSetting.sub;
+  const identityChain = chainSetting.identity;
   const isMounted = useIsMounted();
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
 
   useEffect(() => {
     setIdentity(null);
-    fetchIdentity(relayChain, address).then((identity) => {
+    fetchIdentity(identityChain, address).then((identity) => {
       if (isMounted) {
         setIdentity(identity);
       }
     });
-  }, [address, relayChain, isMounted]);
+  }, [address, identityChain, isMounted]);
 
   if (!identity) {
     return (
