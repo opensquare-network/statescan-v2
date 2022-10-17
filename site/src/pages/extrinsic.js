@@ -2,7 +2,7 @@ import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../components/icons/timer.svg";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { ColoredInterLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import styled from "styled-components";
@@ -11,17 +11,19 @@ import { Inter_14_500 } from "../styles/text";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
 import { withCopy } from "../HOC/withCopy";
-import EventsTable from "../components/extrinsic/tabTables/eventsTable";
 import Tab from "../components/tab";
 import { DetailedTime } from "../components/styled/time";
 import { Tag, TagHighContrast } from "../components/tag";
 import DataDisplay from "../components/dataDisplay";
 import { Flex } from "../components/styled/flex";
-import CallsTable from "../components/extrinsic/tabTables/callsTable";
 import { useMemo } from "react";
 import Address from "../components/address";
 import { currencify } from "../utils";
 import DetailedBlock from "../components/detail/block";
+import { createDetailTable } from "../components/detail/createDetailTable";
+import { extrinsicEventsHead } from "../utils/constants";
+import { toEventTabTableItem } from "../utils/viewFuncs/toTableItem";
+import CallsTable from "../components/call/callsTable";
 
 const TextSecondary = styled.span`
   ${Inter_14_500};
@@ -34,12 +36,11 @@ function Extrinsic() {
   const { id } = useParams();
   const [listData, setListData] = useState({});
   const [extrinsic, setExtrinsic] = useState(null);
-  const [eventsCount, setEventsCount] = useState(0);
-  const [callsCount, setCallsCount] = useState(0);
 
+  // FIXME: count from detail
   const tabs = [
-    { name: "Events", count: eventsCount },
-    { name: "Calls", count: callsCount },
+    { name: "Events", count: 0 },
+    { name: "Calls", count: 0 },
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0].name);
@@ -55,18 +56,18 @@ function Extrinsic() {
   const tables = [
     {
       name: "Events",
-      table: (
-        <EventsTable
-          extrinsicId={extrinsicId}
-          setEventsCount={setEventsCount}
-        />
-      ),
+      table: createDetailTable({
+        url: extrinsicId ? `/extrinsics/${extrinsicId}/events` : "",
+        heads: extrinsicEventsHead,
+        transformData: toEventTabTableItem,
+      }),
     },
     {
       name: "Calls",
-      table: (
-        <CallsTable extrinsicId={extrinsicId} setCallsCount={setCallsCount} />
-      ),
+      table: createDetailTable({
+        url: extrinsicId ? `/extrinsics/${extrinsicId}/calls` : "",
+        TableComponent: CallsTable,
+      }),
     },
   ];
 
@@ -157,14 +158,12 @@ function Extrinsic() {
         ))}
       </Flex>
 
-      {tables.map((item) => (
-        <div
-          key={item.name}
-          style={{ display: activeTab === item.name ? "block" : "none" }}
-        >
-          {item.table}
-        </div>
-      ))}
+      {tables.map(
+        (item) =>
+          activeTab === item.name && (
+            <Fragment key={item.name}>{item.table}</Fragment>
+          ),
+      )}
     </Layout>
   );
 }
