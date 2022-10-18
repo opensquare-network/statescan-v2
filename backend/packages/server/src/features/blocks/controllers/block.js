@@ -1,3 +1,4 @@
+const { HttpError } = require("../../../utils/httpError");
 const {
   block: { getBlockCollection, getUnFinalizedBlockCollection },
 } = require("@statescan/mongo");
@@ -20,6 +21,10 @@ async function getBlock(ctx) {
   let block = await findBlock(await getBlockCollection(), q, true);
   if (!block) {
     block = await findBlock(await getUnFinalizedBlockCollection(), q, false);
+  }
+
+  if (!block) {
+    throw new HttpError(404, "block not found");
   }
 
   ctx.body = block;

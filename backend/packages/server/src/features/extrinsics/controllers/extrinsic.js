@@ -1,3 +1,4 @@
+const { HttpError } = require("../../../utils/httpError");
 const {
   block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection },
 } = require("@statescan/mongo");
@@ -30,6 +31,10 @@ async function getExtrinsic(ctx) {
       false,
     );
   }
+  if (!extrinsic) {
+    throw new HttpError(404, "extrinsic not found");
+  }
+
   ctx.body = extrinsic;
 }
 
