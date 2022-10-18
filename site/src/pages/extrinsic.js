@@ -37,10 +37,9 @@ function Extrinsic() {
   const [listData, setListData] = useState({});
   const [extrinsic, setExtrinsic] = useState(null);
 
-  // FIXME: count from detail
   const tabs = [
-    { name: "Events", count: 0 },
-    { name: "Calls", count: 0 },
+    { name: "Events", count: extrinsic?.eventsCount },
+    { name: "Calls", count: extrinsic?.callsCount },
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0].name);
