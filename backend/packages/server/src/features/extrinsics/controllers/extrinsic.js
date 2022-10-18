@@ -1,3 +1,4 @@
+const { isHash } = require("../../../utils/isHash");
 const { HttpError } = require("../../../utils/httpError");
 const {
   block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection },
@@ -19,8 +20,10 @@ async function getExtrinsic(ctx) {
       "indexer.blockHeight": parseInt(blockHeight),
       "indexer.extrinsicIndex": parseInt(extrinsicIndex),
     };
-  } else {
+  } else if (isHash(indexOrHash)) {
     q = { hash: indexOrHash };
+  } else {
+    throw new HttpError(400, "Invalid extrinsic id");
   }
 
   let extrinsic = await findExtrinsic(await getExtrinsicCollection(), q);
