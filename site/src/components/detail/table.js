@@ -4,27 +4,16 @@ import api from "../../services/api";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { getPageFromQuery } from "../../utils/viewFuncs";
 import Pagination from "../pagination";
+import { noop } from "lodash";
 import { StyledPanelTableWrapper } from "../styled/panel";
 import Table from "../table";
-import { noop } from "lodash";
 
-export function createDetailTable({
-  url = "",
-  heads = [],
+export default function DetailTable({
+  url,
+  heads,
   transformData = noop,
   TableComponent,
 }) {
-  return (
-    <DetailTable
-      url={url}
-      heads={heads}
-      transformData={transformData}
-      TableComponent={TableComponent}
-    />
-  );
-}
-
-function DetailTable({ url, heads, transformData = noop, TableComponent }) {
   const location = useLocation();
   const [data, setData] = useState(null);
   const [total, setTotal] = useState(0);
