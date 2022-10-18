@@ -55,7 +55,7 @@ function compatExploreDropdownHints(hints) {
 
 export default function Explore() {
   const chain = useSelector(chainSelector);
-  const [value, setValue] = useState("");
+  const [term, setTerm] = useState("");
   const [hints, setHints] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
@@ -72,17 +72,17 @@ export default function Explore() {
   const debouncedFetchHints = useCallback(debounce(fetchHints, 500), []);
 
   useEffect(() => {
-    if (!value) {
+    if (!term) {
       setDropdownVisible(false);
       setHints([]);
       return;
     }
 
     debouncedFetchHints(value);
-  }, [value]);
+  }, [term]);
 
   function onInput(e) {
-    setValue(e.target.value);
+    setTerm(e.target.value);
   }
 
   function onFocus() {
