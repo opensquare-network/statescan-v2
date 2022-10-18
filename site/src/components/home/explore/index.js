@@ -53,6 +53,8 @@ function compatExploreDropdownHints(hints) {
   });
 }
 
+const hintsCache = {};
+
 export default function Explore() {
   const chain = useSelector(chainSelector);
   const [term, setTerm] = useState("");
@@ -64,6 +66,7 @@ export default function Explore() {
       const data = compatExploreDropdownHints(result);
 
       if (data.length) {
+        hintsCache[term] = data;
         setDropdownVisible(true);
         setHints(data);
       }
@@ -78,7 +81,11 @@ export default function Explore() {
       return;
     }
 
-    debouncedFetchHints(term);
+    if (hintsCache[term]) {
+      setHints(hintsCache[term]);
+    } else {
+      debouncedFetchHints(term);
+    }
   }, [term]);
 
   function onInput(e) {
