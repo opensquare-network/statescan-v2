@@ -50,6 +50,7 @@ async function _createIndexes() {
     "indexer.blockHeight": -1,
     "indexer.extrinsicIndex": 1,
   });
+  await extrinsicCol.createIndex("signer");
 
   await eventCol.createIndex({ "indexer.blockHeight": 1 });
   await eventCol.createIndex({ "indexer.blockHash": 1 });
