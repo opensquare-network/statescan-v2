@@ -4,7 +4,7 @@ const tooltipSlice = createSlice({
   name: "tooltip",
   initialState: {
     showTip: false,
-    text: "123123",
+    text: "",
     position: { left: 0, top: 0 },
   },
   reducers: {
