@@ -25,13 +25,13 @@ const Wrapper = styled(Flex)`
   position: relative;
   gap: 16px;
 
-  @media screen and (max-width: 600px) {
+  ${mobileCss(css`
     flex-wrap: wrap;
     input,
     button {
       flex-basis: 100%;
     }
-  }
+  `)}
 `;
 
 const Title = styled.h1`
