@@ -19,7 +19,9 @@ const Dropdown = styled.div`
   top: 55px;
 
   ${mobileCss(css`
-    width: 100%;
+    width: inherit;
+    left: 0;
+    right: 0;
   `)}
 `;
 const DropdownGroup = styled.div``;
