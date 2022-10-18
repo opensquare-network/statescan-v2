@@ -21,7 +21,7 @@ async function getAccountTransfers(ctx) {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const total = await col.estimatedDocumentCount(q);
+  const total = await col.count(q);
 
   ctx.body = {
     items,
