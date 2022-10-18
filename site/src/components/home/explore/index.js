@@ -78,7 +78,7 @@ export default function Explore() {
       return;
     }
 
-    debouncedFetchHints(value);
+    debouncedFetchHints(term);
   }, [term]);
 
   function onInput(e) {
