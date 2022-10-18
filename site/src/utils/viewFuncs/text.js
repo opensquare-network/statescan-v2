@@ -23,3 +23,7 @@ export function hashEllipsis(hash = "", start = 6, end = 6) {
 
   return `${prefix}${main.slice(0, start)}...${hash.slice(-end)}`;
 }
+
+export function isHash(term = "") {
+  return /^0x[0-9a-f]{64}$/.test(term);
+}
