@@ -20,10 +20,10 @@ import { useMemo } from "react";
 import Address from "../components/address";
 import { currencify } from "../utils";
 import DetailedBlock from "../components/detail/block";
-import { createDetailTable } from "../components/detail/createDetailTable";
 import { extrinsicEventsHead } from "../utils/constants";
 import { toEventTabTableItem } from "../utils/viewFuncs/toTableItem";
 import CallsTable from "../components/call/callsTable";
+import DetailTable from "../components/detail/table";
 
 const TextSecondary = styled.span`
   ${Inter_14_500};
@@ -56,18 +56,22 @@ function Extrinsic() {
   const tables = [
     {
       name: "Events",
-      table: createDetailTable({
-        url: extrinsicId ? `/extrinsics/${extrinsicId}/events` : "",
-        heads: extrinsicEventsHead,
-        transformData: toEventTabTableItem,
-      }),
+      table: (
+        <DetailTable
+          url={extrinsicId ? `/extrinsics/${extrinsicId}/events` : ""}
+          heads={extrinsicEventsHead}
+          transformData={toEventTabTableItem}
+        />
+      ),
     },
     {
       name: "Calls",
-      table: createDetailTable({
-        url: extrinsicId ? `/extrinsics/${extrinsicId}/calls` : "",
-        TableComponent: CallsTable,
-      }),
+      table: (
+        <DetailTable
+          url={extrinsicId ? `/extrinsics/${extrinsicId}/calls` : ""}
+          TableComponent={CallsTable}
+        />
+      ),
     },
   ];
 
