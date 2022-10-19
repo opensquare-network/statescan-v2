@@ -6,12 +6,14 @@ import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
 import { chainSelector } from "../../../store/reducers/settingSlice";
 import debounce from "lodash.debounce";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import api from "../../../services/api";
 import { homeSearchHints } from "../../../services/urls";
 import { mobileCss } from "../../../utils/mobileCss";
 import ExploreDropdown from "./dropdown";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { makeExploreDropdownItemRouteLink } from "./utils";
 
 const Input = styled(InputOrigin)`
   width: 545px;
@@ -56,10 +58,20 @@ function compatExploreDropdownHints(hints) {
 const hintsCache = {};
 
 export default function Explore() {
+  const navigate = useNavigate();
   const chain = useSelector(chainSelector);
   const [term, setTerm] = useState("");
   const [hints, setHints] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const selectedItem = useMemo(() => {
+    if (dropdownVisible) {
+      return hints[selectedIndex];
+    }
+
+    return hints[0];
+  }, [selectedIndex, hints]);
 
   // FIXME: see https://github.com/opensquare-network/statescan-v2/issues/196
   async function fetchHints(term) {
@@ -109,6 +121,31 @@ export default function Explore() {
     setDropdownVisible(false);
   }
 
+  function onInputKeyDown(e) {
+    if (!dropdownVisible) {
+      return;
+    }
+
+    const { code } = e;
+
+    if (code === "Enter") {
+      handleExplore();
+    } else if (code === "ArrowUp") {
+      if (selectedIndex > 0) {
+        setSelectedIndex(selectedIndex - 1);
+      }
+    } else if (code === "ArrowDown") {
+      if (selectedIndex < hints.length - 1) {
+        setSelectedIndex(selectedIndex + 1);
+      }
+    }
+  }
+
+  function handleExplore() {
+    const { type, value } = selectedItem;
+    navigate(makeExploreDropdownItemRouteLink(type, value));
+  }
+
   return (
     <div>
       <Title>{chain} Explorer</Title>
@@ -118,13 +155,15 @@ export default function Explore() {
           onChange={onInput}
           onFocus={onFocus}
           onBlur={onBlur}
+          onKeyDown={onInputKeyDown}
         />
-        <Button>Explore</Button>
+
+        <Button onClick={handleExplore}>Explore</Button>
 
         <ExploreDropdown
           hints={hints}
           visible={dropdownVisible}
-          setVisible={setDropdownVisible}
+          selectedIndex={selectedIndex}
         />
       </Wrapper>
     </div>
