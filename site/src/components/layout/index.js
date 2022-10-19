@@ -9,6 +9,7 @@ import Footer from "../footer";
 import dark from "../../styles/theme/dark";
 import Tip from "../tooltip/tip";
 import { tooltipContentSelector } from "../../store/reducers/tooltipSlice";
+import ScrollToTop from "../scrollToTop";
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ export default function Layout({ children }) {
         <Footer />
         <Tip>{tooltipContent}</Tip>
       </Wrapper>
+      <ScrollToTop />
     </ThemeProvider>
   );
 }
