@@ -107,7 +107,7 @@ export default function Explore() {
       <Title>{chain} Explorer</Title>
       <Wrapper style={{ gap: 16 }}>
         <Input
-          placeholder={"Block / Address / Extrinsic / Asset /..."}
+          placeholder={"Block / Address / Extrinsic /..."}
           onChange={onInput}
           onFocus={onFocus}
           onBlur={onBlur}
