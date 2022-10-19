@@ -72,7 +72,7 @@ function renderItem(type, value) {
     block: {
       icon: <BlockIcon />,
       description: capitalize(type),
-      suffix: <DropdownItemSuffix>{value}</DropdownItemSuffix>,
+      suffix: <DropdownItemSuffix>#{value}</DropdownItemSuffix>,
     },
     extrinsic: {
       description: value,
