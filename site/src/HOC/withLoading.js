@@ -10,8 +10,7 @@ const TdLoadingWrapper = styled.td`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.8);
   left: 0;
   top: 50px;
   right: 0;
