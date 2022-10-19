@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { mobileCss } from "../../../utils/mobileCss";
+import AccountIcon from "../../icons/accountIcon";
 import BlockIcon from "../../icons/blockIcon";
 import { Flex } from "../../styled/flex";
 
@@ -52,36 +53,57 @@ const DropdownItemContentIconWrapper = styled.div`
   margin-right: 8px;
 `;
 const DropdownItemContentDescription = styled.span`
+  word-break: break-all;
+  display: -webkit-inline-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
   color: ${(p) => p.theme.fontPrimary};
   ${Inter_14_600};
 `;
-const DropdownItemIndex = styled.div`
+const DropdownItemSuffix = styled.div`
   color: ${(p) => p.theme.fontTertiary};
 `;
 
-// how to render the hint type
-function renderItem(type) {
+// FIXME: should support more type in future
+function renderItem(type, value) {
   const typeMap = {
     block: {
       icon: <BlockIcon />,
       description: capitalize(type),
+      suffix: <DropdownItemSuffix>{value}</DropdownItemSuffix>,
+    },
+    extrinsic: {
+      description: value,
+    },
+    account: {
+      icon: <AccountIcon />,
+      description: value,
     },
   };
-  return typeMap[type];
+
+  return typeMap[type] ?? {};
 }
 
 function ExploreDropdownItem({ value, type }) {
-  const { icon, description } = renderItem(type);
+  const { icon, description, suffix } = renderItem(type, value);
 
   return (
     <DropdownLinkItem to={`/${type}/${value}`}>
       <DropdownItemContent>
-        <DropdownItemContentIconWrapper>{icon}</DropdownItemContentIconWrapper>
-        <DropdownItemContentDescription>
-          {description}
-        </DropdownItemContentDescription>
+        {icon && (
+          <DropdownItemContentIconWrapper>
+            {icon}
+          </DropdownItemContentIconWrapper>
+        )}
+        {description && (
+          <DropdownItemContentDescription>
+            {description}
+          </DropdownItemContentDescription>
+        )}
       </DropdownItemContent>
-      <DropdownItemIndex>#{value}</DropdownItemIndex>
+      {suffix}
     </DropdownLinkItem>
   );
 }
