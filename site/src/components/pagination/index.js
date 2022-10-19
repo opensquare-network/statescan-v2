@@ -21,8 +21,6 @@ const Wrapper = styled(Flex)`
 
 const Nav = styled(Flex)`
   cursor: pointer;
-  width: 28px;
-  height: 28px;
   border-radius: 4px;
   justify-content: center;
 
