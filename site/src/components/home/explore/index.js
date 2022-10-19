@@ -61,6 +61,7 @@ export default function Explore() {
   const [hints, setHints] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  // FIXME: see https://github.com/opensquare-network/statescan-v2/issues/196
   async function fetchHints(term) {
     return api.fetch(homeSearchHints, { term }).then(({ result }) => {
       const data = compatExploreDropdownHints(result);
