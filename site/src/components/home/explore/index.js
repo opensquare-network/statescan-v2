@@ -72,6 +72,7 @@ export default function Explore() {
       }
     });
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchHints = useCallback(debounce(fetchHints, 500), []);
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function Explore() {
     } else {
       debouncedFetchHints(term);
     }
-  }, [term]);
+  }, [term, debouncedFetchHints]);
 
   function onInput(e) {
     setTerm(e.target.value);
