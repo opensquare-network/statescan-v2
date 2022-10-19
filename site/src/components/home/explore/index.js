@@ -68,8 +68,9 @@ export default function Explore() {
 
       if (data.length) {
         hintsCache[term] = data;
-        setDropdownVisible(true);
         setHints(data);
+      } else {
+        setHints([]);
       }
     });
   }
@@ -89,6 +90,10 @@ export default function Explore() {
       debouncedFetchHints(term);
     }
   }, [term, debouncedFetchHints]);
+
+  useEffect(() => {
+    setDropdownVisible(!!hints?.length);
+  }, [hints]);
 
   function onInput(e) {
     setTerm(e.target.value);
