@@ -12,6 +12,7 @@ const { handleThrow } = require("./middlewares/handleThrow");
 const {
   block: { initBlockDb },
   account: { initAccountScanDb },
+  runtime: { initRuntimeScanDb },
 } = require("@statescan/mongo");
 
 const app = new Koa();
