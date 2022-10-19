@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { Inter_12_600, Inter_20_700 } from "../../styles/text";
-import { abbreviateBigNumber } from "../../utils/viewFuncs";
+import { abbreviateBigNumber } from "@osn/common";
 
 const TabWrapper = styled.button`
   all: unset;
