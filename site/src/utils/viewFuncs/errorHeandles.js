@@ -1,7 +1,11 @@
 import { setErrorCode } from "../../store/reducers/httpErrorSlice";
 
 export function handleApiError(e, dispatch) {
-  if (e?.error?.status === 204 || e?.error?.status === 404) {
+  if (
+    e?.error?.status === 204 ||
+    e?.error?.status === 404 ||
+    e?.error?.status === 400
+  ) {
     dispatch(setErrorCode(404));
   } else {
     dispatch(setErrorCode(500));
