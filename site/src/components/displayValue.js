@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  abbreviateBigNumber,
-  bigNumberToLocaleString,
-  getEffectiveNumbers,
-} from "../utils/viewFuncs/index";
+import { bigNumberToLocaleString } from "../utils/viewFuncs/index";
+import { abbreviateBigNumber, getEffectiveNumbers } from "@osn/common";
 
 const Wrapper = styled.div`
   white-space: nowrap;

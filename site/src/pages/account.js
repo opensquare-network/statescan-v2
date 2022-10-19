@@ -1,11 +1,10 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import Layout from "../components/layout";
 import Api from "../services/api";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
-import { addressEllipsis } from "../utils/viewFuncs";
+import { addressEllipsis } from "@osn/common";
 import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Tab from "../components/tab";

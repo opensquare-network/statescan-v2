@@ -9,7 +9,7 @@ import {
   ColoredMonoLink,
 } from "../../components/styled/link";
 import Tooltip from "../../components/tooltip";
-import { toPrecision } from "./index";
+import { toPrecision } from "@osn/common";
 import ValueDisplay from "../../components/displayValue";
 import DetailedCallId from "../../components/detail/callId";
 import DetailedExtrinsicId from "../../components/detail/extrinsicId";
