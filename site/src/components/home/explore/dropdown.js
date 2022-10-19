@@ -2,6 +2,7 @@ import { capitalize } from "lodash";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
+import { ellipsisHash } from "../../../utils/ellipsis";
 import { mobileCss } from "../../../utils/mobileCss";
 import AccountIcon from "../../icons/accountIcon";
 import BlockIcon from "../../icons/blockIcon";
@@ -79,7 +80,9 @@ function renderItem(type, value) {
     block: {
       icon: <BlockIcon />,
       description: capitalize(type),
-      suffix: <DropdownItemSuffix>#{value}</DropdownItemSuffix>,
+      suffix: (
+        <DropdownItemSuffix>#{ellipsisHash(String(value))}</DropdownItemSuffix>
+      ),
     },
     extrinsic: {
       description: value,
