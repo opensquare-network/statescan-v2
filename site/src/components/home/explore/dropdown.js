@@ -87,16 +87,18 @@ function ExploreDropdownItem({ value, type }) {
 }
 
 export default function ExploreDropdown({ hints, visible }) {
+  if (!visible) {
+    return null;
+  }
+
   return (
-    visible && (
-      <Dropdown>
-        {hints.map((hint) => (
-          <DropdownGroup key={hint.type}>
-            <DropdownGroupTitle>{hint.type}</DropdownGroupTitle>
-            <ExploreDropdownItem type={hint.type} value={hint.value} />
-          </DropdownGroup>
-        ))}
-      </Dropdown>
-    )
+    <Dropdown>
+      {hints.map((hint) => (
+        <DropdownGroup key={hint.type}>
+          <DropdownGroupTitle>{hint.type}</DropdownGroupTitle>
+          <ExploreDropdownItem type={hint.type} value={hint.value} />
+        </DropdownGroup>
+      ))}
+    </Dropdown>
   );
 }
