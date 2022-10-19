@@ -7,7 +7,10 @@ import encodeUriQuery from "../../utils/viewFuncs";
 import { useLocation } from "react-router-dom";
 
 const StyledLink = styled(Link)`
-  height: 16px;
+  display: flex;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
 `;
 
 const LinkInnerWrapper = styled.div`
@@ -29,14 +32,13 @@ export default function PageCaret({ children, page, onPageChange = null }) {
   }, [location, page]);
 
   return (
-    <StyledLink to={to}>
-      <LinkInnerWrapper
-        onClick={(e) => {
-          onPageChange && onPageChange(e, page);
-        }}
-      >
-        {children}
-      </LinkInnerWrapper>
+    <StyledLink
+      to={to}
+      onClick={(e) => {
+        onPageChange && onPageChange(e, page);
+      }}
+    >
+      <LinkInnerWrapper>{children}</LinkInnerWrapper>
     </StyledLink>
   );
 }
