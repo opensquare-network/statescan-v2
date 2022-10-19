@@ -4,7 +4,10 @@ import Address from "../../components/address";
 import React from "react";
 import { withCopy } from "../../HOC/withCopy";
 import { TextSecondary } from "../../components/styled/text";
-import { ColoredMonoLink } from "../../components/styled/link";
+import {
+  ColoredInterLink,
+  ColoredMonoLink,
+} from "../../components/styled/link";
 import Tooltip from "../../components/tooltip";
 import { toPrecision } from "./index";
 import ValueDisplay from "../../components/displayValue";
@@ -12,8 +15,10 @@ import DetailedCallId from "../../components/detail/callId";
 import DetailedExtrinsicId from "../../components/detail/extrinsicId";
 import DetailedBlock from "../../components/detail/block";
 import styled from "styled-components";
-import { Tag as TagOrigin } from "../../components/tag";
+import { Tag as TagOrigin, TagHighContrast } from "../../components/tag";
 import { Inter_14_500 } from "../../styles/text";
+import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
+import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -124,5 +129,70 @@ export const toCallDetailItem = (indexer, section, method) => {
         {section}({method})
       </CallText>
     ),
+  };
+};
+
+export const toEventDetailItem = (event) => {
+  return {
+    "Event Time": <DetailedTime ts={event?.indexer?.blockTime} />,
+    Block: <DetailedBlock blockHeight={event?.indexer?.blockHeight} />,
+    "Extrinsic ID": (
+      <DetailedExtrinsicId
+        id={event?.indexer?.extrinsicIndex}
+        blockHeight={event?.indexer?.blockHeight}
+      />
+    ),
+    "Event Index": <TextSecondary>{event?.indexer?.eventIndex}</TextSecondary>,
+    Module: <TagHighContrast>{event?.section}</TagHighContrast>,
+    "Event Name": <Tag>{event?.method}</Tag>,
+    // Description: (
+    //   <TextSecondaryWithCopy>
+    //     {event?.args?.[0].docs?.join("") || ""}
+    //   </TextSecondaryWithCopy>
+    // ),
+    // TODO: Value field for transfer event
+  };
+};
+
+export const toExtrinsicDetailItem = (extrinsic) => {
+  return {
+    "Extrinsic Time": <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
+    Block: <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />,
+    ...(extrinsic?.lifetime
+      ? {
+          "Life Time": (
+            <>
+              <ColoredInterLink to={`/block/${extrinsic?.lifetime?.[0]}`}>
+                {extrinsic?.lifetime?.[0].toLocaleString()}
+              </ColoredInterLink>
+              {" ~ "}
+              <ColoredInterLink to={`/block/${extrinsic?.lifetime?.[1]}`}>
+                {extrinsic?.lifetime?.[1].toLocaleString()}
+              </ColoredInterLink>
+            </>
+          ),
+        }
+      : {}),
+    "Extrinsic Hash": (
+      <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>
+    ),
+    Module: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
+    Call: <Tag>{extrinsic?.call?.method}</Tag>,
+    ...(extrinsic.isSigned
+      ? {
+          Singer: <Address address={extrinsic?.signer} ellipsis={false} />,
+        }
+      : {}),
+    ...(extrinsic?.nonce
+      ? {
+          Nonce: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
+        }
+      : {}),
+    ...(extrinsic?.tip > 0
+      ? {
+          Tip: extrinsic?.tip,
+        }
+      : {}),
+    Result: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
   };
 };
