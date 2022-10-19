@@ -71,7 +71,7 @@ export default function Explore() {
     }
 
     return hints[0];
-  }, [selectedIndex, hints]);
+  }, [selectedIndex, hints, dropdownVisible]);
 
   // FIXME: see https://github.com/opensquare-network/statescan-v2/issues/196
   async function fetchHints(term) {
