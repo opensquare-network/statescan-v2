@@ -1,4 +1,10 @@
 const {
+  createBlockColIndexes,
+  createExtrinsicColIndexes,
+  createEventColIndexes,
+  createCallColIndexes,
+} = require("./dbIndexes");
+const {
   mongo: { ScanDb },
   env: { getEnvOrThrow },
 } = require("@osn/scan-common");
@@ -41,34 +47,10 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  await blockCol.createIndex({ hash: 1 });
-  await blockCol.createIndex({ height: 1 }, { unique: true });
-
-  await extrinsicCol.createIndex({ "indexer.blockHeight": 1 });
-  await extrinsicCol.createIndex({ "indexer.blockHash": 1 });
-  await extrinsicCol.createIndex({
-    "indexer.blockHeight": -1,
-    "indexer.extrinsicIndex": 1,
-  });
-  await extrinsicCol.createIndex("signer");
-  await extrinsicCol.createIndex("hash");
-
-  await eventCol.createIndex({ "indexer.blockHeight": 1 });
-  await eventCol.createIndex({ "indexer.blockHash": 1 });
-  await eventCol.createIndex({
-    "indexer.blockHeight": -1,
-    "indexer.eventIndex": 1,
-  });
-  await callCol.createIndex({ "indexer.blockHeight": 1 });
-  await callCol.createIndex({
-    "indexer.blockHeight": -1,
-    "indexer.extrinsicIndex": 1,
-  });
-  await callCol.createIndex({
-    "indexer.blockHeight": -1,
-    "indexer.extrinsicIndex": 1,
-    "indexer.callIndex": 1,
-  });
+  await createBlockColIndexes(blockCol);
+  await createExtrinsicColIndexes(extrinsicCol);
+  await createEventColIndexes(eventCol);
+  await createCallColIndexes(callCol);
 }
 
 async function makeSureInit(col) {
