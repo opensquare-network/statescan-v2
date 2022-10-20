@@ -1,3 +1,4 @@
+const { handleTransferred } = require("./transferred");
 const { handleDestroyed } = require("./destroyed");
 const { handleAssetStatusChanged } = require("./assetStatusChanged");
 const { handleMetadataCleared } = require("./metadataCleared");
@@ -43,6 +44,8 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleAssetStatusChanged(...arguments);
   } else if (method === AssetsEvents.Destroyed) {
     await handleDestroyed(...arguments);
+  } else if (method === AssetsEvents.Transferred) {
+    await handleTransferred(...arguments);
   }
 
   // todo: 1. handle asset transfers

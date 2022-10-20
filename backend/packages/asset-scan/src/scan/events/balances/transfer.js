@@ -13,7 +13,7 @@ async function handleTransfer(event, indexer, extrinsic) {
     isSigned = extrinsic.isSigned;
   }
 
-  let transfer = {
+  const transfer = {
     indexer,
     from,
     to,
@@ -21,7 +21,6 @@ async function handleTransfer(event, indexer, extrinsic) {
     isSigned,
     assetModule: AssetModule.native,
   };
-
   addNativeTransfer(indexer.blockHash, transfer);
 }
 
