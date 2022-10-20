@@ -1,12 +1,12 @@
-import { withLoading } from "../../../HOC/withLoading";
+import { withLoadingTbody } from "../../../HOC/withLoading";
 import TableLoading from "../../loadings/tableLoading";
 import TableEmpty from "./empty";
 import TableRow from "./row";
 
 const mapLoadingState = (props) => {
-  const { data } = props;
+  const { data, loading } = props;
   return {
-    loadingStates: [data === null],
+    loadingStates: [data === null, loading],
     loadingComponent: <TableLoading />,
   };
 };
@@ -25,4 +25,4 @@ function TableBody({ heads, data = null }) {
   );
 }
 
-export default withLoading(mapLoadingState)(TableBody);
+export default withLoadingTbody(mapLoadingState)(TableBody);
