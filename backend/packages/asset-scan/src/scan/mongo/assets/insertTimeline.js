@@ -1,39 +1,29 @@
 const {
   asset: { getAssetTimelineCol },
 } = require("@statescan/mongo");
-const isEmpty = require("lodash.isempty");
 const { getActiveAsset } = require("./getActiveAsset");
 const isNil = require("lodash.isnil");
 
-function initObj(timelineObj = {}, indexer) {
-  return { ...timelineObj, indexer };
-}
-
-async function insertAssetTimeline(timelineObj = {}, indexer) {
-  if (isEmpty(timelineObj)) {
-    return;
-  }
-
-  const timelineCol = await getAssetTimelineCol();
-  const obj = initObj(timelineObj, indexer);
-  const { assetId, assetHeight, module } = timelineObj;
-  if (!isNil(assetHeight)) {
-    await timelineCol.insertOne(obj);
+async function insertAssetTimeline(assetId, name, args = {}, indexer) {
+  if (isNil(assetId)) {
     return;
   }
 
   const activeAsset = await getActiveAsset(assetId);
   if (!activeAsset) {
     throw new Error(
-      `Can not find asset: ${assetId} when MetadataSet at ${indexer.blockHeight}`,
+      `Can not find asset: ${assetId} when insert timeline at ${indexer.blockHeight}`,
     );
   }
-
-  Object.assign(obj, {
+  const timelineCol = await getAssetTimelineCol();
+  await timelineCol.insertOne({
+    assetId,
     assetHeight: activeAsset.assetHeight,
     module: activeAsset.module,
+    name,
+    args,
+    indexer,
   });
-  await timelineCol.insertOne(obj);
 }
 
 module.exports = {

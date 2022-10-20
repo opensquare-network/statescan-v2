@@ -6,14 +6,7 @@ async function updateAsset(event, indexer, timelineArgs = {}) {
   const assetId = data[0].toNumber();
 
   await updateAssetDetail(assetId, indexer);
-  await insertAssetTimeline(
-    {
-      assetId,
-      name: method,
-      args: timelineArgs,
-    },
-    indexer,
-  );
+  await insertAssetTimeline(assetId, method, timelineArgs, indexer);
 }
 
 module.exports = {

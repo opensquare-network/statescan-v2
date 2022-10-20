@@ -41,16 +41,7 @@ async function handleCreated(event, indexer, extrinsic, isForced = false) {
   if (!isForced) {
     Object.assign(args, { creator: data[1].toString() });
   }
-
-  await insertAssetTimeline(
-    {
-      ...assetIdentifier,
-      indexer,
-      eventMethod: method,
-      args,
-    },
-    indexer,
-  );
+  await insertAssetTimeline(assetId, method, args, indexer);
 }
 
 module.exports = {

@@ -10,15 +10,13 @@ async function handleMetadataSet(event, indexer) {
   await updateActiveAsset(assetId, { metadata });
 
   await insertAssetTimeline(
+    assetId,
+    method,
     {
-      assetId,
-      name: method,
-      args: {
-        name: data[1].toHuman(),
-        symbol: data[2].toHuman(),
-        decimals: data[3].toNumber(),
-        isFrozen: data[4].toJSON(),
-      },
+      name: data[1].toHuman(),
+      symbol: data[2].toHuman(),
+      decimals: data[3].toNumber(),
+      isFrozen: data[4].toJSON(),
     },
     indexer,
   );
