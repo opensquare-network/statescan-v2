@@ -118,7 +118,9 @@ export default function Explore() {
   }
 
   function onBlur() {
-    setDropdownVisible(false);
+    setTimeout(() => {
+      setDropdownVisible(false);
+    }, 200);
   }
 
   function onInputKeyDown(event) {
