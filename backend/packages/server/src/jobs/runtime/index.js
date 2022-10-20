@@ -31,7 +31,10 @@ function constructSpecFromMetadata(metadata = {}) {
 
 async function queryAndSetSpecVersions() {
   const col = await getRuntimeCollection();
-  const versions = await col.find({}, { projection: { height: 0 } }).toArray();
+  const versions = await col
+    .find({}, { projection: { height: 0 } })
+    .sort({ height: -1 })
+    .toArray();
   specs = versions.map((version) => {
     return {
       specVersion: version.runtimeVersion.specVersion,

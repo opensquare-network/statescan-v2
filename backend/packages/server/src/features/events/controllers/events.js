@@ -1,6 +1,6 @@
 const { extractPage } = require("../../../utils");
 const {
-  block: { getEventCollection }
+  block: { getEventCollection },
 } = require("@statescan/mongo");
 
 async function getEvents(ctx) {
@@ -10,13 +10,18 @@ async function getEvents(ctx) {
     return;
   }
 
-  const { section, method, is_extrinsic: isExtrinsic, no_extrinsic_result: noExtrinsicResult } = ctx.query;
+  const {
+    section,
+    method,
+    is_extrinsic: isExtrinsic,
+    no_extrinsic_result: noExtrinsicResult,
+  } = ctx.query;
   const q = {};
   if (section) {
     q.section = section;
   }
   if (method) {
-    q.name = method;
+    q.method = method;
   }
   if (isExtrinsic === "true") {
     q.isExtrinsic = true;
@@ -32,7 +37,7 @@ async function getEvents(ctx) {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const total = await col.estimatedDocumentCount();
+  const total = await col.count(q);
 
   ctx.body = {
     items,
@@ -44,4 +49,4 @@ async function getEvents(ctx) {
 
 module.exports = {
   getEvents,
-}
+};
