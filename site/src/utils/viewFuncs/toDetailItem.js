@@ -178,7 +178,7 @@ export const toExtrinsicDetailItem = (extrinsic) => {
     ),
     Module: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
     Call: <Tag>{extrinsic?.call?.method}</Tag>,
-    ...(extrinsic.isSigned
+    ...(extrinsic?.isSigned
       ? {
           Singer: <Address address={extrinsic?.signer} ellipsis={false} />,
         }

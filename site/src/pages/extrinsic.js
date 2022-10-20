@@ -1,7 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { Fragment, useEffect, useState } from "react";
-import Api from "../services/api";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
 import Tab from "../components/tab";
@@ -15,17 +14,26 @@ import CallsTable from "../components/call/callsTable";
 import DetailTable from "../components/detail/table";
 import DetailLayout from "../components/layout/detailLayout";
 import { toExtrinsicDetailItem } from "../utils/viewFuncs/toDetailItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   clearHttpError,
   handleApiError,
 } from "../utils/viewFuncs/errorHeandles";
+import {
+  extrinsicDetailSelector,
+  extrinsicFetchDetail,
+  resetExtrinsicDetail,
+} from "../store/reducers/extrinsicSlice";
 
 function Extrinsic() {
   const { id } = useParams();
-  const [listData, setListData] = useState({});
-  const [extrinsic, setExtrinsic] = useState(null);
   const dispatch = useDispatch();
+  const extrinsic = useSelector(extrinsicDetailSelector);
+
+  const listData = useMemo(
+    () => (extrinsic ? toExtrinsicDetailItem(extrinsic) : {}),
+    [extrinsic],
+  );
 
   const tabs = [
     { name: "Events", count: extrinsic?.eventsCount },
@@ -67,14 +75,15 @@ function Extrinsic() {
   useEffect(() => {
     if (id) {
       clearHttpError(dispatch);
-      Api.fetch(`/extrinsics/${id}`, {})
-        .then(({ result: extrinsic }) => {
-          setExtrinsic(extrinsic);
-          setListData(toExtrinsicDetailItem(extrinsic));
-        })
-        .catch((e) => handleApiError(e, dispatch));
+      dispatch(extrinsicFetchDetail(id)).catch((e) =>
+        handleApiError(e, dispatch),
+      );
     }
-  }, [id]);
+
+    return () => {
+      dispatch(resetExtrinsicDetail());
+    };
+  }, [id, dispatch]);
 
   const breadCrumb = (
     <BreadCrumb
