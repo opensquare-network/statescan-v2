@@ -2,10 +2,12 @@ import { capitalize } from "lodash";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
+import { ellipsisHash } from "../../../utils/ellipsis";
 import { mobileCss } from "../../../utils/mobileCss";
 import AccountIcon from "../../icons/accountIcon";
 import BlockIcon from "../../icons/blockIcon";
 import { Flex } from "../../styled/flex";
+import { makeExploreDropdownItemRouteLink } from "./utils";
 
 const padding = 16;
 
@@ -46,6 +48,12 @@ const DropdownLinkItem = styled(Link)`
   &:hover {
     background-color: ${(p) => p.theme.fillSub};
   }
+
+  ${(p) =>
+    p.selected &&
+    css`
+      background-color: ${(p) => p.theme.fillSub};
+    `}
 `;
 const DropdownItemContent = styled(Flex)``;
 const DropdownItemContentIconWrapper = styled.div`
@@ -72,7 +80,9 @@ function renderItem(type, value) {
     block: {
       icon: <BlockIcon />,
       description: capitalize(type),
-      suffix: <DropdownItemSuffix>{value}</DropdownItemSuffix>,
+      suffix: (
+        <DropdownItemSuffix>#{ellipsisHash(String(value))}</DropdownItemSuffix>
+      ),
     },
     extrinsic: {
       description: value,
@@ -86,11 +96,14 @@ function renderItem(type, value) {
   return typeMap[type] ?? {};
 }
 
-function ExploreDropdownItem({ value, type }) {
+function ExploreDropdownItem({ value, type, selected }) {
   const { icon, description, suffix } = renderItem(type, value);
 
   return (
-    <DropdownLinkItem to={`/${type}/${value}`}>
+    <DropdownLinkItem
+      to={makeExploreDropdownItemRouteLink(type, value)}
+      selected={selected}
+    >
       <DropdownItemContent>
         {icon && (
           <DropdownItemContentIconWrapper>
@@ -108,17 +121,21 @@ function ExploreDropdownItem({ value, type }) {
   );
 }
 
-export default function ExploreDropdown({ hints, visible }) {
+export default function ExploreDropdown({ hints, visible, selectedIndex }) {
   if (!visible) {
     return null;
   }
 
   return (
     <Dropdown>
-      {hints.map((hint) => (
+      {hints.map((hint, index) => (
         <DropdownGroup key={hint.type}>
           <DropdownGroupTitle>{hint.type}</DropdownGroupTitle>
-          <ExploreDropdownItem type={hint.type} value={hint.value} />
+          <ExploreDropdownItem
+            type={hint.type}
+            value={hint.value}
+            selected={index === selectedIndex}
+          />
         </DropdownGroup>
       ))}
     </Dropdown>
