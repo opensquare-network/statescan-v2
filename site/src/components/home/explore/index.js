@@ -121,12 +121,12 @@ export default function Explore() {
     setDropdownVisible(false);
   }
 
-  function onInputKeyDown(e) {
+  function onInputKeyDown(event) {
     if (!dropdownVisible) {
       return;
     }
 
-    const { code } = e;
+    const { code } = event;
 
     if (code === "Enter") {
       handleExplore();
