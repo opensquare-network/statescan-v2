@@ -1,7 +1,7 @@
 import { ColoredLink } from "../../components/styled/link";
 import React from "react";
 import ValueDisplay from "../../components/displayValue";
-import { toPrecision } from "./index";
+import { toPrecision } from "@osn/common";
 import Tooltip from "../../components/tooltip";
 import Address from "../../components/address";
 
