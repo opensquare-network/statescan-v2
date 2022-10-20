@@ -1,3 +1,7 @@
+const {
+  batchInsertAssetsTransfers,
+} = require("../../service/assets/batchInsertTransfers");
+const { saveAssets } = require("../../service/assets/updateAssets");
 const { handleAssetsEvent } = require("./assets");
 const { getBlockNativeTransfers } = require("../../store/nativeTransfers");
 const { handleBalancesEvent } = require("./balances");
@@ -32,6 +36,9 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
 
   const transfers = getBlockNativeTransfers(blockIndexer.blockHash);
   await batchInsertTransfers(transfers);
+
+  await batchInsertAssetsTransfers(blockIndexer);
+  await saveAssets(blockIndexer);
 }
 
 module.exports = {

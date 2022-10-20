@@ -26,7 +26,7 @@ async function handleTransferred(event, indexer, extrinsic) {
     assetModule: AssetModule.assets,
   };
   addAssetsTransfer(indexer.blockHash, transfer);
-  addAssetId(assetId);
+  addAssetId(indexer.blockHash, assetId);
 }
 
 module.exports = {
