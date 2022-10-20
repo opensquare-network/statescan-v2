@@ -45,7 +45,9 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleDestroyed(...arguments);
   }
 
-  // todo: handle other assets pallet events
+  // todo: 1. handle asset transfers
+  // todo: 2. handle asset holders
+  // todo: 3. handle asset approvals
 }
 
 module.exports = {
