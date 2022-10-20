@@ -8,5 +8,11 @@ export const extrinsicEventsApi = (id) =>
 export const extrinsicCallsApi = (id) => makeApiUrl(extrinsicApi(id), "calls");
 
 function makeApiUrl(...args) {
-  return "/" + args.join("/");
+  let urlString = args.join("/");
+
+  if (!/^\//.test(urlString)) {
+    urlString = "/" + urlString;
+  }
+
+  return urlString;
 }
