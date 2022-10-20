@@ -5,7 +5,12 @@ const { stringCamelCase } = require("@polkadot/util");
 
 let specs = [];
 
-function normalizeTypeVariants(callsType, types) {
+function getSectionEvents(eventsType, types) {
+  const type = types[eventsType];
+  return type.type.def?.variant?.variants?.map((variant) => variant.name);
+}
+
+function getSectionCalls(callsType, types) {
   const type = types[callsType];
   return type.type.def?.variant?.variants?.map((call) =>
     stringCamelCase(call.name),
@@ -16,8 +21,8 @@ function constructOnePallet(pallet, types) {
   const { name, calls, events } = pallet;
   return {
     name,
-    calls: calls ? normalizeTypeVariants(calls.type, types) : [],
-    events: events ? normalizeTypeVariants(events.type, types) : [],
+    calls: calls ? getSectionCalls(calls.type, types) : [],
+    events: events ? getSectionEvents(events.type, types) : [],
   };
 }
 
