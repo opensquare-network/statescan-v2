@@ -29,7 +29,7 @@ function Extrinsic() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const extrinsic = useSelector(extrinsicDetailSelector);
-  const [_searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const listData = useMemo(
     () => (extrinsic ? toExtrinsicDetailItem(extrinsic) : {}),
