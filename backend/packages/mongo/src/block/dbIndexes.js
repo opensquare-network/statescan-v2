@@ -21,6 +21,7 @@ async function createExtrinsicColIndexes(col) {
     "indexer.blockHeight": -1,
     "indexer.extrinsicIndex": 1,
   });
+  await col.createIndex("isSigned");
   await col.createIndex("signer");
   await col.createIndex("hash");
 }
