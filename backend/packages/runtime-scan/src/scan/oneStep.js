@@ -10,12 +10,14 @@ const last = require("lodash.last");
 const { batchInsertVersions } = require("../common/batchInsert");
 const { getMetadata } = require("../common/queryMetadata");
 const {
-  runtime: { getRuntimeDb },
+  runtime: { getRuntimeDb, getLatestRuntimeVersion },
 } = require("@statescan/mongo");
 
 let latestVersion = null;
 
 async function oneStepScan(startHeight) {
+  latestVersion = await getLatestRuntimeVersion();
+
   const chainHeight = getLatestFinalizedHeight();
   if (startHeight > chainHeight) {
     // Just wait if the to scan height greater than current chain height
@@ -52,10 +54,6 @@ async function oneStepScan(startHeight) {
     Object.assign(version, { metadata });
   }
   await batchInsertVersions(differentVersions);
-
-  if (versions.length > 0) {
-    latestVersion = versions[versions.length - 1];
-  }
 
   const lastHeight = last(versions || []).height;
   await getRuntimeDb().updateScanHeight(lastHeight);
