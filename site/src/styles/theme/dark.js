@@ -19,6 +19,7 @@ const dark = {
   fillButton: "#1B202C",
   fillBub: "#2D323D",
   fillTooltip: "rgba(0, 0, 0, 0.85);",
+  fillPanelBlanket: "rgba(34, 39, 50, 0.8)",
   shadowPanel:
     "0px 6px 16px rgba(27, 32, 44, 0.05), 0px 2px 4px rgba(27, 32, 44, 0.03), 0px 0.5px 1px rgba(27, 32, 44, 0.02)",
   fillAlpha: "rgba(255, 255, 255, 0.05)",

@@ -10,7 +10,7 @@ const TdLoadingWrapper = styled.td`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.8);
+  background: ${({ theme }) => theme.fillPanelBlanket};
   left: 0;
   top: 50px;
   right: 0;
