@@ -14,7 +14,7 @@ const Tag = styled(TagOrigin)`
  * @property data
  */
 export default function CallsTable(props) {
-  const { data = [] } = props ?? {};
+  const { data = [], loading } = props ?? {};
 
   const tableData = data?.map((item) => {
     return [
@@ -39,5 +39,5 @@ export default function CallsTable(props) {
     ];
   });
 
-  return <Table heads={callsHead} data={tableData} />;
+  return <Table heads={callsHead} data={tableData} loading={loading} />;
 }
