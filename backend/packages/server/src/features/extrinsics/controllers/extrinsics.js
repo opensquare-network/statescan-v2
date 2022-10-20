@@ -13,10 +13,10 @@ async function getExtrinsics(ctx) {
   const { section, method, signed_only: signedOnly } = ctx.query;
   const q = {};
   if (section) {
-    q.section = section;
+    q["call.section"] = section;
   }
   if (method) {
-    q.name = method;
+    q["call.method"] = method;
   }
   if (signedOnly === "true") {
     q.isSigned = true;
@@ -29,7 +29,7 @@ async function getExtrinsics(ctx) {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const total = await col.estimatedDocumentCount();
+  const total = await col.count(q);
 
   ctx.body = {
     items,

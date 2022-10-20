@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link as RouteLink } from "react-router-dom";
-import { SF_Mono_12_500, SF_Mono_14_500 } from "../../styles/text";
+import { Inter_14_500, SF_Mono_14_500 } from "../../styles/text";
 
 const Link = styled(RouteLink)`
   color: ${(props) => props.theme.fontPrimary};
@@ -24,6 +24,9 @@ export const ColoredMonoLink = styled(Link)`
   cursor: pointer;
 `;
 
-export const ColoredMonoLinkSmall = styled(ColoredMonoLink)`
-  ${SF_Mono_12_500};
+export const ColoredInterLink = styled(Link)`
+  color: ${({ theme }) => theme.theme500};
+  word-break: break-all;
+  cursor: pointer;
+  ${Inter_14_500}
 `;

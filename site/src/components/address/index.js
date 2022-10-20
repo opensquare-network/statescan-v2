@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import { useIsMounted } from "@osn/common";
 import Link, { ColoredMonoLink } from "../styled/link";
-import Tooltip from "../tooltip";
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,25 +26,31 @@ const AddressLink = styled(ColoredMonoLink)`
   text-align: right;
 `;
 
-function Address({ address, maxWidth = "100%", fontSize = 14 }) {
+function Address({
+  address,
+  maxWidth = "100%",
+  fontSize = 14,
+  ellipsis = true,
+}) {
   const [identity, setIdentity] = useState(null);
   const chainSetting = useSelector(chainSettingSelector);
-  const relayChain = chainSetting.sub;
+  const identityChain = chainSetting.identity;
   const isMounted = useIsMounted();
+  const displayAddress = ellipsis ? addressEllipsis(address) : address;
 
   useEffect(() => {
     setIdentity(null);
-    fetchIdentity(relayChain, address).then((identity) => {
+    fetchIdentity(identityChain, address).then((identity) => {
       if (isMounted) {
         setIdentity(identity);
       }
     });
-  }, [address, relayChain, isMounted]);
+  }, [address, identityChain, isMounted]);
 
   if (!identity) {
     return (
       <AddressLink style={{ fontSize }} to={`/account/${address}`}>
-        {addressEllipsis(address)}
+        {displayAddress}
       </AddressLink>
     );
   }

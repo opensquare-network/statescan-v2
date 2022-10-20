@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Inter_14_500 } from "../../../styles/text";
 
-const BTN = styled.button`
+export const Button = styled.button`
   all: unset;
   display: flex;
   flex-direction: row;
@@ -14,7 +14,3 @@ const BTN = styled.button`
   cursor: pointer;
   ${Inter_14_500};
 `;
-
-export function Button(props) {
-  return <BTN {...props} />;
-}

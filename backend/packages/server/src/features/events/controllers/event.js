@@ -1,5 +1,6 @@
+const { HttpError } = require("../../../utils/httpError");
 const {
-  block: { getEventCollection, getUnFinalizedEventCollection }
+  block: { getEventCollection, getUnFinalizedEventCollection },
 } = require("@statescan/mongo");
 
 async function findEvent(col, q, isFinalized = true) {
@@ -19,9 +20,13 @@ async function getEvent(ctx) {
   if (!event) {
     event = await findEvent(await getUnFinalizedEventCollection(), q, false);
   }
+  if (!event) {
+    throw new HttpError(404, "event not found");
+  }
+
   ctx.body = event;
 }
 
 module.exports = {
   getEvent,
-}
+};

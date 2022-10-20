@@ -2,7 +2,6 @@ const { deleteAllUnFinalizedData } = require("./unFinalized/delete");
 const { deleteFrom } = require("../mongo/services/delete");
 const { updateUnFinalized } = require("./unFinalized");
 const { batchInsertCalls } = require("../mongo/services/call");
-const { extractCalls } = require("./call");
 const { batchInsertExtrinsics } = require("../mongo/services/extrinsic");
 const { batchInsertEvents } = require("../mongo/services/event");
 const { insertBlock } = require("../mongo/services/block");
@@ -23,12 +22,7 @@ async function handleBlock({ block, author, events, height }) {
 
   const normalizedBlock = normalizeBlock(block, author, events, blockIndexer);
   const normalizedEvents = normalizeEvents(events, blockIndexer);
-  const normalizedExtrinsics = normalizeExtrinsics(
-    block.extrinsics,
-    events,
-    blockIndexer,
-  );
-  const normalizedCalls = await extractCalls(
+  const { normalizedExtrinsics, normalizedCalls } = await normalizeExtrinsics(
     block.extrinsics,
     events,
     blockIndexer,

@@ -1,9 +1,9 @@
-import { ColoredLink, ColoredMonoLink } from "../../components/styled/link";
+import { ColoredLink } from "../../components/styled/link";
 import React from "react";
-import { addressEllipsis } from "./text";
 import ValueDisplay from "../../components/displayValue";
-import { toPrecision } from "./index";
+import { toPrecision } from "@osn/common";
 import Tooltip from "../../components/tooltip";
+import Address from "../../components/address";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -50,14 +50,10 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
         </ColoredLink>,
         transfer?.indexer?.blockTime,
         <Tooltip tip={transfer?.from}>
-          <ColoredMonoLink key={`${index}-3`} to={`/account/${transfer?.from}`}>
-            {addressEllipsis(transfer?.from)}
-          </ColoredMonoLink>
+          <Address address={transfer?.from} />
         </Tooltip>,
         <Tooltip tip={transfer?.to}>
-          <ColoredMonoLink key={`${index}-4`} to={`/account/${transfer?.to}`}>
-            {addressEllipsis(transfer?.to)}
-          </ColoredMonoLink>
+          <Address address={transfer?.to} />
         </Tooltip>,
         <Tooltip
           tip={`${toPrecision(

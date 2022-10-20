@@ -591,6 +591,23 @@
     log4js "^6.5.1"
     mongodb "^4.6.0"
 
+"@osn/scan-common@0.1.21":
+  version "0.1.21"
+  resolved "https://registry.npmjs.org/@osn/scan-common/-/scan-common-0.1.21.tgz#ae61d7cd01bd68cde13ca8dc61476ca0abfeeeff"
+  integrity sha512-X94Uy9M/Wb5HHpTNAUj0P4FWkZf++bO/3MU8CjNzmfrde/ZT/0GHTijSNXdTLLvcYeI1saaNa1J5aYWt0KX5GA==
+  dependencies:
+    "@polkadot/api" "9.4.1"
+    "@polkadot/api-derive" "9.4.1"
+    "@polkadot/types" "9.4.1"
+    "@polkadot/util" "10.1.8"
+    "@polkadot/util-crypto" "10.1.8"
+    bignumber.js "^9.0.2"
+    lodash.findlast "^4.6.0"
+    lodash.last "^3.0.0"
+    lodash.omit "^4.5.0"
+    log4js "^6.5.1"
+    mongodb "^4.6.0"
+
 "@polkadot/api-augment@9.4.1":
   version "9.4.1"
   resolved "https://registry.npmjs.org/@polkadot/api-augment/-/api-augment-9.4.1.tgz#2e2d00b0a89eb2b2df8a318b57f6aca4c5e0d402"

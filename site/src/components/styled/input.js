@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Inter_14_400 } from "../../styles/text";
 
-const TextInput = styled.input`
+const Input = styled.input`
   padding: 12px 16px;
   background: ${(p) => p.theme.fillPanel};
   border: 1px solid ${(p) => p.theme.strokeBox};
@@ -12,11 +12,7 @@ const TextInput = styled.input`
   }
 
   ${Inter_14_400};
-  width: 100%;
-  max-width: 529px;
   color: ${(props) => props.theme.fontPrimary};
 `;
 
-export default function Input(props) {
-  return <TextInput {...props} />;
-}
+export default Input;

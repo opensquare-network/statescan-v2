@@ -1,5 +1,6 @@
+const { HttpError } = require("../../../utils/httpError");
 const {
-  block: { getCallCollection, getUnFinalizedCallCollection }
+  block: { getCallCollection, getUnFinalizedCallCollection },
 } = require("@statescan/mongo");
 
 async function findCall(col, q, isFinalized = true) {
@@ -13,15 +14,19 @@ async function getCall(ctx) {
     "indexer.blockHeight": Number(blockHeight),
     "indexer.extrinsicIndex": Number(extrinsicIndex),
     "indexer.callIndex": Number(callIndex),
-  }
+  };
 
   let call = await findCall(await getCallCollection(), q);
   if (!call) {
     call = await findCall(await getUnFinalizedCallCollection(), q, false);
   }
+  if (!call) {
+    throw new HttpError(404, "call not found");
+  }
+
   ctx.body = call;
 }
 
 module.exports = {
   getCall,
-}
+};

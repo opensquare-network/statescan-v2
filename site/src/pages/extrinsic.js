@@ -1,48 +1,43 @@
-import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
-import { ReactComponent as TimerIcon } from "../components/icons/timer.svg";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
-import Link, { ColoredLink } from "../components/styled/link";
-import Layout from "../components/layout";
-import styled from "styled-components";
-import Api from "../services/api";
-import { Inter_14_500, SF_Mono_14_500 } from "../styles/text";
+import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
-import { withCopy } from "../HOC/withCopy";
-import EventsTable from "../components/extrinsic/tabTables/eventsTable";
 import Tab from "../components/tab";
-import { DetailedTime } from "../components/styled/time";
-import { Tag, TagHighContrast } from "../components/tag";
 import DataDisplay from "../components/dataDisplay";
 import { Flex } from "../components/styled/flex";
-import CallsTable from "../components/extrinsic/tabTables/callsTable";
 import { useMemo } from "react";
-
-const ColoredMonoLink = styled(Link)`
-  color: ${({ theme }) => theme.theme500};
-  ${SF_Mono_14_500};
-`;
-
-const TextSecondary = styled.span`
-  ${Inter_14_500};
-  color: ${({ theme }) => theme.fontSecondary};
-`;
-
-const TextSecondaryWithCopy = withCopy(TextSecondary);
-const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
+import { currencify } from "../utils";
+import { extrinsicEventsHead } from "../utils/constants";
+import { toEventTabTableItem } from "../utils/viewFuncs/toTableItem";
+import CallsTable from "../components/call/callsTable";
+import DetailTable from "../components/detail/table";
+import DetailLayout from "../components/layout/detailLayout";
+import { toExtrinsicDetailItem } from "../utils/viewFuncs/toDetailItem";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearHttpError,
+  handleApiError,
+} from "../utils/viewFuncs/errorHeandles";
+import {
+  extrinsicDetailSelector,
+  extrinsicFetchDetail,
+  resetExtrinsicDetail,
+} from "../store/reducers/extrinsicSlice";
 
 function Extrinsic() {
   const { id } = useParams();
-  const [listData, setListData] = useState({});
-  const [extrinsic, setExtrinsic] = useState(null);
-  const [eventsCount, setEventsCount] = useState(0);
-  const [callsCount, setCallsCount] = useState(0);
+  const dispatch = useDispatch();
+  const extrinsic = useSelector(extrinsicDetailSelector);
+
+  const listData = useMemo(
+    () => (extrinsic ? toExtrinsicDetailItem(extrinsic) : {}),
+    [extrinsic],
+  );
 
   const tabs = [
-    { name: "Events", count: eventsCount },
-    { name: "Calls", count: callsCount },
+    { name: "Events", count: extrinsic?.eventsCount },
+    { name: "Calls", count: extrinsic?.callsCount },
   ];
 
   const [activeTab, setActiveTab] = useState(tabs[0].name);
@@ -59,91 +54,53 @@ function Extrinsic() {
     {
       name: "Events",
       table: (
-        <EventsTable
-          extrinsicId={extrinsicId}
-          setEventsCount={setEventsCount}
+        <DetailTable
+          url={extrinsicId ? `/extrinsics/${extrinsicId}/events` : ""}
+          heads={extrinsicEventsHead}
+          transformData={toEventTabTableItem}
         />
       ),
     },
     {
       name: "Calls",
       table: (
-        <CallsTable extrinsicId={extrinsicId} setCallsCount={setCallsCount} />
+        <DetailTable
+          url={extrinsicId ? `/extrinsics/${extrinsicId}/calls` : ""}
+          TableComponent={CallsTable}
+        />
       ),
     },
   ];
 
   useEffect(() => {
     if (id) {
-      Api.fetch(`/extrinsics/${id}`, {}).then(({ result: extrinsic }) => {
-        setExtrinsic(extrinsic);
-        const data = {
-          "Extrinsic Time": <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
-          Block: (
-            <ColoredMonoLinkWithCopy
-              to={`/block/${extrinsic?.indexer?.blockHeight}`}
-            >
-              {extrinsic?.indexer?.blockHeight}
-            </ColoredMonoLinkWithCopy>
-          ),
-          ...(extrinsic?.lifetime
-            ? {
-                "Life Time": (
-                  <>
-                    <ColoredLink to={`/block/${extrinsic?.lifetime?.[0]}`}>
-                      {extrinsic?.lifetime?.[0].toLocaleString()}
-                    </ColoredLink>
-                    {" - "}
-                    <ColoredLink to={`/block/${extrinsic?.lifetime?.[1]}`}>
-                      {extrinsic?.lifetime?.[1].toLocaleString()}
-                    </ColoredLink>
-                  </>
-                ),
-              }
-            : {}),
-          "Extrinsic Hash": (
-            <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>
-          ),
-          Module: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
-          Call: <Tag>{extrinsic?.call?.method}</Tag>,
-          ...(extrinsic.isSigned
-            ? {
-                Singer: (
-                  <ColoredMonoLinkWithCopy to={`/account/${extrinsic?.signer}`}>
-                    {extrinsic?.signer}
-                  </ColoredMonoLinkWithCopy>
-                ),
-              }
-            : {}),
-          ...(extrinsic?.nonce
-            ? {
-                Nonce: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
-              }
-            : {}),
-          ...(extrinsic?.tip > 0
-            ? {
-                Tip: extrinsic?.tip,
-              }
-            : {}),
-          Result: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
-        };
-        setListData(data);
-      });
+      clearHttpError(dispatch);
+      dispatch(extrinsicFetchDetail(id)).catch((e) =>
+        handleApiError(e, dispatch),
+      );
     }
-  }, [id]);
+
+    return () => {
+      dispatch(resetExtrinsicDetail());
+    };
+  }, [id, dispatch]);
+
+  const breadCrumb = (
+    <BreadCrumb
+      data={[
+        { name: "Extrinsics", path: "/extrinsics" },
+        {
+          name:
+            `${currencify(extrinsic?.indexer?.blockHeight)}-${
+              extrinsic?.indexer?.extrinsicIndex ?? ""
+            }` ?? "...",
+        },
+      ]}
+    />
+  );
 
   return (
-    <Layout>
-      <BreadCrumb
-        data={[
-          { name: "Extrinsics", path: "/extrinsics" },
-          {
-            name:
-              `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}` ??
-              "...",
-          },
-        ]}
-      />
+    <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
         <DataDisplay
@@ -165,15 +122,13 @@ function Extrinsic() {
         ))}
       </Flex>
 
-      {tables.map((item) => (
-        <div
-          key={item.name}
-          style={{ display: activeTab === item.name ? "block" : "none" }}
-        >
-          {item.table}
-        </div>
-      ))}
-    </Layout>
+      {tables.map(
+        (item) =>
+          activeTab === item.name && (
+            <Fragment key={item.name}>{item.table}</Fragment>
+          ),
+      )}
+    </DetailLayout>
   );
 }
 
