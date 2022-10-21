@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Inter_14_400 } from "../../styles/text";
+import { Inter_14_500 } from "../../styles/text";
 import { mobileCss } from "../../utils/mobileCss";
 
 const InputOrigin = styled.input`
@@ -13,7 +13,7 @@ const InputOrigin = styled.input`
     color: ${(props) => props.theme.fontTertiary};
   }
 
-  ${Inter_14_400};
+  ${Inter_14_500};
 `;
 
 const InputWrapper = styled.span`
@@ -31,8 +31,14 @@ const InputWrapper = styled.span`
     box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
   }
 
+  ${(p) =>
+    p.small &&
+    css`
+      padding: 6px 12px;
+    `}
+
   ${mobileCss(css`
-    padding: 8px 12px;
+    padding: 6px 12px;
   `)}
 `;
 
@@ -49,10 +55,10 @@ const SuffixWrapper = styled.span`
  * @param {import("./types").InputProps} props
  */
 export default function Input(props) {
-  const { prefix, suffix, className } = props ?? {};
+  const { prefix, suffix, className, small } = props ?? {};
 
   return (
-    <InputWrapper className={className}>
+    <InputWrapper className={className} small={small}>
       {prefix && <PrefixWrapper>{prefix}</PrefixWrapper>}
       <InputOrigin {...props} />
       {suffix && <SuffixWrapper>{suffix}</SuffixWrapper>}
