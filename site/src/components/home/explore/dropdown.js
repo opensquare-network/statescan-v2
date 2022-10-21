@@ -21,6 +21,7 @@ const Dropdown = styled.div`
   width: 545px;
   padding: ${padding}px;
   top: 55px;
+  z-index: 9999;
 
   ${mobileCss(css`
     width: inherit;
