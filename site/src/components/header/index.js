@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { menusBlockchain } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
+import { useLocation } from "react-router";
 
 const headerHeight = 68;
 
@@ -93,6 +94,8 @@ const ExploreInput = styled(ExploreInputOrigin)`
 export default function Header() {
   const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const shouldShowPCExplore = location.pathname !== "/";
 
   const { width } = useWindowSize();
 
@@ -130,9 +133,11 @@ export default function Header() {
             </MenuWrapper>
 
             <Flex>
-              <ExploreInputWrapper>
-                <ExploreInput small />
-              </ExploreInputWrapper>
+              {shouldShowPCExplore && (
+                <ExploreInputWrapper>
+                  <ExploreInput small />
+                </ExploreInputWrapper>
+              )}
               <Flex>
                 <ChainSwitch />
               </Flex>
