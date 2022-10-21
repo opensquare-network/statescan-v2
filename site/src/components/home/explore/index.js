@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
 import { Inter_24_700 } from "../../../styles/text";
-import InputOrigin from "../../styled/input";
 import { Button } from "../../styled/buttons";
 import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
@@ -14,15 +13,12 @@ import ExploreDropdown from "./dropdown";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeExploreDropdownItemRouteLink } from "./utils";
+import InputOrigin from "../../../components/input";
+import SearchIcon from "../../icons/searchIcon";
+import LoadingInlineAnimationIcon from "../../icons/loadingInlineAnimationIcon";
 
 const Input = styled(InputOrigin)`
   width: 545px;
-
-  &:focus {
-    border-color: ${(p) => p.theme.theme500};
-    outline: none;
-    box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
-  }
 
   ${mobileCss(css`
     width: 100%;
@@ -70,6 +66,7 @@ export default function Explore() {
   const [hints, setHints] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [loadingHints, setLoadingHints] = useState(false);
 
   const selectedItem = useMemo(() => {
     if (dropdownVisible) {
@@ -81,16 +78,22 @@ export default function Explore() {
 
   // FIXME: see https://github.com/opensquare-network/statescan-v2/issues/196
   async function fetchHints(term) {
-    return api.fetch(homeSearchHints, { term }).then(({ result }) => {
-      const data = compatExploreDropdownHints(result);
+    setLoadingHints(true);
+    return api
+      .fetch(homeSearchHints, { term })
+      .then(({ result }) => {
+        const data = compatExploreDropdownHints(result);
 
-      if (data.length) {
-        hintsCache[term] = data;
-        setHints(data);
-      } else {
-        setHints([]);
-      }
-    });
+        if (data.length) {
+          hintsCache[term] = data;
+          setHints(data);
+        } else {
+          setHints([]);
+        }
+      })
+      .finally(() => {
+        setLoadingHints(false);
+      });
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchHints = useCallback(debounce(fetchHints, 500), []);
@@ -164,6 +167,8 @@ export default function Explore() {
           onFocus={onFocus}
           onBlur={onBlur}
           onKeyDown={onInputKeyDown}
+          prefix={<SearchIcon />}
+          suffix={loadingHints && <LoadingInlineAnimationIcon />}
         />
 
         <Button onClick={handleExplore}>Explore</Button>
