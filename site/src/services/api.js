@@ -21,15 +21,19 @@ class Api {
             ? reject({ error: { status: resp.status } })
             : resp.json().then((result) => resolve({ result })),
         )
-        .catch((e) =>
-          resolve({
-            error: {
-              status: 500,
-              message: "can not parse response as JSON",
-              data: null,
-            },
-          }),
-        ),
+        .catch((e) => {
+          if (e.message === "The user aborted a request.") {
+            reject(e);
+          } else {
+            resolve({
+              error: {
+                status: 500,
+                message: "can not parse response as JSON",
+                data: null,
+              },
+            });
+          }
+        }),
     );
   };
 

@@ -39,22 +39,44 @@ const ColoredMonoLink = styled(Link)`
 
 function Extrinsics() {
   const location = useLocation();
+  const [pendingRequestController, setPendingRequestController] =
+    useState(null);
   const [extrinsics, setExtrinsics] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
-    setExtrinsics(null);
-    Api.fetch(`/extrinsics`, {
-      page: getPageFromQuery(location) - 1,
-      pageSize,
-      signed_only: "true",
-      ...queryString.parse(location.search),
-    }).then(({ result }) => {
-      setExtrinsics(result?.items ?? []);
-      setTotal(result?.total ?? 0);
-    });
+    const controller = new AbortController();
+    setLoading(true);
+    Api.fetch(
+      `/extrinsics`,
+      {
+        page: getPageFromQuery(location) - 1,
+        pageSize,
+        signed_only: "true",
+        ...queryString.parse(location.search),
+      },
+      { signal: controller.signal },
+    )
+      .then(({ result, ...rest }) => {
+        result?.items && setExtrinsics(result?.items);
+        result?.total && setTotal(result?.total);
+        setLoading(false);
+        setPendingRequestController(null);
+      })
+      .catch((e) => {
+        if (e.message === "The user aborted a request.") {
+          return;
+        }
+        setLoading(false);
+        setPendingRequestController(null);
+      });
+    if (pendingRequestController) {
+      pendingRequestController.abort();
+    }
+    setPendingRequestController(controller);
   }, [location, pageSize]);
 
   const data =
@@ -95,7 +117,7 @@ function Extrinsics() {
         data={basicFilters}
       />
       <StyledPanel>
-        <Table heads={extrinsicsHead} data={data} />
+        <Table heads={extrinsicsHead} data={data} loading={loading} />
         <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanel>
     </Layout>
