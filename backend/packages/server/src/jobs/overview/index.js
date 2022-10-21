@@ -45,8 +45,11 @@ async function updateAll() {
 }
 
 async function updateOverview() {
-  await updateAll();
-  setInterval(updateAll, 6000);
+  try {
+    await updateAll();
+  } finally {
+    setTimeout(updateOverview, 6000);
+  }
 }
 
 async function getOverview() {

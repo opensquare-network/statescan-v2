@@ -49,8 +49,11 @@ async function queryAndSetSpecVersions() {
 }
 
 async function queryAndSetSpecs() {
-  await queryAndSetSpecVersions();
-  setInterval(queryAndSetSpecVersions, 6 * 1000);
+  try {
+    await queryAndSetSpecVersions();
+  } finally {
+    setTimeout(queryAndSetSpecs, 6000);
+  }
 }
 
 function getSpecs() {
