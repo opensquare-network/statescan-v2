@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import { useIsMounted } from "@osn/common";
 import Link, { ColoredMonoLink } from "../styled/link";
+import { withCopy } from "../../HOC/withCopy";
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,6 +20,13 @@ const Wrapper = styled.div`
   }
 `;
 
+const CombinationWrapper = styled(Wrapper)`
+  padding-top: 12px;
+  padding-bottom: 12px;
+  box-sizing: border-box;
+  height: 72px;
+`;
+
 const AddressLink = styled(ColoredMonoLink)`
   display: block;
   margin: 0;
@@ -26,7 +34,52 @@ const AddressLink = styled(ColoredMonoLink)`
   text-align: right;
 `;
 
-function Address({
+const AddressLinkWithCopy = withCopy(AddressLink);
+
+export function AddressAndIdentity({
+  address,
+  maxWidth = "100%",
+  fontSize = 14,
+  ellipsis = true,
+}) {
+  const [identity, setIdentity] = useState(null);
+  const chainSetting = useSelector(chainSettingSelector);
+  const identityChain = chainSetting.identity;
+  const isMounted = useIsMounted();
+  const displayAddress = ellipsis ? addressEllipsis(address) : address;
+
+  useEffect(() => {
+    setIdentity(null);
+    fetchIdentity(identityChain, address).then((identity) => {
+      if (isMounted) {
+        setIdentity(identity);
+      }
+    });
+  }, [address, identityChain, isMounted]);
+
+  const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
+
+  if (!identity) {
+    return (
+      <AddressTag style={{ fontSize }} to={`/account/${address}`}>
+        {displayAddress}
+      </AddressTag>
+    );
+  }
+
+  return (
+    <CombinationWrapper style={{ maxWidth }}>
+      <Link to={`/account/${address}`}>
+        <Identity identity={identity} fontSize={fontSize} />
+      </Link>
+      <AddressTag style={{ fontSize }} to={`/account/${address}`}>
+        {displayAddress}
+      </AddressTag>
+    </CombinationWrapper>
+  );
+}
+
+function AddressOrIdentity({
   address,
   maxWidth = "100%",
   fontSize = 14,
@@ -48,10 +101,11 @@ function Address({
   }, [address, identityChain, isMounted]);
 
   if (!identity) {
+    const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
     return (
-      <AddressLink style={{ fontSize }} to={`/account/${address}`}>
+      <AddressTag style={{ fontSize }} to={`/account/${address}`}>
         {displayAddress}
-      </AddressLink>
+      </AddressTag>
     );
   }
 
@@ -64,4 +118,4 @@ function Address({
   );
 }
 
-export default Address;
+export default AddressOrIdentity;

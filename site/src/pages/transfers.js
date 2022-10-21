@@ -20,26 +20,31 @@ import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import Tooltip from "../components/tooltip";
-import Address from "../components/address";
+import AddressOrIdentity from "../components/address";
 
 function Transfers() {
   const location = useLocation();
   const chainSetting = useSelector(chainSettingSelector);
   const [transfers, setTransfers] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
-    setTransfers(null);
+    setLoading(false);
     Api.fetch(`/transfers`, {
       page: getPageFromQuery(location) - 1,
       pageSize,
       ...queryString.parse(location.search),
-    }).then(({ result }) => {
-      setTransfers(result?.items ?? []);
-      setTotal(result?.total ?? 0);
-    });
+    })
+      .then(({ result }) => {
+        setTransfers(result?.items ?? []);
+        setTotal(result?.total ?? 0);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [location, pageSize]);
 
   const data =
@@ -67,10 +72,10 @@ function Transfers() {
         </ColoredLink>,
         transfer?.indexer?.blockTime,
         <Tooltip tip={transfer?.from}>
-          <Address address={transfer?.from} />
+          <AddressOrIdentity address={transfer?.from} />
         </Tooltip>,
         <Tooltip tip={transfer?.to}>
-          <Address address={transfer?.to} />
+          <AddressOrIdentity address={transfer?.to} />
         </Tooltip>,
         <ValueDisplay
           value={toPrecision(
@@ -90,7 +95,7 @@ function Transfers() {
         data={basicFilters}
       />
       <StyledPanelTableWrapper>
-        <Table heads={transfersHead} data={data} />
+        <Table heads={transfersHead} data={data} loading={loading} />
         <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>

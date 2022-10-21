@@ -13,13 +13,13 @@ import { LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 function Calls() {
   const location = useLocation();
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
-    setData(null);
-
+    setLoading(true);
     api
       .fetch("/calls", {
         page: page - 1,
@@ -28,6 +28,9 @@ function Calls() {
       .then(({ result }) => {
         setData(result?.items ?? []);
         setTotal(result?.total ?? 0);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [location, page, pageSize]);
 
@@ -36,7 +39,7 @@ function Calls() {
       <BreadCrumb data={[{ name: "Calls" }]} />
 
       <StyledPanelTableWrapper>
-        <CallsTable data={data} />
+        <CallsTable data={data} loading={loading} />
         <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>

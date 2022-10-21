@@ -31,7 +31,7 @@ export const chains = [
     decimals: 12,
     chainIcon: "kusama",
     color: "#3765DC",
-    colorSecondary: "#EAF0FF",
+    colorSecondary: "rgba(55, 101, 220, 0.1)",
     buttonColor: "#000000",
     logo: "logo-img-2",
   },
@@ -45,7 +45,7 @@ export const chains = [
     decimals: 10,
     chainIcon: "polkadot",
     color: "#E6007A",
-    colorSecondary: "#FDE5F2",
+    colorSecondary: "rgba(230, 0, 122, 0.1)",
     buttonColor: "#E6007A",
     hidden: false,
   },
@@ -59,7 +59,7 @@ export const chains = [
     decimals: 12,
     chainIcon: "westend",
     color: "#DA68A7",
-    colorSecondary: "#FAE6F2",
+    colorSecondary: "rgba(218, 104, 167, 0.1)",
     buttonColor: "#DA68A7",
   },
   {
@@ -72,7 +72,7 @@ export const chains = [
     decimals: 12,
     chainIcon: "litmus",
     color: "#6431EC",
-    colorSecondary: "#FAE6F2",
+    colorSecondary: "rgba(100, 49, 236, 0.1)",
     buttonColor: "#6431EC",
   },
   {
@@ -85,7 +85,7 @@ export const chains = [
     decimals: 12,
     chainIcon: "litentry",
     color: "#1CC776",
-    colorSecondary: "#FAE6F2",
+    colorSecondary: "rgba(28, 199, 118, 0.1)",
     buttonColor: "#1CC776",
   },
 ];
@@ -200,7 +200,7 @@ export const transfersHead = [
 
 export const accountsHead = [
   { name: "Rank", width: 96 },
-  { name: "Account", width: 200 },
+  { name: "Account", width: 500 },
   { name: "Balance", width: 240, align: "right" },
 ];
 

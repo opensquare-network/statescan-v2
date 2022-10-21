@@ -1,3 +1,4 @@
+const { startJobs } = require("./jobs");
 require("dotenv").config();
 
 const { scan } = require("./scan");
@@ -8,16 +9,18 @@ const {
     updateSpecs,
     checkSpecs,
   },
-  env: {
-    isUseMetaDb,
-  }
+  env: { isUseMetaDb },
 } = require("@osn/scan-common");
-const { block: { initBlockDb } } = require("@statescan/mongo");
+const {
+  block: { initBlockDb },
+} = require("@statescan/mongo");
 
 async function main() {
   await initBlockDb();
   await subscribeLatestHeight();
   await subscribeFinalizedHeight();
+  await startJobs();
+
   if (isUseMetaDb()) {
     await updateSpecs();
     checkSpecs();
@@ -28,4 +31,4 @@ async function main() {
 
 main()
   .then(() => console.log("Scan finished"))
-  .catch(console.error)
+  .catch(console.error);

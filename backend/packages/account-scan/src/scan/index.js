@@ -1,3 +1,4 @@
+const { bulkDeleteAccounts } = require("../mongo/services/bulkDelete");
 const { handleEvents } = require("./events");
 const { bulkUpdateAccounts } = require("../mongo/services/bulkUpdate");
 const { getOnChainAccounts } = require("../common/getOnChainAccounts");
@@ -8,20 +9,19 @@ const {
   scan: { oneStepScan },
   utils: { sleep },
 } = require("@osn/scan-common");
-const { account: { getAccountDb } } = require("@statescan/mongo");
+const {
+  account: { getAccountDb },
+} = require("@statescan/mongo");
 
 async function updateBlockAccounts(height) {
-  const addrs = getAddresses(height)
+  const addrs = getAddresses(height);
   if (addrs.length <= 0) {
-    return
+    return;
   }
 
-  const onChainDataArr = await getOnChainAccounts(addrs);
-  if (onChainDataArr.length <= 0) {
-    return
-  }
-
-  await bulkUpdateAccounts(onChainDataArr);
+  const { notExistedAddrs, existedAddrs } = await getOnChainAccounts(addrs);
+  await bulkUpdateAccounts(existedAddrs);
+  await bulkDeleteAccounts(notExistedAddrs);
   clearAddresses(height);
 }
 
@@ -46,7 +46,7 @@ async function scan() {
   let toScanHeight = await db.getNextScanHeight();
 
   while (true) {
-    toScanHeight = await oneStepScan(toScanHeight, handleBlock)
+    toScanHeight = await oneStepScan(toScanHeight, handleBlock);
     await sleep(1);
   }
 }
@@ -54,4 +54,4 @@ async function scan() {
 module.exports = {
   handleBlock,
   scan,
-}
+};

@@ -2,27 +2,20 @@ const {
   account: { getAddressCollection },
 } = require("@statescan/mongo");
 
-async function bulkUpdateAccounts(accounts = []) {
+async function bulkDeleteAccounts(accounts = []) {
   if (accounts.length < 1) {
     return;
   }
 
   const col = await getAddressCollection();
   const bulk = col.initializeUnorderedBulkOp();
-  for (const { address, detail } of accounts) {
-    bulk
-      .find({ address })
-      .upsert()
-      .updateOne({
-        $set: {
-          ...detail,
-        },
-      });
+  for (const address of accounts) {
+    bulk.find({ address }).delete();
   }
 
   await bulk.execute();
 }
 
 module.exports = {
-  bulkUpdateAccounts,
+  bulkDeleteAccounts,
 };

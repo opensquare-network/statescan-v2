@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Tooltip from "../components/tooltip";
 import FinalizedState from "../components/states/finalizedState";
-import Address from "../components/address";
+import AddressOrIdentity from "../components/address";
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -62,7 +62,7 @@ function Blocks() {
           </ColoredMonoLink>
         </Tooltip>,
         <Tooltip tip={block.validator}>
-          <Address address={block.validator} />
+          <AddressOrIdentity address={block.validator} />
         </Tooltip>,
         block?.extrinsicsCount,
         block?.eventsCount,
