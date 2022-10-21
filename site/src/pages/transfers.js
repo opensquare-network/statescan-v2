@@ -20,7 +20,7 @@ import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import Tooltip from "../components/tooltip";
-import Address from "../components/address";
+import AddressOrIdentity from "../components/address";
 
 function Transfers() {
   const location = useLocation();
@@ -72,10 +72,10 @@ function Transfers() {
         </ColoredLink>,
         transfer?.indexer?.blockTime,
         <Tooltip tip={transfer?.from}>
-          <Address address={transfer?.from} />
+          <AddressOrIdentity address={transfer?.from} />
         </Tooltip>,
         <Tooltip tip={transfer?.to}>
-          <Address address={transfer?.to} />
+          <AddressOrIdentity address={transfer?.to} />
         </Tooltip>,
         <ValueDisplay
           value={toPrecision(

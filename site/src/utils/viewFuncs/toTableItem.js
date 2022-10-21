@@ -3,7 +3,7 @@ import React from "react";
 import ValueDisplay from "../../components/displayValue";
 import { toPrecision } from "@osn/common";
 import Tooltip from "../../components/tooltip";
-import Address from "../../components/address";
+import AddressOrIdentity from "../../components/address";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -50,10 +50,10 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
         </ColoredLink>,
         transfer?.indexer?.blockTime,
         <Tooltip tip={transfer?.from}>
-          <Address address={transfer?.from} />
+          <AddressOrIdentity address={transfer?.from} />
         </Tooltip>,
         <Tooltip tip={transfer?.to}>
-          <Address address={transfer?.to} />
+          <AddressOrIdentity address={transfer?.to} />
         </Tooltip>,
         <Tooltip
           tip={`${toPrecision(

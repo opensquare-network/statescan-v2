@@ -12,7 +12,7 @@ import { toPrecision } from "@osn/common";
 import ValueDisplay from "../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
-import Address from "../components/address";
+import AddressOrIdentity from "../components/address";
 import styled from "styled-components";
 
 const AlignLeft = styled.div`
@@ -50,7 +50,7 @@ function Accounts() {
       return [
         `#${(parseInt(page) - 1) * pageSize + index + 1}`,
         <AlignLeft>
-          <Address address={account?.address} ellipsis={false} />
+          <AddressOrIdentity address={account?.address} ellipsis={false} />
         </AlignLeft>,
         <ValueDisplay
           value={toPrecision(account?.data?.total, chainSetting?.decimals)}

@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const Row = styled(Flex)`
+  align-items: start;
   @media screen and (max-width: 900px) {
     flex-wrap: wrap;
   }
