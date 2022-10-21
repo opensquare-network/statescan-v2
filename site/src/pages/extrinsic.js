@@ -1,7 +1,7 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import List from "../components/list";
 import Tab from "../components/tab";
 import DataDisplay from "../components/dataDisplay";
@@ -29,6 +29,7 @@ function Extrinsic() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const extrinsic = useSelector(extrinsicDetailSelector);
+  const [, setSearchParams] = useSearchParams();
 
   const listData = useMemo(
     () => (extrinsic ? toExtrinsicDetailItem(extrinsic) : {}),
@@ -58,6 +59,7 @@ function Extrinsic() {
           url={extrinsicId ? `/extrinsics/${extrinsicId}/events` : ""}
           heads={extrinsicEventsHead}
           transformData={toEventTabTableItem}
+          tableKey="extrinsicEventsTable"
         />
       ),
     },
@@ -67,6 +69,7 @@ function Extrinsic() {
         <DetailTable
           url={extrinsicId ? `/extrinsics/${extrinsicId}/calls` : ""}
           TableComponent={CallsTable}
+          tableKey="extrinsicCallsTable"
         />
       ),
     },
@@ -117,7 +120,10 @@ function Extrinsic() {
             text={item.name}
             count={item.count}
             active={activeTab === item.name}
-            onClick={() => setActiveTab(item.name)}
+            onClick={() => {
+              setActiveTab(item.name);
+              setSearchParams("");
+            }}
           />
         ))}
       </Flex>
