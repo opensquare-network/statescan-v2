@@ -14,7 +14,7 @@ import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import Tooltip from "../../tooltip";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
-import Address from "../../address";
+import AddressOrIdentity from "../../address";
 import React from "react";
 import { PC } from "../../styled/responsive";
 
@@ -116,7 +116,7 @@ function LatestTransfers({ transfers }) {
               <Flex gap={16}>
                 <PC>
                   <Tooltip tip={transfer.from}>
-                    <Address
+                    <AddressOrIdentity
                       address={transfer?.from}
                       network={chainSetting.value}
                       fontSize={12}
@@ -125,7 +125,7 @@ function LatestTransfers({ transfers }) {
                   <TransferRightSquareIcon />
                 </PC>
                 <Tooltip tip={transfer.to}>
-                  <Address
+                  <AddressOrIdentity
                     address={transfer?.to}
                     network={chainSetting.value}
                     fontSize={12}

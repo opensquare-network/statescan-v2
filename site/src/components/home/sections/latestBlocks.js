@@ -12,7 +12,7 @@ import FinalizedState from "../../states/finalizedState";
 import { PC } from "../../styled/responsive";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import Address from "../../address";
+import AddressOrIdentity from "../../address";
 
 const Rows = styled.ul`
   margin: 0;
@@ -102,7 +102,7 @@ function LatestBlocks({ blocks }) {
 
             <div>
               <Tooltip tip={block.validator} pullRight>
-                <Address
+                <AddressOrIdentity
                   address={block?.validator}
                   network={chainSetting.value}
                   maxWidth={93}

@@ -1,6 +1,8 @@
 import { DetailedTime } from "../../components/styled/time";
 import FinalizedState from "../../components/states/finalizedState";
-import Address from "../../components/address";
+import AddressOrIdentity, {
+  AddressAndIdentity,
+} from "../../components/address";
 import React from "react";
 import { withCopy } from "../../HOC/withCopy";
 import { TextSecondary } from "../../components/styled/text";
@@ -51,13 +53,15 @@ export const toBlockDetailItem = (block) => {
     "Extrinsics Root": (
       <TextSecondaryWithCopy>{block?.extrinsicsRoot}</TextSecondaryWithCopy>
     ),
-    Validator: <Address address={block?.validator} ellipsis={false} />,
+    Validator: (
+      <AddressOrIdentity address={block?.validator} ellipsis={false} />
+    ),
   };
 };
 
 export const toAccountDetailItem = (id, account, chainSetting) => {
   return {
-    Address: <Address address={id} ellipsis={false} />,
+    Address: <AddressAndIdentity address={id} ellipsis={false} />,
     "Total Balance": (
       <Tooltip
         tip={`${toPrecision(account?.data?.total, chainSetting.decimals)} ${
@@ -180,7 +184,9 @@ export const toExtrinsicDetailItem = (extrinsic) => {
     Call: <Tag>{extrinsic?.call?.method}</Tag>,
     ...(extrinsic?.isSigned
       ? {
-          Singer: <Address address={extrinsic?.signer} ellipsis={false} />,
+          Singer: (
+            <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
+          ),
         }
       : {}),
     ...(extrinsic?.nonce
