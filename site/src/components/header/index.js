@@ -69,11 +69,25 @@ const MobileMenuWrapper = styled.div`
 const ExploreInputWrapper = styled.div`
   position: relative;
   display: flex;
-  margin-bottom: 16px;
+  margin-right: 16px;
+
+  .explore-dropdown {
+    right: 0;
+    width: 234px;
+  }
+
+  ${mobileCss(css`
+    margin-bottom: 16px;
+    margin-right: 0;
+    .explore-dropdown {
+      width: auto;
+    }
+  `)}
 `;
 const ExploreInput = styled(ExploreInputOrigin)`
   display: inline-flex;
   flex: 1;
+  width: 240px;
 `;
 
 export default function Header() {
@@ -115,7 +129,14 @@ export default function Header() {
               </MenuItem>
             </MenuWrapper>
 
-            <ChainSwitch />
+            <Flex>
+              <ExploreInputWrapper>
+                <ExploreInput small />
+              </ExploreInputWrapper>
+              <Flex>
+                <ChainSwitch />
+              </Flex>
+            </Flex>
           </FlexBetween>
         </PC>
 
