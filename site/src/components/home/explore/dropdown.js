@@ -141,7 +141,7 @@ export default function ExploreDropdown({ hints, visible, selectedIndex }) {
   }
 
   return (
-    <Dropdown>
+    <Dropdown className="explore-dropdown">
       {hints.map((hint, index) => (
         <DropdownGroup key={hint.type}>
           <DropdownGroupTitle>{hint.type}</DropdownGroupTitle>
