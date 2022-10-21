@@ -15,6 +15,8 @@ import SearchIcon from "../../icons/searchIcon";
 import LoadingInlineAnimationIcon from "../../icons/loadingInlineAnimationIcon";
 import { makeExploreDropdownItemRouteLink } from "./utils";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { closeMobileMenu } from "../../../store/reducers/mobileMenuSlice";
 
 function compatExploreDropdownHints(hints) {
   return Object.entries(hints).map((hint) => {
@@ -38,6 +40,7 @@ function ExploreInput(props, ref) {
   const [loadingHints, setLoadingHints] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const selectedItem = useMemo(() => {
     if (dropdownVisible) {
@@ -106,6 +109,7 @@ function ExploreInput(props, ref) {
   function handleExplore() {
     const { type, value } = selectedItem;
     navigate(makeExploreDropdownItemRouteLink(type, value));
+    dispatch(closeMobileMenu());
   }
 
   function onInputKeyDown(event) {

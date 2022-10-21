@@ -1,6 +1,8 @@
 import { capitalize } from "lodash";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { closeMobileMenu } from "../../../store/reducers/mobileMenuSlice";
 import { Inter_12_500, Inter_14_500, Inter_14_600 } from "../../../styles/text";
 import { mobileCss } from "../../../utils/mobileCss";
 import { isHash } from "../../../utils/viewFuncs/text";
@@ -110,11 +112,15 @@ function renderItem(type, value) {
 
 function ExploreDropdownItem({ value, type, selected }) {
   const { icon, label, contentValue } = renderItem(type, value);
+  const dispatch = useDispatch();
 
   return (
     <DropdownLinkItem
       to={makeExploreDropdownItemRouteLink(type, value)}
       selected={selected}
+      onClick={() => {
+        dispatch(closeMobileMenu());
+      }}
     >
       <DropdownItemContent>
         {icon && (
