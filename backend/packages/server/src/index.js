@@ -31,6 +31,7 @@ const port = parseInt(process.env.PORT) || 5010;
 (async () => {
   await initBlockDb();
   await initAccountScanDb();
+  await initRuntimeScanDb();
   await startJobs();
   await setupSocketAndEmit(server);
 
