@@ -31,6 +31,12 @@ const InputWrapper = styled.span`
     box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
   }
 
+  ${(p) =>
+    p.small &&
+    css`
+      padding: 8px 12px;
+    `}
+
   ${mobileCss(css`
     padding: 8px 12px;
   `)}
@@ -49,10 +55,10 @@ const SuffixWrapper = styled.span`
  * @param {import("./types").InputProps} props
  */
 export default function Input(props) {
-  const { prefix, suffix, className } = props ?? {};
+  const { prefix, suffix, className, small } = props ?? {};
 
   return (
-    <InputWrapper className={className}>
+    <InputWrapper className={className} small={small}>
       {prefix && <PrefixWrapper>{prefix}</PrefixWrapper>}
       <InputOrigin {...props} />
       {suffix && <SuffixWrapper>{suffix}</SuffixWrapper>}
