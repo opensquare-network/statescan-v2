@@ -18,6 +18,8 @@ import { mobileCss } from "../../utils/mobileCss";
 import { useEffect } from "react";
 import { menusBlockchain } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
+import ExploreInputOrigin from "../../components/home/explore/input";
+import { useLocation } from "react-router";
 
 const headerHeight = 68;
 
@@ -65,9 +67,35 @@ const MobileMenuWrapper = styled.div`
   z-index: 2;
 `;
 
+const ExploreInputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  margin-right: 16px;
+
+  .explore-dropdown {
+    right: 0;
+    width: 234px;
+  }
+
+  ${mobileCss(css`
+    margin-bottom: 16px;
+    margin-right: 0;
+    .explore-dropdown {
+      width: auto;
+    }
+  `)}
+`;
+const ExploreInput = styled(ExploreInputOrigin)`
+  display: inline-flex;
+  flex: 1;
+  width: 240px;
+`;
+
 export default function Header() {
   const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const shouldShowPCExplore = location.pathname !== "/";
 
   const { width } = useWindowSize();
 
@@ -104,7 +132,16 @@ export default function Header() {
               </MenuItem>
             </MenuWrapper>
 
-            <ChainSwitch />
+            <Flex>
+              {shouldShowPCExplore && (
+                <ExploreInputWrapper>
+                  <ExploreInput small />
+                </ExploreInputWrapper>
+              )}
+              <Flex>
+                <ChainSwitch />
+              </Flex>
+            </Flex>
           </FlexBetween>
         </PC>
 
@@ -117,6 +154,10 @@ export default function Header() {
           />
           {showMobileMenu && (
             <MobileMenuWrapper>
+              <ExploreInputWrapper>
+                <ExploreInput />
+              </ExploreInputWrapper>
+
               <ChainSwitch />
               <Navi />
             </MobileMenuWrapper>
