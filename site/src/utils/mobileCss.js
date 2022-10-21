@@ -1,4 +1,6 @@
-import { MOBILE_SIZE } from "./constants";
+// TODO: move to `breakpoints.js`
+
+import { MOBILE_SIZE } from "@osn/constants";
 
 /**
  * @description use in styled css

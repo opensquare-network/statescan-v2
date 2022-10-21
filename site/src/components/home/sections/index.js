@@ -12,6 +12,7 @@ import {
 } from "../../../store/reducers/socketSlice";
 import LatestTransfers from "./latestTransfers";
 import { mobileCss } from "../../../utils/mobileCss";
+import { mdcss } from "../../../utils/breakpoints";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -28,7 +29,7 @@ const Anchor = styled(Link)`
 const StyledPanel = styled(Panel)`
   max-width: 644px;
 
-  ${mobileCss(css`
+  ${mdcss(css`
     max-width: 100%;
   `)}
 `;
@@ -46,7 +47,7 @@ const Section = styled.div`
 const SectionsWrapper = styled(FlexBetween)`
   align-items: unset;
 
-  ${mobileCss(css`
+  ${mdcss(css`
     display: block;
   `)}
 `;
