@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Inter_12_500, Inter_14_500, Inter_14_600 } from "../../../styles/text";
 import { isHash } from "../../../utils";
-import { ellipsisHash } from "../../../utils/ellipsis";
 import { mobileCss } from "../../../utils/mobileCss";
 import AccountIcon from "../../icons/accountIcon";
 import BlockIcon from "../../icons/blockIcon";
