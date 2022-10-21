@@ -1,11 +1,13 @@
 import { capitalize } from "lodash";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
+import { Inter_12_500, Inter_14_500, Inter_14_600 } from "../../../styles/text";
+import { isHash } from "../../../utils";
 import { ellipsisHash } from "../../../utils/ellipsis";
 import { mobileCss } from "../../../utils/mobileCss";
 import AccountIcon from "../../icons/accountIcon";
 import BlockIcon from "../../icons/blockIcon";
+import TransfersIcon from "../../icons/transfersIcon";
 import { Flex } from "../../styled/flex";
 import { makeExploreDropdownItemRouteLink } from "./utils";
 
@@ -38,7 +40,6 @@ const DropdownGroupTitle = styled.h5`
 
 const DropdownLinkItem = styled(Link)`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   text-decoration: none;
   height: 44px;
@@ -46,13 +47,13 @@ const DropdownLinkItem = styled(Link)`
   padding: 0 ${padding}px;
 
   &:hover {
-    background-color: ${(p) => p.theme.fillSub};
+    background-color: ${(p) => p.theme.fillPopupHover};
   }
 
   ${(p) =>
     p.selected &&
     css`
-      background-color: ${(p) => p.theme.fillSub};
+      background-color: ${(p) => p.theme.fillPopupHover};
     `}
 `;
 const DropdownItemContent = styled(Flex)``;
@@ -60,18 +61,19 @@ const DropdownItemContentIconWrapper = styled.div`
   display: inline-flex;
   margin-right: 8px;
 `;
-const DropdownItemContentDescription = styled.span`
+const DropdownItemContentLabel = styled.span`
+  margin-right: 8px;
+  color: ${(p) => p.theme.fontPrimary};
+  ${Inter_14_600};
+`;
+const DropdownItemContentValue = styled.div`
   word-break: break-all;
   display: -webkit-inline-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
-
-  color: ${(p) => p.theme.fontPrimary};
-  ${Inter_14_600};
-`;
-const DropdownItemSuffix = styled.div`
   color: ${(p) => p.theme.fontTertiary};
+  ${Inter_14_500};
 `;
 
 // FIXME: should support more type in future
@@ -79,17 +81,27 @@ function renderItem(type, value) {
   const typeMap = {
     block: {
       icon: <BlockIcon />,
-      description: capitalize(type),
-      suffix: (
-        <DropdownItemSuffix>#{ellipsisHash(String(value))}</DropdownItemSuffix>
+      label: capitalize(type),
+      contentValue: (
+        <DropdownItemContentValue>
+          {!isHash(value) ? "#" : ""}
+          {value}
+        </DropdownItemContentValue>
       ),
     },
     extrinsic: {
-      description: value,
+      icon: <TransfersIcon />,
+      label: capitalize(type),
+      contentValue: (
+        <DropdownItemContentValue>{value}</DropdownItemContentValue>
+      ),
     },
     account: {
       icon: <AccountIcon />,
-      description: value,
+      label: capitalize(type),
+      contentValue: (
+        <DropdownItemContentValue>{value}</DropdownItemContentValue>
+      ),
     },
   };
 
@@ -97,7 +109,7 @@ function renderItem(type, value) {
 }
 
 function ExploreDropdownItem({ value, type, selected }) {
-  const { icon, description, suffix } = renderItem(type, value);
+  const { icon, label, contentValue } = renderItem(type, value);
 
   return (
     <DropdownLinkItem
@@ -110,13 +122,9 @@ function ExploreDropdownItem({ value, type, selected }) {
             {icon}
           </DropdownItemContentIconWrapper>
         )}
-        {description && (
-          <DropdownItemContentDescription>
-            {description}
-          </DropdownItemContentDescription>
-        )}
+        {label && <DropdownItemContentLabel>{label}</DropdownItemContentLabel>}
       </DropdownItemContent>
-      {suffix}
+      {contentValue}
     </DropdownLinkItem>
   );
 }
