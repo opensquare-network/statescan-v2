@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Inter_14_400 } from "../../styles/text";
+import { mobileCss } from "../../utils/mobileCss";
 
 const InputOrigin = styled.input`
   color: ${(props) => props.theme.fontPrimary};
@@ -29,6 +30,10 @@ const InputWrapper = styled.span`
     outline: none;
     box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
   }
+
+  ${mobileCss(css`
+    padding: 8px 12px;
+  `)}
 `;
 
 const PrefixWrapper = styled.span`
