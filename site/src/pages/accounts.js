@@ -24,20 +24,25 @@ const AlignLeft = styled.div`
 function Accounts() {
   const location = useLocation();
   const chainSetting = useSelector(chainSettingSelector);
+  const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
-    setAccounts(null);
+    setLoading(true);
     Api.fetch(`/accounts`, {
       page: getPageFromQuery(location) - 1,
       pageSize,
-    }).then(({ result }) => {
-      setAccounts(result?.items ?? []);
-      setTotal(result?.total ?? 0);
-    });
+    })
+      .then(({ result }) => {
+        setAccounts(result?.items ?? []);
+        setTotal(result?.total ?? 0);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [location, pageSize]);
 
   const data =
@@ -58,7 +63,7 @@ function Accounts() {
     <Layout>
       <BreadCrumb data={[{ name: "Accounts" }]} />
       <StyledPanelTableWrapper>
-        <Table heads={accountsHead} data={data} />
+        <Table heads={accountsHead} data={data} loading={loading} />
         <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>
