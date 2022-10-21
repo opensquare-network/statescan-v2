@@ -34,11 +34,11 @@ const InputWrapper = styled.span`
   ${(p) =>
     p.small &&
     css`
-      padding: 8px 12px;
+      padding: 6px 12px;
     `}
 
   ${mobileCss(css`
-    padding: 8px 12px;
+    padding: 6px 12px;
   `)}
 `;
 
