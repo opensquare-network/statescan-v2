@@ -40,7 +40,6 @@ export function connect() {
       store.dispatch(setLatestSignedTransfers(transferData));
     });
     socket.on(overviewKey, (overviewData) => {
-      console.log(overviewRoom, overviewKey, overviewData);
       store.dispatch(setOverview(overviewData));
     });
   });
