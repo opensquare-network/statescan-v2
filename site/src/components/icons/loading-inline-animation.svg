@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Keyshape -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <style>
+@keyframes a0_t { 0% { transform: translate(10px,10px) rotate(0deg) translate(-10px,-10px); } 100% { transform: translate(10px,10px) rotate(360deg) translate(-10px,-10px); } }
+    </style>
+  <g transform="translate(10,10) translate(-10,-10)" style="animation: 1s linear infinite both a0_t;">
+    <rect width="20" height="20" stroke="none" fill="none" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" transform="translate(4.5,4.5) translate(-4.5,-4.5)" />
+    <path d="M10,17C6.13401,17,3,13.866,3,10C3,6.13401,6.13401,3,10,3C13.866,3,17,6.13401,17,10" stroke="#1B202C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(10,10) translate(-10,-10)" />
+  </g>
+</svg>
