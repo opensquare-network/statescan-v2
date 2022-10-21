@@ -32,7 +32,7 @@ function Account() {
         })
         .catch((e) => handleApiError(e, dispatch));
     }
-  }, [id, chainSetting]);
+  }, [dispatch, id, chainSetting]);
 
   const breadCrumbItems = (
     <BreadCrumb

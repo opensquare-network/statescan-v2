@@ -30,7 +30,7 @@ function Event() {
         })
         .catch((e) => handleApiError(e, dispatch));
     }
-  }, [id]);
+  }, [dispatch, id]);
 
   const breadCrumb = (
     <BreadCrumb
