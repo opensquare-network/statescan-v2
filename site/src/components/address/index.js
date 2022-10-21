@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import { useIsMounted } from "@osn/common";
 import Link, { ColoredMonoLink } from "../styled/link";
+import { withCopy } from "../../HOC/withCopy";
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,6 +26,8 @@ const AddressLink = styled(ColoredMonoLink)`
   line-height: 24px;
   text-align: right;
 `;
+
+const AddressLinkWithCopy = withCopy(AddressLink);
 
 function Address({
   address,
@@ -48,10 +51,11 @@ function Address({
   }, [address, identityChain, isMounted]);
 
   if (!identity) {
+    const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
     return (
-      <AddressLink style={{ fontSize }} to={`/account/${address}`}>
+      <AddressTag style={{ fontSize }} to={`/account/${address}`}>
         {displayAddress}
-      </AddressLink>
+      </AddressTag>
     );
   }
 
