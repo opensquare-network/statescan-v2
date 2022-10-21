@@ -84,7 +84,7 @@ function Overview() {
           <OverviewItem
             icon={<TransferSquareIcon />}
             label="Transfers"
-            value={currencify(overview.Transfers)}
+            value={currencify(overview.transfers)}
           />
           <OverviewItem
             icon={<AssetSquareIcon />}
