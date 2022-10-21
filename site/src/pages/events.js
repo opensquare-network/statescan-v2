@@ -42,20 +42,25 @@ const filter = [
 function Events() {
   const location = useLocation();
   const [events, setEvents] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
-    setEvents(null);
+    setLoading(true);
     Api.fetch(`/events`, {
       page: getPageFromQuery(location) - 1,
       pageSize,
       ...queryString.parse(location.search),
-    }).then(({ result }) => {
-      setEvents(result?.items ?? []);
-      setTotal(result?.total ?? 0);
-    });
+    })
+      .then(({ result }) => {
+        setEvents(result?.items ?? []);
+        setTotal(result?.total ?? 0);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [location, pageSize]);
 
   const data =
@@ -94,7 +99,7 @@ function Events() {
       <Filter title={`All ${total.toLocaleString()} events`} data={filter} />
 
       <StyledPanelTableWrapper>
-        <Table heads={eventsHead} data={data} />
+        <Table heads={eventsHead} data={data} loading={loading} />
         <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>
