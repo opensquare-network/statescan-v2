@@ -47,9 +47,13 @@ async function updateAll() {
 async function updateOverview() {
   await updateAll();
   setInterval(updateAll, 6000);
-  console.log("overview", overview);
+}
+
+async function getOverview() {
+  return overview;
 }
 
 module.exports = {
   updateOverview,
+  getOverview,
 };
