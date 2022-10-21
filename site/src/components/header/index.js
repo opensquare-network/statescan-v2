@@ -18,6 +18,7 @@ import { mobileCss } from "../../utils/mobileCss";
 import { useEffect } from "react";
 import { menusBlockchain } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
+import ExploreInputOrigin from "../../components/home/explore/input";
 
 const headerHeight = 68;
 
@@ -63,6 +64,16 @@ const MobileMenuWrapper = styled.div`
   bottom: 0;
   overflow: scroll;
   z-index: 2;
+`;
+
+const ExploreInputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  margin-bottom: 16px;
+`;
+const ExploreInput = styled(ExploreInputOrigin)`
+  display: inline-flex;
+  flex: 1;
 `;
 
 export default function Header() {
@@ -117,6 +128,10 @@ export default function Header() {
           />
           {showMobileMenu && (
             <MobileMenuWrapper>
+              <ExploreInputWrapper>
+                <ExploreInput />
+              </ExploreInputWrapper>
+
               <ChainSwitch />
               <Navi />
             </MobileMenuWrapper>
