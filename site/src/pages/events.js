@@ -39,6 +39,12 @@ const filter = [
   },
 ];
 
+// FIXME: temporary fix
+const defaultFilterQuery = {
+  [filter[0].query]: filter[0].value,
+  [filter[1].query]: filter[1].value,
+};
+
 function Events() {
   const location = useLocation();
   const [events, setEvents] = useState(null);
@@ -51,7 +57,9 @@ function Events() {
     Api.fetch(`/events`, {
       page: getPageFromQuery(location) - 1,
       pageSize,
-      ...queryString.parse(location.search),
+      ...(location.search
+        ? queryString.parse(location.search)
+        : defaultFilterQuery),
     }).then(({ result }) => {
       setEvents(result?.items ?? []);
       setTotal(result?.total ?? 0);
