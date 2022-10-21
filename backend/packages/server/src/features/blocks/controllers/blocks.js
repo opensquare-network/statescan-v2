@@ -16,16 +16,20 @@ async function getBlocks(ctx) {
     return;
   }
 
-  const finalizedItems = await queryFinalizedBlocks(page, pageSize);
-  const unFinalizedItems = await queryUnFinalizedBlocks();
+  let items = await queryFinalizedBlocks(page, pageSize);
   const col = await getBlockCollection();
-  const total = await col.estimatedDocumentCount();
+  let total = await col.estimatedDocumentCount();
+  if (page <= 0) {
+    const unFinalizedItems = await queryUnFinalizedBlocks();
+    items = [...unFinalizedItems, ...items];
+    total += unFinalizedItems.length;
+  }
 
   ctx.body = {
-    items: [...unFinalizedItems, ...finalizedItems],
+    items,
     page,
     pageSize,
-    total: total + unFinalizedItems.length,
+    total: total,
   };
 }
 
