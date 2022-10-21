@@ -3,6 +3,7 @@ import { Inter_14_400 } from "../../styles/text";
 
 const InputOrigin = styled.input`
   color: ${(props) => props.theme.fontPrimary};
+  background: ${(p) => p.theme.fillPanel};
   border: none;
   outline: none;
   width: 100%;
