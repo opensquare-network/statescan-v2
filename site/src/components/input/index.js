@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Inter_14_400 } from "../../styles/text";
+import { Inter_14_500 } from "../../styles/text";
 import { mobileCss } from "../../utils/mobileCss";
 
 const InputOrigin = styled.input`
@@ -13,7 +13,7 @@ const InputOrigin = styled.input`
     color: ${(props) => props.theme.fontTertiary};
   }
 
-  ${Inter_14_400};
+  ${Inter_14_500};
 `;
 
 const InputWrapper = styled.span`
