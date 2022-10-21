@@ -1,6 +1,8 @@
+import { toPrecision } from "@osn/common";
 import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { withLoading } from "../../../HOC/withLoading";
+import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { overviewSelector } from "../../../store/reducers/socketSlice";
 import { currencify } from "../../../utils";
 import { lgcss } from "../../../utils/breakpoints";
@@ -56,6 +58,14 @@ const mapLoadingState = (_props) => {
 
 function Overview() {
   const overview = useSelector(overviewSelector);
+  const chainSetting = useSelector(chainSettingSelector);
+
+  function parseIssuance(totalIssuance) {
+    const issuance = toPrecision(totalIssuance ?? 0, chainSetting.decimals);
+    const value = issuance.slice(0, issuance.lastIndexOf("."));
+
+    return currencify(Number(value) || 0);
+  }
 
   return (
     <StyledPanelTableWrapper>
@@ -89,7 +99,7 @@ function Overview() {
           <OverviewItem
             icon={<AssetSquareIcon />}
             label="Total Issuance (LIT)"
-            value={currencify(overview.totalIssuance)}
+            value={parseIssuance(overview.totalIssuance)}
           />
         </OverviewItemsWrapper>
       </Panel>
