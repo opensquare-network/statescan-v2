@@ -2,14 +2,14 @@ const {
   block: { getBlockDb },
 } = require("@statescan/mongo");
 const {
-  chain: { getLatestFinalizedHeight, getLatestHeight, getApi },
+  chain: { getLatestFinalizedHeight, getLatestUnFinalizedHeight, getApi },
 } = require("@osn/scan-common");
 
 async function updateHeights() {
   const db = getBlockDb();
   const col = await db.getStatusCol();
 
-  const latestHeight = getLatestHeight();
+  const latestHeight = getLatestUnFinalizedHeight();
   const finalizedHeight = getLatestFinalizedHeight();
   const bulk = col.initializeUnorderedBulkOp();
   bulk
