@@ -52,7 +52,7 @@ async function updateOverview() {
   }
 }
 
-async function getOverview() {
+function getOverview() {
   return overview;
 }
 
