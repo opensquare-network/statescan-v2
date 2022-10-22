@@ -98,7 +98,7 @@ function Overview() {
           />
           <OverviewItem
             icon={<AssetSquareIcon />}
-            label="Total Issuance (LIT)"
+            label={`Total Issuance (${chainSetting.symbol})`}
             value={parseIssuance(overview.totalIssuance)}
           />
         </OverviewItemsWrapper>
