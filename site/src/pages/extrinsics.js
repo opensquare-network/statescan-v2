@@ -77,7 +77,7 @@ function Extrinsics() {
       pendingRequestController.abort();
     }
     setPendingRequestController(controller);
-  }, [location, pageSize, pendingRequestController]);
+  }, [location, pageSize]);
 
   const data =
     extrinsics?.map((extrinsic, index) => {
