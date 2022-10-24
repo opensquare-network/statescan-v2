@@ -14,12 +14,14 @@ import {
   toggle,
   closeMobileMenu,
 } from "../../store/reducers/mobileMenuSlice";
-import { mobileCss } from "../../utils/mobileCss";
+import { mobilecss } from "../../styles/responsive";
 import { useEffect } from "react";
 import { menusBlockchain } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
+import { mdcss } from "../../styles/responsive";
+import { MOBILE_SIZE } from "@osn/constants";
 
 const headerHeight = 68;
 
@@ -53,7 +55,7 @@ const MobileMenuWrapper = styled.div`
   padding: 0 24px;
   background-color: ${(p) => p.theme.fillPanel};
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     padding: 0 16px;
   `)}
 
@@ -70,6 +72,8 @@ const MobileMenuWrapper = styled.div`
 const ExploreInputWrapper = styled.div`
   position: relative;
   display: flex;
+`;
+const ExploreInputPCWrapper = styled(ExploreInputWrapper)`
   margin-right: 16px;
 
   .explore-dropdown {
@@ -77,13 +81,16 @@ const ExploreInputWrapper = styled.div`
     width: 234px;
   }
 
-  ${mobileCss(css`
-    margin-bottom: 16px;
-    margin-right: 0;
-    .explore-dropdown {
-      width: auto;
-    }
+  ${mdcss(css`
+    display: none;
   `)}
+`;
+const ExploreInputMobileWrapper = styled(ExploreInputWrapper)`
+  margin-bottom: 16px;
+
+  & .explore-dropdown {
+    width: auto;
+  }
 `;
 const ExploreInput = styled(ExploreInputOrigin)`
   display: inline-flex;
@@ -100,7 +107,7 @@ export default function Header() {
   const { width } = useWindowSize();
 
   useEffect(() => {
-    if (width > 600) {
+    if (width > MOBILE_SIZE) {
       dispatch(closeMobileMenu());
     }
   }, [dispatch, width]);
@@ -134,9 +141,9 @@ export default function Header() {
 
             <Flex>
               {shouldShowPCExplore && (
-                <ExploreInputWrapper>
+                <ExploreInputPCWrapper>
                   <ExploreInput small />
-                </ExploreInputWrapper>
+                </ExploreInputPCWrapper>
               )}
               <Flex>
                 <ChainSwitch />
@@ -154,9 +161,9 @@ export default function Header() {
           />
           {showMobileMenu && (
             <MobileMenuWrapper>
-              <ExploreInputWrapper>
+              <ExploreInputMobileWrapper>
                 <ExploreInput />
-              </ExploreInputWrapper>
+              </ExploreInputMobileWrapper>
 
               <ChainSwitch />
               <Navi />

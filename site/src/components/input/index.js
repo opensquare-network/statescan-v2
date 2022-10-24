@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { Inter_14_500 } from "../../styles/text";
-import { mobileCss } from "../../utils/mobileCss";
+import { mobilecss } from "../../styles/responsive";
 
 const InputOrigin = styled.input`
   color: ${(props) => props.theme.fontPrimary};
@@ -37,7 +37,7 @@ const InputWrapper = styled.span`
       padding: 6px 12px;
     `}
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     padding: 6px 12px;
   `)}
 `;

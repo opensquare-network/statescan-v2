@@ -5,8 +5,8 @@ import { withLoading } from "../../../HOC/withLoading";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { overviewSelector } from "../../../store/reducers/socketSlice";
 import { currencify } from "../../../utils";
-import { lgcss, smcss } from "../../../styles/breakpoints";
-import { mobileCss } from "../../../utils/mobileCss";
+import { lgcss, smcss } from "../../../styles/responsive";
+import { mobilecss } from "../../../styles/responsive";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import ExtrinsicsSquareIcon from "../../icons/extrinsicsSquareIcon";
@@ -24,7 +24,7 @@ const Panel = styled(Flex)`
   margin: 24px;
   justify-content: space-between;
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     display: block;
   `)}
 `;
