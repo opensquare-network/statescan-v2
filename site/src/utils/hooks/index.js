@@ -13,7 +13,7 @@ export function useIsDark() {
 
 /**
  * @description `duplicated` osn/common but with different breakpoint
- * @breakpoint 600px
+ * @breakpoint 768px
  */
 export function useIsScreen() {
   const { width } = useWindowSize();
