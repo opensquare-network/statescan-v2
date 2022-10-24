@@ -2,7 +2,7 @@ import { useWindowSize } from "@osn/common";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { modeSelector } from "../../store/reducers/settingSlice";
-import { MOBILE_SIZE } from "../constants";
+import { SM_SIZE } from "../../styles/breakpoints";
 
 export function useIsDark() {
   const mode = useSelector(modeSelector);
@@ -19,7 +19,7 @@ export function useIsScreen() {
   const { width } = useWindowSize();
 
   return {
-    isDesktop: width > MOBILE_SIZE,
-    isMobile: width <= MOBILE_SIZE,
+    isDesktop: width > SM_SIZE,
+    isMobile: width <= SM_SIZE,
   };
 }
