@@ -1,32 +1,37 @@
-import { useMemo } from "react";
+import { toPrecision } from "@osn/common";
 import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { withLoading } from "../../../HOC/withLoading";
-import { latestBlocksSelector } from "../../../store/reducers/socketSlice";
-import { mobileCss } from "../../../utils/mobileCss";
+import { chainSettingSelector } from "../../../store/reducers/settingSlice";
+import { overviewSelector } from "../../../store/reducers/socketSlice";
+import { currencify } from "../../../utils";
+import { lgcss, smcss } from "../../../styles/responsive";
+import { mobilecss } from "../../../styles/responsive";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
+import ExtrinsicsSquareIcon from "../../icons/extrinsicsSquareIcon";
+import FinalizedBlockSquareIcon from "../../icons/finalizedBlockSquareIcon";
 import HolderSquareIcon from "../../icons/holderSquareIcon";
-import NftSquareIcon from "../../icons/nftSquareIcon";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import Loading from "../../loadings/loading";
 import { Flex } from "../../styled/flex";
 import { StyledPanelTableWrapper } from "../../styled/panel";
-import OverviewChart from "./chart";
 import OverviewItem from "./item";
+import ValueDisplay from "../../displayValue";
+import Tooltip from "../../tooltip";
 
 const Panel = styled(Flex)`
   margin: 24px;
   justify-content: space-between;
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     display: block;
   `)}
 `;
 
 const OverviewItemsWrapper = styled.div`
   --gap: 32px;
-  --cols: 3;
+  --cols: 6;
   --gaps: calc(var(--gap) * calc(var(--cols) - 1));
   flex: 1;
   display: grid;
@@ -37,17 +42,12 @@ const OverviewItemsWrapper = styled.div`
     calc((100% - var(--gaps)) / var(--cols))
   );
 
-  ${mobileCss(css`
-    --cols: 2;
+  ${lgcss(css`
+    --cols: 3;
   `)}
-`;
 
-const OverviewChartWrapper = styled.div`
-  width: 464px;
-
-  ${mobileCss(css`
-    width: 100%;
-    margin-top: 40px;
+  ${smcss(css`
+    --cols: 2;
   `)}
 `;
 
@@ -59,8 +59,12 @@ const mapLoadingState = (_props) => {
 };
 
 function Overview() {
-  const blocks = useSelector(latestBlocksSelector);
-  const blockHeight = useMemo(() => blocks[0]?.height ?? 0, [blocks]);
+  const overview = useSelector(overviewSelector);
+  const chainSetting = useSelector(chainSettingSelector);
+
+  function issuancePrecision(issuance) {
+    return toPrecision(issuance ?? 0, chainSetting.decimals);
+  }
 
   return (
     <StyledPanelTableWrapper>
@@ -68,47 +72,45 @@ function Overview() {
         <OverviewItemsWrapper>
           <OverviewItem
             icon={<BlockSquareIcon />}
-            label="Blocks"
-            to="/blocks"
-            value={blockHeight?.toLocaleString()}
+            label="Latest Blocks"
+            value={currencify(overview.latestHeight)}
+          />
+          <OverviewItem
+            icon={<FinalizedBlockSquareIcon />}
+            label="Finalized Block"
+            value={currencify(overview.finalizedHeight)}
+          />
+          <OverviewItem
+            icon={<HolderSquareIcon />}
+            label="Accounts"
+            value={currencify(overview.accounts)}
+          />
+          <OverviewItem
+            icon={<ExtrinsicsSquareIcon />}
+            label="Signed Extrinsics"
+            value={currencify(overview.signedExtrinsics)}
           />
           <OverviewItem
             icon={<TransferSquareIcon />}
             label="Transfers"
-            to="/transfers"
-            value={233333}
+            value={currencify(overview.transfers)}
           />
           <OverviewItem
             icon={<AssetSquareIcon />}
-            label="Assets"
-            to="/assets"
-            value={17}
-          />
-          <OverviewItem
-            icon={<HolderSquareIcon />}
-            label="Holders"
-            value={14444}
-          />
-          <OverviewItem
-            icon={<NftSquareIcon />}
-            label="NFT Class"
-            to="/nft"
-            value={3}
-            total={33}
-            tip="Recognized / All"
-          />
-          <OverviewItem
-            icon={<NftSquareIcon />}
-            label="NFT Instance"
-            value={4}
-            total={5}
-            tip="Recognized / All"
+            label={`Total Issuance (${chainSetting.symbol})`}
+            value={
+              <Tooltip
+                tip={currencify(
+                  Number(issuancePrecision(overview.totalIssuance)),
+                )}
+              >
+                <ValueDisplay
+                  value={issuancePrecision(overview.totalIssuance)}
+                />
+              </Tooltip>
+            }
           />
         </OverviewItemsWrapper>
-
-        <OverviewChartWrapper>
-          <OverviewChart />
-        </OverviewChartWrapper>
       </Panel>
     </StyledPanelTableWrapper>
   );

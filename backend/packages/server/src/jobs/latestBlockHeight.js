@@ -10,7 +10,11 @@ async function queryAndSet() {
 }
 
 async function queryAndSetLatestBlockHeight() {
-  setInterval(queryAndSet, 6 * 1000);
+  try {
+    await queryAndSet();
+  } finally {
+    setTimeout(queryAndSetLatestBlockHeight, 6000);
+  }
 }
 
 function getLatestBlockHeight() {

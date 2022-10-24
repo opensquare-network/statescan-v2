@@ -33,7 +33,7 @@ function Call() {
         setList(toCallDetailItem(indexer, method, section));
       })
       .catch((e) => handleApiError(e, dispatch));
-  }, [id]);
+  }, [dispatch, id]);
 
   const breadCrumb = (
     <BreadCrumb

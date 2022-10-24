@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Inter_12_500, Inter_20_700 } from "../../../styles/text";
-import { OnlyDesktop } from "../../screen/onlyDesktop";
+import { PC } from "../../styled/responsive";
 import { Flex } from "../../styled/flex";
 import ThemedLink from "../../styled/link";
 import TooltipOrigin from "../../tooltip";
@@ -15,15 +15,14 @@ const IconWrapper = styled(Flex)`
   margin-right: 16px;
 `;
 
-const ContentLabel = styled.p`
+const ContentLabel = styled.div`
   color: ${(p) => p.theme.fontTertiary};
   margin: 0;
   margin-bottom: 8px;
   ${Inter_12_500};
   display: inline-flex;
 `;
-const ContentValue = styled.p`
-  margin: 0;
+const ContentValue = styled.div`
   color: ${(p) => p.theme.fontPrimary};
   ${Inter_20_700};
 `;
@@ -55,9 +54,9 @@ export default function OverviewItem({ icon, label, value, total, to, tip }) {
   return (
     <div>
       <Flex>
-        <OnlyDesktop>
+        <PC>
           <IconWrapper>{icon}</IconWrapper>
-        </OnlyDesktop>
+        </PC>
 
         <ContentWrapper>
           <ContentLabel>

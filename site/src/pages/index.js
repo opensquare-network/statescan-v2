@@ -9,9 +9,14 @@ import {
   setLatestSignedTransfers,
 } from "../store/reducers/socketSlice";
 import styled from "styled-components";
+import Overview from "../components/home/overview";
 
 const SectionsWrapper = styled.div`
   margin-top: 32px;
+`;
+
+const OverviewWrapper = styled.div`
+  margin-top: 40px;
 `;
 
 function Home() {
@@ -29,6 +34,10 @@ function Home() {
   return (
     <Layout>
       <Explore />
+
+      <OverviewWrapper>
+        <Overview />
+      </OverviewWrapper>
 
       <SectionsWrapper>
         <Sections />

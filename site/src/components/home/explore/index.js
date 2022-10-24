@@ -4,14 +4,14 @@ import { Button } from "../../styled/buttons";
 import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
 import { chainSelector } from "../../../store/reducers/settingSlice";
-import { mobileCss } from "../../../utils/mobileCss";
+import { mobilecss } from "../../../styles/responsive";
 import ExploreInputOrigin from "./input";
 import { useRef } from "react";
 
 const ExploreInput = styled(ExploreInputOrigin)`
   width: 545px;
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     width: 100%;
   `)}
 `;
@@ -20,7 +20,7 @@ const Wrapper = styled(Flex)`
   position: relative;
   gap: 16px;
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     flex-wrap: wrap;
     input,
     button {

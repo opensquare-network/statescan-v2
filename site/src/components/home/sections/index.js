@@ -11,7 +11,8 @@ import {
   latestSignedTransfersSelector,
 } from "../../../store/reducers/socketSlice";
 import LatestTransfers from "./latestTransfers";
-import { mobileCss } from "../../../utils/mobileCss";
+import { mobilecss } from "../../../styles/responsive";
+import { mdcss } from "../../../styles/responsive";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -28,7 +29,7 @@ const Anchor = styled(Link)`
 const StyledPanel = styled(Panel)`
   max-width: 644px;
 
-  ${mobileCss(css`
+  ${mdcss(css`
     max-width: 100%;
   `)}
 `;
@@ -38,7 +39,7 @@ const Section = styled.div`
   flex-direction: column;
   flex: 1;
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     margin-top: 32px;
   `)}
 `;
@@ -46,7 +47,7 @@ const Section = styled.div`
 const SectionsWrapper = styled(FlexBetween)`
   align-items: unset;
 
-  ${mobileCss(css`
+  ${mdcss(css`
     display: block;
   `)}
 `;

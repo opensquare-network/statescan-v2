@@ -1,7 +1,5 @@
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
-export const MOBILE_SIZE = 600;
-
 export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
@@ -92,6 +90,7 @@ export const chains = [
 
 export const chainNames = chains.map((item) => item.value);
 
+export const Transfers = "transfers";
 export const Extrinsics = "extrinsics";
 export const Events = "events";
 export const Logs = "logs";
@@ -212,6 +211,8 @@ export const accountTransfersHead = [
   { name: "To", width: 200 },
   { name: "Balance", align: "right" },
 ];
+
+export const accountExtinsicsHead = blockExtrinsicsHead;
 
 export const timeTypes = {
   age: "age",

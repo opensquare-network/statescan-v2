@@ -1,8 +1,8 @@
 import { useWindowSize } from "@osn/common";
+import { MOBILE_SIZE } from "@osn/constants";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { modeSelector } from "../../store/reducers/settingSlice";
-import { MOBILE_SIZE } from "../constants";
 
 export function useIsDark() {
   const mode = useSelector(modeSelector);
@@ -13,7 +13,7 @@ export function useIsDark() {
 
 /**
  * @description `duplicated` osn/common but with different breakpoint
- * @breakpoint 600px
+ * @breakpoint 768px
  */
 export function useIsScreen() {
   const { width } = useWindowSize();
