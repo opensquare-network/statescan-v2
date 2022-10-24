@@ -15,6 +15,7 @@ import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as CrossIcon } from "../../icons/cross.svg";
 import { ColoredLink, ColoredMonoLink } from "../../styled/link";
 import Tooltip from "../../tooltip";
+import { toExtrinsicsTabTableItem } from "../../../utils/viewFuncs/toTableItem";
 
 function ExtrinsicsTable({ height }) {
   const location = useLocation();
@@ -37,26 +38,7 @@ function ExtrinsicsTable({ height }) {
     });
   }, [location, pageSize, height]);
 
-  const data =
-    extrinsics?.map((extrinsic, index) => {
-      return [
-        <ColoredLink
-          key={`${index}-1`}
-          to={`/extrinsic/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
-        >
-          {extrinsic?.indexer?.blockHeight.toLocaleString()}-
-          {extrinsic?.indexer?.extrinsicIndex}
-        </ColoredLink>,
-        <Tooltip tip={extrinsic.hash}>
-          <ColoredMonoLink to={""}>
-            {hashEllipsis(extrinsic.hash)}
-          </ColoredMonoLink>
-        </Tooltip>,
-        extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
-        `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
-        extrinsic?.call,
-      ];
-    }) ?? null;
+  const data = toExtrinsicsTabTableItem(extrinsics);
 
   return (
     <StyledPanelTableWrapper>

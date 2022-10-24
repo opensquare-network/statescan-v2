@@ -1,9 +1,12 @@
-import { ColoredLink } from "../../components/styled/link";
+import { ColoredLink, ColoredMonoLink } from "../../components/styled/link";
 import React from "react";
 import ValueDisplay from "../../components/displayValue";
 import { toPrecision } from "@osn/common";
 import Tooltip from "../../components/tooltip";
 import AddressOrIdentity from "../../components/address";
+import { hashEllipsis } from "./text";
+import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
+import { ReactComponent as CrossIcon } from "../../components/icons/cross.svg";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -58,7 +61,7 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
         <Tooltip
           tip={`${toPrecision(
             transfer?.balance?.$numberDecimal,
-            chainSetting.decimals,
+            chainSetting?.decimals,
           )} ${chainSetting.symbol}`}
           pullRight
         >
@@ -70,6 +73,30 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
             symbol={chainSetting.symbol}
           />
         </Tooltip>,
+      ];
+    }) ?? null
+  );
+};
+
+export const toExtrinsicsTabTableItem = (extrinsics) => {
+  return (
+    extrinsics?.map((extrinsic, index) => {
+      return [
+        <ColoredLink
+          key={`${index}-1`}
+          to={`/extrinsic/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
+        >
+          {extrinsic?.indexer?.blockHeight.toLocaleString()}-
+          {extrinsic?.indexer?.extrinsicIndex}
+        </ColoredLink>,
+        <Tooltip tip={extrinsic.hash}>
+          <ColoredMonoLink to={""}>
+            {hashEllipsis(extrinsic.hash)}
+          </ColoredMonoLink>
+        </Tooltip>,
+        extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
+        `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
+        extrinsic?.call,
       ];
     }) ?? null
   );

@@ -13,6 +13,7 @@ import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../../utils/viewFuncs";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
+import { chainSettingSelector } from "../../store/reducers/settingSlice";
 
 export default function DetailTable({
   heads,
@@ -22,6 +23,7 @@ export default function DetailTable({
   url,
 }) {
   const dispatch = useDispatch();
+  const chainSetting = useSelector(chainSettingSelector);
   const loading = useSelector(detailTablesLoading);
   const tables = useSelector(detailTablesSelector);
   const table = useMemo(() => tables[tableKey], [tables, tableKey]);
@@ -49,7 +51,7 @@ export default function DetailTable({
         <Table
           loading={loading}
           heads={heads}
-          data={transformData(table?.items)}
+          data={transformData(table?.items, chainSetting)}
         />
       )}
       <Pagination page={page} pageSize={pageSize} total={table?.total} />

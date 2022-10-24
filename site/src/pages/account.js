@@ -1,27 +1,73 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Api from "../services/api";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import List from "../components/list";
 import { addressEllipsis } from "@osn/common";
 import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Tab from "../components/tab";
-import TransfersTable from "../components/account/tabTables/transfersTable";
 import { toAccountDetailItem } from "../utils/viewFuncs/toDetailItem";
 import {
   clearHttpError,
   handleApiError,
 } from "../utils/viewFuncs/errorHeandles";
 import DetailLayout from "../components/layout/detailLayout";
+import { getTabFromQuery } from "../utils/viewFuncs";
+import {
+  accountExtinsicsHead,
+  accountTransfersHead,
+  Extrinsics,
+  Transfers,
+} from "../utils/constants";
+import { Flex } from "../components/styled/flex";
+import DetailTable from "../components/detail/table";
+import {
+  toExtrinsicsTabTableItem,
+  toTransferTabTableItem,
+} from "../utils/viewFuncs/toTableItem";
+import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
 
 function Account() {
   const { id } = useParams();
+  const location = useLocation();
+  const [, setSearchParams] = useSearchParams();
+  const [selectedTab, setTab] = useState(getTabFromQuery(location, Transfers));
   const [listData, setListData] = useState({});
-  const [transfersCount, setTransfersCount] = useState(0);
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
+  const tablesData = useSelector(detailTablesSelector);
+
+  const tabs = [
+    { name: Transfers, count: tablesData?.accountTransfersTable?.total },
+    { name: Extrinsics, count: tablesData?.accountTransfersTable?.total },
+  ];
+
+  const tables = [
+    {
+      name: Transfers,
+      table: (
+        <DetailTable
+          url={`/accounts/${id}/transfers`}
+          heads={accountTransfersHead}
+          transformData={toTransferTabTableItem}
+          tableKey="accountTransfersTable"
+        />
+      ),
+    },
+    {
+      name: Extrinsics,
+      table: (
+        <DetailTable
+          url={`/accounts/${id}/extrinsics`}
+          heads={accountExtinsicsHead}
+          transformData={toExtrinsicsTabTableItem}
+          tableKey="accountExtrinsicsTable"
+        />
+      ),
+    },
+  ];
 
   useEffect(() => {
     if (id) {
@@ -48,8 +94,27 @@ function Account() {
       <Panel>
         <List data={listData} />
       </Panel>
-      <Tab text={"Transfers"} count={transfersCount} active />
-      <TransfersTable address={id} setTransfersCount={setTransfersCount} />
+      <Flex>
+        {tabs.map((item) => (
+          <Tab
+            key={item.name}
+            text={item.name}
+            count={item.count}
+            active={selectedTab === item.name}
+            onClick={() => {
+              setTab(item.name);
+              setSearchParams("");
+            }}
+          />
+        ))}
+      </Flex>
+
+      {tables.map(
+        (item) =>
+          selectedTab === item.name && (
+            <Fragment key={item.name}>{item.table}</Fragment>
+          ),
+      )}
     </DetailLayout>
   );
 }
