@@ -1,3 +1,4 @@
+const { addAssetAddresses } = require("../../../store/assetsAccounts");
 const { addAssetId } = require("../../../store/assets");
 const { addAssetsTransfer } = require("../../../store/assetsTransfers");
 const {
@@ -27,6 +28,8 @@ async function handleTransferred(event, indexer, extrinsic) {
   };
   addAssetsTransfer(indexer.blockHash, transfer);
   addAssetId(indexer.blockHash, assetId);
+
+  addAssetAddresses(indexer.blockHash, assetId, [from, to]);
 }
 
 module.exports = {

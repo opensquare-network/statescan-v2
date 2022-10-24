@@ -1,3 +1,5 @@
+const { handleThawed } = require("./thawed");
+const { handleFrozen } = require("./frozen");
 const { handleTransferred } = require("./transferred");
 const { handleDestroyed } = require("./destroyed");
 const { handleAssetStatusChanged } = require("./assetStatusChanged");
@@ -46,6 +48,10 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleDestroyed(...arguments);
   } else if (method === AssetsEvents.Transferred) {
     await handleTransferred(...arguments);
+  } else if (method === AssetsEvents.Frozen) {
+    await handleFrozen(...arguments);
+  } else if (method === AssetsEvents.Thawed) {
+    await handleThawed(...arguments);
   }
 
   // todo: 2. handle asset holders
