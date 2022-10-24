@@ -5,7 +5,7 @@ import { withLoading } from "../../../HOC/withLoading";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { overviewSelector } from "../../../store/reducers/socketSlice";
 import { currencify } from "../../../utils";
-import { lgcss } from "../../../utils/breakpoints";
+import { lgcss, mdcss } from "../../../styles/breakpoints";
 import { mobileCss } from "../../../utils/mobileCss";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
@@ -44,7 +44,7 @@ const OverviewItemsWrapper = styled.div`
     --cols: 3;
   `)}
 
-  ${mobileCss(css`
+  ${mdcss(css`
     --cols: 2;
   `)}
 `;

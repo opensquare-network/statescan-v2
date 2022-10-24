@@ -12,7 +12,7 @@ import {
 } from "../../../store/reducers/socketSlice";
 import LatestTransfers from "./latestTransfers";
 import { mobileCss } from "../../../utils/mobileCss";
-import { mdcss } from "../../../utils/breakpoints";
+import { mdcss } from "../../../styles/breakpoints";
 
 const Title = styled.h2`
   ${Inter_18_700};
