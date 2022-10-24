@@ -1,3 +1,13 @@
+// https://getbootstrap.com/docs/5.2/layout/breakpoints/
+// but use `max-width`
+
+/**
+ * @param {import("styled-components").ThemedCssFunction} css
+ * @alias mobilecss
+ * @description less than 768
+ */
+export const smcss = (css) => makeBreakpoint(css, 768);
+
 /**
  * @param {import("styled-components").ThemedCssFunction} css
  * @description less than 992
