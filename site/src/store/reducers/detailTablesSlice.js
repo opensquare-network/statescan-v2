@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services/api";
-import { makeSelector, makeSetReducer } from "../../utils/redux";
 
 const name = "detailTables";
 
@@ -11,7 +10,9 @@ const detailTables = createSlice({
     tables: {},
   },
   reducers: {
-    setLoading: makeSetReducer("loading"),
+    setLoading(state, { payload }) {
+      state.loading = payload;
+    },
     setTables(state, { payload = {} }) {
       state.tables[payload.key] = payload.value;
     },
@@ -20,8 +21,8 @@ const detailTables = createSlice({
 
 export const { setLoading, setTables } = detailTables.actions;
 
-export const detailTablesSelector = makeSelector(name, "tables");
-export const detailTablesLoading = makeSelector(name, "loading");
+export const detailTablesSelector = (state) => state[name].tables;
+export const detailTablesLoading = (state) => state[name].loading;
 
 /**
  * @param {string} key is the tables[key]

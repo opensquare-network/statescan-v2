@@ -5,7 +5,6 @@ import {
   extrinsicCallsApi,
   extrinsicEventsApi,
 } from "../../services/urls";
-import { makeSelector, makeSetReducer } from "../../utils/redux";
 
 const name = "extrinsic";
 
@@ -17,18 +16,24 @@ const extrinsicSlice = createSlice({
     callsTable: {},
   },
   reducers: {
-    setDetail: makeSetReducer("detail"),
-    setEventsTable: makeSetReducer("eventsTable"),
-    setCallsTable: makeSetReducer("callsTable"),
+    setDetail(state, { payload }) {
+      state.detail = payload;
+    },
+    setEventsTable(state, { payload }) {
+      state.eventsTable = payload;
+    },
+    setCallsTable(state, { payload }) {
+      state.callsTable = payload;
+    },
   },
 });
 
 export const { setDetail, setEventsTable, setCallsTable } =
   extrinsicSlice.actions;
 
-export const extrinsicDetailSelector = makeSelector(name, "detail");
-export const extrinsicEventsTable = makeSelector(name, "eventsTable");
-export const extrinsicCallsTable = makeSelector(name, "callsTable");
+export const extrinsicDetailSelector = (state) => state[name].detail;
+export const extrinsicEventsTable = (state) => state[name].eventsTable;
+export const extrinsicCallsTable = (state) => state[name].callsTable;
 
 export const extrinsicFetchDetail = (id) => async (dispatch) => {
   return api.fetch(extrinsicApi(id)).then(({ result }) => {
