@@ -40,8 +40,8 @@ function Account() {
   const tablesData = useSelector(detailTablesSelector);
 
   const tabs = [
-    { name: Transfers, count: tablesData?.accountTransfersTable?.total },
     { name: Extrinsics, count: tablesData?.accountTransfersTable?.total },
+    { name: Transfers, count: tablesData?.accountTransfersTable?.total },
   ];
 
   const tables = [
