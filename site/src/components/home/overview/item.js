@@ -15,15 +15,14 @@ const IconWrapper = styled(Flex)`
   margin-right: 16px;
 `;
 
-const ContentLabel = styled.p`
+const ContentLabel = styled.div`
   color: ${(p) => p.theme.fontTertiary};
   margin: 0;
   margin-bottom: 8px;
   ${Inter_12_500};
   display: inline-flex;
 `;
-const ContentValue = styled.p`
-  margin: 0;
+const ContentValue = styled.div`
   color: ${(p) => p.theme.fontPrimary};
   ${Inter_20_700};
 `;
