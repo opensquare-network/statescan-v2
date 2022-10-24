@@ -11,8 +11,8 @@ import {
   latestSignedTransfersSelector,
 } from "../../../store/reducers/socketSlice";
 import LatestTransfers from "./latestTransfers";
-import { mobileCss } from "../../../utils/mobileCss";
-import { mdcss } from "../../../styles/breakpoints";
+import { mobilecss } from "../../../styles/responsive";
+import { mdcss } from "../../../styles/responsive";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -39,7 +39,7 @@ const Section = styled.div`
   flex-direction: column;
   flex: 1;
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     margin-top: 32px;
   `)}
 `;

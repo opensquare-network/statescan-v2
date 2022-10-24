@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { closeMobileMenu } from "../../../store/reducers/mobileMenuSlice";
 import { Inter_12_500, Inter_14_500, Inter_14_600 } from "../../../styles/text";
-import { mobileCss } from "../../../utils/mobileCss";
+import { mobilecss } from "../../../styles/responsive";
 import { isHash } from "../../../utils/viewFuncs/text";
 import AccountIcon from "../../icons/accountIcon";
 import BlockIcon from "../../icons/blockIcon";
@@ -25,7 +25,7 @@ const Dropdown = styled.div`
   top: 55px;
   z-index: 9999;
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     width: inherit;
     left: 0;
     right: 0;

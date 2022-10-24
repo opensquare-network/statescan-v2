@@ -5,7 +5,7 @@ import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
-import { mobileCss } from "../../../utils/mobileCss";
+import { mobilecss } from "../../../styles/responsive";
 import CaretRightIcon from "../../icons/caretRightIcon";
 import CaretDownIcon from "../../icons/caretDownIcon";
 import Statemint from "../../icons/statemintIcon";
@@ -32,9 +32,9 @@ const Dropdown = styled.div`
   box-sizing: border-box;
   height: 36px;
   width: 160px;
-  @media screen and (max-width: 600px) {
+  ${mobilecss(css`
     width: 100%;
-  }
+  `)}
   background: ${({ theme }) => theme.fillPanel};
   border: 1px solid ${({ theme }) => theme.strokeBox};
   border-radius: 8px;
@@ -75,7 +75,7 @@ const Options = styled.div`
   border-radius: 8px;
   width: 320px;
 
-  ${mobileCss(css`
+  ${mobilecss(css`
     width: 100%;
   `)}
 `;
@@ -121,7 +121,7 @@ const ChainGroupItem = styled.a`
   display: inline-flex;
   padding: 8px 0;
   width: 136px;
-  ${mobileCss(css`
+  ${mobilecss(css`
     width: 100%;
   `)}
   text-decoration: none;
