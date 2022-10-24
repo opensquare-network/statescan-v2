@@ -14,13 +14,13 @@ export const smcss = (css) => makeBreakpoint(css, SM_SIZE);
 
 /**
  * @param {import("styled-components").ThemedCssFunction} css
- * @description less than 992
+ * @description less than 1024
  */
 export const mdcss = (css) => makeBreakpoint(css, MD_SIZE);
 
 /**
  * @param {import("styled-components").ThemedCssFunction} css
- * @description less than 1200
+ * @description less than 1280
  */
 export const lgcss = (css) => makeBreakpoint(css, LG_SIZE);
 
