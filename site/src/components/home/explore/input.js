@@ -28,16 +28,16 @@ function compatExploreDropdownHints(hints) {
   });
 }
 
-const hintsCache = {};
-
 function ExploreInput(props, ref) {
   useImperativeHandle(ref, () => ({ handleExplore }));
 
   const [term, setTerm] = useState("");
-  const [hints, setHints] = useState([]);
+  const [hintsCache, setHintsCache] = useState({});
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loadingHints, setLoadingHints] = useState(false);
+
+  const hints = useMemo(() => hintsCache[term] ?? [], [term, hintsCache]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,31 +60,30 @@ function ExploreInput(props, ref) {
 
         if (data.length) {
           hintsCache[term] = data;
-          setHints(data);
-        } else {
-          setHints([]);
+          setHintsCache({
+            ...hintsCache,
+            [term]: data,
+          });
         }
       })
       .finally(() => {
         setLoadingHints(false);
       });
   }
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedFetchHints = useCallback(debounce(fetchHints, 500), []);
+  const debouncedFetchHints = useCallback(debounce(fetchHints, 300), []);
 
   useEffect(() => {
     if (!term) {
       setDropdownVisible(false);
-      setHints([]);
       return;
     }
 
-    if (hintsCache[term]) {
-      setHints(hintsCache[term]);
-    } else {
+    if (!hintsCache[term]) {
       debouncedFetchHints(term);
     }
-  }, [term, debouncedFetchHints]);
+  }, [term, debouncedFetchHints, hintsCache]);
 
   useEffect(() => {
     setDropdownVisible(!!hints?.length);
