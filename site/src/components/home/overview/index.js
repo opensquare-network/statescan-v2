@@ -5,7 +5,7 @@ import { withLoading } from "../../../HOC/withLoading";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { overviewSelector } from "../../../store/reducers/socketSlice";
 import { currencify } from "../../../utils";
-import { lgcss, mdcss } from "../../../styles/breakpoints";
+import { lgcss, smcss } from "../../../styles/breakpoints";
 import { mobileCss } from "../../../utils/mobileCss";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
@@ -17,6 +17,8 @@ import Loading from "../../loadings/loading";
 import { Flex } from "../../styled/flex";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import OverviewItem from "./item";
+import ValueDisplay from "../../displayValue";
+import Tooltip from "../../tooltip";
 
 const Panel = styled(Flex)`
   margin: 24px;
@@ -44,7 +46,7 @@ const OverviewItemsWrapper = styled.div`
     --cols: 3;
   `)}
 
-  ${mdcss(css`
+  ${smcss(css`
     --cols: 2;
   `)}
 `;
@@ -60,11 +62,8 @@ function Overview() {
   const overview = useSelector(overviewSelector);
   const chainSetting = useSelector(chainSettingSelector);
 
-  function parseIssuance(totalIssuance) {
-    const issuance = toPrecision(totalIssuance ?? 0, chainSetting.decimals);
-    const value = issuance.slice(0, issuance.lastIndexOf("."));
-
-    return currencify(Number(value) || 0);
+  function issuancePrecision(issuance) {
+    return toPrecision(issuance ?? 0, chainSetting.decimals);
   }
 
   return (
@@ -99,7 +98,17 @@ function Overview() {
           <OverviewItem
             icon={<AssetSquareIcon />}
             label={`Total Issuance (${chainSetting.symbol})`}
-            value={parseIssuance(overview.totalIssuance)}
+            value={
+              <Tooltip
+                tip={currencify(
+                  Number(issuancePrecision(overview.totalIssuance)),
+                )}
+              >
+                <ValueDisplay
+                  value={issuancePrecision(overview.totalIssuance)}
+                />
+              </Tooltip>
+            }
           />
         </OverviewItemsWrapper>
       </Panel>
