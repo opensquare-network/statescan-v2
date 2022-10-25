@@ -11,7 +11,7 @@ const {
 async function main() {
   await initAssetScanDb();
   await subscribeFinalizedHeight();
-  const blockHeights = [1086390, 1086399, 1116588];
+  const blockHeights = [408735, 757876, 759287];
 
   const api = await getApi();
   for (const height of blockHeights) {

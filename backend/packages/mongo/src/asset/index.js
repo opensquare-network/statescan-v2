@@ -11,6 +11,7 @@ let assetCol = null;
 let assetTimelineCol = null;
 let assetHolderCol = null;
 let assetApprovalCol = null;
+let assetDailyStatisticCol = null;
 
 async function initAssetScanDb() {
   db = new ScanDb(
@@ -25,6 +26,7 @@ async function initAssetScanDb() {
   assetTimelineCol = await db.createCol("assetTimeline");
   assetHolderCol = await db.createCol("assetHolder");
   assetApprovalCol = await db.createCol("assetApproval");
+  assetDailyStatisticCol = await db.createCol("assetDailyStatistic");
   await _createIndexes();
 }
 
@@ -97,6 +99,11 @@ async function getAssetApprovalCol() {
   return assetApprovalCol;
 }
 
+async function getAssetDailyStatisticCol() {
+  await makeSureInit(assetDailyStatisticCol);
+  return assetDailyStatisticCol;
+}
+
 function getAssetDb() {
   return db;
 }
@@ -124,4 +131,5 @@ module.exports = {
   getAssetTimelineCol,
   getAssetHolderCol,
   getAssetApprovalCol,
+  getAssetDailyStatisticCol,
 };
