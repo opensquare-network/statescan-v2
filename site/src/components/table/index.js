@@ -4,6 +4,7 @@ import TableBody from "./body";
 
 const StyledTable = styled.table`
   margin-top: 8px;
+  position: relative;
   width: 100%;
   table-layout: fixed;
   background: ${(p) => p.theme.fillPanel};
@@ -11,11 +12,11 @@ const StyledTable = styled.table`
   color: ${(p) => p.theme.fontPrimary};
 `;
 
-export default function Table({ heads = [], data = null }) {
+export default function Table({ heads = [], data = null, loading = false }) {
   return (
     <StyledTable>
       <TableHead heads={heads} />
-      <TableBody heads={heads} data={data} />
+      <TableBody heads={heads} data={data} loading={loading} />
     </StyledTable>
   );
 }

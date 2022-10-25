@@ -1,17 +1,13 @@
+const {
+  queryFinalizedBlocks,
+} = require("../../../common/queryFinalizedBlocks");
+const {
+  queryUnFinalizedBlocks,
+} = require("../../../common/queryUnFinalizedBlocks");
 const { extractPage } = require("../../../utils");
 const {
   block: { getBlockCollection },
 } = require("@statescan/mongo");
-
-async function queryBlocks(page, pageSize) {
-  const col = await getBlockCollection();
-  return await col
-    .find({}, { projection: { digest: 0, _id: 0 } })
-    .sort({ height: -1 })
-    .skip(page * pageSize)
-    .limit(pageSize)
-    .toArray();
-}
 
 async function getBlocks(ctx) {
   const { page, pageSize } = extractPage(ctx);
@@ -20,19 +16,23 @@ async function getBlocks(ctx) {
     return;
   }
 
-  const items = await queryBlocks(page, pageSize);
+  let items = await queryFinalizedBlocks(page, pageSize);
   const col = await getBlockCollection();
-  const total = await col.estimatedDocumentCount();
+  let total = await col.estimatedDocumentCount();
+  if (page <= 0) {
+    const unFinalizedItems = await queryUnFinalizedBlocks();
+    items = [...unFinalizedItems, ...items];
+    total += unFinalizedItems.length;
+  }
 
   ctx.body = {
     items,
     page,
     pageSize,
-    total,
+    total: total,
   };
 }
 
 module.exports = {
   getBlocks,
-  queryBlocks,
 };

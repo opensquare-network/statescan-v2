@@ -1,5 +1,8 @@
 import { toTransferTabTableItem } from "../../../utils/viewFuncs/toTableItem";
-import { accountTransfersHead } from "../../../utils/constants";
+import {
+  accountTransfersHead,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../../../utils/constants";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import { getPageFromQuery } from "../../../utils/viewFuncs";
 import { useLocation } from "react-router-dom";
@@ -17,6 +20,7 @@ function TransfersTable({ address, setTransfersCount }) {
   const [transfers, setTransfers] = useState(null);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     if (!address) {
@@ -25,12 +29,13 @@ function TransfersTable({ address, setTransfersCount }) {
     setTransfers(null);
     Api.fetch(`/accounts/${address}/transfers`, {
       page: getPageFromQuery(location) - 1,
+      pageSize,
     }).then(({ result }) => {
       setTransfers(result?.items ?? []);
       setTotal(result?.total ?? 0);
       setTransfersCount(result?.total ?? 0);
     });
-  }, [location, address, setTransfersCount]);
+  }, [location, pageSize, address, setTransfersCount]);
 
   return (
     <StyledPanelTableWrapper>
@@ -38,7 +43,7 @@ function TransfersTable({ address, setTransfersCount }) {
         heads={accountTransfersHead}
         data={toTransferTabTableItem(transfers, chainSetting)}
       />
-      <Pagination page={parseInt(page)} pageSize={10} total={total} />
+      <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
     </StyledPanelTableWrapper>
   );
 }

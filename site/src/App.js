@@ -10,11 +10,14 @@ import Accounts from "./pages/accounts";
 import Event from "./pages/event";
 import Account from "./pages/account";
 import Calls from "./pages/calls";
+import Call from "./pages/call";
+import NotFound from "./pages/notFound";
 
 function App() {
   return (
     <HashRouter>
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/blocks" element={<Blocks />} />
         <Route path="/block/:id" element={<Block />} />
@@ -26,6 +29,7 @@ function App() {
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/account/:id" element={<Account />} />
         <Route path="/calls" element={<Calls />} />
+        <Route path="/call/:id" element={<Call />} />
       </Routes>
     </HashRouter>
   );

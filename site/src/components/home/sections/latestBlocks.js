@@ -1,42 +1,23 @@
-import { Flex, FlexBetween } from "../../styled/flex";
+import { Flex, FlexBetween, FlexEnd } from "../../styled/flex";
 import styled from "styled-components";
-import {
-  Inter_12_500,
-  Inter_14_600,
-  SF_Mono_14_500,
-} from "../../../styles/text";
+import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import React from "react";
 import { timeDuration } from "../../../utils/viewFuncs/time";
-import { ReactComponent as Block } from "./block.svg";
-import { addressEllipsis } from "../../../utils/viewFuncs";
 import Link from "../../styled/link";
 import Loading from "../../loadings/loading";
-import { ReactComponent as CheckIcon } from "../../icons/check.svg";
-import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import Tooltip from "../../tooltip";
-
-const BlockIcon = styled(Block)`
-  path {
-    stroke: ${({ theme }) => theme.fontTertiary};
-  }
-
-  #paint0_linear_5874_7536 {
-    stop:first-child {
-      stop-color: ${({ theme }) => theme.fontPrimary};
-    }
-
-    stop:last-child {
-      stop-color: ${({ theme }) => theme.fontPrimary};
-    }
-  }
-`;
+import BlockSquareIcon from "../../icons/blockSquareIcon";
+import FinalizedState from "../../states/finalizedState";
+import { PC } from "../../styled/responsive";
+import { useSelector } from "react-redux";
+import { chainSettingSelector } from "../../../store/reducers/settingSlice";
+import AddressOrIdentity from "../../address";
 
 const Rows = styled.ul`
   margin: 0;
   padding-left: 0;
   padding-top: 8px;
-  max-width: 644px;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -84,14 +65,6 @@ const Bold = styled.span`
   }
 `;
 
-const Address = styled.p`
-  margin: 0;
-  margin-bottom: 4px;
-  ${SF_Mono_14_500};
-  text-align: right;
-  color: ${(props) => props.theme.fontPrimary};
-`;
-
 const Label = styled.span`
   color: ${(props) => props.theme.fontTertiary};
 `;
@@ -105,29 +78,37 @@ const mapLoadingState = (props) => {
 };
 
 function LatestBlocks({ blocks }) {
+  const chainSetting = useSelector(chainSettingSelector);
+
   return (
     <Rows>
       {blocks.slice(0, 5).map((block, i) => (
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <BlockIcon />
+              <PC>
+                <BlockSquareIcon />
+              </PC>
               <div>
                 <Link to={`/block/${block.height}`}>
                   <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
                 </Link>
                 <Flex gap={8}>
-                  {block.isFinalized ? <CheckIcon /> : <TimerIcon />}
+                  <FinalizedState finalized={block?.isFinalized} />
                   <Time> {timeDuration(block.time)} </Time>
                 </Flex>
               </div>
             </Flex>
 
             <div>
-              <Tooltip tip={block.validator}>
-                <Address>{addressEllipsis(block.validator)}</Address>
+              <Tooltip tip={block.validator} pullRight>
+                <AddressOrIdentity
+                  address={block?.validator}
+                  network={chainSetting.value}
+                  maxWidth={93}
+                />
               </Tooltip>
-              <Flex style={{ fontSize: 12 }} gap={8}>
+              <FlexEnd style={{ fontSize: 12, marginTop: 4 }} gap={8}>
                 <Flex gap={8}>
                   <Label>Extrinsics</Label>
                   <Link to={`/block/${block.height}?tab=extrinsics`}>
@@ -140,7 +121,7 @@ function LatestBlocks({ blocks }) {
                     <Bold>{block.eventsCount}</Bold>
                   </Link>
                 </Flex>
-              </Flex>
+              </FlexEnd>
             </div>
           </FlexBetween>
         </Row>

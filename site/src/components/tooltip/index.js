@@ -9,11 +9,25 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   position: relative;
+  width: fit-content;
+  margin: auto;
+  margin-${(p) => p.pull}: 0;
 `;
 
-export default function Tooltip({ children, tip = "" }) {
+export default function Tooltip({
+  children,
+  tip = "",
+  pullRight = false,
+  ...restProps
+}) {
   const ref = useRef();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(toggleTooltip(false));
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (ref.current) {
@@ -34,5 +48,9 @@ export default function Tooltip({ children, tip = "" }) {
     }
   }, [dispatch, tip]);
 
-  return <Wrapper ref={ref}>{children}</Wrapper>;
+  return (
+    <Wrapper ref={ref} pull={pullRight ? "right" : "left"} {...restProps}>
+      {children}
+    </Wrapper>
+  );
 }

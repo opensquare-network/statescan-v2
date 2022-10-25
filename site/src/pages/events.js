@@ -1,7 +1,7 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { eventsHead } from "../utils/constants";
+import { eventsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import { ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -9,22 +9,67 @@ import Api from "../services/api";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
+import Filter from "../components/filter";
+import * as queryString from "query-string";
+
+const filter = [
+  {
+    value: "true",
+    name: "Extrinsic",
+    query: "is_extrinsic",
+    options: [
+      {
+        text: "Extrinsic only",
+        value: "true",
+      },
+      { text: "All", value: "" },
+    ],
+  },
+  {
+    value: "true",
+    name: "Results",
+    query: "no_extrinsic_result",
+    options: [
+      {
+        text: "No Extrinsic results",
+        value: "true",
+      },
+      { text: "All", value: "" },
+    ],
+  },
+];
+
+// FIXME: temporary fix
+const defaultFilterQuery = {
+  [filter[0].query]: filter[0].value,
+  [filter[1].query]: filter[1].value,
+};
 
 function Events() {
   const location = useLocation();
   const [events, setEvents] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
-    setEvents(null);
+    setLoading(true);
     Api.fetch(`/events`, {
       page: getPageFromQuery(location) - 1,
-    }).then(({ result }) => {
-      setEvents(result?.items ?? []);
-      setTotal(result?.total ?? 0);
-    });
-  }, [location]);
+      pageSize,
+      ...(location.search
+        ? queryString.parse(location.search)
+        : defaultFilterQuery),
+    })
+      .then(({ result }) => {
+        setEvents(result?.items ?? []);
+        setTotal(result?.total ?? 0);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [location, pageSize]);
 
   const data =
     events?.map((event, index) => {
@@ -58,9 +103,12 @@ function Events() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Events" }]} />
+
+      <Filter title={`All ${total.toLocaleString()} events`} data={filter} />
+
       <StyledPanelTableWrapper>
-        <Table heads={eventsHead} data={data} />
-        <Pagination page={parseInt(page)} pageSize={10} total={total} />
+        <Table heads={eventsHead} data={data} loading={loading} />
+        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
       </StyledPanelTableWrapper>
     </Layout>
   );

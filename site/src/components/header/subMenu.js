@@ -12,24 +12,9 @@ const CaretDownIcon = styled(CaretDown)`
 
 const Wrapper = styled.div`
   position: relative;
-
-  :not(:first-child) {
-    margin-left: 40px;
-  }
-
-  @media screen and (max-width: 900px) {
-    :not(:first-child) {
-      padding: 6px 12px;
-      margin-left: 0;
-    }
-  }
 `;
 
 const TitleWrapper = styled.div`
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 20px;
-  text-decoration: none;
   color: ${(p) => p.theme.fontPrimary};
   ${(p) =>
     p.isActive &&
@@ -66,18 +51,7 @@ const TitleWrapper = styled.div`
       > svg {
         stroke: ${(p) => p.themecolor};
       }
-    `} @media screen and(max-width: 900 px) {
-    padding: 6px 12px;
-    cursor: auto;
-
-    :hover {
-      color: inherit;
-    }
-
-    > svg {
-      display: none;
-    }
-  }
+    `}
 `;
 
 const MouseWrapper = styled(Panel)`
@@ -86,12 +60,6 @@ const MouseWrapper = styled(Panel)`
   left: 50%;
   transform: translateX(-50%);
   padding: 8px 0;
-  @media screen and (max-width: 900px) {
-    position: static;
-    left: 0;
-    transform: none;
-    padding-top: 0;
-  }
   overflow: hidden;
   background: ${(p) => p.theme.fillPopup};
 `;
@@ -99,13 +67,6 @@ const MouseWrapper = styled(Panel)`
 const MenuWrapper = styled.div`
   min-width: 160px;
   background: ${(p) => p.theme.fillPopup};
-  @media screen and (max-width: 900px) {
-    position: static;
-    box-shadow: none;
-    transform: none;
-    padding: 0;
-    border: none;
-  }
 `;
 
 const MenuItem = styled.div`
@@ -118,10 +79,6 @@ const MenuItem = styled.div`
     color: ${(p) => p.theme.theme500};
   }
 
-  @media screen and (max-width: 900px) {
-    padding: 8px 12px 8px 24px;
-    color: rgba(17, 17, 17, 0.65);
-  }
   ${(p) =>
     p.selected &&
     css`

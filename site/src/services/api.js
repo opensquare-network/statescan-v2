@@ -18,25 +18,22 @@ class Api {
       fetch(url, options)
         .then((resp) =>
           resp.status !== 200
-            ? resp.json().then((data) =>
-                resolve({
-                  error: {
-                    status: resp.status,
-                    message: data.message,
-                    data: data.data,
-                  },
-                }),
-              )
+            ? reject({ error: { status: resp.status } })
             : resp.json().then((result) => resolve({ result })),
         )
-        .catch((e) =>
-          resolve({
-            error: {
-              status: 500,
-              message: e.message,
-            },
-          }),
-        ),
+        .catch((e) => {
+          if (e.message === "The user aborted a request.") {
+            reject(e);
+          } else {
+            resolve({
+              error: {
+                status: 500,
+                message: "can not parse response as JSON",
+                data: null,
+              },
+            });
+          }
+        }),
     );
   };
 

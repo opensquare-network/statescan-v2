@@ -1,124 +1,121 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
-import Layout from "../components/layout";
-import styled from "styled-components";
+import React, { Fragment, useEffect, useState } from "react";
 import Api from "../services/api";
-import { Inter_14_500, SF_Mono_14_500 } from "../styles/text";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import List from "../components/list";
-import { withCopy } from "../HOC/withCopy";
-import { addressEllipsis, toPrecision } from "../utils/viewFuncs";
-import ValueDisplay from "../components/displayValue";
-import { useSelector } from "react-redux";
+import { addressEllipsis } from "@osn/common";
+import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
-import Tooltip from "../components/tooltip";
 import Tab from "../components/tab";
-import TransfersTable from "../components/account/tabTables/transfersTable";
-
-const TextMonoSecondary = styled.span`
-  ${SF_Mono_14_500};
-  color: ${({ theme }) => theme.fontSecondary};
-`;
-
-const TextSecondary = styled.span`
-  ${Inter_14_500};
-  color: ${({ theme }) => theme.fontSecondary};
-`;
-
-const TextMonoSecondaryWithCopy = withCopy(TextMonoSecondary);
+import { toAccountDetailItem } from "../utils/viewFuncs/toDetailItem";
+import {
+  clearHttpError,
+  handleApiError,
+} from "../utils/viewFuncs/errorHeandles";
+import DetailLayout from "../components/layout/detailLayout";
+import { getTabFromQuery } from "../utils/viewFuncs";
+import {
+  accountExtinsicsHead,
+  accountTransfersHead,
+  Extrinsics,
+  Transfers,
+} from "../utils/constants";
+import { Flex } from "../components/styled/flex";
+import DetailTable from "../components/detail/table";
+import {
+  toExtrinsicsTabTableItem,
+  toTransferTabTableItem,
+} from "../utils/viewFuncs/toTableItem";
+import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
 
 function Account() {
   const { id } = useParams();
+  const location = useLocation();
+  const [, setSearchParams] = useSearchParams();
+  const [selectedTab, setTab] = useState(getTabFromQuery(location, Transfers));
   const [listData, setListData] = useState({});
-  const [transfersCount, setTransfersCount] = useState(0);
   const chainSetting = useSelector(chainSettingSelector);
+  const dispatch = useDispatch();
+  const tablesData = useSelector(detailTablesSelector);
+
+  const tabs = [
+    { name: Extrinsics, count: tablesData?.accountTransfersTable?.total },
+    { name: Transfers, count: tablesData?.accountTransfersTable?.total },
+  ];
+
+  const tables = [
+    {
+      name: Transfers,
+      table: (
+        <DetailTable
+          url={`/accounts/${id}/transfers`}
+          heads={accountTransfersHead}
+          transformData={toTransferTabTableItem}
+          tableKey="accountTransfersTable"
+        />
+      ),
+    },
+    {
+      name: Extrinsics,
+      table: (
+        <DetailTable
+          url={`/accounts/${id}/extrinsics`}
+          heads={accountExtinsicsHead}
+          transformData={toExtrinsicsTabTableItem}
+          tableKey="accountExtrinsicsTable"
+        />
+      ),
+    },
+  ];
 
   useEffect(() => {
     if (id) {
-      Api.fetch(`/accounts/${id}`, {}).then(({ result: account }) => {
-        const data = {
-          Address: <TextMonoSecondaryWithCopy>{id}</TextMonoSecondaryWithCopy>,
-          //todo: add links
-          "Total Balance": (
-            <Tooltip
-              tip={`${toPrecision(
-                account?.data?.total,
-                chainSetting.decimals,
-              )} ${chainSetting.symbol}`}
-            >
-              <TextSecondary>
-                <ValueDisplay
-                  value={toPrecision(
-                    account?.data?.total,
-                    chainSetting.decimals,
-                  )}
-                  symbol={chainSetting.symbol}
-                  abbreviate={false}
-                />
-              </TextSecondary>
-            </Tooltip>
-          ),
-          Free: (
-            <Tooltip
-              tip={`${toPrecision(
-                account?.data?.free,
-                chainSetting.decimals,
-              )} ${chainSetting.symbol}`}
-            >
-              <TextSecondary>
-                <ValueDisplay
-                  value={toPrecision(
-                    account?.data?.free,
-                    chainSetting.decimals,
-                  )}
-                  symbol={chainSetting.symbol}
-                  abbreviate={false}
-                />
-              </TextSecondary>
-            </Tooltip>
-          ),
-          Reversed: (
-            <Tooltip
-              tip={`${toPrecision(
-                account?.data?.reversed,
-                chainSetting.decimals,
-              )} ${chainSetting.symbol}`}
-            >
-              <TextSecondary>
-                <ValueDisplay
-                  value={toPrecision(
-                    account?.data?.reserved,
-                    chainSetting.decimals,
-                  )}
-                  symbol={chainSetting.symbol}
-                  abbreviate={false}
-                />
-              </TextSecondary>
-            </Tooltip>
-          ),
-          Nonce: <TextSecondary>{account?.nonce}</TextSecondary>,
-        };
-        setListData(data);
-      });
+      clearHttpError(dispatch);
+      Api.fetch(`/accounts/${id}`, {})
+        .then(({ result: account }) => {
+          setListData(toAccountDetailItem(id, account, chainSetting));
+        })
+        .catch((e) => handleApiError(e, dispatch));
     }
-  }, [id, chainSetting]);
+  }, [dispatch, id, chainSetting]);
+
+  const breadCrumbItems = (
+    <BreadCrumb
+      data={[
+        { name: "Accounts", path: "/accounts" },
+        { name: addressEllipsis(id) },
+      ]}
+    />
+  );
 
   return (
-    <Layout>
-      <BreadCrumb
-        data={[
-          { name: "Accounts", path: "/accounts" },
-          { name: addressEllipsis(id) },
-        ]}
-      />
+    <DetailLayout breadCrumbItems={breadCrumbItems}>
       <Panel>
         <List data={listData} />
       </Panel>
+      <Flex>
+        {tabs.map((item) => (
+          <Tab
+            key={item.name}
+            text={item.name}
+            count={item.count}
+            active={selectedTab === item.name}
+            onClick={() => {
+              setTab(item.name);
+              setSearchParams("");
+            }}
+          />
+        ))}
+      </Flex>
 
-      <Tab text={"Transfers"} count={transfersCount} active />
-      <TransfersTable address={id} setTransfersCount={setTransfersCount} />
-    </Layout>
+      {tables.map(
+        (item) =>
+          selectedTab === item.name && (
+            <Fragment key={item.name}>{item.table}</Fragment>
+          ),
+      )}
+    </DetailLayout>
   );
 }
 

@@ -1,69 +1,96 @@
+export const LIST_DEFAULT_PAGE_SIZE = 25;
+
 export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
 
 export const chains = [
   {
+    name: "Polkadot",
+    identity: "polkadot",
+    sub: "polkadot",
+    value: "polkadot",
+    chain: "polkadot",
+    symbol: "DOT",
+    decimals: 10,
+    chainIcon: "originalPolkadot",
+    color: "#E6007A",
+    colorSecondary: "#FDE5F2",
+    buttonColor: "#E6007A",
+    logo: "logo-img-2",
+  },
+  {
     name: "Statemine",
-    sub: "Kusama",
+    identity: "kusama",
+    sub: "kusama",
     value: "statemine",
+    chain: "kusama",
     symbol: "KSM",
     decimals: 12,
     chainIcon: "kusama",
     color: "#3765DC",
-    colorSecondary: "#EAF0FF",
+    colorSecondary: "rgba(55, 101, 220, 0.1)",
     buttonColor: "#000000",
     logo: "logo-img-2",
   },
   {
     name: "Statemint",
-    sub: "Polkadot",
+    identity: "polkadot",
+    sub: "polkadot",
     value: "statemint",
+    chain: "polkadot",
     symbol: "DOT",
     decimals: 10,
     chainIcon: "polkadot",
     color: "#E6007A",
-    colorSecondary: "#FDE5F2",
+    colorSecondary: "rgba(230, 0, 122, 0.1)",
     buttonColor: "#E6007A",
     hidden: false,
   },
   {
     name: "Westmint",
-    sub: "Westend",
+    identity: "westend",
+    sub: "westend",
     value: "westmint",
+    chain: "westend",
     symbol: "WND",
     decimals: 12,
     chainIcon: "westend",
     color: "#DA68A7",
-    colorSecondary: "#FAE6F2",
+    colorSecondary: "rgba(218, 104, 167, 0.1)",
     buttonColor: "#DA68A7",
   },
   {
     name: "Litmus",
-    sub: "Litentry",
+    identity: "kusama",
+    sub: "litentry",
     value: "litmus",
+    chain: "kusama",
     symbol: "LIT",
     decimals: 12,
     chainIcon: "litmus",
     color: "#6431EC",
-    colorSecondary: "#FAE6F2",
+    colorSecondary: "rgba(100, 49, 236, 0.1)",
     buttonColor: "#6431EC",
   },
   {
     name: "Litentry",
-    sub: "Litentry",
+    identity: "polkadot",
+    sub: "litentry",
     value: "litentry",
+    chain: "polkadot",
     symbol: "LIT",
     decimals: 12,
     chainIcon: "litentry",
     color: "#1CC776",
-    colorSecondary: "#FAE6F2",
+    colorSecondary: "rgba(28, 199, 118, 0.1)",
     buttonColor: "#1CC776",
   },
 ];
 
 export const chainNames = chains.map((item) => item.value);
 
+export const Transfers = "transfers";
 export const Extrinsics = "extrinsics";
 export const Events = "events";
 export const Logs = "logs";
@@ -73,12 +100,32 @@ export const menusBlockchain = [
     name: "Blocks",
     value: "blocks",
   },
+  {
+    name: "Extrinsics",
+    value: "extrinsics",
+  },
+  {
+    name: "Events",
+    value: "events",
+  },
+  {
+    name: "Calls",
+    value: "calls",
+  },
+  {
+    name: "Transfers",
+    value: "transfers",
+  },
+  {
+    name: "Accounts",
+    value: "accounts",
+  },
 ];
 
 export const blocksHead = [
   { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
-  { name: "Status", align: "center", width: 160 },
+  { name: "Status", align: "center", width: 112 },
   { name: "Hash", width: 240 },
   { name: "Validator", width: 200 },
   { name: "Extrinsics", align: "right", width: 152 },
@@ -91,14 +138,14 @@ export const blockExtrinsicsHead = [
   { name: "ID", width: 160 },
   { name: "Hash", width: 200 },
   { name: "Result", width: 160, align: "center" },
-  { name: "Call", width: 200 },
+  { name: "Call", type: "call" },
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 
 export const blockEventsHead = [
   { name: "ID", width: 160 },
   { name: "Extrinsic ID", width: 200 },
-  { name: "Call", width: 200 },
+  { name: "Call", type: "call" },
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 
@@ -117,7 +164,7 @@ export const extrinsicsHead = [
   { name: "Time", type: "time", width: 200 },
   { name: "Hash", width: 200 },
   { name: "Result", width: 160, align: "center" },
-  { name: "Call", width: 200 },
+  { name: "Call", type: "call" },
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 
@@ -126,7 +173,7 @@ export const eventsHead = [
   { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Extrinsic ID", width: 160 },
-  { name: "Action" },
+  { name: "Action", type: "call" },
   { name: "Data", type: "data", align: "right", width: 76, display: "table" },
 ];
 
@@ -136,7 +183,7 @@ export const callsHead = [
   { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Method", width: 200 },
-  { name: "Call" },
+  { name: "Call", type: "call" },
   { name: "Data", type: "data", align: "right", width: 76, display: "table" },
 ];
 
@@ -152,7 +199,7 @@ export const transfersHead = [
 
 export const accountsHead = [
   { name: "Rank", width: 96 },
-  { name: "Account", width: 200 },
+  { name: "Account", width: 500 },
   { name: "Balance", width: 240, align: "right" },
 ];
 
@@ -165,7 +212,24 @@ export const accountTransfersHead = [
   { name: "Balance", align: "right" },
 ];
 
+export const accountExtinsicsHead = blockExtrinsicsHead;
+
 export const timeTypes = {
   age: "age",
   date: "date",
 };
+
+export const basicFilters = [
+  {
+    value: "true",
+    name: "Sign",
+    query: "signed_only",
+    options: [
+      {
+        text: "Signed only",
+        value: "true",
+      },
+      { text: "All", value: "false" },
+    ],
+  },
+];

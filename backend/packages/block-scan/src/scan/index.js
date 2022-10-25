@@ -1,7 +1,7 @@
+const { deleteAllUnFinalizedData } = require("./unFinalized/delete");
 const { deleteFrom } = require("../mongo/services/delete");
 const { updateUnFinalized } = require("./unFinalized");
 const { batchInsertCalls } = require("../mongo/services/call");
-const { extractCalls } = require("./call");
 const { batchInsertExtrinsics } = require("../mongo/services/extrinsic");
 const { batchInsertEvents } = require("../mongo/services/event");
 const { insertBlock } = require("../mongo/services/block");
@@ -9,10 +9,9 @@ const { normalizeBlock } = require("./block");
 const { normalizeEvents } = require("./event");
 const { normalizeExtrinsics } = require("./extrinsic");
 const {
-  chain: { getBlockIndexer, getLatestFinalizedHeight },
+  chain: { getBlockIndexer, getLatestFinalizedHeight, wrapBlockHandler },
   scan: { oneStepScan },
   utils: { sleep },
-  logger,
 } = require("@osn/scan-common");
 const {
   block: { getBlockDb },
@@ -23,12 +22,7 @@ async function handleBlock({ block, author, events, height }) {
 
   const normalizedBlock = normalizeBlock(block, author, events, blockIndexer);
   const normalizedEvents = normalizeEvents(events, blockIndexer);
-  const normalizedExtrinsics = normalizeExtrinsics(
-    block.extrinsics,
-    events,
-    blockIndexer,
-  );
-  const normalizedCalls = await extractCalls(
+  const { normalizedExtrinsics, normalizedCalls } = await normalizeExtrinsics(
     block.extrinsics,
     events,
     blockIndexer,
@@ -48,22 +42,22 @@ async function handleBlock({ block, author, events, height }) {
   }
 }
 
-async function wrappedHandleBlock(wrappedBlock) {
-  try {
-    await handleBlock(wrappedBlock);
-  } catch (e) {
-    logger.error(`${wrappedBlock.height} scan error`, e);
-    throw e;
-  }
-}
-
 async function scan() {
   const db = getBlockDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
 
+  const finalizedHeight = getLatestFinalizedHeight();
+  if (toScanHeight < finalizedHeight - 100) {
+    await deleteAllUnFinalizedData();
+  }
+
   while (true) {
-    toScanHeight = await oneStepScan(toScanHeight, wrappedHandleBlock, true);
+    toScanHeight = await oneStepScan(
+      toScanHeight,
+      wrapBlockHandler(handleBlock),
+      true,
+    );
     await sleep(1);
   }
 }

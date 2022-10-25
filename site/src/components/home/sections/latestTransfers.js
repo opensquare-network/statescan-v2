@@ -1,50 +1,27 @@
 import styled from "styled-components";
 import { Flex, FlexBetween } from "../../styled/flex";
-import {
-  Inter_12_500,
-  Inter_14_600,
-  SF_Mono_12_500,
-} from "../../../styles/text";
+import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import Loading from "../../loadings/loading";
-import { ReactComponent as Transfer } from "./transfer.svg";
-import { ReactComponent as TransferRight } from "./transferRight.svg";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import { timeDuration } from "../../../utils/viewFuncs/time";
-import { addressEllipsis, toPrecision } from "../../../utils/viewFuncs";
+import { toPrecision } from "@osn/common";
 import Link from "../../styled/link";
 import ValueDisplay from "../../../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-
-const TransferIcon = styled(Transfer)`
-  path {
-    stroke: ${({ theme }) => theme.fontTertiary};
-  }
-
-  linearGradient {
-    stop:first-child {
-      stop-color: ${({ theme }) => theme.fontPrimary};
-    }
-
-    stop:last-child {
-      stop-color: ${({ theme }) => theme.fontPrimary};
-    }
-  }
-`;
-
-const TransferRightIcon = styled(TransferRight)`
-  path {
-    stroke: ${({ theme }) => theme.fontTertiary};
-  }
-`;
+import Tooltip from "../../tooltip";
+import TransferSquareIcon from "../../icons/transferSquareIcon";
+import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
+import AddressOrIdentity from "../../address";
+import React from "react";
+import { PC } from "../../styled/responsive";
 
 const Rows = styled.ul`
   margin: 0;
   padding-left: 0;
   padding-top: 8px;
-  max-width: 644px;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -77,8 +54,7 @@ const BlockHeight = styled(ThemeText)`
   margin-bottom: 4px;
 `;
 
-const Value = styled.p`
-  margin: 0;
+const Value = styled.div`
   margin-bottom: 4px;
   ${Inter_14_600};
   text-align: right;
@@ -88,11 +64,6 @@ const Value = styled.p`
 const Time = styled.span`
   color: ${(props) => props.theme.fontTertiary};
   ${Inter_12_500};
-`;
-
-const Address = styled.span`
-  color: ${(props) => props.theme.theme500};
-  ${SF_Mono_12_500};
 `;
 
 const mapLoadingState = (props) => {
@@ -113,7 +84,9 @@ function LatestTransfers({ transfers }) {
         <Row key={i}>
           <FlexBetween>
             <Flex gap={16}>
-              <TransferIcon />
+              <PC>
+                <TransferSquareIcon />
+              </PC>
               <div>
                 <Link
                   to={`/extrinsic/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
@@ -141,9 +114,23 @@ function LatestTransfers({ transfers }) {
                 />
               </Value>
               <Flex gap={16}>
-                <Address>{addressEllipsis(transfer.from)}</Address>
-                <TransferRightIcon />
-                <Address>{addressEllipsis(transfer.to)}</Address>
+                <PC>
+                  <Tooltip tip={transfer.from}>
+                    <AddressOrIdentity
+                      address={transfer?.from}
+                      network={chainSetting.value}
+                      fontSize={12}
+                    />
+                  </Tooltip>
+                  <TransferRightSquareIcon />
+                </PC>
+                <Tooltip tip={transfer.to}>
+                  <AddressOrIdentity
+                    address={transfer?.to}
+                    network={chainSetting.value}
+                    fontSize={12}
+                  />
+                </Tooltip>
               </Flex>
             </div>
           </FlexBetween>

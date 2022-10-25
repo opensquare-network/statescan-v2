@@ -1,5 +1,7 @@
+const { isHash } = require("../../../utils/isHash");
+const { HttpError } = require("../../../utils/httpError");
 const {
-  block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection }
+  block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection },
 } = require("@statescan/mongo");
 
 async function findExtrinsic(col, q, isFinalized = true) {
@@ -18,17 +20,27 @@ async function getExtrinsic(ctx) {
       "indexer.blockHeight": parseInt(blockHeight),
       "indexer.extrinsicIndex": parseInt(extrinsicIndex),
     };
-  } else {
+  } else if (isHash(indexOrHash)) {
     q = { hash: indexOrHash };
+  } else {
+    throw new HttpError(400, "Invalid extrinsic id");
   }
 
   let extrinsic = await findExtrinsic(await getExtrinsicCollection(), q);
   if (!extrinsic) {
-    extrinsic = await findExtrinsic(await getUnFinalizedExtrinsicCollection(), q, false);
+    extrinsic = await findExtrinsic(
+      await getUnFinalizedExtrinsicCollection(),
+      q,
+      false,
+    );
   }
+  if (!extrinsic) {
+    throw new HttpError(404, "extrinsic not found");
+  }
+
   ctx.body = extrinsic;
 }
 
 module.exports = {
   getExtrinsic,
-}
+};

@@ -1,84 +1,62 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import { ColoredMonoLink } from "../components/styled/link";
-import Layout from "../components/layout";
-import styled from "styled-components";
 import Api from "../services/api";
-import { Inter_14_500 } from "../styles/text";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
-import { withCopy } from "../HOC/withCopy";
-import { DetailedTime } from "../components/styled/time";
-import { Tag, TagHighContrast } from "../components/tag";
-import DataTable from "../components/table/dataTable";
-
-const TextSecondary = styled.span`
-  ${Inter_14_500};
-  color: ${({ theme }) => theme.fontSecondary};
-`;
-
-const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
+import DataDisplay from "../components/dataDisplay";
+import { currencify } from "../utils";
+import DetailLayout from "../components/layout/detailLayout";
+import { toEventDetailItem } from "../utils/viewFuncs/toDetailItem";
+import { useDispatch } from "react-redux";
+import {
+  clearHttpError,
+  handleApiError,
+} from "../utils/viewFuncs/errorHeandles";
 
 function Event() {
   const { id } = useParams();
   const [listData, setListData] = useState({});
   const [event, setEvent] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (id) {
-      Api.fetch(`/events/${id}`, {}).then(({ result: event }) => {
-        setEvent(event);
-        const data = {
-          "Event Time": <DetailedTime ts={event?.indexer?.blockTime} />,
-          Block: (
-            <ColoredMonoLinkWithCopy
-              to={`/block/${event?.indexer?.blockHeight}`}
-            >
-              {event?.indexer?.blockHeight}
-            </ColoredMonoLinkWithCopy>
-          ),
-          "Extrinsic ID": (
-            <ColoredMonoLinkWithCopy
-              to={`/extrinsic/${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
-            >
-              {`${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
-            </ColoredMonoLinkWithCopy>
-          ),
-          "Event Index": (
-            <TextSecondary>{event?.indexer?.eventIndex}</TextSecondary>
-          ),
-          Module: <TagHighContrast>{event?.section}</TagHighContrast>,
-          "Event Name": <Tag>{event?.method}</Tag>,
-          // Description: (
-          //   <TextSecondaryWithCopy>
-          //     {event?.args?.[0].docs?.join("") || ""}
-          //   </TextSecondaryWithCopy>
-          // ),
-          // TODO: Value field for transfer event
-        };
-        setListData(data);
-      });
+      clearHttpError(dispatch);
+      Api.fetch(`/events/${id}`, {})
+        .then(({ result: event }) => {
+          setEvent(event);
+          setListData(toEventDetailItem(event));
+        })
+        .catch((e) => handleApiError(e, dispatch));
     }
-  }, [id]);
+  }, [dispatch, id]);
+
+  const breadCrumb = (
+    <BreadCrumb
+      data={[
+        { name: "Events", path: "/events" },
+        {
+          name:
+            `${currencify(event?.indexer?.blockHeight)}-${
+              event?.indexer?.eventIndex
+            }` ?? "...",
+        },
+      ]}
+    />
+  );
 
   return (
-    <Layout>
-      <BreadCrumb
-        data={[
-          { name: "Events", path: "/events" },
-          {
-            name:
-              `${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}` ??
-              "...",
-          },
-        ]}
-      />
+    <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
-        <DataTable data={event?.args} title="Attributes" />
+        <DataDisplay
+          tableData={event?.args}
+          JSONData={event}
+          title="Attributes"
+        />
       </Panel>
-    </Layout>
+    </DetailLayout>
   );
 }
 

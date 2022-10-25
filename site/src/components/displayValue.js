@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  abbreviateBigNumber,
-  bigNumberToLocaleString,
-  getEffectiveNumbers,
-} from "../utils/viewFuncs/index";
+import { bigNumberToLocaleString } from "../utils/viewFuncs/index";
+import { abbreviateBigNumber, getEffectiveNumbers } from "@osn/common";
+
+const Wrapper = styled.div`
+  white-space: nowrap;
+`;
 
 const NotEqual = styled.div`
   ::before {
@@ -12,16 +13,16 @@ const NotEqual = styled.div`
     color: ${(props) => props.theme.textPrimary};
     margin-right: 2px;
   }
+  white-space: nowrap;
 `;
 
-export default function ValueDisplay({
-  value,
-  symbol,
-  noWrap,
-  abbreviate = true,
-}) {
-  if (isNaN(value) || noWrap) {
-    return `${value} ${symbol}`;
+export default function ValueDisplay({ value, symbol, abbreviate = true }) {
+  if (isNaN(value)) {
+    return (
+      <Wrapper>
+        {value} {symbol}
+      </Wrapper>
+    );
   }
 
   if (
@@ -29,7 +30,11 @@ export default function ValueDisplay({
     abbreviate
   ) {
     const abbreviated = abbreviateBigNumber(value, 2);
-    let display = `${abbreviated} ${symbol}`;
+    let display = (
+      <Wrapper>
+        {abbreviated} {symbol}
+      </Wrapper>
+    );
     if (getEffectiveNumbers(abbreviated) !== getEffectiveNumbers(value)) {
       display = (
         <NotEqual>
@@ -54,10 +59,10 @@ export default function ValueDisplay({
     );
   }
   return (
-    <div>
+    <Wrapper>
       <span className="figures">{value} </span>
       <span style={{ width: 4 }} />
       <span className="symbol">{symbol}</span>
-    </div>
+    </Wrapper>
   );
 }

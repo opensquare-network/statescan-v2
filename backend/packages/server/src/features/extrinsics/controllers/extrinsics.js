@@ -1,6 +1,6 @@
 const { extractPage } = require("../../../utils");
 const {
-  block: { getExtrinsicCollection }
+  block: { getExtrinsicCollection },
 } = require("@statescan/mongo");
 
 async function getExtrinsics(ctx) {
@@ -13,13 +13,13 @@ async function getExtrinsics(ctx) {
   const { section, method, signed_only: signedOnly } = ctx.query;
   const q = {};
   if (section) {
-    q.section = section;
+    q["call.section"] = section;
   }
   if (method) {
-    q.name = method;
+    q["call.method"] = method;
   }
   if (signedOnly === "true") {
-    q.isSigned = false;
+    q.isSigned = true;
   }
 
   const col = await getExtrinsicCollection();
@@ -29,7 +29,7 @@ async function getExtrinsics(ctx) {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const total = await col.estimatedDocumentCount();
+  const total = await col.count(q);
 
   ctx.body = {
     items,
@@ -41,4 +41,4 @@ async function getExtrinsics(ctx) {
 
 module.exports = {
   getExtrinsics,
-}
+};

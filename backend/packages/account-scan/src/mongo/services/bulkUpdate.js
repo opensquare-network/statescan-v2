@@ -1,15 +1,17 @@
-const { account: { getAddressCollection } } = require("@statescan/mongo");
+const {
+  account: { getAddressCollection },
+} = require("@statescan/mongo");
 
 async function bulkUpdateAccounts(accounts = []) {
   if (accounts.length < 1) {
-    return
+    return;
   }
 
   const col = await getAddressCollection();
   const bulk = col.initializeUnorderedBulkOp();
-  for (const { addr, detail } of accounts) {
+  for (const { address, detail } of accounts) {
     bulk
-      .find({ address: addr })
+      .find({ address })
       .upsert()
       .updateOne({
         $set: {
@@ -23,4 +25,4 @@ async function bulkUpdateAccounts(accounts = []) {
 
 module.exports = {
   bulkUpdateAccounts,
-}
+};
