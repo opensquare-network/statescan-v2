@@ -62,9 +62,6 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
   } else if (method === AssetsEvents.TransferredApproved) {
     await handleTransferredApproved(...arguments);
   }
-
-  // todo: 2. handle asset holders
-  // todo: 3. handle asset approvals
 }
 
 module.exports = {
