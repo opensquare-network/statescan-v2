@@ -9,6 +9,7 @@ let unFinalizedTransferCol = null;
 
 let assetCol = null;
 let assetTimelineCol = null;
+let assetHolderCol = null;
 
 async function initAssetScanDb() {
   db = new ScanDb(
@@ -21,6 +22,7 @@ async function initAssetScanDb() {
   unFinalizedTransferCol = await db.createCol("unFinalizedTransfer");
   assetCol = await db.createCol("asset");
   assetTimelineCol = await db.createCol("assetTimeline");
+  assetHolderCol = await db.createCol("assetHolder");
   await _createIndexes();
 }
 
@@ -43,6 +45,10 @@ async function _createIndexes() {
   );
 
   // todo: create index for assetTimeline
+  await assetHolderCol.createIndex(
+    { assetId: 1, assetHeight: 1, address: 1 },
+    { unique: true },
+  );
 }
 
 async function makeSureInit(col) {
@@ -71,6 +77,11 @@ async function getAssetTimelineCol() {
   return assetTimelineCol;
 }
 
+async function getAssetHolderCol() {
+  await makeSureInit(assetHolderCol);
+  return assetHolderCol;
+}
+
 function getAssetDb() {
   return db;
 }
@@ -96,4 +107,5 @@ module.exports = {
   batchInsertTransfers,
   getAssetCol,
   getAssetTimelineCol,
+  getAssetHolderCol,
 };

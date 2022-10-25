@@ -1,3 +1,4 @@
+const { updateAssetsAccounts } = require("../../service/assets/holders");
 const {
   batchInsertAssetsTransfers,
 } = require("../../service/assets/batchInsertTransfers");
@@ -39,6 +40,7 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
 
   await batchInsertAssetsTransfers(blockIndexer);
   await saveAssets(blockIndexer);
+  await updateAssetsAccounts(blockIndexer);
 }
 
 module.exports = {

@@ -2,9 +2,6 @@ const {
   chain: { findBlockApi, getApi },
 } = require("@osn/scan-common");
 const { getAssetAccountStorageKey } = require("./key");
-const {
-  utils: { toDecimal128 },
-} = require("@statescan/common");
 
 async function queryAssetsAccounts(assetId, addresses = [], blockHash) {
   if (addresses.length <= 0) {
@@ -25,10 +22,7 @@ async function queryAssetsAccounts(assetId, addresses = [], blockHash) {
 
     return {
       address,
-      info: {
-        ...info.toJSON(),
-        balance: toDecimal128(info.balance.toString()),
-      },
+      info: info.toJSON(),
     };
   });
 }
