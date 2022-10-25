@@ -60,7 +60,7 @@ function Extrinsics() {
       },
       { signal: controller.signal },
     )
-      .then(({ result, ...rest }) => {
+      .then(({ result }) => {
         result?.items && setExtrinsics(result?.items);
         result?.total && setTotal(result?.total);
         setLoading(false);
@@ -77,6 +77,7 @@ function Extrinsics() {
       pendingRequestController.abort();
     }
     setPendingRequestController(controller);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, pageSize]);
 
   const data =

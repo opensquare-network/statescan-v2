@@ -10,11 +10,6 @@ import { getPageFromQuery } from "../../../utils/viewFuncs";
 import { useEffect, useState } from "react";
 import Api from "../../../services/api";
 import { useLocation } from "react-router-dom";
-import { hashEllipsis } from "../../../utils/viewFuncs/text";
-import { ReactComponent as CheckIcon } from "../../icons/check.svg";
-import { ReactComponent as CrossIcon } from "../../icons/cross.svg";
-import { ColoredLink, ColoredMonoLink } from "../../styled/link";
-import Tooltip from "../../tooltip";
 import { toExtrinsicsTabTableItem } from "../../../utils/viewFuncs/toTableItem";
 
 function ExtrinsicsTable({ height }) {
