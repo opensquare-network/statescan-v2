@@ -48,7 +48,12 @@ async function _createIndexes() {
     { unique: true },
   );
 
-  // todo: create index for assetTimeline
+  await assetTimelineCol.createIndex({
+    assetId: 1,
+    assetHeight: 1,
+    "indexer.blockHeight": -1,
+  });
+
   await assetHolderCol.createIndex({ assetId: 1, assetHeight: 1 });
   await assetHolderCol.createIndex(
     { assetId: 1, assetHeight: 1, address: 1 },
