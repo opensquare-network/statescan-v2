@@ -35,7 +35,7 @@ function TableRow({ heads, row = [] }) {
     <Fragment>
       <Tr>
         {row.map((value, index) => {
-          const { align, type, name } = heads[index];
+          const { align, type } = heads[index];
           const style = {
             textAlign: align ?? "left",
           };
@@ -52,7 +52,7 @@ function TableRow({ heads, row = [] }) {
             );
           }
 
-          if (name === "Call" || name === "Action") {
+          if (type === "call") {
             return (
               <Td key={index}>
                 <WrapText>{value}</WrapText>
