@@ -52,7 +52,7 @@ export default function TableHead({ heads }) {
             );
           }
           if (type === "data") {
-            style.width = "100%";
+            style.width = width ?? 76;
             content = "";
           }
 
