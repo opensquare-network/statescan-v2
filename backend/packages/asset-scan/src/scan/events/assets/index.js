@@ -1,3 +1,4 @@
+const { handleTransferredApproved } = require("./transferredApproved");
 const { handleApprovalCancelled } = require("./approvalCancelled");
 const { handleApprovedTransfer } = require("./approvedTransfer");
 const { handleThawed } = require("./thawed");
@@ -58,6 +59,8 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleApprovedTransfer(...arguments);
   } else if (method === AssetsEvents.ApprovalCancelled) {
     await handleApprovalCancelled(...arguments);
+  } else if (method === AssetsEvents.TransferredApproved) {
+    await handleTransferredApproved(...arguments);
   }
 
   // todo: 2. handle asset holders

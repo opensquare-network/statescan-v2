@@ -8,7 +8,7 @@ const {
 } = require("@statescan/mongo");
 
 async function batchInsertAssetsTransfers(indexer) {
-  const transfers = await getAssetsTransfers(indexer.blockHash);
+  const transfers = getAssetsTransfers(indexer.blockHash);
   if (transfers.length < 1) {
     return;
   }
