@@ -37,10 +37,11 @@ function Event() {
       data={[
         { name: "Events", path: "/events" },
         {
-          name:
-            `${currencify(event?.indexer?.blockHeight)}-${
-              event?.indexer?.eventIndex
-            }` ?? "...",
+          name: event
+            ? `${currencify(event?.indexer?.blockHeight)}-${
+                event?.indexer?.eventIndex
+              }`
+            : "...",
         },
       ]}
     />
