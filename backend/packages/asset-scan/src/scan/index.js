@@ -31,7 +31,7 @@ async function handleBlock({ block, events, height }) {
 async function getBlockScanHeight() {
   let blockScanHeight = null;
   const blockDb = await getBlockDb();
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.FOLLOW_BLOCK_SCAN === "true") {
     blockScanHeight = await blockDb.getScanHeight();
   }
 
