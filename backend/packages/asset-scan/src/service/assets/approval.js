@@ -1,6 +1,8 @@
 const { queryApproval } = require("../../scan/query/assets/approval");
 const isEmpty = require("lodash.isempty");
-const { getActiveAsset } = require("../../scan/mongo/assets/getActiveAsset");
+const {
+  getActiveAssetOrThrow,
+} = require("../../scan/mongo/assets/getActiveAsset");
 const {
   asset: { getAssetApprovalCol },
 } = require("@statescan/mongo");
@@ -8,14 +10,14 @@ const {
   utils: { toDecimal128 },
 } = require("@statescan/common");
 
-async function updateApproval(assetId, owner, delegate, indexer) {
-  const asset = await getActiveAsset(assetId);
-  if (!asset) {
-    throw new Error(
-      `Can not find asset ${assetId} when update approval at ${indexer.blockHeight}`,
-    );
-  }
+async function deleteAssetApprovals(assetId, indexer) {
+  const asset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
+  const col = await getAssetApprovalCol();
+  await col.deleteMany({ assetId, assetHeight: asset.assetHeight });
+}
 
+async function updateApproval(assetId, owner, delegate, indexer) {
+  const asset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
   const approval = await queryApproval(
     indexer.blockHash,
     assetId,
@@ -54,4 +56,5 @@ async function updateApproval(assetId, owner, delegate, indexer) {
 
 module.exports = {
   updateApproval,
+  deleteAssetApprovals,
 };

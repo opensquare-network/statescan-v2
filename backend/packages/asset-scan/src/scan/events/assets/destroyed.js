@@ -1,3 +1,5 @@
+const { deleteAssetHolders } = require("../../../service/assets/holders");
+const { deleteAssetApprovals } = require("../../../service/assets/approval");
 const { saveAssets } = require("../../../service/assets/updateAssets");
 const {
   batchInsertAssetsTransfers,
@@ -13,9 +15,9 @@ async function handleDestroyed(event, indexer) {
   await batchInsertAssetsTransfers(indexer);
   await saveAssets(indexer);
 
+  await deleteAssetHolders(assetId, indexer);
+  await deleteAssetApprovals(assetId, indexer);
   await updateActiveAsset(assetId, { destroyed: true });
-  // todo: 2. delete all holders
-  // todo: 3. delete all approvals
 }
 
 module.exports = {

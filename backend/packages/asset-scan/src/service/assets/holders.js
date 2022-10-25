@@ -6,7 +6,9 @@ const isEmpty = require("lodash.isempty");
 const {
   queryAssetsAccounts,
 } = require("../../scan/query/assets/account/assetsAccount");
-const { getActiveAsset } = require("../../scan/mongo/assets/getActiveAsset");
+const {
+  getActiveAssetOrThrow,
+} = require("../../scan/mongo/assets/getActiveAsset");
 const {
   asset: { getAssetHolderCol },
 } = require("@statescan/mongo");
@@ -14,14 +16,17 @@ const {
   utils: { gt, toDecimal128 },
 } = require("@statescan/common");
 
-async function updateAssetAccounts(assetId, addresses, indexer) {
-  const asset = await getActiveAsset(assetId);
-  if (!asset) {
-    throw new Error(
-      `can not find the asset ${assetId} when update holders at ${indexer.blockHeight}`,
-    );
-  }
+async function deleteAssetHolders(assetId, blockHeight) {
+  const asset = await getActiveAssetOrThrow(assetId, blockHeight);
+  const col = await getAssetHolderCol();
+  await col.deleteMany({
+    assetId,
+    assetHeight: asset.assetHeight,
+  });
+}
 
+async function updateAssetAccounts(assetId, addresses, indexer) {
+  const asset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
   const assetHeight = asset.assetHeight;
   const col = await getAssetHolderCol();
   const bulk = col.initializeUnorderedBulkOp();
@@ -69,4 +74,5 @@ async function updateAssetsAccounts(indexer) {
 
 module.exports = {
   updateAssetsAccounts,
+  deleteAssetHolders,
 };
