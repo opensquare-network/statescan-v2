@@ -1,3 +1,4 @@
+const { isNewDay, setLastBlockIndexer } = require("../date");
 const { getActiveAssets, getAssetStatistic } = require("./assets");
 const {
   asset: { getAssetDailyStatisticCol },
@@ -22,6 +23,14 @@ async function createAssetStatistics(indexer) {
   await bulk.execute();
 }
 
+async function tryCreateAssetStatistics(indexer) {
+  if (isNewDay(indexer)) {
+    await createAssetStatistics(indexer);
+  }
+
+  setLastBlockIndexer(indexer);
+}
+
 module.exports = {
-  createAssetStatistics,
+  tryCreateAssetStatistics,
 };

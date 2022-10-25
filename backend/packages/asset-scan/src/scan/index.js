@@ -1,3 +1,4 @@
+const { tryCreateAssetStatistics } = require("./statistic/assets");
 const { updateUnFinalized } = require("./unFinalized");
 const { deleteFrom } = require("./delete");
 const { handleEvents } = require("./events");
@@ -16,7 +17,8 @@ async function handleBlock({ block, events, height }) {
 
   await handleEvents(events, blockIndexer, block.extrinsics);
 
-  // todo: handle block business
+  await tryCreateAssetStatistics(blockIndexer);
+
   const db = getAssetDb();
   await db.updateScanHeight(height);
 
