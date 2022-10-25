@@ -28,19 +28,27 @@ async function handleBlock({ block, events, height }) {
   }
 }
 
+async function getBlockScanHeight() {
+  let blockScanHeight = null;
+  const blockDb = await getBlockDb();
+  if (process.env.NODE_ENV === "production") {
+    blockScanHeight = await blockDb.getScanHeight();
+  }
+
+  return blockScanHeight;
+}
+
 async function scan() {
   const db = getAssetDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
 
-  const blockDb = await getBlockDb();
   while (true) {
-    const blockScanHeight = await blockDb.getScanHeight();
     toScanHeight = await oneStepScan(
       toScanHeight,
       wrapBlockHandler(handleBlock),
       false,
-      blockScanHeight,
+      await getBlockScanHeight(),
     );
     await sleep(1);
   }
