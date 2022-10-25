@@ -32,5 +32,13 @@ describe("Query ", () => {
       amount: 10,
       deposit: 3333333,
     });
+
+    const emptyApproval = await queryApproval(
+      blockHash,
+      36,
+      "FG8u2HSdf5W4HZcXmPDSTMSGifK3ZjzJSxbH6v1qgtSkepq",
+      "EPk1wv1TvVFfsiG73YLuLAtGacfPmojyJKvmifobBzUTxFv",
+    );
+    expect(emptyApproval).toBeNull();
   });
 });

@@ -47,9 +47,12 @@ async function _createIndexes() {
   );
 
   // todo: create index for assetTimeline
-  // todo: create index for assetApproval
   await assetHolderCol.createIndex(
     { assetId: 1, assetHeight: 1, address: 1 },
+    { unique: true },
+  );
+  await assetApprovalCol.createIndex(
+    { assetId: 1, assetHeight: 1, owner: 1, delegate: 1 },
     { unique: true },
   );
 }
