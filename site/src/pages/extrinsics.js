@@ -77,7 +77,8 @@ function Extrinsics() {
       pendingRequestController.abort();
     }
     setPendingRequestController(controller);
-  }, [location, pageSize, pendingRequestController]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, pageSize]);
 
   const data =
     extrinsics?.map((extrinsic, index) => {
