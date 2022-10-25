@@ -1,15 +1,20 @@
-const { isNewDay, setLastBlockIndexer } = require("../date");
+const {
+  isNewDay,
+  setLastBlockIndexer,
+  getLastBlockIndexer,
+} = require("../date");
 const { getActiveAssets, getAssetStatistic } = require("./assets");
 const {
   asset: { getAssetDailyStatisticCol },
 } = require("@statescan/mongo");
 
-async function createAssetStatistics(indexer) {
+async function createAssetStatistics() {
   const assets = await getActiveAssets();
   if (assets.length <= 0) {
     return;
   }
 
+  const indexer = getLastBlockIndexer();
   const promises = assets.map(({ assetId, assetHeight }) =>
     getAssetStatistic(assetId, assetHeight, indexer),
   );
@@ -24,8 +29,8 @@ async function createAssetStatistics(indexer) {
 }
 
 async function tryCreateAssetStatistics(indexer) {
-  if (isNewDay(indexer)) {
-    await createAssetStatistics(indexer);
+  if (isNewDay(indexer.blockTime)) {
+    await createAssetStatistics();
   }
 
   setLastBlockIndexer(indexer);
