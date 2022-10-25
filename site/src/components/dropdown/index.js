@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { useState, useRef } from "react";
 import { FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
+import { Inter_14_500 } from "../../styles/text";
 
 const CaretIcon = styled(Caret)`
   path {
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
 `;
 
 const SelectWrapper = styled(FlexBetween)`
-  width: 160px;
+  width: 140px;
   height: 26px;
   background: ${(p) => p.theme.fillPopup};
   border-radius: 6px;
@@ -64,9 +65,7 @@ const OptionWrapper = styled.div`
 
 const OptionItem = styled.div`
   padding: 6px 12px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
+  ${Inter_14_500};
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -104,7 +103,7 @@ export default function Dropdown({ value, options, name, onSelect }) {
               onClick={() => {
                 setIsActive(false);
                 if (item.value === value) return;
-                onSelect(name, item.value);
+                onSelect(name, item.value, item);
               }}
             >
               {item.text}

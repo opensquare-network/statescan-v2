@@ -8,6 +8,7 @@ import tooltipReducer from "./tooltipSlice";
 import httpErrorReducer from "./httpErrorSlice";
 import extrinsicReducer from "./extrinsicSlice";
 import detailTablesReducer from "./detailTablesSlice";
+import filterReducer from "./filterSlice";
 
 export default combineReducers({
   setting: settingReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
   httpError: httpErrorReducer,
   extrinsic: extrinsicReducer,
   detailTables: detailTablesReducer,
+  filter: filterReducer,
 });

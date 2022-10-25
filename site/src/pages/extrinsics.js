@@ -22,6 +22,11 @@ import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import Tooltip from "../components/tooltip";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchSpecsFilter,
+  filtersSelector,
+} from "../store/reducers/filterSlice";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -46,6 +51,91 @@ function Extrinsics() {
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const dispatch = useDispatch();
+  const specFilters = useSelector(filtersSelector);
+  const [filters, setFilters] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchSpecsFilter());
+  }, []);
+
+  useEffect(() => {
+    if (specFilters) {
+      const specs = {
+        value: specFilters[0].specVersion,
+        name: "Spec",
+        query: "",
+        options: specFilters.map((item) => {
+          return {
+            text: item.specVersion,
+            value: item.specVersion,
+            getDescendant: () => {
+              return {
+                value: item.pallets[0].name,
+                name: "Section",
+                query: "section",
+                options: item.pallets.map((item) => {
+                  return {
+                    text: item.name,
+                    value: item.name,
+                    getDescendant: () => {
+                      return {
+                        value: item.calls[0],
+                        name: "Method",
+                        query: "method",
+                        options: item.calls.map((item) => {
+                          return {
+                            text: item,
+                            value: item,
+                          };
+                        }),
+                      };
+                    },
+                  };
+                }),
+              };
+            },
+          };
+        }),
+      };
+      const section = {
+        value: specFilters[0].pallets[0].name,
+        name: "Section",
+        query: "section",
+        options: specFilters[0].pallets.map((item) => {
+          return {
+            text: item.name,
+            value: item.name,
+            getDescendant: () => {
+              return {
+                value: item.calls[0],
+                name: "Method",
+                query: "method",
+                options: item.calls.map((item) => {
+                  return {
+                    text: item,
+                    value: item,
+                  };
+                }),
+              };
+            },
+          };
+        }),
+      };
+      const method = {
+        value: specFilters[0].pallets[0].calls[0],
+        name: "Method",
+        query: "method",
+        options: specFilters[0].pallets[0].calls.map((method) => {
+          return {
+            text: method,
+            value: method,
+          };
+        }),
+      };
+      setFilters([specs, section, method]);
+    }
+  }, [specFilters]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -60,7 +150,7 @@ function Extrinsics() {
       },
       { signal: controller.signal },
     )
-      .then(({ result, ...rest }) => {
+      .then(({ result }) => {
         result?.items && setExtrinsics(result?.items);
         result?.total && setTotal(result?.total);
         setLoading(false);
@@ -114,7 +204,7 @@ function Extrinsics() {
       <BreadCrumb data={[{ name: "Extrinsics" }]} />
       <Filter
         title={`All ${total.toLocaleString()} extrinsics`}
-        data={basicFilters}
+        data={[...filters, ...basicFilters]}
       />
       <StyledPanel>
         <Table heads={extrinsicsHead} data={data} loading={loading} />

@@ -88,9 +88,13 @@ export default function Filter({ title, data }) {
     setDropdownData(data);
   }, [data]);
 
-  const onDropdown = (name, value) => {
+  const onDropdown = (name, value, item) => {
+    const descendant = item.getDescendant ? item.getDescendant() : null;
     setDropdownData(
       (selectData || []).map((item) => {
+        if (item.name === descendant.name) {
+          return descendant;
+        }
         return item.name === name ? { ...item, value } : item;
       }),
     );
@@ -99,7 +103,7 @@ export default function Filter({ title, data }) {
   const getCurrentFilter = () => {
     const filter = {};
     (selectData || []).forEach((item) => {
-      if (item.value) {
+      if (item.query && item.value) {
         Object.assign(filter, { [item.query]: item.value });
       }
     });
