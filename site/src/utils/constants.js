@@ -183,7 +183,7 @@ export const callsHead = [
   { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Method", width: 200 },
-  { name: "Call" },
+  { name: "Call", width: 200 },
   { name: "Data", type: "data", align: "right", width: 76, display: "table" },
 ];
 
