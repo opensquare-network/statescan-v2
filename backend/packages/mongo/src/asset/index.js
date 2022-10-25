@@ -49,10 +49,7 @@ async function _createIndexes() {
   );
 
   // todo: create index for assetTimeline
-  await assetHolderCol.createIndex(
-    { assetId: 1, assetHeight: 1 },
-    { unique: true },
-  );
+  await assetHolderCol.createIndex({ assetId: 1, assetHeight: 1 });
   await assetHolderCol.createIndex(
     { assetId: 1, assetHeight: 1, address: 1 },
     { unique: true },
