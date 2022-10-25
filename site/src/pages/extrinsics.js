@@ -60,7 +60,7 @@ function Extrinsics() {
       },
       { signal: controller.signal },
     )
-      .then(({ result, ...rest }) => {
+      .then(({ result }) => {
         result?.items && setExtrinsics(result?.items);
         result?.total && setTotal(result?.total);
         setLoading(false);
