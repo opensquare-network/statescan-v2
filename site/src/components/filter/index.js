@@ -92,7 +92,7 @@ export default function Filter({ title, data }) {
     const descendant = item.getDescendant ? item.getDescendant() : null;
     setDropdownData(
       (selectData || []).map((item) => {
-        if (item.name === descendant.name) {
+        if (item?.name === descendant?.name) {
           return descendant;
         }
         return item.name === name ? { ...item, value } : item;
