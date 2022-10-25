@@ -23,6 +23,10 @@ const InnerTableWrapper = styled.td`
   background: ${({ theme }) => theme.fillBase}; ;
 `;
 
+const WrapText = styled.span`
+  word-break: break-all;
+`;
+
 function TableRow({ heads, row = [] }) {
   const timeType = useSelector(timeTypeSelector);
   const [show, setShow] = useState(false);
@@ -31,7 +35,7 @@ function TableRow({ heads, row = [] }) {
     <Fragment>
       <Tr>
         {row.map((value, index) => {
-          const { align, type } = heads[index];
+          const { align, type, name } = heads[index];
           const style = {
             textAlign: align ?? "left",
           };
@@ -44,6 +48,14 @@ function TableRow({ heads, row = [] }) {
             return (
               <Td style={{ ...style, width: "100%" }} key={index}>
                 <FoldButton fold={!show} onClick={() => setShow(!show)} />
+              </Td>
+            );
+          }
+
+          if (name === "Call" || name === "Action") {
+            return (
+              <Td key={index}>
+                <WrapText>{value}</WrapText>
               </Td>
             );
           }
