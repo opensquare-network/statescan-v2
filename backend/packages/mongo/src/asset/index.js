@@ -10,6 +10,7 @@ let unFinalizedTransferCol = null;
 let assetCol = null;
 let assetTimelineCol = null;
 let assetHolderCol = null;
+let assetApprovalCol = null;
 
 async function initAssetScanDb() {
   db = new ScanDb(
@@ -23,6 +24,7 @@ async function initAssetScanDb() {
   assetCol = await db.createCol("asset");
   assetTimelineCol = await db.createCol("assetTimeline");
   assetHolderCol = await db.createCol("assetHolder");
+  assetApprovalCol = await db.createCol("assetApproval");
   await _createIndexes();
 }
 
@@ -45,6 +47,7 @@ async function _createIndexes() {
   );
 
   // todo: create index for assetTimeline
+  // todo: create index for assetApproval
   await assetHolderCol.createIndex(
     { assetId: 1, assetHeight: 1, address: 1 },
     { unique: true },
@@ -82,6 +85,11 @@ async function getAssetHolderCol() {
   return assetHolderCol;
 }
 
+async function getAssetApprovalCol() {
+  await makeSureInit(assetApprovalCol);
+  return assetApprovalCol;
+}
+
 function getAssetDb() {
   return db;
 }
@@ -108,4 +116,5 @@ module.exports = {
   getAssetCol,
   getAssetTimelineCol,
   getAssetHolderCol,
+  getAssetApprovalCol,
 };
