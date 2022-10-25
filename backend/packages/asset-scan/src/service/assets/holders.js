@@ -61,7 +61,7 @@ async function updateAssetsAccounts(indexer) {
   }
 
   for (const [assetId, addresses] of Object.entries(assetAddressesMap)) {
-    await updateAssetAccounts(assetId, addresses, indexer);
+    await updateAssetAccounts(parseInt(assetId), addresses, indexer);
   }
 
   clearAssetAddresses(indexer.blockHash);
