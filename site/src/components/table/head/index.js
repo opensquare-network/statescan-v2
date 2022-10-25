@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Inter_12_600 } from "../../../styles/text";
 import TimeHead from "./timeHead";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import {
   timeTypeSelector,
 } from "../../../store/reducers/preferenceSlice";
 import { useEffect } from "react";
+import { lgcss, mdcss } from "../../../styles/responsive";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -19,6 +20,16 @@ const Th = styled.th`
   ${Inter_12_600};
   color: ${(p) => p.theme.fontTertiary};
   text-transform: uppercase;
+`;
+
+const CallTh = styled(Th)`
+  width: 100%;
+  ${lgcss(css`
+    width: 250px;
+  `)}
+  ${mdcss(css`
+    width: 200px;
+  `)}
 `;
 
 export default function TableHead({ heads }) {
@@ -54,6 +65,14 @@ export default function TableHead({ heads }) {
           if (type === "data") {
             style.width = width ?? 76;
             content = "";
+          }
+
+          if (type === "call") {
+            return (
+              <CallTh style={style} key={index}>
+                {content}
+              </CallTh>
+            );
           }
 
           return (

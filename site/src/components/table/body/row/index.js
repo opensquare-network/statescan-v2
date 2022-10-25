@@ -54,7 +54,7 @@ function TableRow({ heads, row = [] }) {
 
           if (type === "call") {
             return (
-              <Td key={index}>
+              <Td style={style} key={index}>
                 <WrapText>{value}</WrapText>
               </Td>
             );
