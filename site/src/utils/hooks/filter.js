@@ -12,6 +12,35 @@ const getFromQuery = (location, key, defaultValue = "") => {
   return queryString.parse(location.search)?.[key] ?? defaultValue;
 };
 
+function getSectionDescendant(section) {
+  return {
+    value: section.calls[0],
+    name: "Method",
+    query: "method",
+    options: section.calls.map((method) => {
+      return {
+        text: method,
+        value: method,
+      };
+    }),
+  };
+}
+
+function getSpecVersionDescendant(specVersion) {
+  return {
+    value: specVersion.pallets[0].name,
+    name: "Section",
+    query: "section",
+    options: specVersion.pallets.map((section) => {
+      return {
+        text: section.name,
+        value: section.name,
+        getDescendant: getSectionDescendant,
+      };
+    }),
+  };
+}
+
 export function useExtrinsicFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -46,32 +75,7 @@ export function useExtrinsicFilter() {
             return {
               text: item.specVersion.toString(),
               value: item.specVersion.toString(),
-              getDescendant: () => {
-                return {
-                  value: item.pallets[0].name,
-                  name: "Section",
-                  query: "section",
-                  options: item.pallets.map((item) => {
-                    return {
-                      text: item.name,
-                      value: item.name,
-                      getDescendant: () => {
-                        return {
-                          value: item.calls[0],
-                          name: "Method",
-                          query: "method",
-                          options: item.calls.map((item) => {
-                            return {
-                              text: item,
-                              value: item,
-                            };
-                          }),
-                        };
-                      },
-                    };
-                  }),
-                };
-              },
+              descendant: getSpecVersionDescendant(item),
             };
           }),
         ),
@@ -82,23 +86,11 @@ export function useExtrinsicFilter() {
         query: "section",
         isSearch: true,
         options: [{ text: "All", value: "" }].concat(
-          sectionOptions.map((item) => {
+          sectionOptions.map((section) => {
             return {
-              text: item.name,
-              value: item.name,
-              getDescendant: () => {
-                return {
-                  value: item.calls[0],
-                  name: "Method",
-                  query: "method",
-                  options: item.calls.map((item) => {
-                    return {
-                      text: item,
-                      value: item,
-                    };
-                  }),
-                };
-              },
+              text: section.name,
+              value: section.name,
+              descendant: getSectionDescendant(section),
             };
           }),
         ),

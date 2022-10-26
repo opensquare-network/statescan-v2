@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
 import { Inter_14_500 } from "../../styles/text";
+import { pretty_scroll_bar } from "../../styles";
 
 const CaretIcon = styled(Caret)`
   path {
@@ -66,6 +67,7 @@ const OptionWrapper = styled.div`
 const OptionItemsWrapper = styled.div`
   max-height: 240px;
   overflow-y: scroll;
+  ${pretty_scroll_bar};
 `;
 
 const OptionItem = styled.div`
@@ -97,13 +99,14 @@ const SearchBoxWrapper = styled(Flex)`
   }
 `;
 
-const SearchBox = ({ isSearch, setSearchText, name }) => {
+const SearchBox = ({ searchText, isSearch, setSearchText, name }) => {
   if (!isSearch) {
     return null;
   }
   return (
     <SearchBoxWrapper>
       <input
+        value={searchText}
         onChange={(e) => {
           setSearchText(e.target.value);
         }}
@@ -142,21 +145,22 @@ export default function Dropdown({
         <OptionWrapper>
           <SearchBox
             isSearch={isSearch}
+            searchText={searchText}
             setSearchText={setSearchText}
             name={name}
           />
           <OptionItemsWrapper>
-            {displayOptions.map((item, index) => (
+            {displayOptions.map((option, index) => (
               <OptionItem
                 key={index}
-                isActive={item.value === value && value !== ""}
+                isActive={option.value === value && value !== ""}
                 onClick={() => {
                   setIsActive(false);
-                  if (item.value === value) return;
-                  onSelect(name, item.value, item);
+                  if (option.value === value) return;
+                  onSelect(name, option.value, option);
                 }}
               >
-                {item.text}
+                {option.text}
               </OptionItem>
             ))}
           </OptionItemsWrapper>

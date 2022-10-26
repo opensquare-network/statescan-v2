@@ -89,7 +89,8 @@ export default function Filter({ title, data }) {
   }, [data]);
 
   const onDropdown = (name, value, item) => {
-    const descendant = item.getDescendant ? item.getDescendant() : null;
+    const descendant = item?.descendant ? item?.descendant : null;
+    console.log(item);
     setDropdownData(
       (selectData || []).map((item) => {
         if (item?.name === descendant?.name) {
