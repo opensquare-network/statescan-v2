@@ -8,6 +8,8 @@ import tooltipReducer from "./tooltipSlice";
 import httpErrorReducer from "./httpErrorSlice";
 import extrinsicReducer from "./extrinsicSlice";
 import blockReducer from "./blockSlice";
+import eventReducer from "./eventSlice";
+import callReducer from "./callSlice";
 import detailTablesReducer from "./detailTablesSlice";
 import filterReducer from "./filterSlice";
 
@@ -20,6 +22,8 @@ export default combineReducers({
   httpError: httpErrorReducer,
   extrinsic: extrinsicReducer,
   block: blockReducer,
+  event: eventReducer,
+  call: callReducer,
   detailTables: detailTablesReducer,
   filter: filterReducer,
 });

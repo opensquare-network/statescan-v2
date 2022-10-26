@@ -1,39 +1,38 @@
 import { useEffect } from "react";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../components/breadCrumb";
-import api from "../services/api";
 import { Panel } from "../components/styled/panel";
 import List from "../components/list";
 import DataDisplay from "../components/dataDisplay";
 import { toCallDetailItem } from "../utils/viewFuncs/toDetailItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   clearHttpError,
   handleApiError,
 } from "../utils/viewFuncs/errorHeandles";
 import DetailLayout from "../components/layout/detailLayout";
+import {
+  callDetailSelector,
+  callFetchDetail,
+  resetCallDetail,
+} from "../store/reducers/callSlice";
 
 function Call() {
   const { id } = useParams();
-  const [call, setCall] = useState(null);
-  const [list, setList] = useState({});
+  const call = useSelector(callDetailSelector);
   const dispatch = useDispatch();
+  const { indexer, method, section } = call ?? {};
 
   useEffect(() => {
-    if (!id) {
-      return;
+    if (id) {
+      clearHttpError(dispatch);
+      dispatch(callFetchDetail(id)).catch((e) => handleApiError(e, dispatch));
     }
-    clearHttpError(dispatch);
-    api
-      .fetch(`/calls/${id}`)
-      .then(({ result: data }) => {
-        setCall(data);
-        const { indexer, method, section } = data ?? {};
-        setList(toCallDetailItem(indexer, method, section));
-      })
-      .catch((e) => handleApiError(e, dispatch));
-  }, [dispatch, id]);
+
+    return () => {
+      dispatch(resetCallDetail());
+    };
+  }, [id, dispatch]);
 
   const breadCrumb = (
     <BreadCrumb
@@ -53,7 +52,7 @@ function Call() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <List data={list} />
+        <List data={toCallDetailItem(indexer, method, section)} />
         <DataDisplay
           title="Attributes"
           tableData={call?.args}

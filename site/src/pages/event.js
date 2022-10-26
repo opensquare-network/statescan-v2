@@ -1,36 +1,38 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
-import Api from "../services/api";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
 import DataDisplay from "../components/dataDisplay";
 import { currencify } from "../utils";
 import DetailLayout from "../components/layout/detailLayout";
 import { toEventDetailItem } from "../utils/viewFuncs/toDetailItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   clearHttpError,
   handleApiError,
 } from "../utils/viewFuncs/errorHeandles";
+import {
+  eventDetailSelector,
+  eventFetchDetail,
+  resetEventDetail,
+} from "../store/reducers/eventSlice";
 
 function Event() {
   const { id } = useParams();
-  const [listData, setListData] = useState({});
-  const [event, setEvent] = useState(null);
+  const event = useSelector(eventDetailSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (id) {
       clearHttpError(dispatch);
-      Api.fetch(`/events/${id}`, {})
-        .then(({ result: event }) => {
-          setEvent(event);
-          setListData(toEventDetailItem(event));
-        })
-        .catch((e) => handleApiError(e, dispatch));
+      dispatch(eventFetchDetail(id)).catch((e) => handleApiError(e, dispatch));
     }
-  }, [dispatch, id]);
+
+    return () => {
+      dispatch(resetEventDetail());
+    };
+  }, [id, dispatch]);
 
   const breadCrumb = (
     <BreadCrumb
@@ -50,7 +52,7 @@ function Event() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <List data={listData} />
+        <List data={toEventDetailItem(event)} />
         <DataDisplay
           tableData={event?.args}
           JSONData={event}
