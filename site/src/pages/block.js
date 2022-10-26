@@ -1,7 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import Api from "../services/api";
 import { useLocation, useParams } from "react-router-dom";
 import List from "../components/list";
 import { Flex } from "../components/styled/flex";
@@ -18,19 +17,24 @@ import {
 } from "../utils/constants";
 import LogsTable from "../components/block/tabTables/logsTable";
 import { currencify } from "../utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DetailLayout from "../components/layout/detailLayout";
 import { isHash } from "../utils/viewFuncs/text";
 import {
   handleApiError,
   clearHttpError,
 } from "../utils/viewFuncs/errorHeandles";
-import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 import DetailTable from "../components/detail/table";
 import {
   toEventTabTableItem,
   toExtrinsicsTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
+import {
+  blockDetailSelector,
+  blockFetchDetail,
+  resetBlockDetail,
+} from "../store/reducers/blockSlice";
+import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 
 function getCountByType(block, type) {
   if (type === Extrinsics) {
@@ -51,22 +55,20 @@ function Block() {
   const [selectedTab, setTab] = useState(
     getTabFromQuery(location, "extrinsics"),
   );
-  const [listData, setListData] = useState({});
-  const [block, setBlock] = useState(null);
+  const block = useSelector(blockDetailSelector);
   const height = block?.height ?? (!isHash(id) ? parseInt(id) : 0);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (id) {
       clearHttpError(dispatch);
-      Api.fetch(`/blocks/${id}`, {})
-        .then(({ result: block }) => {
-          setBlock(block);
-          setListData(toBlockDetailItem(block));
-        })
-        .catch((e) => handleApiError(e, dispatch));
+      dispatch(blockFetchDetail(id)).catch((e) => handleApiError(e, dispatch));
     }
-  }, [dispatch, id]);
+
+    return () => {
+      dispatch(resetBlockDetail());
+    };
+  }, [id, dispatch]);
 
   const breadCrumb = (
     <BreadCrumb
@@ -80,7 +82,7 @@ function Block() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <List data={listData} />
+        <List data={toBlockDetailItem(block)} />
       </Panel>
 
       <Flex>
