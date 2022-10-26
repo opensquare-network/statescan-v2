@@ -7,6 +7,7 @@ import socketReducer from "./socketSlice";
 import tooltipReducer from "./tooltipSlice";
 import httpErrorReducer from "./httpErrorSlice";
 import extrinsicReducer from "./extrinsicSlice";
+import blockReducer from "./blockSlice";
 import detailTablesReducer from "./detailTablesSlice";
 import filterReducer from "./filterSlice";
 
@@ -18,6 +19,7 @@ export default combineReducers({
   tooltip: tooltipReducer,
   httpError: httpErrorReducer,
   extrinsic: extrinsicReducer,
+  block: blockReducer,
   detailTables: detailTablesReducer,
   filter: filterReducer,
 });
