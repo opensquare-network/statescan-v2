@@ -4,11 +4,7 @@ import { hashEllipsis } from "../utils/viewFuncs/text";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect, useState } from "react";
-import {
-  basicFilters,
-  extrinsicsHead,
-  LIST_DEFAULT_PAGE_SIZE,
-} from "../utils/constants";
+import { extrinsicsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import Link from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -22,6 +18,7 @@ import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import Tooltip from "../components/tooltip";
+import { useExtrinsicFilter } from "../utils/hooks/filter";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -44,6 +41,7 @@ function Extrinsics() {
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const filters = useExtrinsicFilter();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -109,7 +107,7 @@ function Extrinsics() {
       <BreadCrumb data={[{ name: "Extrinsics" }]} />
       <Filter
         title={`All ${total.toLocaleString()} extrinsics`}
-        data={basicFilters}
+        data={filters}
       />
       <StyledPanel>
         <Table heads={extrinsicsHead} data={data} loading={loading} />
