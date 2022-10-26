@@ -4,6 +4,8 @@ export const homeSearchHints = "/search/hints";
 
 export const extrinsicApi = (id) => makeApiUrl("extrinsics", id);
 export const blockApi = (id) => makeApiUrl("blocks", id);
+export const eventApi = (id) => makeApiUrl("events", id);
+export const callApi = (id) => makeApiUrl("calls", id);
 
 function makeApiUrl(...args) {
   let urlString = args.join("/");
