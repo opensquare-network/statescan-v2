@@ -8,8 +8,6 @@ const blockSlice = createSlice({
   name,
   initialState: {
     detail: null,
-    eventsTable: {},
-    callsTable: {},
   },
   reducers: {
     setDetail(state, { payload }) {
