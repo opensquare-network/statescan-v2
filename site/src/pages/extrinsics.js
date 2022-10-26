@@ -3,13 +3,12 @@ import { ReactComponent as CrossIcon } from "../components/icons/cross.svg";
 import { hashEllipsis } from "../utils/viewFuncs/text";
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { extrinsicsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import Link from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
 import styled from "styled-components";
-import Api from "../services/api";
 import { SF_Mono_14_500 } from "../styles/text";
 import { no_scroll_bar } from "../styles";
 import Pagination from "../components/pagination";
@@ -19,6 +18,12 @@ import Filter from "../components/filter";
 import * as queryString from "query-string";
 import Tooltip from "../components/tooltip";
 import { useExtrinsicFilter } from "../utils/hooks/filter";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  extrinsicFetchList,
+  extrinsicListLoadingSelector,
+  extrinsicListSelector,
+} from "../store/reducers/extrinsicSlice";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -36,44 +41,35 @@ const ColoredMonoLink = styled(Link)`
 
 function Extrinsics() {
   const location = useLocation();
-  const [extrinsics, setExtrinsics] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [total, setTotal] = useState(0);
+  const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const filters = useExtrinsicFilter();
 
+  const list = useSelector(extrinsicListSelector);
+  const loading = useSelector(extrinsicListLoadingSelector);
+
   useEffect(() => {
     const controller = new AbortController();
-    setLoading(true);
+    const page = getPageFromQuery(location) - 1;
 
-    Api.fetch(
-      `/extrinsics`,
-      {
-        page: getPageFromQuery(location) - 1,
+    dispatch(
+      extrinsicFetchList(
+        page,
         pageSize,
-        signed_only: "true",
-        ...queryString.parse(location.search),
-      },
-      { signal: controller.signal },
-    )
-      .then(({ result }) => {
-        result?.items && setExtrinsics(result?.items);
-        result?.total && setTotal(result?.total);
-        setLoading(false);
-      })
-      .catch((e) => {
-        if (e.message === "The user aborted a request.") {
-          return;
-        }
-        setLoading(false);
-      });
+        {
+          signed_only: "true",
+          ...queryString.parse(location.search),
+        },
+        { signal: controller.signal },
+      ),
+    );
 
     return () => controller.abort();
-  }, [location, pageSize]);
+  }, [dispatch, location, pageSize]);
 
   const data =
-    extrinsics?.map((extrinsic, index) => {
+    list?.items?.map((extrinsic, index) => {
       return [
         <ColoredLink
           key={`${index}-1`}
@@ -106,12 +102,16 @@ function Extrinsics() {
     <Layout>
       <BreadCrumb data={[{ name: "Extrinsics" }]} />
       <Filter
-        title={`All ${total.toLocaleString()} extrinsics`}
+        title={`All ${list?.total?.toLocaleString?.()} extrinsics`}
         data={filters}
       />
       <StyledPanel>
         <Table heads={extrinsicsHead} data={data} loading={loading} />
-        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
+        <Pagination
+          page={parseInt(page)}
+          pageSize={pageSize}
+          total={list?.total}
+        />
       </StyledPanel>
     </Layout>
   );
