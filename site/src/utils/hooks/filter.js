@@ -80,6 +80,7 @@ export function useExtrinsicFilter() {
         value: getFromQuery(location, "section"),
         name: "Section",
         query: "section",
+        isSearch: true,
         options: [{ text: "All", value: "" }].concat(
           sectionOptions.map((item) => {
             return {
@@ -105,6 +106,7 @@ export function useExtrinsicFilter() {
       const method = {
         value: getFromQuery(location, "method"),
         name: "Method",
+        isSearch: true,
         query: "method",
         options: [{ text: "All", value: "" }].concat(
           methodOptions.map((method) => {

@@ -133,6 +133,7 @@ export default function Filter({ title, data }) {
             <DropdownWrapper key={index}>
               <span>{item.name}</span>
               <Dropdown
+                isSearch={!!item?.isSearch}
                 value={item.value}
                 name={item.name}
                 options={item.options}
