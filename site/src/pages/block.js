@@ -5,12 +5,17 @@ import Api from "../services/api";
 import { useLocation, useParams } from "react-router-dom";
 import List from "../components/list";
 import { Flex } from "../components/styled/flex";
-import ExtrinsicsTable from "../components/block/tabTables/extrinsicsTable";
-import EventsTable from "../components/block/tabTables/eventsTable";
 import { useNavigate } from "react-router-dom";
 import { getTabFromQuery } from "../utils/viewFuncs";
 import Tab from "../components/tab";
-import { blockTabs, Events, Extrinsics, Logs } from "../utils/constants";
+import {
+  blockEventsHead,
+  blockExtrinsicsHead,
+  blockTabs,
+  Events,
+  Extrinsics,
+  Logs,
+} from "../utils/constants";
 import LogsTable from "../components/block/tabTables/logsTable";
 import { currencify } from "../utils";
 import { useDispatch } from "react-redux";
@@ -21,6 +26,11 @@ import {
   clearHttpError,
 } from "../utils/viewFuncs/errorHeandles";
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
+import DetailTable from "../components/detail/table";
+import {
+  toEventTabTableItem,
+  toExtrinsicsTabTableItem,
+} from "../utils/viewFuncs/toTableItem";
 
 function getCountByType(block, type) {
   if (type === Extrinsics) {
@@ -87,8 +97,22 @@ function Block() {
           />
         ))}
       </Flex>
-      {selectedTab === Extrinsics && <ExtrinsicsTable height={block?.height} />}
-      {selectedTab === Events && <EventsTable height={block?.height} />}
+      {selectedTab === Extrinsics && (
+        <DetailTable
+          url={`/blocks/${block?.height}/extrinsics`}
+          heads={blockExtrinsicsHead}
+          transformData={toExtrinsicsTabTableItem}
+          tableKey="blockExtrinsicsTable"
+        />
+      )}
+      {selectedTab === Events && (
+        <DetailTable
+          url={`/blocks/${block?.height}/events`}
+          heads={blockEventsHead}
+          transformData={toEventTabTableItem}
+          tableKey="blockEventsTable"
+        />
+      )}
       {selectedTab === Logs && (
         <LogsTable height={block?.height} logs={block?.digest?.logs} />
       )}
