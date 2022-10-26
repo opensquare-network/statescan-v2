@@ -39,8 +39,6 @@ const ColoredMonoLink = styled(Link)`
 
 function Extrinsics() {
   const location = useLocation();
-  const [pendingRequestController, setPendingRequestController] =
-    useState(null);
   const [extrinsics, setExtrinsics] = useState(null);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -50,6 +48,7 @@ function Extrinsics() {
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
+
     Api.fetch(
       `/extrinsics`,
       {
@@ -64,20 +63,15 @@ function Extrinsics() {
         result?.items && setExtrinsics(result?.items);
         result?.total && setTotal(result?.total);
         setLoading(false);
-        setPendingRequestController(null);
       })
       .catch((e) => {
         if (e.message === "The user aborted a request.") {
           return;
         }
         setLoading(false);
-        setPendingRequestController(null);
       });
-    if (pendingRequestController) {
-      pendingRequestController.abort();
-    }
-    setPendingRequestController(controller);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    return () => controller.abort();
   }, [location, pageSize]);
 
   const data =
