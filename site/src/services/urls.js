@@ -2,6 +2,7 @@
 
 export const homeSearchHints = "/search/hints";
 
+export const extrinsicListApi = makeApiUrl("extrinsics");
 export const extrinsicApi = (id) => makeApiUrl("extrinsics", id);
 export const blockApi = (id) => makeApiUrl("blocks", id);
 
