@@ -119,7 +119,7 @@ function Events() {
       <BreadCrumb data={[{ name: "Events" }]} />
 
       <Filter
-        title={`All ${list?.total?.toLocaleString?.()} events`}
+        title={`All ${list?.total?.toLocaleString?.() ?? ""} events`}
         data={filters}
       />
 
