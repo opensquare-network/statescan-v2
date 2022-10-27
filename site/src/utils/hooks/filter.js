@@ -8,7 +8,7 @@ import { basicFilters } from "../constants";
 import { useLocation } from "react-router-dom";
 import * as queryString from "query-string";
 const { stringCamelCase } = require("@polkadot/util");
-console.log(stringCamelCase);
+
 const getFromQuery = (location, key, defaultValue = "") => {
   return (
     queryString.parse(location.search)?.[key] ?? defaultValue?.toString() ?? ""
