@@ -36,7 +36,7 @@ function Calls() {
 
   useEffect(() => {
     dispatch(cleanCallList());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Layout>

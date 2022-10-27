@@ -83,7 +83,7 @@ function Events() {
 
   useEffect(() => {
     dispatch(cleanEventList());
-  }, []);
+  }, [dispatch]);
 
   const data =
     list?.items?.map((event, index) => {
