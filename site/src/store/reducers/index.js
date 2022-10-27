@@ -12,6 +12,7 @@ import eventReducer from "./eventSlice";
 import callReducer from "./callSlice";
 import detailTablesReducer from "./detailTablesSlice";
 import filterReducer from "./filterSlice";
+import accountReducer from "./accountSlice";
 
 export default combineReducers({
   setting: settingReducer,
@@ -26,4 +27,5 @@ export default combineReducers({
   call: callReducer,
   detailTables: detailTablesReducer,
   filter: filterReducer,
+  account: accountReducer,
 });
