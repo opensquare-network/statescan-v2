@@ -93,10 +93,11 @@ function Extrinsic() {
       data={[
         { name: "Extrinsics", path: "/extrinsics" },
         {
-          name:
-            `${currencify(extrinsic?.indexer?.blockHeight)}-${
-              extrinsic?.indexer?.extrinsicIndex ?? ""
-            }` ?? "...",
+          name: extrinsic
+            ? `${currencify(extrinsic?.indexer?.blockHeight)}-${
+                extrinsic?.indexer?.extrinsicIndex ?? ""
+              }`
+            : "...",
         },
       ]}
     />

@@ -2,10 +2,20 @@
 
 export const homeSearchHints = "/search/hints";
 
+export const extrinsicListApi = makeApiUrl("extrinsics");
 export const extrinsicApi = (id) => makeApiUrl("extrinsics", id);
-export const extrinsicEventsApi = (id) =>
-  makeApiUrl(extrinsicApi(id), "events");
-export const extrinsicCallsApi = (id) => makeApiUrl(extrinsicApi(id), "calls");
+
+export const blockListApi = makeApiUrl("blocks");
+export const blockApi = (id) => makeApiUrl("blocks", id);
+
+export const eventListApi = makeApiUrl("events");
+export const eventApi = (id) => makeApiUrl("events", id);
+
+export const callListApi = makeApiUrl("calls");
+export const callApi = (id) => makeApiUrl("calls", id);
+
+export const accountListApi = makeApiUrl("accounts");
+export const accountApi = (id) => makeApiUrl("accounts", id);
 
 function makeApiUrl(...args) {
   let urlString = args.join("/");

@@ -1,8 +1,10 @@
 import { ReactComponent as Caret } from "../icons/caret-down.svg";
 import styled, { css } from "styled-components";
 import { useState, useRef } from "react";
-import { FlexBetween } from "../styled/flex";
+import { Flex, FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
+import { Inter_14_500 } from "../../styles/text";
+import { pretty_scroll_bar } from "../../styles";
 
 const CaretIcon = styled(Caret)`
   path {
@@ -15,7 +17,7 @@ const Wrapper = styled.div`
 `;
 
 const SelectWrapper = styled(FlexBetween)`
-  width: 160px;
+  width: 140px;
   height: 26px;
   background: ${(p) => p.theme.fillPopup};
   border-radius: 6px;
@@ -62,11 +64,15 @@ const OptionWrapper = styled.div`
   border-radius: 8px;
 `;
 
+const OptionItemsWrapper = styled.div`
+  max-height: 240px;
+  overflow-y: scroll;
+  ${pretty_scroll_bar};
+`;
+
 const OptionItem = styled.div`
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
+  padding: 8px 12px;
+  ${Inter_14_500};
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -82,12 +88,52 @@ const OptionItem = styled.div`
     `}
 `;
 
-export default function Dropdown({ value, options, name, onSelect }) {
+const SearchBoxWrapper = styled(Flex)`
+  height: 52px;
+  border-bottom: 1px solid ${(p) => p.theme.strokeBox};
+  input {
+    all: unset;
+    padding: 8px 12px;
+    color: ${(p) => p.theme.fontTertiary};
+    ${Inter_14_500};
+  }
+`;
+
+const SearchBox = ({ searchText, isSearch, setSearchText, name }) => {
+  if (!isSearch) {
+    return null;
+  }
+  return (
+    <SearchBoxWrapper>
+      <input
+        value={searchText}
+        onChange={(e) => {
+          setSearchText(e.target.value);
+        }}
+        placeholder={`Search of ${name}...`}
+      />
+    </SearchBoxWrapper>
+  );
+};
+
+export default function Dropdown({
+  value,
+  options,
+  name,
+  onSelect,
+  isSearch = false,
+}) {
   const [isActive, setIsActive] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const ref = useRef();
   useOnClickOutside(ref, () => setIsActive(false));
 
   const showText = options.find((item) => item.value === value)?.text;
+
+  const displayOptions =
+    options.filter((item) =>
+      item.text.toLowerCase().includes(searchText.toLowerCase()),
+    ) ?? [];
 
   return (
     <Wrapper ref={ref}>
@@ -97,19 +143,28 @@ export default function Dropdown({ value, options, name, onSelect }) {
       </SelectWrapper>
       {isActive && (
         <OptionWrapper>
-          {(options || []).map((item, index) => (
-            <OptionItem
-              key={index}
-              isActive={item.value === value}
-              onClick={() => {
-                setIsActive(false);
-                if (item.value === value) return;
-                onSelect(name, item.value);
-              }}
-            >
-              {item.text}
-            </OptionItem>
-          ))}
+          <SearchBox
+            isSearch={isSearch}
+            searchText={searchText}
+            setSearchText={setSearchText}
+            name={name}
+          />
+          <OptionItemsWrapper>
+            {displayOptions.map((option, index) => (
+              <OptionItem
+                key={index}
+                isActive={option.value === value && value !== ""}
+                onClick={() => {
+                  setIsActive(false);
+                  if (option.value === value) return;
+                  onSelect(name, option.value, option);
+                  setSearchText("");
+                }}
+              >
+                {option.text}
+              </OptionItem>
+            ))}
+          </OptionItemsWrapper>
         </OptionWrapper>
       )}
     </Wrapper>

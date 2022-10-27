@@ -1,7 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { Fragment, useEffect, useState } from "react";
-import Api from "../services/api";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import List from "../components/list";
 import { addressEllipsis } from "@osn/common";
@@ -9,10 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Tab from "../components/tab";
 import { toAccountDetailItem } from "../utils/viewFuncs/toDetailItem";
-import {
-  clearHttpError,
-  handleApiError,
-} from "../utils/viewFuncs/errorHeandles";
 import DetailLayout from "../components/layout/detailLayout";
 import { getTabFromQuery } from "../utils/viewFuncs";
 import {
@@ -28,16 +23,26 @@ import {
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
 import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
+import {
+  accountDetailSelector,
+  accountFetchDetail,
+} from "../store/reducers/accountSlice";
 
 function Account() {
   const { id } = useParams();
   const location = useLocation();
   const [, setSearchParams] = useSearchParams();
   const [selectedTab, setTab] = useState(getTabFromQuery(location, Transfers));
-  const [listData, setListData] = useState({});
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
   const tablesData = useSelector(detailTablesSelector);
+
+  const detail = useSelector(accountDetailSelector);
+
+  const listData = useMemo(
+    () => (detail ? toAccountDetailItem(id, detail, chainSetting) : {}),
+    [id, detail, chainSetting],
+  );
 
   const tabs = [
     { name: Extrinsics, count: tablesData?.accountTransfersTable?.total },
@@ -71,14 +76,9 @@ function Account() {
 
   useEffect(() => {
     if (id) {
-      clearHttpError(dispatch);
-      Api.fetch(`/accounts/${id}`, {})
-        .then(({ result: account }) => {
-          setListData(toAccountDetailItem(id, account, chainSetting));
-        })
-        .catch((e) => handleApiError(e, dispatch));
+      dispatch(accountFetchDetail(id));
     }
-  }, [dispatch, id, chainSetting]);
+  }, [dispatch, id]);
 
   const breadCrumbItems = (
     <BreadCrumb

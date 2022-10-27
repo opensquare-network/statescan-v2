@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services/api";
-import { extrinsicApi, extrinsicListApi } from "../../services/urls";
+import { blockApi, blockListApi } from "../../services/urls";
 
-const name = "extrinsic";
+const name = "block";
 
-const extrinsicSlice = createSlice({
+const blockSlice = createSlice({
   name,
   initialState: {
     list: null,
@@ -24,18 +24,18 @@ const extrinsicSlice = createSlice({
   },
 });
 
-export const { setDetail, setList, setListLoading } = extrinsicSlice.actions;
+export const { setDetail, setList, setListLoading } = blockSlice.actions;
 
-export const extrinsicListSelector = (state) => state[name].list;
-export const extrinsicListLoadingSelector = (state) => state[name].listLoading;
-export const extrinsicDetailSelector = (state) => state[name].detail;
+export const blockListSelector = (state) => state[name].list;
+export const blockListLoadingSelector = (state) => state[name].listLoading;
+export const blockDetailSelector = (state) => state[name].detail;
 
-export const extrinsicFetchList =
+export const blockFetchList =
   (page, pageSize, params, fetchOptions) => async (dispatch) => {
     dispatch(setListLoading(true));
 
     return api
-      .fetch(extrinsicListApi, { page, pageSize, ...params }, fetchOptions)
+      .fetch(blockListApi, { page, pageSize, ...params }, fetchOptions)
       .then(({ result }) => {
         if (result) {
           dispatch(setList(result));
@@ -45,19 +45,19 @@ export const extrinsicFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanExtrinsicList = () => (dispatch) => {
+export const cleanBlockList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
-export const extrinsicFetchDetail = (id) => async (dispatch) => {
-  return api.fetch(extrinsicApi(id)).then(({ result }) => {
+export const blockFetchDetail = (id) => async (dispatch) => {
+  return api.fetch(blockApi(id)).then(({ result }) => {
     if (result) {
       dispatch(setDetail(result));
     }
   });
 };
-export const resetExtrinsicDetail = () => (dispatch) => {
+export const resetBlockDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 
-export default extrinsicSlice.reducer;
+export default blockSlice.reducer;

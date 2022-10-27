@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services/api";
-import { extrinsicApi, extrinsicListApi } from "../../services/urls";
+import { eventApi, eventListApi } from "../../services/urls";
 
-const name = "extrinsic";
+const name = "event";
 
-const extrinsicSlice = createSlice({
+const eventSlice = createSlice({
   name,
   initialState: {
     list: null,
@@ -24,18 +24,18 @@ const extrinsicSlice = createSlice({
   },
 });
 
-export const { setDetail, setList, setListLoading } = extrinsicSlice.actions;
+export const { setDetail, setList, setListLoading } = eventSlice.actions;
 
-export const extrinsicListSelector = (state) => state[name].list;
-export const extrinsicListLoadingSelector = (state) => state[name].listLoading;
-export const extrinsicDetailSelector = (state) => state[name].detail;
+export const eventListSelector = (state) => state[name].list;
+export const eventListLoadingSelector = (state) => state[name].listLoading;
+export const eventDetailSelector = (state) => state[name].detail;
 
-export const extrinsicFetchList =
+export const eventFetchList =
   (page, pageSize, params, fetchOptions) => async (dispatch) => {
     dispatch(setListLoading(true));
 
     return api
-      .fetch(extrinsicListApi, { page, pageSize, ...params }, fetchOptions)
+      .fetch(eventListApi, { page, pageSize, ...params }, fetchOptions)
       .then(({ result }) => {
         if (result) {
           dispatch(setList(result));
@@ -45,19 +45,19 @@ export const extrinsicFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanExtrinsicList = () => (dispatch) => {
+export const cleanEventList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
-export const extrinsicFetchDetail = (id) => async (dispatch) => {
-  return api.fetch(extrinsicApi(id)).then(({ result }) => {
+export const eventFetchDetail = (id) => async (dispatch) => {
+  return api.fetch(eventApi(id)).then(({ result }) => {
     if (result) {
       dispatch(setDetail(result));
     }
   });
 };
-export const resetExtrinsicDetail = () => (dispatch) => {
+export const resetEventDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 
-export default extrinsicSlice.reducer;
+export default eventSlice.reducer;

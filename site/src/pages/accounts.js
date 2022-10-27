@@ -1,19 +1,24 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { accountsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import Layout from "../components/layout";
 import Table from "../components/table";
-import Api from "../services/api";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import { toPrecision } from "@osn/common";
 import ValueDisplay from "../components/displayValue";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import AddressOrIdentity from "../components/address";
 import styled from "styled-components";
+import {
+  accountFetchList,
+  accountListLoadingSelector,
+  accountListSelector,
+  cleanAccountList,
+} from "../store/reducers/accountSlice";
 
 const AlignLeft = styled.div`
   * {
@@ -23,30 +28,32 @@ const AlignLeft = styled.div`
 
 function Accounts() {
   const location = useLocation();
+  const dispatch = useDispatch();
   const chainSetting = useSelector(chainSettingSelector);
-  const [loading, setLoading] = useState(false);
-  const [accounts, setAccounts] = useState(null);
-  const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
+  const list = useSelector(accountListSelector);
+  const loading = useSelector(accountListLoadingSelector);
+
   useEffect(() => {
-    setLoading(true);
-    Api.fetch(`/accounts`, {
-      page: getPageFromQuery(location) - 1,
-      pageSize,
-    })
-      .then(({ result }) => {
-        setAccounts(result?.items ?? []);
-        setTotal(result?.total ?? 0);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [location, pageSize]);
+    const controller = new AbortController();
+
+    dispatch(
+      accountFetchList(getPageFromQuery(location) - 1, pageSize, null, {
+        signal: controller.signal,
+      }),
+    );
+
+    return () => controller.abort();
+  }, [dispatch, location, pageSize]);
+
+  useEffect(() => {
+    dispatch(cleanAccountList());
+  }, [dispatch]);
 
   const data =
-    accounts?.map((account, index) => {
+    list?.items?.map((account, index) => {
       return [
         `#${(parseInt(page) - 1) * pageSize + index + 1}`,
         <AlignLeft>
@@ -64,7 +71,11 @@ function Accounts() {
       <BreadCrumb data={[{ name: "Accounts" }]} />
       <StyledPanelTableWrapper>
         <Table heads={accountsHead} data={data} loading={loading} />
-        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
+        <Pagination
+          page={parseInt(page)}
+          pageSize={pageSize}
+          total={list?.total}
+        />
       </StyledPanelTableWrapper>
     </Layout>
   );

@@ -23,6 +23,10 @@ const InnerTableWrapper = styled.td`
   background: ${({ theme }) => theme.fillBase}; ;
 `;
 
+const WrapText = styled.span`
+  word-break: break-all;
+`;
+
 function TableRow({ heads, row = [] }) {
   const timeType = useSelector(timeTypeSelector);
   const [show, setShow] = useState(false);
@@ -44,6 +48,14 @@ function TableRow({ heads, row = [] }) {
             return (
               <Td style={{ ...style, width: "100%" }} key={index}>
                 <FoldButton fold={!show} onClick={() => setShow(!show)} />
+              </Td>
+            );
+          }
+
+          if (type === "call") {
+            return (
+              <Td style={style} key={index}>
+                <WrapText>{value}</WrapText>
               </Td>
             );
           }

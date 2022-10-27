@@ -37,11 +37,12 @@ async function updateTotalIssuance() {
 }
 
 async function startJobs() {
-  await updateTotalIssuance();
-  setInterval(updateTotalIssuance, 6000);
-
-  await updateHeights();
-  setInterval(updateHeights, 6 * 1000);
+  try {
+    await updateTotalIssuance();
+    await updateHeights();
+  } finally {
+    setTimeout(startJobs, 6000);
+  }
 }
 
 module.exports = {

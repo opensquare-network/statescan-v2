@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services/api";
-import { extrinsicApi, extrinsicListApi } from "../../services/urls";
+import { callApi, callListApi } from "../../services/urls";
 
-const name = "extrinsic";
+const name = "call";
 
-const extrinsicSlice = createSlice({
+const callSlice = createSlice({
   name,
   initialState: {
     list: null,
@@ -24,18 +24,18 @@ const extrinsicSlice = createSlice({
   },
 });
 
-export const { setDetail, setList, setListLoading } = extrinsicSlice.actions;
+export const { setDetail, setList, setListLoading } = callSlice.actions;
 
-export const extrinsicListSelector = (state) => state[name].list;
-export const extrinsicListLoadingSelector = (state) => state[name].listLoading;
-export const extrinsicDetailSelector = (state) => state[name].detail;
+export const callListSelector = (state) => state[name].list;
+export const callListLoadingSelector = (state) => state[name].listLoading;
+export const callDetailSelector = (state) => state[name].detail;
 
-export const extrinsicFetchList =
+export const callFetchList =
   (page, pageSize, params, fetchOptions) => async (dispatch) => {
     dispatch(setListLoading(true));
 
     return api
-      .fetch(extrinsicListApi, { page, pageSize, ...params }, fetchOptions)
+      .fetch(callListApi, { page, pageSize, ...params }, fetchOptions)
       .then(({ result }) => {
         if (result) {
           dispatch(setList(result));
@@ -45,19 +45,19 @@ export const extrinsicFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanExtrinsicList = () => (dispatch) => {
+export const cleanCallList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
-export const extrinsicFetchDetail = (id) => async (dispatch) => {
-  return api.fetch(extrinsicApi(id)).then(({ result }) => {
+export const callFetchDetail = (id) => async (dispatch) => {
+  return api.fetch(callApi(id)).then(({ result }) => {
     if (result) {
       dispatch(setDetail(result));
     }
   });
 };
-export const resetExtrinsicDetail = () => (dispatch) => {
+export const resetCallDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 
-export default extrinsicSlice.reducer;
+export default callSlice.reducer;

@@ -125,7 +125,7 @@ export const menusBlockchain = [
 export const blocksHead = [
   { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
-  { name: "Status", align: "center", width: 160 },
+  { name: "Status", align: "center", width: 112 },
   { name: "Hash", width: 240 },
   { name: "Validator", width: 200 },
   { name: "Extrinsics", align: "right", width: 152 },
@@ -138,14 +138,14 @@ export const blockExtrinsicsHead = [
   { name: "ID", width: 160 },
   { name: "Hash", width: 200 },
   { name: "Result", width: 160, align: "center" },
-  { name: "Call", width: 200 },
+  { name: "Call", type: "call" },
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 
 export const blockEventsHead = [
   { name: "ID", width: 160 },
   { name: "Extrinsic ID", width: 200 },
-  { name: "Call", width: 200 },
+  { name: "Call", type: "call" },
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 
@@ -164,7 +164,7 @@ export const extrinsicsHead = [
   { name: "Time", type: "time", width: 200 },
   { name: "Hash", width: 200 },
   { name: "Result", width: 160, align: "center" },
-  { name: "Call", width: 200 },
+  { name: "Call", type: "call" },
   { name: "Data", type: "data", align: "right", display: "table" },
 ];
 
@@ -173,7 +173,7 @@ export const eventsHead = [
   { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Extrinsic ID", width: 160 },
-  { name: "Action" },
+  { name: "Action", type: "call" },
   { name: "Data", type: "data", align: "right", width: 76, display: "table" },
 ];
 
@@ -183,7 +183,7 @@ export const callsHead = [
   { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Method", width: 200 },
-  { name: "Call" },
+  { name: "Call", type: "call" },
   { name: "Data", type: "data", align: "right", width: 76, display: "table" },
 ];
 
