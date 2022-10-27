@@ -8,6 +8,8 @@ export const extrinsicApi = (id) => makeApiUrl("extrinsics", id);
 export const blockListApi = makeApiUrl("blocks");
 export const blockApi = (id) => makeApiUrl("blocks", id);
 export const eventApi = (id) => makeApiUrl("events", id);
+
+export const callListApi = makeApiUrl("calls");
 export const callApi = (id) => makeApiUrl("calls", id);
 
 export const accountListApi = makeApiUrl("accounts");
