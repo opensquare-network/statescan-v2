@@ -50,7 +50,7 @@ function Accounts() {
 
   useEffect(() => {
     dispatch(cleanAccountList());
-  }, []);
+  }, [dispatch]);
 
   const data =
     list?.items?.map((account, index) => {

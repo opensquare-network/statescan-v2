@@ -51,7 +51,7 @@ export function useExtrinsicFilter() {
     if (!specFilters) {
       dispatch(fetchSpecsFilter());
     }
-  }, [specFilters]);
+  }, [dispatch, specFilters]);
 
   useEffect(() => {
     if (specFilters) {
