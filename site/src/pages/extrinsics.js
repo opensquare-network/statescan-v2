@@ -20,6 +20,7 @@ import Tooltip from "../components/tooltip";
 import { useExtrinsicFilter } from "../utils/hooks/filter";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  cleanExtrinsicList,
   extrinsicFetchList,
   extrinsicListLoadingSelector,
   extrinsicListSelector,
@@ -67,6 +68,10 @@ function Extrinsics() {
 
     return () => controller.abort();
   }, [dispatch, location, pageSize]);
+
+  useEffect(() => {
+    dispatch(cleanExtrinsicList());
+  }, []);
 
   const data =
     list?.items?.map((extrinsic, index) => {
