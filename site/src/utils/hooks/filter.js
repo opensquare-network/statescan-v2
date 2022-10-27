@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import * as queryString from "query-string";
 
 const getFromQuery = (location, key, defaultValue = "") => {
-  return queryString.parse(location.search)?.[key] ?? defaultValue;
+  return queryString.parse(location.search)?.[key] ?? defaultValue.toString();
 };
 
 function getSectionDescendant(section) {
@@ -55,7 +55,11 @@ export function useExtrinsicFilter() {
 
   useEffect(() => {
     if (specFilters) {
-      const version = getFromQuery(location, "version");
+      const version = getFromQuery(
+        location,
+        "version",
+        specFilters?.[0]?.specVersion ?? "",
+      );
       const sectionOptions = (
         specFilters.find((spec) => spec.specVersion === version) ??
         specFilters[0]
@@ -70,15 +74,13 @@ export function useExtrinsicFilter() {
         value: version,
         name: "Spec",
         query: "version",
-        options: [{ text: "All", value: "" }].concat(
-          specFilters.map((item) => {
-            return {
-              text: item.specVersion.toString(),
-              value: item.specVersion.toString(),
-              descendant: getSpecVersionDescendant(item),
-            };
-          }),
-        ),
+        options: specFilters.map((item) => {
+          return {
+            text: item.specVersion.toString(),
+            value: item.specVersion.toString(),
+            descendant: getSpecVersionDescendant(item),
+          };
+        }),
       };
       const section = {
         value: getFromQuery(location, "section"),
@@ -86,13 +88,17 @@ export function useExtrinsicFilter() {
         query: "section",
         isSearch: true,
         options: [{ text: "All", value: "" }].concat(
-          sectionOptions.map((section) => {
-            return {
-              text: section.name,
-              value: section.name,
-              descendant: getSectionDescendant(section),
-            };
-          }),
+          sectionOptions
+            .filter((section) => {
+              return section?.calls?.length > 0;
+            })
+            .map((section) => {
+              return {
+                text: section.name,
+                value: section.name,
+                descendant: getSectionDescendant(section),
+              };
+            }),
         ),
       };
       const method = {
