@@ -89,12 +89,13 @@ export default function Filter({ title, data }) {
   }, [data]);
 
   const onDropdown = (name, value, item) => {
-    const descendant = item?.descendant ? item?.descendant : null;
-    console.log(item);
+    let descendant = item?.descendant ?? null;
     setDropdownData(
       (selectData || []).map((item) => {
         if (item?.name === descendant?.name) {
-          return descendant;
+          const newItem = { ...descendant };
+          descendant = descendant?.options?.[0]?.descendant ?? null;
+          return newItem;
         }
         return item.name === name ? { ...item, value } : item;
       }),

@@ -35,7 +35,7 @@ function getSpecVersionDescendant(specVersion) {
       return {
         text: section.name,
         value: section.name,
-        getDescendant: getSectionDescendant,
+        descendant: getSectionDescendant(section),
       };
     }),
   };
