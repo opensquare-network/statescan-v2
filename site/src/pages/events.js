@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
+import { useExtrinsicFilter } from "../utils/hooks/filter";
 
 const filter = [
   {
@@ -52,6 +53,7 @@ function Events() {
   const [total, setTotal] = useState(0);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const filters = useExtrinsicFilter();
 
   useEffect(() => {
     setLoading(true);
@@ -104,7 +106,10 @@ function Events() {
     <Layout>
       <BreadCrumb data={[{ name: "Events" }]} />
 
-      <Filter title={`All ${total.toLocaleString()} events`} data={filter} />
+      <Filter
+        title={`All ${total?.toLocaleString?.()} events`}
+        data={filters}
+      />
 
       <StyledPanelTableWrapper>
         <Table heads={eventsHead} data={data} loading={loading} />
