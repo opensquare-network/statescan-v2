@@ -11,6 +11,7 @@ export const eventApi = (id) => makeApiUrl("events", id);
 export const callApi = (id) => makeApiUrl("calls", id);
 
 export const accountListApi = makeApiUrl("accounts");
+export const accountApi = (id) => makeApiUrl("accounts", id);
 
 function makeApiUrl(...args) {
   let urlString = args.join("/");
