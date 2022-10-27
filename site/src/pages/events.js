@@ -78,7 +78,7 @@ function Events() {
     );
 
     return () => controller.abort();
-  }, [location, pageSize]);
+  }, [dispatch, location, pageSize]);
 
   const data =
     list?.items?.map((event, index) => {
