@@ -30,17 +30,13 @@ const Panel = styled(Flex)`
 `;
 
 const OverviewItemsWrapper = styled.div`
-  --gap: 32px;
+  --gap-y: 32px;
   --cols: 6;
-  --gaps: calc(var(--gap) * calc(var(--cols) - 1));
   flex: 1;
   display: grid;
-  gap: var(--gap);
+  gap: var(--gap-y) 0;
   flex-wrap: wrap;
-  grid-template-columns: repeat(
-    var(--cols),
-    calc((100% - var(--gaps)) / var(--cols))
-  );
+  grid-template-columns: repeat(var(--cols), calc(100% / var(--cols)));
 
   ${lgcss(css`
     --cols: 3;
