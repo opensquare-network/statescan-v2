@@ -13,6 +13,7 @@ import * as queryString from "query-string";
 import { useExtrinsicFilter } from "../utils/hooks/filter";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  cleanEventList,
   eventFetchList,
   eventListLoadingSelector,
   eventListSelector,
@@ -79,6 +80,10 @@ function Events() {
 
     return () => controller.abort();
   }, [dispatch, location, pageSize]);
+
+  useEffect(() => {
+    dispatch(cleanEventList());
+  }, []);
 
   const data =
     list?.items?.map((event, index) => {
