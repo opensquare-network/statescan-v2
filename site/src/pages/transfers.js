@@ -91,7 +91,7 @@ function Transfers() {
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
       <Filter
-        title={`All ${total?.toLocaleString() ?? ""} transfers`}
+        title={`All ${total?.toLocaleString() ?? "gi"} transfers`}
         data={basicFilters}
       />
       <StyledPanelTableWrapper>
