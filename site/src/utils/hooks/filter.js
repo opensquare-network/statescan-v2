@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import { basicFilters } from "../constants";
 import { useLocation } from "react-router-dom";
 import * as queryString from "query-string";
-
+const { stringCamelCase } = require("@polkadot/util");
+console.log(stringCamelCase);
 const getFromQuery = (location, key, defaultValue = "") => {
   return (
     queryString.parse(location.search)?.[key] ?? defaultValue?.toString() ?? ""
@@ -22,6 +23,7 @@ const AllOption = {
 const makeOptionWithEmptyDescendant = (option, descendantName) => {
   return {
     ...option,
+    isSearch: true,
     descendant: {
       value: "",
       name: descendantName,
@@ -53,11 +55,12 @@ function getSectionDescendant(section) {
     value: "",
     name: "Method",
     query: "method",
+    isSearch: true,
     options: [AllOption].concat(
       section.calls.map((method) => {
         return {
           text: method,
-          value: method,
+          value: stringCamelCase(method),
         };
       }),
     ),
@@ -84,6 +87,7 @@ export function useExtrinsicFilter() {
         "version",
         specFilters?.[0]?.specVersion,
       );
+
       const sectionOptions = (
         (
           specFilters.find((spec) => spec.specVersion === version) ??
@@ -92,9 +96,11 @@ export function useExtrinsicFilter() {
       ).filter((section) => {
         return section?.calls?.length > 0;
       });
+
       const methodOptions = (
         sectionOptions.find(
-          (section) => section.name === getFromQuery(location, "section"),
+          (section) =>
+            section.name.toLowerCase() === getFromQuery(location, "section"),
         ) ?? { calls: [] }
       ).calls;
 
@@ -121,7 +127,7 @@ export function useExtrinsicFilter() {
           sectionOptions.map((section) => {
             return {
               text: section.name,
-              value: section.name,
+              value: section.name.toLowerCase(),
               descendant: getSectionDescendant(section),
             };
           }),
@@ -137,7 +143,7 @@ export function useExtrinsicFilter() {
           methodOptions.map((method) => {
             return {
               text: method,
-              value: method,
+              value: stringCamelCase(method),
             };
           }),
         ),

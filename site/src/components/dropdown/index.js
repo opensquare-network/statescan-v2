@@ -158,6 +158,7 @@ export default function Dropdown({
                   setIsActive(false);
                   if (option.value === value) return;
                   onSelect(name, option.value, option);
+                  setSearchText("");
                 }}
               >
                 {option.text}
