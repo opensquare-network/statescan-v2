@@ -27,7 +27,7 @@ function Transfers() {
   const chainSetting = useSelector(chainSettingSelector);
   const [transfers, setTransfers] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(null);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
@@ -91,7 +91,7 @@ function Transfers() {
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
       <Filter
-        title={`All ${total.toLocaleString()} transfers`}
+        title={`All ${total?.toLocaleString() ?? "gi"} transfers`}
         data={basicFilters}
       />
       <StyledPanelTableWrapper>
