@@ -9,35 +9,58 @@ import { useLocation } from "react-router-dom";
 import * as queryString from "query-string";
 
 const getFromQuery = (location, key, defaultValue = "") => {
-  return queryString.parse(location.search)?.[key] ?? defaultValue.toString();
+  return (
+    queryString.parse(location.search)?.[key] ?? defaultValue?.toString() ?? ""
+  );
 };
 
-function getSectionDescendant(section) {
+const AllOption = {
+  value: "",
+  text: "All",
+};
+
+const makeOptionWithEmptyDescendant = (option, descendantName) => {
   return {
-    value: section.calls[0],
-    name: "Method",
-    query: "method",
-    options: section.calls.map((method) => {
-      return {
-        text: method,
-        value: method,
-      };
-    }),
+    ...option,
+    descendant: {
+      value: "",
+      name: descendantName,
+      query: descendantName.toLowerCase(),
+      options: [AllOption],
+    },
   };
-}
+};
 
 function getSpecVersionDescendant(specVersion) {
   return {
-    value: specVersion.pallets[0].name,
+    value: "",
     name: "Section",
     query: "section",
-    options: specVersion.pallets.map((section) => {
-      return {
-        text: section.name,
-        value: section.name,
-        descendant: getSectionDescendant(section),
-      };
-    }),
+    options: [makeOptionWithEmptyDescendant(AllOption, "Method")].concat(
+      specVersion.pallets.map((section) => {
+        return {
+          text: section.name,
+          value: section.name,
+          descendant: getSectionDescendant(section),
+        };
+      }),
+    ),
+  };
+}
+
+function getSectionDescendant(section) {
+  return {
+    value: "",
+    name: "Method",
+    query: "method",
+    options: [AllOption].concat(
+      section.calls.map((method) => {
+        return {
+          text: method,
+          value: method,
+        };
+      }),
+    ),
   };
 }
 
@@ -55,21 +78,27 @@ export function useExtrinsicFilter() {
 
   useEffect(() => {
     if (specFilters) {
+      // load from URL query
       const version = getFromQuery(
         location,
         "version",
-        specFilters?.[0]?.specVersion ?? "",
+        specFilters?.[0]?.specVersion,
       );
       const sectionOptions = (
-        specFilters.find((spec) => spec.specVersion === version) ??
-        specFilters[0]
-      ).pallets;
+        (
+          specFilters.find((spec) => spec.specVersion === version) ??
+          specFilters[0]
+        )?.pallets ?? []
+      ).filter((section) => {
+        return section?.calls?.length > 0;
+      });
       const methodOptions = (
         sectionOptions.find(
           (section) => section.name === getFromQuery(location, "section"),
-        ) ?? sectionOptions[0]
+        ) ?? { calls: [] }
       ).calls;
 
+      // generate dropdown data
       const specs = {
         value: version,
         name: "Spec",
@@ -82,25 +111,23 @@ export function useExtrinsicFilter() {
           };
         }),
       };
+
       const section = {
         value: getFromQuery(location, "section"),
         name: "Section",
         query: "section",
         isSearch: true,
-        options: [{ text: "All", value: "" }].concat(
-          sectionOptions
-            .filter((section) => {
-              return section?.calls?.length > 0;
-            })
-            .map((section) => {
-              return {
-                text: section.name,
-                value: section.name,
-                descendant: getSectionDescendant(section),
-              };
-            }),
+        options: [makeOptionWithEmptyDescendant(AllOption, "Method")].concat(
+          sectionOptions.map((section) => {
+            return {
+              text: section.name,
+              value: section.name,
+              descendant: getSectionDescendant(section),
+            };
+          }),
         ),
       };
+
       const method = {
         value: getFromQuery(location, "method"),
         name: "Method",
