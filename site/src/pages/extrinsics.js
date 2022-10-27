@@ -71,7 +71,7 @@ function Extrinsics() {
 
   useEffect(() => {
     dispatch(cleanExtrinsicList());
-  }, []);
+  }, [dispatch]);
 
   const data =
     list?.items?.map((extrinsic, index) => {
