@@ -1,16 +1,13 @@
-import { withCopy } from "../../HOC/withCopy";
 import { currencify } from "../../utils";
-import { ColoredInterLink } from "../styled/link";
-
-const ColoredWithCopy = withCopy(ColoredInterLink);
+import { ColoredInterLinkWithCopy } from "../styled/link";
 
 export default function DetailedExtrinsicId({ blockHeight, id }) {
   return (
-    <ColoredWithCopy
+    <ColoredInterLinkWithCopy
       to={`/extrinsic/${blockHeight}-${id}`}
       render={() => `${currencify(blockHeight)}-${id}`}
     >
       {`${blockHeight}-${id}`}
-    </ColoredWithCopy>
+    </ColoredInterLinkWithCopy>
   );
 }
