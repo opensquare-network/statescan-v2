@@ -3,9 +3,7 @@ import styled, { css } from "styled-components";
 import { useState, useRef } from "react";
 import { FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
-import { Inter_14_500 } from "../../styles/text";
-import { pretty_scroll_bar } from "../../styles";
-import SearchBox from "./searchBox";
+import Options from "./options";
 
 const CaretIcon = styled(Caret)`
   path {
@@ -52,43 +50,6 @@ const SelectWrapper = styled(FlexBetween)`
     `}
 `;
 
-const OptionWrapper = styled.div`
-  z-index: 99;
-  position: absolute;
-  padding: 8px 0;
-  background: ${(p) => p.theme.fillPopup};
-  left: 0;
-  top: 40px;
-  min-width: 100%;
-  box-shadow: ${(p) => p.theme.shadowPanel};
-  overflow: hidden;
-  border-radius: 8px;
-`;
-
-const OptionItemsWrapper = styled.div`
-  max-height: 240px;
-  overflow-y: scroll;
-  ${pretty_scroll_bar};
-`;
-
-const OptionItem = styled.div`
-  padding: 8px 12px;
-  ${Inter_14_500};
-  cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  :hover {
-    background: ${(p) => p.theme.fillPopupHover};
-  }
-
-  ${(p) =>
-    p.isActive &&
-    css`
-      background: ${(p) => p.theme.fillPopupHover};
-    `}
-`;
-
 export default function Dropdown({
   value,
   options,
@@ -96,17 +57,10 @@ export default function Dropdown({
   onSelect,
   isSearch = false,
 }) {
-  const [isActive, setIsActive] = useState(false);
-  const [searchText, setSearchText] = useState("");
   const ref = useRef();
   useOnClickOutside(ref, () => setIsActive(false));
-
+  const [isActive, setIsActive] = useState(false);
   const showText = options.find((item) => item.value === value)?.text;
-
-  const displayOptions =
-    options.filter((item) =>
-      item.text.toLowerCase().includes(searchText.toLowerCase()),
-    ) ?? [];
 
   return (
     <Wrapper ref={ref}>
@@ -115,30 +69,14 @@ export default function Dropdown({
         <CaretIcon />
       </SelectWrapper>
       {isActive && (
-        <OptionWrapper>
-          <SearchBox
-            isSearch={isSearch}
-            searchText={searchText}
-            setSearchText={setSearchText}
-            name={name}
-          />
-          <OptionItemsWrapper>
-            {displayOptions.map((option, index) => (
-              <OptionItem
-                key={index}
-                isActive={option.value === value && value !== ""}
-                onClick={() => {
-                  setIsActive(false);
-                  if (option.value === value) return;
-                  onSelect(name, option.value, option);
-                  setSearchText("");
-                }}
-              >
-                {option.text}
-              </OptionItem>
-            ))}
-          </OptionItemsWrapper>
-        </OptionWrapper>
+        <Options
+          setIsActive={setIsActive}
+          value={value}
+          isSearch={isSearch}
+          options={options}
+          name={name}
+          onSelect={onSelect}
+        />
       )}
     </Wrapper>
   );
