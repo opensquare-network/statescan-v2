@@ -60,9 +60,9 @@ const DropdownWrapper = styled(Flex)`
 `;
 
 const Button = styled.div`
+  padding: 4px 12px;
   background: ${(p) => p.theme.fillButton};
   border-radius: 4px;
-  padding: 4px 12px;
   ${Inter_14_600};
   color: ${({ theme }) => theme.fontPrimaryInverse};
   cursor: pointer;

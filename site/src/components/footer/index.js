@@ -31,7 +31,7 @@ export default function Footer() {
     <Container>
       <Wrapper>
         <Producer />
-        <Flex style={{ gap: 24 }}>
+        <Flex gap={24}>
           <SocialMedia />
           <ToggleTheme />
         </Flex>

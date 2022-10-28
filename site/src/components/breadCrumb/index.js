@@ -11,9 +11,6 @@ const Wrapper = styled(Flex)`
 `;
 
 const BreadCrumbWrapper = styled(Flex)`
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: bold;
   ${Inter_20_700};
 
   > :not(:first-child) {
