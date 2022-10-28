@@ -19,7 +19,7 @@ const InputOrigin = styled.input`
 const InputWrapper = styled.span`
   display: inline-flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 10px 16px;
   background: ${(p) => p.theme.fillPanel};
   border: 1px solid ${(p) => p.theme.strokeBox};
   border-radius: 8px;
