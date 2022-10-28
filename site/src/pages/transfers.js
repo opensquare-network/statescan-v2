@@ -1,6 +1,6 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   basicFilters,
   LIST_DEFAULT_PAGE_SIZE,
@@ -9,7 +9,6 @@ import {
 import { ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
-import Api from "../services/api";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
@@ -96,7 +95,7 @@ function Transfers() {
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
       <Filter
-        title={`All ${list?.total?.toLocaleString?.()} transfers`}
+        title={`All ${list?.total?.toLocaleString?.() ?? "gi"} transfers`}
         data={basicFilters}
       />
       <StyledPanelTableWrapper>

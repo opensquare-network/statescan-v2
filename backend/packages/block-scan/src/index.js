@@ -1,4 +1,3 @@
-const { startJobs } = require("./jobs");
 require("dotenv").config();
 
 const { scan } = require("./scan");
@@ -19,7 +18,6 @@ async function main() {
   await initBlockDb();
   await subscribeLatestHeight();
   await subscribeFinalizedHeight();
-  await startJobs();
 
   if (isUseMetaDb()) {
     await updateSpecs();

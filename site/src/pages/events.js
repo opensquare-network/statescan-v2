@@ -1,17 +1,23 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { eventsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import { ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
-import Api from "../services/api";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import { useExtrinsicFilter } from "../utils/hooks/filter";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  cleanEventList,
+  eventFetchList,
+  eventListLoadingSelector,
+  eventListSelector,
+} from "../store/reducers/eventSlice";
 
 const filter = [
   {
@@ -48,33 +54,39 @@ const defaultFilterQuery = {
 
 function Events() {
   const location = useLocation();
-  const [events, setEvents] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [total, setTotal] = useState(0);
+  const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const filters = useExtrinsicFilter();
 
+  const list = useSelector(eventListSelector);
+  const loading = useSelector(eventListLoadingSelector);
+
   useEffect(() => {
-    setLoading(true);
-    Api.fetch(`/events`, {
-      page: getPageFromQuery(location) - 1,
-      pageSize,
-      ...(location.search
-        ? queryString.parse(location.search)
-        : defaultFilterQuery),
-    })
-      .then(({ result }) => {
-        setEvents(result?.items ?? []);
-        setTotal(result?.total ?? 0);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [location, pageSize]);
+    const controller = new AbortController();
+
+    dispatch(
+      eventFetchList(
+        getPageFromQuery(location) - 1,
+        pageSize,
+        {
+          ...(location.search
+            ? queryString.parse(location.search)
+            : defaultFilterQuery),
+        },
+        { signal: controller.signal },
+      ),
+    );
+
+    return () => controller.abort();
+  }, [dispatch, location, pageSize]);
+
+  useEffect(() => {
+    dispatch(cleanEventList());
+  }, [dispatch]);
 
   const data =
-    events?.map((event, index) => {
+    list?.items?.map((event, index) => {
       return [
         <ColoredLink
           key={`${index}-1`}
@@ -107,13 +119,17 @@ function Events() {
       <BreadCrumb data={[{ name: "Events" }]} />
 
       <Filter
-        title={`All ${total?.toLocaleString?.()} events`}
+        title={`All ${list?.total?.toLocaleString?.() ?? ""} events`}
         data={filters}
       />
 
       <StyledPanelTableWrapper>
         <Table heads={eventsHead} data={data} loading={loading} />
-        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
+        <Pagination
+          page={parseInt(page)}
+          pageSize={pageSize}
+          total={list?.total}
+        />
       </StyledPanelTableWrapper>
     </Layout>
   );

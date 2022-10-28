@@ -1,3 +1,4 @@
+const { startJobs } = require("../jobs");
 const { deleteAllUnFinalizedData } = require("./unFinalized/delete");
 const { deleteFrom } = require("../mongo/services/delete");
 const { updateUnFinalized } = require("./unFinalized");
@@ -50,6 +51,8 @@ async function scan() {
   const finalizedHeight = getLatestFinalizedHeight();
   if (toScanHeight < finalizedHeight - 100) {
     await deleteAllUnFinalizedData();
+  } else if (toScanHeight > finalizedHeight - 100) {
+    await startJobs();
   }
 
   while (true) {

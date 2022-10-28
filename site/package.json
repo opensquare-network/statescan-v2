@@ -6,6 +6,8 @@
     "@osn/common": "^1.2.0",
     "@osn/constants": "^1.1.2",
     "@polkadot/api": "^9.5.1",
+    "@polkadot/util": "^10.1.11",
+    "@polkadot/util-crypto": "^10.1.11",
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
