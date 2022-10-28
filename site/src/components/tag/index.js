@@ -4,9 +4,14 @@ import { Inter_12_600 } from "../../styles/text";
 export const Tag = styled.span`
   padding: 2px 6px;
   ${Inter_12_600};
+  color: ${(p) => p.theme.fontSecondary};
+  background-color: ${(p) => p.theme.fillBase};
+  border-radius: 4px;
+`;
+
+export const TagThemed = styled(Tag)`
   background: ${({ theme }) => theme.theme100};
   color: ${({ theme }) => theme.theme500};
-  border-radius: 4px;
 `;
 
 export const TagHighContrast = styled(Tag)`
