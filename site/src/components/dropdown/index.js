@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
 import Options from "./options";
+import { Inter_14_500 } from "../../styles/text";
 
 const CaretIcon = styled(Caret)`
   path {
@@ -24,7 +25,7 @@ const SelectWrapper = styled(FlexBetween)`
   cursor: pointer;
   border: 1px solid ${(p) => p.theme.strokeBox};
   white-space: nowrap;
-
+  ${Inter_14_500};
   > span {
     flex: 1 1 auto;
     overflow: hidden;

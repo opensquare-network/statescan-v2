@@ -8,7 +8,11 @@ const SearchBoxWrapper = styled(Flex)`
   input {
     all: unset;
     padding: 8px 12px;
-    color: ${(p) => p.theme.fontTertiary};
+    color: ${(p) => p.theme.fontPrimary};
+    ::placeholder {
+      color: ${(p) => p.theme.fontTertiary};
+    }
+
     ${Inter_14_500};
   }
 `;
