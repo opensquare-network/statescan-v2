@@ -10,9 +10,7 @@ import { getPageFromQuery } from "../utils/viewFuncs";
 import { toPrecision } from "@osn/common";
 import ValueDisplay from "../components/displayValue";
 import { useDispatch, useSelector } from "react-redux";
-import { chainSettingSelector } from "../store/reducers/settingSlice";
 import AddressOrIdentity from "../components/address";
-import styled from "styled-components";
 import {
   assetFetchList,
   assetListLoadingSelector,
@@ -21,12 +19,6 @@ import {
 } from "../store/reducers/assetSlice";
 import { ColoredInterLink } from "../components/styled/link";
 import Tooltip from "../components/tooltip";
-
-const AlignLeft = styled.div`
-  * {
-    text-align: left;
-  }
-`;
 
 function Assets() {
   const location = useLocation();

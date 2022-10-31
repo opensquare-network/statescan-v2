@@ -13,10 +13,18 @@ import Calls from "./pages/calls";
 import Call from "./pages/call";
 import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
+import { getEnvSupportAssets } from "./utils/env";
 
 function App() {
+  const supportAssets = getEnvSupportAssets();
+
   return (
     <HashRouter>
+      {supportAssets && (
+        <Routes>
+          <Route path="/assets" element={<Assets />} />
+        </Routes>
+      )}
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
@@ -31,7 +39,6 @@ function App() {
         <Route path="/account/:id" element={<Account />} />
         <Route path="/calls" element={<Calls />} />
         <Route path="/call/:id" element={<Call />} />
-        <Route path="/assets" element={<Assets />} />
       </Routes>
     </HashRouter>
   );
