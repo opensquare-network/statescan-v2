@@ -20,6 +20,8 @@ const AllOption = {
   text: "All",
 };
 
+const sortByName = (a, b) => a?.name?.localeCompare(b?.name);
+
 const makeOptionWithEmptyDescendant = (option, descendantName) => {
   return {
     ...option,
@@ -38,15 +40,18 @@ function getSpecVersionDescendant(specVersion) {
     value: "",
     name: "Section",
     query: "section",
-    options: [makeOptionWithEmptyDescendant(AllOption, "Method")].concat(
-      specVersion.pallets.map((section) => {
-        return {
-          text: section.name,
-          value: section.name,
-          descendant: getSectionDescendant(section),
-        };
-      }),
-    ),
+    options: [makeOptionWithEmptyDescendant(AllOption, "Method")]
+      .concat(
+        specVersion.pallets.map((section) => {
+          return {
+            name: section.name,
+            text: section.name,
+            value: section.name,
+            descendant: getSectionDescendant(section),
+          };
+        }),
+      )
+      .sort(sortByName),
   };
 }
 
@@ -56,14 +61,17 @@ function getSectionDescendant(section) {
     name: "Method",
     query: "method",
     isSearch: true,
-    options: [AllOption].concat(
-      section.calls.map((method) => {
-        return {
-          text: method,
-          value: stringCamelCase(method),
-        };
-      }),
-    ),
+    options: [AllOption]
+      .concat(
+        section.calls.map((method) => {
+          return {
+            name: method,
+            text: method,
+            value: stringCamelCase(method),
+          };
+        }),
+      )
+      .sort(sortByName),
   };
 }
 
@@ -84,7 +92,7 @@ export function useExtrinsicFilter() {
       // load from URL query
       const version = getFromQuery(
         location,
-        "version",
+        "spec",
         specFilters?.[0]?.specVersion,
       );
 
@@ -93,9 +101,11 @@ export function useExtrinsicFilter() {
           specFilters.find((spec) => spec.specVersion === version) ??
           specFilters[0]
         )?.pallets ?? []
-      ).filter((section) => {
-        return section?.calls?.length > 0;
-      });
+      )
+        .filter((section) => {
+          return section?.calls?.length > 0;
+        })
+        .sort(sortByName);
 
       const methodOptions = (
         sectionOptions.find(
@@ -108,7 +118,7 @@ export function useExtrinsicFilter() {
       const specs = {
         value: version,
         name: "Spec",
-        query: "version",
+        query: "spec",
         options: specFilters.map((item) => {
           return {
             text: item.specVersion.toString(),
@@ -116,6 +126,7 @@ export function useExtrinsicFilter() {
             descendant: getSpecVersionDescendant(item),
           };
         }),
+        defaultDisplay: version,
       };
 
       const section = {
@@ -132,6 +143,7 @@ export function useExtrinsicFilter() {
             };
           }),
         ),
+        defaultDisplay: getFromQuery(location, "section"),
       };
 
       const method = {
@@ -147,6 +159,7 @@ export function useExtrinsicFilter() {
             };
           }),
         ),
+        defaultDisplay: getFromQuery(location, "method"),
       };
       setFilters([specs, section, method]);
     }

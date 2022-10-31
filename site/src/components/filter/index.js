@@ -5,7 +5,7 @@ import { Panel } from "../styled/panel";
 import { Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
-import * as queryString from "query-string";
+import { serialize } from "../../utils/viewFuncs";
 
 const ForLargeScreen = styled.div`
   @media screen and (max-width: 1100px) {
@@ -115,8 +115,8 @@ export default function Filter({ title, data }) {
   const filter_button = (
     <Button
       onClick={() => {
-        const search = queryString.stringify(getCurrentFilter());
-        navigate({ search: `?page=1${search ? "&" : ""}${search}` });
+        const search = serialize(getCurrentFilter());
+        navigate({ search: `?${search}${search ? "&" : ""}page=1` });
       }}
     >
       Filter
@@ -142,6 +142,7 @@ export default function Filter({ title, data }) {
                 query={item.query}
                 subQuery={item.subQuery}
                 onSelect={onDropdown}
+                defaultDisplay={item.defaultDisplay}
               />
             </DropdownWrapper>
           ))}

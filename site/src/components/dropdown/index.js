@@ -56,6 +56,7 @@ export default function Dropdown({
   name,
   onSelect,
   isSearch = false,
+  defaultDisplay = "",
 }) {
   const ref = useRef();
   useOnClickOutside(ref, () => setIsActive(false));
@@ -65,7 +66,7 @@ export default function Dropdown({
   return (
     <Wrapper ref={ref}>
       <SelectWrapper onClick={() => setIsActive(!isActive)} isActive={isActive}>
-        <span>{showText}</span>
+        <span>{showText ?? defaultDisplay}</span>
         <CaretIcon />
       </SelectWrapper>
       {isActive && (
