@@ -20,6 +20,7 @@ import {
   // cleanAssetList,
 } from "../store/reducers/assetSlice";
 import { ColoredInterLink } from "../components/styled/link";
+import Tooltip from "../components/tooltip";
 
 const AlignLeft = styled.div`
   * {
@@ -55,8 +56,12 @@ function Assets() {
           #{asset.assetId}
         </ColoredInterLink>,
         asset.symbol,
-        <AddressOrIdentity address={asset.owner} />,
-        <AddressOrIdentity address={asset.issuer} />,
+        <Tooltip tip={asset.owner}>
+          <AddressOrIdentity address={asset.owner} />
+        </Tooltip>,
+        <Tooltip tip={asset.issuer}>
+          <AddressOrIdentity address={asset.issuer} />
+        </Tooltip>,
         "",
         asset.accounts,
         <ValueDisplay

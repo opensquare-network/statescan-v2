@@ -224,10 +224,10 @@ export const accountExtinsicsHead = blockExtrinsicsHead;
 export const assetsHead = [
   { name: "Asset ID", width: 160 },
   { name: "Symbol", width: 224 },
-  { name: "Owner", width: 141 },
-  { name: "Issue", width: 141 },
+  { name: "Owner", width: 200 },
+  { name: "Issue", width: 200 },
   { name: "Price", width: 160 },
-  { name: "Holders", width: 160 },
+  { name: "Holders", width: 160, align: "center" },
   { name: "Total Supply", align: "right" },
 ];
 
