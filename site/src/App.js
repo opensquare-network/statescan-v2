@@ -12,6 +12,7 @@ import Account from "./pages/account";
 import Calls from "./pages/calls";
 import Call from "./pages/call";
 import NotFound from "./pages/notFound";
+import Assets from "./pages/assets";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/account/:id" element={<Account />} />
         <Route path="/calls" element={<Calls />} />
         <Route path="/call/:id" element={<Call />} />
+        <Route path="/assets" element={<Assets />} />
       </Routes>
     </HashRouter>
   );

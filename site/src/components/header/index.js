@@ -16,7 +16,7 @@ import {
 } from "../../store/reducers/mobileMenuSlice";
 import { mobilecss } from "../../styles/responsive";
 import { useEffect } from "react";
-import { menusBlockchain } from "../../utils/constants";
+import { menusAssets, menusBlockchain } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
@@ -134,6 +134,13 @@ export default function Header() {
                 <SubMenu
                   category="BlockChain"
                   menus={menusBlockchain}
+                  divideIndex={4}
+                />
+              </MenuItem>
+              <MenuItem>
+                <SubMenu
+                  category="Assets"
+                  menus={menusAssets}
                   divideIndex={4}
                 />
               </MenuItem>
