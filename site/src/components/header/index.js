@@ -22,6 +22,7 @@ import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
 import { mdcss } from "../../styles/responsive";
 import { MOBILE_SIZE } from "@osn/constants";
+import { getShowAssetsMenu } from "../../utils/env";
 
 const headerHeight = 68;
 
@@ -137,13 +138,15 @@ export default function Header() {
                   divideIndex={4}
                 />
               </MenuItem>
-              <MenuItem>
-                <SubMenu
-                  category="Assets"
-                  menus={menusAssets}
-                  divideIndex={4}
-                />
-              </MenuItem>
+              {getShowAssetsMenu() && (
+                <MenuItem>
+                  <SubMenu
+                    category="Assets"
+                    menus={menusAssets}
+                    divideIndex={4}
+                  />
+                </MenuItem>
+              )}
             </MenuWrapper>
 
             <Flex>

@@ -1,5 +1,17 @@
 import { chainNames, chains } from "./constants";
 
+export function getShowAssetsMenu() {
+  // check env `REACT_APP_PUBLIC_SHOW_ASSETS_MENU` setting
+  const show = process.env.REACT_APP_PUBLIC_SHOW_ASSETS_MENU;
+  if (!["true", "false"].includes(show)) {
+    throw new Error(
+      `Invalid REACT_APP_PUBLIC_SHOW_ASSETS_MENU setting: ${show}`,
+    );
+  }
+
+  return show;
+}
+
 export function getEnvChain() {
   // check env `REACT_APP_PUBLIC_CHAIN` setting
   const chain = process.env.REACT_APP_PUBLIC_CHAIN;
