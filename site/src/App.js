@@ -13,11 +13,11 @@ import Calls from "./pages/calls";
 import Call from "./pages/call";
 import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
-import { getSupportAssets } from "./utils/env";
+import { getEnvSupportAssets } from "./utils/env";
 
 function App() {
-  const supportAssets = getSupportAssets();
-  console.log(supportAssets);
+  const supportAssets = getEnvSupportAssets();
+
   return (
     <HashRouter>
       {supportAssets && (

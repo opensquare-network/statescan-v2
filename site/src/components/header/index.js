@@ -22,7 +22,7 @@ import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
 import { mdcss } from "../../styles/responsive";
 import { MOBILE_SIZE } from "@osn/constants";
-import { getSupportAssets } from "../../utils/env";
+import { getEnvSupportAssets } from "../../utils/env";
 
 const headerHeight = 68;
 
@@ -138,7 +138,7 @@ export default function Header() {
                   divideIndex={4}
                 />
               </MenuItem>
-              {getSupportAssets() && (
+              {getEnvSupportAssets() && (
                 <MenuItem>
                   <SubMenu
                     category="Assets"
