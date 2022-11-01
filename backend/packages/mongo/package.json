@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "@osn/scan-common": "0.2.1",
+    "@osn/scan-common": "0.2.4",
     "mongodb": "^4.7.0"
   }
 }
