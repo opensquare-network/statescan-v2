@@ -16,12 +16,13 @@ import {
 } from "../../store/reducers/mobileMenuSlice";
 import { mobilecss } from "../../styles/responsive";
 import { useEffect } from "react";
-import { menusBlockchain } from "../../utils/constants";
+import { menusAssets, menusBlockchain } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
 import { mdcss } from "../../styles/responsive";
 import { MOBILE_SIZE } from "@osn/constants";
+import { getEnvSupportAssets } from "../../utils/env";
 
 const headerHeight = 68;
 
@@ -137,6 +138,15 @@ export default function Header() {
                   divideIndex={4}
                 />
               </MenuItem>
+              {getEnvSupportAssets() && (
+                <MenuItem>
+                  <SubMenu
+                    category="Assets"
+                    menus={menusAssets}
+                    divideIndex={4}
+                  />
+                </MenuItem>
+              )}
             </MenuWrapper>
 
             <Flex>

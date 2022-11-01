@@ -1,5 +1,15 @@
 import { chainNames, chains } from "./constants";
 
+export function getEnvSupportAssets() {
+  // check env `REACT_APP_PUBLIC_SUPPORT_ASSETS` setting
+  const show = process.env.REACT_APP_PUBLIC_SUPPORT_ASSETS;
+  if (!["true", "false"].includes(show)) {
+    throw new Error(`Invalid REACT_APP_PUBLIC_SUPPORT_ASSETS setting: ${show}`);
+  }
+
+  return show === "true";
+}
+
 export function getEnvChain() {
   // check env `REACT_APP_PUBLIC_CHAIN` setting
   const chain = process.env.REACT_APP_PUBLIC_CHAIN;

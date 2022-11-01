@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link as RouteLink } from "react-router-dom";
 import { Inter_14_500, SF_Mono_14_500 } from "../../styles/text";
+import { withCopy } from "../../HOC/withCopy";
 
 const Link = styled(RouteLink)`
   color: ${(props) => props.theme.fontPrimary};
@@ -30,3 +31,5 @@ export const ColoredInterLink = styled(Link)`
   cursor: pointer;
   ${Inter_14_500}
 `;
+
+export const ColoredInterLinkWithCopy = withCopy(ColoredInterLink);

@@ -122,6 +122,13 @@ export const menusBlockchain = [
   },
 ];
 
+export const menusAssets = [
+  {
+    name: "Assets",
+    value: "assets",
+  },
+];
+
 export const blocksHead = [
   { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
@@ -213,6 +220,16 @@ export const accountTransfersHead = [
 ];
 
 export const accountExtinsicsHead = blockExtrinsicsHead;
+
+export const assetsHead = [
+  { name: "Asset ID", width: 160 },
+  { name: "Symbol", width: 224 },
+  { name: "Owner", width: 200 },
+  { name: "Issue", width: 200 },
+  { name: "Price", width: 160 },
+  { name: "Holders", width: 160, align: "center" },
+  { name: "Total Supply", align: "right" },
+];
 
 export const timeTypes = {
   age: "age",

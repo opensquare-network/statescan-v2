@@ -13,6 +13,8 @@ import callReducer from "./callSlice";
 import detailTablesReducer from "./detailTablesSlice";
 import filterReducer from "./filterSlice";
 import accountReducer from "./accountSlice";
+import transferReducer from "./transferSlice";
+import assetReducer from "./assetSlice";
 
 export default combineReducers({
   setting: settingReducer,
@@ -28,4 +30,6 @@ export default combineReducers({
   detailTables: detailTablesReducer,
   filter: filterReducer,
   account: accountReducer,
+  transfer: transferReducer,
+  asset: assetReducer,
 });

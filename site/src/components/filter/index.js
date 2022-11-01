@@ -5,7 +5,7 @@ import { Panel } from "../styled/panel";
 import { Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
-import * as queryString from "query-string";
+import { serialize } from "../../utils/viewFuncs";
 
 const ForLargeScreen = styled.div`
   @media screen and (max-width: 1100px) {
@@ -25,6 +25,7 @@ const Wrapper = styled(Panel)`
   padding: 24px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
   overflow: visible;
   ${Inter_14_600};
@@ -43,6 +44,7 @@ const Title = styled.h2`
 
 const HeadWrapper = styled(FlexBetween)`
   flex-grow: 1;
+  flex-basis: 100%;
 `;
 
 const DropdownWrapper = styled(Flex)`
@@ -60,9 +62,9 @@ const DropdownWrapper = styled(Flex)`
 `;
 
 const Button = styled.div`
+  padding: 4px 12px;
   background: ${(p) => p.theme.fillButton};
   border-radius: 4px;
-  padding: 4px 12px;
   ${Inter_14_600};
   color: ${({ theme }) => theme.fontPrimaryInverse};
   cursor: pointer;
@@ -72,7 +74,7 @@ const Button = styled.div`
 const FilterWrapper = styled(Flex)`
   flex-grow: 1;
   flex-wrap: nowrap;
-  justify-content: end;
+  justify-content: space-between;
   gap: 24px;
   @media screen and (max-width: 1100px) {
     flex-wrap: wrap;
@@ -115,8 +117,8 @@ export default function Filter({ title, data }) {
   const filter_button = (
     <Button
       onClick={() => {
-        const search = queryString.stringify(getCurrentFilter());
-        navigate({ search: `?page=1${search ? "&" : ""}${search}` });
+        const search = serialize(getCurrentFilter());
+        navigate({ search: `?${search}${search ? "&" : ""}page=1` });
       }}
     >
       Filter
@@ -131,20 +133,23 @@ export default function Filter({ title, data }) {
       </HeadWrapper>
       {selectData?.length > 0 && (
         <FilterWrapper>
-          {(selectData || []).map((item, index) => (
-            <DropdownWrapper key={index}>
-              <span>{item.name}</span>
-              <Dropdown
-                isSearch={!!item?.isSearch}
-                value={item.value}
-                name={item.name}
-                options={item.options}
-                query={item.query}
-                subQuery={item.subQuery}
-                onSelect={onDropdown}
-              />
-            </DropdownWrapper>
-          ))}
+          <Flex gap={24}>
+            {(selectData || []).map((item, index) => (
+              <DropdownWrapper key={index}>
+                <span>{item.name}</span>
+                <Dropdown
+                  isSearch={!!item?.isSearch}
+                  value={item.value}
+                  name={item.name}
+                  options={item.options}
+                  query={item.query}
+                  subQuery={item.subQuery}
+                  onSelect={onDropdown}
+                  defaultDisplay={item.defaultDisplay}
+                />
+              </DropdownWrapper>
+            ))}
+          </Flex>
           <ForLargeScreen>{filter_button}</ForLargeScreen>
         </FilterWrapper>
       )}

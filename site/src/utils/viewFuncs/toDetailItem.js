@@ -17,18 +17,13 @@ import DetailedCallId from "../../components/detail/callId";
 import DetailedExtrinsicId from "../../components/detail/extrinsicId";
 import DetailedBlock from "../../components/detail/block";
 import styled from "styled-components";
-import { Tag as TagOrigin, TagHighContrast } from "../../components/tag";
+import { Tag, TagHighContrast, TagThemed } from "../../components/tag";
 import { Inter_14_500 } from "../../styles/text";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
-
-const Tag = styled(TagOrigin)`
-  color: ${(p) => p.theme.fontSecondary};
-  background-color: ${(p) => p.theme.fillBase};
-`;
 
 const CallText = styled.span`
   color: ${(p) => p.theme.fontSecondary};
@@ -181,7 +176,7 @@ export const toExtrinsicDetailItem = (extrinsic) => {
       <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>
     ),
     Module: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
-    Call: <Tag>{extrinsic?.call?.method}</Tag>,
+    Call: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
     ...(extrinsic?.isSigned
       ? {
           Singer: (

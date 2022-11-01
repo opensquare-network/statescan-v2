@@ -1,10 +1,10 @@
 import { ReactComponent as Caret } from "../icons/caret-down.svg";
 import styled, { css } from "styled-components";
 import { useState, useRef } from "react";
-import { Flex, FlexBetween } from "../styled/flex";
+import { FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
+import Options from "./options";
 import { Inter_14_500 } from "../../styles/text";
-import { pretty_scroll_bar } from "../../styles";
 
 const CaretIcon = styled(Caret)`
   path {
@@ -17,15 +17,15 @@ const Wrapper = styled.div`
 `;
 
 const SelectWrapper = styled(FlexBetween)`
+  padding: 0 6px 0 12px;
   width: 140px;
   height: 26px;
   background: ${(p) => p.theme.fillPopup};
   border-radius: 6px;
-  padding: 0 6px 0 12px;
   cursor: pointer;
   border: 1px solid ${(p) => p.theme.strokeBox};
   white-space: nowrap;
-
+  ${Inter_14_500};
   > span {
     flex: 1 1 auto;
     overflow: hidden;
@@ -51,121 +51,34 @@ const SelectWrapper = styled(FlexBetween)`
     `}
 `;
 
-const OptionWrapper = styled.div`
-  z-index: 99;
-  position: absolute;
-  padding: 8px 0;
-  background: ${(p) => p.theme.fillPopup};
-  left: 0;
-  top: 40px;
-  min-width: 100%;
-  box-shadow: ${(p) => p.theme.shadowPanel};
-  overflow: hidden;
-  border-radius: 8px;
-`;
-
-const OptionItemsWrapper = styled.div`
-  max-height: 240px;
-  overflow-y: scroll;
-  ${pretty_scroll_bar};
-`;
-
-const OptionItem = styled.div`
-  padding: 8px 12px;
-  ${Inter_14_500};
-  cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  :hover {
-    background: ${(p) => p.theme.fillPopupHover};
-  }
-
-  ${(p) =>
-    p.isActive &&
-    css`
-      background: ${(p) => p.theme.fillPopupHover};
-    `}
-`;
-
-const SearchBoxWrapper = styled(Flex)`
-  height: 52px;
-  border-bottom: 1px solid ${(p) => p.theme.strokeBox};
-  input {
-    all: unset;
-    padding: 8px 12px;
-    color: ${(p) => p.theme.fontTertiary};
-    ${Inter_14_500};
-  }
-`;
-
-const SearchBox = ({ searchText, isSearch, setSearchText, name }) => {
-  if (!isSearch) {
-    return null;
-  }
-  return (
-    <SearchBoxWrapper>
-      <input
-        value={searchText}
-        onChange={(e) => {
-          setSearchText(e.target.value);
-        }}
-        placeholder={`Search of ${name}...`}
-      />
-    </SearchBoxWrapper>
-  );
-};
-
 export default function Dropdown({
   value,
   options,
   name,
   onSelect,
   isSearch = false,
+  defaultDisplay = "",
 }) {
-  const [isActive, setIsActive] = useState(false);
-  const [searchText, setSearchText] = useState("");
   const ref = useRef();
   useOnClickOutside(ref, () => setIsActive(false));
-
+  const [isActive, setIsActive] = useState(false);
   const showText = options.find((item) => item.value === value)?.text;
-
-  const displayOptions =
-    options.filter((item) =>
-      item.text.toLowerCase().includes(searchText.toLowerCase()),
-    ) ?? [];
 
   return (
     <Wrapper ref={ref}>
       <SelectWrapper onClick={() => setIsActive(!isActive)} isActive={isActive}>
-        <span>{showText}</span>
+        <span>{showText ?? defaultDisplay}</span>
         <CaretIcon />
       </SelectWrapper>
       {isActive && (
-        <OptionWrapper>
-          <SearchBox
-            isSearch={isSearch}
-            searchText={searchText}
-            setSearchText={setSearchText}
-            name={name}
-          />
-          <OptionItemsWrapper>
-            {displayOptions.map((option, index) => (
-              <OptionItem
-                key={index}
-                isActive={option.value === value && value !== ""}
-                onClick={() => {
-                  setIsActive(false);
-                  if (option.value === value) return;
-                  onSelect(name, option.value, option);
-                  setSearchText("");
-                }}
-              >
-                {option.text}
-              </OptionItem>
-            ))}
-          </OptionItemsWrapper>
-        </OptionWrapper>
+        <Options
+          setIsActive={setIsActive}
+          value={value}
+          isSearch={isSearch}
+          options={options}
+          name={name}
+          onSelect={onSelect}
+        />
       )}
     </Wrapper>
   );

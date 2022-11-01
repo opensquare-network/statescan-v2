@@ -2,7 +2,7 @@ const { isHash } = require("../../../../utils/isHash");
 const {
   block: { getBlockCollection, getUnFinalizedBlockCollection },
 } = require("@statescan/mongo");
-const { getLatestBlockHeight } = require("../../../../jobs/latestBlockHeight");
+const { getOverview } = require("../../../../jobs/overview");
 
 function handleBlockHeight(term) {
   let searchHeight;
@@ -12,7 +12,8 @@ function handleBlockHeight(term) {
     return null;
   }
 
-  if (searchHeight <= getLatestBlockHeight()) {
+  const latestHeight = parseInt(getOverview().latestHeight);
+  if (searchHeight <= latestHeight) {
     return searchHeight;
   }
 

@@ -30,7 +30,7 @@ async function handleUnFinalizedBlock({ block, author, events }) {
 
   const normalizedBlock = normalizeBlock(block, author, events, blockIndexer);
   const normalizedEvents = normalizeEvents(events, blockIndexer);
-  const { normalizedExtrinsics, normalizedCalls } = normalizeExtrinsics(
+  const { normalizedExtrinsics, normalizedCalls } = await normalizeExtrinsics(
     block.extrinsics,
     events,
     blockIndexer,

@@ -1,6 +1,6 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   basicFilters,
   LIST_DEFAULT_PAGE_SIZE,
@@ -9,46 +9,50 @@ import {
 import { ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
-import Api from "../services/api";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import { toPrecision } from "@osn/common";
 import ValueDisplay from "../components/displayValue";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import Tooltip from "../components/tooltip";
 import AddressOrIdentity from "../components/address";
+import {
+  transferFetchList,
+  transferListLoadingSelector,
+  transferListSelector,
+} from "../store/reducers/transferSlice";
 
 function Transfers() {
   const location = useLocation();
+  const dispatch = useDispatch();
   const chainSetting = useSelector(chainSettingSelector);
-  const [transfers, setTransfers] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [total, setTotal] = useState(null);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
+  const list = useSelector(transferListSelector);
+  const loading = useSelector(transferListLoadingSelector);
+
   useEffect(() => {
-    setLoading(false);
-    Api.fetch(`/transfers`, {
-      page: getPageFromQuery(location) - 1,
-      pageSize,
-      ...queryString.parse(location.search),
-    })
-      .then(({ result }) => {
-        setTransfers(result?.items ?? []);
-        setTotal(result?.total ?? 0);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [location, pageSize]);
+    const controller = new AbortController();
+
+    dispatch(
+      transferFetchList(
+        getPageFromQuery(location) - 1,
+        pageSize,
+        queryString.parse(location.search),
+        { signal: controller.signal },
+      ),
+    );
+
+    return () => controller.abort();
+  }, [dispatch, location, pageSize]);
 
   const data =
-    transfers?.map((transfer, index) => {
+    list?.items?.map((transfer, index) => {
       return [
         <ColoredLink
           key={`${index}-1`}
@@ -91,12 +95,16 @@ function Transfers() {
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
       <Filter
-        title={`All ${total?.toLocaleString() ?? "gi"} transfers`}
+        title={`All ${list?.total?.toLocaleString?.() ?? "gi"} transfers`}
         data={basicFilters}
       />
       <StyledPanelTableWrapper>
         <Table heads={transfersHead} data={data} loading={loading} />
-        <Pagination page={parseInt(page)} pageSize={pageSize} total={total} />
+        <Pagination
+          page={parseInt(page)}
+          pageSize={pageSize}
+          total={list?.total}
+        />
       </StyledPanelTableWrapper>
     </Layout>
   );

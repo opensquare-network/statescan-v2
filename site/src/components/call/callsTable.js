@@ -1,13 +1,7 @@
-import styled from "styled-components";
 import { callsHead } from "../../utils/constants";
 import { ColoredLink } from "../styled/link";
 import Table from "../table";
-import { Tag as TagOrigin } from "../tag";
-
-const Tag = styled(TagOrigin)`
-  color: ${(p) => p.theme.fontSecondary};
-  background-color: ${(p) => p.theme.fillBase};
-`;
+import { Tag } from "../tag";
 
 /**
  * @description page call table
