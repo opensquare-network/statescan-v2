@@ -10,6 +10,7 @@ import {
   assetFetchDetail,
 } from "../store/reducers/assetSlice";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
+import AssetInfo from "../components/asset/assetInfo";
 
 function Asset() {
   const { assetId } = useParams();
@@ -34,6 +35,11 @@ function Asset() {
         data={[{ name: "Assets", path: "/assets" }, { name: assetId }]}
       />
       <Panel>
+        <AssetInfo
+          data={detail}
+          symbol={detail?.metadata?.symbol}
+          name={detail?.metadata?.name}
+        />
         <List data={listData} />
       </Panel>
     </Layout>
