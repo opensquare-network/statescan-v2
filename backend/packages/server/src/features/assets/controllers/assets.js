@@ -1,6 +1,6 @@
 const { extractPage } = require("../../../utils");
 const {
-  asset: { getAssetCollection },
+  asset: { getAssetCol },
 } = require("@statescan/mongo");
 
 async function getAssets(ctx) {
@@ -10,7 +10,7 @@ async function getAssets(ctx) {
     return;
   }
 
-  const col = await getAssetCollection();
+  const col = await getAssetCol();
   const items = await col
     .find({}, { projection: { _id: 0 } })
     .sort({ assetId: 1 })
