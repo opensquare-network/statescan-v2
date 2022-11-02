@@ -9,8 +9,10 @@
   "dependencies": {
     "@osn/scan-common": "0.2.4",
     "@statescan/mongo": "1.0.0",
-    "@statescan/common": "1.0.0",
     "dotenv": "^16.0.1",
+    "lodash.isempty": "^4.4.0",
+    "lodash.isnil": "^4.0.0",
+    "moment-timezone": "^0.5.38",
     "mongodb": "^4.7.0"
   },
   "devDependencies": {

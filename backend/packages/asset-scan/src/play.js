@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const {
-  chain: { getApi, setSpecHeights },
+  chain: { getApi, setSpecHeights, subscribeFinalizedHeight },
 } = require("@osn/scan-common");
 const { handleBlock } = require("./scan");
 const {
@@ -10,7 +10,8 @@ const {
 
 async function main() {
   await initAssetScanDb();
-  const blockHeights = [12128381];
+  await subscribeFinalizedHeight();
+  const blockHeights = [2150058];
 
   const api = await getApi();
   for (const height of blockHeights) {
@@ -25,6 +26,7 @@ async function main() {
       block: block.block,
       events: allEvents,
     });
+    console.log(`${height} finished`);
   }
 
   console.log("finished");

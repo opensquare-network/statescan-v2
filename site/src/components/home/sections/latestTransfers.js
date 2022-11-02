@@ -75,6 +75,15 @@ const mapLoadingState = (props) => {
   };
 };
 
+function getTransferSymbol(transfer = {}, nativeTokenSymbol) {
+  const { symbol, isNativeAsset } = transfer;
+  if (symbol) {
+    return symbol;
+  }
+
+  return isNativeAsset ? nativeTokenSymbol : "-";
+}
+
 function LatestTransfers({ transfers }) {
   const chainSetting = useSelector(chainSettingSelector);
 
@@ -110,7 +119,7 @@ function LatestTransfers({ transfers }) {
                     transfer.balance.$numberDecimal,
                     chainSetting.decimals,
                   )}
-                  symbol={chainSetting.symbol}
+                  symbol={getTransferSymbol(transfer, chainSetting.symbol)}
                 />
               </Value>
               <Flex gap={16}>

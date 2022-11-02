@@ -1,6 +1,7 @@
 const { addNativeTransfer } = require("../../../store/nativeTransfers");
 const {
   utils: { toDecimal128 },
+  consts: { AssetModule },
 } = require("@statescan/common");
 
 async function handleTransfer(event, indexer, extrinsic) {
@@ -12,14 +13,14 @@ async function handleTransfer(event, indexer, extrinsic) {
     isSigned = extrinsic.isSigned;
   }
 
-  let transfer = {
+  const transfer = {
     indexer,
     from,
     to,
     balance: toDecimal128(value),
     isSigned,
+    assetModule: AssetModule.native,
   };
-
   addNativeTransfer(indexer.blockHash, transfer);
 }
 

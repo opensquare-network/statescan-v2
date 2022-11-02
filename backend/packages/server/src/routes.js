@@ -11,6 +11,7 @@ const routes = [
   require("./features/unfinalized/routes"),
   require("./features/search/routes"),
   require("./features/spec/routes"),
+  require("./features/assets/routes"),
 ];
 
 module.exports = (app) => {

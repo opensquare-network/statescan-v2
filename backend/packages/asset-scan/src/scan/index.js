@@ -1,3 +1,4 @@
+const { tryCreateAssetStatistics } = require("./statistic/assets");
 const { updateUnFinalized } = require("./unFinalized");
 const { deleteFrom } = require("./delete");
 const { handleEvents } = require("./events");
@@ -16,7 +17,8 @@ async function handleBlock({ block, events, height }) {
 
   await handleEvents(events, blockIndexer, block.extrinsics);
 
-  // todo: handle block business
+  await tryCreateAssetStatistics(blockIndexer);
+
   const db = getAssetDb();
   await db.updateScanHeight(height);
 
@@ -26,19 +28,27 @@ async function handleBlock({ block, events, height }) {
   }
 }
 
+async function getBlockScanHeight() {
+  let blockScanHeight = null;
+  const blockDb = await getBlockDb();
+  if (process.env.FOLLOW_BLOCK_SCAN === "true") {
+    blockScanHeight = await blockDb.getScanHeight();
+  }
+
+  return blockScanHeight;
+}
+
 async function scan() {
   const db = getAssetDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
 
-  const blockDb = await getBlockDb();
   while (true) {
-    const blockScanHeight = await blockDb.getScanHeight();
     toScanHeight = await oneStepScan(
       toScanHeight,
       wrapBlockHandler(handleBlock),
       false,
-      blockScanHeight,
+      await getBlockScanHeight(),
     );
     await sleep(1);
   }

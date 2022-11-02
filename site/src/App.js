@@ -14,18 +14,21 @@ import Call from "./pages/call";
 import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
 import { getEnvSupportAssets } from "./utils/env";
+import { Fragment } from "react";
+import Asset from "./pages/asset";
 
 function App() {
   const supportAssets = getEnvSupportAssets();
 
   return (
     <HashRouter>
-      {supportAssets && (
-        <Routes>
-          <Route path="/assets" element={<Assets />} />
-        </Routes>
-      )}
       <Routes>
+        {supportAssets && (
+          <Fragment>
+            <Route path="/assets" element={<Assets />} />
+            <Route path="/asset/:assetId" element={<Asset />} />
+          </Fragment>
+        )}
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/blocks" element={<Blocks />} />

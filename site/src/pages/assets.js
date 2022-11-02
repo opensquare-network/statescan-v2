@@ -15,7 +15,7 @@ import {
   assetFetchList,
   assetListLoadingSelector,
   assetListSelector,
-  // cleanAssetList,
+  cleanAssetList,
 } from "../store/reducers/assetSlice";
 import { ColoredInterLink } from "../components/styled/link";
 import Tooltip from "../components/tooltip";
@@ -41,23 +41,27 @@ function Assets() {
     return () => controller.abort();
   }, [dispatch, location, pageSize]);
 
+  useEffect(() => {
+    dispatch(cleanAssetList());
+  }, [dispatch]);
+
   const data =
-    list?.items?.map((asset, index) => {
+    list?.items?.map((asset) => {
       return [
-        <ColoredInterLink to={`/asset/${asset.assetId}`}>
+        <ColoredInterLink to={`/asset/${asset.assetId}_${asset.assetHeight}`}>
           #{asset.assetId}
         </ColoredInterLink>,
-        asset.symbol,
-        <Tooltip tip={asset.owner}>
-          <AddressOrIdentity address={asset.owner} />
+        asset?.metadata?.symbol ?? "--",
+        <Tooltip tip={asset?.detail?.owner}>
+          <AddressOrIdentity address={asset?.detail?.owner} />
         </Tooltip>,
-        <Tooltip tip={asset.issuer}>
-          <AddressOrIdentity address={asset.issuer} />
+        <Tooltip tip={asset?.detail?.issuer}>
+          <AddressOrIdentity address={asset?.detail?.issuer} />
         </Tooltip>,
-        "",
-        asset.accounts,
+        "-",
+        asset?.detail?.accounts,
         <ValueDisplay
-          value={toPrecision(asset.supply, asset.decimals)}
+          value={toPrecision(asset?.detail?.supply, asset?.metadata?.decimals)}
           symbol={asset.symbol}
         />,
       ];
