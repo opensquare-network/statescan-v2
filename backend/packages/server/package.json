@@ -9,6 +9,9 @@
       "url": "https://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
+  "scripts": {
+    "dev": "node src/index.js"
+  },
   "dependencies": {
     "@koa/cors": "^3.4.1",
     "@statescan/mongo": "1.0.0",

@@ -6,7 +6,6 @@ const {
 let db = null;
 let transferCol = null;
 let unFinalizedTransferCol = null;
-
 let assetCol = null;
 let assetTimelineCol = null;
 let assetHolderCol = null;
