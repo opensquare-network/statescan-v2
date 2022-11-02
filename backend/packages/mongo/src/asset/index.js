@@ -4,6 +4,7 @@ const {
 } = require("@osn/scan-common");
 
 let db = null;
+let assetCol = null;
 let transferCol = null;
 let unFinalizedTransferCol = null;
 
@@ -14,6 +15,7 @@ async function initAssetScanDb() {
   );
   await db.init();
 
+  assetCol = await db.createCol("asset");
   transferCol = await db.createCol("transfer");
   unFinalizedTransferCol = await db.createCol("unFinalizedTransfer");
   await _createIndexes();
@@ -37,6 +39,11 @@ async function makeSureInit(col) {
   if (!col) {
     await initAssetScanDb();
   }
+}
+
+async function getAssetCollection() {
+  await makeSureInit(assetCol);
+  return assetCol;
 }
 
 async function getTransferCollection() {
@@ -68,6 +75,7 @@ async function batchInsertTransfers(transfers = []) {
 
 module.exports = {
   initAssetScanDb,
+  getAssetCollection,
   getTransferCollection,
   getUnFinalizedTransferCol,
   getAssetDb,
