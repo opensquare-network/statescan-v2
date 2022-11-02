@@ -10,7 +10,7 @@ async function getAsset(ctx) {
     assetHeight: parseInt(createdHeight),
     assetId: parseInt(assetId),
   };
-  console.log(q);
+
   const asset = await col.findOne(q, { projection: { _id: 0 } });
   if (!asset) {
     throw new HttpError(404, "asset not found");
