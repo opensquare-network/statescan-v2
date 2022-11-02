@@ -48,7 +48,7 @@ function Assets() {
   const data =
     list?.items?.map((asset) => {
       return [
-        <ColoredInterLink to={`/asset/${asset.assetId}`}>
+        <ColoredInterLink to={`/asset/${asset.assetId}_${asset.assetHeight}`}>
           #{asset.assetId}
         </ColoredInterLink>,
         asset?.metadata?.symbol ?? "--",

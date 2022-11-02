@@ -106,6 +106,36 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
   };
 };
 
+export const toAssetDetailItem = (id, asset) => {
+  return {
+    Symbol: asset?.metadata?.symbol,
+    Name: asset?.metadata?.name,
+    "Asset ID": `#${asset.assetId}`,
+    Owner: (
+      <AddressOrIdentity address={asset?.detail?.owner} ellipsis={false} />
+    ),
+    Issue: (
+      <AddressOrIdentity address={asset?.detail?.issuer} ellipsis={false} />
+    ),
+    Admin: (
+      <AddressOrIdentity address={asset?.detail?.admin} ellipsis={false} />
+    ),
+    Freezer: (
+      <AddressOrIdentity address={asset?.detail?.freezer} ellipsis={false} />
+    ),
+    "Total Supply": (
+      <ValueDisplay
+        value={toPrecision(asset?.detail?.supply, asset?.metadata?.decimals)}
+        symbol={asset.symbol}
+      />
+    ),
+    Decimals: asset?.metadata?.decimals,
+    ...(asset?.destroyed ? { Status: <TagThemed>Destroyed</TagThemed> } : {}),
+    Holders: asset?.detail?.accounts,
+    //TODO: TransfersCount
+  };
+};
+
 export const toCallDetailItem = (indexer, section, method) => {
   return {
     "Call ID": (
@@ -161,11 +191,11 @@ export const toExtrinsicDetailItem = (extrinsic) => {
       ? {
           "Life Time": (
             <>
-              <ColoredInterLink to={`/block/${extrinsic?.lifetime?.[0]}`}>
+              <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[0]}`}>
                 {extrinsic?.lifetime?.[0].toLocaleString()}
               </ColoredInterLink>
               {" ~ "}
-              <ColoredInterLink to={`/block/${extrinsic?.lifetime?.[1]}`}>
+              <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[1]}`}>
                 {extrinsic?.lifetime?.[1].toLocaleString()}
               </ColoredInterLink>
             </>

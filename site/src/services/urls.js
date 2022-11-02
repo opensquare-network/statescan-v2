@@ -20,6 +20,7 @@ export const accountApi = (id) => makeApiUrl("accounts", id);
 export const transferListApi = makeApiUrl("transfers");
 
 export const assetListApi = makeApiUrl("assets");
+export const assetApi = (id) => makeApiUrl("asset", id);
 
 function makeApiUrl(...args) {
   let urlString = args.join("/");
