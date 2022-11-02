@@ -4,10 +4,10 @@ const {
 } = require("@statescan/mongo");
 
 async function getAsset(ctx) {
-  const { createdHeight, assetId } = ctx.params;
+  const { height, assetId } = ctx.params;
   const col = await getAssetCol();
   const q = {
-    assetHeight: parseInt(createdHeight),
+    assetHeight: parseInt(height),
     assetId: parseInt(assetId),
   };
 
