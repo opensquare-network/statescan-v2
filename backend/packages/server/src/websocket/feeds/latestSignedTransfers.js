@@ -14,7 +14,7 @@ const {
 
 async function query(col, size = 5) {
   return await col
-    .find({}, { projection: { _id: 0 } })
+    .find({ isSigned: false }, { projection: { _id: 0 } })
     .sort({ "indexer.blockHeight": -1, "indexer.eventIndex": 1 })
     .limit(size)
     .toArray();
