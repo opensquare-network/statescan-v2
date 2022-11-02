@@ -2,7 +2,7 @@ import { chainNames, chains } from "./constants";
 
 export function getEnvSupportAssets() {
   // check env `REACT_APP_PUBLIC_SUPPORT_ASSETS` setting
-  const show = process.env.REACT_APP_PUBLIC_SUPPORT_ASSETS;
+  const show = process.env.REACT_APP_PUBLIC_SUPPORT_ASSETS ?? "false";
   if (!["true", "false"].includes(show)) {
     throw new Error(`Invalid REACT_APP_PUBLIC_SUPPORT_ASSETS setting: ${show}`);
   }
