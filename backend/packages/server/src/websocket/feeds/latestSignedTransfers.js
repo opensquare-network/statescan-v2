@@ -9,15 +9,74 @@ const {
   setLatestSignedTransfers,
 } = require("../store");
 const {
-  asset: { getTransferCollection, getUnFinalizedTransferCol },
+  asset: { getTransferCollection, getUnFinalizedTransferCol, getAssetCol },
 } = require("@statescan/mongo");
+const isNil = require("lodash.isnil");
+
+async function queryAssets(assetIds = []) {
+  if (assetIds.length <= 0) {
+    return [];
+  }
+
+  let q;
+  if (assetIds.length === 1) {
+    q = assetIds[0];
+  } else {
+    q = { $or: assetIds };
+  }
+
+  const col = await getAssetCol();
+  return await col.find(q, { projection: { _id: 0 } }).toArray();
+}
+
+function extractAssetIds(transfers = []) {
+  return transfers.reduce((result, transfer) => {
+    if (isNil(transfer.assetId)) {
+      return result;
+    }
+
+    const { assetId, assetHeight } = transfer;
+    if (
+      result.find(
+        (item) => item.assetId === assetId && item.assetHeight === assetHeight,
+      )
+    ) {
+      return result;
+    }
+
+    return [...result, { assetId, assetHeight }];
+  }, []);
+}
 
 async function query(col, size = 5) {
-  return await col
+  const transfers = await col
     .find({ isSigned: true }, { projection: { _id: 0 } })
     .sort({ "indexer.blockHeight": -1, "indexer.eventIndex": 1 })
     .limit(size)
     .toArray();
+
+  const assetIds = extractAssetIds(transfers);
+  const assets = await queryAssets(assetIds);
+
+  return transfers.map((transfer) => {
+    if (isNil(transfer.assetId)) {
+      return {
+        ...transfer,
+        isNativeAsset: true,
+      };
+    }
+
+    const asset = assets.find(
+      (asset) =>
+        asset.assetId === transfer.assetId &&
+        asset.assetHeight === transfer.assetHeight,
+    );
+    return {
+      ...transfer,
+      isNativeAsset: false,
+      symbol: asset?.metadata?.symbol,
+    };
+  });
 }
 
 async function queryUnFinalizedTransfers(size = 5) {
