@@ -17,16 +17,11 @@ async function getAssets(ctx) {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const normalizedItems = items.map((item) => {
-    return {
-      ...item,
-      data: item.data,
-    };
-  });
+
   const total = await col.estimatedDocumentCount();
 
   ctx.body = {
-    items: normalizedItems,
+    items,
     page,
     pageSize,
     total,
