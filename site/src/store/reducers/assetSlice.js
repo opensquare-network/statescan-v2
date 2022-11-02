@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { assetListApi } from "../../services/urls";
+import { assetApi, assetListApi } from "../../services/urls";
 import api from "../../services/api";
+import {
+  clearHttpError,
+  handleApiError,
+} from "../../utils/viewFuncs/errorHeandles";
 
 const name = "asset";
 
@@ -9,6 +13,7 @@ const assetSlice = createSlice({
   initialState: {
     list: null,
     listLoading: false,
+    detail: null,
   },
   reducers: {
     setList(state, { payload }) {
@@ -17,12 +22,16 @@ const assetSlice = createSlice({
     setListLoading(state, { payload }) {
       state.listLoading = payload;
     },
+    setDetail(state, { payload }) {
+      state.detail = payload;
+    },
   },
 });
 
-export const { setList, setListLoading } = assetSlice.actions;
+export const { setList, setListLoading, setDetail } = assetSlice.actions;
 
 export const assetListSelector = (state) => state[name].list;
+export const assetDetailSelector = (state) => state[name].detail;
 export const assetListLoadingSelector = (state) => state[name].listLoading;
 
 export const assetFetchList =
@@ -40,6 +49,21 @@ export const assetFetchList =
         dispatch(setListLoading(false));
       });
   };
+
+export const assetFetchDetail = (id) => async (dispatch) => {
+  clearHttpError(dispatch);
+
+  return api
+    .fetch(assetApi(id))
+    .then(({ result }) => {
+      if (result) {
+        dispatch(setDetail(result));
+      }
+    })
+    .catch((error) => {
+      handleApiError(error, dispatch);
+    });
+};
 
 export const cleanAssetList = () => (dispatch) => {
   dispatch(setList(null));
