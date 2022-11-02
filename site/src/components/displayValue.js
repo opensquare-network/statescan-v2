@@ -18,11 +18,7 @@ const NotEqual = styled.div`
 
 export default function ValueDisplay({ value, symbol, abbreviate = true }) {
   if (isNaN(value)) {
-    return (
-      <Wrapper>
-        {value} {symbol}
-      </Wrapper>
-    );
+    return <Wrapper>--</Wrapper>;
   }
 
   if (
