@@ -10,6 +10,7 @@ async function normalizeTransfers(transfers = []) {
     if (isNil(transfer.assetId)) {
       return {
         ...transfer,
+        balance: transfer.balance.toString(),
         isNativeAsset: true,
       };
     }
