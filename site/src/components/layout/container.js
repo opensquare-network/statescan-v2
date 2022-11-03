@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   @media screen and (max-width: 600px) {
     padding: 0 16px;
   }
-  box-sizing: border-box;
+  box-sizing: content-box;
 `;
 
 export default function Container({ children, style = {} }) {

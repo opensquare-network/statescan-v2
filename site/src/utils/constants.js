@@ -228,7 +228,7 @@ export const assetsHead = [
   { name: "Issue", width: 200 },
   { name: "Price", width: 160, align: "center" },
   { name: "Holders", width: 160, align: "center" },
-  { name: "Total Supply", align: "right" },
+  { name: "Total Supply", width: 200, align: "right" },
 ];
 
 export const timeTypes = {
