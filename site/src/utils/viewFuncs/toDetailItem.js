@@ -108,9 +108,9 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
 
 export const toAssetDetailItem = (id, asset) => {
   return {
-    Symbol: asset?.metadata?.symbol,
-    Name: asset?.metadata?.name,
-    "Asset ID": `#${asset.assetId}`,
+    Symbol: <TextSecondary>{asset?.metadata?.symbol}</TextSecondary>,
+    Name: <TextSecondary>{asset?.metadata?.name}</TextSecondary>,
+    "Asset ID": <TextSecondary>#{asset.assetId}</TextSecondary>,
     Owner: (
       <AddressOrIdentity address={asset?.detail?.owner} ellipsis={false} />
     ),
@@ -129,9 +129,9 @@ export const toAssetDetailItem = (id, asset) => {
         symbol={asset.symbol}
       />
     ),
-    Decimals: asset?.metadata?.decimals,
+    Decimals: <TextSecondary>{asset?.metadata?.decimals}</TextSecondary>,
     ...(asset?.destroyed ? { Status: <TagThemed>Destroyed</TagThemed> } : {}),
-    Holders: asset?.detail?.accounts,
+    Holders: <TextSecondary>{asset?.detail?.accounts}</TextSecondary>,
     //TODO: TransfersCount
   };
 };
