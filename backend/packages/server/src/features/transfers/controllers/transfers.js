@@ -1,3 +1,4 @@
+const { normalizeTransfers } = require("../../../common/transfer");
 const { extractPage } = require("../../../utils");
 const {
   asset: { getTransferCollection },
@@ -26,7 +27,7 @@ async function getTransfers(ctx) {
   const total = await col.estimatedDocumentCount(q);
 
   ctx.body = {
-    items,
+    items: normalizeTransfers(items),
     page,
     pageSize,
     total,
