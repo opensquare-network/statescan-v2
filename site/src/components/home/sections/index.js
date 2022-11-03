@@ -74,7 +74,7 @@ export default function Sections() {
       </Section>
 
       <Section>
-        <Title>Latest Transfers</Title>
+        <Title>Signed Transfers</Title>
         <StyledPanel>
           <LatestTransfers transfers={transfers} />
           <AnchorWrapper>

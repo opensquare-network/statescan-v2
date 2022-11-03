@@ -25,6 +25,7 @@ import {
   transferListLoadingSelector,
   transferListSelector,
 } from "../store/reducers/transferSlice";
+import getTransferSymbol from "../utils/viewFuncs/transferSymbol";
 
 function Transfers() {
   const location = useLocation();
@@ -83,10 +84,10 @@ function Transfers() {
         </Tooltip>,
         <ValueDisplay
           value={toPrecision(
-            transfer?.balance?.$numberDecimal,
-            chainSetting.decimals,
+            transfer?.balance,
+            transfer.decimals || chainSetting.decimals,
           )}
-          symbol={chainSetting.symbol}
+          symbol={getTransferSymbol(transfer, chainSetting.symbol)}
         />,
       ];
     }) ?? null;
