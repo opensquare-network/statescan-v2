@@ -115,10 +115,7 @@ function LatestTransfers({ transfers }) {
             <div>
               <Value>
                 <ValueDisplay
-                  value={toPrecision(
-                    transfer.balance.$numberDecimal,
-                    chainSetting.decimals,
-                  )}
+                  value={toPrecision(transfer.balance, chainSetting.decimals)}
                   symbol={getTransferSymbol(transfer, chainSetting.symbol)}
                 />
               </Value>

@@ -27,7 +27,7 @@ async function getTransfers(ctx) {
   const total = await col.estimatedDocumentCount(q);
 
   ctx.body = {
-    items: normalizeTransfers(items),
+    items: await normalizeTransfers(items),
     page,
     pageSize,
     total,
