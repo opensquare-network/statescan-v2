@@ -24,6 +24,7 @@ async function normalizeTransfers(transfers = []) {
       balance: transfer.balance.toString(),
       isNativeAsset: false,
       symbol: asset?.metadata?.symbol,
+      decimals: asset?.metadata?.decimals,
     };
   });
 }
