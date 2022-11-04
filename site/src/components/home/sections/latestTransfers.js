@@ -17,6 +17,7 @@ import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
 import AddressOrIdentity from "../../address";
 import React from "react";
 import { PC } from "../../styled/responsive";
+import getTransferSymbol from "../../../utils/viewFuncs/transferSymbol";
 
 const Rows = styled.ul`
   margin: 0;
@@ -75,15 +76,6 @@ const mapLoadingState = (props) => {
   };
 };
 
-function getTransferSymbol(transfer = {}, nativeTokenSymbol) {
-  const { symbol, isNativeAsset } = transfer;
-  if (symbol) {
-    return symbol;
-  }
-
-  return isNativeAsset ? nativeTokenSymbol : "-";
-}
-
 function LatestTransfers({ transfers }) {
   const chainSetting = useSelector(chainSettingSelector);
 
@@ -116,8 +108,8 @@ function LatestTransfers({ transfers }) {
               <Value>
                 <ValueDisplay
                   value={toPrecision(
-                    transfer.balance.$numberDecimal,
-                    chainSetting.decimals,
+                    transfer.balance,
+                    transfer.decimals || chainSetting.decimals,
                   )}
                   symbol={getTransferSymbol(transfer, chainSetting.symbol)}
                 />
