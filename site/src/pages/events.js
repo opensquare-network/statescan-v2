@@ -48,6 +48,7 @@ const filter = [
 
 // FIXME: temporary fix
 const defaultFilterQuery = {
+  signed_only: "true",
   [filter[0].query]: filter[0].value,
   [filter[1].query]: filter[1].value,
 };
