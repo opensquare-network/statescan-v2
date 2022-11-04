@@ -196,7 +196,7 @@ export const callsHead = [
 
 export const transfersHead = [
   { name: "Event ID", width: 160 },
-  { name: "Extrinsic ID", width: 160 },
+  { name: "Extrinsic ID", width: 160, align: "center" },
   { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "From", width: 200 },
