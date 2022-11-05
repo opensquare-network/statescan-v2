@@ -1,9 +1,10 @@
+import React from "react";
 import { ColoredLink } from "../../styled/link";
 import Tooltip from "../../tooltip";
 import AddressOrIdentity from "../../address";
 import ValueDisplay from "../../displayValue";
 import { toPrecision } from "@osn/common";
-import React from "react";
+import getTransferSymbol from "../../../utils/viewFuncs/transferSymbol";
 
 const ExtrinsicLink = ({ indexer }) => {
   if (!indexer?.extrinsicIndex) {
@@ -43,10 +44,10 @@ function TransferTableRow(transfer, key, chainSetting) {
     </Tooltip>,
     <ValueDisplay
       value={toPrecision(
-        transfer?.balance?.$numberDecimal,
-        chainSetting.decimals,
+        transfer?.balance,
+        transfer.decimals || chainSetting.decimals,
       )}
-      symbol={chainSetting.symbol}
+      symbol={getTransferSymbol(transfer, chainSetting.symbol)}
     />,
   ];
 }
