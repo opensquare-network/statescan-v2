@@ -197,26 +197,16 @@ export const callsHead = [
 export const transfersHead = [
   { name: "Event ID", width: 160 },
   { name: "Extrinsic ID", width: 160, align: "center" },
-  { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "From", width: 200 },
   { name: "To", width: 200 },
-  { name: "Value", align: "right" },
+  { name: "Value", width: 390, align: "right" },
 ];
 
 export const accountsHead = [
   { name: "Rank", width: 96 },
   { name: "Account", width: 500 },
   { name: "Balance", width: 240, align: "right" },
-];
-
-export const accountTransfersHead = [
-  { name: "Event ID", width: 160 },
-  { name: "Extrinsic ID", width: 160 },
-  { name: "Time", type: "time", width: 200 },
-  { name: "From", width: 200 },
-  { name: "To", width: 200 },
-  { name: "Balance", align: "right" },
 ];
 
 export const accountExtinsicsHead = blockExtrinsicsHead;
