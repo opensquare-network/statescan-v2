@@ -1,3 +1,4 @@
+const { normalizeTransfers } = require("../../../common/transfer");
 const { extractPage } = require("../../../utils");
 const {
   asset: { getTransferCollection },
@@ -24,7 +25,7 @@ async function getAccountTransfers(ctx) {
   const total = await col.count(q);
 
   ctx.body = {
-    items,
+    items: await normalizeTransfers(items),
     page,
     pageSize,
     total,

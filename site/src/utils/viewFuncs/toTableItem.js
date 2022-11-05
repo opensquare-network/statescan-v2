@@ -7,6 +7,7 @@ import AddressOrIdentity from "../../components/address";
 import { hashEllipsis } from "./text";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as CrossIcon } from "../../components/icons/cross.svg";
+import getTransferSymbol from "./transferSymbol";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -67,10 +68,10 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
         >
           <ValueDisplay
             value={toPrecision(
-              transfer?.balance?.$numberDecimal,
-              chainSetting.decimals,
+              transfer?.balance,
+              transfer.decimals || chainSetting.decimals,
             )}
-            symbol={chainSetting.symbol}
+            symbol={getTransferSymbol(transfer, chainSetting.symbol)}
           />
         </Tooltip>,
       ];
