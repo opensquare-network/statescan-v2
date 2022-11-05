@@ -29,12 +29,6 @@ function TransferTableRow(transfer, key, chainSetting) {
       {transfer?.indexer?.eventIndex}
     </ColoredLink>,
     <ExtrinsicLink key={`${key}-1`} indexer={transfer.indexer} />,
-    <ColoredLink
-      key={`${key}-2`}
-      to={`/block/${transfer?.indexer?.blockHeight}`}
-    >
-      {transfer?.indexer?.blockHeight.toLocaleString()}
-    </ColoredLink>,
     transfer?.indexer?.blockTime,
     <Tooltip tip={transfer?.from}>
       <AddressOrIdentity address={transfer?.from} />

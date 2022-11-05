@@ -12,9 +12,9 @@ import DetailLayout from "../components/layout/detailLayout";
 import { getTabFromQuery } from "../utils/viewFuncs";
 import {
   accountExtinsicsHead,
-  accountTransfersHead,
   Extrinsics,
   Transfers,
+  transfersHead,
 } from "../utils/constants";
 import { Flex } from "../components/styled/flex";
 import DetailTable from "../components/detail/table";
@@ -55,7 +55,7 @@ function Account() {
       table: (
         <DetailTable
           url={`/accounts/${id}/transfers`}
-          heads={accountTransfersHead}
+          heads={transfersHead}
           transformData={toTransferTabTableItem}
           tableKey="accountTransfersTable"
         />
