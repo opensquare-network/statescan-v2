@@ -1,6 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import List from "../components/list";
 import { Flex } from "../components/styled/flex";
@@ -35,6 +35,7 @@ import {
   resetBlockDetail,
 } from "../store/reducers/blockSlice";
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
+import isNil from "lodash.isnil";
 
 function getCountByType(block, type) {
   if (type === Extrinsics) {
@@ -79,6 +80,18 @@ function Block() {
     />
   );
 
+  const tabDataUrl = useMemo(() => {
+    if (isNil(block?.height)) {
+      return null;
+    }
+
+    if (![Extrinsics, Events].includes(selectedTab)) {
+      return null;
+    }
+
+    return `/blocks/${block?.height}/${selectedTab}`;
+  }, [selectedTab, block?.height]);
+
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
@@ -99,17 +112,17 @@ function Block() {
           />
         ))}
       </Flex>
-      {selectedTab === Extrinsics && (
+      {selectedTab === Extrinsics && tabDataUrl && (
         <DetailTable
-          url={`/blocks/${block?.height}/extrinsics`}
+          url={tabDataUrl}
           heads={blockExtrinsicsHead}
           transformData={toExtrinsicsTabTableItem}
           tableKey="blockExtrinsicsTable"
         />
       )}
-      {selectedTab === Events && (
+      {selectedTab === Events && tabDataUrl && (
         <DetailTable
-          url={`/blocks/${block?.height}/events`}
+          url={tabDataUrl}
           heads={blockEventsHead}
           transformData={toEventTabTableItem}
           tableKey="blockEventsTable"
