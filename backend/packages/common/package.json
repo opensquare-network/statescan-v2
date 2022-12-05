@@ -6,6 +6,6 @@
   "dependencies": {
     "mongodb": "^4.7.0",
     "bignumber.js": "^9.1.0",
-    "@osn/scan-common": "0.2.3"
+    "@osn/scan-common": "0.2.8"
   }
 }
