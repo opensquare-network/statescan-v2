@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services/api";
-import { blockApi, blockListApi } from "../../services/urls";
+import { blockApiUrl, blockListApi } from "../../services/urls";
 
 const name = "block";
 
@@ -50,7 +50,7 @@ export const cleanBlockList = () => (dispatch) => {
 };
 
 export const blockFetchDetail = (id) => async (dispatch) => {
-  return api.fetch(blockApi(id)).then(({ result }) => {
+  return api.fetch(blockApiUrl(id)).then(({ result }) => {
     if (result) {
       dispatch(setDetail(result));
     }

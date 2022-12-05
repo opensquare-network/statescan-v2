@@ -1,5 +1,5 @@
 import Pagination from "../pagination";
-import { noop } from "lodash";
+import noop from "lodash.noop";
 import { StyledPanelTableWrapper } from "../styled/panel";
 import Table from "../table";
 import { useDispatch, useSelector } from "react-redux";

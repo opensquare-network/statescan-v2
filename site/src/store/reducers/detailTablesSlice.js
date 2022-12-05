@@ -26,6 +26,9 @@ export const detailTablesLoading = (state) => state[name].loading;
 
 /**
  * @param {string} key is the tables[key]
+ * @param url
+ * @param page
+ * @param pageSize
  */
 export const fetchDetailTable =
   (key, url, page, pageSize) => async (dispatch) => {
