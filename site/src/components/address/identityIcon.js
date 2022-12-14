@@ -5,7 +5,7 @@ import { ReactComponent as UnauthorizedIcon } from "../icons/identity/error-grey
 import { ReactComponent as SubGreyIcon } from "../icons/identity/sub-grey.svg";
 import { ReactComponent as SubRedIcon } from "../icons/identity/sub-red.svg";
 
-export default function IdentityIcon({ identity }) {
+export default function IdentityIcon({ identity, size = 12 }) {
   const statusIconMap = new Map([
     ["NOT_VERIFIED", UnauthorizedIcon],
     ["VERIFIED", AuthIcon],
@@ -17,5 +17,5 @@ export default function IdentityIcon({ identity }) {
 
   const StatusIcon = statusIconMap.get(identity?.info?.status) ?? ErrorIcon;
 
-  return <StatusIcon />;
+  return <StatusIcon width={size} height={size} />;
 }
