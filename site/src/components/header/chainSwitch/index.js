@@ -59,10 +59,8 @@ const Dropdown = styled.div`
 `;
 
 const Text = styled.p`
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 20px;
   color: ${({ theme }) => theme.fontPrimary};
+  ${Inter_14_600};
 `;
 
 const Options = styled.div`
