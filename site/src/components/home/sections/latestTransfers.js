@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { Flex, FlexBetween } from "../../styled/flex";
-import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
+import {
+  Inter_12_500,
+  Inter_14_600,
+  Overpass_Mono_12_500,
+} from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
@@ -67,6 +71,14 @@ const Time = styled.span`
   ${Inter_12_500};
 `;
 
+const AddressOrIdentityWrapper = styled.div`
+  display: inline-flex;
+
+  a {
+    ${Overpass_Mono_12_500};
+  }
+`;
+
 const mapLoadingState = (props) => {
   const { transfers = [] } = props;
 
@@ -117,20 +129,22 @@ function LatestTransfers({ transfers }) {
               <Flex gap={16}>
                 <PC>
                   <Tooltip tip={transfer.from}>
-                    <AddressOrIdentity
-                      address={transfer?.from}
-                      network={chainSetting.value}
-                      fontSize={12}
-                    />
+                    <AddressOrIdentityWrapper>
+                      <AddressOrIdentity
+                        address={transfer?.from}
+                        network={chainSetting.value}
+                      />
+                    </AddressOrIdentityWrapper>
                   </Tooltip>
                   <TransferRightSquareIcon />
                 </PC>
                 <Tooltip tip={transfer.to}>
-                  <AddressOrIdentity
-                    address={transfer?.to}
-                    network={chainSetting.value}
-                    fontSize={12}
-                  />
+                  <AddressOrIdentityWrapper>
+                    <AddressOrIdentity
+                      address={transfer?.to}
+                      network={chainSetting.value}
+                    />
+                  </AddressOrIdentityWrapper>
                 </Tooltip>
               </Flex>
             </div>
