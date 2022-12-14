@@ -68,7 +68,7 @@ const Text = styled.p`
 const Options = styled.div`
   background: ${({ theme }) => theme.fillPopup};
   position: absolute;
-  top: 44px;
+  top: 40px;
   right: 0;
   border: 1px solid ${({ theme }) => theme.strokeBase};
   box-shadow: ${({ theme }) => theme.shadowPanel};
