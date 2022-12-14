@@ -21,6 +21,7 @@ import {
   blockListSelector,
   cleanBlockList,
 } from "../store/reducers/blockSlice";
+import { Flex } from "../components/styled/flex";
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -63,7 +64,9 @@ function Blocks() {
           {block?.height?.toLocaleString()}
         </ColoredLink>,
         block?.time,
-        <FinalizedState finalized={block?.isFinalized} />,
+        <Flex>
+          <FinalizedState finalized={block?.isFinalized} />
+        </Flex>,
         <Tooltip tip={block.hash}>
           <ColoredMonoLink to={`/block/${block?.height}`}>
             {hashEllipsis(block.hash)}
