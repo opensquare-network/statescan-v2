@@ -1,28 +1,18 @@
 import styled from "styled-components";
 import IdentityIcon from "./identityIcon";
 import { Overpass_Mono_14_500 } from "../../styles/text";
-import { Flex } from "../styled/flex";
 
-const Wrapper = styled(Flex)`
-  width: 100%;
-  height: 20px;
+const Wrapper = styled.span`
+  display: inline-flex;
+  align-items: center;
   position: relative;
 
   svg {
-    position: absolute;
+    margin-right: 4px;
   }
-
-  a {
-    width: 20px;
-    height: 20px;
-    margin-left: 8px;
-  }
-
-  font-weight: 500;
 `;
 
 const Display = styled.span`
-  padding-left: 24px;
   ${Overpass_Mono_14_500};
   white-space: nowrap;
   overflow: hidden;
@@ -30,7 +20,7 @@ const Display = styled.span`
   color: ${(p) => p.theme.fontPrimary};
 `;
 
-export default function Identity({ identity, fontSize = 14 }) {
+export default function Identity({ identity }) {
   if (!identity || identity?.info?.status === "NO_ID") {
     return null;
   }
@@ -38,7 +28,7 @@ export default function Identity({ identity, fontSize = 14 }) {
   return (
     <Wrapper>
       <IdentityIcon identity={identity} />
-      <Display style={{ fontSize }}>{identity?.info?.display}</Display>
+      <Display>{identity?.info?.display}</Display>
     </Wrapper>
   );
 }

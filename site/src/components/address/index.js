@@ -30,7 +30,6 @@ const CombinationWrapper = styled(Wrapper)`
 const AddressLink = styled(ColoredMonoLink)`
   display: block;
   margin: 0;
-  line-height: 24px;
   text-align: right;
 `;
 
@@ -39,7 +38,6 @@ const AddressLinkWithCopy = withCopy(AddressLink);
 export function AddressAndIdentity({
   address,
   maxWidth = "100%",
-  fontSize = 14,
   ellipsis = true,
 }) {
   const [identity, setIdentity] = useState(null);
@@ -60,31 +58,20 @@ export function AddressAndIdentity({
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
   if (!identity) {
-    return (
-      <AddressTag style={{ fontSize }} to={`/account/${address}`}>
-        {displayAddress}
-      </AddressTag>
-    );
+    return <AddressTag to={`/account/${address}`}>{displayAddress}</AddressTag>;
   }
 
   return (
     <CombinationWrapper style={{ maxWidth }}>
       <Link to={`/account/${address}`}>
-        <Identity identity={identity} fontSize={fontSize} />
+        <Identity identity={identity} />
       </Link>
-      <AddressTag style={{ fontSize }} to={`/account/${address}`}>
-        {displayAddress}
-      </AddressTag>
+      <AddressTag to={`/account/${address}`}>{displayAddress}</AddressTag>
     </CombinationWrapper>
   );
 }
 
-function AddressOrIdentity({
-  address,
-  maxWidth = "100%",
-  fontSize = 14,
-  ellipsis = true,
-}) {
+function AddressOrIdentity({ address, maxWidth = "100%", ellipsis = true }) {
   const [identity, setIdentity] = useState(null);
   const chainSetting = useSelector(chainSettingSelector);
   const identityChain = chainSetting.identity;
@@ -102,17 +89,13 @@ function AddressOrIdentity({
 
   if (!identity) {
     const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
-    return (
-      <AddressTag style={{ fontSize }} to={`/account/${address}`}>
-        {displayAddress}
-      </AddressTag>
-    );
+    return <AddressTag to={`/account/${address}`}>{displayAddress}</AddressTag>;
   }
 
   return (
     <Wrapper style={{ maxWidth }}>
       <Link to={`/account/${address}`}>
-        <Identity identity={identity} fontSize={fontSize} />
+        <Identity identity={identity} />
       </Link>
     </Wrapper>
   );
