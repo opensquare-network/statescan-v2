@@ -15,6 +15,8 @@ const Wrapper = styled.div`
 `;
 
 const Link = styled.a`
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
   text-decoration: none;
 
@@ -29,6 +31,10 @@ const Link = styled.a`
       }
     }
   }
+
+  &:not(:last-child) {
+    margin-right: 16px;
+  }
 `;
 
 export default function SocialMedia() {
@@ -39,21 +45,21 @@ export default function SocialMedia() {
         target="_blank"
         referrerPolicy="no-referrer"
       >
-        <Github />
+        <Github width={20} height={20} />
       </Link>
       <Link
         href="https://twitter.com/OpensquareN"
         target="_blank"
         referrerPolicy="no-referrer"
       >
-        <Twitter />
+        <Twitter width={20} height={20} />
       </Link>
       <Link
         href="https://app.element.io/#/room/#opensquare:matrix.org"
         target="_blank"
         referrerPolicy="no-referrer"
       >
-        <Element />
+        <Element width={20} height={20} />
       </Link>
     </Wrapper>
   );
