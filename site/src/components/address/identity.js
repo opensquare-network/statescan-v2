@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import IdentityIcon from "./identityIcon";
-import { SF_Mono_14_500 } from "../../styles/text";
+import { Overpass_Mono_14_500 } from "../../styles/text";
 import { Flex } from "../styled/flex";
 
 const Wrapper = styled(Flex)`
@@ -23,7 +23,7 @@ const Wrapper = styled(Flex)`
 
 const Display = styled.span`
   padding-left: 24px;
-  ${SF_Mono_14_500};
+  ${Overpass_Mono_14_500};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

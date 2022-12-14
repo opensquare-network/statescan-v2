@@ -9,7 +9,7 @@ import Link from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
 import styled from "styled-components";
-import { SF_Mono_14_500 } from "../styles/text";
+import { Overpass_Mono_14_500 } from "../styles/text";
 import { no_scroll_bar } from "../styles";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
@@ -37,7 +37,7 @@ const ColoredLink = styled(Link)`
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
-  ${SF_Mono_14_500};
+  ${Overpass_Mono_14_500};
 `;
 
 function Extrinsics() {

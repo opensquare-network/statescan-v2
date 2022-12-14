@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link as RouteLink } from "react-router-dom";
-import { Inter_14_500, SF_Mono_14_500 } from "../../styles/text";
+import { Inter_14_500, Overpass_Mono_14_500 } from "../../styles/text";
 import { withCopy } from "../../HOC/withCopy";
 
 const Link = styled(RouteLink)`
@@ -20,7 +20,7 @@ export const ColoredLink = styled(Link)`
 
 export const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
-  ${SF_Mono_14_500};
+  ${Overpass_Mono_14_500};
   word-break: break-all;
   cursor: pointer;
 `;
