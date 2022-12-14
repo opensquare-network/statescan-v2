@@ -132,7 +132,7 @@ export const menusAssets = [
 export const blocksHead = [
   { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
-  { name: "Status", align: "center", width: 112 },
+  { name: "Status", width: 112 },
   { name: "Hash", width: 240 },
   { name: "Validator", width: 200 },
   { name: "Extrinsics", align: "right", width: 152 },
