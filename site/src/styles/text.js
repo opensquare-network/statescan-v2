@@ -29,7 +29,7 @@ export const Inter_20_700 = css`
 export const Inter_18_700 = css`
   ${Inter};
   font-weight: 700;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 20px;
 `;
 
