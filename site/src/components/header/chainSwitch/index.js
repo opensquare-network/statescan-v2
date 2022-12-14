@@ -74,15 +74,15 @@ const Options = styled.div`
   box-shadow: ${({ theme }) => theme.shadowPanel};
   border-radius: 8px;
   width: 320px;
+  padding: 24px;
 
   ${mobilecss(css`
-    width: 100%;
+    left: 0;
+    width: auto;
   `)}
 `;
 
-const ChainGroupWrapper = styled.div`
-  padding: 16px;
-`;
+const ChainGroupWrapper = styled.div``;
 
 const ChainGroup = styled.div`
   margin-top: 12px;
@@ -120,7 +120,7 @@ const ChainGroupItemCaretWrapper = styled.span`
 const ChainGroupItem = styled.a`
   display: inline-flex;
   padding: 8px 0;
-  width: 136px;
+  width: calc(50% - 8px);
   ${mobilecss(css`
     width: 100%;
   `)}
