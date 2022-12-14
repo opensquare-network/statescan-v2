@@ -3,7 +3,7 @@ import { timeTypes } from "../../../utils/constants";
 import { time, timeDuration } from "../../../utils/viewFuncs/time";
 import { Inter_14_500 } from "../../../styles/text";
 
-const Wrapper = styled.td`
+const Wrapper = styled.span`
   white-space: nowrap;
   ${Inter_14_500};
   color: ${(p) => p.theme.fontTertiary};
