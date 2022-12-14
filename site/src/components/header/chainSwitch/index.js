@@ -48,13 +48,15 @@ const Dropdown = styled.div`
   }
 
   :hover {
-    border-color: ${({ theme }) => theme.strokeBoxSelected};
+    border-color: ${(p) => p.theme.theme500};
   }
 
   ${(p) =>
     p.active &&
     css`
-      border-color: ${({ theme }) => theme.strokeBoxSelected};
+      border-color: ${(p) => p.theme.theme500};
+      outline: none;
+      box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
     `}
 `;
 
