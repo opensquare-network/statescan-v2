@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SF_Mono_12_500 } from "../../styles/text";
+import { Overpass_Mono_12_500 } from "../../styles/text";
 import { useSelector } from "react-redux";
 import {
   tooltipPositionSelector,
@@ -19,7 +19,7 @@ const TipWrapper = styled.div`
   display: ${(p) => (p.showTip ? "block" : "none")};
   background: ${(p) => p.theme.fillTooltip};
   color: ${(p) => p.theme.fontPrimaryInverse};
-  ${SF_Mono_12_500};
+  ${Overpass_Mono_12_500};
   border-radius: 4px;
 `;
 

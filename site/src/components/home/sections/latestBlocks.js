@@ -105,7 +105,6 @@ function LatestBlocks({ blocks }) {
                 <AddressOrIdentity
                   address={block?.validator}
                   network={chainSetting.value}
-                  maxWidth={93}
                 />
               </Tooltip>
               <FlexEnd style={{ fontSize: 12, marginTop: 4 }} gap={8}>

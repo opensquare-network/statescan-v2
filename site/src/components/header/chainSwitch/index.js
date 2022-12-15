@@ -48,41 +48,41 @@ const Dropdown = styled.div`
   }
 
   :hover {
-    border-color: ${({ theme }) => theme.strokeBoxSelected};
+    border-color: ${(p) => p.theme.theme500};
   }
 
   ${(p) =>
     p.active &&
     css`
-      border-color: ${({ theme }) => theme.strokeBoxSelected};
+      border-color: ${(p) => p.theme.theme500};
+      outline: none;
+      box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
     `}
 `;
 
 const Text = styled.p`
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 20px;
   color: ${({ theme }) => theme.fontPrimary};
+  ${Inter_14_600};
 `;
 
 const Options = styled.div`
   background: ${({ theme }) => theme.fillPopup};
   position: absolute;
-  top: 44px;
+  top: 40px;
   right: 0;
   border: 1px solid ${({ theme }) => theme.strokeBase};
   box-shadow: ${({ theme }) => theme.shadowPanel};
   border-radius: 8px;
   width: 320px;
+  padding: 24px;
 
   ${mobilecss(css`
-    width: 100%;
+    left: 0;
+    width: auto;
   `)}
 `;
 
-const ChainGroupWrapper = styled.div`
-  padding: 16px;
-`;
+const ChainGroupWrapper = styled.div``;
 
 const ChainGroup = styled.div`
   margin-top: 12px;
@@ -120,7 +120,7 @@ const ChainGroupItemCaretWrapper = styled.span`
 const ChainGroupItem = styled.a`
   display: inline-flex;
   padding: 8px 0;
-  width: 136px;
+  width: calc(50% - 8px);
   ${mobilecss(css`
     width: 100%;
   `)}

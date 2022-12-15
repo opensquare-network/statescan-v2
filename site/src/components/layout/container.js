@@ -1,14 +1,16 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { smcss } from "../../styles/responsive";
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  width: 100%;
+  /* width: 100%; */
   max-width: 1360px;
   padding: 0 24px;
-  @media screen and (max-width: 600px) {
-    padding: 0 16px;
-  }
   box-sizing: border-box;
+
+  ${smcss(css`
+    padding: 0 16px;
+  `)}
 `;
 
 export default function Container({ children, style = {} }) {

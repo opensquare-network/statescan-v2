@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Inter_12_500, Inter_20_700 } from "../../../styles/text";
+import { Inter_12_500, Inter_18_700 } from "../../../styles/text";
 import { PC } from "../../styled/responsive";
 import { Flex } from "../../styled/flex";
 import ThemedLink from "../../styled/link";
@@ -24,7 +24,7 @@ const ContentLabel = styled.div`
 `;
 const ContentValue = styled.div`
   color: ${(p) => p.theme.fontPrimary};
-  ${Inter_20_700};
+  ${Inter_18_700};
 `;
 const ContentValueTotal = styled.span`
   color: ${(p) => p.theme.fontTertiary};

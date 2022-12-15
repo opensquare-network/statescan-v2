@@ -7,7 +7,7 @@ import Link from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
 import styled from "styled-components";
-import { SF_Mono_14_500 } from "../styles/text";
+import { Overpass_Mono_14_500 } from "../styles/text";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
@@ -21,6 +21,7 @@ import {
   blockListSelector,
   cleanBlockList,
 } from "../store/reducers/blockSlice";
+import { Flex } from "../components/styled/flex";
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -28,7 +29,7 @@ const ColoredLink = styled(Link)`
 
 const ColoredMonoLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
-  ${SF_Mono_14_500};
+  ${Overpass_Mono_14_500};
 `;
 
 function Blocks() {
@@ -63,7 +64,9 @@ function Blocks() {
           {block?.height?.toLocaleString()}
         </ColoredLink>,
         block?.time,
-        <FinalizedState finalized={block?.isFinalized} />,
+        <Flex>
+          <FinalizedState finalized={block?.isFinalized} />
+        </Flex>,
         <Tooltip tip={block.hash}>
           <ColoredMonoLink to={`/block/${block?.height}`}>
             {hashEllipsis(block.hash)}
