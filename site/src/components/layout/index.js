@@ -21,7 +21,7 @@ export default function Layout({ children, className }) {
     <>
       <Background />
 
-      <Container>
+      <Container className={className}>
         <Header />
 
         <Main>{children}</Main>
