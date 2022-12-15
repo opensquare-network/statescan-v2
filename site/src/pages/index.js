@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Layout from "../components/layout";
+import HomeLayout from "../components/layout/home";
 import Explore from "../components/home/explore";
 import Sections from "../components/home/sections/index";
 import { connect, unSubscribeHomepageInfo } from "../services/websocket";
@@ -32,7 +32,7 @@ function Home() {
   }, [dispatch]);
 
   return (
-    <Layout>
+    <HomeLayout>
       <Explore />
 
       <OverviewWrapper>
@@ -42,7 +42,7 @@ function Home() {
       <SectionsWrapper>
         <Sections />
       </SectionsWrapper>
-    </Layout>
+    </HomeLayout>
   );
 }
 

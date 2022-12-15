@@ -10,7 +10,7 @@ import ScrollToTop from "../scrollToTop";
 
 const Main = styled.main`
   flex-grow: 1;
-  margin-top: 20px;
+  margin-top: 32px;
   z-index: 1;
 `;
 
