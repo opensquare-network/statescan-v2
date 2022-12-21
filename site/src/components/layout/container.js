@@ -13,6 +13,10 @@ const Wrapper = styled.div`
   `)}
 `;
 
-export default function Container({ children, style = {} }) {
-  return <Wrapper style={style}>{children}</Wrapper>;
+export default function Container({ children, style = {}, className }) {
+  return (
+    <Wrapper style={style} className={className}>
+      {children}
+    </Wrapper>
+  );
 }

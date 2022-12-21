@@ -10,7 +10,7 @@ const DotWrapper = styled.div`
   left: 0;
   right: 0;
   width: 100%;
-  height: 320px;
+  height: 294px;
   background-color: ${(p) => p.theme.fillPanel};
 `;
 
