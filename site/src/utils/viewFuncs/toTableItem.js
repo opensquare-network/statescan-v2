@@ -60,17 +60,13 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
           <AddressOrIdentity address={transfer?.to} />
         </Tooltip>,
         <Tooltip
-          tip={`${toPrecision(
-            transfer?.balance?.$numberDecimal,
-            chainSetting?.decimals,
-          )} ${chainSetting.symbol}`}
+          tip={`${toPrecision(transfer?.balance, chainSetting.decimals)} ${
+            chainSetting.symbol
+          }`}
           pullRight
         >
           <ValueDisplay
-            value={toPrecision(
-              transfer?.balance,
-              transfer.decimals || chainSetting.decimals,
-            )}
+            value={toPrecision(transfer?.balance, chainSetting.decimals)}
             symbol={getTransferSymbol(transfer, chainSetting.symbol)}
           />
         </Tooltip>,
