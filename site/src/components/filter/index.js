@@ -90,8 +90,6 @@ export default function Filter({ title, data }) {
     setDropdownData(data);
   }, [data]);
 
-  console.log({ selectData });
-
   const onDropdown = (name, value, item) => {
     let descendant = item?.descendant ?? null;
     setDropdownData(
