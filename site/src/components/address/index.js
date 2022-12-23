@@ -30,7 +30,6 @@ const CombinationWrapper = styled(Wrapper)`
 const AddressLink = styled(ColoredMonoLink)`
   display: block;
   margin: 0;
-  text-align: right;
 `;
 
 const AddressLinkWithCopy = withCopy(AddressLink);
