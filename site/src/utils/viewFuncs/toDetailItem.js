@@ -16,19 +16,14 @@ import ValueDisplay from "../../components/displayValue";
 import DetailedCallId from "../../components/detail/callId";
 import DetailedExtrinsicId from "../../components/detail/extrinsicId";
 import DetailedBlock from "../../components/detail/block";
-import styled from "styled-components";
 import { Tag, TagHighContrast, TagThemed } from "../../components/tag";
-import { Inter_14_500 } from "../../styles/text";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
-const CallText = styled.span`
-  color: ${(p) => p.theme.fontSecondary};
-  ${Inter_14_500};
-`;
+const CallText = TextSecondary;
 
 export const toBlockDetailItem = (block) => {
   return {
@@ -194,7 +189,7 @@ export const toExtrinsicDetailItem = (extrinsic) => {
               <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[0]}`}>
                 {extrinsic?.lifetime?.[0].toLocaleString()}
               </ColoredInterLink>
-              {" ~ "}
+              <TextSecondary>{" ~ "}</TextSecondary>
               <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[1]}`}>
                 {extrinsic?.lifetime?.[1].toLocaleString()}
               </ColoredInterLink>
