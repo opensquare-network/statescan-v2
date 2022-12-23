@@ -5,7 +5,6 @@ import TableBody from "./body";
 const StyledTable = styled.table`
   margin-top: 8px;
   position: relative;
-  width: 100%;
   table-layout: fixed;
   background: ${(p) => p.theme.fillPanel};
   border-collapse: collapse;
