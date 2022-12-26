@@ -205,7 +205,7 @@ export const transfersHead = [
 
 export const accountsHead = [
   { name: "Rank", width: 96 },
-  { name: "Account", width: 500 },
+  { name: "Account", width: 510 },
   { name: "Balance", width: 240, align: "right" },
 ];
 

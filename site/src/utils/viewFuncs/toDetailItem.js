@@ -87,9 +87,9 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
         </TextSecondary>
       </Tooltip>
     ),
-    Reversed: (
+    Reserved: (
       <Tooltip
-        tip={`${toPrecision(account?.data?.reversed, chainSetting.decimals)} ${
+        tip={`${toPrecision(account?.data?.reserved, chainSetting.decimals)} ${
           chainSetting.symbol
         }`}
       >
@@ -102,7 +102,7 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
         </TextSecondary>
       </Tooltip>
     ),
-    Nonce: <TextSecondary>{account?.nonce}</TextSecondary>,
+    Nonce: <TextSecondary>{account?.detail?.nonce}</TextSecondary>,
   };
 };
 
