@@ -40,18 +40,22 @@ function getSpecVersionDescendant(specVersion) {
     value: "",
     name: "Section",
     query: "section",
-    options: [makeOptionWithEmptyDescendant(AllOption, "Method")]
-      .concat(
-        specVersion.pallets.map((section) => {
+    isSearch: true,
+    options: [makeOptionWithEmptyDescendant(AllOption, "Method")].concat(
+      specVersion.pallets
+        .filter((section) => {
+          return section?.calls?.length > 0;
+        })
+        .map((section) => {
           return {
             name: section.name,
             text: section.name,
             value: section.name,
             descendant: getSectionDescendant(section),
           };
-        }),
-      )
-      .sort(sortByName),
+        })
+        .sort(sortByName),
+    ),
   };
 }
 
@@ -61,17 +65,17 @@ function getSectionDescendant(section) {
     name: "Method",
     query: "method",
     isSearch: true,
-    options: [AllOption]
-      .concat(
-        section.calls.map((method) => {
+    options: [AllOption].concat(
+      section.calls
+        .map((method) => {
           return {
             name: method,
             text: method,
             value: stringCamelCase(method),
           };
-        }),
-      )
-      .sort(sortByName),
+        })
+        .sort(sortByName),
+    ),
   };
 }
 
