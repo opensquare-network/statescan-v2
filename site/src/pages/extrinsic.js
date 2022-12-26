@@ -4,7 +4,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import List from "../components/list";
 import Tab from "../components/tab";
-import DataDisplay from "../components/dataDisplay";
 import { Flex } from "../components/styled/flex";
 import { useMemo } from "react";
 import { currencify } from "../utils";
@@ -24,6 +23,7 @@ import {
   extrinsicFetchDetail,
   resetExtrinsicDetail,
 } from "../store/reducers/extrinsicSlice";
+import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 
 function Extrinsic() {
   const { id } = useParams();
@@ -107,11 +107,7 @@ function Extrinsic() {
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
-        <DataDisplay
-          tableData={extrinsic?.call}
-          JSONData={extrinsic?.call}
-          title="Parameters"
-        />
+        <ExtrinsicParametersDisplay extrinsic={extrinsic} />
       </Panel>
 
       <Flex>

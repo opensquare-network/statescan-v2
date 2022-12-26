@@ -3,7 +3,6 @@ import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
-import DataDisplay from "../components/dataDisplay";
 import { currencify } from "../utils";
 import DetailLayout from "../components/layout/detailLayout";
 import { toEventDetailItem } from "../utils/viewFuncs/toDetailItem";
@@ -17,6 +16,7 @@ import {
   eventFetchDetail,
   resetEventDetail,
 } from "../store/reducers/eventSlice";
+import EventAttributeDisplay from "../components/eventAttributeDisplay";
 
 function Event() {
   const { id } = useParams();
@@ -53,11 +53,7 @@ function Event() {
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={toEventDetailItem(event)} />
-        <DataDisplay
-          tableData={event?.args}
-          JSONData={event}
-          title="Attributes"
-        />
+        <EventAttributeDisplay event={event} />
       </Panel>
     </DetailLayout>
   );
