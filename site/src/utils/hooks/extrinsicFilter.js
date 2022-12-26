@@ -6,34 +6,13 @@ import {
 import { useEffect, useState } from "react";
 import { basicFilters } from "../constants";
 import { useLocation } from "react-router-dom";
-import * as queryString from "query-string";
-const { stringCamelCase } = require("@polkadot/util");
-
-const getFromQuery = (location, key, defaultValue = "") => {
-  return (
-    queryString.parse(location.search)?.[key] ?? defaultValue?.toString() ?? ""
-  );
-};
-
-const AllOption = {
-  value: "",
-  text: "All",
-};
-
-const sortByName = (a, b) => a?.name?.localeCompare(b?.name);
-
-const makeOptionWithEmptyDescendant = (option, descendantName) => {
-  return {
-    ...option,
-    isSearch: true,
-    descendant: {
-      value: "",
-      name: descendantName,
-      query: descendantName.toLowerCase(),
-      options: [AllOption],
-    },
-  };
-};
+import { stringCamelCase } from "@polkadot/util";
+import {
+  AllOption,
+  getFromQuery,
+  sortByName,
+  makeOptionWithEmptyDescendant,
+} from "../filterCommon";
 
 function getSpecVersionDescendant(specVersion) {
   return {

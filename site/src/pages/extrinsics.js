@@ -17,7 +17,7 @@ import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import Tooltip from "../components/tooltip";
-import { useExtrinsicFilter } from "../utils/hooks/filter";
+import { useExtrinsicFilter } from "../utils/hooks/extrinsicFilter";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cleanExtrinsicList,
