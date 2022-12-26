@@ -232,11 +232,11 @@ export const basicFilters = [
     name: "Sign",
     query: "signed_only",
     options: [
+      { text: "All", value: "false" },
       {
         text: "Signed only",
         value: "true",
       },
-      { text: "All", value: "false" },
     ],
   },
 ];

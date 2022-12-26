@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
-import { useExtrinsicFilter } from "../utils/hooks/filter";
+import { useEventFilter } from "../utils/hooks/eventFilter";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cleanEventList,
@@ -58,7 +58,7 @@ function Events() {
   const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const filters = useExtrinsicFilter();
+  const filters = useEventFilter();
 
   const list = useSelector(eventListSelector);
   const loading = useSelector(eventListLoadingSelector);
