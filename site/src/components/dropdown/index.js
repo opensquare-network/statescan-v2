@@ -1,7 +1,7 @@
 import { ReactComponent as Caret } from "../icons/caret-down.svg";
 import styled, { css } from "styled-components";
 import { useState, useRef } from "react";
-import { FlexBetween } from "../styled/flex";
+import { Flex, FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
 import Options from "./options";
 import { Inter_14_500 } from "../../styles/text";
@@ -12,11 +12,13 @@ const CaretIcon = styled(Caret)`
   }
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled(Flex)`
+  flex-grow: 1;
   position: relative;
 `;
 
 const SelectWrapper = styled(FlexBetween)`
+  flex-grow: 1;
   padding: 0 6px 0 12px;
   width: 140px;
   height: 26px;

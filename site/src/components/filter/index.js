@@ -6,17 +6,13 @@ import { Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
-
-const ForLargeScreen = styled.div`
-  @media screen and (max-width: 1100px) {
-    display: none;
-  }
-`;
+import FilterIcon from "./filterIcon";
+import { useWindowSize } from "@osn/common";
 
 const ForSmallScreen = styled.div`
   display: none;
-  @media screen and (max-width: 1100px) {
-    display: block;
+  @media screen and (max-width: 1150px) {
+    display: flex;
   }
 `;
 
@@ -29,7 +25,7 @@ const Wrapper = styled(Panel)`
   gap: 16px;
   overflow: visible;
   ${Inter_14_600};
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1150px) {
     flex-direction: column;
     align-items: stretch;
   }
@@ -48,13 +44,14 @@ const HeadWrapper = styled(FlexBetween)`
 `;
 
 const DropdownWrapper = styled(Flex)`
-  @media screen and (max-width: 1100px) {
-    flex-grow: 1;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    flex-basis: 100%;
+  @media screen and (max-width: 1150px) {
+    flex-direction: column;
+    align-items: stretch;
+    > :not(:first-child) {
+      margin-left: 0;
+      margin-top: 8px;
+    }
   }
-
   > :not(:first-child) {
     margin-left: 16px;
   }
@@ -71,20 +68,25 @@ const Button = styled.div`
   text-align: center;
 `;
 
-const FilterWrapper = styled(Flex)`
+const FilterWrapper = styled.div`
+  display: flex;
   flex-grow: 1;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  gap: 24px;
-  @media screen and (max-width: 1100px) {
-    flex-wrap: wrap;
-    gap: 16px;
+  > :not(:first-child) {
+    margin-left: 24px;
+  }
+  @media screen and (max-width: 1150px) {
+    flex-direction: column;
+    > :not(:first-child) {
+      margin: 16px 0 0;
+    }
   }
 `;
 
 export default function Filter({ title, data }) {
   const navigate = useNavigate();
   const [selectData, setDropdownData] = useState(data);
+  const [showFilterPanel, setShowFilterPanel] = useState(false);
+  const { width } = useWindowSize();
 
   useEffect(() => {
     setDropdownData(data);
@@ -129,28 +131,31 @@ export default function Filter({ title, data }) {
     <Wrapper>
       <HeadWrapper>
         <Title>{title}</Title>
-        <ForSmallScreen>{filter_button}</ForSmallScreen>
+        <ForSmallScreen>
+          <FilterIcon
+            active={showFilterPanel}
+            onClick={() => setShowFilterPanel(!showFilterPanel)}
+          />
+        </ForSmallScreen>
       </HeadWrapper>
-      {selectData?.length > 0 && (
+      {(showFilterPanel || width > 1150) && selectData?.length > 0 && (
         <FilterWrapper>
-          <Flex gap={24}>
-            {(selectData || []).map((item, index) => (
-              <DropdownWrapper key={index}>
-                <span>{item.name}</span>
-                <Dropdown
-                  isSearch={!!item?.isSearch}
-                  value={item.value}
-                  name={item.name}
-                  options={item.options}
-                  query={item.query}
-                  subQuery={item.subQuery}
-                  onSelect={onDropdown}
-                  defaultDisplay={item.defaultDisplay}
-                />
-              </DropdownWrapper>
-            ))}
-          </Flex>
-          <ForLargeScreen>{filter_button}</ForLargeScreen>
+          {(selectData || []).map((item, index) => (
+            <DropdownWrapper key={index}>
+              <span>{item.name}</span>
+              <Dropdown
+                isSearch={!!item?.isSearch}
+                value={item.value}
+                name={item.name}
+                options={item.options}
+                query={item.query}
+                subQuery={item.subQuery}
+                onSelect={onDropdown}
+                defaultDisplay={item.defaultDisplay}
+              />
+            </DropdownWrapper>
+          ))}
+          {filter_button}
         </FilterWrapper>
       )}
     </Wrapper>
