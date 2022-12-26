@@ -96,7 +96,6 @@ const ExploreInputMobileWrapper = styled(ExploreInputWrapper)`
 const ExploreInput = styled(ExploreInputOrigin)`
   display: inline-flex;
   flex: 1;
-  width: 240px;
 `;
 
 export default function Header() {
