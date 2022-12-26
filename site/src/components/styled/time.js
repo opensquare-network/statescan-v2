@@ -1,18 +1,7 @@
 import { Flex } from "./flex";
 import { time, timeDuration } from "../../utils/viewFuncs/time";
 import React from "react";
-import styled from "styled-components";
-import { Inter_14_500 } from "../../styles/text";
-
-const TextSecondary = styled.span`
-  ${Inter_14_500};
-  color: ${({ theme }) => theme.fontSecondary};
-`;
-
-const TextTertiary = styled.span`
-  ${Inter_14_500};
-  color: ${({ theme }) => theme.fontTertiary};
-`;
+import { TextSecondary, TextTertiary } from "./text";
 
 export function DetailedTime({ ts }) {
   return (
