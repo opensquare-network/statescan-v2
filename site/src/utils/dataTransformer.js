@@ -18,11 +18,13 @@ export function convertArgsForTableView(args, section, method) {
       args.map((arg, index) => {
         switch (arg.type) {
           case "Call":
-          case "CallOf": {
+          case "CallOf":
+          case "RuntimeCall": {
             return [arg.name, convertCallForTableView(arg.value)];
           }
           case "Vec<Call>":
-          case "Vec<CallOf>": {
+          case "Vec<CallOf>":
+          case "Vec<RuntimeCall>": {
             return [arg.name, arg.value.map((v) => convertCallForTableView(v))];
           }
           case "Bytes": {
@@ -91,11 +93,13 @@ export function convertArgsForJsonView(args, section, method) {
       (() => {
         switch (arg.type) {
           case "Call":
-          case "CallOf": {
+          case "CallOf":
+          case "RuntimeCall": {
             return convertCallForJsonView(arg.value);
           }
           case "Vec<Call>":
-          case "Vec<CallOf>": {
+          case "Vec<CallOf>":
+          case "Vec<RuntimeCall>": {
             return arg.value.map((v) => convertCallForJsonView(v));
           }
           case "Bytes": {
