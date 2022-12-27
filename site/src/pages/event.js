@@ -53,7 +53,7 @@ function Event() {
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={toEventDetailItem(event)} />
-        <EventAttributeDisplay event={event} />
+        <EventAttributeDisplay event={event} title="Attributes" />
       </Panel>
     </DetailLayout>
   );

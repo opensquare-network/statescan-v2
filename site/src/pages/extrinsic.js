@@ -107,7 +107,7 @@ function Extrinsic() {
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
-        <ExtrinsicParametersDisplay extrinsic={extrinsic} />
+        <ExtrinsicParametersDisplay extrinsic={extrinsic} title="Parameters" />
       </Panel>
 
       <Flex>

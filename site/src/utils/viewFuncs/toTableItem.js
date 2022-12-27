@@ -30,7 +30,7 @@ export const toEventTabTableItem = (events) => {
           {event?.indexer?.extrinsicIndex}
         </ColoredLink>,
         `${event?.section}(${event?.method})`,
-        <EventAttributeDisplay event={event} title={null} />,
+        <EventAttributeDisplay event={event} />,
       ];
     }) ?? null
   );
@@ -95,7 +95,7 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
         </Tooltip>,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
         `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
-        <ExtrinsicParametersDisplay extrinsic={extrinsic} title={null} />,
+        <ExtrinsicParametersDisplay extrinsic={extrinsic} />,
       ];
     }) ?? null
   );

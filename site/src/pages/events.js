@@ -112,7 +112,7 @@ function Events() {
           {event?.indexer?.extrinsicIndex}
         </ColoredLink>,
         `${event?.section}(${event?.method})`,
-        <EventAttributeDisplay event={event} title={null} />,
+        <EventAttributeDisplay event={event} />,
       ];
     }) ?? null;
 

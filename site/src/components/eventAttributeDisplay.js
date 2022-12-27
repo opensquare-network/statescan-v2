@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { makeEventArgs } from "../utils/eventArgs";
 import DataDisplay from "./dataDisplay";
 
-export default function EventAttributeDisplay({ event, title = "Attributes" }) {
+export default function EventAttributeDisplay({ event, title }) {
   const [tableData, setTableData] = useState();
   const [jsonData, setJsonData] = useState();
 
