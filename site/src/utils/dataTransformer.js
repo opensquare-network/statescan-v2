@@ -53,7 +53,8 @@ export function convertArgsForTableView(args, section, method) {
             return [arg.name, value];
           }
           case "LookupSource":
-          case "MultiAddress": {
+          case "MultiAddress":
+          case "AccountIdLookupOf": {
             if (arg.value.id) {
               return [
                 arg.name,
