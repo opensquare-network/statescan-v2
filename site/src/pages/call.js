@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import BreadCrumb from "../components/breadCrumb";
 import { Panel } from "../components/styled/panel";
 import List from "../components/list";
-import DataDisplay from "../components/dataDisplay";
 import { toCallDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,6 +15,7 @@ import {
   callFetchDetail,
   resetCallDetail,
 } from "../store/reducers/callSlice";
+import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 
 function Call() {
   const { id } = useParams();
@@ -53,11 +53,9 @@ function Call() {
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={toCallDetailItem(indexer, method, section)} />
-        <DataDisplay
-          title="Attributes"
-          tableData={call?.args}
-          JSONData={call}
-        />
+        {call && (
+          <ExtrinsicParametersDisplay extrinsic={{ call }} title="Parameters" />
+        )}
       </Panel>
     </DetailLayout>
   );
