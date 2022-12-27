@@ -40,13 +40,13 @@ function Accounts() {
     const controller = new AbortController();
 
     dispatch(
-      accountFetchList(getPageFromQuery(location) - 1, pageSize, null, {
+      accountFetchList(page - 1, pageSize, null, {
         signal: controller.signal,
       }),
     );
 
     return () => controller.abort();
-  }, [dispatch, location, pageSize]);
+  }, [dispatch, page, pageSize]);
 
   useEffect(() => {
     dispatch(cleanAccountList());

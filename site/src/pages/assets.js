@@ -33,13 +33,13 @@ function Assets() {
     const controller = new AbortController();
 
     dispatch(
-      assetFetchList(getPageFromQuery(location) - 1, pageSize, null, {
+      assetFetchList(page - 1, pageSize, null, {
         signal: controller.signal,
       }),
     );
 
     return () => controller.abort();
-  }, [dispatch, location, pageSize]);
+  }, [dispatch, page, pageSize]);
 
   useEffect(() => {
     dispatch(cleanAssetList());

@@ -45,13 +45,13 @@ function Blocks() {
     const controller = new AbortController();
 
     dispatch(
-      blockFetchList(getPageFromQuery(location) - 1, pageSize, null, {
+      blockFetchList(page - 1, pageSize, null, {
         signal: controller.signal,
       }),
     );
 
     return () => controller.abort();
-  }, [dispatch, location, pageSize]);
+  }, [dispatch, page, pageSize]);
 
   useEffect(() => {
     dispatch(cleanBlockList());
