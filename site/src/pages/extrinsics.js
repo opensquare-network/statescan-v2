@@ -26,6 +26,7 @@ import {
   extrinsicListSelector,
 } from "../store/reducers/extrinsicSlice";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
+import omit from "lodash.omit";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -53,22 +54,21 @@ function Extrinsics() {
 
   useEffect(() => {
     const controller = new AbortController();
-    const page = getPageFromQuery(location) - 1;
 
     dispatch(
       extrinsicFetchList(
-        page,
+        page - 1,
         pageSize,
         {
           signed_only: "true",
-          ...queryString.parse(location.search),
+          ...omit(queryString.parse(location.search), ["page"]),
         },
         { signal: controller.signal },
       ),
     );
 
     return () => controller.abort();
-  }, [dispatch, location, pageSize]);
+  }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
     dispatch(cleanExtrinsicList());

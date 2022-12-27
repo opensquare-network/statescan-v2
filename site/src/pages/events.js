@@ -19,6 +19,7 @@ import {
   eventListSelector,
 } from "../store/reducers/eventSlice";
 import EventAttributeDisplay from "../components/eventAttributeDisplay";
+import omit from "lodash.omit";
 
 const filter = [
   {
@@ -69,11 +70,11 @@ function Events() {
 
     dispatch(
       eventFetchList(
-        getPageFromQuery(location) - 1,
+        page - 1,
         pageSize,
         {
           ...(location.search
-            ? queryString.parse(location.search)
+            ? omit(queryString.parse(location.search), ["page"])
             : defaultFilterQuery),
         },
         { signal: controller.signal },
@@ -81,7 +82,7 @@ function Events() {
     );
 
     return () => controller.abort();
-  }, [dispatch, location, pageSize]);
+  }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
     dispatch(cleanEventList());

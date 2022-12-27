@@ -21,6 +21,7 @@ import {
   transferListSelector,
 } from "../store/reducers/transferSlice";
 import TransferTableRow from "../components/transfer/list/row";
+import omit from "lodash.omit";
 
 function Transfers() {
   const location = useLocation();
@@ -37,15 +38,18 @@ function Transfers() {
 
     dispatch(
       transferFetchList(
-        getPageFromQuery(location) - 1,
+        page - 1,
         pageSize,
-        { signed_only: "true", ...queryString.parse(location.search) },
+        {
+          signed_only: "true",
+          ...omit(queryString.parse(location.search), ["page"]),
+        },
         { signal: controller.signal },
       ),
     );
 
     return () => controller.abort();
-  }, [dispatch, location, pageSize]);
+  }, [dispatch, location, page, pageSize]);
 
   const data = list?.items?.map((transfer, key) =>
     TransferTableRow(transfer, key, chainSetting),
