@@ -70,6 +70,18 @@ export function convertArgsForTableView(args, section, method) {
               return [arg.name, arg.value];
             }
           }
+          case "Vec<AccountIdLookupOf>": {
+            return [
+              arg.name,
+              arg.value.map((v, i) => (
+                <AddressOrIdentity
+                  key={`arg-${index}-${i}`}
+                  address={v.id}
+                  ellipsis={false}
+                />
+              )),
+            ];
+          }
           default: {
             return [arg.name, arg.value];
           }
