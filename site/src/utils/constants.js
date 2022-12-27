@@ -146,14 +146,26 @@ export const blockExtrinsicsHead = [
   { name: "Hash", width: 200 },
   { name: "Result", width: 160, align: "center" },
   { name: "Call", type: "call" },
-  { name: "Data", type: "data", align: "right", display: "table" },
+  {
+    name: "Data",
+    width: "100%",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
 ];
 
 export const blockEventsHead = [
   { name: "ID", width: 160 },
   { name: "Extrinsic ID", width: 200 },
   { name: "Call", type: "call" },
-  { name: "Data", type: "data", align: "right", display: "table" },
+  {
+    name: "Data",
+    width: "100%",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
 ];
 
 export const extrinsicEventsHead = blockEventsHead;
@@ -162,7 +174,13 @@ export const blockLogsHead = [
   { name: "Log Index", width: 160 },
   { name: "Block", width: 200 },
   { name: "Type", width: 200 },
-  { name: "Data", type: "data", align: "right", display: "table" },
+  {
+    name: "Data",
+    width: "100%",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
 ];
 
 export const extrinsicsHead = [
@@ -172,7 +190,13 @@ export const extrinsicsHead = [
   { name: "Hash", width: 200 },
   { name: "Result", width: 160, align: "center" },
   { name: "Call", type: "call" },
-  { name: "Data", type: "data", align: "right", display: "table" },
+  {
+    name: "Data",
+    width: "100%",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
 ];
 
 export const eventsHead = [
@@ -181,7 +205,14 @@ export const eventsHead = [
   { name: "Time", type: "time", width: 200 },
   { name: "Extrinsic ID", width: 160 },
   { name: "Action", type: "call" },
-  { name: "Data", type: "data", align: "right", width: 76, display: "table" },
+  {
+    name: "Data",
+    width: "100%",
+    type: "data",
+    align: "right",
+    width: 76,
+    display: "table",
+  },
 ];
 
 export const callsHead = [
@@ -191,7 +222,14 @@ export const callsHead = [
   { name: "Time", type: "time", width: 200 },
   { name: "Method", width: 200 },
   { name: "Call", type: "call" },
-  { name: "Data", type: "data", align: "right", width: 76, display: "table" },
+  {
+    name: "Data",
+    width: "100%",
+    type: "data",
+    align: "right",
+    width: 76,
+    display: "table",
+  },
 ];
 
 export const transfersHead = [

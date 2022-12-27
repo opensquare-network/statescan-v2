@@ -5,7 +5,10 @@ import {
 } from "../utils/dataTransformer";
 import DataDisplay from "./dataDisplay";
 
-export default function ExtrinsicParametersDisplay({ extrinsic }) {
+export default function ExtrinsicParametersDisplay({
+  extrinsic,
+  title = "Parameters",
+}) {
   const [tableData, setTableData] = useState();
   const [jsonData, setJsonData] = useState();
 
@@ -19,6 +22,6 @@ export default function ExtrinsicParametersDisplay({ extrinsic }) {
   }, [extrinsic]);
 
   return (
-    <DataDisplay tableData={tableData} JSONData={jsonData} title="Parameters" />
+    <DataDisplay tableData={tableData} JSONData={jsonData} title={title} />
   );
 }
