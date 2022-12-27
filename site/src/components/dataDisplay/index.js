@@ -56,33 +56,41 @@ export default function DataDisplay({ tableData, JSONData, title }) {
     return null;
   }
 
+  const dataTable = (
+    <TableWrapper>
+      <Toolbar>
+        <TabsWrapper>
+          <Tab
+            active={format === "table"}
+            onClick={() => {
+              setFormat("table");
+            }}
+          >
+            Table
+          </Tab>
+          <Tab
+            active={format === "JSON"}
+            onClick={() => {
+              setFormat("JSON");
+            }}
+          >
+            JSON
+          </Tab>
+        </TabsWrapper>
+      </Toolbar>
+      {format === "table" && <InnerTable data={tableData} />}
+      {format === "JSON" && <JsonView src={JSONData} />}
+    </TableWrapper>
+  );
+
+  if (!title) {
+    return dataTable;
+  }
+
   return (
     <Wrapper>
       <Title>{title}</Title>
-      <TableWrapper>
-        <Toolbar>
-          <TabsWrapper>
-            <Tab
-              active={format === "table"}
-              onClick={() => {
-                setFormat("table");
-              }}
-            >
-              Table
-            </Tab>
-            <Tab
-              active={format === "JSON"}
-              onClick={() => {
-                setFormat("JSON");
-              }}
-            >
-              JSON
-            </Tab>
-          </TabsWrapper>
-        </Toolbar>
-        {format === "table" && <InnerTable data={tableData} />}
-        {format === "JSON" && <JsonView src={JSONData} />}
-      </TableWrapper>
+      {dataTable}
     </Wrapper>
   );
 }

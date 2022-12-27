@@ -13,3 +13,25 @@ export function isHash(value = "") {
   }
   return false;
 }
+
+export function hexEllipsis(hex, start = 6, end = 4) {
+  return textEllipsis(hex, start, end);
+}
+
+export function textEllipsis(text, start, end) {
+  if (!text) return;
+  if (text.length <= start + end) return text;
+  if (!text.slice) return text;
+  return `${text.slice(0, start)}...${text.slice(-end)}`;
+}
+
+export function makeTablePairs(keys, vals) {
+  return {
+    object_type: "table_pairs",
+    object_data: zip(keys, vals),
+  };
+}
+
+export function zip(arrLeft, arrRight) {
+  return arrLeft.map((val, i) => [val, arrRight[i]]);
+}

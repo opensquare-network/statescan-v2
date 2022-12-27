@@ -18,6 +18,7 @@ import {
   eventListLoadingSelector,
   eventListSelector,
 } from "../store/reducers/eventSlice";
+import EventAttributeDisplay from "../components/eventAttributeDisplay";
 
 const filter = [
   {
@@ -111,7 +112,7 @@ function Events() {
           {event?.indexer?.extrinsicIndex}
         </ColoredLink>,
         `${event?.section}(${event?.method})`,
-        event?.args,
+        <EventAttributeDisplay event={event} />,
       ];
     }) ?? null;
 

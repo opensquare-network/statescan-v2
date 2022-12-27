@@ -8,6 +8,8 @@ import { hashEllipsis } from "./text";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as CrossIcon } from "../../components/icons/cross.svg";
 import getTransferSymbol from "./transferSymbol";
+import EventAttributeDisplay from "../../components/eventAttributeDisplay";
+import ExtrinsicParametersDisplay from "../../components/extrinsicParametersDisplay";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -28,7 +30,7 @@ export const toEventTabTableItem = (events) => {
           {event?.indexer?.extrinsicIndex}
         </ColoredLink>,
         `${event?.section}(${event?.method})`,
-        event?.args,
+        <EventAttributeDisplay event={event} />,
       ];
     }) ?? null
   );
@@ -93,7 +95,7 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
         </Tooltip>,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
         `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
-        extrinsic?.call,
+        <ExtrinsicParametersDisplay extrinsic={extrinsic} />,
       ];
     }) ?? null
   );

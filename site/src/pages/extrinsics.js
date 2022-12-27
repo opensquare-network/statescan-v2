@@ -25,6 +25,7 @@ import {
   extrinsicListLoadingSelector,
   extrinsicListSelector,
 } from "../store/reducers/extrinsicSlice";
+import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 
 const StyledPanel = styled(Panel)`
   overflow-x: scroll;
@@ -99,7 +100,7 @@ function Extrinsics() {
         </Tooltip>,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
         `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
-        extrinsic?.call,
+        <ExtrinsicParametersDisplay extrinsic={extrinsic} />,
       ];
     }) ?? null;
 
