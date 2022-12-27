@@ -1,4 +1,5 @@
 import { callsHead } from "../../utils/constants";
+import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 import { ColoredLink } from "../styled/link";
 import Table from "../table";
 import { Tag } from "../tag";
@@ -29,7 +30,7 @@ export default function CallsTable(props) {
       item?.indexer?.blockTime,
       <Tag>{item?.method}</Tag>,
       `${item?.section}(${item?.method})`,
-      item?.args,
+      <ExtrinsicParametersDisplay extrinsic={{ call: item }} />,
     ];
   });
 
