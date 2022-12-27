@@ -54,6 +54,7 @@ export function convertArgsForTableView(args, section, method) {
             const value = new BigNumber(arg.value).toString();
             return [arg.name, value];
           }
+          case "AccountId":
           case "LookupSource":
           case "MultiAddress":
           case "AccountIdLookupOf": {
@@ -66,6 +67,7 @@ export function convertArgsForTableView(args, section, method) {
               />,
             ];
           }
+          case "Vec<AccountId>":
           case "Vec<LookupSource>":
           case "Vec<MultiAddress>":
           case "Vec<AccountIdLookupOf>": {
