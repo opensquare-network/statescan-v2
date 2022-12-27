@@ -210,7 +210,6 @@ export const eventsHead = [
     width: "100%",
     type: "data",
     align: "right",
-    width: 76,
     display: "table",
   },
 ];
@@ -227,7 +226,6 @@ export const callsHead = [
     width: "100%",
     type: "data",
     align: "right",
-    width: 76,
     display: "table",
   },
 ];
