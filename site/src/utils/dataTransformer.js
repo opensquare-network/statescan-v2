@@ -57,18 +57,14 @@ export function convertArgsForTableView(args, section, method) {
           case "LookupSource":
           case "MultiAddress":
           case "AccountIdLookupOf": {
-            if (arg.value.id) {
-              return [
-                arg.name,
-                <AddressOrIdentity
-                  key={`arg-${index}`}
-                  address={arg.value.id}
-                  ellipsis={false}
-                />,
-              ];
-            } else {
-              return [arg.name, arg.value];
-            }
+            return [
+              arg.name,
+              <AddressOrIdentity
+                key={`arg-${index}`}
+                address={arg.value.id || arg.value}
+                ellipsis={false}
+              />,
+            ];
           }
           case "Vec<LookupSource>":
           case "Vec<MultiAddress>":

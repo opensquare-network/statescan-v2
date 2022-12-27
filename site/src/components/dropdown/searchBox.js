@@ -7,6 +7,7 @@ const SearchBoxWrapper = styled(Flex)`
   border-bottom: 1px solid ${(p) => p.theme.strokeBox};
   input {
     all: unset;
+    width: 100%;
     padding: 8px 12px;
     color: ${(p) => p.theme.fontPrimary};
     ::placeholder {
