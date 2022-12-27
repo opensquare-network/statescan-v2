@@ -16,10 +16,13 @@ const detailTables = createSlice({
     setTables(state, { payload = {} }) {
       state.tables[payload.key] = payload.value;
     },
+    clearTables(state) {
+      state.tables = {};
+    },
   },
 });
 
-export const { setLoading, setTables } = detailTables.actions;
+export const { setLoading, setTables, clearTables } = detailTables.actions;
 
 export const detailTablesSelector = (state) => state[name].tables;
 export const detailTablesLoading = (state) => state[name].loading;
@@ -46,7 +49,7 @@ export const fetchDetailTable =
   };
 
 export const cleanupDetailTables = () => (dispatch) => {
-  dispatch(setTables({}));
+  dispatch(clearTables());
 };
 
 export default detailTables.reducer;
