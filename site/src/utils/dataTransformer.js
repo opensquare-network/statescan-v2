@@ -70,6 +70,8 @@ export function convertArgsForTableView(args, section, method) {
               return [arg.name, arg.value];
             }
           }
+          case "Vec<LookupSource>":
+          case "Vec<MultiAddress>":
           case "Vec<AccountIdLookupOf>": {
             return [
               arg.name,
