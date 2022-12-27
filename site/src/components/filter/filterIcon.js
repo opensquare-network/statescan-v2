@@ -13,20 +13,20 @@ const Wrapper = styled.div`
   ${(p) =>
     p.active
       ? css`
-          background: rgb(254, 228, 239);
+          background: ${(p) => p.theme.theme100};
         `
       : css`
-          background: rgb(244, 244, 244);
+          background: ${(p) => p.theme.fillAlpha};
         `}
 
   > svg {
     ${(p) =>
       p.active
         ? css`
-            stroke: #f22279;
+            stroke: ${(p) => p.theme.theme500};
           `
         : css`
-            stroke: #111111;
+            stroke: ${(p) => p.theme.fontSecondary};
           `}
   }
 `;
