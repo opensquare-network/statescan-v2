@@ -24,6 +24,7 @@ import {
   resetExtrinsicDetail,
 } from "../store/reducers/extrinsicSlice";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
+import { cleanupDetailTables } from "../store/reducers/detailTablesSlice";
 
 function Extrinsic() {
   const { id } = useParams();
@@ -50,6 +51,10 @@ function Extrinsic() {
 
     return `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`;
   }, [extrinsic]);
+
+  useEffect(() => {
+    dispatch(cleanupDetailTables());
+  }, [dispatch, extrinsicId]);
 
   const tables = [
     {

@@ -22,7 +22,10 @@ import {
   toExtrinsicsTabTableItem,
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
-import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
+import {
+  cleanupDetailTables,
+  detailTablesSelector,
+} from "../store/reducers/detailTablesSlice";
 import {
   accountDetailSelector,
   accountFetchDetail,
@@ -45,9 +48,13 @@ function Account() {
   );
 
   const tabs = [
-    { name: Extrinsics, count: tablesData?.accountTransfersTable?.total },
+    { name: Extrinsics, count: tablesData?.accountExtrinsicsTable?.total },
     { name: Transfers, count: tablesData?.accountTransfersTable?.total },
   ];
+
+  useEffect(() => {
+    dispatch(cleanupDetailTables());
+  }, [dispatch, id]);
 
   const tables = [
     {

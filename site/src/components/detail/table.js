@@ -4,7 +4,6 @@ import { StyledPanelTableWrapper } from "../styled/panel";
 import Table from "../table";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  cleanupDetailTables,
   detailTablesLoading,
   detailTablesSelector,
   fetchDetailTable,
@@ -37,10 +36,6 @@ export default function DetailTable({
         dispatch(fetchDetailTable(tableKey, url, page - 1, pageSize));
       }
     }
-
-    return () => {
-      dispatch(cleanupDetailTables());
-    };
   }, [dispatch, url, page, pageSize, tableKey, table?.page]);
 
   return (
