@@ -23,6 +23,12 @@ const OptionItemsWrapper = styled.div`
   ${pretty_scroll_bar};
 `;
 
+const NoOption = styled.div`
+  padding: 8px 12px;
+  ${Inter_14_500};
+  color: ${(p) => p.theme.fontTertiary};
+`;
+
 const OptionItem = styled.div`
   padding: 8px 12px;
   ${Inter_14_500};
@@ -72,6 +78,7 @@ function Options({ value, isSearch, options, name, onSelect, setIsActive }) {
             {option.text}
           </OptionItem>
         ))}
+        {displayOptions.length === 0 && <NoOption>No result found</NoOption>}
       </OptionItemsWrapper>
     </OptionWrapper>
   );
