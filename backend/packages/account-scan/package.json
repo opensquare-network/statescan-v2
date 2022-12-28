@@ -7,7 +7,7 @@
     "node": ">18.0.0"
   },
   "dependencies": {
-    "@osn/scan-common": "0.2.8",
+    "@osn/scan-common": "0.3.4",
     "@statescan/mongo": "1.0.0",
     "@polkadot/keyring": "10.2.1",
     "dotenv": "^16.0.1",
