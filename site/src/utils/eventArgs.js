@@ -10,18 +10,21 @@ function cleanTemplateArgs(typeName) {
 }
 
 export function makeEventArgs(event) {
+  const docs = ["Docs", event?.args?.[0]?.docs?.join("").trim() || ""];
+  const fields = event?.args?.map((item) => {
+    const fieldType = cleanTemplateArgs(item.typeName).split("::").pop();
+    if (fieldType === "AccountId") {
+      return [
+        item.name,
+        <AddressOrIdentity key="0" address={item.value} ellipsis={false} />,
+      ];
+    }
+
+    return [item.name, item.value];
+  });
+
   return {
     object_type: "table_pairs",
-    object_data: event?.args?.map((item) => {
-      const fieldType = cleanTemplateArgs(item.typeName).split("::").pop();
-      if (fieldType === "AccountId") {
-        return [
-          item.name,
-          <AddressOrIdentity key="0" address={item.value} ellipsis={false} />,
-        ];
-      }
-
-      return [item.name, item.value];
-    }),
+    object_data: [docs, ...fields],
   };
 }
