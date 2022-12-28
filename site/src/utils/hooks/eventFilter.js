@@ -4,7 +4,6 @@ import {
   filtersSelector,
 } from "../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
-import { basicFilters } from "../constants";
 import { useLocation } from "react-router-dom";
 import { stringCamelCase } from "@polkadot/util";
 import {
@@ -148,5 +147,5 @@ export function useEventFilter() {
     }
   }, [specFilters, location]);
 
-  return [...filters, ...basicFilters];
+  return filters;
 }
