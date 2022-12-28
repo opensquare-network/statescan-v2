@@ -1,5 +1,8 @@
 function checkIsExtrinsicResult(section, method) {
-  return "system" === section && ["ExtrinsicSuccess", "ExtrinsicFailed"].includes(method);
+  return (
+    "system" === section &&
+    ["ExtrinsicSuccess", "ExtrinsicFailed"].includes(method)
+  );
 }
 
 function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
@@ -8,8 +11,8 @@ function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
 
   let indexer = {
     ...blockIndexer,
-    eventIndex
-  }
+    eventIndex,
+  };
 
   const { section, method } = event;
   if (isExtrinsic) {
@@ -17,16 +20,15 @@ function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
     indexer = { ...indexer, extrinsicIndex };
   }
   const isExtrinsicResult = checkIsExtrinsicResult(section, method);
+  const docs = event.meta.docs.map((d) => d.toString());
 
   const args = [];
   let dataIndex = 0;
   for (const item of event.data) {
     const name = event.meta.fields[dataIndex].name.toString();
     const typeName = event.meta.fields[dataIndex].typeName.toString();
-    const docs = event.meta.docs.map((d) => d.toString());
 
     args.push({
-      docs,
       name,
       typeName,
       value: item.toJSON(),
@@ -39,10 +41,11 @@ function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
     indexer,
     isExtrinsic,
     isExtrinsicResult,
+    docs,
     section,
     method,
     args,
-  }
+  };
 }
 
 function normalizeEvents(events = [], blockIndexer) {
@@ -59,4 +62,4 @@ function normalizeEvents(events = [], blockIndexer) {
 
 module.exports = {
   normalizeEvents,
-}
+};
