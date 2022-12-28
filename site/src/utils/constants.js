@@ -262,17 +262,15 @@ export const timeTypes = {
   date: "date",
 };
 
-export const basicFilters = [
-  {
-    value: "true",
-    name: "Sign",
-    query: "signed_only",
-    options: [
-      { text: "All", value: "false" },
-      {
-        text: "Signed only",
-        value: "true",
-      },
-    ],
-  },
-];
+export const signedOnlyFilter = {
+  value: "true",
+  name: "Sign",
+  query: "signed_only",
+  options: [
+    { text: "All", value: "false" },
+    {
+      text: "Signed only",
+      value: "true",
+    },
+  ],
+};

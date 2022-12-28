@@ -4,7 +4,7 @@ import {
   filtersSelector,
 } from "../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
-import { basicFilters } from "../constants";
+import { signedOnlyFilter } from "../constants";
 import { useLocation } from "react-router-dom";
 import { stringCamelCase } from "@polkadot/util";
 import {
@@ -63,6 +63,7 @@ export function useExtrinsicFilter() {
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
   const [filters, setFilters] = useState([]);
+  const signedOnly = getFromQuery(location, "signed_only", "true");
 
   useEffect(() => {
     if (!specFilters) {
@@ -148,5 +149,5 @@ export function useExtrinsicFilter() {
     }
   }, [specFilters, location]);
 
-  return [...filters, ...basicFilters];
+  return [...filters, { ...signedOnlyFilter, value: signedOnly }];
 }
