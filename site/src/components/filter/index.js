@@ -45,6 +45,10 @@ const HeadWrapper = styled(FlexBetween)`
 `;
 
 const DropdownWrapper = styled(Flex)`
+  > :not(:first-child) {
+    margin-left: 16px;
+  }
+  color: ${(p) => p.theme.fontPrimary};
   @media screen and (max-width: 1150px) {
     flex-direction: column;
     align-items: stretch;
@@ -53,10 +57,6 @@ const DropdownWrapper = styled(Flex)`
       margin-top: 8px;
     }
   }
-  > :not(:first-child) {
-    margin-left: 16px;
-  }
-  color: ${(p) => p.theme.fontPrimary};
 `;
 
 const Button = styled.div`
