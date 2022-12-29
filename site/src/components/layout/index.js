@@ -7,6 +7,8 @@ import Footer from "../footer";
 import Tip from "../tooltip/tip";
 import { tooltipContentSelector } from "../../store/reducers/tooltipSlice";
 import ScrollToTop from "../scrollToTop";
+import { getChainSettings } from "../../utils/chain";
+import { useEffect } from "react";
 
 const Main = styled.main`
   flex-grow: 1;
@@ -16,6 +18,11 @@ const Main = styled.main`
 
 export default function Layout({ children, className }) {
   const tooltipContent = useSelector(tooltipContentSelector);
+  const { name } = getChainSettings();
+
+  useEffect(() => {
+    document.title = `${name} Blockchain Explorer`;
+  }, []);
 
   return (
     <>
