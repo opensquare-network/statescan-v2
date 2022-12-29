@@ -50,6 +50,7 @@ const DropdownWrapper = styled(Flex)`
   }
   color: ${(p) => p.theme.fontPrimary};
   @media screen and (max-width: 1150px) {
+    width: 100%;
     flex-direction: column;
     align-items: stretch;
     > :not(:first-child) {
@@ -67,19 +68,27 @@ const Button = styled.div`
   color: ${({ theme }) => theme.fontPrimaryInverse};
   cursor: pointer;
   text-align: center;
+  @media screen and (max-width: 1150px) {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+  }
 `;
 
-const FilterWrapper = styled.div`
-  display: flex;
+const FilterWrapper = styled(FlexBetween)`
   flex-grow: 1;
-  > :not(:first-child) {
-    margin-left: 24px;
-  }
+  gap: 24px;
   @media screen and (max-width: 1150px) {
     flex-direction: column;
-    > :not(:first-child) {
-      margin: 16px 0 0;
-    }
+    gap: 16px;
+  }
+`;
+const FilterItemsWrapper = styled(Flex)`
+  gap: 24px;
+  @media screen and (max-width: 1150px) {
+    width: 100%;
+    flex-direction: column;
+    gap: 16px;
   }
 `;
 
@@ -141,21 +150,23 @@ export default function Filter({ title, data }) {
       </HeadWrapper>
       {(showFilterPanel || width > 1150) && selectData?.length > 0 && (
         <FilterWrapper>
-          {(selectData || []).map((item, index) => (
-            <DropdownWrapper key={index}>
-              <span>{item.name}</span>
-              <Dropdown
-                isSearch={!!item?.isSearch}
-                value={item.value}
-                name={item.name}
-                options={item.options}
-                query={item.query}
-                subQuery={item.subQuery}
-                onSelect={onDropdown}
-                defaultDisplay={item.defaultDisplay}
-              />
-            </DropdownWrapper>
-          ))}
+          <FilterItemsWrapper>
+            {(selectData || []).map((item, index) => (
+              <DropdownWrapper key={index}>
+                <span>{item.name}</span>
+                <Dropdown
+                  isSearch={!!item?.isSearch}
+                  value={item.value}
+                  name={item.name}
+                  options={item.options}
+                  query={item.query}
+                  subQuery={item.subQuery}
+                  onSelect={onDropdown}
+                  defaultDisplay={item.defaultDisplay}
+                />
+              </DropdownWrapper>
+            ))}
+          </FilterItemsWrapper>
           {filter_button}
         </FilterWrapper>
       )}
