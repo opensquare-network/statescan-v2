@@ -1,3 +1,5 @@
+import { assetChainModules } from "./assetChain";
+
 const statemine = {
   name: "Statemine",
   identity: "kusama",
@@ -11,6 +13,7 @@ const statemine = {
   colorSecondary: "rgba(55, 101, 220, 0.1)",
   buttonColor: "#000000",
   logo: "logo-img-2",
+  modules: assetChainModules,
 };
 
 export default statemine;

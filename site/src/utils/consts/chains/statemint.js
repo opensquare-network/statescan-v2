@@ -1,3 +1,5 @@
+import { assetChainModules } from "./assetChain";
+
 const statemint = {
   name: "Statemint",
   identity: "polkadot",
@@ -11,6 +13,7 @@ const statemint = {
   colorSecondary: "rgba(230, 0, 122, 0.1)",
   buttonColor: "#E6007A",
   hidden: false,
+  modules: assetChainModules,
 };
 
 export default statemint;

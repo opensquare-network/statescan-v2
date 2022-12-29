@@ -1,6 +1,6 @@
-import { getChainSettingByEnv } from "../../utils/env";
+import { getChainSettings } from "../../utils/chain";
 
-const chainSetting = getChainSettingByEnv();
+const chainSetting = getChainSettings();
 
 const dark = {
   fontPrimary: "#FFFFFF",
