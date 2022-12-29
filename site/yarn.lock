@@ -1597,10 +1597,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@osn/common/-/common-1.2.0.tgz#c4b72939f64b9f8d5722441370ffcff0cbdf9f7c"
-  integrity sha512-PLKwX/ObTNgnL2p//Zc22EYs3zK9c64KfaS7WbvXzR4N3haW8zv1pwHn7/LrKvUCTsHzICP8bsyNVnK3J1q8Iw==
+"@osn/common@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/@osn/common/-/common-1.3.1.tgz#dccd4cb257e81cc6e27dbc58496518c798d9bf94"
+  integrity sha512-F4E28e9mVmc16W6kLr79ce54+OjqpmFBzehRJ7gPbRdVxNqNK0LBnM6FBMaNfRRSgnSWe/XnQAItIycNqS6UPw==
   dependencies:
     "@osn/provider-options" "^1.0.2"
     bignumber.js "^9.1.0"
