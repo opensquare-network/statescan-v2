@@ -22,7 +22,7 @@ export default function Layout({ children, className }) {
 
   useEffect(() => {
     document.title = `${name} Blockchain Explorer`;
-  }, []);
+  }, [name]);
 
   return (
     <>
