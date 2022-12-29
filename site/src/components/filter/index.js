@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Dropdown from "../dropdown";
 import { Panel } from "../styled/panel";
-import { Inter_14_600 } from "../../styles/text";
+import { Inter_12_600, Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
@@ -33,9 +33,10 @@ const Wrapper = styled(Panel)`
 
 const Title = styled.h2`
   all: unset;
-  font-weight: 600;
   white-space: nowrap;
-  color: ${(p) => p.theme.fontPrimary};
+  color: ${(p) => p.theme.fontTertiary};
+  text-transform: uppercase;
+  ${Inter_12_600};
 `;
 
 const HeadWrapper = styled(FlexBetween)`
