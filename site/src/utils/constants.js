@@ -1,3 +1,10 @@
+import litentry from "./consts/chains/litentry";
+import litmus from "./consts/chains/litmus";
+import westmint from "./consts/chains/westmint";
+import statemint from "./consts/chains/statemint";
+import statemine from "./consts/chains/statemine";
+import polkadot from "./consts/chains/polkadot";
+
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
 export const CACHE_KEY = {
@@ -5,87 +12,12 @@ export const CACHE_KEY = {
 };
 
 export const chains = [
-  {
-    name: "Polkadot",
-    identity: "polkadot",
-    sub: "polkadot",
-    value: "polkadot",
-    chain: "polkadot",
-    symbol: "DOT",
-    decimals: 10,
-    chainIcon: "originalPolkadot",
-    color: "#E6007A",
-    colorSecondary: "rgba(230, 0, 122, 0.1)",
-    buttonColor: "#E6007A",
-    logo: "logo-img-2",
-  },
-  {
-    name: "Statemine",
-    identity: "kusama",
-    sub: "kusama",
-    value: "statemine",
-    chain: "kusama",
-    symbol: "KSM",
-    decimals: 12,
-    chainIcon: "kusama",
-    color: "#3765DC",
-    colorSecondary: "rgba(55, 101, 220, 0.1)",
-    buttonColor: "#000000",
-    logo: "logo-img-2",
-  },
-  {
-    name: "Statemint",
-    identity: "polkadot",
-    sub: "polkadot",
-    value: "statemint",
-    chain: "polkadot",
-    symbol: "DOT",
-    decimals: 10,
-    chainIcon: "polkadot",
-    color: "#E6007A",
-    colorSecondary: "rgba(230, 0, 122, 0.1)",
-    buttonColor: "#E6007A",
-    hidden: false,
-  },
-  {
-    name: "Westmint",
-    identity: "westend",
-    sub: "westend",
-    value: "westmint",
-    chain: "westend",
-    symbol: "WND",
-    decimals: 12,
-    chainIcon: "westend",
-    color: "#DA68A7",
-    colorSecondary: "rgba(218, 104, 167, 0.1)",
-    buttonColor: "#DA68A7",
-  },
-  {
-    name: "Litmus",
-    identity: "kusama",
-    sub: "litentry",
-    value: "litmus",
-    chain: "kusama",
-    symbol: "LIT",
-    decimals: 12,
-    chainIcon: "litmus",
-    color: "#6431EC",
-    colorSecondary: "rgba(100, 49, 236, 0.1)",
-    buttonColor: "#6431EC",
-  },
-  {
-    name: "Litentry",
-    identity: "polkadot",
-    sub: "litentry",
-    value: "litentry",
-    chain: "polkadot",
-    symbol: "LIT",
-    decimals: 12,
-    chainIcon: "litentry",
-    color: "#1CC776",
-    colorSecondary: "rgba(28, 199, 118, 0.1)",
-    buttonColor: "#1CC776",
-  },
+  polkadot,
+  statemine,
+  statemint,
+  westmint,
+  litmus,
+  litentry,
 ];
 
 export const chainNames = chains.map((item) => item.value);

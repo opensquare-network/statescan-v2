@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
 import Home from "./pages/index";
@@ -13,17 +13,17 @@ import Calls from "./pages/calls";
 import Call from "./pages/call";
 import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
-import { getEnvSupportAssets } from "./utils/env";
 import { Fragment } from "react";
 import Asset from "./pages/asset";
+import { getChainModules } from "./utils/chain";
 
 function App() {
-  const supportAssets = getEnvSupportAssets();
+  const { assets } = getChainModules();
 
   return (
     <HashRouter>
       <Routes>
-        {supportAssets && (
+        {assets && (
           <Fragment>
             <Route path="/assets" element={<Assets />} />
             <Route path="/asset/:assetId" element={<Asset />} />
