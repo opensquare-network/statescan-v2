@@ -58,7 +58,6 @@ function Assets() {
         <Tooltip tip={asset?.detail?.issuer}>
           <AddressOrIdentity address={asset?.detail?.issuer} />
         </Tooltip>,
-        "-",
         asset?.detail?.accounts,
         <ValueDisplay
           value={toPrecision(asset?.detail?.supply, asset?.metadata?.decimals)}
