@@ -75,18 +75,10 @@ const Button = styled.div`
   }
 `;
 
-const FilterWrapper = styled(FlexBetween)`
+const FilterWrapper = styled(Flex)`
   flex-grow: 1;
   gap: 24px;
   @media screen and (max-width: 1150px) {
-    flex-direction: column;
-    gap: 16px;
-  }
-`;
-const FilterItemsWrapper = styled(Flex)`
-  gap: 24px;
-  @media screen and (max-width: 1150px) {
-    width: 100%;
     flex-direction: column;
     gap: 16px;
   }
@@ -150,23 +142,21 @@ export default function Filter({ title, data }) {
       </HeadWrapper>
       {(showFilterPanel || width > 1150) && selectData?.length > 0 && (
         <FilterWrapper>
-          <FilterItemsWrapper>
-            {(selectData || []).map((item, index) => (
-              <DropdownWrapper key={index}>
-                <span>{item.name}</span>
-                <Dropdown
-                  isSearch={!!item?.isSearch}
-                  value={item.value}
-                  name={item.name}
-                  options={item.options}
-                  query={item.query}
-                  subQuery={item.subQuery}
-                  onSelect={onDropdown}
-                  defaultDisplay={item.defaultDisplay}
-                />
-              </DropdownWrapper>
-            ))}
-          </FilterItemsWrapper>
+          {(selectData || []).map((item, index) => (
+            <DropdownWrapper key={index}>
+              <span>{item.name}</span>
+              <Dropdown
+                isSearch={!!item?.isSearch}
+                value={item.value}
+                name={item.name}
+                options={item.options}
+                query={item.query}
+                subQuery={item.subQuery}
+                onSelect={onDropdown}
+                defaultDisplay={item.defaultDisplay}
+              />
+            </DropdownWrapper>
+          ))}
           {filter_button}
         </FilterWrapper>
       )}
