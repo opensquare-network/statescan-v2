@@ -75,18 +75,24 @@ const Button = styled.div`
   }
 `;
 
-const FilterWrapper = styled(FlexBetween)`
+const FilterDivider = styled.div`
+  display: flex;
+  width: 1px;
+  height: 28px;
+  margin: 0 24px;
+  background: ${(p) => p.theme.strokeBase};
+  @media screen and (max-width: 1150px) {
+    width: 100%;
+    margin: 12px 0;
+    margin-bottom: 4px;
+    height: 1px;
+  }
+`;
+
+const FilterWrapper = styled(Flex)`
   flex-grow: 1;
   gap: 24px;
   @media screen and (max-width: 1150px) {
-    flex-direction: column;
-    gap: 16px;
-  }
-`;
-const FilterItemsWrapper = styled(Flex)`
-  gap: 24px;
-  @media screen and (max-width: 1150px) {
-    width: 100%;
     flex-direction: column;
     gap: 16px;
   }
@@ -150,8 +156,10 @@ export default function Filter({ title, data }) {
       </HeadWrapper>
       {(showFilterPanel || width > 1150) && selectData?.length > 0 && (
         <FilterWrapper>
-          <FilterItemsWrapper>
-            {(selectData || []).map((item, index) => (
+          {(selectData || []).map((item, index) =>
+            item.type === "divider" ? (
+              <FilterDivider />
+            ) : (
               <DropdownWrapper key={index}>
                 <span>{item.name}</span>
                 <Dropdown
@@ -165,8 +173,8 @@ export default function Filter({ title, data }) {
                   defaultDisplay={item.defaultDisplay}
                 />
               </DropdownWrapper>
-            ))}
-          </FilterItemsWrapper>
+            ),
+          )}
           {filter_button}
         </FilterWrapper>
       )}
