@@ -184,7 +184,7 @@ export const assetsHead = [
   { name: "Symbol", width: 224 },
   { name: "Owner", width: 200 },
   { name: "Issuer", width: 200 },
-  { name: "Holders", width: 160, align: "center" },
+  { name: "Holders", width: 160, align: "right" },
   { name: "Total Supply", width: 200, align: "right" },
 ];
 
