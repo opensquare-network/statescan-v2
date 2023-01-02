@@ -55,7 +55,12 @@ async function getClassAttributeCol() {
   return classAttributeCol;
 }
 
+function getUniquesDb() {
+  return db;
+}
+
 module.exports = {
+  getUniquesDb,
   initUniquesScanDb,
   getClassCol,
   getClassTimelineCol,
