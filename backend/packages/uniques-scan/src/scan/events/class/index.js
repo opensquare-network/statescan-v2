@@ -1,3 +1,5 @@
+const { handleTeamChanged } = require("./teamChanged");
+const { handleOwnerChanged } = require("./ownerChanged");
 const { handleStatusChanged } = require("./statusChanged");
 const { handleFrozenOrThawed } = require("./frozenOrThawed");
 const { handleMetadataCleared } = require("./metadataCleared");
@@ -38,6 +40,10 @@ async function handleClassEvent(event, indexer, extrinsic, events) {
     await handleFrozenOrThawed(event, indexer);
   } else if (["AssetStatusChanged", "ItemStatusChanged"].includes(method)) {
     await handleStatusChanged(event, indexer);
+  } else if ("OwnerChanged" === method) {
+    await handleOwnerChanged(event, indexer);
+  } else if ("TeamChanged" === method) {
+    await handleTeamChanged(event, indexer);
   }
 }
 
