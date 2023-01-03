@@ -42,13 +42,16 @@ function Calls() {
     <Layout>
       <BreadCrumb data={[{ name: "Calls" }]} />
 
-      <StyledPanelTableWrapper>
+      <StyledPanelTableWrapper
+        footer={
+          <Pagination
+            page={parseInt(page)}
+            pageSize={pageSize}
+            total={list?.total}
+          />
+        }
+      >
         <CallsTable data={list?.items} loading={loading} />
-        <Pagination
-          page={parseInt(page)}
-          pageSize={pageSize}
-          total={list?.total}
-        />
       </StyledPanelTableWrapper>
     </Layout>
   );
