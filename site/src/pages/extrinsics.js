@@ -1,7 +1,7 @@
 import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
 import { ReactComponent as CrossIcon } from "../components/icons/cross.svg";
 import { hashEllipsis } from "../utils/viewFuncs/text";
-import { Panel } from "../components/styled/panel";
+import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect } from "react";
 import { extrinsicsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
@@ -10,7 +10,6 @@ import Layout from "../components/layout";
 import Table from "../components/table";
 import styled from "styled-components";
 import { Overpass_Mono_14_500 } from "../styles/text";
-import { no_scroll_bar } from "../styles";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
@@ -27,11 +26,6 @@ import {
 } from "../store/reducers/extrinsicSlice";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 import omit from "lodash.omit";
-
-const StyledPanel = styled(Panel)`
-  overflow-x: scroll;
-  ${no_scroll_bar};
-`;
 
 const ColoredLink = styled(Link)`
   color: ${({ theme }) => theme.theme500};
@@ -111,14 +105,17 @@ function Extrinsics() {
         title={`All ${list?.total?.toLocaleString?.() ?? ""} extrinsics`}
         data={filters}
       />
-      <StyledPanel>
+      <StyledPanelTableWrapper
+        footer={
+          <Pagination
+            page={parseInt(page)}
+            pageSize={pageSize}
+            total={list?.total}
+          />
+        }
+      >
         <Table heads={extrinsicsHead} data={data} loading={loading} />
-        <Pagination
-          page={parseInt(page)}
-          pageSize={pageSize}
-          total={list?.total}
-        />
-      </StyledPanel>
+      </StyledPanelTableWrapper>
     </Layout>
   );
 }
