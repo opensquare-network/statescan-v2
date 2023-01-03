@@ -9,7 +9,8 @@
   "dependencies": {
     "@osn/scan-common": "0.3.4",
     "@statescan/mongo": "1.0.0",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "lodash.isempty": "^4.4.0"
   },
   "devDependencies": {
     "jest": "^28.1.3"

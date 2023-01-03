@@ -1,3 +1,5 @@
+const { handleMetadataCleared } = require("./metadataCleared");
+const { handleMetadataSet } = require("./metadataSet");
 const { handleAttributeCleared } = require("./attributeCleared");
 const { handleAttributeSet } = require("./attributeSet");
 const { handleForceCreated } = require("./forceCreated");
@@ -17,6 +19,12 @@ async function handleClassEvent(event, indexer, extrinsic, events) {
     await handleAttributeSet(event, indexer);
   } else if ("AttributeCleared" === method) {
     await handleAttributeCleared(event, indexer);
+  } else if (["ClassMetadataSet", "CollectionMetadataSet"].includes(method)) {
+    await handleMetadataSet(event, indexer);
+  } else if (
+    ["ClassMetadataCleared", "CollectionMetadataCleared"].includes(method)
+  ) {
+    await handleMetadataCleared(event, indexer);
   }
 }
 
