@@ -79,13 +79,16 @@ function Assets() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Assets" }]} />
-      <StyledPanelTableWrapper>
+      <StyledPanelTableWrapper
+        footer={
+          <Pagination
+            page={parseInt(page)}
+            pageSize={pageSize}
+            total={list?.total}
+          />
+        }
+      >
         <Table heads={assetsHead} data={data} loading={loading} />
-        <Pagination
-          page={parseInt(page)}
-          pageSize={pageSize}
-          total={list?.total}
-        />
       </StyledPanelTableWrapper>
     </Layout>
   );
