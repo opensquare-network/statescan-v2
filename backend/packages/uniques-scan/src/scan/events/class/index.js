@@ -1,3 +1,4 @@
+const { handleDestroyed } = require("./destroyed");
 const { handleMaxSupplySet } = require("./maxSupplySet");
 const { handleRedeposited } = require("./redeposited");
 const { handleTeamChanged } = require("./teamChanged");
@@ -50,6 +51,8 @@ async function handleClassEvent(event, indexer, extrinsic, events) {
     await handleRedeposited(event, indexer);
   } else if ("CollectionMaxSupplySet" === method) {
     await handleMaxSupplySet(event, indexer);
+  } else if ("Destroyed" === method) {
+    await handleDestroyed(event, indexer);
   }
 }
 
