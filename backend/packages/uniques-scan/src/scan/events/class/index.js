@@ -1,3 +1,4 @@
+const { handleRedeposited } = require("./redeposited");
 const { handleTeamChanged } = require("./teamChanged");
 const { handleOwnerChanged } = require("./ownerChanged");
 const { handleStatusChanged } = require("./statusChanged");
@@ -44,6 +45,8 @@ async function handleClassEvent(event, indexer, extrinsic, events) {
     await handleOwnerChanged(event, indexer);
   } else if ("TeamChanged" === method) {
     await handleTeamChanged(event, indexer);
+  } else if ("Redeposited" === method) {
+    await handleRedeposited(event, indexer);
   }
 }
 
