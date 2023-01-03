@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { no_scroll_bar } from "../../styles";
+import { FlexEnd } from "./flex";
 
 export const Panel = styled.div`
   background: ${(p) => p.theme.fillPanel};
@@ -9,7 +10,21 @@ export const Panel = styled.div`
   overflow: hidden;
 `;
 
-export const StyledPanelTableWrapper = styled(Panel)`
+const PanelTableScrollArea = styled.div`
   overflow-x: scroll;
   ${no_scroll_bar};
 `;
+
+export function StyledPanelTableWrapper({
+  footer,
+  children,
+  className,
+  ...props
+}) {
+  return (
+    <Panel {...props} className={className}>
+      <PanelTableScrollArea>{children}</PanelTableScrollArea>
+      {footer && <FlexEnd>{footer}</FlexEnd>}
+    </Panel>
+  );
+}
