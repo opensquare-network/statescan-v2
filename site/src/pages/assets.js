@@ -19,6 +19,9 @@ import {
 } from "../store/reducers/assetSlice";
 import { ColoredInterLink } from "../components/styled/link";
 import Tooltip from "../components/tooltip";
+import { Flex } from "../components/styled/flex";
+import SymbolName from "../components/symbol/name";
+import Symbol from "../components/symbol";
 
 function Assets() {
   const location = useLocation();
@@ -51,14 +54,20 @@ function Assets() {
         <ColoredInterLink to={`/asset/${asset.assetId}_${asset.assetHeight}`}>
           #{asset.assetId}
         </ColoredInterLink>,
-        asset?.metadata?.symbol ?? "--",
+        asset?.metadata?.symbol ? (
+          <Flex gap={8}>
+            <Symbol detail={asset?.detail} symbol={asset.metadata.symbol} />
+            <SymbolName name={asset.metadata.name} />
+          </Flex>
+        ) : (
+          "--"
+        ),
         <Tooltip tip={asset?.detail?.owner}>
           <AddressOrIdentity address={asset?.detail?.owner} />
         </Tooltip>,
         <Tooltip tip={asset?.detail?.issuer}>
           <AddressOrIdentity address={asset?.detail?.issuer} />
         </Tooltip>,
-        "-",
         asset?.detail?.accounts,
         <ValueDisplay
           value={toPrecision(asset?.detail?.supply, asset?.metadata?.decimals)}

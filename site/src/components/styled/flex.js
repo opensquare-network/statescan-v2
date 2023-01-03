@@ -17,3 +17,8 @@ export const FlexBetween = styled(Flex)`
 export const FlexEnd = styled(Flex)`
   justify-content: end;
 `;
+
+export const FlexColumn = styled(Flex)`
+  align-items: unset;
+  flex-direction: column;
+`;
