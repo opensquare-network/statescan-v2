@@ -88,11 +88,14 @@ export default function Sections() {
 
       <Section>
         <Title>Assets</Title>
-        <StyledPanelTableWrapper>
+        <StyledPanelTableWrapper
+          footer={
+            <AnchorWrapper>
+              <Anchor to="/assets">View All</Anchor>
+            </AnchorWrapper>
+          }
+        >
           <Assets />
-          <AnchorWrapper>
-            <Anchor to="/assets">View All</Anchor>
-          </AnchorWrapper>
         </StyledPanelTableWrapper>
       </Section>
     </FlexColumn>
