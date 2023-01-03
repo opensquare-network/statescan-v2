@@ -1,3 +1,4 @@
+const { handleInstanceEvent } = require("./instance");
 const { handleClassEvent } = require("./class");
 
 async function handleEvents(events = [], blockIndexer, extrinsics = []) {
@@ -22,7 +23,7 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
     }
 
     await handleClassEvent(event, indexer, extrinsic, events);
-    // handle business from events: (event, indexer, extrinsic, events);
+    await handleInstanceEvent(event, indexer, extrinsic, events);
   }
 }
 

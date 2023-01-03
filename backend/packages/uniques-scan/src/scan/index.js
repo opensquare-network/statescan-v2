@@ -1,3 +1,5 @@
+const { clearIssuance } = require("./store/blockInstances");
+const { handleBlockIssuance } = require("./batch/issuance");
 const { handleEvents } = require("./events");
 const { deleteFrom } = require("./delete");
 const {
@@ -12,6 +14,9 @@ const {
 async function handleBlock({ block, events, height }) {
   const blockIndexer = getBlockIndexer(block);
   await handleEvents(events, blockIndexer, block.extrinsics);
+
+  await handleBlockIssuance(blockIndexer);
+  clearIssuance(blockIndexer.blockHeight);
 
   const db = getUniquesDb();
   await db.updateScanHeight(height);

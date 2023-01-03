@@ -1,3 +1,4 @@
+const { createInstanceIndexes } = require("./dbIndexes");
 const { createClassIndexes } = require("./dbIndexes");
 const {
   mongo: { ScanDb },
@@ -9,6 +10,10 @@ let classCol = null;
 let classTimelineCol = null;
 let classAttributeCol = null;
 
+let instanceCol = null;
+let instanceTimelineCol = null;
+let instanceAttributeCol = null;
+
 async function initUniquesScanDb() {
   db = new ScanDb(
     getEnvOrThrow("MONGO_UNIQUES_SCAN_URL"),
@@ -19,6 +24,10 @@ async function initUniquesScanDb() {
   classCol = await db.createCol("nftClass");
   classTimelineCol = await db.createCol("classTimeline");
   classAttributeCol = await db.createCol("classAttribute");
+
+  instanceCol = await db.createCol("nftInstance");
+  instanceTimelineCol = await db.createCol("instanceTimeline");
+  instanceAttributeCol = await db.createCol("instanceAttribute");
 
   await _createIndexes();
 }
@@ -32,6 +41,18 @@ async function _createIndexes() {
   await createClassIndexes(classCol);
   await classTimelineCol.createIndex({ classId: 1, classHeight: 1 });
   await classAttributeCol.createIndex({ classId: 1, classHeight: 1 });
+
+  await createInstanceIndexes(instanceCol);
+  await instanceTimelineCol.createIndex({
+    classId: 1,
+    classHeight: 1,
+    instanceId: 1,
+  });
+  await instanceAttributeCol.createIndex({
+    classId: 1,
+    classHeight: 1,
+    instanceId: 1,
+  });
 }
 
 async function makeSureInit(col) {
@@ -55,6 +76,21 @@ async function getClassAttributeCol() {
   return classAttributeCol;
 }
 
+async function getInstanceCol() {
+  await makeSureInit(instanceCol);
+  return instanceCol;
+}
+
+async function getInstanceTimelineCol() {
+  await makeSureInit(instanceTimelineCol);
+  return instanceTimelineCol;
+}
+
+async function getInstanceAttributeCol() {
+  await makeSureInit(instanceAttributeCol);
+  return instanceAttributeCol;
+}
+
 function getUniquesDb() {
   return db;
 }
@@ -65,4 +101,8 @@ module.exports = {
   getClassCol,
   getClassTimelineCol,
   getClassAttributeCol,
+
+  getInstanceCol,
+  getInstanceTimelineCol,
+  getInstanceAttributeCol,
 };
