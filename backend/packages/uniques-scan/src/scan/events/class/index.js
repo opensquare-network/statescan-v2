@@ -1,3 +1,4 @@
+const { handleFrozenOrThawed } = require("./frozenOrThawed");
 const { handleMetadataCleared } = require("./metadataCleared");
 const { handleMetadataSet } = require("./metadataSet");
 const { handleAttributeCleared } = require("./attributeCleared");
@@ -25,6 +26,15 @@ async function handleClassEvent(event, indexer, extrinsic, events) {
     ["ClassMetadataCleared", "CollectionMetadataCleared"].includes(method)
   ) {
     await handleMetadataCleared(event, indexer);
+  } else if (
+    [
+      "ClassFrozen",
+      "CollectionFrozen",
+      "ClassThawed",
+      "CollectionThawed",
+    ].includes(method)
+  ) {
+    await handleFrozenOrThawed(event, indexer);
   }
 }
 

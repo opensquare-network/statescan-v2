@@ -2,11 +2,17 @@ const {
   uniques: { getClassCol },
 } = require("@statescan/mongo");
 const isEmpty = require("lodash.isempty");
+const { queryClassDetails } = require("../../query/class/details");
 const { queryClassMetadata } = require("../../query/class/metadata");
 
 async function updateClassMetadata(classId, indexer) {
   const metadata = await queryClassMetadata(classId, indexer.blockHash);
   await updateClass(classId, { metadata: metadata || null });
+}
+
+async function updateClassDetails(classId, indexer) {
+  const details = await queryClassDetails(classId, indexer.blockHash);
+  await updateClass(classId, { details });
 }
 
 async function updateClass(classId, updates = {}) {
@@ -21,4 +27,5 @@ async function updateClass(classId, updates = {}) {
 module.exports = {
   updateClass,
   updateClassMetadata,
+  updateClassDetails,
 };
