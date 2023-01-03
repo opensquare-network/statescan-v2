@@ -1,3 +1,4 @@
+const { handleFrozenOrThawed } = require("./frozenOrThawed");
 const { handleBurned } = require("./burned");
 const { handleIssued } = require("./issued");
 
@@ -11,6 +12,8 @@ async function handleInstanceEvent(event, indexer, extrinsic, events) {
     await handleIssued(event, indexer, events);
   } else if ("Burned" === method) {
     await handleBurned(event, indexer);
+  } else if (["Frozen", "Thawed"].includes(method)) {
+    await handleFrozenOrThawed(event, indexer);
   }
 }
 
