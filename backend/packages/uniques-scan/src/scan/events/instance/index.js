@@ -1,3 +1,4 @@
+const { handleBurned } = require("./burned");
 const { handleIssued } = require("./issued");
 
 async function handleInstanceEvent(event, indexer, extrinsic, events) {
@@ -8,6 +9,8 @@ async function handleInstanceEvent(event, indexer, extrinsic, events) {
 
   if ("Issued" === method) {
     await handleIssued(event, indexer, events);
+  } else if ("Burned" === method) {
+    await handleBurned(event, indexer);
   }
 }
 
