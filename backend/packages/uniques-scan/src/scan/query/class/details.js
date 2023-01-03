@@ -4,7 +4,12 @@ const {
 
 async function queryClassDetails(classId, blockHash) {
   const blockApi = await findBlockApi(blockHash);
-  const raw = await blockApi.query.uniques.class(classId);
+  let raw;
+  if (blockApi.query.uniques.class) {
+    raw = await blockApi.query.uniques.class(classId);
+  } else if (blockApi.query.uniques.collection) {
+    raw = await blockApi.query.uniques.collection(classId);
+  }
   return raw.toJSON();
 }
 

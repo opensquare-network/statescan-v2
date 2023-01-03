@@ -9,7 +9,7 @@ async function updateInstance(classId, instanceId, updates, indexer) {
   const nftClass = await getClass(classId);
   if (!nftClass) {
     logger.error(
-      `Can not find class ${classId} when update instance, ${indexer}`,
+      `Can not find class ${classId} when update instance at ${indexer.blockHeight}`,
     );
     return;
   }
