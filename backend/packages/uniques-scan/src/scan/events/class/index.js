@@ -1,3 +1,4 @@
+const { handleStatusChanged } = require("./statusChanged");
 const { handleFrozenOrThawed } = require("./frozenOrThawed");
 const { handleMetadataCleared } = require("./metadataCleared");
 const { handleMetadataSet } = require("./metadataSet");
@@ -35,6 +36,8 @@ async function handleClassEvent(event, indexer, extrinsic, events) {
     ].includes(method)
   ) {
     await handleFrozenOrThawed(event, indexer);
+  } else if (["AssetStatusChanged", "ItemStatusChanged"].includes(method)) {
+    await handleStatusChanged(event, indexer);
   }
 }
 
