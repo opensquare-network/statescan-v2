@@ -14,7 +14,7 @@ async function insertClassAttribute(classId, key, value, deposit, indexer) {
   const col = await getClassAttributeCol();
   await col.insertOne({
     classId,
-    classHeight: nftClass.blockHeight,
+    classHeight: nftClass.classHeight,
     key,
     value,
     deposit,
@@ -34,7 +34,7 @@ async function deleteClassAttribute(classId, key) {
   const col = await getClassAttributeCol();
   await col.deleteOne({
     classId,
-    classHeight: nftClass.blockHeight,
+    classHeight: nftClass.classHeight,
     key,
   });
 }

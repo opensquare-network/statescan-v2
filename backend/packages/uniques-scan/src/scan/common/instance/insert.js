@@ -20,7 +20,7 @@ async function insertInstanceWithDetails(classId, instanceId, indexer) {
   const col = await getInstanceCol();
   await col.insertOne({
     classId,
-    classHeight: nftClass.blockHeight,
+    classHeight: nftClass.classHeight,
     instanceId,
     instanceHeight: indexer.blockHeight,
     indexer,

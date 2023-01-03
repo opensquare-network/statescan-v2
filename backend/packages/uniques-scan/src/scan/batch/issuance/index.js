@@ -46,6 +46,7 @@ async function handleBlockIssuance(blockIndexer) {
       classId,
       classHeight,
       instanceId,
+      instanceHeight: indexer.blockHeight,
       indexer,
       details: getInstanceDetailWhenIssued(owner),
       isDestroyed: false,

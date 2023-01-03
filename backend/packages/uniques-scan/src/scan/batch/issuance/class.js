@@ -16,7 +16,7 @@ async function getClassIdHeightMap(classIds = []) {
     .toArray();
 
   return classes.reduce((result, cls) => {
-    result[cls.classId] = cls.blockHeight;
+    result[cls.classId] = cls.classHeight;
     return result;
   }, {});
 }
