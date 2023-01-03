@@ -1,3 +1,5 @@
+const { handleAttributeSet } = require("./attributeSet");
+const { handleAttributeCleared } = require("./attributeCleared");
 const { handleMetadataCleared } = require("./metadataCleared");
 const { handleMetadataSet } = require("./metadataSet");
 const { handleFrozenOrThawed } = require("./frozenOrThawed");
@@ -20,6 +22,10 @@ async function handleInstanceEvent(event, indexer, extrinsic, events) {
     await handleMetadataSet(event, indexer);
   } else if ("MetadataCleared" === method) {
     await handleMetadataCleared(event, indexer);
+  } else if ("AttributeSet" === method) {
+    await handleAttributeSet(event, indexer);
+  } else if ("AttributeCleared" === method) {
+    await handleAttributeCleared(event, indexer);
   }
 }
 
