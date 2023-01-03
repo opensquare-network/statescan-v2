@@ -83,13 +83,16 @@ function Blocks() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Blocks" }]} />
-      <StyledPanelTableWrapper>
+      <StyledPanelTableWrapper
+        footer={
+          <Pagination
+            page={parseInt(page)}
+            pageSize={pageSize}
+            total={list?.total}
+          />
+        }
+      >
         <Table heads={blocksHead} data={data} loading={loading} />
-        <Pagination
-          page={parseInt(page)}
-          pageSize={pageSize}
-          total={list?.total}
-        />
       </StyledPanelTableWrapper>
     </Layout>
   );
