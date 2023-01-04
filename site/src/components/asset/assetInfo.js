@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Tooltip from "../tooltip";
-import { Inter_14_500, Inter_14_600, Inter_20_700 } from "../../styles/text";
+import { Inter_14_600, Inter_20_700 } from "../../styles/text";
+import About from "./about";
 
 const Wrapper = styled.div`
   padding: 16px 24px;
@@ -47,39 +47,6 @@ const SymbolWrapper = styled.div`
 
 const RightWrapper = styled.div`
   flex: 1 1 auto;
-
-  > :not(:first-child) {
-    margin-top: 12px;
-  }
-
-  .content {
-    line-height: 20px;
-    color: ${({ theme }) => theme.fontSecondary};
-    word-wrap: break-word;
-    text-align: justify;
-    font-size: 14px;
-  }
-
-  .noinfo {
-    ${Inter_14_500};
-    color: ${({ theme }) => theme.fontTertiary};
-  }
-
-  h6 {
-    all: unset;
-    ${Inter_14_600};
-  }
-`;
-
-const LinksWrapper = styled.div`
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(auto-fill, 20px);
-`;
-
-const LinkIcon = styled.img`
-  width: 20px;
-  height: 20px;
 `;
 
 export default function AssetInfo({ data, symbol, name }) {
@@ -97,18 +64,7 @@ export default function AssetInfo({ data, symbol, name }) {
         </SymbolWrapper>
       </LeftWrapper>
       <RightWrapper>
-        <h6>ABOUT</h6>
-        {data?.about && <div className="content">{data?.about}</div>}
-        {!data?.about && <div className="noinfo">No more information.</div>}
-        <LinksWrapper>
-          {(data?.links || []).map((item, index) => (
-            <Tooltip key={index} tip={item.url}>
-              <a href={item.url}>
-                <LinkIcon src={item.icon} />
-              </a>
-            </Tooltip>
-          ))}
-        </LinksWrapper>
+        <About data={data} />
       </RightWrapper>
     </Wrapper>
   );

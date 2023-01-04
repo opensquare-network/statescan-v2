@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Dropdown from "../dropdown";
 import { Panel } from "../styled/panel";
-import { Inter_14_600 } from "../../styles/text";
+import { Inter_12_600, Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
@@ -33,9 +33,10 @@ const Wrapper = styled(Panel)`
 
 const Title = styled.h2`
   all: unset;
-  font-weight: 600;
   white-space: nowrap;
-  color: ${(p) => p.theme.fontPrimary};
+  color: ${(p) => p.theme.fontTertiary};
+  text-transform: uppercase;
+  ${Inter_12_600};
 `;
 
 const HeadWrapper = styled(FlexBetween)`
@@ -44,7 +45,12 @@ const HeadWrapper = styled(FlexBetween)`
 `;
 
 const DropdownWrapper = styled(Flex)`
+  > :not(:first-child) {
+    margin-left: 16px;
+  }
+  color: ${(p) => p.theme.fontPrimary};
   @media screen and (max-width: 1150px) {
+    width: 100%;
     flex-direction: column;
     align-items: stretch;
     > :not(:first-child) {
@@ -52,10 +58,6 @@ const DropdownWrapper = styled(Flex)`
       margin-top: 8px;
     }
   }
-  > :not(:first-child) {
-    margin-left: 16px;
-  }
-  color: ${(p) => p.theme.fontPrimary};
 `;
 
 const Button = styled.div`
@@ -66,19 +68,33 @@ const Button = styled.div`
   color: ${({ theme }) => theme.fontPrimaryInverse};
   cursor: pointer;
   text-align: center;
+  @media screen and (max-width: 1150px) {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+  }
 `;
 
-const FilterWrapper = styled.div`
+const FilterDivider = styled.div`
   display: flex;
-  flex-grow: 1;
-  > :not(:first-child) {
-    margin-left: 24px;
+  width: 1px;
+  height: 28px;
+  margin: 0 24px;
+  background: ${(p) => p.theme.strokeBase};
+  @media screen and (max-width: 1150px) {
+    width: 100%;
+    margin: 12px 0;
+    margin-bottom: 4px;
+    height: 1px;
   }
+`;
+
+const FilterWrapper = styled(Flex)`
+  flex-grow: 1;
+  gap: 24px;
   @media screen and (max-width: 1150px) {
     flex-direction: column;
-    > :not(:first-child) {
-      margin: 16px 0 0;
-    }
+    gap: 16px;
   }
 `;
 
@@ -140,21 +156,25 @@ export default function Filter({ title, data }) {
       </HeadWrapper>
       {(showFilterPanel || width > 1150) && selectData?.length > 0 && (
         <FilterWrapper>
-          {(selectData || []).map((item, index) => (
-            <DropdownWrapper key={index}>
-              <span>{item.name}</span>
-              <Dropdown
-                isSearch={!!item?.isSearch}
-                value={item.value}
-                name={item.name}
-                options={item.options}
-                query={item.query}
-                subQuery={item.subQuery}
-                onSelect={onDropdown}
-                defaultDisplay={item.defaultDisplay}
-              />
-            </DropdownWrapper>
-          ))}
+          {(selectData || []).map((item, index) =>
+            item.type === "divider" ? (
+              <FilterDivider />
+            ) : (
+              <DropdownWrapper key={index}>
+                <span>{item.name}</span>
+                <Dropdown
+                  isSearch={!!item?.isSearch}
+                  value={item.value}
+                  name={item.name}
+                  options={item.options}
+                  query={item.query}
+                  subQuery={item.subQuery}
+                  onSelect={onDropdown}
+                  defaultDisplay={item.defaultDisplay}
+                />
+              </DropdownWrapper>
+            ),
+          )}
           {filter_button}
         </FilterWrapper>
       )}

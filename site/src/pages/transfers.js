@@ -53,13 +53,16 @@ function Transfers() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
-      <StyledPanelTableWrapper>
+      <StyledPanelTableWrapper
+        footer={
+          <Pagination
+            page={parseInt(page)}
+            pageSize={pageSize}
+            total={list?.total}
+          />
+        }
+      >
         <Table heads={transfersHead} data={data} loading={loading} />
-        <Pagination
-          page={parseInt(page)}
-          pageSize={pageSize}
-          total={list?.total}
-        />
       </StyledPanelTableWrapper>
     </Layout>
   );

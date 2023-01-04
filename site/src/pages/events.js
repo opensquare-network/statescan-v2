@@ -126,13 +126,16 @@ function Events() {
         data={filters}
       />
 
-      <StyledPanelTableWrapper>
+      <StyledPanelTableWrapper
+        footer={
+          <Pagination
+            page={parseInt(page)}
+            pageSize={pageSize}
+            total={list?.total}
+          />
+        }
+      >
         <Table heads={eventsHead} data={data} loading={loading} />
-        <Pagination
-          page={parseInt(page)}
-          pageSize={pageSize}
-          total={list?.total}
-        />
       </StyledPanelTableWrapper>
     </Layout>
   );

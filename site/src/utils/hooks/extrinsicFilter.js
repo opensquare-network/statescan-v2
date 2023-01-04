@@ -149,5 +149,9 @@ export function useExtrinsicFilter() {
     }
   }, [specFilters, location]);
 
-  return [...filters, { ...signedOnlyFilter, value: signedOnly }];
+  return [
+    ...filters,
+    { type: "divider" },
+    { ...signedOnlyFilter, value: signedOnly },
+  ];
 }

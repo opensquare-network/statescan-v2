@@ -2,7 +2,7 @@ import styled from "styled-components";
 import IdentityIcon from "./identityIcon";
 import { Overpass_Mono_14_500 } from "../../styles/text";
 
-const Wrapper = styled.span`
+const Wrapper = styled.div`
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -20,14 +20,16 @@ const Display = styled.span`
   color: ${(p) => p.theme.fontPrimary};
 `;
 
-export default function Identity({ identity }) {
+export default function Identity({ maxWidth, identity }) {
   if (!identity || identity?.info?.status === "NO_ID") {
     return null;
   }
 
   return (
-    <Wrapper>
-      <IdentityIcon identity={identity} />
+    <Wrapper style={{ maxWidth }}>
+      <div>
+        <IdentityIcon identity={identity} />
+      </div>
       <Display>{identity?.info?.display}</Display>
     </Wrapper>
   );

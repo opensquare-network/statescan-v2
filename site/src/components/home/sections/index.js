@@ -1,10 +1,10 @@
-import { FlexBetween, FlexEnd } from "../../styled/flex";
+import { FlexBetween, FlexColumn, FlexEnd } from "../../styled/flex";
 import LatestBlocks from "./latestBlocks";
 import React from "react";
 import styled, { css } from "styled-components";
 import { Inter_14_500, Inter_18_700 } from "../../../styles/text";
 import Link from "../../styled/link";
-import { Panel } from "../../styled/panel";
+import { Panel, StyledPanelTableWrapper } from "../../styled/panel";
 import { useSelector } from "react-redux";
 import {
   latestBlocksSelector,
@@ -13,6 +13,7 @@ import {
 import LatestTransfers from "./latestTransfers";
 import { mobilecss } from "../../../styles/responsive";
 import { mdcss } from "../../../styles/responsive";
+import Assets from "./assets";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -62,26 +63,41 @@ export default function Sections() {
   const transfers = useSelector(latestSignedTransfersSelector);
 
   return (
-    <SectionsWrapper gap={24}>
-      <Section>
-        <Title>Latest Blocks</Title>
-        <StyledPanel>
-          <LatestBlocks blocks={blocks} />
-          <AnchorWrapper>
-            <Anchor to={"/blocks"}>View All</Anchor>
-          </AnchorWrapper>
-        </StyledPanel>
-      </Section>
+    <FlexColumn gap={32}>
+      <SectionsWrapper gap={24}>
+        <Section>
+          <Title>Latest Blocks</Title>
+          <StyledPanel>
+            <LatestBlocks blocks={blocks} />
+            <AnchorWrapper>
+              <Anchor to={"/blocks"}>View All</Anchor>
+            </AnchorWrapper>
+          </StyledPanel>
+        </Section>
+
+        <Section>
+          <Title>Signed Transfers</Title>
+          <StyledPanel>
+            <LatestTransfers transfers={transfers} />
+            <AnchorWrapper>
+              <Anchor to={"/transfers"}>View All</Anchor>
+            </AnchorWrapper>
+          </StyledPanel>
+        </Section>
+      </SectionsWrapper>
 
       <Section>
-        <Title>Signed Transfers</Title>
-        <StyledPanel>
-          <LatestTransfers transfers={transfers} />
-          <AnchorWrapper>
-            <Anchor to={"/transfers"}>View All</Anchor>
-          </AnchorWrapper>
-        </StyledPanel>
+        <Title>Assets</Title>
+        <StyledPanelTableWrapper
+          footer={
+            <AnchorWrapper>
+              <Anchor to="/assets">View All</Anchor>
+            </AnchorWrapper>
+          }
+        >
+          <Assets />
+        </StyledPanelTableWrapper>
       </Section>
-    </SectionsWrapper>
+    </FlexColumn>
   );
 }
