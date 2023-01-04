@@ -6,7 +6,9 @@ const {
 async function insertInstanceTransfer(classId, instanceId, from, to, indexer) {
   const nftInstance = await getInstance(classId, instanceId);
   if (!nftInstance) {
-    throw new Error(`No instance found ${classId}/${instanceId} for transfer`);
+    throw new Error(
+      `No instance found ${classId}/${instanceId} for transfer at ${indexer.blockHeight}`,
+    );
   }
 
   const col = await getInstanceTransferCol();

@@ -11,7 +11,7 @@ const {
 async function main() {
   await initUniquesScanDb();
   await subscribeFinalizedHeight();
-  const blockHeights = [2290926, 2291072, 2291076, 2291090, 2291109, 2369055];
+  const blockHeights = [2379425, 2380454, 2383196, 3576667];
 
   const api = await getApi();
   for (const height of blockHeights) {
