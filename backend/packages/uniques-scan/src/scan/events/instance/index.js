@@ -1,3 +1,4 @@
+const { handleItemPriceSet } = require("./itemPriceSet");
 const { handleApprovedTransferOrCancelled } = require("./approvedTransfer");
 const { handleTransferred } = require("./transferred");
 const { handleAttributeSet } = require("./attributeSet");
@@ -32,6 +33,8 @@ async function handleInstanceEvent(event, indexer, extrinsic, events) {
     await handleTransferred(event, indexer);
   } else if (["ApprovedTransfer", "ApprovalCancelled"].includes(method)) {
     await handleApprovedTransferOrCancelled(event, indexer);
+  } else if ("ItemPriceSet" === method) {
+    await handleItemPriceSet(event, indexer);
   }
 }
 

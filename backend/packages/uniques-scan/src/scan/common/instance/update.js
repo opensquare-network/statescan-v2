@@ -1,3 +1,4 @@
+const { queryInstancePrice } = require("../../query/instance/price");
 const { queryInstanceDetails } = require("../../query/instance/details");
 const { getClass } = require("../class/get");
 const { busLogger: logger } = require("@osn/scan-common");
@@ -36,7 +37,28 @@ async function updateInstanceDetails(classId, instanceId, indexer) {
   await updateInstance(classId, instanceId, { details }, indexer);
 }
 
+async function updateInstancePrice(classId, instanceId, indexer) {
+  const priceTuple = await queryInstancePrice(
+    classId,
+    instanceId,
+    indexer.blockHash,
+  );
+  let updates = {
+    price: null,
+    whitelistedBuyer: null,
+  };
+  if (priceTuple) {
+    updates = {
+      price: priceTuple[0],
+      whitelistedBuyer: priceTuple[1],
+    };
+  }
+
+  await updateInstance(classId, instanceId, updates, indexer);
+}
+
 module.exports = {
   updateInstance,
   updateInstanceDetails,
+  updateInstancePrice,
 };
