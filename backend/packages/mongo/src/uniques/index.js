@@ -13,6 +13,7 @@ let classAttributeCol = null;
 let instanceCol = null;
 let instanceTimelineCol = null;
 let instanceAttributeCol = null;
+let instanceTransferCol = null;
 
 async function initUniquesScanDb() {
   db = new ScanDb(
@@ -28,6 +29,7 @@ async function initUniquesScanDb() {
   instanceCol = await db.createCol("nftInstance");
   instanceTimelineCol = await db.createCol("instanceTimeline");
   instanceAttributeCol = await db.createCol("instanceAttribute");
+  instanceTransferCol = await db.createCol("instanceTransfer");
 
   await _createIndexes();
 }
@@ -47,11 +49,19 @@ async function _createIndexes() {
     classId: 1,
     classHeight: 1,
     instanceId: 1,
+    instanceHeight: 1,
   });
   await instanceAttributeCol.createIndex({
     classId: 1,
     classHeight: 1,
     instanceId: 1,
+    instanceHeight: 1,
+  });
+  await instanceTransferCol.createIndex({
+    classId: 1,
+    classHeight: 1,
+    instanceId: 1,
+    instanceHeight: 1,
   });
 }
 
@@ -91,6 +101,11 @@ async function getInstanceAttributeCol() {
   return instanceAttributeCol;
 }
 
+async function getInstanceTransferCol() {
+  await makeSureInit(instanceTransferCol);
+  return instanceTransferCol;
+}
+
 function getUniquesDb() {
   return db;
 }
@@ -105,4 +120,5 @@ module.exports = {
   getInstanceCol,
   getInstanceTimelineCol,
   getInstanceAttributeCol,
+  getInstanceTransferCol,
 };
