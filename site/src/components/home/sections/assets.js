@@ -42,11 +42,7 @@ export default function Assets() {
         <ColoredInterLink to={`/asset/${asset.assetId}_${asset.assetHeight}`}>
           #{asset.assetId}
         </ColoredInterLink>,
-        asset?.metadata?.symbol ? (
-          <Symbol detail={asset?.detail} symbol={asset.metadata.symbol} />
-        ) : (
-          "--"
-        ),
+        asset?.metadata?.symbol ? <Symbol asset={asset} /> : "--",
         asset?.metadata?.name ? (
           <SymbolName name={asset.metadata.name} />
         ) : (
