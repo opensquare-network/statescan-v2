@@ -63,7 +63,7 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
         </Tooltip>,
         <Tooltip
           tip={`${toPrecision(transfer?.balance, chainSetting.decimals)} ${
-            chainSetting.symbol
+            transfer?.symbol ?? chainSetting.symbol
           }`}
           pullRight
         >
