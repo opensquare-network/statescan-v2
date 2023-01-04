@@ -19,6 +19,7 @@ import DetailedBlock from "../../components/detail/block";
 import { Tag, TagHighContrast, TagThemed } from "../../components/tag";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
+import { bigNumberToLocaleString } from "./index";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -119,10 +120,11 @@ export const toAssetDetailItem = (id, asset) => {
       <AddressOrIdentity address={asset?.detail?.freezer} ellipsis={false} />
     ),
     "Total Supply": (
-      <ValueDisplay
-        value={toPrecision(asset?.detail?.supply, asset?.metadata?.decimals)}
-        symbol={asset.symbol}
-      />
+      <TextSecondary>
+        {`${bigNumberToLocaleString(
+          toPrecision(asset?.detail?.supply, asset?.metadata?.decimals),
+        )} ${asset?.metadata?.symbol}`}
+      </TextSecondary>
     ),
     Decimals: <TextSecondary>{asset?.metadata?.decimals}</TextSecondary>,
     ...(asset?.destroyed ? { Status: <TagThemed>Destroyed</TagThemed> } : {}),
