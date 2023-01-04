@@ -19,7 +19,6 @@ import {
 } from "../store/reducers/assetSlice";
 import { ColoredInterLink } from "../components/styled/link";
 import Tooltip from "../components/tooltip";
-import { Flex } from "../components/styled/flex";
 import SymbolName from "../components/symbol/name";
 import Symbol from "../components/symbol";
 import styled from "styled-components";
@@ -74,10 +73,12 @@ function Assets() {
           #{asset.assetId}
         </ColoredInterLink>,
         asset?.metadata?.symbol ? (
-          <Flex gap={8}>
-            <Symbol detail={asset?.detail} symbol={asset.metadata.symbol} />
-            <SymbolName name={asset.metadata.name} />
-          </Flex>
+          <Symbol detail={asset?.detail} symbol={asset.metadata.symbol} />
+        ) : (
+          "--"
+        ),
+        asset?.metadata?.name ? (
+          <SymbolName name={asset.metadata.name} />
         ) : (
           "--"
         ),

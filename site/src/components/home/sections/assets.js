@@ -9,7 +9,6 @@ import {
 import { assetsHead } from "../../../utils/constants";
 import AddressOrIdentity from "../../address";
 import ValueDisplay from "../../displayValue";
-import { Flex } from "../../styled/flex";
 import { ColoredInterLink } from "../../styled/link";
 import Symbol from "../../symbol";
 import SymbolName from "../../symbol/name";
@@ -44,10 +43,12 @@ export default function Assets() {
           #{asset.assetId}
         </ColoredInterLink>,
         asset?.metadata?.symbol ? (
-          <Flex gap={8}>
-            <Symbol detail={asset?.detail} symbol={asset.metadata.symbol} />
-            <SymbolName name={asset.metadata.name} />
-          </Flex>
+          <Symbol detail={asset?.detail} symbol={asset.metadata.symbol} />
+        ) : (
+          "--"
+        ),
+        asset?.metadata?.name ? (
+          <SymbolName name={asset.metadata.name} />
         ) : (
           "--"
         ),
