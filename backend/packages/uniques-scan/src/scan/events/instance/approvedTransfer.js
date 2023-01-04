@@ -6,7 +6,7 @@ const {
   consts: { TimelineItemTypes },
 } = require("@osn/scan-common");
 
-async function handleApprovedTransfer(event, indexer) {
+async function handleApprovedTransferOrCancelled(event, indexer) {
   const [classId, instanceId, owner, delegate] = event.data.toJSON();
   await insertInstanceTimelineItem(classId, instanceId, {
     indexer,
@@ -23,5 +23,5 @@ async function handleApprovedTransfer(event, indexer) {
 }
 
 module.exports = {
-  handleApprovedTransfer,
+  handleApprovedTransferOrCancelled,
 };
