@@ -94,7 +94,7 @@ function AddressOrIdentity({ address, maxWidth = "100%", ellipsis = true }) {
   return (
     <Wrapper style={{ maxWidth }}>
       <Link to={`/account/${address}`}>
-        <Identity identity={identity} />
+        <Identity maxWidth={maxWidth} identity={identity} />
       </Link>
     </Wrapper>
   );
