@@ -11,7 +11,7 @@ async function getInstance(classId, instanceId) {
     return;
   }
 
-  const classHeight = nftClass.blockHeight;
+  const classHeight = nftClass.classHeight;
   const instanceCol = await getInstanceCol();
   const nftInstance = await instanceCol.findOne({
     classId,

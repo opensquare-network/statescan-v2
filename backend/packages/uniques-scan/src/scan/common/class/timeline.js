@@ -11,7 +11,7 @@ async function insertClassTimelineItem(classId, timelineItem = {}) {
     return;
   }
 
-  const classHeight = nftClass.blockHeight;
+  const classHeight = nftClass.classHeight;
   const col = await getClassTimelineCol();
   await col.insertOne({
     classId,
