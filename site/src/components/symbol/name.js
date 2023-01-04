@@ -5,7 +5,7 @@ import useIsOverflow from "../../utils/hooks/useIsOverflow";
 import Tooltip from "../tooltip";
 
 const Name = styled.div`
-  color: ${(p) => p.theme.fontTertiary};
+  color: ${(p) => p.theme.fontPrimary};
   ${Inter_14_500};
   white-space: nowrap;
   text-overflow: ellipsis;
