@@ -1,3 +1,4 @@
+const { handleApprovedTransfer } = require("./approvedTransfer");
 const { handleTransferred } = require("./transferred");
 const { handleAttributeSet } = require("./attributeSet");
 const { handleAttributeCleared } = require("./attributeCleared");
@@ -29,6 +30,8 @@ async function handleInstanceEvent(event, indexer, extrinsic, events) {
     await handleAttributeCleared(event, indexer);
   } else if ("Transferred" === method) {
     await handleTransferred(event, indexer);
+  } else if ("ApprovedTransfer" === method) {
+    await handleApprovedTransfer(event, indexer);
   }
 }
 

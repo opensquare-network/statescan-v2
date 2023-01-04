@@ -22,7 +22,7 @@ async function handleTransferred(event, indexer) {
       to,
     },
   });
-  await updateInstanceDetails(classId, instanceId);
+  await updateInstanceDetails(classId, instanceId, indexer);
 }
 
 module.exports = {

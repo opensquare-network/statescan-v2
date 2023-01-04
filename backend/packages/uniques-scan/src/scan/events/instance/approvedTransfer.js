@@ -1,15 +1,13 @@
+const { updateInstanceDetails } = require("../../common/instance/update");
 const {
   insertInstanceTimelineItem,
 } = require("../../common/instance/timeline");
-const { updateInstanceDetails } = require("../../common/instance/update");
 const {
   consts: { TimelineItemTypes },
 } = require("@osn/scan-common");
 
-async function handleFrozenOrThawed(event, indexer) {
-  const [classId, instanceId] = event.data.toJSON();
-  await updateInstanceDetails(classId, instanceId, indexer);
-
+async function handleApprovedTransfer(event, indexer) {
+  const [classId, instanceId, owner, delegate] = event.data.toJSON();
   await insertInstanceTimelineItem(classId, instanceId, {
     indexer,
     name: event.method,
@@ -17,10 +15,13 @@ async function handleFrozenOrThawed(event, indexer) {
     args: {
       classId,
       instanceId,
+      owner,
+      delegate,
     },
   });
+  await updateInstanceDetails(classId, instanceId, indexer);
 }
 
 module.exports = {
-  handleFrozenOrThawed,
+  handleApprovedTransfer,
 };
