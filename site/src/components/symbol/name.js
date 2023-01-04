@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styled from "styled-components";
 import { Inter_14_500 } from "../../styles/text";
-import useIsOverflowEllipsis from "../../utils/hooks/useIsOverflowEllipsis";
+import useIsOverflow from "../../utils/hooks/useIsOverflow";
 import Tooltip from "../tooltip";
 
 const Name = styled.div`
@@ -14,7 +14,7 @@ const Name = styled.div`
 
 export default function SymbolName({ name }) {
   const ref = useRef();
-  const isEllipsis = useIsOverflowEllipsis(ref);
+  const isEllipsis = useIsOverflow(ref);
 
   return (
     <Tooltip tip={name} disabled={!isEllipsis}>
