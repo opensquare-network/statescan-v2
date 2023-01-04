@@ -1,3 +1,4 @@
+const { handleItemBought } = require("./itemBought");
 const { handleItemPriceRemoved } = require("./itemPriceRemoved");
 const { handleItemPriceSet } = require("./itemPriceSet");
 const { handleApprovedTransferOrCancelled } = require("./approvedTransfer");
@@ -38,6 +39,8 @@ async function handleInstanceEvent(event, indexer, extrinsic, events) {
     await handleItemPriceSet(event, indexer);
   } else if ("ItemPriceRemoved" === method) {
     await handleItemPriceRemoved(event, indexer);
+  } else if ("ItemBought" === method) {
+    await handleItemBought(event, indexer);
   }
 }
 
