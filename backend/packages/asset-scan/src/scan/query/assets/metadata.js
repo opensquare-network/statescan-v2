@@ -1,3 +1,4 @@
+const { chainFieldToString } = require("@statescan/common/src/utils");
 const {
   chain: { findBlockApi },
 } = require("@osn/scan-common");
@@ -9,8 +10,8 @@ async function queryMetadata(blockHash, assetId) {
   const json = raw.toJSON();
   return {
     ...json,
-    name: raw.name.toHuman(),
-    symbol: raw.symbol.toHuman(),
+    name: chainFieldToString(raw.name),
+    symbol: chainFieldToString(raw.symbol),
   };
 }
 

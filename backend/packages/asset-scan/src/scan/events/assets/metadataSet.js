@@ -1,3 +1,4 @@
+const { chainFieldToString } = require("@statescan/common/src/utils");
 const { insertAssetTimeline } = require("../../mongo/assets/insertTimeline");
 const { updateActiveAsset } = require("../../mongo/assets/updateAsset");
 const { queryMetadata } = require("../../query/assets/metadata");
@@ -13,8 +14,8 @@ async function handleMetadataSet(event, indexer) {
     assetId,
     method,
     {
-      name: data[1].toHuman(),
-      symbol: data[2].toHuman(),
+      name: chainFieldToString(data[1]),
+      symbol: chainFieldToString(data[2]),
       decimals: data[3].toNumber(),
       isFrozen: data[4].toJSON(),
     },
