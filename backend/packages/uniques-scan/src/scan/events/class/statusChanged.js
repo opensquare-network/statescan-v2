@@ -7,7 +7,7 @@ const { insertClassTimelineItem } = require("../../common/class/timeline");
 
 async function handleStatusChanged(event, indexer) {
   const [classId] = event.data.toJSON();
-  const details = await queryClassDetails(classId, indexer);
+  const details = await queryClassDetails(classId, indexer.blockHash);
   await updateClass(classId, { details });
 
   const { owner, issuer, admin, freezer, freeHolding, isFrozen } = details;
