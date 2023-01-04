@@ -10,7 +10,7 @@ const {
   },
 } = require("@statescan/mongo");
 
-async function commonDelete(col) {
+async function commonDelete(col, height) {
   await col.deleteMany({ "indexer.blockHeight": { $gte: height } });
 }
 
@@ -19,14 +19,14 @@ async function deleteFrom(height) {
     throw new Error("No height given when deleting unFinalized transfers");
   }
 
-  await commonDelete(await getClassCol());
-  await commonDelete(await getClassTimelineCol());
-  await commonDelete(await getClassAttributeCol());
+  await commonDelete(await getClassCol(), height);
+  await commonDelete(await getClassTimelineCol(), height);
+  await commonDelete(await getClassAttributeCol(), height);
 
-  await commonDelete(await getInstanceAttributeCol());
-  await commonDelete(await getInstanceTimelineCol());
-  await commonDelete(await getInstanceTransferCol());
-  await commonDelete(await getInstanceCol());
+  await commonDelete(await getInstanceAttributeCol(), height);
+  await commonDelete(await getInstanceTimelineCol(), height);
+  await commonDelete(await getInstanceTransferCol(), height);
+  await commonDelete(await getInstanceCol(), height);
 }
 
 module.exports = {
