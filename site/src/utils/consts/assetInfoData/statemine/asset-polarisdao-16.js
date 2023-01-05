@@ -41,5 +41,13 @@ export const assetPolarisDAO = {
         icon: "/imgs/icons/link-linktree.svg",
       },
     ],
+    governances: [
+      {
+        spaceLogo: "/imgs/icons/asset/governance-polarisDAO.svg",
+        spaceName: "PolarisDAO",
+        projectName: "PolarisDAO",
+        link: "https://voting.opensquare.io/space/polarisdao",
+      },
+    ],
   },
 };

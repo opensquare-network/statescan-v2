@@ -11,5 +11,13 @@ export const assetChrawnna = {
         icon: "/imgs/icons/link-twitter.svg",
       },
     ],
+    governances: [
+      {
+        spaceLogo: "/imgs/icons/asset/chrawnna.svg",
+        spaceName: "Chrawnna",
+        projectName: "Chrawnna",
+        link: "https://voting.opensquare.io/space/chrwna",
+      },
+    ],
   },
 };
