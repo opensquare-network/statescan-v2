@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   z-index: 1;
   left: ${(p) => p?.position?.left ?? 0}px;
   top: ${(p) => p?.position?.top ?? 0}px;
+  opacity: ${(p) => (p.ready ? 100 : 0)};
 `;
 
 const TipWrapper = styled.div`
@@ -40,12 +41,19 @@ export default function Tip({ children }) {
   const show = useSelector(tooltipShowSelector);
   const position = useSelector(tooltipPositionSelector);
   const [rect, setRect] = useState({ width: 0 });
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if (ref.current) {
       setRect({ width: ref.current.getBoundingClientRect().width });
     }
   }, [position]);
+
+  useEffect(() => {
+    Promise.resolve().then(() => {
+      setReady(show);
+    });
+  }, [show]);
 
   if (!show) {
     return null;
@@ -55,6 +63,7 @@ export default function Tip({ children }) {
     <Wrapper
       position={{ ...position, left: position.left - rect.width / 2 }}
       ref={ref}
+      ready={ready}
     >
       <TipWrapper showTip>
         {children}
