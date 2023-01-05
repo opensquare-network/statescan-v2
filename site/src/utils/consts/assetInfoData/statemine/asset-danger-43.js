@@ -18,7 +18,7 @@ export const assetDanger = {
       {
         name: "Singular",
         url: "https://singular.rmrk.app/collections/9ea8ca9480f9f6df43-DANGER",
-        icon: "/imgs/icons/link-links.svg",
+        icon: "/imgs/icons/link-singular.svg",
       },
     ],
   },
