@@ -8,7 +8,7 @@ export const assetDanger = {
       {
         name: "Website",
         url: "https://dangerlottery.com/",
-        icon: "/imgs/icons/link-default.svg",
+        icon: "/imgs/icons/link-links.svg",
       },
       {
         name: "Twitter",
@@ -18,7 +18,7 @@ export const assetDanger = {
       {
         name: "Singular",
         url: "https://singular.rmrk.app/collections/9ea8ca9480f9f6df43-DANGER",
-        icon: "/imgs/icons/link-default.svg",
+        icon: "/imgs/icons/link-links.svg",
       },
     ],
   },
