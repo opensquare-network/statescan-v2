@@ -36,7 +36,7 @@ import {
 } from "../store/reducers/blockSlice";
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 import isNil from "lodash.isnil";
-import { cleanupDetailTables } from "../store/reducers/detailTablesSlice";
+import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 
 function getCountByType(block, type) {
   if (type === Extrinsics) {
@@ -94,8 +94,10 @@ function Block() {
   }, [selectedTab, block?.height]);
 
   useEffect(() => {
-    dispatch(cleanupDetailTables());
-  }, [dispatch, block?.height]);
+    return () => {
+      dispatch(clearDetailTables());
+    };
+  }, [dispatch]);
 
   return (
     <DetailLayout breadCrumb={breadCrumb}>

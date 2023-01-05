@@ -23,7 +23,7 @@ import {
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
 import {
-  cleanupDetailTables,
+  clearDetailTables,
   detailTablesSelector,
 } from "../store/reducers/detailTablesSlice";
 import {
@@ -53,8 +53,10 @@ function Account() {
   ];
 
   useEffect(() => {
-    dispatch(cleanupDetailTables());
-  }, [dispatch, id]);
+    return () => {
+      dispatch(clearDetailTables());
+    };
+  }, [dispatch]);
 
   const tables = [
     {

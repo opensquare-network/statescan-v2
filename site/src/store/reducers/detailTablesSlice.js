@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import api from "../../services/api";
 
 const name = "detailTables";
 
@@ -13,7 +12,7 @@ const detailTables = createSlice({
     setLoading(state, { payload }) {
       state.loading = payload;
     },
-    setTables(state, { payload = {} }) {
+    setTable(state, { payload = {} }) {
       state.tables[payload.key] = payload.value;
     },
     clearTables(state) {
@@ -22,34 +21,13 @@ const detailTables = createSlice({
   },
 });
 
-export const { setLoading, setTables, clearTables } = detailTables.actions;
+export const {
+  setLoading: setDetailTablesLoading,
+  setTable: setDetailTable,
+  clearTables: clearDetailTables,
+} = detailTables.actions;
 
 export const detailTablesSelector = (state) => state[name].tables;
 export const detailTablesLoading = (state) => state[name].loading;
-
-/**
- * @param {string} key is the tables[key]
- * @param url
- * @param page
- * @param pageSize
- */
-export const fetchDetailTable =
-  (key, url, page, pageSize) => async (dispatch) => {
-    dispatch(setLoading(true));
-
-    try {
-      const { result } = await api.fetch(url, { page, pageSize });
-
-      if (result) {
-        dispatch(setTables({ key, value: result }));
-      }
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
-
-export const cleanupDetailTables = () => (dispatch) => {
-  dispatch(clearTables());
-};
 
 export default detailTables.reducer;
