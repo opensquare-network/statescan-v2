@@ -8,6 +8,9 @@ import TimelineItemFields from "./itemFields";
 
 const Wrapper = styled.div`
   display: flex;
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const Header = styled(FlexColumn)`

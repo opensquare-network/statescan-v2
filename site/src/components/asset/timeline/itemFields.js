@@ -2,6 +2,7 @@ import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import { bigNumberToLocaleString } from "../../../utils/viewFuncs/index";
 import AddressOrIdentity from "../../address/index";
+import { Inter_14_500 } from "../../../styles/text";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,9 +24,7 @@ const Field = styled.div`
 const Title = styled.div`
   padding: 8px 0;
   min-width: 176px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
+  ${Inter_14_500}
   flex: 0 0 auto;
   color: ${(p) => p.theme.fontPrimary};
 `;
