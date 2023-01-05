@@ -8,22 +8,7 @@ import AddressOrIdentity from "../../components/address";
 import Tooltip from "../../components/tooltip";
 import SymbolName from "../../components/symbol/name";
 import Symbol from "../../components/symbol";
-import styled from "styled-components";
 import { bigNumberToLocaleString } from "../viewFuncs";
-import { Inter_12_600 } from "../../styles/text";
-
-const TipTitle = styled.div`
-  ${Inter_12_600};
-`;
-
-function TotalSupplyTip({ supply }) {
-  return (
-    <div>
-      <TipTitle>Total Supply</TipTitle>
-      <div>{bigNumberToLocaleString(supply)}</div>
-    </div>
-  );
-}
 
 export function useAssetsTableData() {
   const list = useSelector(assetListSelector);
@@ -51,7 +36,7 @@ export function useAssetsTableData() {
           <AddressOrIdentity address={asset?.detail?.issuer} />
         </Tooltip>,
         asset?.detail?.accounts,
-        <Tooltip pullRight={true} tip={<TotalSupplyTip supply={supply} />}>
+        <Tooltip pullRight={true} tip={bigNumberToLocaleString(supply)}>
           <ValueDisplay value={supply} symbol={asset.symbol} />
         </Tooltip>,
       ];
