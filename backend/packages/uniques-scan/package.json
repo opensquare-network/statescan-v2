@@ -12,6 +12,7 @@
     "axios": "^1.2.2",
     "dotenv": "^16.0.1",
     "file-type": "^18.0.0",
+    "is-ipfs": "^7.0.3",
     "lodash.isempty": "^4.4.0"
   },
   "devDependencies": {
