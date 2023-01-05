@@ -48,11 +48,10 @@ const NoInfo = styled.div`
 `;
 
 const AboutContent = styled.div`
-  line-height: 20px;
   color: ${({ theme }) => theme.fontSecondary};
   word-wrap: break-word;
   text-align: justify;
-  font-size: 14px;
+  ${Inter_14_500};
 `;
 
 export default function About({ data }) {
