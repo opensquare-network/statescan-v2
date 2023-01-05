@@ -14,7 +14,10 @@ import AssetInfo from "../components/asset/assetInfo";
 import { getTabFromQuery } from "../utils/viewFuncs/index";
 import { Transfers, transfersHead } from "../utils/constants";
 import Tab from "../components/tab";
-import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
+import {
+  clearDetailTables,
+  detailTablesSelector,
+} from "../store/reducers/detailTablesSlice";
 import { Flex } from "../components/styled/flex";
 import DetailTable from "../components/detail/table";
 import { toTransferTabTableItem } from "../utils/viewFuncs/toTableItem";
@@ -34,8 +37,11 @@ function Asset() {
     [assetId, detail],
   );
 
+  const transfersApiKey =
+    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/transfers`;
+
   const tabs = [
-    { name: Transfers, count: tablesData?.assetTransfersTable?.total },
+    { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
   ];
 
   const tables = [
@@ -43,13 +49,9 @@ function Asset() {
       name: Transfers,
       table: (
         <DetailTable
-          url={
-            detail &&
-            `/asset/${detail?.assetId}_${detail?.assetHeight}/transfers`
-          }
+          url={transfersApiKey}
           heads={transfersHead}
           transformData={toTransferTabTableItem}
-          tableKey="assetTransfersTable"
         />
       ),
     },
@@ -60,6 +62,12 @@ function Asset() {
       dispatch(assetFetchDetail(assetId));
     }
   }, [dispatch, assetId]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearDetailTables());
+    };
+  }, [dispatch]);
 
   return (
     <Layout>
