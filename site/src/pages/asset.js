@@ -1,5 +1,11 @@
 import BreadCrumb from "../components/breadCrumb";
-import React, { Fragment, useEffect, useMemo, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Layout from "../components/layout";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +21,7 @@ import { getTabFromQuery } from "../utils/viewFuncs/index";
 import {
   Holders,
   holdersHead,
+  Timeline,
   Transfers,
   transfersHead,
 } from "../utils/constants";
@@ -29,6 +36,7 @@ import {
   toHoldersTabTableItem,
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
+import AssetTimeline from "../components/asset/timeline/index";
 
 function Asset() {
   const { assetId } = useParams();
@@ -49,16 +57,26 @@ function Asset() {
     detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/transfers`;
   const holdersApiKey =
     detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/holders`;
+  const timelineApiKey =
+    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/timeline`;
 
   const tabs = [
     { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
     { name: Holders, count: tablesData?.[holdersApiKey]?.total },
+    { name: Timeline, count: tablesData?.[timelineApiKey]?.total },
   ];
 
-  const tables = [
+  const MyAssetTimeline = useCallback(
+    ({ data, loading }) => (
+      <AssetTimeline asset={detail} timeline={data} loading={loading} />
+    ),
+    [detail],
+  );
+
+  const tabComponents = [
     {
       name: Transfers,
-      table: (
+      component: (
         <DetailTable
           url={transfersApiKey}
           heads={transfersHead}
@@ -68,12 +86,18 @@ function Asset() {
     },
     {
       name: Holders,
-      table: (
+      component: (
         <DetailTable
           url={holdersApiKey}
           heads={holdersHead}
           transformData={(data) => toHoldersTabTableItem(data, detail)}
         />
+      ),
+    },
+    {
+      name: Timeline,
+      component: (
+        <DetailTable url={timelineApiKey} TableComponent={MyAssetTimeline} />
       ),
     },
   ];
@@ -118,10 +142,10 @@ function Asset() {
         ))}
       </Flex>
 
-      {tables.map(
+      {tabComponents.map(
         (item) =>
           selectedTab === item.name && (
-            <Fragment key={item.name}>{item.table}</Fragment>
+            <Fragment key={item.name}>{item.component}</Fragment>
           ),
       )}
     </Layout>
