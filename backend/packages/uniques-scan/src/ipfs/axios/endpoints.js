@@ -1,4 +1,4 @@
-async function getEndpoints() {
+function getEndpoints() {
   const ipfsGatewayUrls = (
     process.env.IPFS_GATEWAY_URLS || "https://ipfs.io/ipfs/"
   ).split(";");

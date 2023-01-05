@@ -15,6 +15,8 @@ async function main() {
 
   await mime("QmaTVEBZtj6m579TuxTHc5dFDWkZXMb4rSDNXw4qVDYjYs");
   await mime("QmYK58GeYcGMbjjfPDo69jsUU4A8PpLEyPcxBY1yJCSnD1");
+
+  process.exit(0);
 }
 
 main().then(console.log);
