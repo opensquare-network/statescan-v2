@@ -92,8 +92,8 @@ export default function About({ data }) {
           <FlexColumn gap={8}>
             <Title>GOVERNANCE</Title>
             <Flex gap={16} style={{ flexWrap: "wrap" }}>
-              {data.governances.map((governance) => (
-                <Governance {...governance} />
+              {data.governances.map((governance, idx) => (
+                <Governance key={idx} {...governance} />
               ))}
             </Flex>
           </FlexColumn>
