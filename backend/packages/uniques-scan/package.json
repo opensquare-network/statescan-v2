@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@osn/scan-common": "0.3.4",
+    "@polkadot/util": "10.2.1",
     "@statescan/mongo": "1.0.0",
     "axios": "^1.2.2",
     "dotenv": "^16.0.1",
