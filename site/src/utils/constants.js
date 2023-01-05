@@ -24,6 +24,7 @@ export const chainNames = chains.map((item) => item.value);
 
 export const Transfers = "transfers";
 export const Extrinsics = "extrinsics";
+export const Holders = "holders";
 export const Events = "events";
 export const Logs = "logs";
 
@@ -175,6 +176,12 @@ export const accountsHead = [
   { name: "Rank", width: 96 },
   { name: "Account", width: 510 },
   { name: "Balance", width: 240, align: "right" },
+];
+
+export const holdersHead = [
+  { name: "Rank", width: 96 },
+  { name: "Address", width: 510 },
+  { name: "Quantity", width: 240, align: "right" },
 ];
 
 export const accountExtinsicsHead = blockExtrinsicsHead;

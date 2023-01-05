@@ -10,6 +10,7 @@ import { ReactComponent as CrossIcon } from "../../components/icons/cross.svg";
 import getTransferSymbol from "./transferSymbol";
 import EventAttributeDisplay from "../../components/eventAttributeDisplay";
 import ExtrinsicParametersDisplay from "../../components/extrinsicParametersDisplay";
+import { bigNumberToLocaleString } from "./index";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -62,9 +63,10 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
           <AddressOrIdentity address={transfer?.to} />
         </Tooltip>,
         <Tooltip
-          tip={`${toPrecision(transfer?.balance, chainSetting.decimals)} ${
-            transfer?.symbol ?? chainSetting.symbol
-          }`}
+          tip={`${toPrecision(
+            transfer?.balance,
+            chainSetting.decimals,
+          )} ${getTransferSymbol(transfer, chainSetting.symbol)}`}
           pullRight
         >
           <ValueDisplay
@@ -99,4 +101,22 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
       ];
     }) ?? null
   );
+};
+
+export const toHoldersTabTableItem = (holders, asset) => {
+  if (!holders || !asset) {
+    return null;
+  }
+
+  return holders.map((holder, index) => {
+    return [
+      index + 1,
+      <Tooltip tip={holder?.address}>
+        <AddressOrIdentity address={holder?.address} ellipsis={false} />
+      </Tooltip>,
+      bigNumberToLocaleString(
+        toPrecision(holder?.balance, asset?.metadata?.decimals),
+      ),
+    ];
+  });
 };
