@@ -12,7 +12,12 @@ import {
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
 import { getTabFromQuery } from "../utils/viewFuncs/index";
-import { Transfers, transfersHead } from "../utils/constants";
+import {
+  Holders,
+  holdersHead,
+  Transfers,
+  transfersHead,
+} from "../utils/constants";
 import Tab from "../components/tab";
 import {
   clearDetailTables,
@@ -20,7 +25,10 @@ import {
 } from "../store/reducers/detailTablesSlice";
 import { Flex } from "../components/styled/flex";
 import DetailTable from "../components/detail/table";
-import { toTransferTabTableItem } from "../utils/viewFuncs/toTableItem";
+import {
+  toHoldersTabTableItem,
+  toTransferTabTableItem,
+} from "../utils/viewFuncs/toTableItem";
 
 function Asset() {
   const { assetId } = useParams();
@@ -39,9 +47,12 @@ function Asset() {
 
   const transfersApiKey =
     detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/transfers`;
+  const holdersApiKey =
+    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/holders`;
 
   const tabs = [
     { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
+    { name: Holders, count: tablesData?.[holdersApiKey]?.total },
   ];
 
   const tables = [
@@ -52,6 +63,16 @@ function Asset() {
           url={transfersApiKey}
           heads={transfersHead}
           transformData={toTransferTabTableItem}
+        />
+      ),
+    },
+    {
+      name: Holders,
+      table: (
+        <DetailTable
+          url={holdersApiKey}
+          heads={holdersHead}
+          transformData={(data) => toHoldersTabTableItem(data, detail)}
         />
       ),
     },
