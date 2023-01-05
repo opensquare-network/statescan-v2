@@ -9,7 +9,9 @@
   "dependencies": {
     "@osn/scan-common": "0.3.4",
     "@statescan/mongo": "1.0.0",
+    "axios": "^1.2.2",
     "dotenv": "^16.0.1",
+    "file-type": "^18.0.0",
     "lodash.isempty": "^4.4.0"
   },
   "devDependencies": {
