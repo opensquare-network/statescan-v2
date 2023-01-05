@@ -37,8 +37,11 @@ function Asset() {
     [assetId, detail],
   );
 
+  const transfersApiKey =
+    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/transfers`;
+
   const tabs = [
-    { name: Transfers, count: tablesData?.assetTransfersTable?.total },
+    { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
   ];
 
   const tables = [
@@ -46,13 +49,9 @@ function Asset() {
       name: Transfers,
       table: (
         <DetailTable
-          url={
-            detail &&
-            `/asset/${detail?.assetId}_${detail?.assetHeight}/transfers`
-          }
+          url={transfersApiKey}
           heads={transfersHead}
           transformData={toTransferTabTableItem}
-          tableKey="assetTransfersTable"
         />
       ),
     },

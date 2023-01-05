@@ -66,7 +66,6 @@ function Extrinsic() {
           url={extrinsicId ? `/extrinsics/${extrinsicId}/events` : ""}
           heads={extrinsicEventsHead}
           transformData={toEventTabTableItem}
-          tableKey="extrinsicEventsTable"
         />
       ),
     },
@@ -76,7 +75,6 @@ function Extrinsic() {
         <DetailTable
           url={extrinsicId ? `/extrinsics/${extrinsicId}/calls` : ""}
           TableComponent={CallsTable}
-          tableKey="extrinsicCallsTable"
         />
       ),
     },

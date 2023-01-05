@@ -47,26 +47,28 @@ function Account() {
     [id, detail, chainSetting],
   );
 
-  const tabs = [
-    { name: Extrinsics, count: tablesData?.accountExtrinsicsTable?.total },
-    { name: Transfers, count: tablesData?.accountTransfersTable?.total },
-  ];
-
   useEffect(() => {
     return () => {
       dispatch(clearDetailTables());
     };
   }, [dispatch]);
 
+  const transfersApiKey = `/accounts/${id}/transfers`;
+  const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
+
+  const tabs = [
+    { name: Extrinsics, count: tablesData?.[extrinsicsApiKey]?.total },
+    { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
+  ];
+
   const tables = [
     {
       name: Transfers,
       table: (
         <DetailTable
-          url={`/accounts/${id}/transfers`}
+          url={transfersApiKey}
           heads={transfersHead}
           transformData={toTransferTabTableItem}
-          tableKey="accountTransfersTable"
         />
       ),
     },
@@ -74,10 +76,9 @@ function Account() {
       name: Extrinsics,
       table: (
         <DetailTable
-          url={`/accounts/${id}/extrinsics`}
+          url={extrinsicsApiKey}
           heads={accountExtinsicsHead}
           transformData={toExtrinsicsTabTableItem}
-          tableKey="accountExtrinsicsTable"
         />
       ),
     },

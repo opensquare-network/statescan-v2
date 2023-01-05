@@ -124,7 +124,6 @@ function Block() {
           url={tabDataUrl}
           heads={blockExtrinsicsHead}
           transformData={toExtrinsicsTabTableItem}
-          tableKey="blockExtrinsicsTable"
         />
       )}
       {selectedTab === Events && tabDataUrl && (
@@ -132,7 +131,6 @@ function Block() {
           url={tabDataUrl}
           heads={blockEventsHead}
           transformData={toEventTabTableItem}
-          tableKey="blockEventsTable"
         />
       )}
       {selectedTab === Logs && (

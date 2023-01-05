@@ -20,20 +20,23 @@ export default function DetailTable({
   heads,
   transformData = noop,
   TableComponent,
-  tableKey,
   url,
 }) {
   const dispatch = useDispatch();
   const chainSetting = useSelector(chainSettingSelector);
   const loading = useSelector(detailTablesLoading);
   const tables = useSelector(detailTablesSelector);
-  const table = tables[tableKey];
+  const table = tables[url];
   const location = useLocation();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   useEffect(() => {
     if (!url) {
+      return;
+    }
+
+    if (table?.page === page - 1) {
       return;
     }
 
@@ -48,7 +51,7 @@ export default function DetailTable({
           return;
         }
         if (result) {
-          dispatch(setDetailTable({ key: tableKey, value: result }));
+          dispatch(setDetailTable({ key: url, value: result }));
         }
       })
       .finally(() => {
@@ -58,7 +61,7 @@ export default function DetailTable({
     return () => {
       isCancelled = true;
     };
-  }, [dispatch, url, page, pageSize, tableKey]);
+  }, [dispatch, url, page, pageSize, table?.page]);
 
   return (
     <StyledPanelTableWrapper>
