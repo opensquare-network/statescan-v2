@@ -10,7 +10,7 @@ function cleanTemplateArgs(typeName) {
 }
 
 export function makeEventArgs(event) {
-  const docs = ["Docs", event?.args?.[0]?.docs?.join("").trim() || ""];
+  const docs = ["Docs", event?.docs?.join("").trim() || ""];
   const fields = event?.args?.map((item) => {
     const fieldType = cleanTemplateArgs(item.typeName).split("::").pop();
     if (fieldType === "AccountId") {
