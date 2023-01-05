@@ -7,7 +7,7 @@ export function useAssetInfoData() {
   const chain = useSelector(chainSelector);
   const detail = useSelector(assetDetailSelector);
   const assetInfo = assetInfoData[chain] ?? {};
-  const data = assetInfo[detail.assetId] ?? {};
+  const data = assetInfo[detail?.assetId] ?? {};
 
   return data;
 }
