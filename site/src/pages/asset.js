@@ -97,7 +97,6 @@ function Asset() {
       />
       <Panel>
         <AssetInfo
-          data={detail}
           symbol={detail?.metadata?.symbol}
           name={detail?.metadata?.name}
         />
