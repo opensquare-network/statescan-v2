@@ -6,10 +6,8 @@ import assetInfoData from "../consts/assetInfoData";
 export function useAssetInfoData() {
   const chain = useSelector(chainSelector);
   const detail = useSelector(assetDetailSelector);
-
   const assetInfo = assetInfoData[chain] ?? {};
+  const data = assetInfo[detail.assetId] ?? {};
 
-  const aboutData = assetInfo[detail.assetId] ?? {};
-
-  return aboutData;
+  return data;
 }
