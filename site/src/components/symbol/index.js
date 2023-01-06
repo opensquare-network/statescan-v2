@@ -12,6 +12,7 @@ const Wrapper = styled.span`
 const Icon = styled.img`
   width: 24px;
   height: 24px;
+  border-radius: 9999px;
 `;
 
 const Name = styled.span`
