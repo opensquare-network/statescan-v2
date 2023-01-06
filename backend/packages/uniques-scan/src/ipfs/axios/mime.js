@@ -9,6 +9,7 @@ async function fetchMime(cid) {
     const promise = axios({
       url: `${endpoint}${cid}`,
       responseType: "arraybuffer",
+      timeout: 300 * 1000, // max 5 mins for fetching mime data
     }).then((res) => res.data);
     promises.push(promise);
   }
