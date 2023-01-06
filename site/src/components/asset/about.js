@@ -3,6 +3,8 @@ import { Inter_14_500, Inter_14_600 } from "../../styles/text";
 import ExternalLink from "../externalLink";
 import EditIcon from "../icons/editIcon";
 import Tooltip from "../tooltip";
+import { Flex, FlexColumn } from "../styled/flex";
+import Governance from "./governance";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -48,11 +50,14 @@ const NoInfo = styled.div`
 `;
 
 const AboutContent = styled.div`
-  line-height: 20px;
   color: ${({ theme }) => theme.fontSecondary};
   word-wrap: break-word;
   text-align: justify;
-  font-size: 14px;
+  ${Inter_14_500};
+`;
+
+const GovernanceWrapper = styled.div`
+  margin-top: 12px;
 `;
 
 export default function About({ data }) {
@@ -81,6 +86,19 @@ export default function About({ data }) {
           </Tooltip>
         ))}
       </LinksWrapper>
+
+      {data?.governances && (
+        <GovernanceWrapper>
+          <FlexColumn gap={8}>
+            <Title>GOVERNANCE</Title>
+            <Flex gap={16} style={{ flexWrap: "wrap" }}>
+              {data.governances.map((governance, idx) => (
+                <Governance key={idx} {...governance} />
+              ))}
+            </Flex>
+          </FlexColumn>
+        </GovernanceWrapper>
+      )}
     </Wrapper>
   );
 }
