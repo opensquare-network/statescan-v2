@@ -4,6 +4,7 @@ const {
 } = require("@statescan/mongo");
 const { busLogger } = require("@osn/scan-common");
 const isNil = require("lodash.isnil");
+const { getItemQ } = require("./utils");
 
 async function handleMetadataCommon(col, isClass = true) {
   const unhandled = await col
@@ -15,27 +16,13 @@ async function handleMetadataCommon(col, isClass = true) {
     }`,
   );
 
-  for (const {
-    metadata,
-    classId,
-    classHeight,
-    instanceId,
-    instanceHeight,
-  } of unhandled) {
-    let q = { classId, classHeight };
-    if (!isClass) {
-      q = {
-        ...q,
-        instanceId,
-        instanceHeight,
-      };
-    }
-
-    const metadataValid = await isMetadataConfigIpfs(metadata);
+  for (const item of unhandled) {
+    const q = getItemQ(item, isClass);
+    const metadataValid = await isMetadataConfigIpfs(item.metadata);
     let updates = { metadataValid };
     let metadataCid;
     if (metadataValid) {
-      metadataCid = getMetadataCid(metadata);
+      metadataCid = getMetadataCid(item.metadata);
       updates = { ...updates, metadataCid };
     }
     await col.updateOne(q, { $set: updates });
@@ -49,9 +36,11 @@ async function handleMetadataCommon(col, isClass = true) {
 }
 
 async function handleMetadataCID() {
-  // parse and save metadata IPFS CID
-  await handleMetadataCommon(await getClassCol(), true);
-  await handleMetadataCommon(await getInstanceCol(), false);
+  await Promise.all([
+    // parse and save metadata IPFS CID
+    handleMetadataCommon(await getClassCol(), true),
+    handleMetadataCommon(await getInstanceCol(), false),
+  ]);
 }
 
 module.exports = {

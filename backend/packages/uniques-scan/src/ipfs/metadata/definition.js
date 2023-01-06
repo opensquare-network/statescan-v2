@@ -5,10 +5,10 @@ const {
   uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
 const isNil = require("lodash.isnil");
+const { getItemQ } = require("./utils");
 
 async function handleOneItem(col, item, isClass = true) {
-  const { metadataCid, classId, classHeight, instanceId, instanceHeight } =
-    item;
+  const { metadataCid, classId, instanceId } = item;
   let metadataJson;
   try {
     metadataJson = await fetchJson(metadataCid);
@@ -18,18 +18,13 @@ async function handleOneItem(col, item, isClass = true) {
   }
 
   const definitionValid = await isDefinitionValid(metadataJson);
-  let q = { classId, classHeight };
-  if (!isClass) {
-    q = { ...q, instanceId, instanceHeight };
-  }
-
+  const q = getItemQ(item, isClass);
   let updates = { definitionValid };
   let definition;
   if (definitionValid) {
     definition = await normalizeDefinition(metadataJson);
     updates = { ...updates, definition };
   }
-
   await col.updateOne(q, { $set: updates });
 
   const type = isNil(instanceId) ? "class" : "instance";
@@ -61,9 +56,11 @@ async function handleDefinitionCommon(col, isClass = true) {
 }
 
 async function handleMetadataDefinition() {
-  // fetch, parse and save metadata definition from IPFS
-  await handleDefinitionCommon(await getClassCol(), true);
-  await handleDefinitionCommon(await getInstanceCol(), false);
+  await Promise.all([
+    // fetch, parse and save metadata definition from IPFS
+    handleDefinitionCommon(await getClassCol(), true),
+    handleDefinitionCommon(await getInstanceCol(), false),
+  ]);
 }
 
 module.exports = {
