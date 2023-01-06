@@ -28,6 +28,7 @@ export const Holders = "holders";
 export const Events = "events";
 export const Logs = "logs";
 export const Timeline = "timeline";
+export const Analytics = "analytics";
 
 export const menusBlockchain = [
   {

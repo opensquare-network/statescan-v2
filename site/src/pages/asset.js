@@ -19,6 +19,7 @@ import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
 import { getTabFromQuery } from "../utils/viewFuncs/index";
 import {
+  Analytics,
   Holders,
   holdersHead,
   Timeline,
@@ -37,6 +38,7 @@ import {
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
 import AssetTimeline from "../components/asset/timeline/index";
+import AnalyticsChart from "../components/charts/analytics";
 
 function Asset() {
   const { assetId } = useParams();
@@ -64,6 +66,7 @@ function Asset() {
     { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
     { name: Holders, count: tablesData?.[holdersApiKey]?.total },
     { name: Timeline, count: tablesData?.[timelineApiKey]?.total },
+    { name: Analytics },
   ];
 
   const MyAssetTimeline = useCallback(
@@ -99,6 +102,10 @@ function Asset() {
       component: (
         <DetailTable url={timelineApiKey} TableComponent={MyAssetTimeline} />
       ),
+    },
+    {
+      name: Analytics,
+      component: <AnalyticsChart />,
     },
   ];
 
