@@ -17,7 +17,6 @@ export default function AssetTimeline({ asset, timeline, loading }) {
           isLast={index === timeline.length - 1}
         />
       ))}
-      ;
     </Wrapper>
   );
 }
