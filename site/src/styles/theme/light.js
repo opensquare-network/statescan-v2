@@ -28,6 +28,7 @@ const light = {
   fillAlpha: "rgba(27, 32, 44, 0.05)",
   fillBeta: "rgba(27, 32, 44, 0.02)",
   fillGamma: "rgba(27, 32, 44, 0)",
+  fillActiveBlue: "#3765dc",
   theme500: chainSetting.color,
   theme100: chainSetting.colorSecondary,
 };
