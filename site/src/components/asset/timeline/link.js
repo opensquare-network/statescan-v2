@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Inter_12_400 } from "../../../styles/text";
 import { Flex } from "../../styled/flex";
-import Icons from "../../icons/timeline";
 import { Link as RouteLink } from "react-router-dom";
+import CaretUprightIcon from "../../icons/caretUpright";
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
@@ -12,7 +12,7 @@ const Wrapper = styled(Flex)`
   background-color: ${(p) => p.theme.fillAlpha};
   color: ${(p) => p.theme.fontSecondary};
   > :nth-child(2) {
-    margin-left: 8px;
+    margin-left: 4px;
   }
   svg path {
     stroke: ${(p) => p.theme.fontPrimary};
@@ -34,7 +34,7 @@ export default function Link({ name, to }) {
     <MyLink to={to}>
       <Wrapper>
         <div>{name}</div>
-        <Icons.LinkIcon />
+        <CaretUprightIcon />
       </Wrapper>
     </MyLink>
   );
