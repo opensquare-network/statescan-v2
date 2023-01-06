@@ -4,6 +4,7 @@ const { busLogger } = require("@osn/scan-common");
 const {
   uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
+const isNil = require("lodash.isnil");
 
 async function handleOneItem(col, item, isClass = true) {
   const { metadataCid, classId, classHeight, instanceId, instanceHeight } =
@@ -23,12 +24,21 @@ async function handleOneItem(col, item, isClass = true) {
   }
 
   let updates = { definitionValid };
+  let definition;
   if (definitionValid) {
-    const definition = normalizeDefinition(metadataJson);
+    definition = await normalizeDefinition(metadataJson);
     updates = { ...updates, definition };
   }
 
   await col.updateOne(q, { $set: updates });
+
+  const type = isNil(instanceId) ? "class" : "instance";
+  const id = isNil(instanceId) ? `${classId}/${instanceId}` : `${classId}`;
+  busLogger.info(
+    `${type}: ${id} handled. Valid: ${definitionValid}, definition: ${JSON.stringify(
+      definition,
+    )}`,
+  );
 }
 
 async function handleDefinitionCommon(col, isClass = true) {

@@ -14,7 +14,8 @@
     "dotenv": "^16.0.1",
     "file-type": "^18.0.0",
     "is-ipfs": "^7.0.3",
-    "lodash.isempty": "^4.4.0"
+    "lodash.isempty": "^4.4.0",
+    "lodash.isnil": "^4.0.0"
   },
   "devDependencies": {
     "jest": "^28.1.3"

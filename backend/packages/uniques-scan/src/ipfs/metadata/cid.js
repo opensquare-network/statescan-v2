@@ -2,6 +2,8 @@ const { isMetadataConfigIpfs, getMetadataCid } = require("./onchain");
 const {
   uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
+const { busLogger } = require("@osn/scan-common");
+const isNil = require("lodash.isnil");
 
 async function handleMetadataCommon(col, isClass = true) {
   const unhandled = await col
@@ -25,11 +27,18 @@ async function handleMetadataCommon(col, isClass = true) {
 
     const metadataValid = await isMetadataConfigIpfs(metadata);
     let updates = { metadataValid };
+    let metadataCid;
     if (metadataValid) {
-      const metadataCid = getMetadataCid(metadata);
+      metadataCid = getMetadataCid(metadata);
       updates = { ...updates, metadataCid };
     }
     await col.updateOne(q, { $set: updates });
+
+    const type = isNil(instanceId) ? "class" : "instance";
+    const id = isNil(instanceId) ? `${classId}/${instanceId}` : `${classId}`;
+    busLogger.info(
+      `${type}: ${id} handled. Valid: ${metadataValid}, CID: ${metadataCid}`,
+    );
   }
 }
 

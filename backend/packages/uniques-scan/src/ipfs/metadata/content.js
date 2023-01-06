@@ -5,7 +5,7 @@
 const { isHex, hexToString } = require("@polkadot/util");
 const { isCid } = require("../utils/isCid");
 
-async function lowercaseObjectKey(obj = {}) {
+function lowercaseObjectKey(obj = {}) {
   return Object.entries(obj).reduce((result, [key, value]) => {
     const lowercaseKey = (key || "").toLowerCase();
     result[lowercaseKey] = value;
@@ -62,17 +62,19 @@ async function isDefinitionValid(definition = {}) {
     return false;
   }
 
-  return _isValidImageUrl(image);
+  return await _isValidImageUrl(image);
 }
 
 async function normalizeDefinition(definition = {}) {
-  if (!isDefinitionValid(definition)) {
+  const isValid = await isDefinitionValid(definition);
+  if (!isValid) {
     throw new Error(`Normalize invalid definition`);
   }
 
+  const keyLowercase = lowercaseObjectKey(definition);
   return {
-    ...definition,
-    image: _extractCidFromImageUrl(definition.image),
+    ...keyLowercase,
+    image: _extractCidFromImageUrl(keyLowercase.image),
   };
 }
 
