@@ -33,7 +33,7 @@ async function handleOneItem(col, item, isClass = true) {
   await col.updateOne(q, { $set: updates });
 
   const type = isNil(instanceId) ? "class" : "instance";
-  const id = isNil(instanceId) ? `${classId}/${instanceId}` : `${classId}`;
+  const id = isNil(instanceId) ? `${classId}` : `${classId}/${instanceId}`;
   busLogger.info(
     `${type}: ${id} handled. Valid: ${definitionValid}, definition: ${JSON.stringify(
       definition,
