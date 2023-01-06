@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Inter_14_600, Inter_20_700 } from "../../styles/text";
-import { useAssetInfoData } from "../../utils/hooks/useAssetInfoData";
+import { useAssetInfoDataDetail } from "../../utils/hooks/useAssetInfoData";
 import About from "./about";
 
 const Wrapper = styled.div`
@@ -51,7 +51,7 @@ const RightWrapper = styled.div`
 `;
 
 export default function AssetInfo({ symbol, name }) {
-  const data = useAssetInfoData();
+  const data = useAssetInfoDataDetail();
 
   return (
     <Wrapper>
