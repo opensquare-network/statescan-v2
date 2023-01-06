@@ -1,14 +1,13 @@
 const { isHash } = require("../../../../utils/isHash");
+const { isNum } = require("../../../../utils/isNum");
 const {
   block: { getBlockCollection, getUnFinalizedBlockCollection },
 } = require("@statescan/mongo");
 const { getOverview } = require("../../../../jobs/overview");
 
 function handleBlockHeight(term) {
-  let searchHeight;
-  try {
-    searchHeight = parseInt(term);
-  } catch (e) {
+  const searchHeight = parseInt(term);
+  if (isNaN(searchHeight)) {
     return null;
   }
 
@@ -41,9 +40,8 @@ async function handleBlockHash(term = "") {
 }
 
 async function queryBlock(term = "") {
-  const isNum = /^[0-9]+$/.test(term);
   let result = null;
-  if (isNum) {
+  if (isNum(term)) {
     result = handleBlockHeight(term);
   } else if (isHash(term)) {
     result = await handleBlockHash(term);

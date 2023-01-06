@@ -1,6 +1,7 @@
 const { queryAccount } = require("./account");
 const { queryExtrinsic } = require("./extrinsic");
 const { queryBlock } = require("./block");
+const { queryAssets } = require("./asset");
 
 async function getSearchHints(ctx) {
   const { term = "" } = ctx.query;
@@ -27,6 +28,14 @@ async function getSearchHints(ctx) {
     result = {
       ...result,
       account: accountQueryResult,
+    };
+  }
+
+  const assetQueryResult = await queryAssets(term);
+  if (assetQueryResult) {
+    result = {
+      ...result,
+      assets: assetQueryResult,
     };
   }
 
