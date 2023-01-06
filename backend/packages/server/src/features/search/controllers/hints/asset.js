@@ -46,13 +46,18 @@ async function handleAssetSymbolOrName(term) {
 
 async function queryAssets(term = "") {
   let result = null;
+
   if (isNum(term)) {
     result = await handleAssetId(term);
   } else {
     result = await handleAssetSymbolOrName(term);
   }
 
-  return result;
+  if (result?.length > 0) {
+    return result;
+  }
+
+  return null;
 }
 
 module.exports = {
