@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   z-index: 1;
   left: ${(p) => p?.position?.left ?? 0}px;
   top: ${(p) => p?.position?.top ?? 0}px;
-  opacity: ${(p) => (p.ready ? 100 : 0)};
+  opacity: ${(p) => (p.ready ? 1 : 0)};
 `;
 
 const TipWrapper = styled.div`
