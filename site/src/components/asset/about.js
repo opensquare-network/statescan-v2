@@ -5,6 +5,7 @@ import EditIcon from "../icons/editIcon";
 import Tooltip from "../tooltip";
 import { Flex, FlexColumn } from "../styled/flex";
 import Governance from "./governance";
+import { useAssetInfoDataDetail } from "../../utils/hooks/useAssetInfoData";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -60,7 +61,9 @@ const GovernanceWrapper = styled.div`
   margin-top: 12px;
 `;
 
-export default function About({ data }) {
+export default function About() {
+  const data = useAssetInfoDataDetail();
+
   return (
     <Wrapper>
       <TitleWrapper>

@@ -134,7 +134,7 @@ function ExploreInput(props, ref) {
   return (
     <>
       <Input
-        placeholder={"Block / Address / Extrinsic /..."}
+        placeholder={"Block / Address / Extrinsic / Asset /..."}
         {...props}
         onChange={onInput}
         onFocus={onFocus}
