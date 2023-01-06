@@ -81,16 +81,13 @@ function getFields(timelineItem, asset) {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
         Creator: <AddressOrIdentity ellipsis={false} address={creator} />,
         Owner: <AddressOrIdentity ellipsis={false} address={owner} />,
-        // "Min Balance": formatBalance(timelineItem.asset.minBalance, asset),
       };
     }
     case "ForceCreated": {
-      const { admin } = timelineItem.args;
+      const { owner } = timelineItem.args;
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Admin: <AddressOrIdentity ellipsis={false} address={admin} />,
-        // Sufficient: <Text>{timelineItem.asset.isSufficient}</Text>,
-        // "Min Balance": formatBalance(timelineItem.asset.minBalance, asset),
+        Owner: <AddressOrIdentity ellipsis={false} address={owner} />,
       };
     }
     case "MetadataSet": {
@@ -108,31 +105,24 @@ function getFields(timelineItem, asset) {
       };
     }
     case "AssetStatusChanged": {
+      const {
+        owner,
+        issuer,
+        admin,
+        freezer,
+        minBalance,
+        isSufficient,
+        isFrozen,
+      } = timelineItem.args;
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        // Admin: (
-        //   <AddressOrIdentity ellipsis={false}
-        //     address={timelineItem.asset.admin}
-        //   />
-        // ),
-        // Owner: (
-        //   <AddressOrIdentity ellipsis={false}
-        //     address={timelineItem.asset.owner}
-        //   />
-        // ),
-        // Issuer: (
-        //   <AddressOrIdentity ellipsis={false}
-        //     address={timelineItem.asset.issuer}
-        //   />
-        // ),
-        // Freezer: (
-        //   <AddressOrIdentity ellipsis={false}
-        //     address={timelineItem.asset.freezer}
-        //   />
-        // ),
-        // "Min Balance": formatBalance(timelineItem.asset.minBalance, asset),
-        // Sufficient: <BoldText>{timelineItem.asset.isSufficient}</BoldText>,
-        // Frozen: <BoldText>{timelineItem.asset.isFrozen}</BoldText>,
+        Admin: <AddressOrIdentity ellipsis={false} address={admin} />,
+        Owner: <AddressOrIdentity ellipsis={false} address={owner} />,
+        Issuer: <AddressOrIdentity ellipsis={false} address={issuer} />,
+        Freezer: <AddressOrIdentity ellipsis={false} address={freezer} />,
+        "Min Balance": formatBalance(minBalance, asset),
+        Sufficient: <BoldText>{isSufficient}</BoldText>,
+        Frozen: <BoldText>{isFrozen}</BoldText>,
       };
     }
     case "TeamChanged": {
@@ -192,7 +182,7 @@ function getFields(timelineItem, asset) {
 
 export default function TimelineItemFields({ item, asset }) {
   const fields = Object.entries(getFields(item, asset)) || [];
-  console.log({ item, asset, fields });
+
   return (
     <Wrapper>
       {fields.map((field, index) => (
