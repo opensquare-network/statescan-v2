@@ -27,6 +27,7 @@ export const Extrinsics = "extrinsics";
 export const Holders = "holders";
 export const Events = "events";
 export const Logs = "logs";
+export const Timeline = "timeline";
 
 export const menusBlockchain = [
   {

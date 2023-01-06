@@ -1,0 +1,10 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 14H22" stroke="#EE4444" stroke-width="1.5" stroke-linecap="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M4.75 11C4.75 6.99594 7.99594 3.75 12 3.75C16.0041 3.75 19.25 6.99594 19.25 11C19.25 12.07 19.0182 13.0858 18.6021 14H20.2222C20.5637 13.0643 20.75 12.0539 20.75 11C20.75 6.16751 16.8325 2.25 12 2.25C7.16751 2.25 3.25 6.16751 3.25 11C3.25 12.0539 3.43632 13.0643 3.77782 14H5.39786C4.98178 13.0858 4.75 12.07 4.75 11Z" fill="#EE4444"/>
+<path d="M4 17V20" stroke="#EE4444" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M12 17V20" stroke="#EE4444" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M8 17V19" stroke="#EE4444" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M20 17V19" stroke="#EE4444" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M16 17V21" stroke="#EE4444" stroke-width="1.5" stroke-linecap="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.75 11C9.75 9.75736 10.7574 8.75 12 8.75C13.2426 8.75 14.25 9.75736 14.25 11C14.25 11.3592 14.1658 11.6988 14.0161 12H15.6152C15.7031 11.6816 15.75 11.3463 15.75 11C15.75 8.92893 14.0711 7.25 12 7.25C9.92893 7.25 8.25 8.92893 8.25 11C8.25 11.3463 8.29694 11.6816 8.38481 12H9.98388C9.83418 11.6988 9.75 11.3592 9.75 11Z" fill="#EE4444"/>
+</svg>
