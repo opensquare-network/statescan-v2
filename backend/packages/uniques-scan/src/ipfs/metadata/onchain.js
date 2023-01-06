@@ -15,8 +15,12 @@ const { isCid } = require("../utils/isCid");
 const { isHex, hexToString } = require("@polkadot/util");
 
 // Metadata data filed should be a IPFS CID hex
-async function isMetadataConfigIpfs(metadata = { data: "" }) {
-  const { data } = metadata;
+async function isMetadataConfigIpfs(metadata) {
+  if (!metadata || typeof metadata !== "object") {
+    return false;
+  }
+
+  const { data } = metadata || {};
   if (!isHex(data)) {
     return false;
   }
