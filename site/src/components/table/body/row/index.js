@@ -42,8 +42,8 @@ function TableRow({ heads, row = [] }) {
 
           if (type === "time") {
             return (
-              <Td>
-                <TimeBody key={index} timeType={timeType} ts={value} />
+              <Td key={index}>
+                <TimeBody timeType={timeType} ts={value} />
               </Td>
             );
           }
