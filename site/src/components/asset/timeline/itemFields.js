@@ -181,7 +181,7 @@ function getFields(timelineItem, asset) {
 }
 
 export default function TimelineItemFields({ item, asset }) {
-  const fields = Object.entries(getFields(item, asset)) || [];
+  const fields = Object.entries(getFields(item, asset));
 
   return (
     <Wrapper>
