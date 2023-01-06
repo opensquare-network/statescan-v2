@@ -46,5 +46,19 @@ export const assetRMRK = {
         icon: "/imgs/icons/link-discord.svg",
       },
     ],
+    governances: [
+      {
+        spaceLogo: "/imgs/icons/asset/governance-rmrk.svg",
+        spaceName: "RMRK",
+        projectName: "RMRK",
+        link: "https://opensquare.io/space/rmrk",
+      },
+      {
+        spaceLogo: "/imgs/icons/asset/governance-rmrk-curation.png",
+        spaceName: "RMRK Curation",
+        projectName: "RMRK",
+        link: "https://opensquare.io/space/rmrk-curation",
+      },
+    ],
   },
 };
