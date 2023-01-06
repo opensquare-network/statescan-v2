@@ -19,7 +19,7 @@ async function insertInstanceAttribute(
     return;
   }
 
-  const instance = await getInstance();
+  const instance = await getInstance(classId, instanceId);
   if (!instance) {
     logger.error(
       `Can not find instance /${classId}/${instanceId} when set instance attribute, ${indexer.blockHeight}`,
@@ -47,7 +47,7 @@ async function deleteInstanceAttribute(classId, instanceId, key) {
     return;
   }
 
-  const instance = await getInstance();
+  const instance = await getInstance(classId, instanceId);
   if (!instance) {
     logger.error(
       `Can not find instance /${classId}/${instanceId} when delete instance attribute, ${indexer.blockHeight}`,
