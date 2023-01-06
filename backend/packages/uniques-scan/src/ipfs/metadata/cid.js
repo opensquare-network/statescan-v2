@@ -9,6 +9,12 @@ async function handleMetadataCommon(col, isClass = true) {
   const unhandled = await col
     .find({ metadata: { $exists: true }, metadataValid: null })
     .toArray();
+  busLogger.info(
+    `${unhandled.length} metadata cid to handle for ${
+      isClass ? "class" : "instance"
+    }`,
+  );
+
   for (const {
     metadata,
     classId,

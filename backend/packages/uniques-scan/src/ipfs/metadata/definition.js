@@ -45,6 +45,12 @@ async function handleDefinitionCommon(col, isClass = true) {
   const unhandled = await col
     .find({ metadataValid: true, definitionValid: null })
     .toArray();
+  busLogger.info(
+    `${unhandled.length} metadata definition to handle for ${
+      isClass ? "class" : "instance"
+    }`,
+  );
+
   const promises = [];
   for (const item of unhandled) {
     const promise = handleOneItem(col, item, isClass);
