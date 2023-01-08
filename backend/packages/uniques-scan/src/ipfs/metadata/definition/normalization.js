@@ -26,7 +26,13 @@ async function isDefinitionValid(definition = {}) {
   }
 
   const maybeCid = extractCid(image);
-  return await isCid(maybeCid);
+  if (await isCid(maybeCid)) {
+    return true;
+  }
+
+  // note: image field maybe not a IPFS CID, while it maybe a SVG image source.
+  //   Check: https://github.com/opensquare-network/statescan/issues/1054
+  return true;
 }
 
 async function normalizeDefinition(definition = {}) {
