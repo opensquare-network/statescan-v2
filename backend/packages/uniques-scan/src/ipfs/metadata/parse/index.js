@@ -4,9 +4,9 @@ const {
   uniques: { getMetadataCol },
 } = require("@statescan/mongo");
 
-async function parseMetadata(hash, data) {
+async function parseOneMetadata(hash, data) {
   if (!data) {
-    throw new Error(`To parse metadata data is null`);
+    throw new Error(`To parse metadata data is null, hash: ${hash}`);
   }
 
   const col = await getMetadataCol();
@@ -26,8 +26,15 @@ async function parseMetadata(hash, data) {
     updates = { ...updates, definition };
   }
   await col.updateOne({ hash }, updates);
+}
 
-  // todo: parse definition resource. Currently we support image and video.
+// Fetch not parsed metadata from database and save the NFT definition back to database.
+async function parseMetadata() {
+  const col = await getMetadataCol();
+  let items = await col.find({ definitionValid: null }).toArray();
+  await Promise.all(
+    items.map((item) => parseOneMetadata(item.dataHash, item.data)),
+  );
 }
 
 module.exports = {
