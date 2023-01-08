@@ -1,11 +1,9 @@
-const { handleMetadataDefinition } = require("./definition");
-const { handleMetadataCID } = require("./cid");
-const { handleMetadataResource } = require("./resource");
+const { populateMetadata } = require("./populate");
+const { parseDefinition } = require("./definition");
 
 async function handleMetadata() {
-  await handleMetadataCID();
-  await handleMetadataDefinition();
-  await handleMetadataResource();
+  await populateMetadata();
+  await parseDefinition();
 }
 
 module.exports = {

@@ -14,6 +14,7 @@ let instanceCol = null;
 let instanceTimelineCol = null;
 let instanceAttributeCol = null;
 let instanceTransferCol = null;
+let metadataCol = null;
 let resourceCol = null;
 
 async function initUniquesScanDb() {
@@ -32,6 +33,7 @@ async function initUniquesScanDb() {
   instanceAttributeCol = await db.createCol("instanceAttribute");
   instanceTransferCol = await db.createCol("instanceTransfer");
 
+  metadataCol = await db.createCol("metadata");
   resourceCol = await db.createCol("resource");
 
   await _createIndexes();
@@ -114,6 +116,11 @@ async function getResourceCol() {
   return resourceCol;
 }
 
+async function getMetadataCol() {
+  await makeSureInit(metadataCol);
+  return metadataCol;
+}
+
 function getUniquesDb() {
   return db;
 }
@@ -130,5 +137,6 @@ module.exports = {
   getInstanceAttributeCol,
   getInstanceTransferCol,
 
+  getMetadataCol,
   getResourceCol,
 };
