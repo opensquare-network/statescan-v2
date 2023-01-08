@@ -2,8 +2,8 @@
  * This file provides util functions to check NFT definitions.
  */
 
-const { isCid } = require("../utils/isCid");
-const { extractCid } = require("../utils/extractCid");
+const { isCid } = require("../../utils/isCid");
+const { extractCid } = require("../../utils/extractCid");
 
 function lowercaseObjectKey(obj = {}) {
   return Object.entries(obj).reduce((result, [key, value]) => {

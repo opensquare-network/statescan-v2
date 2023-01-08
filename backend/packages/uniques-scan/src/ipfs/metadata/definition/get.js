@@ -1,5 +1,5 @@
 const { fetchJson } = require("../../axios/json");
-const { isDefinitionValid, normalizeDefinition } = require("../content");
+const { isDefinitionValid, normalizeDefinition } = require("./normalization");
 const { isCid } = require("../../utils/isCid");
 const { extractCid } = require("../../utils/extractCid");
 const { hexToString } = require("@polkadot/util");
