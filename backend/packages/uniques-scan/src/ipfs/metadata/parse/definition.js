@@ -1,6 +1,7 @@
 const { fetchJson } = require("../../axios/json");
 const { isDefinitionValid, normalizeDefinition } = require("../content");
 const { isCid } = require("../../utils/isCid");
+const { extractCid } = require("../../utils/extractCid");
 const { hexToString } = require("@polkadot/util");
 
 /**
@@ -15,11 +16,15 @@ const { hexToString } = require("@polkadot/util");
  */
 async function getDefinition(hexData) {
   const data = hexToString(hexData);
+
+  // definition maybe defined in IPFS content, while data gives the content IPFS CID.
+  const maybeCid = extractCid(data);
   let json;
-  if (await isCid(data)) {
-    json = await fetchJson(data);
+  if (await isCid(maybeCid)) {
+    json = await fetchJson(maybeCid);
   }
 
+  // definition maybe defined directly with the hex data, in JSON format.
   try {
     json = JSON.parse(data);
   } catch (e) {

@@ -2,8 +2,8 @@
  * This file provides util functions to check NFT definitions.
  */
 
-const { isHex, hexToString } = require("@polkadot/util");
 const { isCid } = require("../utils/isCid");
+const { extractCid } = require("../utils/extractCid");
 
 function lowercaseObjectKey(obj = {}) {
   return Object.entries(obj).reduce((result, [key, value]) => {
@@ -12,43 +12,6 @@ function lowercaseObjectKey(obj = {}) {
 
     return result;
   }, {});
-}
-
-const ipfsUrlPrefixes = ["ipfs://ipfs/", "ipfs://", ""];
-
-async function _isValidImageUrl(url = "") {
-  let normalized = url;
-  if (isHex(url)) {
-    normalized = hexToString(url);
-  }
-
-  const lowerCased = normalized.toLowerCase();
-  for (const prefix of ipfsUrlPrefixes) {
-    if (
-      lowerCased.startsWith(prefix) &&
-      (await isCid(normalized.slice(prefix.length)))
-    ) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function _extractCidFromImageUrl(url = "") {
-  let normalized = url;
-  if (isHex(url)) {
-    normalized = hexToString(url);
-  }
-
-  const lowerCased = normalized.toLowerCase();
-  for (const prefix of ipfsUrlPrefixes) {
-    if (lowerCased.startsWith(prefix)) {
-      return normalized.slice(prefix.length);
-    }
-  }
-
-  return null;
 }
 
 /**
@@ -62,7 +25,8 @@ async function isDefinitionValid(definition = {}) {
     return false;
   }
 
-  return await _isValidImageUrl(image);
+  const maybeCid = extractCid(image);
+  return await isCid(maybeCid);
 }
 
 async function normalizeDefinition(definition = {}) {
@@ -74,12 +38,11 @@ async function normalizeDefinition(definition = {}) {
   const keyLowercase = lowercaseObjectKey(definition);
   return {
     ...keyLowercase,
-    image: _extractCidFromImageUrl(keyLowercase.image),
+    image: extractCid(keyLowercase.image),
   };
 }
 
 module.exports = {
-  lowercaseObjectKey,
   isDefinitionValid,
   normalizeDefinition,
 };
