@@ -1,4 +1,4 @@
-const { getDefinition } = require("./definition");
+const { getDefinition } = require("./get");
 const { busLogger } = require("@osn/scan-common");
 const {
   uniques: { getMetadataCol },
