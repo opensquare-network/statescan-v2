@@ -25,12 +25,14 @@ async function getDefinition(hexData) {
   }
 
   // definition maybe defined directly with the hex data, in JSON format.
-  try {
-    json = JSON.parse(data);
-  } catch (e) {
-    return {
-      valid: false,
-    };
+  if (!json) {
+    try {
+      json = JSON.parse(data);
+    } catch (e) {
+      return {
+        valid: false,
+      };
+    }
   }
 
   const valid = await isDefinitionValid(json);

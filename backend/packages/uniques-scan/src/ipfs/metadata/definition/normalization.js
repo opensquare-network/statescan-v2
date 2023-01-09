@@ -4,6 +4,9 @@
 
 const { isCid } = require("../../utils/isCid");
 const { extractCid } = require("../../utils/extractCid");
+const {
+  utils: { md5 },
+} = require("@statescan/common");
 
 function lowercaseObjectKey(obj = {}) {
   return Object.entries(obj).reduce((result, [key, value]) => {
@@ -45,6 +48,7 @@ async function normalizeDefinition(definition = {}) {
   return {
     ...keyLowercase,
     image: extractCid(keyLowercase.image),
+    imageHash: md5(keyLowercase.image),
   };
 }
 

@@ -25,7 +25,7 @@ async function parseOneDefinition(hash, data) {
   if (definitionValid) {
     updates = { ...updates, definition };
   }
-  await col.updateOne({ hash }, updates);
+  await col.updateOne({ hash }, { $set: updates });
 }
 
 // Fetch not parsed metadata from database and save the NFT definition back to database.
@@ -33,7 +33,7 @@ async function parseDefinition() {
   const col = await getMetadataCol();
   let items = await col.find({ definitionValid: null }).toArray();
   await Promise.all(
-    items.map((item) => parseOneDefinition(item.dataHash, item.data)),
+    items.map((item) => parseOneDefinition(item.hash, item.data)),
   );
 }
 
