@@ -10,6 +10,7 @@ export const Holders = "holders";
 export const Events = "events";
 export const Logs = "logs";
 export const Timeline = "timeline";
+export const Analytics = "analytics";
 
 export const menusBlockchain = [
   {
@@ -196,3 +197,10 @@ export const signedOnlyFilter = {
     },
   ],
 };
+
+export const ASSET_ANALYTICS_RANGE = {
+  ONE_MONTH: "1m",
+  ONE_YEAR: "1y",
+  ALL: "all",
+};
+export const ASSET_ANALYTICS_RANGE_ITEMS = Object.values(ASSET_ANALYTICS_RANGE);

@@ -9,6 +9,7 @@ const { getStatistic } = require("./controllers/statistic");
 const router = new Router();
 // get active assets
 router.get("/assets", getAssets);
+router.get("/asset/:assetId(\\d+)", getAsset);
 router.get("/asset/:assetId(\\d+)_:height(\\d+)", getAsset);
 
 router.get("/asset/:assetId(\\d+)_:height(\\d+)/transfers", getAssetTransfers);

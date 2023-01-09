@@ -13,34 +13,31 @@ import { bigNumberToLocaleString } from "../viewFuncs";
 export function useAssetsTableData() {
   const list = useSelector(assetListSelector);
 
-  const data =
-    list?.items?.map((asset) => {
-      const supply = toPrecision(
-        asset?.detail?.supply,
-        asset?.metadata?.decimals,
-      );
-      return [
-        <ColoredInterLink to={`/asset/${asset.assetId}_${asset.assetHeight}`}>
-          #{asset.assetId}
-        </ColoredInterLink>,
-        asset?.metadata?.symbol ? <Symbol asset={asset} /> : "--",
-        asset?.metadata?.name ? (
-          <SymbolName name={asset.metadata.name} />
-        ) : (
-          "--"
-        ),
-        <Tooltip tip={asset?.detail?.owner}>
-          <AddressOrIdentity address={asset?.detail?.owner} />
-        </Tooltip>,
-        <Tooltip tip={asset?.detail?.issuer}>
-          <AddressOrIdentity address={asset?.detail?.issuer} />
-        </Tooltip>,
-        asset?.detail?.accounts,
-        <Tooltip pullRight={true} tip={bigNumberToLocaleString(supply)}>
-          <ValueDisplay value={supply} symbol={asset.symbol} />
-        </Tooltip>,
-      ];
-    }) ?? null;
+  if (!list?.items) {
+    return null;
+  }
 
-  return data;
+  return list?.items?.map((asset) => {
+    const { destroyed, assetId, assetHeight, metadata, detail } = asset;
+    const link = destroyed
+      ? `/asset/${assetId}_${assetHeight}`
+      : `/asset/${assetId}`;
+    const supply = toPrecision(detail?.supply, metadata?.decimals);
+
+    return [
+      <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
+      metadata?.symbol ? <Symbol asset={asset} /> : "--",
+      metadata?.name ? <SymbolName name={metadata.name} /> : "--",
+      <Tooltip tip={detail?.owner}>
+        <AddressOrIdentity address={detail?.owner} />
+      </Tooltip>,
+      <Tooltip tip={detail?.issuer}>
+        <AddressOrIdentity address={detail?.issuer} />
+      </Tooltip>,
+      detail?.accounts,
+      <Tooltip pullRight={true} tip={bigNumberToLocaleString(supply)}>
+        <ValueDisplay value={supply} symbol={asset.symbol} />
+      </Tooltip>,
+    ];
+  });
 }

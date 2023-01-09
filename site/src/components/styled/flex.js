@@ -22,3 +22,7 @@ export const FlexColumn = styled(Flex)`
   align-items: unset;
   flex-direction: column;
 `;
+
+export const FlexCenter = styled(Flex)`
+  justify-content: center;
+`;
