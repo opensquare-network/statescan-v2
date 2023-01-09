@@ -82,6 +82,7 @@ const DropdownItemContentValue = styled.div`
 // FIXME: should support more type in future
 function renderItem(type, value) {
   const typeMap = {
+    // value: number | string
     block: {
       icon: <BlockIcon />,
       label: capitalize(type),
@@ -106,12 +107,14 @@ function renderItem(type, value) {
         <DropdownItemContentValue>{value}</DropdownItemContentValue>
       ),
     },
+
+    // value: object
     assets: {
       icon: <AssetLogo assetId={value.assetId} />,
-      label: value.metadata.symbol,
+      label: value?.metadata?.symbol,
       contentValue: (
         <DropdownItemContentValue>
-          {value.metadata.name}
+          {value?.metadata?.name}
         </DropdownItemContentValue>
       ),
     },
