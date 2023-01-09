@@ -9,7 +9,7 @@ import { useAssetsTableData } from "../../../utils/hooks/useAssetsTableData";
 import Table from "../../table";
 
 const page = 0;
-const pageSize = 4;
+const pageSize = 5;
 
 export default function Assets() {
   const dispatch = useDispatch();
