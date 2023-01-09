@@ -21,6 +21,7 @@ export default function AssetTimeline({ asset, timeline, loading }) {
     <Wrapper>
       {(timeline || []).map((item, index) => (
         <TimelineItem
+          key={index}
           asset={asset}
           item={item}
           isFirst={index === 0}
