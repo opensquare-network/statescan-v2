@@ -1,4 +1,4 @@
-import { Flex, FlexBetween, FlexEnd } from "../../styled/flex";
+import { Flex, FlexBetween, FlexColumn, FlexEnd } from "../../styled/flex";
 import styled from "styled-components";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
@@ -22,6 +22,9 @@ const Rows = styled.ul`
   flex-wrap: wrap;
 `;
 
+const RowLeftFlex = styled(Flex)``;
+const RowRight = styled.div``;
+
 const Row = styled.li`
   all: unset;
   padding-left: 24px;
@@ -34,6 +37,12 @@ const Row = styled.li`
   height: 72px;
   line-height: 16px;
   border-bottom: 1px solid ${({ theme }) => theme.strokeBase};
+
+  ${RowLeftFlex},
+  ${RowRight} {
+    flex: 1;
+    max-width: 50%;
+  }
 
   > * {
     flex-basis: 100%;
@@ -85,7 +94,7 @@ function LatestBlocks({ blocks }) {
       {blocks.slice(0, 5).map((block, i) => (
         <Row key={i}>
           <FlexBetween>
-            <Flex gap={16}>
+            <RowLeftFlex gap={16}>
               <PC>
                 <BlockSquareIcon />
               </PC>
@@ -98,9 +107,9 @@ function LatestBlocks({ blocks }) {
                   <Time> {timeDuration(block.time)} </Time>
                 </Flex>
               </div>
-            </Flex>
+            </RowLeftFlex>
 
-            <div>
+            <RowRight>
               <Tooltip tip={block.validator} pullRight>
                 <AddressOrIdentity
                   address={block?.validator}
@@ -121,7 +130,7 @@ function LatestBlocks({ blocks }) {
                   </Link>
                 </Flex>
               </FlexEnd>
-            </div>
+            </RowRight>
           </FlexBetween>
         </Row>
       ))}
