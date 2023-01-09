@@ -151,7 +151,7 @@ export function useExtrinsicFilter() {
 
   return [
     ...filters,
-    { type: "divider" },
+    { name: "divider" },
     { ...signedOnlyFilter, value: signedOnly },
   ];
 }
