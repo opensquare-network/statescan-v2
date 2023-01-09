@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 import { bigNumberToLocaleString } from "../../../utils/viewFuncs/index";
 import AddressOrIdentity from "../../address/index";
 import { Inter_14_500 } from "../../../styles/text";
+import { fromAssetUnit } from "../../../utils/index";
 
 const Wrapper = styled.div`
   display: flex;
@@ -51,10 +52,6 @@ const BoldText = styled(Text)`
 const BreakText = styled(Text)`
   word-break: break-all;
 `;
-
-function fromAssetUnit(value, decimals) {
-  return new BigNumber(value).dividedBy(Math.pow(10, decimals)).toString();
-}
 
 function formatBalance(balance, asset) {
   const balanceStr = new BigNumber(balance).toString();

@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js";
+
 /**
  * @param {number} number
  * @description wrapped `toLocaleString`
@@ -34,4 +36,8 @@ export function makeTablePairs(keys, vals) {
 
 export function zip(arrLeft, arrRight) {
   return arrLeft.map((val, i) => [val, arrRight[i]]);
+}
+
+export function fromAssetUnit(value, decimals) {
+  return new BigNumber(value).dividedBy(Math.pow(10, decimals)).toString();
 }
