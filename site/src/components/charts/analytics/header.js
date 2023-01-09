@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { Inter_12_600, Inter_14_600 } from "../../../styles/text";
+import { ASSET_ANALYTICS_RANGE_ITEMS } from "../../../utils/constants";
 import AssetLogo from "../../assetLogo";
 import { Flex, FlexBetween } from "../../styled/flex";
 
@@ -30,8 +31,6 @@ const Symbol = styled.span`
   ${Inter_14_600};
 `;
 
-const rangeItems = ["1m", "1y", "all"];
-
 export default function AnalyticsChartHeader({
   symbol,
   assetId,
@@ -46,7 +45,7 @@ export default function AnalyticsChartHeader({
       </Flex>
 
       <Flex gap={8}>
-        {rangeItems.map((item) => (
+        {ASSET_ANALYTICS_RANGE_ITEMS.map((item) => (
           <RangeItem
             role="button"
             key={item}

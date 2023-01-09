@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { assetDetailSelector } from "../../../store/reducers/assetSlice";
+import { ASSET_ANALYTICS_RANGE } from "../../../utils/constants";
 import { Panel } from "../../styled/panel";
 import AnalyticsChartBody from "./body";
 import AnalyticsChartFooter from "./footer";
@@ -12,7 +13,7 @@ const Wrapper = styled(Panel)`
 `;
 
 export default function AnalyticsChart() {
-  const [range, setRange] = useState("all");
+  const [range, setRange] = useState(ASSET_ANALYTICS_RANGE.ALL);
   const detail = useSelector(assetDetailSelector);
   const [amountHidden, setAmountHidden] = useState(false);
   const [countHidden, setCountHidden] = useState(false);

@@ -215,3 +215,10 @@ export const signedOnlyFilter = {
     },
   ],
 };
+
+export const ASSET_ANALYTICS_RANGE = {
+  ONE_MONTH: "1m",
+  ONE_YEAR: "1y",
+  ALL: "all",
+};
+export const ASSET_ANALYTICS_RANGE_ITEMS = Object.values(ASSET_ANALYTICS_RANGE);
