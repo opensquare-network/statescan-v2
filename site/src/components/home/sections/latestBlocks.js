@@ -70,9 +70,9 @@ const Label = styled.span`
 `;
 
 const mapLoadingState = (props) => {
-  const { blocks } = props;
+  const { loading } = props;
   return {
-    loadingStates: [blocks?.length === 0],
+    loadingStates: loading,
     loadingComponent: <Loading />,
   };
 };

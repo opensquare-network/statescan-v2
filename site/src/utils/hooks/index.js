@@ -4,6 +4,8 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { modeSelector } from "../../store/reducers/settingSlice";
 
+export * from "./chain";
+
 export function useIsDark() {
   const mode = useSelector(modeSelector);
   const isDark = useMemo(() => mode === "dark", [mode]);

@@ -1,9 +1,9 @@
-import { chainNames } from "./constants";
+import chains from "./consts/chains";
 
 export function getEnvChain() {
   // check env `REACT_APP_PUBLIC_CHAIN` setting
   const chain = process.env.REACT_APP_PUBLIC_CHAIN;
-  if (!chainNames.includes(chain)) {
+  if (!Object.keys(chains).includes(chain)) {
     throw new Error(`Invalid REACT_APP_PUBLIC_CHAIN setting: ${chain}`);
   }
 

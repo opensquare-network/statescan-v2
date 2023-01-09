@@ -22,7 +22,14 @@ function getSs58Format(chain) {
   return ss58Format[chain];
 }
 
+const assetsModuleChains = [
+  chains.statemint,
+  chains.statemine,
+  chains.westmint,
+];
+
 module.exports = {
   chains,
+  assetsModuleChains,
   getSs58Format,
 };

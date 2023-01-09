@@ -13,6 +13,8 @@ import {
   setLatestBlocks,
   setLatestSignedTransfers,
   setOverview,
+  setLatestBlocksLoading,
+  setLatestSignedTransfersLoading,
 } from "../../store/reducers/socketSlice";
 
 let socket = null;
@@ -30,14 +32,18 @@ export function connect() {
 
   socket.on("connect", () => {
     socket.emit("subscribe", latestBlocksRoom);
+    store.dispatch(setLatestBlocksLoading(true));
     socket.emit("subscribe", latestSignedTransfersRoom);
+    store.dispatch(setLatestSignedTransfersLoading(true));
     socket.emit("subscribe", overviewRoom);
 
     socket.on(latestBlocksKey, (data) => {
       store.dispatch(setLatestBlocks(data));
+      store.dispatch(setLatestBlocksLoading(false));
     });
     socket.on(latestSignedTransfersKey, (transferData) => {
       store.dispatch(setLatestSignedTransfers(transferData));
+      store.dispatch(setLatestSignedTransfersLoading(false));
     });
     socket.on(overviewKey, (overviewData) => {
       store.dispatch(setOverview(overviewData));

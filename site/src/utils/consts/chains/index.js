@@ -5,7 +5,7 @@ import statemine from "./statemine";
 import statemint from "./statemint";
 import westmint from "./westmint";
 
-export default {
+const chains = {
   polkadot,
   litentry,
   litmus,
@@ -13,3 +13,5 @@ export default {
   statemint,
   westmint,
 };
+
+export default chains;

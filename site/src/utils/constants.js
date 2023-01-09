@@ -1,26 +1,8 @@
-import litentry from "./consts/chains/litentry";
-import litmus from "./consts/chains/litmus";
-import westmint from "./consts/chains/westmint";
-import statemint from "./consts/chains/statemint";
-import statemine from "./consts/chains/statemine";
-import polkadot from "./consts/chains/polkadot";
-
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
 export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
-
-export const chains = [
-  polkadot,
-  statemine,
-  statemint,
-  westmint,
-  litmus,
-  litentry,
-];
-
-export const chainNames = chains.map((item) => item.value);
 
 export const Transfers = "transfers";
 export const Extrinsics = "extrinsics";

@@ -7,13 +7,16 @@ import Link from "../../styled/link";
 import { Panel, StyledPanelTableWrapper } from "../../styled/panel";
 import { useSelector } from "react-redux";
 import {
+  latestBlocksLoadingSelector,
   latestBlocksSelector,
+  latestSignedTransfersLoadingSelector,
   latestSignedTransfersSelector,
 } from "../../../store/reducers/socketSlice";
 import LatestTransfers from "./latestTransfers";
 import { mobilecss } from "../../../styles/responsive";
 import { mdcss } from "../../../styles/responsive";
 import Assets from "./assets";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -60,7 +63,10 @@ const AnchorWrapper = styled(FlexEnd)`
 
 export default function Sections() {
   const blocks = useSelector(latestBlocksSelector);
+  const blocksLoading = useSelector(latestBlocksLoadingSelector);
   const transfers = useSelector(latestSignedTransfersSelector);
+  const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
+  const { modules } = useChainSettings();
 
   return (
     <FlexColumn gap={32}>
@@ -68,7 +74,7 @@ export default function Sections() {
         <Section>
           <Title>Latest Blocks</Title>
           <StyledPanel>
-            <LatestBlocks blocks={blocks} />
+            <LatestBlocks blocks={blocks} loading={blocksLoading} />
             <AnchorWrapper>
               <Anchor to={"/blocks"}>View All</Anchor>
             </AnchorWrapper>
@@ -78,7 +84,7 @@ export default function Sections() {
         <Section>
           <Title>Signed Transfers</Title>
           <StyledPanel>
-            <LatestTransfers transfers={transfers} />
+            <LatestTransfers transfers={transfers} loading={transfersLoading} />
             <AnchorWrapper>
               <Anchor to={"/transfers"}>View All</Anchor>
             </AnchorWrapper>
@@ -86,18 +92,20 @@ export default function Sections() {
         </Section>
       </SectionsWrapper>
 
-      <Section>
-        <Title>Assets</Title>
-        <StyledPanelTableWrapper
-          footer={
-            <AnchorWrapper>
-              <Anchor to="/assets">View All</Anchor>
-            </AnchorWrapper>
-          }
-        >
-          <Assets />
-        </StyledPanelTableWrapper>
-      </Section>
+      {modules?.assets && (
+        <Section>
+          <Title>Assets</Title>
+          <StyledPanelTableWrapper
+            footer={
+              <AnchorWrapper>
+                <Anchor to="/assets">View All</Anchor>
+              </AnchorWrapper>
+            }
+          >
+            <Assets />
+          </StyledPanelTableWrapper>
+        </Section>
+      )}
     </FlexColumn>
   );
 }
