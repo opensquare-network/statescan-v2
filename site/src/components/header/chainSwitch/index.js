@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { chains } from "../../../utils/constants";
 import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
@@ -15,6 +14,7 @@ import { ReactComponent as Litentry } from "../../icons/litentry.svg";
 import { ReactComponent as Litmus } from "../../icons/litmus.svg";
 import { ReactComponent as Polkadot } from "../../icons/polkadot.svg";
 import { useOnClickOutside } from "@osn/common";
+import chains from "../../../utils/consts/chains";
 
 const ArrowDownIcon = styled(CaretDownIcon)`
   position: absolute;
@@ -136,9 +136,13 @@ const ChainGroupItem = styled.a`
   }
 `;
 
-const polkadotChains = chains.filter((i) => i.chain === "polkadot");
-const kusamaChains = chains.filter((i) => i.chain === "kusama");
-const westendChains = chains.filter((i) => i.chain === "westend");
+const polkadotChains = Object.values(chains).filter(
+  (i) => i.chain === "polkadot",
+);
+const kusamaChains = Object.values(chains).filter((i) => i.chain === "kusama");
+const westendChains = Object.values(chains).filter(
+  (i) => i.chain === "westend",
+);
 
 export default function ChainSwitch() {
   const currentNode = useSelector(chainSettingSelector);
