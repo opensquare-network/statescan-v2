@@ -22,7 +22,7 @@ export function useAssetsTableData() {
     const link = destroyed
       ? `/asset/${assetId}_${assetHeight}`
       : `/asset/${assetId}`;
-    const supply = toPrecision(detail?.supply, metadata?.decimals);
+    const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
 
     return [
       <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
@@ -36,7 +36,7 @@ export function useAssetsTableData() {
       </Tooltip>,
       detail?.accounts,
       <Tooltip pullRight={true} tip={bigNumberToLocaleString(supply)}>
-        <ValueDisplay value={supply} symbol={asset.symbol} />
+        <ValueDisplay value={supply} />
       </Tooltip>,
     ];
   });

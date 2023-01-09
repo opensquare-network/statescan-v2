@@ -20,7 +20,6 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
     await saveThumbnail(hash, imageType, metadata, thumbnail);
   } catch (e) {
     await saveCreateThumbnailError(hash, imageType);
-    return;
   }
 }
 

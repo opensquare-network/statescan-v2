@@ -119,11 +119,11 @@ export const toAssetDetailItem = (id, asset) => {
     Freezer: (
       <AddressOrIdentity address={asset?.detail?.freezer} ellipsis={false} />
     ),
-    "Total Supply": (
+    Supply: (
       <TextSecondary>
         {`${bigNumberToLocaleString(
-          toPrecision(asset?.detail?.supply, asset?.metadata?.decimals),
-        )} ${asset?.metadata?.symbol}`}
+          toPrecision(asset?.detail?.supply, asset?.metadata?.decimals || 0),
+        )} ${asset?.metadata?.symbol || ""}`}
       </TextSecondary>
     ),
     Decimals: <TextSecondary>{asset?.metadata?.decimals}</TextSecondary>,
