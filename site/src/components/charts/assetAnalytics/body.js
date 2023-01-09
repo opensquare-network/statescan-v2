@@ -35,7 +35,6 @@ export default function AssetAnalyticsChartBody({
   countHidden,
   holdersHidden,
 }) {
-  // FIXME: `$numberDecimal` ?
   const transferAmounts = data?.map((item) =>
     fromAssetUnit(item.transferAmount?.$numberDecimal ?? 0, decimals),
   );
