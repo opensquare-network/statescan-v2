@@ -5,6 +5,8 @@ import { Inter_12_500 } from "../../../styles/text";
 import { FlexBetween, FlexColumn } from "../../styled/flex";
 import { abbreviateBigNumber } from "@osn/common";
 import { fromAssetUnit } from "../../../utils/index";
+import { withLoading } from "../../../HOC/withLoading";
+import Loading from "../../loadings/loading";
 
 const Wrapper = styled(FlexColumn)`
   padding: 24px 0;
@@ -28,7 +30,16 @@ const datasetLineBase = {
   borderWidth: 2,
 };
 
-export default function AssetAnalyticsChartBody({
+const mapLoadingState = (props) => {
+  const { data = [] } = props ?? {};
+
+  return {
+    loadingStates: [!data?.length],
+    loadingComponent: <Loading />,
+  };
+};
+
+function AssetAnalyticsChartBody({
   data = [],
   decimals,
   amountHidden,
@@ -151,3 +162,5 @@ export default function AssetAnalyticsChartBody({
     </Wrapper>
   );
 }
+
+export default withLoading(mapLoadingState)(AssetAnalyticsChartBody);
