@@ -47,23 +47,48 @@ async function sharpDataURL(imageDataURL) {
   const imageData = Buffer.from(parsedDataUrl.body);
 
   if (["image/png", "image/jpeg", "image/jpg"].includes(contentType)) {
-    return await sharpNonSVGImageData(imageData);
+    const { metadata, thumbnail } = await sharpNonSVGImageData(imageData);
+    return {
+      metadata,
+      thumbnail,
+      type: {
+        ext: metadata.format,
+        mime: contentType,
+      },
+    };
   }
 
   if (["image/svg", "image/svg+xml"].includes(contentType)) {
-    return await sharpSVGImageData(imageData, imageDataURL);
+    const { metadata, thumbnail } = await sharpSVGImageData(
+      imageData,
+      imageDataURL,
+    );
+    return {
+      metadata,
+      thumbnail,
+      type: {
+        ext: metadata.format,
+        mime: contentType,
+      },
+    };
   }
 
-  return {};
+  return {
+    type: {
+      mime: contentType,
+    },
+  };
 }
 
 async function createThumbnailFromDataUrl(hash, imageDataURL) {
   try {
-    const { metadata, thumbnail } = await sharpDataURL(imageDataURL);
+    const { type, metadata, thumbnail } = await sharpDataURL(imageDataURL);
     if (!metadata || !thumbnail) {
+      await saveCreateThumbnailError(hash, type);
       return;
     }
-    await saveThumbnail(hash, metadata, thumbnail);
+
+    await saveThumbnail(hash, type, metadata, thumbnail);
   } catch (e) {
     await saveCreateThumbnailError(hash);
   }

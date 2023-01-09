@@ -1,6 +1,6 @@
 const parseDataURL = require("data-urls");
 const {
-  uniques: { getMetadataCol, getResourceCol },
+  uniques: { getMetadataCol },
 } = require("@statescan/mongo");
 const { isCid } = require("../../utils/isCid");
 const { createThumbnailFromIpfsImage } = require("./ipfs");
@@ -11,15 +11,9 @@ async function parseOneResource(imageHash, image) {
     return;
   }
 
-  const col = await getResourceCol();
-  const resource = await col.findOne({ hash: imageHash });
-
-  if (resource?.thumbnail || resource?.error) {
-    return;
-  }
-
   if (await isCid(image)) {
-    return await createThumbnailFromIpfsImage(imageHash, image);
+    await createThumbnailFromIpfsImage(imageHash, image);
+    return;
   }
 
   const parsedDataUrl = parseDataURL(image);
@@ -33,7 +27,9 @@ async function parseOneResource(imageHash, image) {
  */
 async function parseResource() {
   const col = await getMetadataCol();
-  let items = await col.find({ definitionValid: true }).toArray();
+  let items = await col
+    .find({ definitionValid: true, resourceProcessed: { $ne: true } })
+    .toArray();
   await Promise.all(
     items.map((item) =>
       parseOneResource(item.definition.imageHash, item.definition.image),

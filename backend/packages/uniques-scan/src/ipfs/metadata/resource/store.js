@@ -1,32 +1,50 @@
 const {
-  uniques: { getResourceCol },
+  uniques: { getResourceCol, getMetadataCol },
 } = require("@statescan/mongo");
 
-async function saveThumbnail(hash, metadata, thumbnail) {
-  const col = await getResourceCol();
-  await col.updateOne(
+async function markMetadataResourceProcessed(hash) {
+  const metadataCol = await getMetadataCol();
+  await metadataCol.updateMany(
+    { "definition.imageHash": hash },
+    {
+      $set: {
+        resourceProcessed: true,
+      },
+    },
+  );
+}
+
+async function saveThumbnail(hash, type, metadata, thumbnail) {
+  const resourceCol = await getResourceCol();
+  await resourceCol.updateOne(
     { hash },
     {
       $set: {
+        type,
         metadata,
         thumbnail,
       },
     },
     { upsert: true },
   );
+
+  await markMetadataResourceProcessed(hash);
 }
 
-async function saveCreateThumbnailError(hash) {
+async function saveCreateThumbnailError(hash, type) {
   const col = await getResourceCol();
   await col.updateOne(
     { hash },
     {
       $set: {
-        error: "imageError",
+        type,
+        error: true,
       },
     },
     { upsert: true },
   );
+
+  await markMetadataResourceProcessed(hash);
 }
 
 module.exports = {
