@@ -12,7 +12,7 @@ async function getAssets(ctx) {
 
   const col = await getAssetCol();
   const items = await col
-    .find({}, { projection: { _id: 0 } })
+    .find({ destroyed: false }, { projection: { _id: 0 } })
     .sort({ assetId: 1 })
     .skip(page * pageSize)
     .limit(pageSize)
