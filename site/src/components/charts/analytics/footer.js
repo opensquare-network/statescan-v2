@@ -4,6 +4,7 @@ import { Flex, FlexCenter } from "../../styled/flex";
 
 const WrapperFlexCenter = styled(FlexCenter)`
   padding: 8px 0;
+  flex-wrap: wrap;
 `;
 
 const Icon = styled.div`
