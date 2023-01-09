@@ -1,3 +1,4 @@
+const { AssetModule } = require("../common/consts");
 const { normalizeTransfers } = require("../../../common/transfer");
 const { extractPage } = require("../../../utils");
 const {
@@ -15,6 +16,7 @@ async function getAssetTransfers(ctx) {
   const q = {
     assetId: parseInt(assetId),
     assetHeight: parseInt(height),
+    assetModule: AssetModule.assets,
   };
   const col = await getTransferCollection();
   const items = await col

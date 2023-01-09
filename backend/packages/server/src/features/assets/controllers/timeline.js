@@ -1,3 +1,4 @@
+const { AssetModule } = require("../common/consts");
 const { extractPage } = require("../../../utils");
 const {
   asset: { getAssetTimelineCol },
@@ -14,6 +15,7 @@ async function getAssetTimeline(ctx) {
   const q = {
     assetHeight: parseInt(height),
     assetId: parseInt(assetId),
+    module: AssetModule.assets,
   };
 
   const col = await getAssetTimelineCol();
