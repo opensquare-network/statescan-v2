@@ -1,7 +1,10 @@
 // shared for explore/index.js and explore/dropdown.js
 export function makeExploreDropdownItemRouteLink(type, value) {
   if (type === "assets") {
-    return `/asset/${value.assetId}_${value.assetHeight}`;
+    const assetId = value.destroyed
+      ? `${value.assetId}_${value.assetHeight}`
+      : `${value.assetId}`;
+    return `/asset/${assetId}`;
   }
 
   return `/${type}/${value}`;
