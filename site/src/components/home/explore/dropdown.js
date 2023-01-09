@@ -9,13 +9,13 @@ import { isHash } from "../../../utils/viewFuncs/text";
 import AccountIcon from "../../icons/accountIcon";
 import BlockIcon from "../../icons/blockIcon";
 import TransfersIcon from "../../icons/transfersIcon";
-import { Flex } from "../../styled/flex";
+import { Flex, FlexColumn } from "../../styled/flex";
 import { makeExploreDropdownItemRouteLink } from "./utils";
 import AssetLogo from "../../assetLogo";
 
 const padding = 16;
 
-const Dropdown = styled.div`
+const DropdownFlexColumn = styled(FlexColumn)`
   background: ${({ theme }) => theme.fillPopup};
   position: absolute;
   border: 1px solid ${({ theme }) => theme.strokeBase};
@@ -82,6 +82,7 @@ const DropdownItemContentValue = styled.div`
 // FIXME: should support more type in future
 function renderItem(type, value) {
   const typeMap = {
+    // value: number | string
     block: {
       icon: <BlockIcon />,
       label: capitalize(type),
@@ -106,12 +107,14 @@ function renderItem(type, value) {
         <DropdownItemContentValue>{value}</DropdownItemContentValue>
       ),
     },
+
+    // value: object
     assets: {
       icon: <AssetLogo assetId={value.assetId} />,
-      label: value.metadata.symbol,
+      label: value?.metadata?.symbol,
       contentValue: (
         <DropdownItemContentValue>
-          {value.metadata.name}
+          {value?.metadata?.name}
         </DropdownItemContentValue>
       ),
     },
@@ -159,7 +162,7 @@ export default function ExploreDropdown({ hints, visible, selectedIndex }) {
   }
 
   return (
-    <Dropdown className="explore-dropdown">
+    <DropdownFlexColumn gap={8} className="explore-dropdown">
       {hints.map((hint, index) => (
         <DropdownGroup key={hint.type}>
           <DropdownGroupTitle>{hint.type}</DropdownGroupTitle>
@@ -170,6 +173,6 @@ export default function ExploreDropdown({ hints, visible, selectedIndex }) {
           />
         </DropdownGroup>
       ))}
-    </Dropdown>
+    </DropdownFlexColumn>
   );
 }
