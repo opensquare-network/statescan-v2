@@ -12,6 +12,14 @@ const MyLink = styled(Link)`
   }
 `;
 
-export default function SymbolLink({ children, assetId, assetHeight }) {
-  return <MyLink to={`/asset/${assetId}_${assetHeight}`}>{children}</MyLink>;
+export default function SymbolLink({
+  children,
+  assetId,
+  assetHeight,
+  destroyed = false,
+}) {
+  const link = destroyed
+    ? `/asset/${assetId}_${assetHeight}`
+    : `/asset/${assetId}`;
+  return <MyLink to={link}>{children}</MyLink>;
 }
