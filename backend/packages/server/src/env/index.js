@@ -1,4 +1,4 @@
-const { chains } = require("../utils/consts/chains");
+const { chains, assetsModuleChains } = require("../utils/consts/chains");
 
 let chain = null;
 
@@ -17,6 +17,11 @@ function currentChain() {
   }
 
   throw new Error(`Unknown chain ${process.env.CHAIN}`);
+}
+
+function isAssetsChain() {
+  const currentChain = currentChain();
+  return assetsModuleChains.includes(currentChain);
 }
 
 module.exports = {

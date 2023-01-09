@@ -80,10 +80,10 @@ const AddressOrIdentityWrapper = styled.div`
 `;
 
 const mapLoadingState = (props) => {
-  const { transfers = [] } = props;
+  const { loading } = props;
 
   return {
-    loadingStates: [!transfers?.length],
+    loadingStates: loading,
     loadingComponent: <Loading />,
   };
 };

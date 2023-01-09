@@ -7,7 +7,9 @@ import Link from "../../styled/link";
 import { Panel, StyledPanelTableWrapper } from "../../styled/panel";
 import { useSelector } from "react-redux";
 import {
+  latestBlocksLoadingSelector,
   latestBlocksSelector,
+  latestSignedTransfersLoadingSelector,
   latestSignedTransfersSelector,
 } from "../../../store/reducers/socketSlice";
 import LatestTransfers from "./latestTransfers";
@@ -61,7 +63,9 @@ const AnchorWrapper = styled(FlexEnd)`
 
 export default function Sections() {
   const blocks = useSelector(latestBlocksSelector);
+  const blocksLoading = useSelector(latestBlocksLoadingSelector);
   const transfers = useSelector(latestSignedTransfersSelector);
+  const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
   const { modules } = useChainSettings();
 
   return (
@@ -70,7 +74,7 @@ export default function Sections() {
         <Section>
           <Title>Latest Blocks</Title>
           <StyledPanel>
-            <LatestBlocks blocks={blocks} />
+            <LatestBlocks blocks={blocks} loading={blocksLoading} />
             <AnchorWrapper>
               <Anchor to={"/blocks"}>View All</Anchor>
             </AnchorWrapper>
@@ -80,7 +84,7 @@ export default function Sections() {
         <Section>
           <Title>Signed Transfers</Title>
           <StyledPanel>
-            <LatestTransfers transfers={transfers} />
+            <LatestTransfers transfers={transfers} loading={transfersLoading} />
             <AnchorWrapper>
               <Anchor to={"/transfers"}>View All</Anchor>
             </AnchorWrapper>
