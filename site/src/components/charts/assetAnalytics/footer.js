@@ -56,7 +56,7 @@ const ItemFlex = styled(Flex)`
     `}
 `;
 
-export default function AnalyticsChartFooter({
+export default function AssetAnalyticsChartFooter({
   amountHidden,
   countHidden,
   holdersHidden,

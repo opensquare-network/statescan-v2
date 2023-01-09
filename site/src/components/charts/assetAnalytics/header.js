@@ -31,7 +31,7 @@ const Symbol = styled.span`
   ${Inter_14_600};
 `;
 
-export default function AnalyticsChartHeader({
+export default function AssetAnalyticsChartHeader({
   symbol,
   assetId,
   range,

@@ -6,15 +6,15 @@ import api from "../../../services/api";
 import { assetDetailSelector } from "../../../store/reducers/assetSlice";
 import { ASSET_ANALYTICS_RANGE } from "../../../utils/constants";
 import { Panel } from "../../styled/panel";
-import AnalyticsChartBody from "./body";
-import AnalyticsChartFooter from "./footer";
-import AnalyticsChartHeader from "./header";
+import AssetAnalyticsChartBody from "./body";
+import AssetAnalyticsChartFooter from "./footer";
+import AssetAnalyticsChartHeader from "./header";
 
 const Wrapper = styled(Panel)`
   padding: 8px 24px;
 `;
 
-export default function AnalyticsChart({ url }) {
+export default function AssetAnalyticsChart({ url }) {
   const [range, setRange] = useState(ASSET_ANALYTICS_RANGE.ALL);
   const detail = useSelector(assetDetailSelector);
   const [amountHidden, setAmountHidden] = useState(false);
@@ -51,14 +51,14 @@ export default function AnalyticsChart({ url }) {
 
   return (
     <Wrapper>
-      <AnalyticsChartHeader
+      <AssetAnalyticsChartHeader
         assetId={detail?.assetId}
         symbol={detail?.metadata?.symbol}
         range={range}
         setRange={setRange}
       />
 
-      <AnalyticsChartBody
+      <AssetAnalyticsChartBody
         data={rangeData}
         decimals={detail?.metadata?.decimals}
         amountHidden={amountHidden}
@@ -66,7 +66,7 @@ export default function AnalyticsChart({ url }) {
         holdersHidden={holdersHidden}
       />
 
-      <AnalyticsChartFooter
+      <AssetAnalyticsChartFooter
         amountHidden={amountHidden}
         countHidden={countHidden}
         holdersHidden={holdersHidden}

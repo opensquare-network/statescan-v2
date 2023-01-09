@@ -38,7 +38,7 @@ import {
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
 import AssetTimeline from "../components/asset/timeline/index";
-import AnalyticsChart from "../components/charts/analytics";
+import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 
 function Asset() {
   const { assetId } = useParams();
@@ -107,7 +107,7 @@ function Asset() {
     },
     {
       name: Analytics,
-      component: <AnalyticsChart url={analyticsApiKey} />,
+      component: <AssetAnalyticsChart url={analyticsApiKey} />,
     },
   ];
 

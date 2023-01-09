@@ -1,6 +1,6 @@
 import "../config";
 import { Line } from "react-chartjs-2";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 import { Inter_12_500 } from "../../../styles/text";
 import { FlexBetween, FlexColumn } from "../../styled/flex";
 import { abbreviateBigNumber } from "@osn/common";
@@ -28,15 +28,13 @@ const datasetLineBase = {
   borderWidth: 2,
 };
 
-export default function AnalyticsChartBody({
+export default function AssetAnalyticsChartBody({
   data = [],
   decimals,
   amountHidden,
   countHidden,
   holdersHidden,
 }) {
-  const theme = useTheme();
-
   // FIXME: `$numberDecimal` ?
   const transferAmounts = data?.map((item) =>
     fromAssetUnit(item.transferAmount?.$numberDecimal ?? 0, decimals),
