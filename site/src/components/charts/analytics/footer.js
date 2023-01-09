@@ -1,4 +1,4 @@
-import styled, { css, useTheme } from "styled-components";
+import styled, { css } from "styled-components";
 import { Inter_14_600 } from "../../../styles/text";
 import { Flex, FlexCenter } from "../../styled/flex";
 
@@ -64,8 +64,6 @@ export default function AnalyticsChartFooter({
   setCountHidden,
   setHoldersHidden,
 }) {
-  const theme = useTheme();
-
   return (
     <WrapperFlexCenter gap={24}>
       <ItemFlex
@@ -73,7 +71,7 @@ export default function AnalyticsChartFooter({
         hidden={amountHidden}
         onClick={() => setAmountHidden(!amountHidden)}
       >
-        <Icon color={theme.fillActiveBlue} />
+        <Icon color="#e6007a" />
         <span>Transfer Amount</span>
       </ItemFlex>
       <ItemFlex
