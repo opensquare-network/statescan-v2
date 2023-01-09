@@ -13,7 +13,6 @@ const pageSize = 4;
 
 export default function Assets() {
   const dispatch = useDispatch();
-
   const loading = useSelector(assetListLoadingSelector);
   const data = useAssetsTableData();
 
@@ -21,9 +20,14 @@ export default function Assets() {
     const controller = new AbortController();
 
     dispatch(
-      assetFetchList(page, pageSize, null, {
-        signal: controller.signal,
-      }),
+      assetFetchList(
+        page,
+        pageSize,
+        { sort: "holders" },
+        {
+          signal: controller.signal,
+        },
+      ),
     );
 
     return () => controller.abort();
