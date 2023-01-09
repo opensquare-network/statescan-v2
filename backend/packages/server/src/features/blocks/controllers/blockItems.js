@@ -16,7 +16,7 @@ async function getBlockItems(col, ctx, sortKey = "indexer.extrinsicIndex") {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const total = await col.count(q);
+  const total = await col.countDocuments(q);
 
   return {
     items,

@@ -19,16 +19,17 @@ async function getAssets(ctx) {
     return;
   }
   const sort = extractSort(ctx);
+  const q = { destroyed: false };
 
   const col = await getAssetCol();
   const items = await col
-    .find({ destroyed: false }, { projection: { _id: 0 } })
+    .find(q, { projection: { _id: 0 } })
     .sort(sort)
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
 
-  const total = await col.estimatedDocumentCount();
+  const total = await col.countDocuments(q);
 
   ctx.body = {
     items,
