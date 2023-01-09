@@ -1,4 +1,6 @@
-const { chainFieldToString } = require("@statescan/common/src/utils");
+const {
+  utils: { chainFieldToString },
+} = require("@statescan/common");
 const {
   chain: { findBlockApi },
 } = require("@osn/scan-common");

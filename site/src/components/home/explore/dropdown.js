@@ -11,6 +11,7 @@ import BlockIcon from "../../icons/blockIcon";
 import TransfersIcon from "../../icons/transfersIcon";
 import { Flex } from "../../styled/flex";
 import { makeExploreDropdownItemRouteLink } from "./utils";
+import AssetLogo from "../../assetLogo";
 
 const padding = 16;
 
@@ -105,34 +106,51 @@ function renderItem(type, value) {
         <DropdownItemContentValue>{value}</DropdownItemContentValue>
       ),
     },
+    assets: {
+      icon: <AssetLogo assetId={value.assetId} />,
+      label: value.metadata.symbol,
+      contentValue: (
+        <DropdownItemContentValue>
+          {value.metadata.name}
+        </DropdownItemContentValue>
+      ),
+    },
   };
 
   return typeMap[type] ?? {};
 }
 
 function ExploreDropdownItem({ value, type, selected }) {
-  const { icon, label, contentValue } = renderItem(type, value);
   const dispatch = useDispatch();
 
-  return (
-    <DropdownLinkItem
-      to={makeExploreDropdownItemRouteLink(type, value)}
-      selected={selected}
-      onClick={() => {
-        dispatch(closeMobileMenu());
-      }}
-    >
-      <DropdownItemContent>
-        {icon && (
-          <DropdownItemContentIconWrapper>
-            {icon}
-          </DropdownItemContentIconWrapper>
-        )}
-        {label && <DropdownItemContentLabel>{label}</DropdownItemContentLabel>}
-      </DropdownItemContent>
-      {contentValue}
-    </DropdownLinkItem>
-  );
+  const options = Array.isArray(value) ? value : [value];
+
+  return options.map((value, index) => {
+    const { icon, label, contentValue } = renderItem(type, value);
+
+    return (
+      <DropdownLinkItem
+        key={index}
+        to={makeExploreDropdownItemRouteLink(type, value)}
+        selected={selected}
+        onClick={() => {
+          dispatch(closeMobileMenu());
+        }}
+      >
+        <DropdownItemContent>
+          {icon && (
+            <DropdownItemContentIconWrapper>
+              {icon}
+            </DropdownItemContentIconWrapper>
+          )}
+          {label && (
+            <DropdownItemContentLabel>{label}</DropdownItemContentLabel>
+          )}
+        </DropdownItemContent>
+        {contentValue}
+      </DropdownLinkItem>
+    );
+  });
 }
 
 export default function ExploreDropdown({ hints, visible, selectedIndex }) {

@@ -1,4 +1,6 @@
-const { chainFieldToString } = require("@statescan/common/src/utils");
+const {
+  utils: { chainFieldToString },
+} = require("@statescan/common");
 const { insertAssetTimeline } = require("../../mongo/assets/insertTimeline");
 const { updateActiveAsset } = require("../../mongo/assets/updateAsset");
 const { queryMetadata } = require("../../query/assets/metadata");

@@ -24,7 +24,7 @@ import {
   resetExtrinsicDetail,
 } from "../store/reducers/extrinsicSlice";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
-import { cleanupDetailTables } from "../store/reducers/detailTablesSlice";
+import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 
 function Extrinsic() {
   const { id } = useParams();
@@ -53,8 +53,10 @@ function Extrinsic() {
   }, [extrinsic]);
 
   useEffect(() => {
-    dispatch(cleanupDetailTables());
-  }, [dispatch, extrinsicId]);
+    return () => {
+      dispatch(clearDetailTables());
+    };
+  }, [dispatch]);
 
   const tables = [
     {
@@ -64,7 +66,6 @@ function Extrinsic() {
           url={extrinsicId ? `/extrinsics/${extrinsicId}/events` : ""}
           heads={extrinsicEventsHead}
           transformData={toEventTabTableItem}
-          tableKey="extrinsicEventsTable"
         />
       ),
     },
@@ -74,7 +75,6 @@ function Extrinsic() {
         <DetailTable
           url={extrinsicId ? `/extrinsics/${extrinsicId}/calls` : ""}
           TableComponent={CallsTable}
-          tableKey="extrinsicCallsTable"
         />
       ),
     },
