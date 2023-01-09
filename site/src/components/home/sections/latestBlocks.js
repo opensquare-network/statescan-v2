@@ -1,4 +1,4 @@
-import { Flex, FlexBetween, FlexColumn, FlexEnd } from "../../styled/flex";
+import { Flex, FlexEnd } from "../../styled/flex";
 import styled from "styled-components";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
@@ -42,10 +42,6 @@ const Row = styled.li`
   ${RowRight} {
     flex: 1;
     max-width: 50%;
-  }
-
-  > * {
-    flex-basis: 100%;
   }
 `;
 
@@ -93,45 +89,43 @@ function LatestBlocks({ blocks }) {
     <Rows>
       {blocks.slice(0, 5).map((block, i) => (
         <Row key={i}>
-          <FlexBetween>
-            <RowLeftFlex gap={16}>
-              <PC>
-                <BlockSquareIcon />
-              </PC>
-              <div>
-                <Link to={`/block/${block.height}`}>
-                  <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
-                </Link>
-                <Flex gap={8}>
-                  <FinalizedState finalized={block?.isFinalized} />
-                  <Time> {timeDuration(block.time)} </Time>
-                </Flex>
-              </div>
-            </RowLeftFlex>
+          <RowLeftFlex gap={16}>
+            <PC>
+              <BlockSquareIcon />
+            </PC>
+            <div>
+              <Link to={`/block/${block.height}`}>
+                <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
+              </Link>
+              <Flex gap={8}>
+                <FinalizedState finalized={block?.isFinalized} />
+                <Time> {timeDuration(block.time)} </Time>
+              </Flex>
+            </div>
+          </RowLeftFlex>
 
-            <RowRight>
-              <Tooltip tip={block.validator} pullRight>
-                <AddressOrIdentity
-                  address={block?.validator}
-                  network={chainSetting.value}
-                />
-              </Tooltip>
-              <FlexEnd style={{ fontSize: 12, marginTop: 4 }} gap={8}>
-                <Flex gap={8}>
-                  <Label>Extrinsics</Label>
-                  <Link to={`/block/${block.height}?tab=extrinsics`}>
-                    <Bold>{block.extrinsicsCount}</Bold>
-                  </Link>
-                </Flex>
-                <Flex gap={8}>
-                  <Label>Events</Label>
-                  <Link to={`/block/${block.height}?tab=events`}>
-                    <Bold>{block.eventsCount}</Bold>
-                  </Link>
-                </Flex>
-              </FlexEnd>
-            </RowRight>
-          </FlexBetween>
+          <RowRight>
+            <Tooltip tip={block.validator} pullRight>
+              <AddressOrIdentity
+                address={block?.validator}
+                network={chainSetting.value}
+              />
+            </Tooltip>
+            <FlexEnd style={{ fontSize: 12, marginTop: 4 }} gap={8}>
+              <Flex gap={8}>
+                <Label>Extrinsics</Label>
+                <Link to={`/block/${block.height}?tab=extrinsics`}>
+                  <Bold>{block.extrinsicsCount}</Bold>
+                </Link>
+              </Flex>
+              <Flex gap={8}>
+                <Label>Events</Label>
+                <Link to={`/block/${block.height}?tab=events`}>
+                  <Bold>{block.eventsCount}</Bold>
+                </Link>
+              </Flex>
+            </FlexEnd>
+          </RowRight>
         </Row>
       ))}
     </Rows>
