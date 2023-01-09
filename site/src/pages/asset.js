@@ -61,6 +61,8 @@ function Asset() {
     detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/holders`;
   const timelineApiKey =
     detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/timeline`;
+  const analyticsApiKey =
+    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/statistic`;
 
   const tabs = [
     { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
@@ -105,7 +107,7 @@ function Asset() {
     },
     {
       name: Analytics,
-      component: <AnalyticsChart />,
+      component: <AnalyticsChart url={analyticsApiKey} />,
     },
   ];
 
