@@ -1,0 +1,26 @@
+{
+  "name": "@statescan/uniques-scan",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">18.0.0"
+  },
+  "dependencies": {
+    "@osn/scan-common": "0.3.4",
+    "@polkadot/util": "10.2.1",
+    "@statescan/mongo": "1.0.0",
+    "axios": "^1.2.2",
+    "data-urls": "^4.0.0",
+    "dotenv": "^16.0.1",
+    "fast-average-color-node": "^2.6.0",
+    "file-type": "^18.0.0",
+    "is-ipfs": "^7.0.3",
+    "lodash.isempty": "^4.4.0",
+    "lodash.isnil": "^4.0.0",
+    "sharp": "^0.31.3"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3"
+  }
+}
