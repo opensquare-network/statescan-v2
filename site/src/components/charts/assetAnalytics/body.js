@@ -90,9 +90,6 @@ function AssetAnalyticsChartBody({
   const chartOptions = {
     type: "line",
     clip: false,
-    animation: {
-      duration: 0,
-    },
     maintainAspectRatio: false,
     scales: {
       y: {
