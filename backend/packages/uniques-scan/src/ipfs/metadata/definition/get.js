@@ -22,10 +22,8 @@ async function getDefinition(hexData) {
   let json;
   if (await isCid(maybeCid)) {
     json = await fetchJson(maybeCid);
-  }
-
-  // definition maybe defined directly with the hex data, in JSON format.
-  if (!json) {
+  } else {
+    // definition maybe defined directly with the hex data, in JSON format.
     try {
       json = JSON.parse(data);
     } catch (e) {
