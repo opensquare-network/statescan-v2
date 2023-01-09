@@ -14,6 +14,7 @@ import LatestTransfers from "./latestTransfers";
 import { mobilecss } from "../../../styles/responsive";
 import { mdcss } from "../../../styles/responsive";
 import Assets from "./assets";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -61,6 +62,7 @@ const AnchorWrapper = styled(FlexEnd)`
 export default function Sections() {
   const blocks = useSelector(latestBlocksSelector);
   const transfers = useSelector(latestSignedTransfersSelector);
+  const { modules } = useChainSettings();
 
   return (
     <FlexColumn gap={32}>
@@ -86,18 +88,20 @@ export default function Sections() {
         </Section>
       </SectionsWrapper>
 
-      <Section>
-        <Title>Assets</Title>
-        <StyledPanelTableWrapper
-          footer={
-            <AnchorWrapper>
-              <Anchor to="/assets">View All</Anchor>
-            </AnchorWrapper>
-          }
-        >
-          <Assets />
-        </StyledPanelTableWrapper>
-      </Section>
+      {modules?.assets && (
+        <Section>
+          <Title>Assets</Title>
+          <StyledPanelTableWrapper
+            footer={
+              <AnchorWrapper>
+                <Anchor to="/assets">View All</Anchor>
+              </AnchorWrapper>
+            }
+          >
+            <Assets />
+          </StyledPanelTableWrapper>
+        </Section>
+      )}
     </FlexColumn>
   );
 }
