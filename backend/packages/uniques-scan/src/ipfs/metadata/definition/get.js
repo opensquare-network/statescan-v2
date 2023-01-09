@@ -22,15 +22,15 @@ async function getDefinition(hexData) {
   let json;
   if (await isCid(maybeCid)) {
     json = await fetchJson(maybeCid);
-  }
-
-  // definition maybe defined directly with the hex data, in JSON format.
-  try {
-    json = JSON.parse(data);
-  } catch (e) {
-    return {
-      valid: false,
-    };
+  } else {
+    // definition maybe defined directly with the hex data, in JSON format.
+    try {
+      json = JSON.parse(data);
+    } catch (e) {
+      return {
+        valid: false,
+      };
+    }
   }
 
   const valid = await isDefinitionValid(json);

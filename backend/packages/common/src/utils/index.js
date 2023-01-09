@@ -3,4 +3,5 @@ module.exports = {
   ...require("./isValidAddress"),
   ...require("./big"),
   ...require("./chainFieldToString"),
+  ...require("./md5"),
 };
