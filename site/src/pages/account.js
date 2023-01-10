@@ -87,7 +87,7 @@ function Account() {
     };
   }, [dispatch, id]);
 
-  const breadCrumbItems = (
+  const breadCrumb = (
     <BreadCrumb
       data={[
         { name: "Accounts", path: "/accounts" },
@@ -97,7 +97,7 @@ function Account() {
   );
 
   return (
-    <DetailLayout breadCrumbItems={breadCrumbItems}>
+    <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
       </Panel>
