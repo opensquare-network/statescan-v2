@@ -1,12 +1,5 @@
 import BreadCrumb from "../components/breadCrumb";
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import Layout from "../components/layout";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Panel } from "../components/styled/panel";
@@ -39,6 +32,8 @@ import {
 } from "../utils/viewFuncs/toTableItem";
 import AssetTimeline from "../components/asset/timeline/index";
 import AssetAnalyticsChart from "../components/charts/assetAnalytics";
+import DetailLayout from "../components/layout/detailLayout";
+import DetailTabs from "../components/detail/tabs";
 
 function Asset() {
   const { assetId } = useParams();
@@ -64,13 +59,6 @@ function Asset() {
   const analyticsApiKey =
     detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/statistic`;
 
-  const tabs = [
-    { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
-    { name: Holders, count: tablesData?.[holdersApiKey]?.total },
-    { name: Timeline, count: tablesData?.[timelineApiKey]?.total },
-    { name: Analytics },
-  ];
-
   const MyAssetTimeline = useCallback(
     ({ data, loading }) => (
       <AssetTimeline asset={detail} timeline={data} loading={loading} />
@@ -78,10 +66,11 @@ function Asset() {
     [detail],
   );
 
-  const tabComponents = [
+  const tabs = [
     {
       name: Transfers,
-      component: (
+      count: tablesData?.[transfersApiKey]?.total,
+      children: (
         <DetailTable
           url={transfersApiKey}
           heads={transfersHead}
@@ -91,7 +80,8 @@ function Asset() {
     },
     {
       name: Holders,
-      component: (
+      count: tablesData?.[holdersApiKey]?.total,
+      children: (
         <DetailTable
           url={holdersApiKey}
           heads={holdersHead}
@@ -101,13 +91,14 @@ function Asset() {
     },
     {
       name: Timeline,
-      component: (
+      count: tablesData?.[timelineApiKey]?.total,
+      children: (
         <DetailTable url={timelineApiKey} TableComponent={MyAssetTimeline} />
       ),
     },
     {
       name: Analytics,
-      component: <AssetAnalyticsChart url={analyticsApiKey} />,
+      children: <AssetAnalyticsChart url={analyticsApiKey} />,
     },
   ];
 
@@ -124,10 +115,13 @@ function Asset() {
   }, [dispatch]);
 
   return (
-    <Layout>
-      <BreadCrumb
-        data={[{ name: "Assets", path: "/assets" }, { name: assetId }]}
-      />
+    <DetailLayout
+      breadCrumb={
+        <BreadCrumb
+          data={[{ name: "Assets", path: "/assets" }, { name: assetId }]}
+        />
+      }
+    >
       <Panel>
         <AssetInfo
           symbol={detail?.metadata?.symbol}
@@ -135,6 +129,8 @@ function Asset() {
         />
         <List data={listData} />
       </Panel>
+
+      <DetailTabs tabs={tabs} />
       <Flex>
         {tabs.map((item) => (
           <Tab
@@ -149,14 +145,7 @@ function Asset() {
           />
         ))}
       </Flex>
-
-      {tabComponents.map(
-        (item) =>
-          selectedTab === item.name && (
-            <Fragment key={item.name}>{item.component}</Fragment>
-          ),
-      )}
-    </Layout>
+    </DetailLayout>
   );
 }
 
