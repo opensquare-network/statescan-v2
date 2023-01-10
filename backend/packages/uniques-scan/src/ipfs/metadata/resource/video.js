@@ -14,7 +14,7 @@ async function getVideoMetadata(videoFilePath) {
   const videoMetadata = await ffprobe(videoFilePath);
   const {
     streams: [{ width, height }] = [{}],
-    format: { duration, size },
+    format: { duration, size } = {},
   } = videoMetadata;
 
   return {
