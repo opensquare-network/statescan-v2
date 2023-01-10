@@ -1,16 +1,11 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useMemo, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import List from "../components/list";
-import { Flex } from "../components/styled/flex";
-import { useNavigate } from "react-router-dom";
-import { getTabFromQuery } from "../utils/viewFuncs";
-import Tab from "../components/tab";
 import {
   blockEventsHead,
   blockExtrinsicsHead,
-  blockTabs,
   Events,
   Extrinsics,
   Logs,
@@ -35,28 +30,11 @@ import {
   resetBlockDetail,
 } from "../store/reducers/blockSlice";
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
-import isNil from "lodash.isnil";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
-
-function getCountByType(block, type) {
-  if (type === Extrinsics) {
-    return block?.extrinsicsCount;
-  }
-  if (type === Events) {
-    return block?.eventsCount;
-  }
-  if (type === Logs) {
-    return block?.digest?.logs?.length;
-  }
-}
+import DetailTabs from "../components/detail/tabs";
 
 function Block() {
   const { id } = useParams();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [selectedTab, setTab] = useState(
-    getTabFromQuery(location, "extrinsics"),
-  );
   const block = useSelector(blockDetailSelector);
   const height = block?.height ?? (!isHash(id) ? parseInt(id) : 0);
   const dispatch = useDispatch();
@@ -81,17 +59,35 @@ function Block() {
     />
   );
 
-  const tabDataUrl = useMemo(() => {
-    if (isNil(block?.height)) {
-      return null;
-    }
-
-    if (![Extrinsics, Events].includes(selectedTab)) {
-      return null;
-    }
-
-    return `/blocks/${block?.height}/${selectedTab}`;
-  }, [selectedTab, block?.height]);
+  const tabs = [
+    {
+      name: Extrinsics,
+      count: block?.extrinsicsCount,
+      children: (
+        <DetailTable
+          url={`/blocks/${block?.height}/${Extrinsics}`}
+          heads={blockExtrinsicsHead}
+          transformData={toExtrinsicsTabTableItem}
+        />
+      ),
+    },
+    {
+      name: Events,
+      count: block?.eventsCount,
+      children: (
+        <DetailTable
+          url={`/blocks/${block?.height}/${Events}`}
+          heads={blockEventsHead}
+          transformData={toEventTabTableItem}
+        />
+      ),
+    },
+    {
+      name: Logs,
+      count: block?.digest?.logs?.length,
+      children: <LogsTable height={block?.height} logs={block?.digest?.logs} />,
+    },
+  ];
 
   useEffect(() => {
     return () => {
@@ -105,37 +101,7 @@ function Block() {
         <List data={toBlockDetailItem(block)} />
       </Panel>
 
-      <Flex>
-        {blockTabs.map((tab, index) => (
-          <Tab
-            key={index}
-            active={tab === selectedTab}
-            text={tab}
-            count={getCountByType(block, tab)}
-            onClick={() => {
-              navigate({ search: `?tab=${tab}&page=1` });
-              setTab(tab);
-            }}
-          />
-        ))}
-      </Flex>
-      {selectedTab === Extrinsics && tabDataUrl && (
-        <DetailTable
-          url={tabDataUrl}
-          heads={blockExtrinsicsHead}
-          transformData={toExtrinsicsTabTableItem}
-        />
-      )}
-      {selectedTab === Events && tabDataUrl && (
-        <DetailTable
-          url={tabDataUrl}
-          heads={blockEventsHead}
-          transformData={toEventTabTableItem}
-        />
-      )}
-      {selectedTab === Logs && (
-        <LogsTable height={block?.height} logs={block?.digest?.logs} />
-      )}
+      <DetailTabs tabs={tabs} />
     </DetailLayout>
   );
 }
