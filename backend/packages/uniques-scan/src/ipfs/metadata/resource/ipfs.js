@@ -14,7 +14,7 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
     return;
   }
 
-  if (["video/mp4", "video/mpeg", "video/webm"].includes(imageType.mime)) {
+  if (imageType?.mime?.startsWith("video/")) {
     try {
       const { metadata, thumbnail } = await createThumbnailFromVideoData(
         imageCid,
