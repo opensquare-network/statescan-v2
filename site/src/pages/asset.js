@@ -122,11 +122,15 @@ function Asset() {
       }
     >
       <Panel>
-        <AssetInfo
-          symbol={detail?.metadata?.symbol}
-          name={detail?.metadata?.name}
+        <List
+          header={
+            <AssetInfo
+              symbol={detail?.metadata?.symbol}
+              name={detail?.metadata?.name}
+            />
+          }
+          data={listData}
         />
-        <List data={listData} />
       </Panel>
 
       <DetailTabs tabs={tabs} />
