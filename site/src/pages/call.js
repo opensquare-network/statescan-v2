@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../components/breadCrumb";
 import { Panel } from "../components/styled/panel";
@@ -22,6 +22,11 @@ function Call() {
   const call = useSelector(callDetailSelector);
   const dispatch = useDispatch();
   const { indexer, method, section } = call ?? {};
+
+  const listData = useMemo(
+    () => (call ? toCallDetailItem(indexer, method, section) : {}),
+    [call, indexer, method, section],
+  );
 
   useEffect(() => {
     if (id) {
@@ -52,7 +57,7 @@ function Call() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <List data={toCallDetailItem(indexer, method, section)} />
+        <List data={listData} />
         {call && (
           <ExtrinsicParametersDisplay extrinsic={{ call }} title="Parameters" />
         )}
