@@ -56,8 +56,6 @@ export const blocksHead = [
   { name: "Events", align: "right", width: 160 },
 ];
 
-export const blockTabs = [Extrinsics, Events, Logs];
-
 export const blockExtrinsicsHead = [
   { name: "ID", width: 160 },
   { name: "Hash", width: 200 },
