@@ -38,7 +38,7 @@ async function saveCreateThumbnailError(hash, type) {
     {
       $set: {
         type,
-        error: true,
+        thumbnailParseError: true,
       },
     },
     { upsert: true },
