@@ -1,3 +1,5 @@
+// ant.design tabs component
+
 import { useState, Fragment } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getTabFromQuery } from "../../utils/viewFuncs";
