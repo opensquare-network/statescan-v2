@@ -2,9 +2,17 @@
 
 import { useState, Fragment } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { no_scroll_bar } from "../../styles";
 import { getTabFromQuery } from "../../utils/viewFuncs";
 import { Flex } from "../styled/flex";
 import Tab from "../tab";
+
+const TabsFlex = styled(Flex)`
+  max-width: 100%;
+  overflow: scroll;
+  ${no_scroll_bar};
+`;
 
 export default function DetailTabs({ tabs = [] }) {
   const navigate = useNavigate();
@@ -16,7 +24,7 @@ export default function DetailTabs({ tabs = [] }) {
 
   return (
     <>
-      <Flex>
+      <TabsFlex>
         {tabs.map((tab) => (
           <Tab
             key={tab.name}
@@ -29,7 +37,7 @@ export default function DetailTabs({ tabs = [] }) {
             }}
           />
         ))}
-      </Flex>
+      </TabsFlex>
 
       {tabs.map(
         (tab) =>
