@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const socketSlice = createSlice({
   name: "socket",
   initialState: {
-    latestBlocksLoading: false,
+    latestBlocksLoading: true,
     latestBlocks: [],
-    latestSignedTransfersLoading: false,
+    latestSignedTransfersLoading: true,
     latestSignedTransfers: [],
     overview: {},
   },
