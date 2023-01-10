@@ -1,5 +1,6 @@
 const { fetchMime } = require("../../axios/mime");
 const { createThumbnailFromImageData } = require("./thumbnail");
+const { createThumbnailFromVideoData } = require("./video");
 const { saveCreateThumbnailError, saveThumbnail } = require("./store");
 
 async function createThumbnailFromIpfsImage(hash, imageCid) {
@@ -11,6 +12,19 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
   } catch (e) {
     await saveCreateThumbnailError(hash);
     return;
+  }
+
+  if (["video/mp4", "video/mpeg", "video/webm"].includes(imageType.mime)) {
+    try {
+      const { metadata, thumbnail } = await createThumbnailFromVideoData(
+        imageCid,
+        imageType,
+        imageData,
+      );
+      await saveThumbnail(hash, imageType, metadata, thumbnail);
+    } catch (e) {
+      await saveCreateThumbnailError(hash, imageType);
+    }
   }
 
   try {

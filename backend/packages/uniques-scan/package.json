@@ -7,6 +7,8 @@
     "node": ">18.0.0"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffprobe-installer/ffprobe": "^1.4.1",
     "@osn/scan-common": "0.3.4",
     "@polkadot/util": "10.2.1",
     "@statescan/mongo": "1.0.0",
@@ -15,6 +17,7 @@
     "dotenv": "^16.0.1",
     "fast-average-color-node": "^2.6.0",
     "file-type": "^18.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "is-ipfs": "^7.0.3",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",
