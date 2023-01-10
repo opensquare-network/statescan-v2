@@ -64,7 +64,11 @@ export default function DetailTable({
   }, [dispatch, url, page, pageSize, table?.page]);
 
   return (
-    <StyledPanelTableWrapper>
+    <StyledPanelTableWrapper
+      footer={
+        <Pagination page={page} pageSize={pageSize} total={table?.total} />
+      }
+    >
       {TableComponent ? (
         <TableComponent data={table?.items} loading={loading} />
       ) : (
@@ -74,7 +78,6 @@ export default function DetailTable({
           data={transformData(table?.items, chainSetting)}
         />
       )}
-      <Pagination page={page} pageSize={pageSize} total={table?.total} />
     </StyledPanelTableWrapper>
   );
 }
