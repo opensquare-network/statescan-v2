@@ -25,7 +25,7 @@ function Call() {
 
   const listData = useMemo(
     () => (call ? toCallDetailItem(indexer, method, section) : {}),
-    [call],
+    [call, indexer, method, section],
   );
 
   useEffect(() => {
