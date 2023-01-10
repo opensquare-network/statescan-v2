@@ -69,4 +69,8 @@ export const cleanAssetList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
+export const resetAssetDetail = () => (dispatch) => {
+  dispatch(setDetail(null));
+};
+
 export default assetSlice.reducer;
