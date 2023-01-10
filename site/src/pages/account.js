@@ -1,22 +1,19 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { Fragment, useEffect, useMemo, useState } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import React, { useEffect, useMemo } from "react";
+import { useParams } from "react-router-dom";
 import List from "../components/list";
 import { addressEllipsis } from "@osn/common";
 import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
-import Tab from "../components/tab";
 import { toAccountDetailItem } from "../utils/viewFuncs/toDetailItem";
 import DetailLayout from "../components/layout/detailLayout";
-import { getTabFromQuery } from "../utils/viewFuncs";
 import {
   accountExtinsicsHead,
   Extrinsics,
   Transfers,
   transfersHead,
 } from "../utils/constants";
-import { Flex } from "../components/styled/flex";
 import DetailTable from "../components/detail/table";
 import {
   toExtrinsicsTabTableItem,
@@ -30,12 +27,10 @@ import {
   accountDetailSelector,
   accountFetchDetail,
 } from "../store/reducers/accountSlice";
+import DetailTabs from "../components/detail/tabs";
 
 function Account() {
   const { id } = useParams();
-  const location = useLocation();
-  const [, setSearchParams] = useSearchParams();
-  const [selectedTab, setTab] = useState(getTabFromQuery(location, Transfers));
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
   const tablesData = useSelector(detailTablesSelector);
@@ -57,14 +52,10 @@ function Account() {
   const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
 
   const tabs = [
-    { name: Extrinsics, count: tablesData?.[extrinsicsApiKey]?.total },
-    { name: Transfers, count: tablesData?.[transfersApiKey]?.total },
-  ];
-
-  const tables = [
     {
       name: Transfers,
-      table: (
+      count: tablesData?.[transfersApiKey]?.total,
+      children: (
         <DetailTable
           url={transfersApiKey}
           heads={transfersHead}
@@ -74,7 +65,8 @@ function Account() {
     },
     {
       name: Extrinsics,
-      table: (
+      count: tablesData?.[extrinsicsApiKey]?.total,
+      children: (
         <DetailTable
           url={extrinsicsApiKey}
           heads={accountExtinsicsHead}
@@ -104,27 +96,8 @@ function Account() {
       <Panel>
         <List data={listData} />
       </Panel>
-      <Flex>
-        {tabs.map((item) => (
-          <Tab
-            key={item.name}
-            text={item.name}
-            count={item.count}
-            active={selectedTab === item.name}
-            onClick={() => {
-              setTab(item.name);
-              setSearchParams("");
-            }}
-          />
-        ))}
-      </Flex>
 
-      {tables.map(
-        (item) =>
-          selectedTab === item.name && (
-            <Fragment key={item.name}>{item.table}</Fragment>
-          ),
-      )}
+      <DetailTabs tabs={tabs} />
     </DetailLayout>
   );
 }
