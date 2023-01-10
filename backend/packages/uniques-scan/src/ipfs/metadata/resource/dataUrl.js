@@ -81,8 +81,10 @@ async function sharpDataURL(imageDataURL) {
 }
 
 async function createThumbnailFromDataUrl(hash, imageDataURL) {
+  let imageType;
   try {
     const { type, metadata, thumbnail } = await sharpDataURL(imageDataURL);
+    imageType = type;
     if (!metadata || !thumbnail) {
       await saveCreateThumbnailError(hash, type);
       return;
@@ -90,7 +92,7 @@ async function createThumbnailFromDataUrl(hash, imageDataURL) {
 
     await saveThumbnail(hash, type, metadata, thumbnail);
   } catch (e) {
-    await saveCreateThumbnailError(hash);
+    await saveCreateThumbnailError(hash, imageType);
   }
 }
 

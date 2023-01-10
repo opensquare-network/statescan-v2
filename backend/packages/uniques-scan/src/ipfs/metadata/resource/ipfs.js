@@ -9,7 +9,7 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
     imageType = type;
     imageData = data;
   } catch (e) {
-    await saveCreateThumbnailError(hash);
+    await saveCreateThumbnailError(hash, imageType);
     return;
   }
 
