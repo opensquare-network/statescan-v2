@@ -28,8 +28,11 @@ const assetsModuleChains = [
   chains.westmint,
 ];
 
+const uniquesModuleChains = [...assetsModuleChains];
+
 module.exports = {
   chains,
   assetsModuleChains,
+  uniquesModuleChains,
   getSs58Format,
 };
