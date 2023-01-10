@@ -35,9 +35,10 @@ async function scan() {
   if (firstScanKnowHeights()) {
     await scanKnownHeights(
       toScanHeight,
-      updateScanHeight,
+      undefined,
       wrapBlockHandler(handleBlock),
     );
+    toScanHeight = await db.getNextScanHeight();
   }
 
   while (true) {
