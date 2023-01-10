@@ -1,10 +1,8 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { Fragment, useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import List from "../components/list";
-import Tab from "../components/tab";
-import { Flex } from "../components/styled/flex";
 import { useMemo } from "react";
 import { currencify } from "../utils";
 import { extrinsicEventsHead } from "../utils/constants";
@@ -25,24 +23,17 @@ import {
 } from "../store/reducers/extrinsicSlice";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
+import DetailTabs from "../components/detail/tabs";
 
 function Extrinsic() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const extrinsic = useSelector(extrinsicDetailSelector);
-  const [, setSearchParams] = useSearchParams();
 
   const listData = useMemo(
     () => (extrinsic ? toExtrinsicDetailItem(extrinsic) : {}),
     [extrinsic],
   );
-
-  const tabs = [
-    { name: "Events", count: extrinsic?.eventsCount },
-    { name: "Calls", count: extrinsic?.callsCount },
-  ];
-
-  const [activeTab, setActiveTab] = useState(tabs[0].name);
 
   const extrinsicId = useMemo(() => {
     if (!extrinsic) {
@@ -52,16 +43,11 @@ function Extrinsic() {
     return `${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`;
   }, [extrinsic]);
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearDetailTables());
-    };
-  }, [dispatch]);
-
-  const tables = [
+  const tabs = [
     {
-      name: "Events",
-      table: (
+      name: "events",
+      count: extrinsic?.eventsCount,
+      children: (
         <DetailTable
           url={extrinsicId ? `/extrinsics/${extrinsicId}/events` : ""}
           heads={extrinsicEventsHead}
@@ -70,8 +56,9 @@ function Extrinsic() {
       ),
     },
     {
-      name: "Calls",
-      table: (
+      name: "calls",
+      count: extrinsic?.callsCount,
+      children: (
         <DetailTable
           url={extrinsicId ? `/extrinsics/${extrinsicId}/calls` : ""}
           TableComponent={CallsTable}
@@ -79,6 +66,12 @@ function Extrinsic() {
       ),
     },
   ];
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearDetailTables());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (id) {
@@ -115,27 +108,7 @@ function Extrinsic() {
         <ExtrinsicParametersDisplay extrinsic={extrinsic} title="Parameters" />
       </Panel>
 
-      <Flex>
-        {tabs.map((item) => (
-          <Tab
-            key={item.name}
-            text={item.name}
-            count={item.count}
-            active={activeTab === item.name}
-            onClick={() => {
-              setActiveTab(item.name);
-              setSearchParams("");
-            }}
-          />
-        ))}
-      </Flex>
-
-      {tables.map(
-        (item) =>
-          activeTab === item.name && (
-            <Fragment key={item.name}>{item.table}</Fragment>
-          ),
-      )}
+      <DetailTabs tabs={tabs} />
     </DetailLayout>
   );
 }
