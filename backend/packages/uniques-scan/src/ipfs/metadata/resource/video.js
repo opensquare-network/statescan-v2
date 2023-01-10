@@ -29,11 +29,10 @@ async function captureFirstVideoFrame(videoFilePath) {
   const tmpFolder = os.tmpdir();
   const parsedPath = path.parse(videoFilePath);
   const screenshotFileName = `${parsedPath.name}-%i.jpg`;
-  const output = path.join(tmpFolder, screenshotFileName);
 
   await new Promise(async (resolve, reject) => {
     ffmpeg(videoFilePath)
-      .on("end", () => resolve(output))
+      .on("end", () => resolve())
       .on("error", (err) => reject(err))
       .screenshots({
         folder: tmpFolder,
