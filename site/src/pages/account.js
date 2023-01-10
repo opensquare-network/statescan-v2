@@ -26,6 +26,7 @@ import {
 import {
   accountDetailSelector,
   accountFetchDetail,
+  resetAccountDetail,
 } from "../store/reducers/accountSlice";
 import DetailTabs from "../components/detail/tabs";
 
@@ -80,6 +81,10 @@ function Account() {
     if (id) {
       dispatch(accountFetchDetail(id));
     }
+
+    return () => {
+      dispatch(resetAccountDetail());
+    };
   }, [dispatch, id]);
 
   const breadCrumbItems = (
