@@ -12,14 +12,20 @@ function extractSort(ctx) {
   return { assetId: 1 };
 }
 
+function isTrue(param) {
+  return ["true", "TRUE", "1"].includes(param);
+}
+
 async function getAssets(ctx) {
   const { page, pageSize } = extractPage(ctx);
   if (pageSize === 0 || page < 0) {
     ctx.status = 400;
     return;
   }
+  const { destroyed } = ctx.query;
+
   const sort = extractSort(ctx);
-  const q = { destroyed: false };
+  const q = { destroyed: isTrue(destroyed) };
 
   const col = await getAssetCol();
   const items = await col
