@@ -80,7 +80,7 @@ async function populateSum({
     fromKeys: mapColKeys,
     to: items,
     toKeys: mapItemKeys,
-    map: (item) => item.result,
+    map: (item) => item?.result || 0,
     as,
   });
 }
