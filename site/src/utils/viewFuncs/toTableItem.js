@@ -1,4 +1,8 @@
-import { ColoredLink, ColoredMonoLink } from "../../components/styled/link";
+import {
+  ColoredInterLink,
+  ColoredLink,
+  ColoredMonoLink,
+} from "../../components/styled/link";
 import React from "react";
 import ValueDisplay from "../../components/displayValue";
 import { toPrecision } from "@osn/common";
@@ -11,6 +15,9 @@ import getTransferSymbol from "./transferSymbol";
 import EventAttributeDisplay from "../../components/eventAttributeDisplay";
 import ExtrinsicParametersDisplay from "../../components/extrinsicParametersDisplay";
 import { bigNumberToLocaleString } from "./index";
+import Symbol from "../../components/symbol";
+import SymbolName from "../../components/symbol/name";
+import { fromAssetUnit } from "..";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -117,6 +124,37 @@ export const toHoldersTabTableItem = (holders, asset) => {
       bigNumberToLocaleString(
         toPrecision(holder?.balance, asset?.metadata?.decimals),
       ),
+    ];
+  });
+};
+
+export const toAssetsTabItem = (assets) => {
+  return assets?.map((asset) => {
+    const {
+      destroyed,
+      assetId,
+      assetHeight,
+      balance,
+      asset: { metadata, detail },
+      isFrozen,
+      approved,
+    } = asset;
+
+    const link = destroyed
+      ? `/asset/${assetId}_${assetHeight}`
+      : `/asset/${assetId}`;
+    const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
+
+    return [
+      <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
+      metadata?.symbol ? <Symbol asset={asset} /> : "--",
+      metadata?.name ? <SymbolName name={metadata.name} /> : "--",
+      bigNumberToLocaleString(fromAssetUnit(balance, metadata?.decimals)),
+      bigNumberToLocaleString(fromAssetUnit(approved || 0, metadata?.decimals)),
+      isFrozen?.toString(),
+      <Tooltip pullRight tip={bigNumberToLocaleString(supply)}>
+        <ValueDisplay value={supply} />
+      </Tooltip>,
     ];
   });
 };
