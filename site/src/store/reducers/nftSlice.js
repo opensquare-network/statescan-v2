@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { nftApi, nftListApi } from "../../services/urls";
 import api from "../../services/api";
-import { accountApi, accountListApi } from "../../services/urls";
 import {
   clearHttpError,
   handleApiError,
 } from "../../utils/viewFuncs/errorHandles";
 
-const name = "account";
+const name = "nft";
 
-const accountSlice = createSlice({
+const nftSlice = createSlice({
   name,
   initialState: {
     list: null,
@@ -28,18 +28,18 @@ const accountSlice = createSlice({
   },
 });
 
-export const { setList, setListLoading, setDetail } = accountSlice.actions;
+export const { setList, setListLoading, setDetail } = nftSlice.actions;
 
-export const accountListSelector = (state) => state[name].list;
-export const accountListLoadingSelector = (state) => state[name].listLoading;
-export const accountDetailSelector = (state) => state[name].detail;
+export const nftListSelector = (state) => state[name].list;
+export const nftDetailSelector = (state) => state[name].detail;
+export const nftListLoadingSelector = (state) => state[name].listLoading;
 
-export const accountFetchList =
+export const nftFetchList =
   (page, pageSize, params, fetchOptions) => async (dispatch) => {
     dispatch(setListLoading(true));
 
     return api
-      .fetch(accountListApi, { page, pageSize, ...params }, fetchOptions)
+      .fetch(nftListApi, { page, pageSize, ...params }, fetchOptions)
       .then(({ result }) => {
         if (result) {
           dispatch(setList(result));
@@ -49,15 +49,12 @@ export const accountFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanAccountList = () => (dispatch) => {
-  dispatch(setList(null));
-};
 
-export const accountFetchDetail = (id) => async (dispatch) => {
+export const nftFetchDetail = (id) => async (dispatch) => {
   clearHttpError(dispatch);
 
   return api
-    .fetch(accountApi(id))
+    .fetch(nftApi(id))
     .then(({ result }) => {
       if (result) {
         dispatch(setDetail(result));
@@ -67,8 +64,9 @@ export const accountFetchDetail = (id) => async (dispatch) => {
       handleApiError(error, dispatch);
     });
 };
-export const cleanAccountDetail = () => (dispatch) => {
-  dispatch(setDetail(null));
+
+export const cleanNftList = () => (dispatch) => {
+  dispatch(setList(null));
 };
 
-export default accountSlice.reducer;
+export default nftSlice.reducer;

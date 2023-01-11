@@ -16,9 +16,10 @@ import Assets from "./pages/assets";
 import { Fragment } from "react";
 import Asset from "./pages/asset";
 import { getChainModules } from "./utils/chain";
+import Nfts from "./pages/nfts";
 
 function App() {
-  const { assets } = getChainModules();
+  const { assets, uniques } = getChainModules();
 
   return (
     <HashRouter>
@@ -27,6 +28,11 @@ function App() {
           <Fragment>
             <Route path="/assets" element={<Assets />} />
             <Route path="/asset/:assetId" element={<Asset />} />
+          </Fragment>
+        )}
+        {uniques && (
+          <Fragment>
+            <Route path="/nfts" element={<Nfts />} />
           </Fragment>
         )}
         <Route path="*" element={<NotFound />} />

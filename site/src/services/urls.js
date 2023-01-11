@@ -22,6 +22,9 @@ export const transferListApi = makeApiUrl("transfers");
 export const assetListApi = makeApiUrl("assets");
 export const assetApi = (id) => makeApiUrl("asset", id);
 
+export const nftListApi = makeApiUrl("nfts");
+export const nftApi = (id) => makeApiUrl("nft", id);
+
 function makeApiUrl(...args) {
   let urlString = args.join("/");
 

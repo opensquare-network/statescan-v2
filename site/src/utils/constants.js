@@ -178,6 +178,16 @@ export const assetsHead = [
   { name: "Total Supply", width: 160, align: "right" },
 ];
 
+export const nftsHead = [
+  { name: "ID", width: 120 },
+  { name: "Class", width: 100 },
+  { name: "Name" },
+  { name: "Created Time", width: 200 },
+  { name: "Owner", width: 152 },
+  { name: "Instance", width: 120 },
+  { name: "Status", width: 160 },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",

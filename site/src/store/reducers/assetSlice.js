@@ -4,7 +4,7 @@ import api from "../../services/api";
 import {
   clearHttpError,
   handleApiError,
-} from "../../utils/viewFuncs/errorHeandles";
+} from "../../utils/viewFuncs/errorHandles";
 
 const name = "asset";
 
