@@ -24,13 +24,13 @@ function currentChain() {
 }
 
 function isAssetsChain() {
-  const currentChain = currentChain();
-  return assetsModuleChains.includes(currentChain);
+  const chain = currentChain();
+  return assetsModuleChains.includes(chain);
 }
 
 function isUniquesChain() {
-  const currentChain = currentChain();
-  return uniquesModuleChains.includes(currentChain);
+  const chain = currentChain();
+  return uniquesModuleChains.includes(chain);
 }
 
 module.exports = {
