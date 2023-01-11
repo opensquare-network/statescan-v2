@@ -1,4 +1,4 @@
-const { isHash } = require("../../../../utils/isHash");
+const { isHash } = require("../../../../utils");
 const {
   block: { getExtrinsicCollection },
 } = require("@statescan/mongo");

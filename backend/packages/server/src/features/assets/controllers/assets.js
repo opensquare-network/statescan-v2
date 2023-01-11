@@ -1,4 +1,4 @@
-const { extractPage } = require("../../../utils");
+const { isTrue, extractPage } = require("../../../utils");
 const {
   asset: { getAssetCol },
 } = require("@statescan/mongo");
@@ -10,10 +10,6 @@ function extractSort(ctx) {
   }
 
   return { assetId: 1 };
-}
-
-function isTrue(param) {
-  return ["true", "TRUE", "1"].includes(param);
 }
 
 async function getAssets(ctx) {

@@ -1,5 +1,4 @@
-const { isHash } = require("../../../../utils/isHash");
-const { isNum } = require("../../../../utils/isNum");
+const { isHash, isNum } = require("../../../../utils");
 const {
   block: { getBlockCollection, getUnFinalizedBlockCollection },
 } = require("@statescan/mongo");
