@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "yarn workspace @statescan/server lint"
+    "lint": "yarn workspace @statescan/common lint && yarn workspace @statescan/mongo lint && yarn workspace @statescan/server lint && yarn workspace @statescan/block-scan lint && yarn workspace @statescan/runtime-scan lint && yarn workspace @statescan/account-scan lint && yarn workspace @statescan/asset-scan lint && yarn workspace @statescan/unique-scan lint"
   },
   "devDependencies": {
     "eslint": "^8.31.0"

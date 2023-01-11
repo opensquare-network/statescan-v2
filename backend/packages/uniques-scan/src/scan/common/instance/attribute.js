@@ -43,14 +43,14 @@ async function insertInstanceAttribute(
 async function deleteInstanceAttribute(classId, instanceId, key) {
   const nftClass = await getClass(classId);
   if (!nftClass) {
-    logger.error(`Can not find class ${classId} at ${indexer.blockHeight}`);
+    logger.error(`Can not find class ${classId}`);
     return;
   }
 
   const instance = await getInstance(classId, instanceId);
   if (!instance) {
     logger.error(
-      `Can not find instance /${classId}/${instanceId} when delete instance attribute, ${indexer.blockHeight}`,
+      `Can not find instance /${classId}/${instanceId} when delete instance attribute`,
     );
     return;
   }
@@ -58,7 +58,7 @@ async function deleteInstanceAttribute(classId, instanceId, key) {
   const col = await getInstanceAttributeCol();
   await col.deleteOne({
     classId,
-    classHeight,
+    classHeight: instance.classHeight,
     instanceId,
     instanceHeight: instance.instanceHeight,
     key,

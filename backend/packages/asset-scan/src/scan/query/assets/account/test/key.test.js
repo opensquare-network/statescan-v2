@@ -7,7 +7,7 @@ const {
 } = require("@osn/scan-common");
 jest.setTimeout(3000000);
 
-describe("Get ", () => {
+describe("Get", () => {
   beforeAll(async () => {
     await setStatemine();
   });
