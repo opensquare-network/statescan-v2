@@ -9,6 +9,7 @@ import { chainSettingSelector } from "../store/reducers/settingSlice";
 import { toAccountDetailItem } from "../utils/viewFuncs/toDetailItem";
 import DetailLayout from "../components/layout/detailLayout";
 import {
+  accountAssetsHead,
   accountExtinsicsHead,
   Extrinsics,
   Transfers,
@@ -16,6 +17,7 @@ import {
 } from "../utils/constants";
 import DetailTable from "../components/detail/table";
 import {
+  toAssetsTabItem,
   toExtrinsicsTabTableItem,
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
@@ -49,10 +51,22 @@ function Account() {
     };
   }, [dispatch]);
 
+  const assetsApiKey = `/accounts/${id}/assets`;
   const transfersApiKey = `/accounts/${id}/transfers`;
   const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
 
   const tabs = [
+    {
+      name: "Assets",
+      count: tablesData?.[assetsApiKey]?.total,
+      children: (
+        <DetailTable
+          url={assetsApiKey}
+          heads={accountAssetsHead}
+          transformData={toAssetsTabItem}
+        />
+      ),
+    },
     {
       name: Transfers,
       count: tablesData?.[transfersApiKey]?.total,
