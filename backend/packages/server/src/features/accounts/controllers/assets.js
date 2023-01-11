@@ -25,7 +25,7 @@ async function populateAssetApproved(items) {
   });
 }
 
-async function normalizeAssets(items) {
+function normalizeAssets(items) {
   return items.map((item) => ({
     ...item,
     balance: item.balance.toString(),
