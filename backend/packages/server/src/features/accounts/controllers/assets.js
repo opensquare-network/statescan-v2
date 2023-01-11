@@ -1,4 +1,4 @@
-const { populate, populateSum } = require("../../../utils/populate");
+const { populate, populateSum } = require("../../../utils");
 const { extractPage } = require("../../../utils");
 const {
   asset: { getAssetHolderCol, getAssetCol, getAssetApprovalCol },
