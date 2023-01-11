@@ -56,7 +56,7 @@ function Account() {
   const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
 
   const tabs = [
-    {
+    chainSetting.modules.assets && {
       name: "Assets",
       count: tablesData?.[assetsApiKey]?.total,
       children: (
@@ -89,7 +89,7 @@ function Account() {
         />
       ),
     },
-  ];
+  ].filter(Boolean);
 
   useEffect(() => {
     if (id) {
