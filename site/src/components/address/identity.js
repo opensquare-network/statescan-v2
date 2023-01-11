@@ -12,6 +12,11 @@ const Wrapper = styled.div`
   }
 `;
 
+const IdentityIconWrapper = styled.span`
+  display: inline-flex;
+  align-items: center;
+`;
+
 const Display = styled.span`
   ${Overpass_Mono_14_500};
   white-space: nowrap;
@@ -27,9 +32,9 @@ export default function Identity({ maxWidth, identity }) {
 
   return (
     <Wrapper style={{ maxWidth }}>
-      <div>
+      <IdentityIconWrapper>
         <IdentityIcon identity={identity} />
-      </div>
+      </IdentityIconWrapper>
       <Display>{identity?.info?.display}</Display>
     </Wrapper>
   );
