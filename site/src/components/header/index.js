@@ -36,7 +36,6 @@ const Link = styled(LinkOrigin)`
 `;
 
 const Wrapper = styled(FlexBetween)`
-  margin: 0 auto;
   height: ${headerHeight}px;
 `;
 
