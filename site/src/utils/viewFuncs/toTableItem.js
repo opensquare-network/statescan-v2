@@ -131,11 +131,10 @@ export const toHoldersTabTableItem = (holders, asset) => {
 export const toAssetsTabItem = (assets) => {
   return assets?.map((asset) => {
     const {
-      destroyed,
       assetId,
       assetHeight,
       balance,
-      asset: { metadata, detail },
+      asset: { metadata, detail, destroyed },
       isFrozen,
       approved,
     } = asset;
