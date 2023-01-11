@@ -30,7 +30,7 @@ async function captureFirstVideoFrame(videoFilePath) {
   const parsedPath = path.parse(videoFilePath);
   const screenshotFileName = `${parsedPath.name}-%i.jpg`;
 
-  await new Promise(async (resolve, reject) => {
+  await new Promise((resolve, reject) => {
     ffmpeg(videoFilePath)
       .on("end", () => resolve())
       .on("error", (err) => reject(err))

@@ -26,7 +26,7 @@ async function deleteClassAttribute(classId, key) {
   const nftClass = await getClass(classId);
   if (!nftClass) {
     logger.error(
-      `Can not find class ${classId} when set attribute key: ${key}, value: ${value}`,
+      `Can not find class ${classId} when set attribute key: ${key}`,
     );
     return;
   }

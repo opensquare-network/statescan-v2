@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "license": "Apache-2.0",
+  "scripts": {
+    "lint": "eslint ."
+  },
   "dependencies": {
     "@osn/scan-common": "0.3.4",
     "mongodb": "^4.7.0"

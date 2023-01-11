@@ -3,7 +3,7 @@ const {
   consts: { Modules, BalancesEvents },
 } = require("@osn/scan-common");
 
-async function handleBalancesEvent(event, indexer, extrinsic) {
+async function handleBalancesEvent(event) {
   const { section, method } = event;
 
   if (section !== Modules.Balances) {

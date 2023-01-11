@@ -41,6 +41,7 @@ async function scan() {
     toScanHeight = await db.getNextScanHeight();
   }
 
+  /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     toScanHeight = await oneStepScan(
       toScanHeight,

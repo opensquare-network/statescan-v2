@@ -40,7 +40,7 @@ const delayQuery = debounce(() => {
       .then((data) => {
         const identities = new Map(data.map((item) => [item.address, item]));
 
-        for (const [idName, [, resolve, reject]] of pending) {
+        for (const [idName, [, resolve]] of pending) {
           const [chainOfIdName, addrOfIdName] = idName.split("/");
           if (chainOfIdName !== chain) {
             continue;

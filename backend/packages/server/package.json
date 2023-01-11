@@ -10,7 +10,8 @@
     }
   ],
   "scripts": {
-    "dev": "node src/index.js"
+    "dev": "node src/index.js",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@koa/cors": "^3.4.1",
