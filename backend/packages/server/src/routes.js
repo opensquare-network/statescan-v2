@@ -16,9 +16,7 @@ const routes = [
 
 const assetsRoutes = [require("./features/assets/routes")];
 
-const uniquesRoutes = [
-  // require("./features/"),
-];
+const uniquesRoutes = [require("./features/uniques/routes")];
 
 module.exports = (app) => {
   for (const r of routes) {
