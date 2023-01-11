@@ -126,7 +126,7 @@ function LatestTransfers({ transfers }) {
                   symbol={getTransferSymbol(transfer, chainSetting.symbol)}
                 />
               </Value>
-              <Flex gap={16}>
+              <Flex gap={8}>
                 <PC>
                   <Tooltip tip={transfer.from}>
                     <AddressOrIdentityWrapper>
