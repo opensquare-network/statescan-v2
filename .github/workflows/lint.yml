@@ -1,0 +1,39 @@
+name: LINT
+
+on:
+  push:
+    branches: ["github-actions"]
+  pull_request:
+    branches: ["github-actions"]
+
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          check-latest: true
+
+      - name: Run backend install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: "backend" # will run `yarn install` in `backend` sub folder
+
+      - name: Run site install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: "site" # will run `yarn install` in `site` sub folder
+
+      - name: Run lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint # will run `yarn lint` command
