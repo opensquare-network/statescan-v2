@@ -67,7 +67,7 @@ export const accountFetchDetail = (id) => async (dispatch) => {
       handleApiError(error, dispatch);
     });
 };
-export const cleanAccountDetail = () => (dispatch) => {
+export const resetAccountDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

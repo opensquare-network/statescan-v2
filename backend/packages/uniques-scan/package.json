@@ -6,6 +6,21 @@
   "engines": {
     "node": ">18.0.0"
   },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "eslintConfig": {
+    "plugins": [
+      "jest"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:jest/recommended"
+    ],
+    "env": {
+      "jest/globals": true
+    }
+  },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@ffprobe-installer/ffprobe": "^1.4.1",

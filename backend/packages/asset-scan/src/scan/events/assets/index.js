@@ -17,7 +17,7 @@ const { handleMetadataSet } = require("./metadataSet");
 const { handleCreated } = require("./created");
 const { AssetsEvents } = require("./consts");
 
-async function handleAssetsEvent(event, indexer, extrinsic) {
+async function handleAssetsEvent(event) {
   const { section, method } = event;
 
   if (section !== "assets") {

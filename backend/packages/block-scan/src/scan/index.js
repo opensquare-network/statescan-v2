@@ -55,6 +55,7 @@ async function scan() {
     await startJobs();
   }
 
+  /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     toScanHeight = await oneStepScan(
       toScanHeight,

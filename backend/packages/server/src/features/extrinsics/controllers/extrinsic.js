@@ -1,5 +1,4 @@
-const { isHash } = require("../../../utils/isHash");
-const { HttpError } = require("../../../utils/httpError");
+const { isHash, HttpError } = require("../../../utils");
 const {
   block: { getExtrinsicCollection, getUnFinalizedExtrinsicCollection },
 } = require("@statescan/mongo");

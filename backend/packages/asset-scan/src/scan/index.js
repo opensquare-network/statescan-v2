@@ -43,6 +43,7 @@ async function scan() {
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
 
+  /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     toScanHeight = await oneStepScan(
       toScanHeight,

@@ -1,6 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
 import {
@@ -38,6 +38,11 @@ function Block() {
   const block = useSelector(blockDetailSelector);
   const height = block?.height ?? (!isHash(id) ? parseInt(id) : 0);
   const dispatch = useDispatch();
+
+  const listData = useMemo(
+    () => (block ? toBlockDetailItem(block) : {}),
+    [block],
+  );
 
   useEffect(() => {
     if (id) {
@@ -98,7 +103,7 @@ function Block() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <List data={toBlockDetailItem(block)} />
+        <List data={listData} />
       </Panel>
 
       <DetailTabs tabs={tabs} />

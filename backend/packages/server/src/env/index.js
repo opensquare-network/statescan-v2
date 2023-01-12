@@ -1,4 +1,8 @@
-const { chains, assetsModuleChains } = require("../utils/consts/chains");
+const {
+  chains,
+  assetsModuleChains,
+  uniquesModuleChains,
+} = require("../utils/consts/chains");
 
 let chain = null;
 
@@ -20,10 +24,17 @@ function currentChain() {
 }
 
 function isAssetsChain() {
-  const currentChain = currentChain();
-  return assetsModuleChains.includes(currentChain);
+  const chain = currentChain();
+  return assetsModuleChains.includes(chain);
+}
+
+function isUniquesChain() {
+  const chain = currentChain();
+  return uniquesModuleChains.includes(chain);
 }
 
 module.exports = {
   currentChain,
+  isAssetsChain,
+  isUniquesChain,
 };

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import Container from "../layout/container";
 import Producer from "./producer";
 import SocialMedia from "./socialMedia";
 import ToggleTheme from "./toggleTheme";
@@ -28,14 +27,12 @@ const Wrapper = styled.div`
 
 export default function Footer() {
   return (
-    <Container>
-      <Wrapper>
-        <Producer />
-        <Flex gap={24}>
-          <SocialMedia />
-          <ToggleTheme />
-        </Flex>
-      </Wrapper>
-    </Container>
+    <Wrapper>
+      <Producer />
+      <Flex gap={24}>
+        <SocialMedia />
+        <ToggleTheme />
+      </Flex>
+    </Wrapper>
   );
 }

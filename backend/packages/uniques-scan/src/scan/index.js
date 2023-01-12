@@ -35,11 +35,13 @@ async function scan() {
   if (firstScanKnowHeights()) {
     await scanKnownHeights(
       toScanHeight,
-      updateScanHeight,
+      undefined,
       wrapBlockHandler(handleBlock),
     );
+    toScanHeight = await db.getNextScanHeight();
   }
 
+  /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     toScanHeight = await oneStepScan(
       toScanHeight,

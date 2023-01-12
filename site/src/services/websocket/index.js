@@ -29,12 +29,12 @@ export function connect() {
 
   socket = io(new URL(`/`, getEnvEndpoint()).href);
   socket.connect();
+  store.dispatch(setLatestBlocksLoading(true));
+  store.dispatch(setLatestSignedTransfersLoading(true));
 
   socket.on("connect", () => {
     socket.emit("subscribe", latestBlocksRoom);
-    store.dispatch(setLatestBlocksLoading(true));
     socket.emit("subscribe", latestSignedTransfersRoom);
-    store.dispatch(setLatestSignedTransfersLoading(true));
     socket.emit("subscribe", overviewRoom);
 
     socket.on(latestBlocksKey, (data) => {

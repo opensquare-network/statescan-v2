@@ -26,6 +26,7 @@ import {
 import {
   accountDetailSelector,
   accountFetchDetail,
+  resetAccountDetail,
 } from "../store/reducers/accountSlice";
 import DetailTabs from "../components/detail/tabs";
 
@@ -80,9 +81,13 @@ function Account() {
     if (id) {
       dispatch(accountFetchDetail(id));
     }
+
+    return () => {
+      dispatch(resetAccountDetail());
+    };
   }, [dispatch, id]);
 
-  const breadCrumbItems = (
+  const breadCrumb = (
     <BreadCrumb
       data={[
         { name: "Accounts", path: "/accounts" },
@@ -92,7 +97,7 @@ function Account() {
   );
 
   return (
-    <DetailLayout breadCrumbItems={breadCrumbItems}>
+    <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
       </Panel>

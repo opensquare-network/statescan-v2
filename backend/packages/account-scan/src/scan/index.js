@@ -45,6 +45,7 @@ async function scan() {
   const db = getAccountDb();
   let toScanHeight = await db.getNextScanHeight();
 
+  /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     toScanHeight = await oneStepScan(toScanHeight, handleBlock);
     await sleep(1);

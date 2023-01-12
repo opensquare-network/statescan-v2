@@ -7,6 +7,7 @@ import List from "../components/list";
 import {
   assetDetailSelector,
   assetFetchDetail,
+  resetAssetDetail,
 } from "../store/reducers/assetSlice";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
@@ -100,6 +101,10 @@ function Asset() {
     if (assetId) {
       dispatch(assetFetchDetail(assetId));
     }
+
+    return () => {
+      dispatch(resetAssetDetail());
+    };
   }, [dispatch, assetId]);
 
   useEffect(() => {
@@ -117,11 +122,15 @@ function Asset() {
       }
     >
       <Panel>
-        <AssetInfo
-          symbol={detail?.metadata?.symbol}
-          name={detail?.metadata?.name}
+        <List
+          header={
+            <AssetInfo
+              symbol={detail?.metadata?.symbol}
+              name={detail?.metadata?.name}
+            />
+          }
+          data={listData}
         />
-        <List data={listData} />
       </Panel>
 
       <DetailTabs tabs={tabs} />

@@ -1,4 +1,4 @@
-const { extractPage } = require("../../../utils");
+const { isTrue, extractPage } = require("../../../utils");
 const {
   asset: { getAssetCol },
 } = require("@statescan/mongo");
@@ -18,8 +18,10 @@ async function getAssets(ctx) {
     ctx.status = 400;
     return;
   }
+  const { destroyed } = ctx.query;
+
   const sort = extractSort(ctx);
-  const q = { destroyed: false };
+  const q = { destroyed: isTrue(destroyed) };
 
   const col = await getAssetCol();
   const items = await col

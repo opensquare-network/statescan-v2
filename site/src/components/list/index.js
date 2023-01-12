@@ -54,9 +54,11 @@ const mapLoadingState = (props) => {
   };
 };
 
-function List({ data }) {
+function List({ data, header }) {
   return (
     <Wrapper>
+      {header}
+
       {Object.keys(data).map((key, index) => {
         return (
           <Row key={index}>

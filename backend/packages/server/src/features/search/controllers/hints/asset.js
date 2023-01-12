@@ -4,9 +4,7 @@ const {
 const {
   utils: { isValidAddress },
 } = require("@statescan/common");
-const { isHash } = require("../../../../utils/isHash");
-const { isNum } = require("../../../../utils/isNum");
-const { escapeRegex } = require("../../../../utils/escapeRegex");
+const { isHash, isNum, escapeRegex } = require("../../../../utils");
 
 async function handleAssetId(term) {
   const assetId = parseInt(term);

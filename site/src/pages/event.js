@@ -1,6 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
 import { currencify } from "../utils";
@@ -22,6 +22,11 @@ function Event() {
   const { id } = useParams();
   const event = useSelector(eventDetailSelector);
   const dispatch = useDispatch();
+
+  const listData = useMemo(
+    () => (event ? toEventDetailItem(event) : {}),
+    [event],
+  );
 
   useEffect(() => {
     if (id) {
@@ -52,7 +57,7 @@ function Event() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <List data={toEventDetailItem(event)} />
+        <List data={listData} />
         <EventAttributeDisplay event={event} title="Attributes" />
       </Panel>
     </DetailLayout>
