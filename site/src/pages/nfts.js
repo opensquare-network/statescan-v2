@@ -44,7 +44,7 @@ function Nfts() {
 
   return (
     <Layout>
-      <BreadCrumb data={[{ name: "Nfts" }]} />
+      <BreadCrumb data={[{ name: "NFT" }]} />
       <StyledPanelTableWrapper
         footer={
           <Pagination

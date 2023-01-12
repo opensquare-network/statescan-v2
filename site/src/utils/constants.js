@@ -44,6 +44,10 @@ export const menusAssets = [
     name: "Assets",
     value: "assets",
   },
+  {
+    name: "NFT",
+    value: "nfts",
+  },
 ];
 
 export const blocksHead = [
