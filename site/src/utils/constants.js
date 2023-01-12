@@ -197,7 +197,7 @@ export const accountAssetsHead = [
 export const nftsHead = [
   { name: "ID", width: 120 },
   { name: "Class", width: 100 },
-  { name: "Name" },
+  { name: "Name", width: 232 },
   { name: "Created Time", width: 200 },
   { name: "Owner", width: 152 },
   { name: "Instance", width: 120 },
