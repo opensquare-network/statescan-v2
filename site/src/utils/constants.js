@@ -51,6 +51,19 @@ export const menusAssets = [
     name: "NFT",
     value: "nfts",
   },
+  {
+    type: "divider",
+  },
+  {
+    type: "group",
+    name: "Destroyed",
+    menus: [
+      {
+        name: "Assets",
+        value: "destroyed/assets",
+      },
+    ],
+  },
 ];
 
 export const blocksHead = [
@@ -205,6 +218,15 @@ export const nftsHead = [
   { name: "Owner", width: 152 },
   { name: "Instance", width: 120 },
   { name: "Status", width: 160 },
+];
+
+export const destroyedAssetsHead = [
+  { name: "Asset ID", width: 120 },
+  { name: "Symbol", width: 136 },
+  { name: "Name", width: "100%" },
+  { name: "Destroyed Time", width: 200 },
+  { name: "Owner", width: 200 },
+  { name: "Total Destroyed", width: 200, align: "right" },
 ];
 
 export const timeTypes = {

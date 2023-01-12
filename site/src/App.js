@@ -17,6 +17,7 @@ import { Fragment } from "react";
 import Asset from "./pages/asset";
 import { getChainModules } from "./utils/chain";
 import Nfts from "./pages/nfts";
+import DestroyedAssets from "./pages/destroyed/assets";
 
 function App() {
   const { assets, uniques } = getChainModules();
@@ -28,6 +29,7 @@ function App() {
           <Fragment>
             <Route path="/assets" element={<Assets />} />
             <Route path="/asset/:assetId" element={<Asset />} />
+            <Route path="/destroyed/assets" element={<DestroyedAssets />} />
           </Fragment>
         )}
         {uniques && (
