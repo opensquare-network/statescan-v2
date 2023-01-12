@@ -220,6 +220,15 @@ export const nftsHead = [
   { name: "Status", width: 160 },
 ];
 
+export const destroyedAssetsHead = [
+  { name: "Asset ID", width: 120 },
+  { name: "Symbol", width: 136 },
+  { name: "Name" },
+  { name: "Destroyed Time", width: 200 },
+  { name: "Owner", width: 200 },
+  { name: "Total Destroyed", width: 200, align: "right" },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
