@@ -14,11 +14,26 @@ const Name = styled.span`
   ${Inter_14_600};
 `;
 
-export default function Symbol({ asset }) {
+const AssetLogoWrapper = styled(Wrapper)`
+  position: relative;
+`;
+
+const DestroyedBadge = styled.img`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+`;
+
+export default function Symbol({ asset, destroyed }) {
   return (
     <SymbolLink assetId={asset?.assetId} assetHeight={asset?.assetHeight}>
       <Wrapper>
-        <AssetLogo assetId={asset?.assetId} />
+        <AssetLogoWrapper>
+          <AssetLogo assetId={asset?.assetId} />
+          {destroyed && (
+            <DestroyedBadge src="/imgs/icons/asset/destroyed-badge.svg" />
+          )}
+        </AssetLogoWrapper>
         <Name>{asset?.metadata?.symbol}</Name>
       </Wrapper>
     </SymbolLink>
