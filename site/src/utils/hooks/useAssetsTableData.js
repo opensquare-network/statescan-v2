@@ -9,6 +9,8 @@ import Tooltip from "../../components/tooltip";
 import SymbolName from "../../components/symbol/name";
 import Symbol from "../../components/symbol";
 import { bigNumberToLocaleString } from "../viewFuncs";
+import TimeBody from "../../components/table/body/time";
+import { timeTypes } from "../constants";
 
 export function useAssetsTableData() {
   const list = useSelector(assetListSelector);
@@ -37,6 +39,36 @@ export function useAssetsTableData() {
       detail?.accounts,
       <Tooltip pullRight={true} tip={bigNumberToLocaleString(supply)}>
         <ValueDisplay value={supply} />
+      </Tooltip>,
+    ];
+  });
+}
+
+export function useDestroyedAssetsTableData() {
+  const list = useSelector(assetListSelector);
+
+  if (!list?.items) {
+    return null;
+  }
+
+  return list?.items?.map((asset) => {
+    const { destroyed, destroyedAt, assetId, assetHeight, metadata, detail } =
+      asset;
+    const link = destroyed
+      ? `/asset/${assetId}_${assetHeight}`
+      : `/asset/${assetId}`;
+    const destroy = toPrecision(detail?.supply, metadata?.decimals || 0);
+
+    return [
+      <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
+      metadata?.symbol ? <Symbol asset={asset} /> : "--",
+      metadata?.name ? <SymbolName name={metadata.name} /> : "--",
+      <TimeBody timeType={timeTypes.date} ts={destroyedAt?.blockTime} />,
+      <Tooltip tip={detail?.owner}>
+        <AddressOrIdentity address={detail?.owner} />
+      </Tooltip>,
+      <Tooltip pullRight={true} tip={bigNumberToLocaleString(destroy)}>
+        <ValueDisplay value={destroy} />
       </Tooltip>,
     ];
   });
