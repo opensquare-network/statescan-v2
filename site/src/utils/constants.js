@@ -30,6 +30,9 @@ export const menusBlockchain = [
     value: "calls",
   },
   {
+    type: "divider",
+  },
+  {
     name: "Transfers",
     value: "transfers",
   },
