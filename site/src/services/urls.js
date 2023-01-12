@@ -2,34 +2,32 @@
 
 export const homeSearchHints = "/search/hints";
 
-export const extrinsicListApi = makeApiUrl("extrinsics");
-export const extrinsicApi = (id) => makeApiUrl("extrinsics", id);
+// extrinsics
+export const extrinsicListApi = `/extrinsics`;
+export const extrinsicApi = (id) => `/extrinsics/${id}`;
 
-export const blockListApi = makeApiUrl("blocks");
-export const blockApiUrl = (id) => makeApiUrl("blocks", id);
+// blocks
+export const blockListApi = `/blocks`;
+export const blockApiUrl = (id) => `/blocks/${id}`;
 
-export const eventListApi = makeApiUrl("events");
-export const eventApi = (id) => makeApiUrl("events", id);
+// events
+export const eventListApi = `/events`;
+export const eventApi = (id) => `/events/${id}`;
 
-export const callListApi = makeApiUrl("calls");
-export const callApi = (id) => makeApiUrl("calls", id);
+// calls
+export const callListApi = `/calls`;
+export const callApi = (id) => `/calls/${id}`;
 
-export const accountListApi = makeApiUrl("accounts");
-export const accountApi = (id) => makeApiUrl("accounts", id);
+// accounts
+export const accountListApi = `/accounts`;
+export const accountApi = (id) => `/accounts/${id}`;
 
-export const transferListApi = makeApiUrl("transfers");
+// transfers
+export const transferListApi = `/transfers`;
 
-export const assetListApi = makeApiUrl("assets");
-export const assetApi = (id) => makeApiUrl("asset", id);
+// assets
+export const assetListApi = `/assets`;
+export const assetApi = (id) => `/asset/${id}`;
 
-export const nftListApi = makeApiUrl("uniques/classes");
-
-function makeApiUrl(...args) {
-  let urlString = args.join("/");
-
-  if (!/^\//.test(urlString)) {
-    urlString = "/" + urlString;
-  }
-
-  return urlString;
-}
+// nfts
+export const nftListApi = `/uniques/classes`;
