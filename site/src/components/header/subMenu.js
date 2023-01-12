@@ -115,7 +115,12 @@ function SubMenuItems({ item, closeMenu, setIsActive }) {
       <SubMenuGroup>
         <SubMenuGroupTitle>{item.name}</SubMenuGroupTitle>
         {item.menus.map((subMenuItem, subIdx) => (
-          <SubMenuItems key={subIdx} item={subMenuItem} />
+          <SubMenuItems
+            key={subIdx}
+            item={subMenuItem}
+            closeMenu={closeMenu}
+            setIsActive={setIsActive}
+          />
         ))}
       </SubMenuGroup>
     );
