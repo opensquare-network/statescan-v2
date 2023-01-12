@@ -130,19 +130,11 @@ export default function Header() {
                 <MenuItem>Home</MenuItem>
               </Link>
               <MenuItem>
-                <SubMenu
-                  category="BlockChain"
-                  menus={menusBlockchain}
-                  divideIndex={4}
-                />
+                <SubMenu category="BlockChain" menus={menusBlockchain} />
               </MenuItem>
               {assets && (
                 <MenuItem>
-                  <SubMenu
-                    category="Assets"
-                    menus={menusAssets}
-                    divideIndex={4}
-                  />
+                  <SubMenu category="Assets" menus={menusAssets} />
                 </MenuItem>
               )}
             </MenuWrapper>

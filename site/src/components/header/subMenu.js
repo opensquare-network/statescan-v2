@@ -1,5 +1,5 @@
 import { useState, useRef, Fragment } from "react";
-import { Inter_14_500 } from "../../styles/text";
+import { Inter_12_600, Inter_14_500 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import { Panel } from "../styled/panel";
 import Link from "../styled/link";
@@ -93,12 +93,50 @@ const MenuItem = styled.div`
     `}
 `;
 
-export default function SubMenu({
-  category,
-  menus,
-  closeMenu,
-  divideIndex = 2,
-}) {
+const SubMenuGroupTitle = styled.div`
+  color: ${(p) => p.theme.fontTertiary};
+  padding: 8px 12px;
+  text-transform: uppercase;
+  ${Inter_12_600};
+`;
+const SubMenuGroup = styled.div`
+  ${MenuItem} {
+    padding-left: 24px;
+  }
+`;
+
+function SubMenuItems({ item, closeMenu, setIsActive }) {
+  if (item.type === "divider") {
+    return <Divider />;
+  }
+
+  if (item.type === "group") {
+    return (
+      <SubMenuGroup>
+        <SubMenuGroupTitle>{item.name}</SubMenuGroupTitle>
+        {item.menus.map((subMenuItem, subIdx) => (
+          <SubMenuItems key={subIdx} item={subMenuItem} />
+        ))}
+      </SubMenuGroup>
+    );
+  }
+
+  return (
+    <Link to={`/${item.value}`}>
+      <MenuItem
+        onClick={() => {
+          closeMenu && closeMenu();
+          setIsActive(false);
+        }}
+        disabled={item.value === ""}
+      >
+        {item.name}
+      </MenuItem>
+    </Link>
+  );
+}
+
+export default function SubMenu({ category, menus, closeMenu }) {
   const [isActive, setIsActive] = useState(false);
   const ref = useRef();
 
@@ -119,24 +157,14 @@ export default function SubMenu({
       {isActive && (
         <MouseWrapper>
           <MenuWrapper ref={ref}>
-            {menus.map((item, index) => {
-              return (
-                <Fragment key={index}>
-                  {index === divideIndex && <Divider />}
-                  <Link to={`/${item.value}`}>
-                    <MenuItem
-                      onClick={() => {
-                        closeMenu && closeMenu();
-                        setIsActive(false);
-                      }}
-                      disabled={item.value === ""}
-                    >
-                      {item.name}
-                    </MenuItem>
-                  </Link>
-                </Fragment>
-              );
-            })}
+            {menus.map((menuItem, idx) => (
+              <SubMenuItems
+                key={idx}
+                item={menuItem}
+                closeMenu={closeMenu}
+                setIsActive={setIsActive}
+              />
+            ))}
           </MenuWrapper>
         </MouseWrapper>
       )}
