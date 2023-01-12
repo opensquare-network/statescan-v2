@@ -177,6 +177,18 @@ export const assetsHead = [
   { name: "Holders", width: 120, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
 ];
+/**
+ * @description for page account
+ */
+export const accountAssetsHead = [
+  { name: "Asset ID", width: 120 },
+  { name: "Symbol", width: 136 },
+  { name: "Name", width: 232 },
+  { name: "Balance", width: 160, align: "right" },
+  { name: "Approved", width: 160, align: "right" },
+  { name: "Frozen", width: 160, align: "right" },
+  { name: "Total Supply", width: 160, align: "right" },
+];
 
 export const timeTypes = {
   age: "age",
