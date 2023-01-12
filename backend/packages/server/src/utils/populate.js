@@ -33,6 +33,9 @@ function matchAndPopulateItemsByKeys({
 }
 
 async function populate({ items, mapItemKeys, queryFromCol, mapColKeys, as }) {
+  if (!items || items.length === 0) {
+    return;
+  }
   const query = getQuery(items, mapItemKeys, mapColKeys);
   const details = await queryFromCol.find(query).toArray();
   matchAndPopulateItemsByKeys({
