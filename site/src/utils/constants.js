@@ -51,6 +51,19 @@ export const menusAssets = [
     name: "NFT",
     value: "nfts",
   },
+  {
+    type: "divider",
+  },
+  {
+    type: "group",
+    name: "Destroyed",
+    menus: [
+      {
+        name: "Assets",
+        value: "destroyed/assets",
+      },
+    ],
+  },
 ];
 
 export const blocksHead = [
