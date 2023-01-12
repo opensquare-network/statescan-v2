@@ -18,7 +18,7 @@ import { isHash } from "../utils/viewFuncs/text";
 import {
   handleApiError,
   clearHttpError,
-} from "../utils/viewFuncs/errorHeandles";
+} from "../utils/viewFuncs/errorHandles";
 import DetailTable from "../components/detail/table";
 import {
   toEventTabTableItem,

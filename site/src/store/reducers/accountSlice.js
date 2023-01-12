@@ -4,7 +4,7 @@ import { accountApi, accountListApi } from "../../services/urls";
 import {
   clearHttpError,
   handleApiError,
-} from "../../utils/viewFuncs/errorHeandles";
+} from "../../utils/viewFuncs/errorHandles";
 
 const name = "account";
 

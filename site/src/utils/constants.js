@@ -44,6 +44,10 @@ export const menusAssets = [
     name: "Assets",
     value: "assets",
   },
+  {
+    name: "NFT",
+    value: "nfts",
+  },
 ];
 
 export const blocksHead = [
@@ -188,6 +192,16 @@ export const accountAssetsHead = [
   { name: "Approved", width: 160, align: "right" },
   { name: "Frozen", width: 160, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
+];
+
+export const nftsHead = [
+  { name: "ID", width: 120 },
+  { name: "Class", width: 100 },
+  { name: "Name" },
+  { name: "Created Time", width: 200 },
+  { name: "Owner", width: 152 },
+  { name: "Instance", width: 120 },
+  { name: "Status", width: 160 },
 ];
 
 export const timeTypes = {

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearHttpError,
   handleApiError,
-} from "../utils/viewFuncs/errorHeandles";
+} from "../utils/viewFuncs/errorHandles";
 import DetailLayout from "../components/layout/detailLayout";
 import {
   callDetailSelector,
