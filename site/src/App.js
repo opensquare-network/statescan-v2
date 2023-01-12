@@ -29,7 +29,7 @@ function App() {
           <Fragment>
             <Route path="/assets" element={<Assets />} />
             <Route path="/asset/:assetId" element={<Asset />} />
-            <Route path="/destroyed/assets" component={<DestroyedAssets />} />
+            <Route path="/destroyed/assets" element={<DestroyedAssets />} />
           </Fragment>
         )}
         {uniques && (
