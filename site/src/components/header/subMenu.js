@@ -1,4 +1,4 @@
-import { useState, useRef, Fragment } from "react";
+import { useState, useRef } from "react";
 import { Inter_12_600, Inter_14_500 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import { Panel } from "../styled/panel";
