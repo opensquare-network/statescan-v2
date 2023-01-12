@@ -1,7 +1,8 @@
+const isNil = require("lodash.isnil");
 const { getDefinition } = require("./get");
 const { busLogger } = require("@osn/scan-common");
 const {
-  uniques: { getMetadataCol },
+  uniques: { getMetadataCol, getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
 
 async function parseOneDefinition(hash, data) {
@@ -28,6 +29,32 @@ async function parseOneDefinition(hash, data) {
   await col.updateOne({ hash }, { $set: updates });
 }
 
+async function syncCollectionDefinitionValid(col, items) {
+  if (items.length === 0) {
+    return;
+  }
+
+  const bulk = col.initializeUnorderedBulkOp();
+  for (const item of items) {
+    let update = {};
+    if (isNil(item.definitionValid)) {
+      update = { $unset: { definitionValid: true } };
+    } else {
+      update = { $set: { definitionValid: item.definitionValid } };
+    }
+    bulk.find({ dataHash: item.hash }).update(update);
+  }
+  await bulk.execute();
+}
+
+async function syncDefinitionValidStatus() {
+  const metadataCol = await getMetadataCol();
+  let items = await metadataCol.find({}).toArray();
+
+  await syncCollectionDefinitionValid(await getClassCol(), items);
+  await syncCollectionDefinitionValid(await getInstanceCol(), items);
+}
+
 // Fetch not parsed metadata from database and save the NFT definition back to database.
 async function parseDefinition() {
   const col = await getMetadataCol();
@@ -35,6 +62,7 @@ async function parseDefinition() {
   await Promise.all(
     items.map((item) => parseOneDefinition(item.hash, item.data)),
   );
+  await syncDefinitionValidStatus();
 }
 
 module.exports = {

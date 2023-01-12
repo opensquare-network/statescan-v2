@@ -63,9 +63,18 @@ async function getClasses(ctx) {
     return;
   }
 
-  const { destroyed } = ctx.query;
+  const { destroyed, category, status } = ctx.query;
 
   const q = { isDestroyed: isTrue(destroyed) };
+  if (status === "frozen") {
+    q["details.isFrozen"] = true;
+  }
+  if (category === "recognized") {
+    q["definitionValid"] = true;
+  }
+  if (category === "unrecognized") {
+    q["definitionValid"] = false;
+  }
 
   const col = await getClassCol();
   const items = await col
