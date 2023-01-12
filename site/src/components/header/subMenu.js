@@ -114,8 +114,8 @@ function SubMenuItems({ item, closeMenu, setIsActive }) {
     return (
       <SubMenuGroup>
         <SubMenuGroupTitle>{item.name}</SubMenuGroupTitle>
-        {item.menus.map((subItem, subIdx) => (
-          <SubMenuItems key={subIdx} item={subItem} />
+        {item.menus.map((subMenuItem, subIdx) => (
+          <SubMenuItems key={subIdx} item={subMenuItem} />
         ))}
       </SubMenuGroup>
     );
@@ -157,10 +157,10 @@ export default function SubMenu({ category, menus, closeMenu }) {
       {isActive && (
         <MouseWrapper>
           <MenuWrapper ref={ref}>
-            {menus.map((item, idx) => (
+            {menus.map((menuItem, idx) => (
               <SubMenuItems
                 key={idx}
-                item={item}
+                item={menuItem}
                 closeMenu={closeMenu}
                 setIsActive={setIsActive}
               />
