@@ -32,17 +32,29 @@ function matchAndPopulateItemsByKeys({
   }
 }
 
-async function populate({ items, mapItemKeys, queryFromCol, mapColKeys, as }) {
+async function populate({
+  items,
+  mapItemKeys,
+  queryFromCol,
+  mapColKeys,
+  extraColFilter,
+  mapResult,
+  as,
+}) {
   if (!items || items.length === 0) {
     return;
   }
-  const query = getQuery(items, mapItemKeys, mapColKeys);
+  let query = getQuery(items, mapItemKeys, mapColKeys);
+  if (extraColFilter) {
+    query = { ...query, ...extraColFilter };
+  }
   const details = await queryFromCol.find(query).toArray();
   matchAndPopulateItemsByKeys({
     from: details,
     fromKeys: mapColKeys,
     to: items,
     toKeys: mapItemKeys,
+    map: mapResult,
     as,
   });
 }
