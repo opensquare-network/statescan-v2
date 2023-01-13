@@ -18,3 +18,16 @@ export const TagHighContrast = styled(Tag)`
   background: ${({ theme }) => theme.theme500};
   color: ${({ theme }) => theme.fontPrimaryInverse};
 `;
+
+const StatusTag = styled(Tag)`
+  color: ${(p) => p.theme.fontPrimaryInverse};
+  background-color: ${(p) => p.theme[p.bg]};
+`;
+
+export const StatusPositiveTag = styled(StatusTag)`
+  background-color: ${(p) => p.theme.fillPositive};
+`;
+
+export const StatusNegativeTag = styled(StatusTag)`
+  background-color: ${(p) => p.theme.fillNegative};
+`;
