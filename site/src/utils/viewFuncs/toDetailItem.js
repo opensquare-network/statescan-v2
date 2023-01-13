@@ -19,8 +19,10 @@ import DetailedBlock from "../../components/detail/block";
 import { Tag, TagHighContrast, TagThemed } from "../../components/tag";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
+import IpfsItem from "../../components/nft/classDetail/ipfsItem";
 import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
+import { isCid } from "../cid";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -104,7 +106,7 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
 };
 
 export const toNftDetailItem = (id, nft) => {
-  return {
+  const detailInfo = {
     "Class ID": <TextSecondary>{nft?.classId}</TextSecondary>,
     "Created Time": (
       <TextSecondary>{time(nft?.indexer?.blockTime)}</TextSecondary>
@@ -118,8 +120,14 @@ export const toNftDetailItem = (id, nft) => {
     Freezer: (
       <AddressOrIdentity address={nft?.details?.freezer} ellipsis={false} />
     ),
-    Link: <TextSecondary>IPFS</TextSecondary>,
   };
+
+  const isIpfsCid = isCid(nft?.parsedMetadata?.image);
+  if (true) {
+    detailInfo["Link"] = <IpfsItem cid={nft?.parsedMetadata?.image} />;
+  }
+
+  return detailInfo;
 };
 
 export const toAssetDetailItem = (id, asset) => {
