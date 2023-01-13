@@ -11,7 +11,7 @@ import NftName from "../../components/nft/name";
 import Tooltip from "../../components/tooltip/index";
 import { TextSecondary } from "../../components/styled/text";
 
-export function useNftsTableData() {
+export function useNftsTableData({ showPreview }) {
   const list = useSelector(nftListSelector);
 
   if (!list?.items) {
@@ -26,7 +26,8 @@ export function useNftsTableData() {
       <ColoredInterLink to={link}>{classId}</ColoredInterLink>,
       <Thumbnail
         image={parsedMetadata?.resource?.thumbnail}
-        background={parsedMetadata?.background}
+        background={parsedMetadata?.resource?.metadata?.background}
+        onClick={() => showPreview(nft)}
       />,
       <ColoredInterLink to={link}>
         <NftName name={parsedMetadata?.name} />
