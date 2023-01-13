@@ -43,6 +43,7 @@ const Wrapper = styled(Flex)`
 `;
 
 const Text = styled.p`
+  margin: 0;
   ${Inter_14_500};
   color: ${(p) => p.theme.fontSecondary};
 `;
