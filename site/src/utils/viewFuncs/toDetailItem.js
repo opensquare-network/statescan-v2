@@ -19,7 +19,7 @@ import DetailedBlock from "../../components/detail/block";
 import { Tag, TagHighContrast, TagThemed } from "../../components/tag";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
-import { bigNumberToLocaleString } from "./index";
+import { bigNumberToLocaleString } from ".";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);

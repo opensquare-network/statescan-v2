@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { bigNumberToLocaleString } from "../utils/viewFuncs/index";
+import { bigNumberToLocaleString } from "../utils/viewFuncs";
 import { abbreviateBigNumber, getEffectiveNumbers } from "@osn/common";
 
 const Wrapper = styled.div`

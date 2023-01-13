@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import NotFoundError from "../errors/notFoundError";
 import { errorCodeSelector } from "../../store/reducers/httpErrorSlice";
-import Layout from "./index";
+import Layout from ".";
 
 export default function DetailLayout({ children, breadCrumb = null }) {
   const httpErrorCode = useSelector(errorCodeSelector);

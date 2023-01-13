@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import AddressOrIdentity from "../../components/address/index";
+import AddressOrIdentity from "../../components/address";
 import { ColoredInterLink } from "../../components/styled/link";
 import { nftListSelector } from "../../store/reducers/nftSlice";
 import { getNftClassLink, getNftStatus } from "../nft";
@@ -8,10 +8,10 @@ import { time } from "../viewFuncs/time";
 import Thumbnail from "../../components/nft/thumbnail";
 import NftStatus from "../../components/nft/status";
 import NftName from "../../components/nft/name";
-import Tooltip from "../../components/tooltip/index";
+import Tooltip from "../../components/tooltip";
 import { TextSecondary } from "../../components/styled/text";
 
-export function useNftsTableData() {
+export function useNftsTableData({ showPreview }) {
   const list = useSelector(nftListSelector);
 
   if (!list?.items) {
@@ -26,7 +26,8 @@ export function useNftsTableData() {
       <ColoredInterLink to={link}>{classId}</ColoredInterLink>,
       <Thumbnail
         image={parsedMetadata?.resource?.thumbnail}
-        background={parsedMetadata?.background}
+        background={parsedMetadata?.resource?.metadata?.background}
+        onClick={() => showPreview(nft)}
       />,
       <ColoredInterLink to={link}>
         <NftName name={parsedMetadata?.name} />

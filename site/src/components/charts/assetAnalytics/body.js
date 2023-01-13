@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Inter_12_500 } from "../../../styles/text";
 import { FlexBetween, FlexColumn } from "../../styled/flex";
 import { abbreviateBigNumber } from "@osn/common";
-import { fromAssetUnit } from "../../../utils/index";
+import { fromAssetUnit } from "../../../utils";
 import { withLoading } from "../../../HOC/withLoading";
 import Loading from "../../loadings/loading";
 

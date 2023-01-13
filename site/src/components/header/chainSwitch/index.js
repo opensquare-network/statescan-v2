@@ -60,7 +60,7 @@ const Dropdown = styled.div`
     `}
 `;
 
-const Text = styled.p`
+const Text = styled.div`
   color: ${({ theme }) => theme.fontPrimary};
   ${Inter_14_600};
 `;

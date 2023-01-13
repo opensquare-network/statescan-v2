@@ -1,6 +1,6 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { nftsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -19,16 +19,24 @@ import { useNftFilter } from "../utils/hooks/nftFilter";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import omit from "lodash.omit";
+import Preview from "../components/nft/preview";
 
 function Nfts() {
   const location = useLocation();
   const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const [previewNft, setPreviewNft] = useState();
+  const [isPreview, setIsPreview] = useState(false);
+
+  const showPreview = useCallback((nft) => {
+    setPreviewNft(nft);
+    setIsPreview(true);
+  }, []);
 
   const list = useSelector(nftListSelector);
   const loading = useSelector(nftListLoadingSelector);
-  const data = useNftsTableData();
+  const data = useNftsTableData({ showPreview });
   const filters = useNftFilter();
 
   useEffect(() => {
@@ -70,6 +78,11 @@ function Nfts() {
       >
         <Table heads={nftsHead} data={data} loading={loading} />
       </StyledPanelTableWrapper>
+      <Preview
+        open={isPreview}
+        nftClass={previewNft}
+        onClose={() => setIsPreview(false)}
+      />
     </Layout>
   );
 }

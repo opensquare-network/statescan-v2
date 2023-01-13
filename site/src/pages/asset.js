@@ -28,7 +28,7 @@ import {
   toHoldersTabTableItem,
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
-import AssetTimeline from "../components/asset/timeline/index";
+import AssetTimeline from "../components/asset/timeline";
 import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
