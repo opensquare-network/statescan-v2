@@ -19,7 +19,7 @@ import { useNftFilter } from "../utils/hooks/nftFilter";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
 import omit from "lodash.omit";
-import Preview from "../components/nft/preview/index";
+import Preview from "../components/nft/preview";
 
 function Nfts() {
   const location = useLocation();

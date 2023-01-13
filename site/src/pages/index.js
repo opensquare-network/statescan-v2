@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import HomeLayout from "../components/layout/home";
 import Explore from "../components/home/explore";
-import Sections from "../components/home/sections/index";
+import Sections from "../components/home/sections";
 import { connect, unSubscribeHomepageInfo } from "../services/websocket";
 import { useDispatch } from "react-redux";
 import {

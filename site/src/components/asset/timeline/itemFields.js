@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
-import { bigNumberToLocaleString } from "../../../utils/viewFuncs/index";
-import AddressOrIdentity from "../../address/index";
+import { bigNumberToLocaleString } from "../../../utils/viewFuncs";
+import AddressOrIdentity from "../../address";
 import { Inter_14_500 } from "../../../styles/text";
-import { fromAssetUnit } from "../../../utils/index";
+import { fromAssetUnit } from "../../../utils";
 
 const Wrapper = styled.div`
   display: flex;

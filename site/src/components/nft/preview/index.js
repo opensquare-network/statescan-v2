@@ -5,7 +5,7 @@ import SquareBox from "./squareBox";
 import NftImage from "../image";
 import { useKeyPress } from "../../../utils/hooks/useKeyPress";
 import { time } from "../../../utils/viewFuncs/time";
-import AddressOrIdentity from "../../address/index";
+import AddressOrIdentity from "../../address";
 import NftInfo from "../info";
 import { ColoredInterLink } from "../../styled/link";
 import { getNftClassLink } from "../../../utils/nft";

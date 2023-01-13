@@ -14,7 +14,7 @@ import { ReactComponent as CrossIcon } from "../../components/icons/cross.svg";
 import getTransferSymbol from "./transferSymbol";
 import EventAttributeDisplay from "../../components/eventAttributeDisplay";
 import ExtrinsicParametersDisplay from "../../components/extrinsicParametersDisplay";
-import { bigNumberToLocaleString } from "./index";
+import { bigNumberToLocaleString } from ".";
 import Symbol from "../../components/symbol";
 import SymbolName from "../../components/symbol/name";
 import { fromAssetUnit } from "..";

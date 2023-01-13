@@ -1,7 +1,7 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
-import Home from "./pages/index";
+import Home from "./pages";
 import Block from "./pages/block";
 import Events from "./pages/events";
 import Extrinsic from "./pages/extrinsic";
