@@ -9,6 +9,7 @@ import AddressOrIdentity from "../../address/index";
 import NftInfo from "../info";
 import { ColoredInterLink } from "../../styled/link";
 import { getNftClassLink } from "../../../utils/nft";
+import { Inter_14_500 } from "../../../styles/text";
 
 const MyModal = styled(Modal)`
   > div {
@@ -36,15 +37,13 @@ const Row = styled.div`
 `;
 
 const Field = styled.div`
-  font-size: 14px;
-  line-height: 16px;
+  ${Inter_14_500}
   color: ${(p) => p.theme.fontTertiary};
 `;
 
 const Value = styled.div`
   margin-top: 4px;
-  font-size: 14px;
-  line-height: 20px;
+  ${Inter_14_500}
   color: ${(p) => p.theme.fontSecondary};
 `;
 

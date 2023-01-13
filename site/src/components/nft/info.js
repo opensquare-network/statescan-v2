@@ -1,19 +1,17 @@
 import styled from "styled-components";
+import { Inter_14_500, Inter_24_700 } from "../../styles/text";
 
 const Title = styled.div`
   margin-top: 8px;
   word-break: break-all;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 24px;
+  ${Inter_24_700}
   color: ${(p) => p.theme.fontPrimary};
 `;
 
 const Content = styled.div`
   margin-top: 16px;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 20px;
+  ${Inter_14_500}
   color: ${(p) => p.theme.fontSecondary};
 `;
 

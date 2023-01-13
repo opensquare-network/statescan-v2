@@ -25,13 +25,7 @@ export default function NftImage({ parsedMetadata }) {
   if (isDataUrl) {
     return (
       <ImgWrapper>
-        <Image
-          src={image}
-          width={width ?? 480}
-          height={height ?? 480}
-          alt=""
-          layout="fill"
-        />
+        <Image src={image} width={width ?? 480} height={height ?? 480} alt="" />
       </ImgWrapper>
     );
   }
@@ -53,11 +47,10 @@ export default function NftImage({ parsedMetadata }) {
   return (
     <ImgWrapper background={background}>
       <Image
-        src={`https://ipfs.3be42fb1.workers.dev/ipfs/${image}`}
+        src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
         width={width ?? 480}
         height={height ?? 480}
         alt=""
-        placeholder="blur"
       />
     </ImgWrapper>
   );
