@@ -123,7 +123,7 @@ export const toNftDetailItem = (id, nft) => {
   };
 
   const isIpfsCid = isCid(nft?.parsedMetadata?.image);
-  if (true) {
+  if (isIpfsCid) {
     detailInfo["Link"] = <IpfsItem cid={nft?.parsedMetadata?.image} />;
   }
 
