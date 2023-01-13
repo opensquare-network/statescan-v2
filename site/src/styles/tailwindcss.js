@@ -359,6 +359,6 @@ function make_rounded(n) {
 }
 function make_z(n) {
   return css`
-    z-index: ${px(n)};
+    z-index: ${n};
   `;
 }
