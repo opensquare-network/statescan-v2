@@ -137,6 +137,16 @@ export function hover(atom) {
     }
   `;
 }
+export function w(n) {
+  return css`
+    width: ${px(n)};
+  `;
+}
+export function h(n) {
+  return css`
+    height: ${px(n)};
+  `;
+}
 
 // atoms
 // ---
