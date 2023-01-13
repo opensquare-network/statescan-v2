@@ -113,7 +113,7 @@ export default function Header() {
   }, [dispatch, width]);
 
   const [, setIsLock] = useScrollLock();
-  useEffect(() => setIsLock(showMobileMenu), [showMobileMenu]);
+  useEffect(() => setIsLock(showMobileMenu), [showMobileMenu, setIsLock]);
 
   return (
     <Wrapper>
