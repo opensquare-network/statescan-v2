@@ -55,7 +55,7 @@ const TitleWrapper = styled.div`
 `;
 
 const MouseWrapper = styled(Panel)`
-  z-index: 10;
+  z-index: 1;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
