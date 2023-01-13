@@ -22,6 +22,7 @@ import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
 import { MOBILE_SIZE } from "@osn/constants";
 import { getChainModules } from "../../utils/chain";
+import { useScrollLock } from "../../utils/hooks/useScrollLock";
 
 const headerHeight = 68;
 
@@ -110,6 +111,9 @@ export default function Header() {
       dispatch(closeMobileMenu());
     }
   }, [dispatch, width]);
+
+  const [, setIsLock] = useScrollLock();
+  useEffect(() => setIsLock(showMobileMenu), [showMobileMenu]);
 
   return (
     <Wrapper>
