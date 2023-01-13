@@ -8,7 +8,6 @@ import { Inter_14_600 } from "../../../styles/text";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import Link from "../../styled/link";
-import { Fragment } from "react";
 
 const MenuWrapper = styled.div`
   min-width: 160px;
