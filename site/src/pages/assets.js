@@ -35,12 +35,11 @@ function Assets() {
       }),
     );
 
-    return () => controller.abort();
+    return () => {
+      controller.abort();
+      dispatch(cleanAssetList());
+    };
   }, [dispatch, page, pageSize]);
-
-  useEffect(() => {
-    dispatch(cleanAssetList());
-  }, [dispatch]);
 
   return (
     <Layout>
