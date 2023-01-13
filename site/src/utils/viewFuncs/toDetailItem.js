@@ -20,6 +20,7 @@ import { Tag, TagHighContrast, TagThemed } from "../../components/tag";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
 import { bigNumberToLocaleString } from ".";
+import { time } from "./time";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -99,6 +100,25 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
       </Tooltip>
     ),
     Nonce: <TextSecondary>{account?.detail?.nonce}</TextSecondary>,
+  };
+};
+
+export const toNftDetailItem = (id, nft) => {
+  return {
+    "Class ID": <TextSecondary>{nft?.classId}</TextSecondary>,
+    "Created Time": (
+      <TextSecondary>{time(nft?.indexer?.blockTime)}</TextSecondary>
+    ),
+    Instance: <TextSecondary>{nft?.details?.instances}</TextSecondary>,
+    Owner: <AddressOrIdentity address={nft?.details?.owner} ellipsis={false} />,
+    Issuer: (
+      <AddressOrIdentity address={nft?.details?.issuer} ellipsis={false} />
+    ),
+    Admin: <AddressOrIdentity address={nft?.details?.admin} ellipsis={false} />,
+    Freezer: (
+      <AddressOrIdentity address={nft?.details?.freezer} ellipsis={false} />
+    ),
+    Link: <TextSecondary>IPFS</TextSecondary>,
   };
 };
 
