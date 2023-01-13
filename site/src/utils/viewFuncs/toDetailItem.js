@@ -16,7 +16,12 @@ import ValueDisplay from "../../components/displayValue";
 import DetailedCallId from "../../components/detail/callId";
 import DetailedExtrinsicId from "../../components/detail/extrinsicId";
 import DetailedBlock from "../../components/detail/block";
-import { Tag, TagHighContrast, TagThemed } from "../../components/tag";
+import {
+  StatusNegativeTag,
+  Tag,
+  TagHighContrast,
+  TagThemed,
+} from "../../components/tag";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
 import { bigNumberToLocaleString } from ".";
@@ -127,7 +132,9 @@ export const toAssetDetailItem = (id, asset) => {
       </TextSecondary>
     ),
     Decimals: <TextSecondary>{asset?.metadata?.decimals}</TextSecondary>,
-    ...(asset?.destroyed ? { Status: <TagThemed>Destroyed</TagThemed> } : {}),
+    ...(asset?.destroyed
+      ? { Status: <StatusNegativeTag>Destroyed</StatusNegativeTag> }
+      : {}),
     Holders: <TextSecondary>{asset?.detail?.accounts}</TextSecondary>,
     //TODO: TransfersCount
   };
