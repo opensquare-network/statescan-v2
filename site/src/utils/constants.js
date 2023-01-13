@@ -42,6 +42,12 @@ export const menusBlockchain = [
   },
 ];
 
+export const menusAssetsDestroyed = [
+  {
+    name: "Assets",
+    value: "destroyed/assets",
+  },
+];
 export const menusAssets = [
   {
     name: "Assets",
@@ -56,13 +62,8 @@ export const menusAssets = [
   },
   {
     type: "group",
-    name: "Destroyed",
-    menus: [
-      {
-        name: "Assets",
-        value: "destroyed/assets",
-      },
-    ],
+    title: "Destroyed",
+    menus: menusAssetsDestroyed,
   },
 ];
 

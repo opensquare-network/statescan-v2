@@ -1,10 +1,13 @@
 import { toggle } from "../../../store/reducers/mobileMenuSlice";
-import { menusBlockchain } from "../../../utils/constants";
+import {
+  menusAssets,
+  menusAssetsDestroyed,
+  menusBlockchain,
+} from "../../../utils/constants";
 import { Inter_14_600 } from "../../../styles/text";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import Link from "../../styled/link";
-import { Fragment } from "react";
 
 const MenuWrapper = styled.div`
   min-width: 160px;
@@ -43,6 +46,18 @@ const MenuItem = styled(MenuLabel)`
     `}
 `;
 
+function MenuLinkItem({ item = {}, closeMobileMenu }) {
+  if (!item.name) {
+    return null;
+  }
+
+  return (
+    <Link to={`/${item.value}`} onClick={closeMobileMenu}>
+      <MenuItem disabled={!item.value}>{item.name}</MenuItem>
+    </Link>
+  );
+}
+
 export default function Navi() {
   const dispatch = useDispatch();
   const closeMobileMenu = () => {
@@ -54,13 +69,20 @@ export default function Navi() {
       <Link to={`/`} onClick={closeMobileMenu}>
         <MenuItem>Home</MenuItem>
       </Link>
+
       <MenuLabel>Blockchain</MenuLabel>
-      {menusBlockchain.map((item, index) => (
-        <Fragment key={index}>
-          <Link to={`/${item.value}`} onClick={closeMobileMenu}>
-            <MenuItem disabled={item.value === ""}>{item.name}</MenuItem>
-          </Link>
-        </Fragment>
+      {menusBlockchain.map((item, idx) => (
+        <MenuLinkItem key={idx} item={item} closeMobileMenu={closeMobileMenu} />
+      ))}
+
+      <MenuLabel>Assets</MenuLabel>
+      {menusAssets.map((item, idx) => (
+        <MenuLinkItem key={idx} item={item} closeMobileMenu={closeMobileMenu} />
+      ))}
+
+      <MenuLabel>Destroyed</MenuLabel>
+      {menusAssetsDestroyed.map((item, idx) => (
+        <MenuLinkItem key={idx} item={item} closeMobileMenu={closeMobileMenu} />
       ))}
     </MenuWrapper>
   );

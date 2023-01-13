@@ -113,7 +113,7 @@ function SubMenuItems({ item, closeMenu, setIsActive }) {
   if (item.type === "group") {
     return (
       <SubMenuGroup>
-        <SubMenuGroupTitle>{item.name}</SubMenuGroupTitle>
+        <SubMenuGroupTitle>{item.title}</SubMenuGroupTitle>
         {item.menus.map((subMenuItem, subIdx) => (
           <SubMenuItems
             key={subIdx}
