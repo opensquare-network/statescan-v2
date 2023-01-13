@@ -243,7 +243,15 @@ export const max_h_screen = css`
 // spacing
 // ---
 export const p_0 = p(0);
+export const p_16 = p(16);
+export const p_24 = p(24);
 export const m_0 = m(0);
+export const m_16 = m(16);
+export const m_24 = m(24);
+export const m_x_auto = css`
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 // borders
 // ---
@@ -274,6 +282,9 @@ export const border_hidden = css`
 // ---
 
 // overflow
+export const overflow_auto = css`
+  overflow: auto;
+`;
 export const overflow_hidden = css`
   overflow: hidden;
 `;
@@ -282,6 +293,9 @@ export const overflow_scroll = css`
 `;
 export const overflow_x_scroll = css`
   overflow-x: scroll;
+`;
+export const overflow_y_scroll = css`
+  overflow-y: scroll;
 `;
 
 // z index
@@ -302,6 +316,14 @@ export const absolute = css`
 `;
 export const fixed = css`
   position: fixed;
+`;
+
+// top right bottom left
+export const inset_0 = css`
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
 `;
 
 // typography
