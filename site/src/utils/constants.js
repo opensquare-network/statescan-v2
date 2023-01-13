@@ -42,6 +42,12 @@ export const menusBlockchain = [
   },
 ];
 
+export const menusAssetsDestroyed = [
+  {
+    name: "Assets",
+    value: "destroyed/assets",
+  },
+];
 export const menusAssets = [
   {
     name: "Assets",
@@ -56,13 +62,8 @@ export const menusAssets = [
   },
   {
     type: "group",
-    name: "Destroyed",
-    menus: [
-      {
-        name: "Assets",
-        value: "destroyed/assets",
-      },
-    ],
+    title: "Destroyed",
+    menus: menusAssetsDestroyed,
   },
 ];
 
@@ -223,7 +224,7 @@ export const nftsHead = [
 export const destroyedAssetsHead = [
   { name: "Asset ID", width: 120 },
   { name: "Symbol", width: 136 },
-  { name: "Name", width: "100%" },
+  { name: "Name", width: 232 },
   { name: "Destroyed Time", width: 200 },
   { name: "Owner", width: 200 },
   { name: "Total Destroyed", width: 200, align: "right" },
