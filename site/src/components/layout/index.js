@@ -13,7 +13,6 @@ import { useEffect } from "react";
 const Main = styled.main`
   flex-grow: 1;
   margin-top: 32px;
-  z-index: 1;
 `;
 
 export default function Layout({ children, className }) {
