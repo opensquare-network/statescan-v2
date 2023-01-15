@@ -1,27 +1,42 @@
-const pick = require("lodash.pick");
-const { HttpError } = require("../../../utils");
+const { HttpError, extractPage } = require("../../../utils");
 const {
-  uniques: { getClassCol, getMetadataCol, getResourceCol },
+  uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
+const {
+  getParsedMetadata,
+  normalizeParsedMetadata,
+  populateParsedMetadata,
+} = require("../common/metadata");
 
-async function getParsedMetadata(dataHash) {
-  const metadataCol = await getMetadataCol();
-  const metadata = await metadataCol.findOne({ hash: dataHash });
-  if (!metadata) {
+async function getClassInstances(ctx) {
+  const { page, pageSize } = extractPage(ctx);
+  if (pageSize === 0 || page < 0) {
+    ctx.status = 400;
     return;
   }
 
-  const resourceCol = await getResourceCol();
-  const resource = await resourceCol.findOne({
-    hash: metadata.definition.imageHash,
-  });
-  if (!resource) {
-    return pick(metadata.definition, ["image", "name", "description"]);
-  }
+  const { classId, classHeight } = ctx.params;
 
-  return {
-    ...pick(metadata.definition, ["image", "name", "description"]),
-    resource: pick(resource, ["metadata", "thumbnail"]),
+  const q = {
+    classId: parseInt(classId),
+    classHeight: parseInt(classHeight),
+  };
+  const instanceCol = await getInstanceCol();
+  const items = await instanceCol
+    .find(q)
+    .sort({ instanceId: 1 })
+    .skip(page * pageSize)
+    .limit(pageSize)
+    .toArray();
+  const total = await instanceCol.countDocuments(q);
+
+  await populateParsedMetadata(items);
+
+  ctx.body = {
+    items: normalizeParsedMetadata(items),
+    page,
+    pageSize,
+    total,
   };
 }
 
@@ -76,4 +91,5 @@ async function getClassByIdAndHeight(ctx) {
 module.exports = {
   getClassById,
   getClassByIdAndHeight,
+  getClassInstances,
 };

@@ -15,16 +15,7 @@ const Content = styled.div`
   color: ${(p) => p.theme.fontSecondary};
 `;
 
-const Wrapper = styled.div`
-  padding-left: 24px;
-
-  @media screen and (max-width: 700px) {
-    flex-direction: column;
-    > :not(:first-child) {
-      margin-top: 16px;
-    }
-  }
-`;
+const Wrapper = styled.div``;
 
 export default function NftInfo({ title, description }) {
   return (
