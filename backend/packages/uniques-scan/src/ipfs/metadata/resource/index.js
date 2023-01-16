@@ -39,4 +39,5 @@ async function parseResource() {
 
 module.exports = {
   parseResource,
+  parseOneResource,
 };
