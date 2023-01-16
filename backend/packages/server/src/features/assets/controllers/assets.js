@@ -1,6 +1,6 @@
-const { isTrue, extractPage, populate } = require("../../../utils");
+const { isTrue, extractPage } = require("../../../utils");
 const {
-  asset: { getAssetCol, getAssetTimelineCol },
+  asset: { getAssetCol },
 } = require("@statescan/mongo");
 
 function extractSort(ctx) {
@@ -10,18 +10,6 @@ function extractSort(ctx) {
   }
 
   return { assetId: 1 };
-}
-
-async function populateAssetDestroyedAt(items) {
-  await populate({
-    items,
-    mapItemKeys: ["assetId", "assetHeight"],
-    queryFromCol: await getAssetTimelineCol(),
-    mapColKeys: ["assetId", "assetHeight"],
-    extraColFilter: { name: "Destroyed" },
-    mapResult: (item) => item?.indexer,
-    as: "destroyedAt",
-  });
 }
 
 async function getAssets(ctx) {
@@ -44,11 +32,6 @@ async function getAssets(ctx) {
     .toArray();
 
   const total = await col.countDocuments(q);
-
-  if (q.destroyed) {
-    // Load destroyed event information
-    await populateAssetDestroyedAt(items);
-  }
 
   ctx.body = {
     items,
