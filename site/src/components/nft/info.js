@@ -16,8 +16,6 @@ const Content = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding-left: 24px;
-
   @media screen and (max-width: 700px) {
     flex-direction: column;
     > :not(:first-child) {

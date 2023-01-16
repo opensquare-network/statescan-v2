@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Modal } from "semantic-ui-react";
 import styled from "styled-components";
 import SquareBox from "../squareBox";
 import NftImage from "../image";
@@ -10,25 +9,12 @@ import NftInfo from "../info";
 import { ColoredInterLink } from "../../styled/link";
 import { getNftClassLink } from "../../../utils/nft";
 import { Inter_14_500 } from "../../../styles/text";
-
-const MyModal = styled(Modal)`
-  > div {
-    box-shadow: none;
-    border: none;
-  }
-
-  background-color: ${(p) => p.theme.fillBase} !important;
-  padding: 24px;
-`;
+import Modal from "../../modal";
 
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-
-  > div {
-    padding: 0;
-  }
 `;
 
 const Row = styled.div`
@@ -102,7 +88,7 @@ export default function Preview({ open, nftClass, onClose }) {
   }, [pressEscape, onClose]);
 
   return (
-    <MyModal open={open} size="tiny" onClose={onClose}>
+    <Modal open={open} onClose={onClose}>
       <Wrapper>
         <div style={{ width: "100%", marginBottom: "24px" }}>
           <SquareBox background={parsedMetadata?.background}>
@@ -139,6 +125,6 @@ export default function Preview({ open, nftClass, onClose }) {
           <ColoredInterLink to={detailLink}>Detail</ColoredInterLink>
         </ButtonWrapper>
       </Wrapper>
-    </MyModal>
+    </Modal>
   );
 }
