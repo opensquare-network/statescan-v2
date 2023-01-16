@@ -18,6 +18,12 @@ import { bigNumberToLocaleString } from ".";
 import Symbol from "../../components/symbol";
 import SymbolName from "../../components/symbol/name";
 import { fromAssetUnit } from "..";
+import { getNftInstanceLink, getNftStatus } from "../nft";
+import { time } from "./time";
+import { TextSecondary } from "../../components/styled/text";
+import NftStatus from "../../components/nft/status";
+import NftName from "../../components/nft/name";
+import Thumbnail from "../../components/nft/thumbnail";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -154,6 +160,32 @@ export const toAssetsTabItem = (assets) => {
       <Tooltip pullRight tip={bigNumberToLocaleString(supply)}>
         <ValueDisplay value={supply} />
       </Tooltip>,
+    ];
+  });
+};
+
+export const toInstancesTabTableItem = (nftClass, instances, showPreview) => {
+  return instances?.map((nftInstance) => {
+    const { parsedMetadata, details, indexer } = nftInstance;
+    const link = getNftInstanceLink(nftClass, nftInstance);
+    const resource =
+      nftInstance.parsedMetadata?.resource || nftClass.parsedMetadata?.resource;
+
+    return [
+      <ColoredInterLink to={link}>{nftInstance.instanceId}</ColoredInterLink>,
+      <Thumbnail
+        image={resource?.thumbnail}
+        background={resource?.metadata?.background}
+        onClick={() => showPreview(nftInstance)}
+      />,
+      <ColoredInterLink to={link}>
+        <NftName name={parsedMetadata?.name} />
+      </ColoredInterLink>,
+      <TextSecondary>{time(indexer.blockTime)}</TextSecondary>,
+      <Tooltip tip={details?.owner}>
+        <AddressOrIdentity address={details?.owner} />
+      </Tooltip>,
+      <NftStatus status={getNftStatus(nftInstance)} />,
     ];
   });
 };

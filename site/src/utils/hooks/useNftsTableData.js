@@ -18,16 +18,16 @@ export function useNftsTableData({ showPreview }) {
     return null;
   }
 
-  return list?.items?.map((nft) => {
-    const { classId, parsedMetadata, details, indexer } = nft;
-    const link = getNftClassLink(nft);
+  return list?.items?.map((nftClass) => {
+    const { classId, parsedMetadata, details, indexer } = nftClass;
+    const link = getNftClassLink(nftClass);
 
     return [
       <ColoredInterLink to={link}>{classId}</ColoredInterLink>,
       <Thumbnail
         image={parsedMetadata?.resource?.thumbnail}
         background={parsedMetadata?.resource?.metadata?.background}
-        onClick={() => showPreview(nft)}
+        onClick={() => showPreview(nftClass)}
       />,
       <ColoredInterLink to={link}>
         <NftName name={parsedMetadata?.name} />
@@ -37,7 +37,7 @@ export function useNftsTableData({ showPreview }) {
         <AddressOrIdentity address={details?.owner} />
       </Tooltip>,
       <TextSecondary>{details?.instances || 0}</TextSecondary>,
-      <NftStatus status={getNftStatus(nft)} />,
+      <NftStatus status={getNftStatus(nftClass)} />,
     ];
   });
 }

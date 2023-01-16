@@ -1,6 +1,10 @@
 const Router = require("koa-router");
 const { getClasses } = require("./controllers/classes");
-const { getClassById, getClassByIdAndHeight } = require("./controllers/class");
+const {
+  getClassById,
+  getClassByIdAndHeight,
+  getClassInstances,
+} = require("./controllers/class");
 
 const router = new Router();
 
@@ -10,5 +14,9 @@ router.get(
   getClassByIdAndHeight,
 );
 router.get("/uniques/class/:classId(\\d+)", getClassById);
+router.get(
+  "/uniques/class/:classId(\\d+)_:classHeight(\\d+)/instances",
+  getClassInstances,
+);
 
 module.exports = router;
