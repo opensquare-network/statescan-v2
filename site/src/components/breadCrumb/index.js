@@ -38,6 +38,10 @@ const StyledLink = styled.div`
   }
 `;
 
+const StyledText = styled.div`
+  color: ${(p) => p.theme.fontPrimary};
+`;
+
 export default function BreadCrumb({ data }) {
   const chainSetting = useSelector(chainSettingSelector);
 
@@ -53,7 +57,7 @@ export default function BreadCrumb({ data }) {
               <StyledLink>{item.name}</StyledLink>
             </Link>
           ) : (
-            <span key={index}>{item.name}</span>
+            <StyledText key={index}>{item.name}</StyledText>
           ),
         )}
       </BreadCrumbWrapper>

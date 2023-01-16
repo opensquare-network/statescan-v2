@@ -24,7 +24,10 @@ import {
 } from "../../components/tag";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
+import IpfsItem from "../../components/nft/classDetail/ipfsItem";
 import { bigNumberToLocaleString } from ".";
+import { time } from "./time";
+import { isCid } from "../cid";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -105,6 +108,31 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
     ),
     Nonce: <TextSecondary>{account?.detail?.nonce}</TextSecondary>,
   };
+};
+
+export const toNftDetailItem = (id, nft) => {
+  const detailInfo = {
+    "Class ID": <TextSecondary>{nft?.classId}</TextSecondary>,
+    "Created Time": (
+      <TextSecondary>{time(nft?.indexer?.blockTime)}</TextSecondary>
+    ),
+    Instance: <TextSecondary>{nft?.details?.instances}</TextSecondary>,
+    Owner: <AddressOrIdentity address={nft?.details?.owner} ellipsis={false} />,
+    Issuer: (
+      <AddressOrIdentity address={nft?.details?.issuer} ellipsis={false} />
+    ),
+    Admin: <AddressOrIdentity address={nft?.details?.admin} ellipsis={false} />,
+    Freezer: (
+      <AddressOrIdentity address={nft?.details?.freezer} ellipsis={false} />
+    ),
+  };
+
+  const isIpfsCid = isCid(nft?.parsedMetadata?.image);
+  if (isIpfsCid) {
+    detailInfo["Link"] = <IpfsItem cid={nft?.parsedMetadata?.image} />;
+  }
+
+  return detailInfo;
 };
 
 export const toAssetDetailItem = (id, asset) => {

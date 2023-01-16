@@ -18,6 +18,7 @@ import Asset from "./pages/asset";
 import { getChainModules } from "./utils/chain";
 import Nfts from "./pages/nfts";
 import DestroyedAssets from "./pages/destroyed/assets";
+import NftClass from "./pages/nftClass";
 
 function App() {
   const { assets, uniques } = getChainModules();
@@ -35,6 +36,7 @@ function App() {
         {uniques && (
           <Fragment>
             <Route path="/nfts" element={<Nfts />} />
+            <Route path="/nft/class/:classId" element={<NftClass />} />
           </Fragment>
         )}
         <Route path="*" element={<NotFound />} />

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import SquareBox from "./squareBox";
+import SquareBox from "../squareBox";
 import NftImage from "../image";
 import { useKeyPress } from "../../../utils/hooks/useKeyPress";
 import { time } from "../../../utils/viewFuncs/time";
