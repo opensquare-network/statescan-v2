@@ -1,3 +1,4 @@
+const { syncParsedData } = require("../../ipfs/metadata/sync");
 const { parseResource } = require("../../ipfs/metadata/resource");
 const { oneMinute } = require("./common");
 const { parseDefinition } = require("../../ipfs/metadata/definition");
@@ -20,7 +21,16 @@ async function parseNftResource() {
   }
 }
 
+async function syncParseResult() {
+  try {
+    await syncParsedData();
+  } finally {
+    setTimeout(syncParseResult, oneMinute);
+  }
+}
+
 module.exports = {
   populateAndParseMetadata,
   parseNftResource,
+  syncParseResult,
 };
