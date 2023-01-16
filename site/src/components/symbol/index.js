@@ -26,7 +26,11 @@ const DestroyedBadge = styled.img`
 
 export default function Symbol({ asset, destroyed }) {
   return (
-    <SymbolLink assetId={asset?.assetId} assetHeight={asset?.assetHeight}>
+    <SymbolLink
+      destroyed={destroyed}
+      assetId={asset?.assetId}
+      assetHeight={asset?.assetHeight}
+    >
       <Wrapper>
         <AssetLogoWrapper>
           <AssetLogo assetId={asset?.assetId} />

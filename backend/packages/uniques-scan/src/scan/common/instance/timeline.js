@@ -12,7 +12,7 @@ async function insertInstanceTimelineItem(
   const instance = await getInstance(classId, instanceId);
   if (!instance) {
     logger.error(
-      `Can not find instance ${classId}/${instanceId} when insert instance timeline item`,
+      `Can not find instance ${classId}/${instanceId} when insert instance timeline item at ${timelineItem?.indexer?.blockHeight}`,
     );
     return;
   }
