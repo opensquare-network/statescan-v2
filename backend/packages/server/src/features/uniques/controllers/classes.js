@@ -1,7 +1,3 @@
-const {
-  normalizeParsedMetadata,
-  populateParsedMetadata,
-} = require("../common/metadata");
 const { extractPage, isTrue } = require("../../../utils");
 const {
   uniques: { getClassCol },
@@ -37,10 +33,8 @@ async function getClasses(ctx) {
 
   const total = await col.countDocuments(q);
 
-  await populateParsedMetadata(items);
-
   ctx.body = {
-    items: normalizeParsedMetadata(items),
+    items,
     page,
     pageSize,
     total,
