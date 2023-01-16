@@ -10,9 +10,10 @@ import {
 } from "../store/reducers/socketSlice";
 import styled from "styled-components";
 import Overview from "../components/home/overview";
+import { m_t } from "../styles/tailwindcss";
 
 const SectionsWrapper = styled.div`
-  margin-top: 32px;
+  ${m_t(16)};
 `;
 
 const OverviewWrapper = styled.div`
