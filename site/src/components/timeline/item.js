@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
-import { FlexColumn } from "../../styled/flex";
-import TimelineItemIcon from "./itemIcon";
+import { FlexColumn } from "../styled/flex";
 import TimelineItemInfo from "./itemInfo";
 
 const Wrapper = styled.div`
@@ -41,17 +40,28 @@ const TopSpace = styled.div`
   height: 18px;
 `;
 
-export default function TimelineItem({ asset, item, isFirst, isLast }) {
+export default function TimelineItem({
+  data,
+  item,
+  isFirst,
+  isLast,
+  IconComponent,
+  FieldsComponent,
+}) {
   return (
     <Wrapper>
       <NavigationLine>
         <TopLine isFirst={isFirst} />
-        <TimelineItemIcon name={item?.name} />
+        <IconComponent name={item?.name} />
         <BottomLine isLast={isLast} />
       </NavigationLine>
       <InfoPanel>
         <TopSpace />
-        <TimelineItemInfo asset={asset} item={item} />
+        <TimelineItemInfo
+          data={data}
+          item={item}
+          FieldsComponent={FieldsComponent}
+        />
       </InfoPanel>
     </Wrapper>
   );

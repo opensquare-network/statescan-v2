@@ -56,7 +56,7 @@ export const menusAssets = [
   },
   {
     name: "NFT",
-    value: "nfts",
+    value: "uniques",
   },
   {
     type: "divider",

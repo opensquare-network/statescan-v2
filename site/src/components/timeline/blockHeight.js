@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Flex } from "../../styled/flex";
+import { Flex } from "../styled/flex";
 import { ReactComponent as BlockSVG } from "./block.svg";
-import { Inter_12_400 } from "../../../styles/text";
+import { Inter_12_400 } from "../../styles/text";
 
 const Wrapper = styled(Flex)`
   > :nth-child(1) {

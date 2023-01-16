@@ -7,13 +7,14 @@ import DetailTabs from "../components/detail/tabs";
 import DetailLayout from "../components/layout/detailLayout";
 import Panel from "../components/nft/classDetail/panel";
 import { NftInstancePreview } from "../components/nft/preview";
+import NftClassTimeline from "../components/nft/classTimeline";
 import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
 import {
   fetchNftClassDetail,
   nftClassDetailSelector,
   clearNftClassDetail,
 } from "../store/reducers/nftClassSlice";
-import { Instances, nftClassInstanceHead } from "../utils/constants";
+import { Instances, nftClassInstanceHead, Timeline } from "../utils/constants";
 import { toInstancesTabTableItem } from "../utils/viewFuncs/toTableItem";
 
 export default function NftClass() {
@@ -42,6 +43,16 @@ export default function NftClass() {
   const instancesApiKey =
     detail &&
     `/uniques/class/${detail?.classId}_${detail?.classHeight}/instances`;
+  const timelineApiKey =
+    detail &&
+    `/uniques/class/${detail?.classId}_${detail?.classHeight}/timeline`;
+
+  const MyNftClassTimeline = useCallback(
+    ({ data, loading }) => (
+      <NftClassTimeline nft={detail} timeline={data} loading={loading} />
+    ),
+    [detail],
+  );
 
   const tabs = [
     {
@@ -57,6 +68,13 @@ export default function NftClass() {
         />
       ),
     },
+    {
+      name: Timeline,
+      count: tablesData?.[timelineApiKey]?.total,
+      children: (
+        <DetailTable url={timelineApiKey} TableComponent={MyNftClassTimeline} />
+      ),
+    },
   ];
 
   return (
@@ -64,7 +82,7 @@ export default function NftClass() {
       breadCrumb={
         <BreadCrumb
           data={[
-            { name: "NFT", path: "/nfts" },
+            { name: "NFT", path: "/uniques" },
             { name: "Class" },
             { name: classId },
           ]}
