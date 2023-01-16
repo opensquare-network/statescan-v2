@@ -7,5 +7,4 @@ module.exports = {
   ...require("./isHash"),
   ...require("./isNum"),
   ...require("./isTrue"),
-  ...require("./populate"),
 };

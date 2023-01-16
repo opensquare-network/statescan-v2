@@ -2,11 +2,6 @@ const { HttpError, extractPage } = require("../../../utils");
 const {
   uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
-const {
-  getParsedMetadata,
-  normalizeParsedMetadata,
-  populateParsedMetadata,
-} = require("../common/metadata");
 
 async function getClassInstances(ctx) {
   const { page, pageSize } = extractPage(ctx);
@@ -30,10 +25,8 @@ async function getClassInstances(ctx) {
     .toArray();
   const total = await instanceCol.countDocuments(q);
 
-  await populateParsedMetadata(items);
-
   ctx.body = {
-    items: normalizeParsedMetadata(items),
+    items,
     page,
     pageSize,
     total,
@@ -53,15 +46,7 @@ async function getClassById(ctx) {
     throw new HttpError(404, "NFT Class not found");
   }
 
-  let parsedMetadata;
-  if (nftClass.definitionValid) {
-    parsedMetadata = await getParsedMetadata(nftClass.dataHash);
-  }
-
-  ctx.body = {
-    ...nftClass,
-    parsedMetadata,
-  };
+  ctx.body = nftClass;
 }
 
 async function getClassByIdAndHeight(ctx) {
@@ -77,15 +62,7 @@ async function getClassByIdAndHeight(ctx) {
     throw new HttpError(404, "NFT Class not found");
   }
 
-  let parsedMetadata;
-  if (nftClass.definitionValid) {
-    parsedMetadata = await getParsedMetadata(nftClass.dataHash);
-  }
-
-  ctx.body = {
-    ...nftClass,
-    parsedMetadata,
-  };
+  ctx.body = nftClass;
 }
 
 module.exports = {
