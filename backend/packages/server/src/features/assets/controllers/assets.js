@@ -1,6 +1,6 @@
-const { isTrue, extractPage, populate } = require("../../../utils");
+const { isTrue, extractPage } = require("../../../utils");
 const {
-  asset: { getAssetCol, getAssetTimelineCol },
+  asset: { getAssetCol },
 } = require("@statescan/mongo");
 
 function extractSort(ctx) {
