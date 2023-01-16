@@ -9,9 +9,7 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
     const { type, data } = await fetchMime(imageCid);
     imageType = type;
     imageData = data;
-    console.log(
-      `Mime fetched for ${imageCid}. Got type: ${type}, data: ${data}`,
-    );
+    console.log(`Mime fetched for ${imageCid}. Got type: ${type}`);
   } catch (e) {
     await saveCreateThumbnailError(hash, imageType);
     return;
