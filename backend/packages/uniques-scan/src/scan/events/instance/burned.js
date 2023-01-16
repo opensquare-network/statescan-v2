@@ -19,7 +19,15 @@ async function handleBurned(event, indexer) {
       owner,
     },
   });
-  await updateInstance(classId, instanceId, { isDestroyed: true }, indexer);
+  await updateInstance(
+    classId,
+    instanceId,
+    {
+      isDestroyed: true,
+      destroyedAt: indexer,
+    },
+    indexer,
+  );
   await updateClassDetails(classId, indexer);
 }
 
