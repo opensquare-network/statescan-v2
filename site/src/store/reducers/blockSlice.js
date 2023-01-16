@@ -56,7 +56,7 @@ export const blockFetchDetail = (id) => async (dispatch) => {
     }
   });
 };
-export const resetBlockDetail = () => (dispatch) => {
+export const cleanBlockDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

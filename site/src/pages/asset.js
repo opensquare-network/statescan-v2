@@ -7,7 +7,7 @@ import List from "../components/list";
 import {
   assetDetailSelector,
   assetFetchDetail,
-  resetAssetDetail,
+  cleanAssetDetail,
 } from "../store/reducers/assetSlice";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
@@ -103,7 +103,7 @@ function Asset() {
     }
 
     return () => {
-      dispatch(resetAssetDetail());
+      dispatch(cleanAssetDetail());
     };
   }, [dispatch, assetId]);
 

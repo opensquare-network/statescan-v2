@@ -7,7 +7,7 @@ import Panel from "../components/nft/classDetail/panel";
 import {
   fetchNftClassDetail,
   nftClassDetailSelector,
-  resetNftClassDetail,
+  cleanNftClassDetail,
 } from "../store/reducers/nftClassSlice";
 
 export default function NftClass() {
@@ -21,7 +21,7 @@ export default function NftClass() {
     }
 
     return () => {
-      dispatch(resetNftClassDetail());
+      dispatch(cleanNftClassDetail());
     };
   }, [dispatch, classId]);
 

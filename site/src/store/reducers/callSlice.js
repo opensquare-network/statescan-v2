@@ -56,7 +56,7 @@ export const callFetchDetail = (id) => async (dispatch) => {
     }
   });
 };
-export const resetCallDetail = () => (dispatch) => {
+export const cleanCallDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

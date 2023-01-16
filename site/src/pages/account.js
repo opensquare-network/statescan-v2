@@ -28,7 +28,7 @@ import {
 import {
   accountDetailSelector,
   accountFetchDetail,
-  resetAccountDetail,
+  cleanAccountDetail,
 } from "../store/reducers/accountSlice";
 import DetailTabs from "../components/detail/tabs";
 
@@ -97,7 +97,7 @@ function Account() {
     }
 
     return () => {
-      dispatch(resetAccountDetail());
+      dispatch(cleanAccountDetail());
     };
   }, [dispatch, id]);
 

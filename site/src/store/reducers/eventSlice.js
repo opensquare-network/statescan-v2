@@ -56,7 +56,7 @@ export const eventFetchDetail = (id) => async (dispatch) => {
     }
   });
 };
-export const resetEventDetail = () => (dispatch) => {
+export const cleanEventDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

@@ -56,7 +56,7 @@ export const extrinsicFetchDetail = (id) => async (dispatch) => {
     }
   });
 };
-export const resetExtrinsicDetail = () => (dispatch) => {
+export const cleanExtrinsicDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

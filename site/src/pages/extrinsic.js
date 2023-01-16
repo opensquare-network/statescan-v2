@@ -19,7 +19,7 @@ import {
 import {
   extrinsicDetailSelector,
   extrinsicFetchDetail,
-  resetExtrinsicDetail,
+  cleanExtrinsicDetail,
 } from "../store/reducers/extrinsicSlice";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
@@ -82,7 +82,7 @@ function Extrinsic() {
     }
 
     return () => {
-      dispatch(resetExtrinsicDetail());
+      dispatch(cleanExtrinsicDetail());
     };
   }, [id, dispatch]);
 

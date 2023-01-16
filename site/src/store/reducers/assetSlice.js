@@ -69,7 +69,7 @@ export const cleanAssetList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
-export const resetAssetDetail = () => (dispatch) => {
+export const cleanAssetDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

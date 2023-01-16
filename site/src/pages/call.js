@@ -13,7 +13,7 @@ import DetailLayout from "../components/layout/detailLayout";
 import {
   callDetailSelector,
   callFetchDetail,
-  resetCallDetail,
+  cleanCallDetail,
 } from "../store/reducers/callSlice";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 
@@ -35,7 +35,7 @@ function Call() {
     }
 
     return () => {
-      dispatch(resetCallDetail());
+      dispatch(cleanCallDetail());
     };
   }, [id, dispatch]);
 
