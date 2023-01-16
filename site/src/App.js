@@ -35,8 +35,8 @@ function App() {
         )}
         {uniques && (
           <Fragment>
-            <Route path="/nfts" element={<Nfts />} />
-            <Route path="/nft/class/:classId" element={<NftClass />} />
+            <Route path="/uniques" element={<Nfts />} />
+            <Route path="/unique/class/:classId" element={<NftClass />} />
           </Fragment>
         )}
         <Route path="*" element={<NotFound />} />

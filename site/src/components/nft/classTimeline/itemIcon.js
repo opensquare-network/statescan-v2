@@ -1,6 +1,6 @@
-import icons from "../../icons/timeline/asset";
+import icons from "../../icons/timeline/nftClass";
 import TimelineItemIcon from "../../timeline/itemIcon";
 
-export default function AssetTimelineItemIcon({ name }) {
+export default function NftClassTimelineItemIcon({ name }) {
   return <TimelineItemIcon icons={icons} name={name} />;
 }

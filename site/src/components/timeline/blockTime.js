@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { Flex } from "../../styled/flex";
+import { Flex } from "../styled/flex";
 import { ReactComponent as ClockSVG } from "./clock.svg";
-import { time, timeDuration } from "../../../utils/viewFuncs/time";
-import { Inter_12_400 } from "../../../styles/text";
+import { time, timeDuration } from "../../utils/viewFuncs/time";
+import { Inter_12_400 } from "../../styles/text";
 
 const Wrapper = styled(Flex)`
   > :nth-child(1) {

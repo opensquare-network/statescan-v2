@@ -10,7 +10,6 @@ import { ReactComponent as Burned } from "./burn.svg";
 import { ReactComponent as AssetFrozen } from "./freeze-asset.svg";
 import { ReactComponent as AssetThawed } from "./thaw-asset.svg";
 import { ReactComponent as Destroyed } from "./destroy.svg";
-import { ReactComponent as Placeholder } from "./placeholder.svg";
 
 const icons = {
   Created,
@@ -25,7 +24,6 @@ const icons = {
   AssetFrozen,
   AssetThawed,
   Destroyed,
-  Placeholder,
 };
 
 export default icons;

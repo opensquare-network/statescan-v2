@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { Inter_12_400 } from "../../../styles/text";
-import { Flex } from "../../styled/flex";
+import { Inter_12_400 } from "../../styles/text";
+import { Flex } from "../styled/flex";
 import { Link as RouteLink } from "react-router-dom";
-import CaretUprightIcon from "../../icons/caretUpright";
+import CaretUprightIcon from "../icons/caretUpright";
 
 const Wrapper = styled(Flex)`
   cursor: pointer;

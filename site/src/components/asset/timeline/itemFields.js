@@ -1,57 +1,9 @@
-import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import { bigNumberToLocaleString } from "../../../utils/viewFuncs";
 import AddressOrIdentity from "../../address";
-import { Inter_14_500 } from "../../../styles/text";
 import { fromAssetUnit } from "../../../utils";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  flex-grow: 1;
-  padding-top: 2px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid ${(p) => p.theme.strokeBase};
-`;
-
-const Field = styled.div`
-  display: flex;
-  @media screen and (max-width: 900px) {
-    flex-direction: column;
-  }
-`;
-
-const Title = styled.div`
-  padding: 8px 0;
-  min-width: 176px;
-  ${Inter_14_500}
-  flex: 0 0 auto;
-  color: ${(p) => p.theme.fontPrimary};
-`;
-
-const Body = styled.div`
-  flex-grow: 1;
-  padding: 8px 0 8px 24px;
-  font-size: 14px;
-  @media screen and (max-width: 900px) {
-    padding-left: 0px;
-  }
-`;
-
-const Text = styled.div`
-  font-size: 14px;
-  line-height: 20px;
-  color: ${(p) => p.theme.fontSecondary};
-`;
-
-const BoldText = styled(Text)`
-  font-weight: 500;
-`;
-
-const BreakText = styled(Text)`
-  word-break: break-all;
-`;
+import TimelineItemFields from "../../timeline/itemFields";
+import { Text, BoldText, BreakText } from "../../timeline/styled";
 
 function formatBalance(balance, asset) {
   const balanceStr = new BigNumber(balance).toString();
@@ -177,17 +129,7 @@ function getFields(timelineItem, asset) {
   }
 }
 
-export default function TimelineItemFields({ item, asset }) {
+export default function AssetTimelineItemFields({ item, data: asset }) {
   const fields = Object.entries(getFields(item, asset));
-
-  return (
-    <Wrapper>
-      {fields.map((field, index) => (
-        <Field key={index}>
-          <Title>{field[0]}</Title>
-          <Body>{field[1]}</Body>
-        </Field>
-      ))}
-    </Wrapper>
-  );
+  return <TimelineItemFields fields={fields} />;
 }
