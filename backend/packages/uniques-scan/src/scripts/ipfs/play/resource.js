@@ -11,6 +11,7 @@ async function main() {
   const col = await getMetadataCol();
   let item = await col.findOne({ hash });
   await parseOneResource(item.definition.imageHash, item.definition.image);
+  process.exit(0);
 }
 
 main().then(console.log);
