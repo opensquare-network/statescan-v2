@@ -6,6 +6,7 @@ const { updateInstance } = require("../../common/instance/update");
 const { queryInstanceMetadata } = require("../../query/instance/metadata");
 const {
   consts: { TimelineItemTypes },
+  utils: { md5 },
 } = require("@osn/scan-common");
 
 async function handleMetadataSet(event, indexer) {
@@ -15,12 +16,15 @@ async function handleMetadataSet(event, indexer) {
     instanceId,
     indexer.blockHash,
   );
-  await updateInstance(
-    classId,
-    instanceId,
-    { metadata: metadata || null },
-    indexer,
-  );
+
+  let updates = { metadata: metadata || null, dataHash: null };
+  if (metadata) {
+    updates = {
+      ...updates,
+      dataHash: md5(metadata.data),
+    };
+  }
+  await updateInstance(classId, instanceId, updates, indexer);
   await insertInstanceTimelineItem(classId, instanceId, {
     indexer,
     name: event.method,
