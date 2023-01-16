@@ -69,7 +69,7 @@ export default function Sections() {
   const { modules } = useChainSettings();
 
   return (
-    <FlexColumn gap={32}>
+    <FlexColumn gap={16}>
       <SectionsWrapper gap={24}>
         <Section>
           <Title>Latest Blocks</Title>
