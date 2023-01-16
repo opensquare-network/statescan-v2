@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import SquareBox from "../squareBox";
 import NftImage from "../image";
 import List from "../../../components/list";
 import { toNftDetailItem } from "../../../utils/viewFuncs/toDetailItem";
@@ -35,11 +34,15 @@ const Wrapper = styled.div`
   }
 
   > :nth-child(2) {
-    padding: 0;
     margin-right: 24px;
-    border: none;
-    box-shadow: none;
     flex-grow: 1;
+  }
+`;
+
+const HeaderWrapper = styled.div`
+  padding-left: 24px;
+  @media screen and (max-width: 900px) {
+    padding-left: 0;
   }
 `;
 
@@ -55,22 +58,22 @@ export default function Panel({ nftClass }) {
   return (
     <Wrapper>
       <div>
-        <SquareBox background={parsedMetadata?.resource?.metadata?.background}>
-          <NftImage parsedMetadata={parsedMetadata} />
-        </SquareBox>
+        <NftImage parsedMetadata={parsedMetadata} />
       </div>
-      <List
-        header={
-          <>
-            <NftInfo
-              title={parsedMetadata?.name ?? "[Unrecognized]"}
-              description={parsedMetadata?.description ?? "-"}
-            />
-            <Divider />
-          </>
-        }
-        data={listData}
-      />
+      <div>
+        <List
+          header={
+            <HeaderWrapper>
+              <NftInfo
+                title={parsedMetadata?.name ?? "[Unrecognized]"}
+                description={parsedMetadata?.description ?? "-"}
+              />
+              <Divider />
+            </HeaderWrapper>
+          }
+          data={listData}
+        />
+      </div>
     </Wrapper>
   );
 }

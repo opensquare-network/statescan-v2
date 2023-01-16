@@ -11,6 +11,7 @@ export const Events = "events";
 export const Logs = "logs";
 export const Timeline = "timeline";
 export const Analytics = "analytics";
+export const Instances = "instances";
 
 export const menusBlockchain = [
   {
@@ -219,6 +220,15 @@ export const nftsHead = [
   { name: "Owner", width: 152 },
   { name: "Instance", width: 120 },
   { name: "Status", width: 160 },
+];
+
+export const nftClassInstanceHead = [
+  { name: "ID", width: 120 },
+  { name: "NFT", width: 100 },
+  { name: "Name", width: 452 },
+  { name: "Created Time", width: 200 },
+  { name: "Owner", width: 152 },
+  { name: "Status" },
 ];
 
 export const destroyedAssetsHead = [

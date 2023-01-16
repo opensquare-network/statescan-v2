@@ -14,7 +14,10 @@ async function handleDestroyed(event, indexer) {
   await deleteAssetHolders(assetId, indexer);
   await deleteAssetApprovals(assetId, indexer);
 
-  await updateActiveAsset(assetId, { destroyed: true });
+  await updateActiveAsset(assetId, {
+    destroyed: true,
+    destroyedAt: indexer,
+  });
 }
 
 module.exports = {

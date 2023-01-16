@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
   @media screen and (max-width: 700px) {
+    padding-left: 0;
     flex-direction: column;
     > :not(:first-child) {
       margin-top: 16px;

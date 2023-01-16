@@ -14,7 +14,10 @@ async function handleDestroyed(event, indexer) {
       classId,
     },
   });
-  await updateClass(classId, { isDestroyed: true });
+  await updateClass(classId, {
+    isDestroyed: true,
+    destroyedAt: indexer,
+  });
 }
 
 module.exports = {
