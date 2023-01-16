@@ -25,6 +25,7 @@ export default function IpfsLink({ cid }) {
     <a
       href={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${cid}`}
       target="_blank"
+      rel="noreferrer"
     >
       <DataIcon themeMode={themeMode} />
     </a>
