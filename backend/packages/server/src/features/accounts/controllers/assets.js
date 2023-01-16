@@ -1,28 +1,43 @@
-const { populate, populateSum } = require("../../../utils");
 const { extractPage } = require("../../../utils");
 const {
   asset: { getAssetHolderCol, getAssetCol, getAssetApprovalCol },
 } = require("@statescan/mongo");
 
 async function populateAssetDetails(items) {
-  return await populate({
-    items,
-    mapItemKeys: ["assetId", "assetHeight"],
-    queryFromCol: await getAssetCol(),
-    mapColKeys: ["assetId", "assetHeight"],
-    as: "asset",
-  });
+  const assetCol = await getAssetCol();
+
+  for (const item of items) {
+    item.asset = await assetCol.findOne({
+      assetId: item.assetId,
+      assetHeight: item.assetHeight,
+    });
+  }
 }
 
 async function populateAssetApproved(items) {
-  return await populateSum({
-    items,
-    mapItemKeys: ["assetId", "assetHeight", "address"],
-    queryFromCol: await getAssetApprovalCol(),
-    mapColKeys: ["assetId", "assetHeight", "owner"],
-    sumField: "amount",
-    as: "approved",
-  });
+  const approvalCol = await getAssetApprovalCol();
+
+  for (const item of items) {
+    const [result] = await approvalCol
+      .aggregate([
+        {
+          $match: {
+            assetId: item.assetId,
+            assetHeight: item.assetHeight,
+            owner: item.address,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            approved: { $sum: "$amount" },
+          },
+        },
+      ])
+      .toArray();
+
+    item.approved = result.approved;
+  }
 }
 
 function normalizeAssets(items) {
