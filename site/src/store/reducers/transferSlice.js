@@ -40,7 +40,7 @@ export const transferFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanTransferList = () => (dispatch) => {
+export const clearTransferList = () => (dispatch) => {
   dispatch(setList(null));
 };
 

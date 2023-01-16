@@ -45,7 +45,7 @@ export const blockFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanBlockList = () => (dispatch) => {
+export const clearBlockList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
@@ -56,7 +56,7 @@ export const blockFetchDetail = (id) => async (dispatch) => {
     }
   });
 };
-export const resetBlockDetail = () => (dispatch) => {
+export const clearBlockDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

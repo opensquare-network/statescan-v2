@@ -11,7 +11,7 @@ import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
 import {
   fetchNftClassDetail,
   nftClassDetailSelector,
-  resetNftClassDetail,
+  clearNftClassDetail,
 } from "../store/reducers/nftClassSlice";
 import { Instances, nftClassInstanceHead } from "../utils/constants";
 import { toInstancesTabTableItem } from "../utils/viewFuncs/toTableItem";
@@ -35,7 +35,7 @@ export default function NftClass() {
     }
 
     return () => {
-      dispatch(resetNftClassDetail());
+      dispatch(clearNftClassDetail());
     };
   }, [dispatch, classId]);
 

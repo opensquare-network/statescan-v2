@@ -17,7 +17,7 @@ import {
   accountFetchList,
   accountListLoadingSelector,
   accountListSelector,
-  cleanAccountList,
+  clearAccountList,
 } from "../store/reducers/accountSlice";
 
 const AlignLeft = styled.div`
@@ -49,7 +49,7 @@ function Accounts() {
   }, [dispatch, page, pageSize]);
 
   useEffect(() => {
-    dispatch(cleanAccountList());
+    dispatch(clearAccountList());
   }, [dispatch]);
 
   const data =

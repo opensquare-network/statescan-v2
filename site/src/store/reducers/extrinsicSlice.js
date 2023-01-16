@@ -45,7 +45,7 @@ export const extrinsicFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanExtrinsicList = () => (dispatch) => {
+export const clearExtrinsicList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
@@ -56,7 +56,7 @@ export const extrinsicFetchDetail = (id) => async (dispatch) => {
     }
   });
 };
-export const resetExtrinsicDetail = () => (dispatch) => {
+export const clearExtrinsicDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

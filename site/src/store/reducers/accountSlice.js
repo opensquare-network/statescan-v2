@@ -49,7 +49,7 @@ export const accountFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanAccountList = () => (dispatch) => {
+export const clearAccountList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
@@ -67,7 +67,7 @@ export const accountFetchDetail = (id) => async (dispatch) => {
       handleApiError(error, dispatch);
     });
 };
-export const resetAccountDetail = () => (dispatch) => {
+export const clearAccountDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

@@ -19,7 +19,7 @@ import {
   blockFetchList,
   blockListLoadingSelector,
   blockListSelector,
-  cleanBlockList,
+  clearBlockList,
 } from "../store/reducers/blockSlice";
 import { Flex } from "../components/styled/flex";
 
@@ -54,7 +54,7 @@ function Blocks() {
   }, [dispatch, page, pageSize]);
 
   useEffect(() => {
-    dispatch(cleanBlockList());
+    dispatch(clearBlockList());
   }, [dispatch]);
 
   const data =

@@ -39,7 +39,7 @@ export const fetchNftClassDetail = (id) => async (dispatch) => {
     });
 };
 
-export const resetNftClassDetail = () => (dispatch) => {
+export const clearNftClassDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

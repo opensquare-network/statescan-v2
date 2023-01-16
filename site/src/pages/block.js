@@ -27,7 +27,7 @@ import {
 import {
   blockDetailSelector,
   blockFetchDetail,
-  resetBlockDetail,
+  clearBlockDetail,
 } from "../store/reducers/blockSlice";
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
@@ -51,7 +51,7 @@ function Block() {
     }
 
     return () => {
-      dispatch(resetBlockDetail());
+      dispatch(clearBlockDetail());
     };
   }, [id, dispatch]);
 

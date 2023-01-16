@@ -45,7 +45,7 @@ export const eventFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanEventList = () => (dispatch) => {
+export const clearEventList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
@@ -56,7 +56,7 @@ export const eventFetchDetail = (id) => async (dispatch) => {
     }
   });
 };
-export const resetEventDetail = () => (dispatch) => {
+export const clearEventDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

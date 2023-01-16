@@ -41,7 +41,7 @@ export const nftFetchList =
       });
   };
 
-export const cleanNftList = () => (dispatch) => {
+export const clearNftList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
