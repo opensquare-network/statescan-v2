@@ -12,7 +12,7 @@ import {
   assetFetchList,
   assetListLoadingSelector,
   assetListSelector,
-  cleanAssetList,
+  clearAssetList,
 } from "../store/reducers/assetSlice";
 import { useAssetsTableData } from "../utils/hooks/useAssetsTableData";
 
@@ -37,7 +37,7 @@ function Assets() {
 
     return () => {
       controller.abort();
-      dispatch(cleanAssetList());
+      dispatch(clearAssetList());
     };
   }, [dispatch, page, pageSize]);
 

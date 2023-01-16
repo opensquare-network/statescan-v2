@@ -14,7 +14,7 @@ import {
 import {
   eventDetailSelector,
   eventFetchDetail,
-  cleanEventDetail,
+  clearEventDetail,
 } from "../store/reducers/eventSlice";
 import EventAttributeDisplay from "../components/eventAttributeDisplay";
 
@@ -35,7 +35,7 @@ function Event() {
     }
 
     return () => {
-      dispatch(cleanEventDetail());
+      dispatch(clearEventDetail());
     };
   }, [id, dispatch]);
 

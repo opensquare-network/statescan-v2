@@ -45,7 +45,7 @@ export const callFetchList =
         dispatch(setListLoading(false));
       });
   };
-export const cleanCallList = () => (dispatch) => {
+export const clearCallList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
@@ -56,7 +56,7 @@ export const callFetchDetail = (id) => async (dispatch) => {
     }
   });
 };
-export const cleanCallDetail = () => (dispatch) => {
+export const clearCallDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

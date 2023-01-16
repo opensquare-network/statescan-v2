@@ -12,7 +12,7 @@ import {
   nftFetchList,
   nftListLoadingSelector,
   nftListSelector,
-  cleanNftList,
+  clearNftList,
 } from "../store/reducers/nftSlice";
 import { useNftsTableData } from "../utils/hooks/useNftsTableData";
 import { useNftFilter } from "../utils/hooks/nftFilter";
@@ -57,7 +57,7 @@ function Nfts() {
   }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
-    dispatch(cleanNftList());
+    dispatch(clearNftList());
   }, [dispatch]);
 
   return (

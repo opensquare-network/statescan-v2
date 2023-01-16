@@ -13,7 +13,7 @@ import * as queryString from "query-string";
 import { useEventFilter } from "../utils/hooks/eventFilter";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  cleanEventList,
+  clearEventList,
   eventFetchList,
   eventListLoadingSelector,
   eventListSelector,
@@ -85,7 +85,7 @@ function Events() {
   }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
-    dispatch(cleanEventList());
+    dispatch(clearEventList());
   }, [dispatch]);
 
   const data =

@@ -65,11 +65,11 @@ export const assetFetchDetail = (id) => async (dispatch) => {
     });
 };
 
-export const cleanAssetList = () => (dispatch) => {
+export const clearAssetList = () => (dispatch) => {
   dispatch(setList(null));
 };
 
-export const cleanAssetDetail = () => (dispatch) => {
+export const clearAssetDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };
 

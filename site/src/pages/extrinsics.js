@@ -19,7 +19,7 @@ import Tooltip from "../components/tooltip";
 import { useExtrinsicFilter } from "../utils/hooks/extrinsicFilter";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  cleanExtrinsicList,
+  clearExtrinsicList,
   extrinsicFetchList,
   extrinsicListLoadingSelector,
   extrinsicListSelector,
@@ -65,7 +65,7 @@ function Extrinsics() {
   }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
-    dispatch(cleanExtrinsicList());
+    dispatch(clearExtrinsicList());
   }, [dispatch]);
 
   const data =

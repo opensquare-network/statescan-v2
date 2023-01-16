@@ -11,7 +11,7 @@ import {
   assetFetchList,
   assetListLoadingSelector,
   assetListSelector,
-  cleanAssetList,
+  clearAssetList,
 } from "../../store/reducers/assetSlice";
 import {
   destroyedAssetsHead,
@@ -48,7 +48,7 @@ export default function DestroyedAssets() {
 
     return () => {
       controller.abort();
-      dispatch(cleanAssetList());
+      dispatch(clearAssetList());
     };
   }, [dispatch, page, pageSize]);
 

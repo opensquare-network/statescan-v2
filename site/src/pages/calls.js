@@ -12,7 +12,7 @@ import {
   callFetchList,
   callListLoadingSelector,
   callListSelector,
-  cleanCallList,
+  clearCallList,
 } from "../store/reducers/callSlice";
 
 function Calls() {
@@ -35,7 +35,7 @@ function Calls() {
   }, [dispatch, page, pageSize]);
 
   useEffect(() => {
-    dispatch(cleanCallList());
+    dispatch(clearCallList());
   }, [dispatch]);
 
   return (
