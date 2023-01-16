@@ -36,7 +36,7 @@ async function populateAssetApproved(items) {
       ])
       .toArray();
 
-    item.approved = result.approved;
+    item.approved = result?.approved || 0;
   }
 }
 
