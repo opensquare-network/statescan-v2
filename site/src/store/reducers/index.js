@@ -16,6 +16,7 @@ import accountReducer from "./accountSlice";
 import transferReducer from "./transferSlice";
 import assetReducer from "./assetSlice";
 import nftReducer from "./nftSlice";
+import nftClassReducer from "./nftClassSlice";
 
 export default combineReducers({
   setting: settingReducer,
@@ -34,4 +35,5 @@ export default combineReducers({
   transfer: transferReducer,
   asset: assetReducer,
   nft: nftReducer,
+  nftClass: nftClassReducer,
 });
