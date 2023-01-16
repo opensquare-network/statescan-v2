@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { Modal } from "semantic-ui-react";
 import styled from "styled-components";
+import isNil from "lodash.isnil";
 import NftImage from "../image/index";
 import { useKeyPress } from "../../../utils/hooks/useKeyPress";
 import { time } from "../../../utils/viewFuncs/time";
@@ -8,17 +8,7 @@ import AddressOrIdentity from "../../address/index";
 import NftInfo from "../info";
 import { ColoredInterLink } from "../../styled/link";
 import InfoField from "./infoField";
-import isNil from "lodash.isnil";
-
-const MyModal = styled(Modal)`
-  > div {
-    box-shadow: none;
-    border: none;
-  }
-
-  background-color: ${(p) => p.theme.fillBase} !important;
-  padding: 24px;
-`;
+import Modal from "../../modal";
 
 const Fields = styled.div`
   display: flex;
@@ -89,7 +79,7 @@ export default function NftPreviewBase({
   }, [pressEscape, onClose]);
 
   return (
-    <MyModal open={open} size="tiny" onClose={onClose}>
+    <Modal open={open} onClose={onClose}>
       <div style={{ width: "100%", marginBottom: "24px" }}>
         <NftImage parsedMetadata={parsedMetadata} />
       </div>
@@ -116,6 +106,6 @@ export default function NftPreviewBase({
         <button onClick={onClose}>Close</button>
         <ColoredInterLink to={detailLink}>Detail</ColoredInterLink>
       </ButtonWrapper>
-    </MyModal>
+    </Modal>
   );
 }

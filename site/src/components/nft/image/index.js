@@ -1,8 +1,15 @@
-import { Image } from "semantic-ui-react";
 import styled from "styled-components";
+import { h, max_w_full, w } from "../../../styles/tailwindcss";
 import { isCid } from "../../../utils/cid";
 import SquareBox from "./squareBox";
 import { ReactComponent as NftUnrecognizedSvg } from "./nft-unrecognized.svg";
+
+const Image = styled.img`
+  object-fit: contain;
+  ${max_w_full};
+  ${(p) => w(p.width)};
+  ${(p) => h(p.height)};
+`;
 
 const ImageWrapper = styled.div`
   display: flex;
@@ -11,10 +18,6 @@ const ImageWrapper = styled.div`
   height: 100%;
   width: 100%;
   background-color: ${(props) => props.background ?? "#555555"};
-
-  img {
-    object-fit: contain;
-  }
 `;
 
 function ImageBox({ children, background }) {

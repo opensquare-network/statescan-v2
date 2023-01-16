@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import GlobalProvider from "./context/provider";
-import "semantic-ui-css/semantic.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
