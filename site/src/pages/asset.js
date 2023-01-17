@@ -7,6 +7,7 @@ import List from "../components/list";
 import {
   assetDetailSelector,
   assetFetchDetail,
+  clearAssetAnalytics,
   clearAssetDetail,
 } from "../store/reducers/assetSlice";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
@@ -110,6 +111,7 @@ function Asset() {
   useEffect(() => {
     return () => {
       dispatch(clearDetailTables());
+      dispatch(clearAssetAnalytics());
     };
   }, [dispatch]);
 
