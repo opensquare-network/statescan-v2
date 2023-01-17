@@ -11,6 +11,7 @@ import {
 import styled from "styled-components";
 import Overview from "../components/home/overview";
 import { m_t } from "../styles/tailwindcss";
+import { clearNftList } from "../store/reducers/nftSlice";
 
 const SectionsWrapper = styled.div`
   ${m_t(16)};
@@ -29,6 +30,7 @@ function Home() {
       unSubscribeHomepageInfo();
       dispatch(setLatestSignedTransfers([]));
       dispatch(setLatestBlocks([]));
+      dispatch(clearNftList());
     };
   }, [dispatch]);
 
