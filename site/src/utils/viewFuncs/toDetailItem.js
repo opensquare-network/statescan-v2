@@ -116,7 +116,11 @@ export const toNftDetailItem = (id, nft) => {
     "Created Time": (
       <TextSecondary>{time(nft?.indexer?.blockTime)}</TextSecondary>
     ),
-    Instance: <TextSecondary>{nft?.details?.instances}</TextSecondary>,
+    Instance: (
+      <TextSecondary>
+        {nft?.details?.items ?? nft?.details?.instances}
+      </TextSecondary>
+    ),
     Owner: <AddressOrIdentity address={nft?.details?.owner} ellipsis={false} />,
     Issuer: (
       <AddressOrIdentity address={nft?.details?.issuer} ellipsis={false} />

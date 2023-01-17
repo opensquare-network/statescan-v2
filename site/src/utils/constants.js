@@ -12,6 +12,7 @@ export const Logs = "logs";
 export const Timeline = "timeline";
 export const Analytics = "analytics";
 export const Instances = "instances";
+export const Attributes = "attributes";
 
 export const menusBlockchain = [
   {

@@ -78,6 +78,8 @@ export default function NftPreviewBase({
     }
   }, [pressEscape, onClose]);
 
+  const instances = details?.items ?? details?.instances;
+
   return (
     <Modal open={open} onClose={onClose}>
       <div style={{ width: "100%", marginBottom: "24px" }}>
@@ -97,9 +99,7 @@ export default function NftPreviewBase({
           name="Owner"
           value={<AddressOrIdentity address={details?.owner} />}
         />
-        {!isNil(details?.instances) && (
-          <InfoField name="Instance" value={details?.instances} />
-        )}
+        {!isNil(instances) && <InfoField name="Instance" value={instances} />}
       </Fields>
 
       <ButtonWrapper>
