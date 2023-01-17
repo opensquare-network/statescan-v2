@@ -14,7 +14,7 @@ async function createImageThumbnail(image, width, height) {
 
 async function createThumbnailFromImageData(imageData) {
   const sharpImage = sharp(imageData);
-  const { format, size, width, height } = await sharpImage.metadata();
+  const { size, width, height } = await sharpImage.metadata();
 
   // create image thumbnail from image data
   const imageThumbnailData = await createImageThumbnail(sharpImage, 32, 32);
@@ -23,7 +23,7 @@ async function createThumbnailFromImageData(imageData) {
   )}`;
 
   const { hex: background } = await getAverageColor(imageThumbnailData);
-  const metadata = { format, size, width, height, background };
+  const metadata = { size, width, height, background };
 
   return {
     metadata,

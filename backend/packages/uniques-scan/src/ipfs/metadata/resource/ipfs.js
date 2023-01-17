@@ -20,7 +20,6 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
     try {
       const { metadata, thumbnail } = await createThumbnailFromVideoData(
         imageCid,
-        imageType,
         imageData,
       );
       await saveThumbnail(hash, imageType, metadata, thumbnail);
