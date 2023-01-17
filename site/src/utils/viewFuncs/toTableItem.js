@@ -166,10 +166,11 @@ export const toAssetsTabItem = (assets) => {
 
 export const toInstancesTabTableItem = (nftClass, instances, showPreview) => {
   return instances?.map((nftInstance) => {
-    const { parsedMetadata, details, indexer } = nftInstance;
+    const { details, indexer } = nftInstance;
+    const parsedMetadata =
+      nftInstance?.parsedMetadata || nftClass?.parsedMetadata;
+    const resource = parsedMetadata?.resource;
     const link = getNftInstanceLink(nftClass, nftInstance);
-    const resource =
-      nftInstance.parsedMetadata?.resource || nftClass.parsedMetadata?.resource;
 
     return [
       <ColoredInterLink to={link}>{nftInstance.instanceId}</ColoredInterLink>,
