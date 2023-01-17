@@ -1,37 +1,7 @@
-const { HttpError, extractPage } = require("../../../utils");
+const { HttpError } = require("../../../utils");
 const {
-  uniques: { getClassCol, getInstanceCol },
+  uniques: { getClassCol },
 } = require("@statescan/mongo");
-
-async function getClassInstances(ctx) {
-  const { page, pageSize } = extractPage(ctx);
-  if (pageSize === 0 || page < 0) {
-    ctx.status = 400;
-    return;
-  }
-
-  const { classId, classHeight } = ctx.params;
-
-  const q = {
-    classId: parseInt(classId),
-    classHeight: parseInt(classHeight),
-  };
-  const instanceCol = await getInstanceCol();
-  const items = await instanceCol
-    .find(q)
-    .sort({ instanceId: 1 })
-    .skip(page * pageSize)
-    .limit(pageSize)
-    .toArray();
-  const total = await instanceCol.countDocuments(q);
-
-  ctx.body = {
-    items,
-    page,
-    pageSize,
-    total,
-  };
-}
 
 async function getClassById(ctx) {
   const { classId } = ctx.params;
@@ -68,5 +38,4 @@ async function getClassByIdAndHeight(ctx) {
 module.exports = {
   getClassById,
   getClassByIdAndHeight,
-  getClassInstances,
 };
