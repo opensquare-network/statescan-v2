@@ -40,11 +40,11 @@ export default function TimelineItemInfoHeader({ item }) {
       <Links>
         <Link
           name="Extrinsic"
-          to={`/extrinsic/${item.indexer.blockHeight}-${item.indexer.extrinsicIndex}`}
+          to={`/extrinsics/${item.indexer.blockHeight}-${item.indexer.extrinsicIndex}`}
         />
         <Link
           name="Event"
-          to={`/event/${item.indexer.blockHeight}-${item.indexer.eventIndex}`}
+          to={`/events/${item.indexer.blockHeight}-${item.indexer.eventIndex}`}
         />
       </Links>
     </Wrapper>

@@ -22,8 +22,8 @@ export function useAssetsTableData() {
   return list?.items?.map((asset) => {
     const { destroyed, assetId, assetHeight, metadata, detail } = asset;
     const link = destroyed
-      ? `/asset/${assetId}_${assetHeight}`
-      : `/asset/${assetId}`;
+      ? `/assets/${assetId}_${assetHeight}`
+      : `/assets/${assetId}`;
     const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
 
     return [
@@ -55,8 +55,8 @@ export function useDestroyedAssetsTableData() {
     const { destroyed, destroyedAt, assetId, assetHeight, metadata, detail } =
       asset;
     const link = destroyed
-      ? `/asset/${assetId}_${assetHeight}`
-      : `/asset/${assetId}`;
+      ? `/assets/${assetId}_${assetHeight}`
+      : `/assets/${assetId}`;
     const destroy = toPrecision(detail?.supply, metadata?.decimals || 0);
 
     return [

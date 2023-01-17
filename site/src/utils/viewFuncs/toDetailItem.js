@@ -41,7 +41,7 @@ export const toBlockDetailItem = (block) => {
     Hash: <TextSecondaryWithCopy>{block?.hash}</TextSecondaryWithCopy>,
     "Parent Hash": (
       <ColoredMonoLinkWithCopy
-        to={`/block/${(Number.parseInt(block?.height) - 1).toString()}`}
+        to={`/blocks/${(Number.parseInt(block?.height) - 1).toString()}`}
       >
         {block?.parentHash}
       </ColoredMonoLinkWithCopy>

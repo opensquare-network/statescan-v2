@@ -57,15 +57,17 @@ export function AddressAndIdentity({
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
   if (!identity) {
-    return <AddressTag to={`/account/${address}`}>{displayAddress}</AddressTag>;
+    return (
+      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
+    );
   }
 
   return (
     <CombinationWrapper style={{ maxWidth }}>
-      <Link to={`/account/${address}`}>
+      <Link to={`/accounts/${address}`}>
         <Identity identity={identity} />
       </Link>
-      <AddressTag to={`/account/${address}`}>{displayAddress}</AddressTag>
+      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
     </CombinationWrapper>
   );
 }
@@ -88,12 +90,14 @@ function AddressOrIdentity({ address, maxWidth = "100%", ellipsis = true }) {
 
   if (!identity) {
     const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
-    return <AddressTag to={`/account/${address}`}>{displayAddress}</AddressTag>;
+    return (
+      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
+    );
   }
 
   return (
     <Wrapper style={{ maxWidth }}>
-      <Link to={`/account/${address}`}>
+      <Link to={`/accounts/${address}`}>
         <Identity maxWidth={maxWidth} identity={identity} />
       </Link>
     </Wrapper>

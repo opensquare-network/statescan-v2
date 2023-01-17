@@ -12,8 +12,8 @@ export function getNftStatus(nftObject) {
 export function getNftClassLink(nftClass) {
   const { isDestroyed, classId, classHeight } = nftClass || {};
   return isDestroyed
-    ? `/unique/class/${classId}_${classHeight}`
-    : `/unique/class/${classId}`;
+    ? `/uniques/classes/${classId}_${classHeight}`
+    : `/uniques/classes/${classId}`;
 }
 
 export function getNftInstanceLink(nftClass, nftInstance) {
@@ -27,5 +27,5 @@ export function getNftInstanceLink(nftClass, nftInstance) {
     ? `${nftInstance?.instanceId}_${nftInstance?.indexer.blockHeight}`
     : nftInstance?.instanceId;
 
-  return `/unique/class/${classId}/instance/${instanceId}`;
+  return `/uniques/classes/${classId}/instances/${instanceId}`;
 }

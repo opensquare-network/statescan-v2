@@ -73,21 +73,21 @@ function Extrinsics() {
       return [
         <ColoredLink
           key={`${index}-1`}
-          to={`/extrinsic/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
+          to={`/extrinsics/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
         >
           {extrinsic?.indexer?.blockHeight.toLocaleString()}-
           {extrinsic?.indexer?.extrinsicIndex}
         </ColoredLink>,
         <ColoredLink
           key={`${index}-2`}
-          to={`/block/${extrinsic?.indexer?.blockHeight}`}
+          to={`/blocks/${extrinsic?.indexer?.blockHeight}`}
         >
           {extrinsic?.indexer?.blockHeight.toLocaleString()}
         </ColoredLink>,
         extrinsic?.indexer?.blockTime,
         <Tooltip tip={extrinsic.hash}>
           <ColoredMonoLink
-            to={`/extrinsic/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
+            to={`/extrinsics/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
           >
             {hashEllipsis(extrinsic.hash)}
           </ColoredMonoLink>

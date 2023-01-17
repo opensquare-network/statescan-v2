@@ -12,7 +12,7 @@ const ExtrinsicLink = ({ indexer }) => {
   }
   return (
     <ColoredLink
-      to={`/extrinsic/${indexer?.blockHeight}-${indexer?.extrinsicIndex}`}
+      to={`/extrinsics/${indexer?.blockHeight}-${indexer?.extrinsicIndex}`}
     >
       {indexer?.blockHeight.toLocaleString()}-{indexer?.extrinsicIndex}
     </ColoredLink>
@@ -23,7 +23,7 @@ function TransferTableRow(transfer, key, chainSetting) {
   return [
     <ColoredLink
       key={`${key}-1`}
-      to={`/event/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.eventIndex}`}
+      to={`/events/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.eventIndex}`}
     >
       {transfer?.indexer?.blockHeight.toLocaleString()}-
       {transfer?.indexer?.eventIndex}

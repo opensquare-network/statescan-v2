@@ -4,7 +4,7 @@ import { ColoredInterLinkWithCopy } from "../styled/link";
 export default function DetailedExtrinsicId({ blockHeight, id }) {
   return (
     <ColoredInterLinkWithCopy
-      to={`/extrinsic/${blockHeight}-${id}`}
+      to={`/extrinsics/${blockHeight}-${id}`}
       render={() => `${currencify(blockHeight)}-${id}`}
     >
       {`${blockHeight}-${id}`}
