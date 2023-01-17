@@ -94,7 +94,7 @@ function LatestBlocks({ blocks }) {
               <BlockSquareIcon />
             </PC>
             <div>
-              <Link to={`/block/${block.height}`}>
+              <Link to={`/blocks/${block.height}`}>
                 <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
               </Link>
               <Flex gap={8}>
@@ -114,13 +114,13 @@ function LatestBlocks({ blocks }) {
             <FlexEnd style={{ fontSize: 12, marginTop: 4 }} gap={8}>
               <Flex gap={8}>
                 <Label>Extrinsics</Label>
-                <Link to={`/block/${block.height}?tab=extrinsics`}>
+                <Link to={`/blocks/${block.height}?tab=extrinsics`}>
                   <Bold>{block.extrinsicsCount}</Bold>
                 </Link>
               </Flex>
               <Flex gap={8}>
                 <Label>Events</Label>
-                <Link to={`/block/${block.height}?tab=events`}>
+                <Link to={`/blocks/${block.height}?tab=events`}>
                   <Bold>{block.eventsCount}</Bold>
                 </Link>
               </Flex>

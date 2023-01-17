@@ -4,7 +4,7 @@ export function makeExploreDropdownItemRouteLink(type, value) {
     const assetId = value.destroyed
       ? `${value.assetId}_${value.assetHeight}`
       : `${value.assetId}`;
-    return `/asset/${assetId}`;
+    return `/assets/${assetId}`;
   }
 
   return `/${type}/${value}`;

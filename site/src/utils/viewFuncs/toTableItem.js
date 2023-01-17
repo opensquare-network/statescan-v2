@@ -31,14 +31,14 @@ export const toEventTabTableItem = (events) => {
       return [
         <ColoredLink
           key={`${index}-1`}
-          to={`/event/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
+          to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
         >
           {event?.indexer?.blockHeight.toLocaleString()}-
           {event?.indexer?.eventIndex}
         </ColoredLink>,
         <ColoredLink
           key={`${index}-1`}
-          to={`/extrinsic/${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
+          to={`/extrinsics/${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
         >
           {event?.indexer?.blockHeight.toLocaleString()}-
           {event?.indexer?.extrinsicIndex}
@@ -56,14 +56,14 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
       return [
         <ColoredLink
           key={`${index}-1`}
-          to={`/event/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.eventIndex}`}
+          to={`/events/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.eventIndex}`}
         >
           {transfer?.indexer?.blockHeight.toLocaleString()}-
           {transfer?.indexer?.eventIndex}
         </ColoredLink>,
         <ColoredLink
           key={`${index}-2`}
-          to={`/extrinsic/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
+          to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
         >
           {transfer?.indexer?.blockHeight.toLocaleString()}-
           {transfer?.indexer?.extrinsicIndex}
@@ -98,7 +98,7 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
       return [
         <ColoredLink
           key={`${index}-1`}
-          to={`/extrinsic/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
+          to={`/extrinsics/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
         >
           {extrinsic?.indexer?.blockHeight.toLocaleString()}-
           {extrinsic?.indexer?.extrinsicIndex}
@@ -146,8 +146,8 @@ export const toAssetsTabItem = (assets) => {
     } = asset;
 
     const link = destroyed
-      ? `/asset/${assetId}_${assetHeight}`
-      : `/asset/${assetId}`;
+      ? `/assets/${assetId}_${assetHeight}`
+      : `/assets/${assetId}`;
     const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
 
     return [

@@ -60,7 +60,7 @@ function Blocks() {
   const data =
     list?.items?.map((block, index) => {
       return [
-        <ColoredLink key={`${index}-1`} to={`/block/${block?.height}`}>
+        <ColoredLink key={`${index}-1`} to={`/blocks/${block?.height}`}>
           {block?.height?.toLocaleString()}
         </ColoredLink>,
         block?.time,
@@ -68,7 +68,7 @@ function Blocks() {
           <FinalizedState finalized={block?.isFinalized} />
         </Flex>,
         <Tooltip tip={block.hash}>
-          <ColoredMonoLink to={`/block/${block?.height}`}>
+          <ColoredMonoLink to={`/blocks/${block?.height}`}>
             {hashEllipsis(block.hash)}
           </ColoredMonoLink>
         </Tooltip>,

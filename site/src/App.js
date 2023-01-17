@@ -29,29 +29,29 @@ function App() {
         {assets && (
           <Fragment>
             <Route path="/assets" element={<Assets />} />
-            <Route path="/asset/:assetId" element={<Asset />} />
+            <Route path="/assets/:assetId" element={<Asset />} />
             <Route path="/destroyed/assets" element={<DestroyedAssets />} />
           </Fragment>
         )}
         {uniques && (
           <Fragment>
             <Route path="/uniques" element={<Nfts />} />
-            <Route path="/unique/class/:classId" element={<NftClass />} />
+            <Route path="/uniques/classes/:classId" element={<NftClass />} />
           </Fragment>
         )}
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/blocks" element={<Blocks />} />
-        <Route path="/block/:id" element={<Block />} />
+        <Route path="/blocks/:id" element={<Block />} />
         <Route path="/extrinsics" element={<Extrinsics />} />
-        <Route path="/extrinsic/:id" element={<Extrinsic />} />
+        <Route path="/extrinsics/:id" element={<Extrinsic />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/event/:id" element={<Event />} />
+        <Route path="/events/:id" element={<Event />} />
         <Route path="/transfers" element={<Transfers />} />
         <Route path="/accounts" element={<Accounts />} />
-        <Route path="/account/:id" element={<Account />} />
+        <Route path="/accounts/:id" element={<Account />} />
         <Route path="/calls" element={<Calls />} />
-        <Route path="/call/:id" element={<Call />} />
+        <Route path="/calls/:id" element={<Call />} />
       </Routes>
     </HashRouter>
   );

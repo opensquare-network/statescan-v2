@@ -102,7 +102,7 @@ function LatestTransfers({ transfers }) {
               </PC>
               <div>
                 <Link
-                  to={`/extrinsic/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
+                  to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
                 >
                   <BlockHeight>
                     {transfer?.indexer?.blockHeight?.toLocaleString()}-

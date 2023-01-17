@@ -93,21 +93,21 @@ function Events() {
       return [
         <ColoredLink
           key={`${index}-1`}
-          to={`/event/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
+          to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
         >
           {event?.indexer?.blockHeight.toLocaleString()}-
           {event?.indexer?.eventIndex}
         </ColoredLink>,
         <ColoredLink
           key={`${index}-2`}
-          to={`/block/${event?.indexer?.blockHeight}`}
+          to={`/blocks/${event?.indexer?.blockHeight}`}
         >
           {event?.indexer?.blockHeight.toLocaleString()}
         </ColoredLink>,
         event?.indexer?.blockTime,
         <ColoredLink
           key={`${index}-3`}
-          to={`/extrinsic/${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
+          to={`/extrinsics/${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
         >
           {event?.indexer?.blockHeight.toLocaleString()}-
           {event?.indexer?.extrinsicIndex}

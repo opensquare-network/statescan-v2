@@ -14,17 +14,17 @@ export default function CallsTable(props) {
   const tableData = data?.map((item) => {
     return [
       <ColoredLink
-        to={`/call/${item?.indexer?.blockHeight}-${item?.indexer?.extrinsicIndex}-${item?.indexer?.callIndex}`}
+        to={`/calls/${item?.indexer?.blockHeight}-${item?.indexer?.extrinsicIndex}-${item?.indexer?.callIndex}`}
       >
         {item?.indexer?.blockHeight.toLocaleString()}-{item?.indexer?.callIndex}
       </ColoredLink>,
       <ColoredLink
-        to={`/extrinsic/${item?.indexer?.blockHeight}-${item?.indexer?.extrinsicIndex}`}
+        to={`/extrinsics/${item?.indexer?.blockHeight}-${item?.indexer?.extrinsicIndex}`}
       >
         {item?.indexer?.blockHeight.toLocaleString()}-
         {item?.indexer?.extrinsicIndex}
       </ColoredLink>,
-      <ColoredLink to={`/block/${item?.indexer?.blockHeight}`}>
+      <ColoredLink to={`/blocks/${item?.indexer?.blockHeight}`}>
         {item?.indexer?.blockHeight.toLocaleString()}
       </ColoredLink>,
       item?.indexer?.blockTime,

@@ -19,7 +19,7 @@ export default function SymbolLink({
   destroyed = false,
 }) {
   const link = destroyed
-    ? `/asset/${assetId}_${assetHeight}`
-    : `/asset/${assetId}`;
+    ? `/assets/${assetId}_${assetHeight}`
+    : `/assets/${assetId}`;
   return <MyLink to={link}>{children}</MyLink>;
 }
