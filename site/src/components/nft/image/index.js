@@ -66,32 +66,35 @@ export default function NftImage({ parsedMetadata }) {
     );
   }
 
-  return (
-    <ImageBox background={background}>
-      {type.startsWith("video/") ? (
-        <Video
+  let theImage;
+  if (type.startsWith("video/")) {
+    theImage = (
+      <Video
+        src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
+        width={width ?? 480}
+        height={height ?? 480}
+        alt=""
+        autoPlay
+        playsInline
+        loop
+        muted
+      >
+        <source
           src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
-          width={width ?? 480}
-          height={height ?? 480}
-          alt=""
-          autoPlay
-          playsInline
-          loop
-          muted
-        >
-          <source
-            src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
-            type={type}
-          />
-        </Video>
-      ) : (
-        <Image
-          src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
-          width={width ?? 480}
-          height={height ?? 480}
-          alt=""
+          type={type}
         />
-      )}
-    </ImageBox>
-  );
+      </Video>
+    );
+  } else {
+    theImage = (
+      <Image
+        src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
+        width={width ?? 480}
+        height={height ?? 480}
+        alt=""
+      />
+    );
+  }
+
+  return <ImageBox background={background}>{theImage}</ImageBox>;
 }
