@@ -27,8 +27,8 @@ export const transferListApi = `/transfers`;
 
 // assets
 export const assetListApi = `/assets`;
-export const assetApi = (id) => `/asset/${id}`;
+export const assetApi = (id) => `/assets/${id}`;
 
 // nfts
 export const nftListApi = `/uniques/classes`;
-export const nftClassApi = (id) => `/uniques/class/${id}`;
+export const nftClassApi = (id) => `/uniques/classes/${id}`;
