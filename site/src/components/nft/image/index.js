@@ -1,22 +1,9 @@
 import styled from "styled-components";
-import { h, max_w_full, w } from "../../../styles/tailwindcss";
 import { isCid } from "../../../utils/cid";
 import SquareBox from "./squareBox";
 import { ReactComponent as NftUnrecognizedSvg } from "./nft-unrecognized.svg";
-
-const Image = styled.img`
-  object-fit: contain;
-  ${max_w_full};
-  ${(p) => w(p.width)};
-  ${(p) => h(p.height)};
-`;
-
-const Video = styled.video`
-  object-fit: contain;
-  ${max_w_full};
-  ${(p) => w(p.width)};
-  ${(p) => h(p.height)};
-`;
+import Video from "./video";
+import Image from "./image";
 
 const ImageWrapper = styled.div`
   display: flex;
@@ -66,35 +53,25 @@ export default function NftImage({ parsedMetadata }) {
     );
   }
 
-  let theImage;
+  let media;
   if (type.startsWith("video/")) {
-    theImage = (
+    media = (
       <Video
         src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
         width={width ?? 480}
         height={height ?? 480}
-        alt=""
-        autoPlay
-        playsInline
-        loop
-        muted
-      >
-        <source
-          src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
-          type={type}
-        />
-      </Video>
+        type={type}
+      />
     );
   } else {
-    theImage = (
+    media = (
       <Image
         src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
         width={width ?? 480}
         height={height ?? 480}
-        alt=""
       />
     );
   }
 
-  return <ImageBox background={background}>{theImage}</ImageBox>;
+  return <ImageBox background={background}>{media}</ImageBox>;
 }
