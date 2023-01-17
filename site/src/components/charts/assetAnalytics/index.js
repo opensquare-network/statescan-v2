@@ -1,9 +1,13 @@
 import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import api from "../../../services/api";
-import { assetDetailSelector } from "../../../store/reducers/assetSlice";
+import {
+  assetAnalyticsSelector,
+  assetDetailSelector,
+  setAnalytics,
+} from "../../../store/reducers/assetSlice";
 import { ASSET_ANALYTICS_RANGE } from "../../../utils/constants";
 import { Panel } from "../../styled/panel";
 import AssetAnalyticsChartBody from "./body";
@@ -15,13 +19,13 @@ const Wrapper = styled(Panel)`
 `;
 
 export default function AssetAnalyticsChart({ url }) {
+  const dispatch = useDispatch();
   const [range, setRange] = useState(ASSET_ANALYTICS_RANGE.ALL);
   const detail = useSelector(assetDetailSelector);
+  const analytics = useSelector(assetAnalyticsSelector);
   const [amountHidden, setAmountHidden] = useState(false);
   const [countHidden, setCountHidden] = useState(false);
   const [holdersHidden, setHoldersHidden] = useState(false);
-
-  const [assetsData, setAssetsData] = useState([]);
 
   const rangeData = useMemo(() => {
     const rangeDateMap = {
@@ -30,24 +34,24 @@ export default function AssetAnalyticsChart({ url }) {
     };
 
     if (range === ASSET_ANALYTICS_RANGE.ALL) {
-      return assetsData;
+      return analytics;
     } else {
       const ts = moment().subtract(1, rangeDateMap[range]).valueOf();
-      return assetsData.filter((item) => item?.indexer?.blockTime > ts);
+      return analytics.filter((item) => item?.indexer?.blockTime > ts);
     }
-  }, [range, assetsData]);
+  }, [range, analytics]);
 
   useEffect(() => {
-    if (!url) {
+    if (!url || analytics?.length) {
       return;
     }
 
     api.fetch(url).then(({ result }) => {
       if (result) {
-        setAssetsData(result);
+        dispatch(setAnalytics(result));
       }
     });
-  }, [url]);
+  }, [dispatch, url, analytics?.length]);
 
   return (
     <Wrapper>
