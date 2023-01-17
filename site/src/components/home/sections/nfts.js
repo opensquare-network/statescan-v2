@@ -28,6 +28,7 @@ export default function Nfts() {
   useEffect(() => {
     const controller = new AbortController();
 
+    // TODO: need params
     dispatch(nftFetchList(page, pageSize, {}, { signal: controller.signal }));
 
     return () => {
