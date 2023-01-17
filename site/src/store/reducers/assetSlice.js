@@ -14,6 +14,7 @@ const assetSlice = createSlice({
     list: null,
     listLoading: false,
     detail: null,
+    analytics: [],
   },
   reducers: {
     setList(state, { payload }) {
@@ -25,14 +26,19 @@ const assetSlice = createSlice({
     setDetail(state, { payload }) {
       state.detail = payload;
     },
+    setAnalytics(state, { payload }) {
+      state.analytics = payload;
+    },
   },
 });
 
-export const { setList, setListLoading, setDetail } = assetSlice.actions;
+export const { setList, setListLoading, setDetail, setAnalytics } =
+  assetSlice.actions;
 
 export const assetListSelector = (state) => state[name].list;
 export const assetDetailSelector = (state) => state[name].detail;
 export const assetListLoadingSelector = (state) => state[name].listLoading;
+export const assetAnalyticsSelector = (state) => state[name].analytics;
 
 export const assetFetchList =
   (page, pageSize, params, fetchOptions) => async (dispatch) => {
@@ -71,6 +77,10 @@ export const clearAssetList = () => (dispatch) => {
 
 export const clearAssetDetail = () => (dispatch) => {
   dispatch(setDetail(null));
+};
+
+export const clearAssetAnalytics = () => (dispatch) => {
+  dispatch(setAnalytics([]));
 };
 
 export default assetSlice.reducer;
