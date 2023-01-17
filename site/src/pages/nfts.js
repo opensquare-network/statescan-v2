@@ -57,7 +57,9 @@ function Nfts() {
   }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
-    dispatch(clearNftList());
+    return () => {
+      dispatch(clearNftList());
+    };
   }, [dispatch]);
 
   return (
