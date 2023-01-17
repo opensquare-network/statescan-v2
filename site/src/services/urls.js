@@ -32,3 +32,6 @@ export const assetApi = (id) => `/assets/${id}`;
 // nfts
 export const nftListApi = `/uniques/classes`;
 export const nftClassApi = (id) => `/uniques/classes/${id}`;
+
+export const nftInstanceApi = (classId, instanceId) =>
+  `/uniques/classes/${classId}/instances/${instanceId}`;
