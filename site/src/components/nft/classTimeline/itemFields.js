@@ -1,8 +1,7 @@
+import maybeHexToUft8 from "../../../utils/hex";
 import AddressOrIdentity from "../../address/index";
 import TimelineItemFields from "../../timeline/itemFields";
 import { Text } from "../../timeline/styled";
-import { hexToString, isHex } from "@polkadot/util";
-import { hexIsValidUTF8 } from "../../../utils/utf8validate";
 
 function getFields(timelineItem) {
   switch (timelineItem.name) {
@@ -55,11 +54,7 @@ function getFields(timelineItem) {
       const { classId, data, isFrozen } = timelineItem.args;
       return {
         "Class ID": <Text>{`#${classId}`}</Text>,
-        Data: (
-          <Text>
-            {isHex(data) && hexIsValidUTF8(data) ? hexToString(data) : data}
-          </Text>
-        ),
+        Data: <Text>{maybeHexToUft8(data)}</Text>,
         Frozen: <Text>{isFrozen ? "Yes" : "No"}</Text>,
       };
     }

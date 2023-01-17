@@ -14,8 +14,15 @@ import {
   nftClassDetailSelector,
   clearNftClassDetail,
 } from "../store/reducers/nftClassSlice";
-import { Instances, nftClassInstanceHead, Timeline } from "../utils/constants";
+import {
+  Attributes,
+  Instances,
+  nftClassInstanceHead,
+  Timeline,
+} from "../utils/constants";
 import { toInstancesTabTableItem } from "../utils/viewFuncs/toTableItem";
+import DetailTableNoPage from "../components/detail/tableNoPage";
+import AttributesList from "../components/nft/attributesList";
 
 export default function NftClass() {
   const { classId } = useParams();
@@ -46,6 +53,9 @@ export default function NftClass() {
   const timelineApiKey =
     detail &&
     `/uniques/classes/${detail?.classId}_${detail?.classHeight}/timeline`;
+  const attributesApiKey =
+    detail &&
+    `/uniques/classes/${detail?.classId}_${detail?.classHeight}/attributes`;
 
   const MyNftClassTimeline = useCallback(
     ({ data, loading }) => (
@@ -73,6 +83,16 @@ export default function NftClass() {
       count: tablesData?.[timelineApiKey]?.total,
       children: (
         <DetailTable url={timelineApiKey} TableComponent={MyNftClassTimeline} />
+      ),
+    },
+    {
+      name: Attributes,
+      count: tablesData?.[attributesApiKey]?.total,
+      children: (
+        <DetailTableNoPage
+          url={attributesApiKey}
+          TableComponent={AttributesList}
+        />
       ),
     },
   ];
