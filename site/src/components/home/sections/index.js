@@ -17,6 +17,7 @@ import { mobilecss } from "../../../styles/responsive";
 import { mdcss } from "../../../styles/responsive";
 import Assets from "./assets";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import Nfts from "./nfts";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -103,6 +104,21 @@ export default function Sections() {
             }
           >
             <Assets />
+          </StyledPanelTableWrapper>
+        </Section>
+      )}
+
+      {modules?.uniques && (
+        <Section>
+          <Title>NFT</Title>
+          <StyledPanelTableWrapper
+            footer={
+              <AnchorWrapper>
+                <Anchor to="/uniques">View All</Anchor>
+              </AnchorWrapper>
+            }
+          >
+            <Nfts />
           </StyledPanelTableWrapper>
         </Section>
       )}
