@@ -54,7 +54,7 @@ export default function NftImage({ parsedMetadata }) {
   }
 
   let media;
-  if (type.startsWith("video/")) {
+  if (type?.startsWith("video/")) {
     media = (
       <Video
         src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
