@@ -1,6 +1,6 @@
 import { ReactComponent as MetadataSet } from "./set-metadata.svg";
 import { ReactComponent as MetadataCleared } from "./clear-metadata.svg";
-import { ReactComponent as OwnerChanged } from "./transfer-ownership.svg";
+import { ReactComponent as Transferred } from "./transfer-ownership.svg";
 import { ReactComponent as Frozen } from "./freeze-asset.svg";
 import { ReactComponent as Thawed } from "./thaw-asset.svg";
 import { ReactComponent as Burned } from "./burn.svg";
@@ -19,7 +19,7 @@ const icons = {
   MetadataCleared,
   AttributeSet,
   AttributeCleared,
-  Transferred: OwnerChanged,
+  Transferred,
   ApprovedTransfer,
   ApprovalCancelled,
 };
