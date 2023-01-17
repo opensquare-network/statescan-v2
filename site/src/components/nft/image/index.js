@@ -11,6 +11,13 @@ const Image = styled.img`
   ${(p) => h(p.height)};
 `;
 
+const Video = styled.video`
+  object-fit: contain;
+  ${max_w_full};
+  ${(p) => w(p.width)};
+  ${(p) => h(p.height)};
+`;
+
 const ImageWrapper = styled.div`
   display: flex;
   justify-content: space-around;
@@ -31,7 +38,10 @@ function ImageBox({ children, background }) {
 export default function NftImage({ parsedMetadata }) {
   const {
     image,
-    resource: { metadata: { width, height, background, isDataUrl } = {} } = {},
+    resource: {
+      type,
+      metadata: { width, height, background, isDataUrl } = {},
+    } = {},
   } = parsedMetadata || {};
 
   if (isDataUrl) {
@@ -58,12 +68,30 @@ export default function NftImage({ parsedMetadata }) {
 
   return (
     <ImageBox background={background}>
-      <Image
-        src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
-        width={width ?? 480}
-        height={height ?? 480}
-        alt=""
-      />
+      {type.startsWith("video/") ? (
+        <Video
+          src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
+          width={width ?? 480}
+          height={height ?? 480}
+          alt=""
+          autoPlay
+          playsInline
+          loop
+          muted
+        >
+          <source
+            src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
+            type={type}
+          />
+        </Video>
+      ) : (
+        <Image
+          src={`${process.env.REACT_APP_DEFAULT_IPFS_GATEWAY}${image}`}
+          width={width ?? 480}
+          height={height ?? 480}
+          alt=""
+        />
+      )}
     </ImageBox>
   );
 }
