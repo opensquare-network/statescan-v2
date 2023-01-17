@@ -11,6 +11,7 @@ import { ReactComponent as Destroyed } from "./destroy.svg";
 import { ReactComponent as AttributeSet } from "./set-attribute.svg";
 import { ReactComponent as AttributeCleared } from "./clear-attribute.svg";
 import { ReactComponent as Redeposited } from "./redeposit.svg";
+import { ReactComponent as CollectionMaxSupplySet } from "./set-max-supply.svg";
 
 const icons = {
   Created,
@@ -31,6 +32,7 @@ const icons = {
   AttributeCleared,
   AssetStatusChanged,
   ItemStatusChanged: AssetStatusChanged,
+  CollectionMaxSupplySet,
 };
 
 export default icons;
