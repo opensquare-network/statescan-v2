@@ -11,15 +11,15 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
     imageData = data;
     console.log(`Mime fetched for ${imageCid}. Got type: ${type}`);
   } catch (e) {
+    console.error(`fetchMime fetch for ${imageCid}.`, e.message);
     await saveCreateThumbnailError(hash, imageType);
     return;
   }
 
-  if (imageType?.mime?.startsWith("video/")) {
+  if (imageType?.startsWith("video/")) {
     try {
       const { metadata, thumbnail } = await createThumbnailFromVideoData(
         imageCid,
-        imageType,
         imageData,
       );
       await saveThumbnail(hash, imageType, metadata, thumbnail);
@@ -29,7 +29,7 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
     return;
   }
 
-  if (imageType?.mime?.startsWith("image/")) {
+  if (imageType?.startsWith("image/")) {
     try {
       const { metadata, thumbnail } = await createThumbnailFromImageData(
         imageData,

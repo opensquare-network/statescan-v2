@@ -49,9 +49,9 @@ async function captureFirstVideoFrame(videoFilePath) {
   return firstFrameFilePath;
 }
 
-async function createThumbnailFromVideoData(ipfsCid, fileType, videoData) {
+async function createThumbnailFromVideoData(ipfsCid, videoData) {
   const tmpFolder = os.tmpdir();
-  const downloadFilePath = path.join(tmpFolder, `${ipfsCid}.${fileType.ext}`);
+  const downloadFilePath = path.join(tmpFolder, ipfsCid);
 
   fs.writeFileSync(downloadFilePath, videoData);
 
@@ -64,7 +64,6 @@ async function createThumbnailFromVideoData(ipfsCid, fileType, videoData) {
   return {
     metadata: {
       ...videoMetadata,
-      format: fileType.ext,
       background: metadata.background,
     },
     thumbnail,
