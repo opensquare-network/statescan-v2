@@ -8,16 +8,16 @@ const router = new Router();
 
 router.get("/uniques/classes", getClasses);
 router.get(
-  "/uniques/class/:classId(\\d+)_:classHeight(\\d+)",
+  "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)",
   getClassByIdAndHeight,
 );
-router.get("/uniques/class/:classId(\\d+)", getClassById);
+router.get("/uniques/classes/:classId(\\d+)", getClassById);
 router.get(
-  "/uniques/class/:classId(\\d+)_:classHeight(\\d+)/instances",
+  "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)/instances",
   getClassInstances,
 );
 router.get(
-  "/uniques/class/:classId(\\d+)_:classHeight(\\d+)/timeline",
+  "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)/timeline",
   getClassTimeline,
 );
 

@@ -42,10 +42,10 @@ export default function NftClass() {
 
   const instancesApiKey =
     detail &&
-    `/uniques/class/${detail?.classId}_${detail?.classHeight}/instances`;
+    `/uniques/classes/${detail?.classId}_${detail?.classHeight}/instances`;
   const timelineApiKey =
     detail &&
-    `/uniques/class/${detail?.classId}_${detail?.classHeight}/timeline`;
+    `/uniques/classes/${detail?.classId}_${detail?.classHeight}/timeline`;
 
   const MyNftClassTimeline = useCallback(
     ({ data, loading }) => (

@@ -46,13 +46,13 @@ function Asset() {
   );
 
   const transfersApiKey =
-    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/transfers`;
+    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/transfers`;
   const holdersApiKey =
-    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/holders`;
+    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/holders`;
   const timelineApiKey =
-    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/timeline`;
+    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/timeline`;
   const analyticsApiKey =
-    detail && `/asset/${detail?.assetId}_${detail?.assetHeight}/statistic`;
+    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/statistic`;
 
   const MyAssetTimeline = useCallback(
     ({ data, loading }) => (
