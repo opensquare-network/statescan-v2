@@ -1,6 +1,7 @@
 const os = require("os");
 const path = require("path");
 const fs = require("fs");
+const mime = require("mime-types");
 const ffmpeg = require("fluent-ffmpeg");
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffprobePath = require("@ffprobe-installer/ffprobe").path;
@@ -51,7 +52,8 @@ async function captureFirstVideoFrame(videoFilePath) {
 
 async function createThumbnailFromVideoData(ipfsCid, fileType, videoData) {
   const tmpFolder = os.tmpdir();
-  const downloadFilePath = path.join(tmpFolder, `${ipfsCid}.${fileType.ext}`);
+  const ext = mime.extension(fileType);
+  const downloadFilePath = path.join(tmpFolder, `${ipfsCid}.${ext}`);
 
   fs.writeFileSync(downloadFilePath, videoData);
 
@@ -64,7 +66,7 @@ async function createThumbnailFromVideoData(ipfsCid, fileType, videoData) {
   return {
     metadata: {
       ...videoMetadata,
-      format: fileType.ext,
+      format: ext,
       background: metadata.background,
     },
     thumbnail,
