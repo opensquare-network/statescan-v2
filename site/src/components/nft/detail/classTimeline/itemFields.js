@@ -1,7 +1,7 @@
-import maybeHexToUft8 from "../../../utils/hex";
-import AddressOrIdentity from "../../address/index";
-import TimelineItemFields from "../../timeline/itemFields";
-import { Text } from "../../timeline/styled";
+import maybeHexToUft8 from "../../../../utils/hex";
+import AddressOrIdentity from "../../../address/index";
+import TimelineItemFields from "../../../timeline/itemFields";
+import { Text } from "../../../timeline/styled";
 
 function getFields(timelineItem) {
   switch (timelineItem.name) {

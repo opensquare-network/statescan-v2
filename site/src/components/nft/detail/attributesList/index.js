@@ -1,9 +1,9 @@
-import Loading from "../../loadings/loading";
-import NoData from "../../noData";
-import List from "../../list";
+import Loading from "../../../loadings/loading";
+import NoData from "../../../noData";
+import List from "../../../list";
 import styled, { css } from "styled-components";
-import maybeHexToUft8 from "../../../utils/hex";
-import { Inter_14_500, Inter_14_600 } from "../../../styles/text";
+import maybeHexToUft8 from "../../../../utils/hex";
+import { Inter_14_500, Inter_14_600 } from "../../../../styles/text";
 
 const Row = styled.div`
   width: 100%;

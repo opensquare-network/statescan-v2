@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import NftImage from "../image";
 import List from "../../../components/list";
-import { toNftDetailItem } from "../../../utils/viewFuncs/toDetailItem";
-import { useMemo } from "react";
 import NftInfo from "../info";
 import Divider from "../../styled/divider";
 
@@ -46,15 +44,7 @@ const HeaderWrapper = styled.div`
   }
 `;
 
-export default function Panel({ nftClass }) {
-  const classId = nftClass?.classId;
-  const parsedMetadata = nftClass?.parsedMetadata;
-
-  const listData = useMemo(
-    () => (nftClass ? toNftDetailItem(classId, nftClass) : {}),
-    [classId, nftClass],
-  );
-
+export default function InfoPanelBase({ parsedMetadata, listData }) {
   return (
     <Wrapper>
       <div>
