@@ -92,28 +92,30 @@ export default function NftInstance() {
     },
   ];
 
+  const classIdWithoutHeight = classId.split("_").shift();
+  const instanceIdWithoutHeight = instanceId.split("_").shift();
+
   let breadCrumb = [
     {
       name: "NFT",
       path: "/uniques",
     },
     { name: "Class" },
-    { name: detail?.classId, path: `/uniques/classes/${classId}` },
+    { name: classIdWithoutHeight, path: `/uniques/classes/${classId}` },
     { name: "Instance" },
-    { name: detail?.instanceId },
+    { name: instanceIdWithoutHeight },
   ];
 
   if (detail?.class?.isDestroyed) {
     breadCrumb = [
-      { name: "Destroyed" },
       {
-        name: "NFT",
+        name: "Destroyed NFT",
         path: "/destroyed/uniques",
       },
       { name: "Class" },
-      { name: detail?.classId, path: `/uniques/classes/${classId}` },
+      { name: classIdWithoutHeight, path: `/uniques/classes/${classId}` },
       { name: "Instance" },
-      { name: detail?.instanceId },
+      { name: instanceIdWithoutHeight },
     ];
   }
 

@@ -97,24 +97,25 @@ export default function NftClass() {
     },
   ];
 
+  const classIdWithoutHeight = classId.split("_").shift();
+
   let breadCrumb = [
     {
       name: "NFT",
       path: "/uniques",
     },
     { name: "Class" },
-    { name: detail?.classId },
+    { name: classIdWithoutHeight },
   ];
 
   if (detail?.isDestroyed) {
     breadCrumb = [
-      { name: "Destroyed" },
       {
-        name: "NFT",
+        name: "Destroyed NFT",
         path: "/destroyed/uniques",
       },
       { name: "Class" },
-      { name: detail?.classId },
+      { name: classIdWithoutHeight },
     ];
   }
 
