@@ -49,7 +49,12 @@ export const menusAssetsDestroyed = [
     name: "Assets",
     value: "destroyed/assets",
   },
+  {
+    name: "NFT",
+    value: "destroyed/uniques",
+  },
 ];
+
 export const menusAssets = [
   {
     name: "Assets",
@@ -249,6 +254,15 @@ export const destroyedAssetsHead = [
   { name: "Destroyed Time", width: 200 },
   { name: "Owner", width: 200 },
   { name: "Total Destroyed", width: 200, align: "right" },
+];
+
+export const destroyedNftsHead = [
+  { name: "ID", width: 120 },
+  { name: "Class", width: 100 },
+  { name: "Name", width: 232 },
+  { name: "Destroyed Time", width: 200 },
+  { name: "Owner", width: 152 },
+  { name: "Instance", width: 120, align: "right" },
 ];
 
 export const timeTypes = {
