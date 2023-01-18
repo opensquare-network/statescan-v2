@@ -4,7 +4,7 @@ async function getPopularClasses(ctx) {
   const classCol = await getClassCol();
   ctx.body = await classCol
     .aggregate([
-      { $match: { isDestroyed: { $ne: true } } },
+      { $match: { isDestroyed: false } },
       {
         $addFields: {
           instances: { $ifNull: ["$details.items", "$details.instances"] },

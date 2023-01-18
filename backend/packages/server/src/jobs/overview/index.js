@@ -40,14 +40,14 @@ async function updateAccounts() {
 
 async function updateAssets() {
   const col = await getAssetCol();
-  overview.assets = await col.countDocuments({ destroyed: { $ne: true } });
+  overview.assets = await col.countDocuments({ destroyed: false });
 }
 
 async function updateNftClasses() {
   const col = await getClassCol();
-  const total = await col.countDocuments({ isDestroyed: { $ne: true } });
+  const total = await col.countDocuments({ isDestroyed: false });
   const valid = await col.countDocuments({
-    isDestroyed: { $ne: true },
+    isDestroyed: false,
     definitionValid: true,
   });
   overview.nftClasses = { valid, total };
