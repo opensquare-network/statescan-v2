@@ -58,7 +58,7 @@ function Account() {
   const tabs = [
     chainSetting.modules.assets && {
       name: "Assets",
-      count: tablesData?.[assetsApiKey]?.total,
+      count: detail?.assetsCount,
       children: (
         <DetailTable
           url={assetsApiKey}
@@ -69,7 +69,7 @@ function Account() {
     },
     {
       name: Transfers,
-      count: tablesData?.[transfersApiKey]?.total,
+      count: detail?.transfersCount,
       children: (
         <DetailTable
           url={transfersApiKey}
@@ -80,7 +80,7 @@ function Account() {
     },
     {
       name: Extrinsics,
-      count: tablesData?.[extrinsicsApiKey]?.total,
+      count: detail?.extrinsicsCount,
       children: (
         <DetailTable
           url={extrinsicsApiKey}

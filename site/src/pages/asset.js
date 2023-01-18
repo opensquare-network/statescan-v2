@@ -65,7 +65,7 @@ function Asset() {
   const tabs = [
     {
       name: Transfers,
-      count: tablesData?.[transfersApiKey]?.total,
+      count: detail?.transfersCount,
       children: (
         <DetailTable
           url={transfersApiKey}
@@ -76,7 +76,7 @@ function Asset() {
     },
     {
       name: Holders,
-      count: tablesData?.[holdersApiKey]?.total,
+      count: detail?.holdersCount,
       children: (
         <DetailTable
           url={holdersApiKey}
@@ -87,7 +87,7 @@ function Asset() {
     },
     {
       name: Timeline,
-      count: tablesData?.[timelineApiKey]?.total,
+      count: detail?.timelineCount,
       children: (
         <DetailTable url={timelineApiKey} TableComponent={MyAssetTimeline} />
       ),

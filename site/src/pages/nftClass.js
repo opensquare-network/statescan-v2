@@ -67,7 +67,7 @@ export default function NftClass() {
   const tabs = [
     {
       name: Instances,
-      count: tablesData?.[instancesApiKey]?.total,
+      count: detail?.details?.items ?? detail?.details?.instances,
       children: (
         <DetailTable
           url={instancesApiKey}
@@ -80,14 +80,14 @@ export default function NftClass() {
     },
     {
       name: Timeline,
-      count: tablesData?.[timelineApiKey]?.total,
+      count: detail?.timelineCount,
       children: (
         <DetailTable url={timelineApiKey} TableComponent={MyNftClassTimeline} />
       ),
     },
     {
       name: Attributes,
-      count: tablesData?.[attributesApiKey]?.total,
+      count: detail?.attributesCount,
       children: (
         <DetailTableNoPage
           url={attributesApiKey}

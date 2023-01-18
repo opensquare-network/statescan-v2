@@ -1,7 +1,53 @@
 const { HttpError } = require("../../../utils");
 const {
-  uniques: { getInstanceCol, getClassCol },
+  uniques: {
+    getInstanceCol,
+    getClassCol,
+    getInstanceTimelineCol,
+    getInstanceAttributeCol,
+    getInstanceTransferCol,
+  },
 } = require("@statescan/mongo");
+
+async function countInstanceTimeline(
+  classId,
+  classHeight,
+  instanceId,
+  instanceHeight,
+) {
+  const col = await getInstanceTimelineCol();
+  return await col.countDocuments({
+    classId,
+    classHeight,
+    instanceId,
+    instanceHeight,
+  });
+}
+
+async function countInstanceAttributes(
+  classId,
+  classHeight,
+  instanceId,
+  instanceHeight,
+) {
+  const col = await getInstanceAttributeCol();
+  return await col.countDocuments({
+    classId,
+    classHeight,
+    instanceId,
+    instanceHeight,
+  });
+}
+
+async function countInstanceTransfers() {
+  const col = await getInstanceTransferCol();
+  return await col.countDocuments({
+    classId,
+    classHeight,
+    instanceId,
+    instanceHeight,
+  });
+}
 
 async function getInstanceById(ctx) {
   const { classId, instanceId } = ctx.params;
@@ -9,7 +55,7 @@ async function getInstanceById(ctx) {
   const classCol = await getClassCol();
   const nftClass = await classCol.findOne({
     classId: parseInt(classId),
-    isDestroyed: { $ne: true },
+    isDestroyed: false,
   });
 
   if (!nftClass) {
@@ -21,16 +67,38 @@ async function getInstanceById(ctx) {
     classId: nftClass.classId,
     classHeight: nftClass.classHeight,
     instanceId: parseInt(instanceId),
-    isDestroyed: { $ne: true },
+    isDestroyed: false,
   });
 
   if (!nftInstance) {
     throw new HttpError(404, "NFT Instance not found");
   }
 
+  const timelineCount = await countInstanceTimeline(
+    nftInstance.classId,
+    nftInstance.classHeight,
+    nftInstance.instanceId,
+    nftInstance.instanceHeight,
+  );
+  const attributesCount = await countInstanceAttributes(
+    nftInstance.classId,
+    nftInstance.classHeight,
+    nftInstance.instanceId,
+    nftInstance.instanceHeight,
+  );
+  const transfersCount = await countInstanceTransfers(
+    nftInstance.classId,
+    nftInstance.classHeight,
+    nftInstance.instanceId,
+    nftInstance.instanceHeight,
+  );
+
   ctx.body = {
     ...nftInstance,
     class: nftClass,
+    timelineCount,
+    attributesCount,
+    transfersCount,
   };
 }
 

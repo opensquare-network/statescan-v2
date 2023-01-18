@@ -1,9 +1,41 @@
 const { HttpError } = require("../../../utils/httpError");
 const {
-  asset: { getAssetCol },
+  asset: {
+    getAssetCol,
+    getTransferCollection,
+    getAssetHolderCol,
+    getAssetTimelineCol,
+  },
 } = require("@statescan/mongo");
 const isNil = require("lodash.isnil");
 const { AssetModule } = require("../common/consts");
+
+async function countAssetTransfers(assetId, assetHeight) {
+  const col = await getTransferCollection();
+  return await col.countDocuments({
+    assetId: parseInt(assetId),
+    assetHeight: parseInt(assetHeight),
+    assetModule: AssetModule.assets,
+  });
+}
+
+async function countAssetHolders(assetId, assetHeight) {
+  const col = await getAssetHolderCol();
+  return await col.countDocuments({
+    assetId: parseInt(assetId),
+    assetHeight: parseInt(assetHeight),
+    balance: { $ne: 0 },
+  });
+}
+
+async function countAssetTimeline(assetId, assetHeight) {
+  const col = await getAssetTimelineCol();
+  return await col.countDocuments({
+    assetId: parseInt(assetId),
+    assetHeight: parseInt(assetHeight),
+    assetModule: AssetModule.assets,
+  });
+}
 
 async function getAsset(ctx) {
   const { height, assetId } = ctx.params;
@@ -24,7 +56,25 @@ async function getAsset(ctx) {
     throw new HttpError(404, "asset not found");
   }
 
-  ctx.body = asset;
+  const transfersCount = await countAssetTransfers(
+    asset.assetId,
+    asset.assetHeight,
+  );
+  const holdersCount = await countAssetHolders(
+    asset.assetId,
+    asset.assetHeight,
+  );
+  const timelineCount = await countAssetTimeline(
+    asset.assetId,
+    asset.assetHeight,
+  );
+
+  ctx.body = {
+    ...asset,
+    transfersCount,
+    holdersCount,
+    timelineCount,
+  };
 }
 
 module.exports = {
