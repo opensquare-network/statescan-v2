@@ -97,18 +97,29 @@ export default function NftClass() {
     },
   ];
 
+  let breadCrumb = [
+    {
+      name: "NFT",
+      path: "/uniques",
+    },
+    { name: "Class" },
+    { name: detail?.classId },
+  ];
+
+  if (detail?.isDestroyed) {
+    breadCrumb = [
+      { name: "Destroyed" },
+      {
+        name: "NFT",
+        path: "/destroyed/uniques",
+      },
+      { name: "Class" },
+      { name: detail?.classId },
+    ];
+  }
+
   return (
-    <DetailLayout
-      breadCrumb={
-        <BreadCrumb
-          data={[
-            { name: "NFT", path: "/uniques" },
-            { name: "Class" },
-            { name: classId },
-          ]}
-        />
-      }
-    >
+    <DetailLayout breadCrumb={<BreadCrumb data={breadCrumb} />}>
       <Panel nftClass={detail} />
       <DetailTabs tabs={tabs} />
       <NftInstancePreview

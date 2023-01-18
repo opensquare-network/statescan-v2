@@ -36,8 +36,38 @@ export function useNftsTableData({ showPreview }) {
       <Tooltip tip={details?.owner}>
         <AddressOrIdentity address={details?.owner} />
       </Tooltip>,
-      <TextSecondary>{details?.instances || 0}</TextSecondary>,
+      <TextSecondary>{details?.items ?? details?.instances}</TextSecondary>,
       <NftStatus status={getNftStatus(nftClass)} />,
+    ];
+  });
+}
+
+export function useDestroyedNftsTableData({ showPreview }) {
+  const list = useSelector(nftListSelector);
+
+  if (!list?.items) {
+    return null;
+  }
+
+  return list?.items?.map((nftClass) => {
+    const { classId, parsedMetadata, details, destroyedAt } = nftClass;
+    const link = getNftClassLink(nftClass);
+
+    return [
+      <ColoredInterLink to={link}>{classId}</ColoredInterLink>,
+      <Thumbnail
+        image={parsedMetadata?.resource?.thumbnail}
+        background={parsedMetadata?.resource?.metadata?.background}
+        onClick={() => showPreview(nftClass)}
+      />,
+      <ColoredInterLink to={link}>
+        <NftName name={parsedMetadata?.name} />
+      </ColoredInterLink>,
+      <TextSecondary>{time(destroyedAt?.blockTime)}</TextSecondary>,
+      <Tooltip tip={details?.owner}>
+        <AddressOrIdentity address={details?.owner} />
+      </Tooltip>,
+      <TextSecondary>{details?.items ?? details?.instances}</TextSecondary>,
     ];
   });
 }
