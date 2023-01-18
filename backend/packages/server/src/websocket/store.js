@@ -1,6 +1,7 @@
 let latestBlocks = [];
 let firstPageBlocks = [];
 let latestSignedTransfers = [];
+let popularNftClasses = [];
 
 function getLatestBlocks() {
   return latestBlocks;
@@ -26,6 +27,14 @@ function setLatestSignedTransfers(transfers = []) {
   latestSignedTransfers = transfers;
 }
 
+function getPopularNftClasses() {
+  return popularNftClasses;
+}
+
+function setPopularNftClasses(nftClasses = []) {
+  popularNftClasses = nftClasses;
+}
+
 module.exports = {
   setLatestBlocks,
   getLatestBlocks,
@@ -33,4 +42,6 @@ module.exports = {
   setFirstPageBlocks,
   getLatestSignedTransfers,
   setLatestSignedTransfers,
+  getPopularNftClasses,
+  setPopularNftClasses,
 };
