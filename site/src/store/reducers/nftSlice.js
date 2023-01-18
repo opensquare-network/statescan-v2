@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { nftListApi } from "../../services/urls";
+import { nftListApi, nftPopularListApi } from "../../services/urls";
 import api from "../../services/api";
 
 const name = "nft";
@@ -34,6 +34,22 @@ export const nftFetchList =
       .then(({ result }) => {
         if (result) {
           dispatch(setList(result));
+        }
+      })
+      .finally(() => {
+        dispatch(setListLoading(false));
+      });
+  };
+
+export const nftFetchPopularList =
+  (page, pageSize, params, fetchOptions) => async (dispatch) => {
+    dispatch(setListLoading(true));
+
+    return api
+      .fetch(nftPopularListApi, { page, pageSize, ...params }, fetchOptions)
+      .then(({ result }) => {
+        if (result) {
+          dispatch(setList({ items: result }));
         }
       })
       .finally(() => {
