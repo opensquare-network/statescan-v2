@@ -115,14 +115,22 @@ function Asset() {
     };
   }, [dispatch]);
 
+  const assetIdWithoutHeight = assetId.split("_").shift();
+
+  let breadCrumb = [
+    { name: "Assets", path: "/assets" },
+    { name: assetIdWithoutHeight },
+  ];
+
+  if (detail?.destroyed) {
+    breadCrumb = [
+      { name: "Destroyed Assets", path: "/destroyed/assets" },
+      { name: assetIdWithoutHeight },
+    ];
+  }
+
   return (
-    <DetailLayout
-      breadCrumb={
-        <BreadCrumb
-          data={[{ name: "Assets", path: "/assets" }, { name: assetId }]}
-        />
-      }
-    >
+    <DetailLayout breadCrumb={<BreadCrumb data={breadCrumb} />}>
       <Panel>
         <List
           header={
