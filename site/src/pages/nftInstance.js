@@ -13,9 +13,15 @@ import {
   nftInstanceDetailSelector,
   clearNftInstanceDetail,
 } from "../store/reducers/nftInstanceSlice";
-import { Attributes, Timeline } from "../utils/constants";
+import {
+  Attributes,
+  nftTransfersHead,
+  Timeline,
+  Transfers,
+} from "../utils/constants";
 import DetailTableNoPage from "../components/detail/tableNoPage";
 import AttributesList from "../components/nft/detail/attributesList";
+import { toNftInstanceTransferTabTableItem } from "../utils/viewFuncs/toTableItem";
 
 export default function NftInstance() {
   const { classId, instanceId } = useParams();
@@ -39,6 +45,9 @@ export default function NftInstance() {
   const attributesApiKey =
     detail &&
     `/uniques/classes/${detail?.classId}_${detail?.classHeight}/instances/${detail?.instanceId}_${detail?.instanceHeight}/attributes`;
+  const transfersApiKey =
+    detail &&
+    `/uniques/classes/${detail?.classId}_${detail?.classHeight}/instances/${detail?.instanceId}_${detail?.instanceHeight}/transfers`;
 
   const MyNftInstanceTimeline = useCallback(
     ({ data, loading }) => (
@@ -65,6 +74,19 @@ export default function NftInstance() {
         <DetailTableNoPage
           url={attributesApiKey}
           TableComponent={AttributesList}
+        />
+      ),
+    },
+    {
+      name: Transfers,
+      count: tablesData?.[transfersApiKey]?.total,
+      children: (
+        <DetailTable
+          url={transfersApiKey}
+          heads={nftTransfersHead}
+          transformData={(data) =>
+            toNftInstanceTransferTabTableItem(data, detail?.class, detail)
+          }
         />
       ),
     },

@@ -190,3 +190,40 @@ export const toInstancesTabTableItem = (nftClass, instances, showPreview) => {
     ];
   });
 };
+
+export const toNftInstanceTransferTabTableItem = (
+  nftTransfers,
+  nftClass,
+  nftInstance,
+) => {
+  const link = getNftInstanceLink(nftClass, nftInstance);
+  const parsedMetadata =
+    nftInstance?.parsedMetadata || nftClass?.parsedMetadata;
+  const resource = parsedMetadata?.resource;
+
+  return (nftTransfers || []).map((transfer, index) => {
+    return [
+      <ColoredLink
+        to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
+      >
+        {transfer?.indexer?.blockHeight.toLocaleString()}-
+        {transfer?.indexer?.extrinsicIndex}
+      </ColoredLink>,
+      <ColoredInterLink to={link}>
+        {nftInstance?.classId}-{nftInstance?.instanceId}
+      </ColoredInterLink>,
+      transfer?.indexer?.blockTime,
+      <Thumbnail
+        image={resource?.thumbnail}
+        background={resource?.metadata?.background}
+      />,
+      parsedMetadata?.name,
+      <Tooltip tip={transfer?.from}>
+        <AddressOrIdentity address={transfer?.from} />
+      </Tooltip>,
+      <Tooltip tip={transfer?.to}>
+        <AddressOrIdentity address={transfer?.to} />
+      </Tooltip>,
+    ];
+  });
+};
