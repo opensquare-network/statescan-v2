@@ -2,7 +2,7 @@ const {
   block: { getBlockDb, getExtrinsicCollection },
   asset: { getAssetCol, getTransferCollection },
   account: { getAddressCollection },
-  uniques: { getClassCol },
+  uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
 
 const overview = {};
@@ -53,6 +53,20 @@ async function updateNftClasses() {
   overview.nftClasses = { valid, total };
 }
 
+async function updateNftInstances() {
+  const col = await getInstanceCol();
+  const total = await col.countDocuments({ isDestroyed: false });
+  const valid = await col.countDocuments({
+    isDestroyed: false,
+    isClassDestroyed: false,
+    $or: [
+      { definitionValid: true },
+      { definitionValid: null, classDefinitionValid: true },
+    ],
+  });
+  overview.nftInstances = { valid, total };
+}
+
 async function updateAll() {
   await updateHeightsAndIssuance();
   await updateSignedExtrinsics();
@@ -60,6 +74,7 @@ async function updateAll() {
   await updateAccounts();
   await updateAssets();
   await updateNftClasses();
+  await updateNftInstances();
 }
 
 async function updateOverview() {

@@ -21,10 +21,7 @@ import {
   toExtrinsicsTabTableItem,
   toTransferTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
-import {
-  clearDetailTables,
-  detailTablesSelector,
-} from "../store/reducers/detailTablesSlice";
+import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import {
   accountDetailSelector,
   accountFetchDetail,
@@ -36,7 +33,6 @@ function Account() {
   const { id } = useParams();
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
-  const tablesData = useSelector(detailTablesSelector);
 
   const detail = useSelector(accountDetailSelector);
 

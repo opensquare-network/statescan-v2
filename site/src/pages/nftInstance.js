@@ -7,7 +7,6 @@ import DetailTabs from "../components/detail/tabs";
 import DetailLayout from "../components/layout/detailLayout";
 import Panel from "../components/nft/detail/instanceInfoPanel";
 import NftInstanceTimeline from "../components/nft/detail/instanceTimeline";
-import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
 import {
   fetchNftInstanceDetail,
   nftInstanceDetailSelector,
@@ -27,7 +26,6 @@ export default function NftInstance() {
   const { classId, instanceId } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector(nftInstanceDetailSelector);
-  const tablesData = useSelector(detailTablesSelector);
 
   useEffect(() => {
     if (classId && instanceId) {
