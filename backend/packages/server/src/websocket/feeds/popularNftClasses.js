@@ -37,7 +37,7 @@ async function feedPopularNftClasses(io) {
     setPopularNftClasses(nftClasses);
     io.to(popularNftClassesRoom).emit(popularNftClassesKey, nftClasses);
   } catch (e) {
-    console.error("feed popular nft classes error:", e);
+    console.error("feed latest signed nftClasses error:", e);
   } finally {
     setTimeout(feedPopularNftClasses.bind(null, io), feedInterval);
   }
