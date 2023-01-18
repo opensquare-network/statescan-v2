@@ -209,9 +209,9 @@ export const toNftInstanceTransferTabTableItem = (
         {transfer?.indexer?.blockHeight.toLocaleString()}-
         {transfer?.indexer?.extrinsicIndex}
       </ColoredLink>,
-      <ColoredInterLink to={link}>
+      <ColoredLink to={link}>
         {nftInstance?.classId}-{nftInstance?.instanceId}
-      </ColoredInterLink>,
+      </ColoredLink>,
       transfer?.indexer?.blockTime,
       <Thumbnail
         image={resource?.thumbnail}
