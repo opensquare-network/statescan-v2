@@ -1,26 +1,22 @@
 const { feedOverview } = require("./feeds/overview");
 const { getOverview } = require("../jobs/overview");
 const { feedLatestSignedTransfers } = require("./feeds/latestSignedTransfers");
-const { feedPopularNftClasses } = require("./feeds/popularNftClasses");
-const { feedLatestBlocks } = require("./feeds/latestBlocks");
-const { feedFirstPageBlocks } = require("./feeds/firstPageBlocks");
 const {
-  overviewRoom,
-  overviewKey,
   latestBlocksRoom,
   latestBlocksKey,
   firstPageBlocksRoom,
+  overviewRoom,
+  overviewKey,
   firstPageBlocksKey,
   latestSignedTransfersRoom,
   latestSignedTransfersKey,
-  popularNftClassesRoom,
-  popularNftClassesKey,
 } = require("./consts");
+const { feedLatestBlocks } = require("./feeds/latestBlocks");
+const { feedFirstPageBlocks } = require("./feeds/firstPageBlocks");
 const {
   getLatestBlocks,
   getFirstPageBlocks,
   getLatestSignedTransfers,
-  getPopularNftClasses,
 } = require("./store");
 
 async function setSocketSubscriptions(io, socket) {
@@ -36,9 +32,6 @@ async function setSocketSubscriptions(io, socket) {
     } else if (latestSignedTransfersRoom === room) {
       const transfers = getLatestSignedTransfers();
       io.to(room).emit(latestSignedTransfersKey, transfers);
-    } else if (popularNftClassesRoom === room) {
-      const nftClasses = getPopularNftClasses();
-      io.to(room).emit(popularNftClassesKey, nftClasses);
     } else if (overviewRoom === room) {
       io.to(room).emit(overviewKey, getOverview());
     }
@@ -51,7 +44,6 @@ async function setSocketSubscriptions(io, socket) {
   await feedLatestBlocks(io);
   await feedFirstPageBlocks(io);
   await feedLatestSignedTransfers(io);
-  await feedPopularNftClasses(io);
   feedOverview(io);
 }
 
