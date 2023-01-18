@@ -6,8 +6,10 @@ const { updateInstance } = require("../../common/instance/update");
 const { queryInstanceMetadata } = require("../../query/instance/metadata");
 const {
   consts: { TimelineItemTypes },
-  utils: { md5 },
 } = require("@osn/scan-common");
+const {
+  utils: { md5 },
+} = require("@statescan/common");
 
 async function handleMetadataSet(event, indexer) {
   const [classId, instanceId, data, isFrozen] = event.data.toJSON();
