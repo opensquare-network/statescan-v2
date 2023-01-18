@@ -36,7 +36,7 @@ export function useNftsTableData({ showPreview }) {
       <Tooltip tip={details?.owner}>
         <AddressOrIdentity address={details?.owner} />
       </Tooltip>,
-      <TextSecondary>{details?.instances || 0}</TextSecondary>,
+      <TextSecondary>{details?.items ?? details?.instances}</TextSecondary>,
       <NftStatus status={getNftStatus(nftClass)} />,
     ];
   });
@@ -67,7 +67,7 @@ export function useDestroyedNftsTableData({ showPreview }) {
       <Tooltip tip={details?.owner}>
         <AddressOrIdentity address={details?.owner} />
       </Tooltip>,
-      <TextSecondary>{details?.instances || 0}</TextSecondary>,
+      <TextSecondary>{details?.items ?? details?.instances}</TextSecondary>,
     ];
   });
 }
