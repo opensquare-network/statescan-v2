@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  nftFetchList,
+  nftFetchPopularList,
   nftListLoadingSelector,
 } from "../../../store/reducers/nftSlice";
 import { nftsHead } from "../../../utils/constants";
@@ -28,8 +28,16 @@ export default function Nfts() {
   useEffect(() => {
     const controller = new AbortController();
 
-    // TODO: need params
-    dispatch(nftFetchList(page, pageSize, {}, { signal: controller.signal }));
+    dispatch(
+      nftFetchPopularList(
+        page,
+        pageSize,
+        {},
+        {
+          signal: controller.signal,
+        },
+      ),
+    );
 
     return () => {
       controller.abort();
