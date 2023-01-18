@@ -4,6 +4,7 @@ const { getClassById, getClassByIdAndHeight } = require("./controllers/class");
 const { getClassInstances } = require("./controllers/classInstances");
 const { getClassTimeline } = require("./controllers/classTimeline");
 const { getClassAttributes } = require("./controllers/classAttributes");
+const { getPopularClasses } = require("./controllers/popular");
 const {
   getInstanceById,
   getInstanceByIdAndHeight,
@@ -15,6 +16,7 @@ const { getInstanceTransfers } = require("./controllers/instanceTransfers");
 const router = new Router();
 
 router.get("/uniques/classes", getClasses);
+router.get("/uniques/classes/popular", getPopularClasses);
 router.get(
   "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)",
   getClassByIdAndHeight,
