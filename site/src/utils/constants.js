@@ -177,6 +177,16 @@ export const transfersHead = [
   { name: "Value", width: 390, align: "right" },
 ];
 
+export const nftTransfersHead = [
+  { name: "Extrinsic ID", width: 120 },
+  { name: "Instance ID", width: 120 },
+  { name: "Time", type: "time", width: 160 },
+  { name: "NFT", width: 80 },
+  { name: "Name", width: 200 },
+  { name: "From", width: 120 },
+  { name: "To", width: 120 },
+];
+
 export const accountsHead = [
   { name: "Rank", width: 96 },
   { name: "Account", width: 510 },

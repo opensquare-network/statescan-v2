@@ -1,9 +1,7 @@
 import React from "react";
-import { ReactComponent as Loading } from "../components/icons/loading.svg";
+import LoadingIcon from "../components/icons/loadingIcon";
 import { Flex } from "../components/styled/flex";
 import styled from "styled-components";
-
-const LoadingIcon = styled(Loading)``;
 
 const TdLoadingWrapper = styled.td`
   position: absolute;
@@ -20,7 +18,7 @@ const TdLoadingWrapper = styled.td`
 
 const TbodyWrapper = ({ children }) => {
   return (
-    <tbody className="loading">
+    <tbody>
       <tr>
         <TdLoadingWrapper>{children}</TdLoadingWrapper>
       </tr>

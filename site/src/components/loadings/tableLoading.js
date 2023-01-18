@@ -7,10 +7,7 @@ export default function TableLoading() {
     <tbody>
       <tr>
         <td colSpan="100%">
-          <Flex
-            style={{ justifyContent: "center", padding: 64 }}
-            className="loading"
-          >
+          <Flex style={{ justifyContent: "center", padding: 64 }}>
             <LoadingIcon />
           </Flex>
         </td>
