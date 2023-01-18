@@ -97,7 +97,7 @@ async function getInstanceByIdAndHeight(ctx) {
   }
 
   const classCol = await getClassCol();
-  nftInstance.class = await classCol.findOne({
+  const nftClass = await classCol.findOne({
     classId: nftInstance.classId,
     classHeight: nftInstance.classHeight,
   });
