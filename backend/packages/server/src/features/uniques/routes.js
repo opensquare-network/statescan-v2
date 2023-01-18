@@ -5,6 +5,13 @@ const { getClassInstances } = require("./controllers/classInstances");
 const { getClassTimeline } = require("./controllers/classTimeline");
 const { getClassAttributes } = require("./controllers/classAttributes");
 const { getPopularClasses } = require("./controllers/popular");
+const {
+  getInstanceById,
+  getInstanceByIdAndHeight,
+} = require("./controllers/instance");
+const { getInstanceAttributes } = require("./controllers/instanceAttributes");
+const { getInstanceTimeline } = require("./controllers/instanceTimeline");
+const { getInstanceTransfers } = require("./controllers/instanceTransfers");
 
 const router = new Router();
 
@@ -26,6 +33,27 @@ router.get(
 router.get(
   "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)/attributes",
   getClassAttributes,
+);
+
+router.get(
+  "/uniques/classes/:classId(\\d+)/instances/:instanceId(\\d+)",
+  getInstanceById,
+);
+router.get(
+  "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)/instances/:instanceId(\\d+)_:instanceHeight(\\d+)",
+  getInstanceByIdAndHeight,
+);
+router.get(
+  "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)/instances/:instanceId(\\d+)_:instanceHeight(\\d+)/timeline",
+  getInstanceTimeline,
+);
+router.get(
+  "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)/instances/:instanceId(\\d+)_:instanceHeight(\\d+)/attributes",
+  getInstanceAttributes,
+);
+router.get(
+  "/uniques/classes/:classId(\\d+)_:classHeight(\\d+)/instances/:instanceId(\\d+)_:instanceHeight(\\d+)/transfers",
+  getInstanceTransfers,
 );
 
 module.exports = router;

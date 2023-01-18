@@ -5,9 +5,9 @@ import BreadCrumb from "../components/breadCrumb";
 import DetailTable from "../components/detail/table";
 import DetailTabs from "../components/detail/tabs";
 import DetailLayout from "../components/layout/detailLayout";
-import Panel from "../components/nft/classDetail/panel";
+import Panel from "../components/nft/detail/classInfoPanel";
 import { NftInstancePreview } from "../components/nft/preview";
-import NftClassTimeline from "../components/nft/classTimeline";
+import NftClassTimeline from "../components/nft/detail/classTimeline";
 import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
 import {
   fetchNftClassDetail,
@@ -22,7 +22,7 @@ import {
 } from "../utils/constants";
 import { toInstancesTabTableItem } from "../utils/viewFuncs/toTableItem";
 import DetailTableNoPage from "../components/detail/tableNoPage";
-import AttributesList from "../components/nft/attributesList";
+import AttributesList from "../components/nft/detail/attributesList";
 
 export default function NftClass() {
   const { classId } = useParams();

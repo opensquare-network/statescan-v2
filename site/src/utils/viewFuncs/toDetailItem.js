@@ -24,7 +24,7 @@ import {
 } from "../../components/tag";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
-import IpfsItem from "../../components/nft/classDetail/ipfsItem";
+import IpfsItem from "../../components/nft/detail/ipfsItem";
 import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
 import { isCid } from "../cid";
@@ -110,30 +110,62 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
   };
 };
 
-export const toNftDetailItem = (id, nft) => {
+export const toNftClassDetailItem = (nftClass) => {
   const detailInfo = {
-    "Class ID": <TextSecondary>{nft?.classId}</TextSecondary>,
+    "Class ID": <TextSecondary>{nftClass?.classId}</TextSecondary>,
     "Created Time": (
-      <TextSecondary>{time(nft?.indexer?.blockTime)}</TextSecondary>
+      <TextSecondary>{time(nftClass?.indexer?.blockTime)}</TextSecondary>
     ),
     Instance: (
       <TextSecondary>
-        {nft?.details?.items ?? nft?.details?.instances}
+        {nftClass?.details?.items ?? nftClass?.details?.instances}
       </TextSecondary>
     ),
-    Owner: <AddressOrIdentity address={nft?.details?.owner} ellipsis={false} />,
-    Issuer: (
-      <AddressOrIdentity address={nft?.details?.issuer} ellipsis={false} />
+    Owner: (
+      <AddressOrIdentity address={nftClass?.details?.owner} ellipsis={false} />
     ),
-    Admin: <AddressOrIdentity address={nft?.details?.admin} ellipsis={false} />,
+    Issuer: (
+      <AddressOrIdentity address={nftClass?.details?.issuer} ellipsis={false} />
+    ),
+    Admin: (
+      <AddressOrIdentity address={nftClass?.details?.admin} ellipsis={false} />
+    ),
     Freezer: (
-      <AddressOrIdentity address={nft?.details?.freezer} ellipsis={false} />
+      <AddressOrIdentity
+        address={nftClass?.details?.freezer}
+        ellipsis={false}
+      />
     ),
   };
 
-  const isIpfsCid = isCid(nft?.parsedMetadata?.image);
+  const isIpfsCid = isCid(nftClass?.parsedMetadata?.image);
   if (isIpfsCid) {
-    detailInfo["Link"] = <IpfsItem cid={nft?.parsedMetadata?.image} />;
+    detailInfo["Link"] = <IpfsItem cid={nftClass?.parsedMetadata?.image} />;
+  }
+
+  return detailInfo;
+};
+
+export const toNftInstanceDetailItem = (nftClass, nftInstance) => {
+  const detailInfo = {
+    "Class ID": <TextSecondary>{nftClass?.classId}</TextSecondary>,
+    "Instance ID": <TextSecondary>{nftInstance?.instanceId}</TextSecondary>,
+    "Created Time": (
+      <TextSecondary>{time(nftInstance?.indexer?.blockTime)}</TextSecondary>
+    ),
+    Owner: (
+      <AddressOrIdentity
+        address={nftInstance?.details?.owner}
+        ellipsis={false}
+      />
+    ),
+  };
+
+  const parsedMetadata =
+    nftInstance?.parsedMetadata || nftClass?.parsedMetadata;
+  const isIpfsCid = isCid(parsedMetadata?.image);
+  if (isIpfsCid) {
+    detailInfo["Link"] = <IpfsItem cid={parsedMetadata?.image} />;
   }
 
   return detailInfo;

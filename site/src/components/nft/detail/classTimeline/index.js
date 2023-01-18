@@ -1,4 +1,4 @@
-import Timeline from "../../timeline";
+import Timeline from "../../../timeline";
 import NftClassTimelineItemFields from "./itemFields";
 import NftClassTimelineItemIcon from "./itemIcon";
 
