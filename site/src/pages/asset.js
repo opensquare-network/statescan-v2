@@ -20,10 +20,7 @@ import {
   Transfers,
   transfersHead,
 } from "../utils/constants";
-import {
-  clearDetailTables,
-  detailTablesSelector,
-} from "../store/reducers/detailTablesSlice";
+import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTable from "../components/detail/table";
 import {
   toHoldersTabTableItem,
@@ -37,7 +34,6 @@ import DetailTabs from "../components/detail/tabs";
 function Asset() {
   const { assetId } = useParams();
   const dispatch = useDispatch();
-  const tablesData = useSelector(detailTablesSelector);
 
   const detail = useSelector(assetDetailSelector);
 

@@ -8,7 +8,6 @@ import DetailLayout from "../components/layout/detailLayout";
 import Panel from "../components/nft/detail/classInfoPanel";
 import { NftInstancePreview } from "../components/nft/preview";
 import NftClassTimeline from "../components/nft/detail/classTimeline";
-import { detailTablesSelector } from "../store/reducers/detailTablesSlice";
 import {
   fetchNftClassDetail,
   nftClassDetailSelector,
@@ -28,7 +27,6 @@ export default function NftClass() {
   const { classId } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector(nftClassDetailSelector);
-  const tablesData = useSelector(detailTablesSelector);
   const [previewNft, setPreviewNft] = useState();
   const [isPreview, setIsPreview] = useState(false);
 
