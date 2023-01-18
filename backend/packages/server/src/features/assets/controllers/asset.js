@@ -13,8 +13,8 @@ const { AssetModule } = require("../common/consts");
 async function countAssetTransfers(assetId, assetHeight) {
   const col = await getTransferCollection();
   return await col.countDocuments({
-    assetId: parseInt(assetId),
-    assetHeight: parseInt(assetHeight),
+    assetId,
+    assetHeight,
     assetModule: AssetModule.assets,
   });
 }
@@ -22,8 +22,8 @@ async function countAssetTransfers(assetId, assetHeight) {
 async function countAssetHolders(assetId, assetHeight) {
   const col = await getAssetHolderCol();
   return await col.countDocuments({
-    assetId: parseInt(assetId),
-    assetHeight: parseInt(assetHeight),
+    assetId,
+    assetHeight,
     balance: { $ne: 0 },
   });
 }
@@ -31,9 +31,9 @@ async function countAssetHolders(assetId, assetHeight) {
 async function countAssetTimeline(assetId, assetHeight) {
   const col = await getAssetTimelineCol();
   return await col.countDocuments({
-    assetId: parseInt(assetId),
-    assetHeight: parseInt(assetHeight),
-    assetModule: AssetModule.assets,
+    assetId,
+    assetHeight,
+    module: AssetModule.assets,
   });
 }
 

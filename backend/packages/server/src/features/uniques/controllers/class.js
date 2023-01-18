@@ -3,14 +3,24 @@ const {
   uniques: { getClassCol, getClassTimelineCol, getClassAttributeCol },
 } = require("@statescan/mongo");
 
-async function countClassTimeline(classId, classHeight) {
+async function countClassTimeline(q) {
   const col = await getClassTimelineCol();
-  return await col.countDocuments({ classId, classHeight });
+  return await col.countDocuments(q);
 }
 
-async function countClassAttributes(classId, classHeight) {
+async function countClassAttributes(q) {
   const col = await getClassAttributeCol();
-  return await col.countDocuments({ classId, classHeight });
+  return await col.countDocuments(q);
+}
+
+async function countAll(classId, classHeight) {
+  const q = { classId, classHeight };
+  const timelineCount = await countClassTimeline(q);
+  const attributesCount = await countClassAttributes(q);
+  return {
+    timelineCount,
+    attributesCount,
+  };
 }
 
 async function getClassById(ctx) {
@@ -26,19 +36,11 @@ async function getClassById(ctx) {
     throw new HttpError(404, "NFT Class not found");
   }
 
-  const timelineCount = await countClassTimeline(
-    nftClass.classId,
-    nftClass.classHeight,
-  );
-  const attributesCount = await countClassAttributes(
-    nftClass.classId,
-    nftClass.classHeight,
-  );
+  const counts = await countAll(nftClass.classId, nftClass.classHeight);
 
   ctx.body = {
     ...nftClass,
-    timelineCount,
-    attributesCount,
+    ...counts,
   };
 }
 
@@ -55,7 +57,12 @@ async function getClassByIdAndHeight(ctx) {
     throw new HttpError(404, "NFT Class not found");
   }
 
-  ctx.body = nftClass;
+  const counts = await countAll(nftClass.classId, nftClass.classHeight);
+
+  ctx.body = {
+    ...nftClass,
+    ...counts,
+  };
 }
 
 module.exports = {
