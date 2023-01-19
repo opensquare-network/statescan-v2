@@ -123,6 +123,7 @@ function renderItem(type, value) {
     nftClasses: {
       icon: (
         <NftThumbnail
+          size={24}
           image={value?.parsedMetadata?.resource?.thumbnail}
           background={value?.parsedMetadata?.resource?.metadata?.background}
         />
@@ -137,6 +138,7 @@ function renderItem(type, value) {
     nftInstances: {
       icon: (
         <NftThumbnail
+          size={24}
           image={value?.parsedMetadata?.resource?.thumbnail}
           background={value?.parsedMetadata?.resource?.metadata?.background}
         />
