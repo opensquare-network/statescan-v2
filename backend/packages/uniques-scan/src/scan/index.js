@@ -1,4 +1,3 @@
-const { startJobs } = require("./jobs");
 const { clearIssuance } = require("./store/blockInstances");
 const { handleBlockIssuance } = require("./batch/issuance");
 const { handleEvents } = require("./events");
@@ -32,7 +31,6 @@ async function scan() {
   const db = getUniquesDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
-  await startJobs();
 
   if (firstScanKnowHeights()) {
     await scanKnownHeights(
