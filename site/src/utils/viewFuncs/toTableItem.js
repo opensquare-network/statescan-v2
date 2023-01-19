@@ -18,7 +18,11 @@ import { bigNumberToLocaleString } from ".";
 import Symbol from "../../components/symbol";
 import SymbolName from "../../components/symbol/name";
 import { fromAssetUnit } from "..";
-import { getNftInstanceLink, getNftStatus } from "../nft";
+import {
+  getNftInstanceLink,
+  getNftInstanceParsedMetadata,
+  getNftStatus,
+} from "../nft";
 import { time } from "./time";
 import { TextSecondary } from "../../components/styled/text";
 import NftStatus from "../../components/nft/status";
@@ -167,8 +171,7 @@ export const toAssetsTabItem = (assets) => {
 export const toInstancesTabTableItem = (nftClass, instances, showPreview) => {
   return instances?.map((nftInstance) => {
     const { details, indexer } = nftInstance;
-    const parsedMetadata =
-      nftInstance?.parsedMetadata || nftClass?.parsedMetadata;
+    const parsedMetadata = getNftInstanceParsedMetadata(nftClass, nftInstance);
     const resource = parsedMetadata?.resource;
     const link = getNftInstanceLink(nftClass, nftInstance);
 
@@ -197,8 +200,7 @@ export const toNftInstanceTransferTabTableItem = (
   nftInstance,
 ) => {
   const link = getNftInstanceLink(nftClass, nftInstance);
-  const parsedMetadata =
-    nftInstance?.parsedMetadata || nftClass?.parsedMetadata;
+  const parsedMetadata = getNftInstanceParsedMetadata(nftClass, nftInstance);
   const resource = parsedMetadata?.resource;
 
   return (nftTransfers || []).map((transfer, index) => {
