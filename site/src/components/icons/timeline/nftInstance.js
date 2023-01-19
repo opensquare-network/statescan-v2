@@ -9,6 +9,9 @@ import { ReactComponent as AttributeCleared } from "./clear-attribute.svg";
 import { ReactComponent as Issued } from "./mint.svg";
 import { ReactComponent as ApprovedTransfer } from "./approve-transfer.svg";
 import { ReactComponent as ApprovalCancelled } from "./cancel-approval.svg";
+import { ReactComponent as ItemPriceSet } from "./price-set.svg";
+import { ReactComponent as ItemPriceRemoved } from "./price-removed.svg";
+import { ReactComponent as ItemBought } from "./bought.svg";
 
 const icons = {
   Issued,
@@ -22,6 +25,9 @@ const icons = {
   Transferred,
   ApprovedTransfer,
   ApprovalCancelled,
+  ItemPriceSet,
+  ItemPriceRemoved,
+  ItemBought,
 };
 
 export default icons;
