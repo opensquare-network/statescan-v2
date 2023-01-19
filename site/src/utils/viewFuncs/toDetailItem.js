@@ -28,6 +28,7 @@ import IpfsItem from "../../components/nft/detail/ipfsItem";
 import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
 import { isCid } from "../cid";
+import { getNftInstanceParsedMetadata } from "../nft";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -161,8 +162,7 @@ export const toNftInstanceDetailItem = (nftClass, nftInstance) => {
     ),
   };
 
-  const parsedMetadata =
-    nftInstance?.parsedMetadata || nftClass?.parsedMetadata;
+  const parsedMetadata = getNftInstanceParsedMetadata(nftClass, nftInstance);
   const isIpfsCid = isCid(parsedMetadata?.image);
   if (isIpfsCid) {
     detailInfo["Link"] = <IpfsItem cid={parsedMetadata?.image} />;

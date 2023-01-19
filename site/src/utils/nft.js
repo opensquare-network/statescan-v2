@@ -29,3 +29,11 @@ export function getNftInstanceLink(nftClass, nftInstance) {
 
   return `/uniques/classes/${classId}/instances/${instanceId}`;
 }
+
+export function getNftInstanceParsedMetadata(nftClass, nftInstance) {
+  if (nftInstance?.metadata) {
+    return nftInstance.parsedMetadata;
+  }
+
+  return nftClass?.parsedMetadata;
+}

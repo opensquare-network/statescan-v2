@@ -1,4 +1,7 @@
-import { getNftInstanceLink } from "../../../utils/nft";
+import {
+  getNftInstanceLink,
+  getNftInstanceParsedMetadata,
+} from "../../../utils/nft";
 import NftPreviewBase from "./previewBase";
 
 export default function NftClassPreview({
@@ -7,8 +10,7 @@ export default function NftClassPreview({
   nftInstance,
   onClose,
 }) {
-  const parsedMetadata =
-    nftInstance?.parsedMetadata ?? nftClass?.parsedMetadata;
+  const parsedMetadata = getNftInstanceParsedMetadata(nftClass, nftInstance);
   const detailLink = getNftInstanceLink(nftClass, nftInstance);
 
   return (
