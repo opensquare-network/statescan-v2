@@ -2,6 +2,8 @@ const { queryAccount } = require("./account");
 const { queryExtrinsic } = require("./extrinsic");
 const { queryBlock } = require("./block");
 const { queryAssets } = require("./asset");
+const { queryNftClasses } = require("./nftClass");
+const { queryNftInstances } = require("./nftInstance");
 
 async function getSearchHints(ctx) {
   const { term = "" } = ctx.query;
@@ -36,6 +38,22 @@ async function getSearchHints(ctx) {
     result = {
       ...result,
       assets: assetQueryResult,
+    };
+  }
+
+  const nftClassQueryResult = await queryNftClasses(term);
+  if (nftClassQueryResult) {
+    result = {
+      ...result,
+      nftClasses: nftClassQueryResult,
+    };
+  }
+
+  const nftInstanceQueryResult = await queryNftInstances(term);
+  if (nftInstanceQueryResult) {
+    result = {
+      ...result,
+      nftInstances: nftInstanceQueryResult,
     };
   }
 
