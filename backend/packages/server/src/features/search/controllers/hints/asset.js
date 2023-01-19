@@ -9,7 +9,7 @@ const { isHash, isNum, escapeRegex } = require("../../../../utils");
 async function handleAssetId(term) {
   const assetId = parseInt(term);
   if (isNaN(assetId)) {
-    return [];
+    return null;
   }
 
   const assetCol = await getAssetCol();
@@ -18,15 +18,15 @@ async function handleAssetId(term) {
 
 async function handleAssetSymbolOrName(term) {
   if (term.length < 2) {
-    return [];
+    return null;
   }
 
   if (isHash(term)) {
-    return [];
+    return null;
   }
 
   if (isValidAddress(term)) {
-    return [];
+    return null;
   }
 
   const regex = new RegExp(`${escapeRegex(term)}`, "i");
