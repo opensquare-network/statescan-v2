@@ -1,7 +1,11 @@
 const { fetchMime } = require("../../axios/mime");
 const { createThumbnailFromImageData } = require("./thumbnail");
 const { createThumbnailFromVideoData } = require("./video");
-const { saveCreateThumbnailError, saveThumbnail } = require("./store");
+const {
+  saveCreateThumbnailError,
+  saveThumbnail,
+  increaseCreateThumbnailRetries,
+} = require("./store");
 
 async function createThumbnailFromIpfsImage(hash, imageCid) {
   let imageType, imageData;
@@ -12,7 +16,7 @@ async function createThumbnailFromIpfsImage(hash, imageCid) {
     console.log(`Mime fetched for ${imageCid}. Got type: ${type}`);
   } catch (e) {
     console.error(`fetchMime fetch for ${imageCid}.`, e.message);
-    await saveCreateThumbnailError(hash, imageType);
+    await increaseCreateThumbnailRetries(hash, imageType);
     return;
   }
 

@@ -8,10 +8,14 @@ const { createThumbnailFromIpfsImage } = require("./ipfs");
 const { createThumbnailFromDataUrl } = require("./dataUrl");
 const { markMetadataResourceProcessed } = require("./store");
 
-async function checkResourceExistence(hash) {
+const MAX_PARSE_RETRIES = 5;
+
+async function checkIfResourceNeedParse(hash) {
   const col = await getResourceCol();
   const exists = await col.findOne({ hash });
-  return exists !== null;
+  return (
+    !exists || exists.thumbnailParseError || exists.retries <= MAX_PARSE_RETRIES
+  );
 }
 
 async function parseOneResource(imageHash, image) {
@@ -19,9 +23,9 @@ async function parseOneResource(imageHash, image) {
     return;
   }
 
-  // Check if resource exists already
-  const isExistsAlready = await checkResourceExistence(imageHash);
-  if (isExistsAlready) {
+  // Check if resource need parsed
+  const need = await checkIfResourceNeedParse(imageHash);
+  if (!need) {
     await markMetadataResourceProcessed(imageHash);
     return;
   }
