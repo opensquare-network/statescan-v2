@@ -68,6 +68,11 @@ async function _createIndexes() {
     instanceId: 1,
     instanceHeight: 1,
   });
+
+  await metadataCol.createIndex({ hash: 1 });
+  await metadataCol.createIndex({ "definition.imageHash": 1 });
+
+  await resourceCol.createIndex({ hash: 1 });
 }
 
 async function makeSureInit(col) {
