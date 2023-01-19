@@ -20,6 +20,7 @@ import OverviewItem from "./item";
 import ValueDisplay from "../../displayValue";
 import Tooltip from "../../tooltip";
 import NftSquareIcon from "../../icons/nftSquareIcon";
+import KusamaParaIdSquareIcon from "../../icons/kusamaParaIdSquareIcon";
 
 const Panel = styled(Flex)`
   margin: 24px;
@@ -102,7 +103,13 @@ function Overview() {
               </Tooltip>
             }
           />
-
+          {chainSetting.kusamaParaId && (
+            <OverviewItem
+              icon={<KusamaParaIdSquareIcon />}
+              label="Kusama Para ID"
+              value={currencify(chainSetting.kusamaParaId)}
+            />
+          )}
           <OverviewItem
             icon={<HolderSquareIcon />}
             label="Accounts"
