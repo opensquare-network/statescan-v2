@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { closeMobileMenu } from "../../../store/reducers/mobileMenuSlice";
 import { Inter_12_500, Inter_14_500, Inter_14_600 } from "../../../styles/text";
 import { mobilecss } from "../../../styles/responsive";
-import { isHash } from "../../../utils/viewFuncs/text";
+import { isHash, lowerCase } from "../../../utils/viewFuncs/text";
 import AccountIcon from "../../icons/accountIcon";
 import BlockIcon from "../../icons/blockIcon";
 import TransfersIcon from "../../icons/transfersIcon";
@@ -80,7 +80,6 @@ const DropdownItemContentValue = styled.div`
   ${Inter_14_500};
 `;
 
-// FIXME: should support more type in future
 function renderItem(type, value) {
   const typeMap = {
     // value: number | string
@@ -182,11 +181,13 @@ export default function ExploreDropdown({ hints, visible, selectedIndex }) {
     return null;
   }
 
+  console.log(hints);
+
   return (
     <DropdownFlexColumn gap={8} className="explore-dropdown">
       {hints.map((hint, index) => (
         <DropdownGroup key={hint.type}>
-          <DropdownGroupTitle>{hint.type}</DropdownGroupTitle>
+          <DropdownGroupTitle>{lowerCase(hint.type)}</DropdownGroupTitle>
           <ExploreDropdownItem
             type={hint.type}
             value={hint.value}
