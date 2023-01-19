@@ -12,7 +12,7 @@ async function getClasses(ctx) {
 
   const { destroyed, category, status } = ctx.query;
 
-  const q = { isDestroyed: isTrue(destroyed) };
+  let q = { isDestroyed: isTrue(destroyed) };
   if (status === "frozen") {
     q["details.isFrozen"] = true;
   }
@@ -20,13 +20,16 @@ async function getClasses(ctx) {
     q["definitionValid"] = true;
   }
   if (category === "unrecognized") {
-    q["definitionValid"] = false;
+    q = {
+      ...q,
+      $or: [{ definitionValid: false }, { definitionValid: null }],
+    };
   }
 
   const col = await getClassCol();
   const items = await col
     .find(q, { projection: { _id: 0 } })
-    .sort({ classId: 1 })
+    .sort({ definitionValid: -1, classId: 1 })
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
