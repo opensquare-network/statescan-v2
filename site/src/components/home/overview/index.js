@@ -19,6 +19,8 @@ import { StyledPanelTableWrapper } from "../../styled/panel";
 import OverviewItem from "./item";
 import ValueDisplay from "../../displayValue";
 import Tooltip from "../../tooltip";
+import NftSquareIcon from "../../icons/nftSquareIcon";
+import KusamaParaIdSquareIcon from "../../icons/kusamaParaIdSquareIcon";
 
 const Panel = styled(Flex)`
   margin: 24px;
@@ -31,7 +33,7 @@ const Panel = styled(Flex)`
 
 const OverviewItemsWrapper = styled.div`
   --gap-y: 32px;
-  --cols: 6;
+  --cols: 5;
   flex: 1;
   display: grid;
   gap: var(--gap-y) 0;
@@ -57,6 +59,7 @@ const mapLoadingState = (_props) => {
 function Overview() {
   const overview = useSelector(overviewSelector);
   const chainSetting = useSelector(chainSettingSelector);
+  const { modules = {} } = chainSetting;
 
   function issuancePrecision(issuance) {
     return toPrecision(issuance ?? 0, chainSetting.decimals);
@@ -75,11 +78,6 @@ function Overview() {
             icon={<FinalizedBlockSquareIcon />}
             label="Finalized Block"
             value={currencify(overview.finalizedHeight)}
-          />
-          <OverviewItem
-            icon={<HolderSquareIcon />}
-            label="Accounts"
-            value={currencify(overview.accounts)}
           />
           <OverviewItem
             icon={<ExtrinsicsSquareIcon />}
@@ -106,6 +104,47 @@ function Overview() {
               </Tooltip>
             }
           />
+
+          {chainSetting.kusamaParaId && (
+            <OverviewItem
+              icon={<KusamaParaIdSquareIcon />}
+              label="Kusama Para ID"
+              value={currencify(chainSetting.kusamaParaId)}
+            />
+          )}
+
+          <OverviewItem
+            icon={<HolderSquareIcon />}
+            label="Accounts"
+            value={currencify(overview.accounts)}
+          />
+
+          {modules?.assets && (
+            <OverviewItem
+              icon={<AssetSquareIcon />}
+              label="Assets"
+              value={currencify(overview.assets)}
+            />
+          )}
+
+          {modules?.uniques && (
+            <>
+              <OverviewItem
+                icon={<NftSquareIcon />}
+                label="NFT Classes"
+                tip="Recongized / All"
+                value={currencify(overview.nftClasses?.valid)}
+                total={currencify(overview.nftClasses?.total)}
+              />
+              <OverviewItem
+                icon={<NftSquareIcon />}
+                label="NFT Instances"
+                tip="Recongized / All"
+                value={currencify(overview.nftInstances?.valid)}
+                total={currencify(overview.nftInstances?.total)}
+              />
+            </>
+          )}
         </OverviewItemsWrapper>
       </Panel>
     </StyledPanelTableWrapper>

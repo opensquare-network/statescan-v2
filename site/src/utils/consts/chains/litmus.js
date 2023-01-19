@@ -10,6 +10,7 @@ const litmus = {
   color: "#6431EC",
   colorSecondary: "rgba(100, 49, 236, 0.1)",
   buttonColor: "#6431EC",
+  kusamaParaId: 2106,
 };
 
 export default litmus;
