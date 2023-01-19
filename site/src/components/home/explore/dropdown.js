@@ -12,6 +12,7 @@ import TransfersIcon from "../../icons/transfersIcon";
 import { Flex, FlexColumn } from "../../styled/flex";
 import { makeExploreDropdownItemRouteLink } from "./utils";
 import AssetLogo from "../../assetLogo";
+import NftThumbnail from "../../nft/thumbnail";
 
 const padding = 16;
 
@@ -115,6 +116,26 @@ function renderItem(type, value) {
       contentValue: (
         <DropdownItemContentValue>
           {value?.metadata?.name}
+        </DropdownItemContentValue>
+      ),
+    },
+
+    // value: object
+    nftClasses: {
+      icon: <NftThumbnail image={value?.parsedMetadata?.resource?.thumbnail} />,
+      label: value?.parsedMetadata?.name,
+      contentValue: (
+        <DropdownItemContentValue>#{value?.classId}</DropdownItemContentValue>
+      ),
+    },
+
+    // value: object
+    nftInstances: {
+      icon: <NftThumbnail image={value?.parsedMetadata?.resource?.thumbnail} />,
+      label: value?.parsedMetadata?.name,
+      contentValue: (
+        <DropdownItemContentValue>
+          #{value?.instanceId}
         </DropdownItemContentValue>
       ),
     },
