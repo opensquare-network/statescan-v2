@@ -67,4 +67,5 @@ async function parseDefinition() {
 
 module.exports = {
   parseDefinition,
+  parseOneDefinition,
 };
