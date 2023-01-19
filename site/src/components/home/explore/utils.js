@@ -7,5 +7,13 @@ export function makeExploreDropdownItemRouteLink(type, value) {
     return `/assets/${assetId}`;
   }
 
+  if (type === "nftClasses") {
+    return `/uniques/classes/${value.classId}`;
+  }
+
+  if (type === "nftInstances") {
+    return `/uniques/classes/${value.classId}/instances/${value.instanceId}`;
+  }
+
   return `/${type}/${value}`;
 }
