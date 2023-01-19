@@ -22,11 +22,7 @@ async function checkIfResourceNeedParse(hash) {
     return false;
   }
 
-  if (exists.retries <= MAX_PARSE_RETRIES) {
-    return true;
-  }
-
-  return false;
+  return exists.retries <= MAX_PARSE_RETRIES;
 }
 
 async function parseOneResource(imageHash, image) {
