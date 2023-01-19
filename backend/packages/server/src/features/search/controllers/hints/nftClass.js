@@ -5,7 +5,7 @@ const {
 const {
   utils: { isValidAddress },
 } = require("@statescan/common");
-const { isHash, escapeRegex } = require("../../../../utils");
+const { isHash, isNum, escapeRegex } = require("../../../../utils");
 
 function normalizeQueryResult(items) {
   return items.map((item) => ({
@@ -13,7 +13,17 @@ function normalizeQueryResult(items) {
   }));
 }
 
-async function queryNftClasses(term) {
+async function handleClassId(term) {
+  const classId = parseInt(term);
+  if (isNaN(classId)) {
+    return null;
+  }
+
+  const col = await getClassCol();
+  return await col.find({ classId, isDestroyed: false }).toArray();
+}
+
+async function handleClassName(term) {
   if (term.length < 2) {
     return null;
   }
@@ -29,7 +39,7 @@ async function queryNftClasses(term) {
   const regex = new RegExp(`${escapeRegex(term)}`, "i");
 
   const col = await getClassCol();
-  const items = await col
+  return await col
     .find({
       isDestroyed: false,
       "parsedMetadata.name": regex,
@@ -37,9 +47,19 @@ async function queryNftClasses(term) {
     .sort({ "parsedMetadata.name": 1 })
     .limit(5)
     .toArray();
+}
 
-  if (items?.length > 0) {
-    return normalizeQueryResult(items);
+async function queryNftClasses(term) {
+  let result = null;
+
+  if (isNum(term)) {
+    result = await handleClassId(term);
+  } else {
+    result = await handleClassName(term);
+  }
+
+  if (result?.length > 0) {
+    return normalizeQueryResult(result);
   }
 
   return null;
