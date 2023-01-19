@@ -131,14 +131,14 @@ function Overview() {
             <>
               <OverviewItem
                 icon={<NftSquareIcon />}
-                label="NFT Classes"
+                label="NFT Class"
                 tip="Recongized / All"
                 value={currencify(overview.nftClasses?.valid)}
                 total={currencify(overview.nftClasses?.total)}
               />
               <OverviewItem
                 icon={<NftSquareIcon />}
-                label="NFT Instances"
+                label="NFT Instance"
                 tip="Recongized / All"
                 value={currencify(overview.nftInstances?.valid)}
                 total={currencify(overview.nftInstances?.total)}
