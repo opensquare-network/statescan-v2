@@ -24,6 +24,10 @@ async function saveThumbnail(hash, type, metadata, thumbnail) {
         metadata,
         thumbnail,
       },
+      $unset: {
+        thumbnailParseError: true,
+        retries: true,
+      },
     },
     { upsert: true },
   );
