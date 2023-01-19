@@ -4,7 +4,7 @@ import { PC } from "../../styled/responsive";
 import { Flex } from "../../styled/flex";
 import ThemedLink from "../../styled/link";
 import TooltipOrigin from "../../tooltip";
-import { ReactComponent as CircledInfoIcon } from "../../icons/circled-info.svg";
+import CircledInfoIcon from "../../icons/circledInfoIcon";
 
 const Tooltip = styled(TooltipOrigin)`
   display: inline-flex;
