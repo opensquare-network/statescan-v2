@@ -50,4 +50,5 @@ async function saveCreateThumbnailError(hash, type) {
 module.exports = {
   saveThumbnail,
   saveCreateThumbnailError,
+  markMetadataResourceProcessed,
 };
