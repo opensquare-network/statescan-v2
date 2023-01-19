@@ -88,7 +88,7 @@ function AddressOrIdentity({ address, maxWidth = "100%", ellipsis = true }) {
     });
   }, [address, identityChain, isMounted]);
 
-  if (!identity) {
+  if (!identity || identity?.info?.status === "NO_ID") {
     const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
     return (
       <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
