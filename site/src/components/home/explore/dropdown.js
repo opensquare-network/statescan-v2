@@ -121,7 +121,12 @@ function renderItem(type, value) {
 
     // value: object
     nftClasses: {
-      icon: <NftThumbnail image={value?.parsedMetadata?.resource?.thumbnail} />,
+      icon: (
+        <NftThumbnail
+          image={value?.parsedMetadata?.resource?.thumbnail}
+          background={value?.parsedMetadata?.resource?.metadata?.background}
+        />
+      ),
       label: value?.parsedMetadata?.name,
       contentValue: (
         <DropdownItemContentValue>#{value?.classId}</DropdownItemContentValue>
@@ -130,7 +135,12 @@ function renderItem(type, value) {
 
     // value: object
     nftInstances: {
-      icon: <NftThumbnail image={value?.parsedMetadata?.resource?.thumbnail} />,
+      icon: (
+        <NftThumbnail
+          image={value?.parsedMetadata?.resource?.thumbnail}
+          background={value?.parsedMetadata?.resource?.metadata?.background}
+        />
+      ),
       label: value?.parsedMetadata?.name,
       contentValue: (
         <DropdownItemContentValue>
