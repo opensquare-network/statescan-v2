@@ -13,9 +13,7 @@ const MAX_PARSE_RETRIES = 5;
 async function checkIfResourceNeedParse(hash) {
   const col = await getResourceCol();
   const exists = await col.findOne({ hash });
-  return (
-    !exists || exists.thumbnailParseError || exists.retries <= MAX_PARSE_RETRIES
-  );
+  return !exists || exists.retries <= MAX_PARSE_RETRIES;
 }
 
 async function parseOneResource(imageHash, image) {
