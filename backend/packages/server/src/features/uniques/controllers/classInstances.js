@@ -15,6 +15,7 @@ async function getClassInstances(ctx) {
   const q = {
     classId: parseInt(classId),
     classHeight: parseInt(classHeight),
+    isDestroyed: false,
   };
   const instanceCol = await getInstanceCol();
   const items = await instanceCol
