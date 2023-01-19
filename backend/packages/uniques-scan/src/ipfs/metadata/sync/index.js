@@ -41,10 +41,37 @@ async function syncParsedMetadataToNft(nftCol) {
   }
 }
 
+async function syncClassValidToInstance() {
+  const classCol = await getClassCol();
+  const nftClasses = await classCol.find({}).toArray();
+
+  if (nftClasses.length === 0) {
+    return;
+  }
+
+  const instanceCol = await getInstanceCol();
+  const bulk = instanceCol.initializeUnorderedBulkOp();
+  for (const nftClass of nftClasses) {
+    bulk
+      .find({
+        classId: nftClass.classId,
+        classHeight: nftClass.classHeight,
+      })
+      .update({
+        $set: {
+          classDefinitionValid: nftClass.definitionValid,
+          isClassDestroyed: nftClass.isDestroyed,
+        },
+      });
+  }
+  await bulk.execute();
+}
+
 async function syncParsedData() {
   await syncResourceToMetadata();
   await syncParsedMetadataToNft(await getClassCol());
   await syncParsedMetadataToNft(await getInstanceCol());
+  await syncClassValidToInstance();
 }
 
 module.exports = {
