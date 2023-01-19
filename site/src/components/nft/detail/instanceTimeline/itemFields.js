@@ -42,6 +42,37 @@ function getFields(timelineItem) {
         Delegate: <AddressOrIdentity ellipsis={false} address={delegate} />,
       };
     }
+    case "ItemBought": {
+      const { classId, instanceId, price, seller, buyer } = timelineItem.args;
+      return {
+        "Class ID": <Text>{`#${classId}`}</Text>,
+        "Instance ID": <Text>{`#${instanceId}`}</Text>,
+        Price: <Text>{price}</Text>,
+        Seller: <AddressOrIdentity ellipsis={false} address={seller} />,
+        Buyer: <AddressOrIdentity ellipsis={false} address={buyer} />,
+      };
+    }
+    case "ItemPriceSet": {
+      const { classId, instanceId, price, whitelistedBuyer } =
+        timelineItem.args;
+
+      let fields = {
+        "Class ID": <Text>{`#${classId}`}</Text>,
+        "Instance ID": <Text>{`#${instanceId}`}</Text>,
+        Price: <Text>{price}</Text>,
+      };
+
+      if (whitelistedBuyer) {
+        fields = {
+          ...fields,
+          "Whitelisted buyer": (
+            <AddressOrIdentity ellipsis={false} address={whitelistedBuyer} />
+          ),
+        };
+      }
+
+      return fields;
+    }
     default: {
       const { classId, instanceId } = timelineItem.args;
       return {
