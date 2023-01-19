@@ -91,7 +91,6 @@ export const blockExtrinsicsHead = [
   { name: "Call", type: "call" },
   {
     name: "Data",
-    width: "100%",
     type: "data",
     align: "right",
     display: "table",
@@ -104,7 +103,6 @@ export const blockEventsHead = [
   { name: "Call", type: "call" },
   {
     name: "Data",
-    width: "100%",
     type: "data",
     align: "right",
     display: "table",
@@ -119,7 +117,6 @@ export const blockLogsHead = [
   { name: "Type", width: 200 },
   {
     name: "Data",
-    width: "100%",
     type: "data",
     align: "right",
     display: "table",
@@ -135,7 +132,6 @@ export const extrinsicsHead = [
   { name: "Call", type: "call" },
   {
     name: "Data",
-    width: "100%",
     type: "data",
     align: "right",
     display: "table",
@@ -150,7 +146,6 @@ export const eventsHead = [
   { name: "Action", type: "call" },
   {
     name: "Data",
-    width: "100%",
     type: "data",
     align: "right",
     display: "table",
@@ -166,7 +161,6 @@ export const callsHead = [
   { name: "Call", type: "call" },
   {
     name: "Data",
-    width: "100%",
     type: "data",
     align: "right",
     display: "table",
