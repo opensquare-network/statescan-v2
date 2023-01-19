@@ -47,8 +47,25 @@ async function saveCreateThumbnailError(hash, type) {
   await markMetadataResourceProcessed(hash);
 }
 
+async function increaseCreateThumbnailRetries(hash, type) {
+  const col = await getResourceCol();
+  await col.updateOne(
+    { hash },
+    {
+      $set: {
+        type,
+      },
+      $inc: {
+        retries: 1,
+      },
+    },
+    { upsert: true },
+  );
+}
+
 module.exports = {
   saveThumbnail,
   saveCreateThumbnailError,
+  increaseCreateThumbnailRetries,
   markMetadataResourceProcessed,
 };
