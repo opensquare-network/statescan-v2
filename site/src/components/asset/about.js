@@ -6,6 +6,7 @@ import Tooltip from "../tooltip";
 import { Flex, FlexColumn } from "../styled/flex";
 import Governance from "./governance";
 import { useAssetInfoDataDetail } from "../../utils/hooks/useAssetInfoData";
+import LinkLinksIcon from "../icons/linkLinksIcon";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -84,7 +85,7 @@ export default function About() {
         {(data?.links || []).map((item, index) => (
           <Tooltip key={index} tip={item.url}>
             <a href={item.url}>
-              <LinkIcon src={item.icon} />
+              {item.icon ? <LinkIcon src={item.icon} /> : <LinkLinksIcon />}
             </a>
           </Tooltip>
         ))}

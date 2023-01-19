@@ -8,7 +8,6 @@ export const assetDanger = {
       {
         name: "Website",
         url: "https://dangerlottery.com/",
-        icon: "/imgs/icons/link-links.svg",
       },
       {
         name: "Twitter",

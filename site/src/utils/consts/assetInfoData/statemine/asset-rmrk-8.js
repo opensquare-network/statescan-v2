@@ -8,7 +8,6 @@ export const assetRMRK = {
       {
         name: "Website",
         url: "https://rmrk.app",
-        icon: "/imgs/icons/link-links.svg",
       },
       {
         name: "Twitter: @rmrkapp",
