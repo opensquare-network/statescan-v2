@@ -19,6 +19,7 @@ import { StyledPanelTableWrapper } from "../../styled/panel";
 import OverviewItem from "./item";
 import ValueDisplay from "../../displayValue";
 import Tooltip from "../../tooltip";
+import NftSquareIcon from "../../icons/nftSquareIcon";
 
 const Panel = styled(Flex)`
   margin: 24px;
@@ -31,7 +32,7 @@ const Panel = styled(Flex)`
 
 const OverviewItemsWrapper = styled.div`
   --gap-y: 32px;
-  --cols: 6;
+  --cols: 5;
   flex: 1;
   display: grid;
   gap: var(--gap-y) 0;
@@ -77,11 +78,6 @@ function Overview() {
             value={currencify(overview.finalizedHeight)}
           />
           <OverviewItem
-            icon={<HolderSquareIcon />}
-            label="Accounts"
-            value={currencify(overview.accounts)}
-          />
-          <OverviewItem
             icon={<ExtrinsicsSquareIcon />}
             label="Signed Extrinsics"
             value={currencify(overview.signedExtrinsics)}
@@ -105,6 +101,31 @@ function Overview() {
                 />
               </Tooltip>
             }
+          />
+
+          <OverviewItem
+            icon={<HolderSquareIcon />}
+            label="Accounts"
+            value={currencify(overview.accounts)}
+          />
+          <OverviewItem
+            icon={<AssetSquareIcon />}
+            label="Assets"
+            value={currencify(overview.assets)}
+          />
+          <OverviewItem
+            icon={<NftSquareIcon />}
+            label="NFT Classes"
+            tip="Recongized / All"
+            value={currencify(overview.nftClasses?.valid)}
+            total={currencify(overview.nftClasses?.total)}
+          />
+          <OverviewItem
+            icon={<NftSquareIcon />}
+            label="NFT Instances"
+            tip="Recongized / All"
+            value={currencify(overview.nftInstances?.valid)}
+            total={currencify(overview.nftInstances?.total)}
           />
         </OverviewItemsWrapper>
       </Panel>
