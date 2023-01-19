@@ -20,3 +20,10 @@ export function hashEllipsis(hash = "", start = 6, end = 6) {
 export function isHash(term = "") {
   return /^0x[0-9a-f]{64}$/.test(term);
 }
+
+/**
+ * @description lodash.lowerCase
+ */
+export function lowerCase(str = "") {
+  return str.replace(/[A-Z]/g, (matched) => " " + matched.toLowerCase());
+}
