@@ -59,6 +59,7 @@ const mapLoadingState = (_props) => {
 function Overview() {
   const overview = useSelector(overviewSelector);
   const chainSetting = useSelector(chainSettingSelector);
+  const { modules = {} } = chainSetting;
 
   function issuancePrecision(issuance) {
     return toPrecision(issuance ?? 0, chainSetting.decimals);
@@ -103,6 +104,7 @@ function Overview() {
               </Tooltip>
             }
           />
+
           {chainSetting.kusamaParaId && (
             <OverviewItem
               icon={<KusamaParaIdSquareIcon />}
@@ -110,30 +112,39 @@ function Overview() {
               value={currencify(chainSetting.kusamaParaId)}
             />
           )}
+
           <OverviewItem
             icon={<HolderSquareIcon />}
             label="Accounts"
             value={currencify(overview.accounts)}
           />
-          <OverviewItem
-            icon={<AssetSquareIcon />}
-            label="Assets"
-            value={currencify(overview.assets)}
-          />
-          <OverviewItem
-            icon={<NftSquareIcon />}
-            label="NFT Classes"
-            tip="Recongized / All"
-            value={currencify(overview.nftClasses?.valid)}
-            total={currencify(overview.nftClasses?.total)}
-          />
-          <OverviewItem
-            icon={<NftSquareIcon />}
-            label="NFT Instances"
-            tip="Recongized / All"
-            value={currencify(overview.nftInstances?.valid)}
-            total={currencify(overview.nftInstances?.total)}
-          />
+
+          {modules?.assets && (
+            <OverviewItem
+              icon={<AssetSquareIcon />}
+              label="Assets"
+              value={currencify(overview.assets)}
+            />
+          )}
+
+          {modules?.uniques && (
+            <>
+              <OverviewItem
+                icon={<NftSquareIcon />}
+                label="NFT Classes"
+                tip="Recongized / All"
+                value={currencify(overview.nftClasses?.valid)}
+                total={currencify(overview.nftClasses?.total)}
+              />
+              <OverviewItem
+                icon={<NftSquareIcon />}
+                label="NFT Instances"
+                tip="Recongized / All"
+                value={currencify(overview.nftInstances?.valid)}
+                total={currencify(overview.nftInstances?.total)}
+              />
+            </>
+          )}
         </OverviewItemsWrapper>
       </Panel>
     </StyledPanelTableWrapper>
