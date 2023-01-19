@@ -181,8 +181,6 @@ export default function ExploreDropdown({ hints, visible, selectedIndex }) {
     return null;
   }
 
-  console.log(hints);
-
   return (
     <DropdownFlexColumn gap={8} className="explore-dropdown">
       {hints.map((hint, index) => (
