@@ -5,6 +5,7 @@ import {
   useEffect,
   useImperativeHandle,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import api from "../../../services/api";
@@ -34,23 +35,16 @@ function ExploreInput(props, ref) {
   const [term, setTerm] = useState("");
   const [hintsCache, setHintsCache] = useState({});
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [loadingHints, setLoadingHints] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const dropdownRef = useRef();
 
   const hints = useMemo(() => hintsCache[term] ?? [], [term, hintsCache]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const selectedItem = useMemo(() => {
-    if (dropdownVisible) {
-      return hints[selectedIndex];
-    }
-
-    return hints[0];
-  }, [selectedIndex, hints, dropdownVisible]);
-
-  // FIXME: see https://github.com/opensquare-network/statescan-v2/issues/196
   async function fetchHints(term) {
     setLoadingHints(true);
     return api
@@ -106,6 +100,10 @@ function ExploreInput(props, ref) {
   }
 
   function handleExplore() {
+    if (!selectedItem) {
+      return;
+    }
+
     const { type, value } = selectedItem;
     navigate(makeExploreDropdownItemRouteLink(type, value));
     dispatch(closeMobileMenu());
@@ -120,14 +118,9 @@ function ExploreInput(props, ref) {
 
     if (code === "Enter") {
       handleExplore();
-    } else if (code === "ArrowUp") {
-      if (selectedIndex > 0) {
-        setSelectedIndex(selectedIndex - 1);
-      }
-    } else if (code === "ArrowDown") {
-      if (selectedIndex < hints.length - 1) {
-        setSelectedIndex(selectedIndex + 1);
-      }
+    } else if (code === "ArrowUp" || code === "ArrowDown") {
+      event.preventDefault();
+      dropdownRef.current.handleArrowNavigate(code);
     }
   }
 
@@ -145,9 +138,11 @@ function ExploreInput(props, ref) {
       />
 
       <ExploreDropdown
+        ref={dropdownRef}
         hints={hints}
         visible={dropdownVisible}
-        selectedIndex={selectedIndex}
+        setSelectedItem={setSelectedItem}
+        onInputKeyDown={onInputKeyDown}
       />
     </>
   );
