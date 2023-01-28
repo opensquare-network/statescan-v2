@@ -6,9 +6,11 @@ import { useKeyPress } from "../../../utils/hooks/useKeyPress";
 import { time } from "../../../utils/viewFuncs/time";
 import AddressOrIdentity from "../../address/index";
 import NftInfo from "../info";
-import { ColoredInterLink } from "../../styled/link";
 import InfoField from "./infoField";
 import Modal from "../../modal";
+import { flex, flex_1, gap, m_t, w_full } from "../../../styles/tailwindcss";
+import { PanelButton, Button } from "../../styled/buttons";
+import { useNavigate } from "react-router-dom";
 
 const Fields = styled.div`
   display: flex;
@@ -20,38 +22,15 @@ const Fields = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.div`
-  margin-top: 8px;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  button {
-    all: unset;
-    border: 1px solid ${(p) => p.theme.strokeBox};
-    background-color: ${(p) => p.theme.fillBub};
-  }
-  a {
-    display: block;
-    border: 1px solid ${(p) => p.theme.strokeBoxSelected};
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 44px;
-    :hover {
-      color: ${(p) => p.theme.fontPrimary};
-    }
-  }
-  button,
-  a {
-    cursor: pointer;
-    border-radius: 8px;
-    text-align: center;
-    height: 42px;
-    flex-grow: 1;
-    color: ${(p) => p.theme.fontPrimary};
-  }
-  > :not(:first-child) {
-    margin-left: 16px;
+const ButtonGroup = styled.div`
+  ${flex};
+  ${w_full};
+  ${gap(16)};
+  ${m_t(8)};
+
+  ${PanelButton},
+  ${Button} {
+    ${flex_1};
   }
 `;
 
@@ -71,6 +50,7 @@ export default function NftPreviewBase({
   onClose,
 }) {
   const pressEscape = useKeyPress("Escape");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (pressEscape) {
@@ -102,10 +82,10 @@ export default function NftPreviewBase({
         {!isNil(instances) && <InfoField name="Instance" value={instances} />}
       </Fields>
 
-      <ButtonWrapper>
-        <button onClick={onClose}>Close</button>
-        <ColoredInterLink to={detailLink}>Detail</ColoredInterLink>
-      </ButtonWrapper>
+      <ButtonGroup>
+        <PanelButton onClick={onClose}>Close</PanelButton>
+        <Button onClick={() => navigate(detailLink)}>Detail</Button>
+      </ButtonGroup>
     </Modal>
   );
 }
