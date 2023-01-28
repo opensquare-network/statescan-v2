@@ -60,10 +60,6 @@ export default function NftPreviewBase({
 
   const instances = details?.items ?? details?.instances;
 
-  function gotoDetail() {
-    navigate(detailLink);
-  }
-
   return (
     <Modal open={open} onClose={onClose}>
       <div style={{ width: "100%", marginBottom: "24px" }}>
@@ -88,7 +84,7 @@ export default function NftPreviewBase({
 
       <ButtonGroup>
         <PanelButton onClick={onClose}>Close</PanelButton>
-        <Button onClick={gotoDetail}>Detail</Button>
+        <Button onClick={() => navigate(detailLink)}>Detail</Button>
       </ButtonGroup>
     </Modal>
   );
