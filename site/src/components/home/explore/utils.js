@@ -15,5 +15,9 @@ export function makeExploreDropdownItemRouteLink(type, value) {
     return `/uniques/classes/${value.classId}/instances/${value.instanceId}`;
   }
 
+  if (type === "block") {
+    return `/blocks/${value}`;
+  }
+
   return `/${type}/${value}`;
 }
