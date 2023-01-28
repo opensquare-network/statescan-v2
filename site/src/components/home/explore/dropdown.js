@@ -13,6 +13,16 @@ import { Flex, FlexColumn } from "../../styled/flex";
 import { makeExploreDropdownItemRouteLink } from "./utils";
 import AssetLogo from "../../assetLogo";
 import NftThumbnail from "../../nft/thumbnail";
+import noop from "lodash.noop";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
+import { first } from "lodash";
+import { useEffectOnce } from "../../../utils/hooks/useEffectOnce";
 
 const padding = 16;
 
@@ -155,22 +165,38 @@ function renderItem(type, value) {
   return typeMap[type] ?? {};
 }
 
-function ExploreDropdownItem({ value, type, selected }) {
+function ExploreDropdownItem({
+  value,
+  type,
+  selected,
+  setSelected = noop,
+  setHintsKeyMap = noop,
+}) {
   const dispatch = useDispatch();
 
-  const options = Array.isArray(value) ? value : [value];
+  const items = Array.isArray(value) ? value : [value];
 
-  return options.map((value, index) => {
-    const { icon, label, contentValue } = renderItem(type, value);
+  useEffectOnce(() => {
+    items.forEach((item, index) => {
+      const key = `${type}-${index}`;
+      setHintsKeyMap((o) => ({ ...o, [key]: { type, value: item } }));
+    });
+  });
+
+  return items.map((item, index) => {
+    const key = `${type}-${index}`;
+    const { icon, label, contentValue } = renderItem(type, item);
 
     return (
       <DropdownLinkItem
-        key={index}
-        to={makeExploreDropdownItemRouteLink(type, value)}
-        selected={selected}
+        key={key}
+        to={makeExploreDropdownItemRouteLink(type, item)}
+        selected={key === selected}
         onClick={() => {
           dispatch(closeMobileMenu());
         }}
+        onMouseEnter={() => setSelected(key)}
+        onMouseOver={() => setSelected(key)}
       >
         <DropdownItemContent>
           {icon && (
@@ -188,23 +214,59 @@ function ExploreDropdownItem({ value, type, selected }) {
   });
 }
 
-export default function ExploreDropdown({ hints, visible, selectedIndex }) {
+function ExploreDropdown({ hints, visible, setSelectedItem = noop }, ref) {
+  useImperativeHandle(ref, () => ({ handleArrowNavigate }));
+
+  const [selected, setSelected] = useState("");
+  const [hintsKeyMap, setHintsKeyMap] = useState({});
+  const keys = useMemo(() => Object.keys(hintsKeyMap), [hintsKeyMap]);
+
+  useEffect(() => {
+    setSelectedItem(hintsKeyMap[selected]);
+  }, [selected, hintsKeyMap, setSelectedItem]);
+
+  useEffect(() => {
+    setSelected(first(Object.keys(hintsKeyMap)));
+  }, [hintsKeyMap]);
+
+  const selectedIndex = useMemo(
+    () => keys.findIndex((k) => k === selected),
+    [keys, selected],
+  );
+
+  function handleArrowNavigate(code = "") {
+    if (code === "ArrowUp") {
+      if (selectedIndex > 0) {
+        setSelected(keys[selectedIndex - 1]);
+      }
+    } else if (code === "ArrowDown") {
+      if (selectedIndex < keys.length - 1) {
+        setSelected(keys[selectedIndex + 1]);
+      }
+    }
+  }
+
   if (!visible) {
     return null;
   }
 
   return (
     <DropdownFlexColumn gap={8} className="explore-dropdown">
-      {hints.map((hint, index) => (
+      {hints.map((hint) => (
         <DropdownGroup key={hint.type}>
           <DropdownGroupTitle>{lowerCase(hint.type)}</DropdownGroupTitle>
           <ExploreDropdownItem
             type={hint.type}
             value={hint.value}
-            selected={index === selectedIndex}
+            selected={selected}
+            setSelected={setSelected}
+            setSelectedItem={setSelectedItem}
+            setHintsKeyMap={setHintsKeyMap}
           />
         </DropdownGroup>
       ))}
     </DropdownFlexColumn>
   );
 }
+
+export default forwardRef(ExploreDropdown);
