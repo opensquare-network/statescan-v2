@@ -100,6 +100,10 @@ function ExploreInput(props, ref) {
   }
 
   function handleExplore() {
+    if (!selectedItem) {
+      return;
+    }
+
     const { type, value } = selectedItem;
     navigate(makeExploreDropdownItemRouteLink(type, value));
     dispatch(closeMobileMenu());
