@@ -46,25 +46,39 @@ async function parseOneResource(imageHash, image) {
   if (parsedDataUrl) {
     await createThumbnailFromDataUrl(imageHash, image);
   }
+  console.log(`Image ${imageHash} handled successfully`);
+}
+
+async function getToParseItems() {
+  const col = await getMetadataCol();
+  const total = await col.countDocuments({
+    definitionValid: true,
+    resourceProcessed: { $ne: true },
+  });
+  console.log(`Total ${total} metadata resource items waiting for parse`);
+  return await col
+    .find({ definitionValid: true, resourceProcessed: { $ne: true } })
+    .limit(10)
+    .toArray();
 }
 
 /**
  * NFT can be images, videos, voices, etc. We support images and videos, and generate thumbnail in this package.
  */
 async function parseResource() {
-  const col = await getMetadataCol();
-  const items = await col
-    .find({ definitionValid: true, resourceProcessed: { $ne: true } })
-    .toArray();
+  let items = await getToParseItems();
 
-  const images = uniqBy(
-    items.map((item) => item.definition),
-    (v) => v.imageHash,
-  );
+  while (items.length > 0) {
+    const images = uniqBy(
+      items.map((item) => item.definition),
+      (v) => v.imageHash,
+    );
+    await Promise.all(
+      images.map((item) => parseOneResource(item.imageHash, item.image)),
+    );
 
-  await Promise.all(
-    images.map((item) => parseOneResource(item.imageHash, item.image)),
-  );
+    items = await getToParseItems();
+  }
 }
 
 module.exports = {
