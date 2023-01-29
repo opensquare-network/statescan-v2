@@ -7,7 +7,7 @@ async function fetchJson(cid) {
   for (const endpoint of endpoints) {
     const promise = axios
       .get(`${endpoint}${cid}`, {
-        timeout: 60 * 1000, // max 60 secs for fetching json data
+        timeout: 60 * 10 * 1000, // max 10 mins for fetching json data
       })
       .then((res) => res.data);
     promises.push(promise);

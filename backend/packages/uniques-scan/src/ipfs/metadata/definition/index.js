@@ -4,6 +4,11 @@ const {
   uniques: { getMetadataCol, getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
 
+async function incRetries(hash) {
+  const col = await getMetadataCol();
+  await col.updateOne({ hash }, { $inc: { retries: 1 } });
+}
+
 async function parseOneDefinition(hash, data) {
   if (!data) {
     throw new Error(`To parse metadata data is null, hash: ${hash}`);
@@ -17,6 +22,7 @@ async function parseOneDefinition(hash, data) {
     definition = innerDefinition;
   } catch (e) {
     console.error(`Get hash ${hash} definition failed, e:`, e.message);
+    await incRetries(hash);
     return;
   }
 
@@ -34,7 +40,10 @@ async function parseOneDefinition(hash, data) {
 // Fetch not parsed metadata from database and save the NFT definition back to database.
 async function parseDefinition() {
   const col = await getMetadataCol();
-  const q = { definitionValid: null };
+  const q = {
+    definitionValid: null,
+    $or: [{ retries: null }, { retries: { $lt: 5 } }],
+  };
   let total = await col.countDocuments(q);
   console.log(`Total ${total} metadata items waiting for parse`);
 

@@ -30,6 +30,7 @@ async function populateCommon(col) {
         .update({
           $setOnInsert: {
             data: item.metadata.data,
+            retries: 0,
           },
         });
     }
