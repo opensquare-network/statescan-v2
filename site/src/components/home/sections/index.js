@@ -1,4 +1,4 @@
-import { FlexBetween, FlexColumn, FlexEnd } from "../../styled/flex";
+import { FlexColumn, FlexEnd } from "../../styled/flex";
 import LatestBlocks from "./latestBlocks";
 import React from "react";
 import styled, { css } from "styled-components";
@@ -18,6 +18,13 @@ import { mdcss } from "../../../styles/responsive";
 import Assets from "./assets";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import Nfts from "./nfts";
+import {
+  flex,
+  flex_1,
+  flex_col,
+  gap_x,
+  overflow_hidden,
+} from "../../../styles/tailwindcss";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -32,25 +39,25 @@ const Anchor = styled(Link)`
 `;
 
 const StyledPanel = styled(Panel)`
-  max-width: 644px;
-
   ${mdcss(css`
     max-width: 100%;
   `)}
 `;
 
 const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  ${flex};
+  ${flex_col};
+  ${flex_1};
+  ${overflow_hidden};
 
   ${mobilecss(css`
     margin-top: 32px;
   `)}
 `;
 
-const SectionsWrapper = styled(FlexBetween)`
-  align-items: unset;
+const SectionsWrapper = styled.div`
+  ${flex};
+  ${gap_x(24)};
 
   ${mdcss(css`
     display: block;
@@ -71,7 +78,7 @@ export default function Sections() {
 
   return (
     <FlexColumn gap={16}>
-      <SectionsWrapper gap={24}>
+      <SectionsWrapper>
         <Section>
           <Title>Latest Blocks</Title>
           <StyledPanel>
