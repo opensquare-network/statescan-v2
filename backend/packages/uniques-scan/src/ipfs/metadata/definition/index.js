@@ -1,8 +1,4 @@
-const {
-  syncOneMetadataValidity,
-  batchSyncMetadataValidity,
-  markSynced,
-} = require("./sync");
+const { syncOneMetadataValidity, syncAllMetadataValidity } = require("./sync");
 const { getDefinition } = require("./get");
 const {
   uniques: { getMetadataCol, getClassCol, getInstanceCol },
@@ -35,24 +31,6 @@ async function parseOneDefinition(hash, data) {
   console.log(`Metadata ${hash} handled successfully`);
 }
 
-async function syncDefinitionValidStatus() {
-  const metadataCol = await getMetadataCol();
-  let items = await metadataCol
-    .find({ validitySynced: false })
-    .limit(100)
-    .toArray();
-
-  while (items.length > 0) {
-    await batchSyncMetadataValidity(await getClassCol(), items);
-    await batchSyncMetadataValidity(await getInstanceCol(), items);
-    await markSynced(items);
-    items = await metadataCol
-      .find({ validitySynced: null })
-      .limit(100)
-      .toArray();
-  }
-}
-
 // Fetch not parsed metadata from database and save the NFT definition back to database.
 async function parseDefinition() {
   const col = await getMetadataCol();
@@ -70,7 +48,7 @@ async function parseDefinition() {
     items = await col.find(q).limit(10).toArray();
   }
 
-  await syncDefinitionValidStatus();
+  await syncAllMetadataValidity();
   console.log(`Definition validity status synced to class/instance table`);
 }
 

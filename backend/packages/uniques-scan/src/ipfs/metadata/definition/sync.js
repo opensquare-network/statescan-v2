@@ -1,6 +1,6 @@
 const isNil = require("lodash.isnil");
 const {
-  uniques: { getMetadataCol },
+  uniques: { getMetadataCol, getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
 
 async function syncOneMetadataValidity(col, hash, valid) {
@@ -47,8 +47,25 @@ async function markSynced(items = []) {
   await bulk.execute();
 }
 
+async function syncAllMetadataValidity() {
+  const metadataCol = await getMetadataCol();
+  let items = await metadataCol
+    .find({ validitySynced: false })
+    .limit(100)
+    .toArray();
+
+  while (items.length > 0) {
+    await batchSyncMetadataValidity(await getClassCol(), items);
+    await batchSyncMetadataValidity(await getInstanceCol(), items);
+    await markSynced(items);
+    items = await metadataCol
+      .find({ validitySynced: null })
+      .limit(100)
+      .toArray();
+  }
+}
+
 module.exports = {
   syncOneMetadataValidity,
-  batchSyncMetadataValidity,
-  markSynced,
+  syncAllMetadataValidity,
 };
