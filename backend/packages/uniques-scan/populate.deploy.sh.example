@@ -1,0 +1,1 @@
+NODE_ENV=production pm2 start src/scripts/jobs/populate.js --name statescan-v2-prod-statemine-uniques-populate --log-date-format 'YYYY-MM-DD HH:mm Z' --env production --max-memory-restart 600M
