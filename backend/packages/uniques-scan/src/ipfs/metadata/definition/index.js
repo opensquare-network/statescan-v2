@@ -67,11 +67,13 @@ async function parseDefinition() {
     await Promise.all(
       items.map((item) => parseOneDefinition(item.hash, item.data)),
     );
-    await syncDefinitionValidStatus();
     total = await col.countDocuments(q);
     console.log(`${items.length} handled, left ${total} to handle`);
     items = await col.find(q).limit(10).toArray();
   }
+
+  await syncDefinitionValidStatus();
+  console.log(`Definition validity status synced to class/instance table`);
 }
 
 module.exports = {
