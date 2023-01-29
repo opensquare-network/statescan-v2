@@ -1,6 +1,6 @@
 const isNil = require("lodash.isnil");
+const { syncOneMetadataValidity } = require("./sync");
 const { getDefinition } = require("./get");
-const { busLogger } = require("@osn/scan-common");
 const {
   uniques: { getMetadataCol, getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
@@ -17,7 +17,7 @@ async function parseOneDefinition(hash, data) {
     definitionValid = valid;
     definition = innerDefinition;
   } catch (e) {
-    busLogger.error(`Get hash ${hash} definition failed, e:`, e.message);
+    console.error(`Get hash ${hash} definition failed, e:`, e.message);
     return;
   }
 
@@ -26,6 +26,9 @@ async function parseOneDefinition(hash, data) {
     updates = { ...updates, definition };
   }
   await col.updateOne({ hash }, { $set: updates });
+
+  await syncOneMetadataValidity(await getClassCol(), hash, definitionValid);
+  await syncOneMetadataValidity(await getInstanceCol(), hash, definitionValid);
   console.log(`Metadata ${hash} handled successfully`);
 }
 
