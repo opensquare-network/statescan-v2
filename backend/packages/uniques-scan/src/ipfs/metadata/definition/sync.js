@@ -8,7 +8,7 @@ async function syncOneMetadataValidity(col, hash, valid) {
     updates = { $set: { definitionValid: valid } };
   }
 
-  await col.updateMany({ dataHash: hash }, { updates });
+  await col.updateMany({ dataHash: hash }, updates);
 }
 
 module.exports = {
