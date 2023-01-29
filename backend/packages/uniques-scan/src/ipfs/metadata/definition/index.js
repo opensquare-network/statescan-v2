@@ -58,12 +58,20 @@ async function syncDefinitionValidStatus() {
 // Fetch not parsed metadata from database and save the NFT definition back to database.
 async function parseDefinition() {
   const col = await getMetadataCol();
-  let items = await col.find({ definitionValid: null }).toArray();
-  console.log(`Will parse ${items.length} metadata items for definition`);
-  await Promise.all(
-    items.map((item) => parseOneDefinition(item.hash, item.data)),
-  );
-  await syncDefinitionValidStatus();
+  const q = { definitionValid: null };
+  let total = await col.countDocuments(q);
+  console.log(`Total ${total} metadata items waiting for parse`);
+
+  let items = await col.find(q).limit(10).toArray();
+  while (items.length > 0) {
+    await Promise.all(
+      items.map((item) => parseOneDefinition(item.hash, item.data)),
+    );
+    await syncDefinitionValidStatus();
+    total = await col.countDocuments(q);
+    console.log(`${items.length} handled, left ${total} to handle`);
+    items = await col.find(q).limit(10).toArray();
+  }
 }
 
 module.exports = {
