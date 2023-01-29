@@ -11,7 +11,6 @@ async function parseOneDefinition(hash, data) {
   }
 
   const col = await getMetadataCol();
-
   let definitionValid, definition;
   try {
     const { valid, definition: innerDefinition } = await getDefinition(data);
@@ -27,6 +26,7 @@ async function parseOneDefinition(hash, data) {
     updates = { ...updates, definition };
   }
   await col.updateOne({ hash }, { $set: updates });
+  console.log(`Metadata ${hash} handled successfully`);
 }
 
 async function syncCollectionDefinitionValid(col, items) {
@@ -59,6 +59,7 @@ async function syncDefinitionValidStatus() {
 async function parseDefinition() {
   const col = await getMetadataCol();
   let items = await col.find({ definitionValid: null }).toArray();
+  console.log(`Will parse ${items.length} metadata items for definition`);
   await Promise.all(
     items.map((item) => parseOneDefinition(item.hash, item.data)),
   );
