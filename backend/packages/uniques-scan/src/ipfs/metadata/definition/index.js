@@ -1,5 +1,8 @@
-const isNil = require("lodash.isnil");
-const { syncOneMetadataValidity } = require("./sync");
+const {
+  syncOneMetadataValidity,
+  batchSyncMetadataValidity,
+  markSynced,
+} = require("./sync");
 const { getDefinition } = require("./get");
 const {
   uniques: { getMetadataCol, getClassCol, getInstanceCol },
@@ -21,7 +24,7 @@ async function parseOneDefinition(hash, data) {
     return;
   }
 
-  let updates = { definitionValid };
+  let updates = { definitionValid, validitySynced: false };
   if (definitionValid) {
     updates = { ...updates, definition };
   }
@@ -32,30 +35,24 @@ async function parseOneDefinition(hash, data) {
   console.log(`Metadata ${hash} handled successfully`);
 }
 
-async function syncCollectionDefinitionValid(col, items) {
-  if (items.length === 0) {
-    return;
-  }
-
-  const bulk = col.initializeUnorderedBulkOp();
-  for (const item of items) {
-    let update = {};
-    if (isNil(item.definitionValid)) {
-      update = { $unset: { definitionValid: true } };
-    } else {
-      update = { $set: { definitionValid: item.definitionValid } };
-    }
-    bulk.find({ dataHash: item.hash }).update(update);
-  }
-  await bulk.execute();
-}
-
 async function syncDefinitionValidStatus() {
   const metadataCol = await getMetadataCol();
-  let items = await metadataCol.find({}).toArray();
+  let items = await metadataCol
+    .find({
+      $or: [{ validitySynced: null }, { validitySynced: false }],
+    })
+    .limit(100)
+    .toArray();
 
-  await syncCollectionDefinitionValid(await getClassCol(), items);
-  await syncCollectionDefinitionValid(await getInstanceCol(), items);
+  while (items.length > 0) {
+    await batchSyncMetadataValidity(await getClassCol(), items);
+    await batchSyncMetadataValidity(await getInstanceCol(), items);
+    await markSynced(items);
+    items = await metadataCol
+      .find({ validitySynced: null })
+      .limit(100)
+      .toArray();
+  }
 }
 
 // Fetch not parsed metadata from database and save the NFT definition back to database.
