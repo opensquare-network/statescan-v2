@@ -48,7 +48,9 @@ async function populateCommon(col) {
 // Metadata collection will also host the metadata parsed data.
 async function populateMetadata() {
   await populateCommon(await getClassCol());
+  console.log("class metadata populated");
   await populateCommon(await getInstanceCol());
+  console.log("instance metadata populated");
 }
 
 module.exports = {
