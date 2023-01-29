@@ -38,9 +38,7 @@ async function parseOneDefinition(hash, data) {
 async function syncDefinitionValidStatus() {
   const metadataCol = await getMetadataCol();
   let items = await metadataCol
-    .find({
-      $or: [{ validitySynced: null }, { validitySynced: false }],
-    })
+    .find({ validitySynced: false })
     .limit(100)
     .toArray();
 
