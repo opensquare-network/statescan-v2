@@ -24,7 +24,10 @@ import {
   flex_col,
   gap_x,
   overflow_hidden,
+  text_tertiary,
 } from "../../../styles/tailwindcss";
+import { assetListLoadingSelector } from "../../../store/reducers/assetSlice";
+import { nftListLoadingSelector } from "../../../store/reducers/nftSlice";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -36,6 +39,13 @@ const Anchor = styled(Link)`
   ${Inter_14_500};
   text-align: right;
   color: ${(props) => props.theme.theme500};
+
+  ${(p) =>
+    p.disabled &&
+    css`
+      pointer-events: none;
+      ${text_tertiary};
+    `}
 `;
 
 const StyledPanel = styled(Panel)`
@@ -74,6 +84,8 @@ export default function Sections() {
   const blocksLoading = useSelector(latestBlocksLoadingSelector);
   const transfers = useSelector(latestSignedTransfersSelector);
   const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
+  const assetsListLoading = useSelector(assetListLoadingSelector);
+  const nftListLoading = useSelector(nftListLoadingSelector);
   const { modules } = useChainSettings();
 
   return (
@@ -84,7 +96,9 @@ export default function Sections() {
           <StyledPanel>
             <LatestBlocks blocks={blocks} loading={blocksLoading} />
             <AnchorWrapper>
-              <Anchor to={"/blocks"}>View All</Anchor>
+              <Anchor disabled={blocksLoading} to={"/blocks"}>
+                View All
+              </Anchor>
             </AnchorWrapper>
           </StyledPanel>
         </Section>
@@ -94,7 +108,9 @@ export default function Sections() {
           <StyledPanel>
             <LatestTransfers transfers={transfers} loading={transfersLoading} />
             <AnchorWrapper>
-              <Anchor to={"/transfers"}>View All</Anchor>
+              <Anchor disabled={transfersLoading} to={"/transfers"}>
+                View All
+              </Anchor>
             </AnchorWrapper>
           </StyledPanel>
         </Section>
@@ -106,7 +122,9 @@ export default function Sections() {
           <StyledPanelTableWrapper
             footer={
               <AnchorWrapper>
-                <Anchor to="/assets">View All</Anchor>
+                <Anchor disabled={assetsListLoading} to="/assets">
+                  View All
+                </Anchor>
               </AnchorWrapper>
             }
           >
@@ -121,7 +139,9 @@ export default function Sections() {
           <StyledPanelTableWrapper
             footer={
               <AnchorWrapper>
-                <Anchor to="/uniques">View All</Anchor>
+                <Anchor disabled={nftListLoading} to="/uniques">
+                  View All
+                </Anchor>
               </AnchorWrapper>
             }
           >
