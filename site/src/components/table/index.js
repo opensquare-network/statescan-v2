@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import TableHead from "./head";
 import TableBody from "./body";
-import { withBlockLoading } from "../../HOC/withLoading";
+import { withTableLoading } from "../../HOC/withLoading";
 
 const StyledTable = styled.table`
   margin-top: 8px;
@@ -29,4 +29,4 @@ function Table({ heads = [], data = null }) {
   );
 }
 
-export default withBlockLoading(mapLoadingState)(Table);
+export default withTableLoading(mapLoadingState)(Table);

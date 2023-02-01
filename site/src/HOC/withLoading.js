@@ -14,19 +14,6 @@ import {
   z_10,
 } from "../styles/tailwindcss";
 
-const TdLoadingWrapper = styled.td`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: ${({ theme }) => theme.fillPanelBlanket};
-  left: 0;
-  top: 50px;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-`;
-
 const BlockWrapper = styled.div`
   ${relative};
   ${(p) => p.isLoading && overflow_hidden};
@@ -41,16 +28,6 @@ const BlockLoadingWrapper = styled.div`
   ${bg_theme("fillPanelBlanket")};
   top: 50px;
 `;
-
-const TbodyWrapper = ({ children }) => {
-  return (
-    <tbody>
-      <tr>
-        <TdLoadingWrapper>{children}</TdLoadingWrapper>
-      </tr>
-    </tbody>
-  );
-};
 
 function findTrueInArray(deps) {
   return (deps || []).some((item) => !!item);
@@ -87,33 +64,7 @@ export const withLoading = (_deps) => {
   };
 };
 
-export const withLoadingTbody = (_deps) => {
-  return (Component) => {
-    return (props) => {
-      let deps = _deps;
-      if (typeof _deps === "function") {
-        deps = _deps(props);
-      }
-      if (findTrueInArray(arrayed(deps.loadingStates))) {
-        if (props?.data === null && deps.loadingComponent) {
-          return deps.loadingComponent;
-        }
-        return (
-          <>
-            <TbodyWrapper>
-              <LoadingIcon />
-            </TbodyWrapper>
-            <Component {...props} />
-          </>
-        );
-      }
-
-      return <Component {...props} />;
-    };
-  };
-};
-
-export function withBlockLoading(_deps) {
+export function withTableLoading(_deps) {
   return (Component) => {
     return (props) => {
       let deps = _deps;
@@ -121,7 +72,6 @@ export function withBlockLoading(_deps) {
         deps = _deps(props);
       }
 
-      const component = <Component {...props} />;
       const isLoading = findTrueInArray(arrayed(deps.loadingStates));
 
       if (isLoading) {
@@ -136,12 +86,12 @@ export function withBlockLoading(_deps) {
                 <LoadingIcon />
               </BlockLoadingWrapper>
             )}
-            {component}
+            <Component {...props} />
           </BlockWrapper>
         );
       }
 
-      return component;
+      return <Component {...props} />;
     };
   };
 }
