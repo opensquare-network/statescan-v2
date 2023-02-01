@@ -8,7 +8,7 @@ import {
   text_primary,
   theme,
 } from "../../../styles/tailwindcss";
-import { Inter_14_500 } from "../../../styles/text";
+import { Inter_14_600 } from "../../../styles/text";
 
 export const Button = styled.button`
   all: unset;
@@ -21,7 +21,7 @@ export const Button = styled.button`
   color: ${(p) => p.theme.fontPrimaryInverse};
   border-radius: 8px;
   cursor: pointer;
-  ${Inter_14_500};
+  ${Inter_14_600};
 `;
 
 export const PanelButton = styled(Button)`
