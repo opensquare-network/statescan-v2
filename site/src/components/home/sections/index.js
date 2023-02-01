@@ -23,7 +23,6 @@ import {
   flex_1,
   flex_col,
   gap_x,
-  overflow_hidden,
   text_tertiary,
 } from "../../../styles/tailwindcss";
 import { assetListLoadingSelector } from "../../../store/reducers/assetSlice";
@@ -58,7 +57,6 @@ const Section = styled.div`
   ${flex};
   ${flex_col};
   ${flex_1};
-  ${overflow_hidden};
 
   ${mobilecss(css`
     margin-top: 32px;
@@ -68,6 +66,10 @@ const Section = styled.div`
 const SectionsWrapper = styled.div`
   ${flex};
   ${gap_x(24)};
+
+  ${Section} {
+    max-width: calc(50% - 12px);
+  }
 
   ${mdcss(css`
     display: block;
