@@ -23,6 +23,7 @@ import {
   flex_1,
   flex_col,
   gap_x,
+  max_w_full,
   text_tertiary,
 } from "../../../styles/tailwindcss";
 import { assetListLoadingSelector } from "../../../store/reducers/assetSlice";
@@ -69,6 +70,7 @@ const SectionsWrapper = styled.div`
 
   ${Section} {
     max-width: calc(50% - 12px);
+    ${mdcss(max_w_full)};
   }
 
   ${mdcss(css`
