@@ -3,15 +3,13 @@ import styled from "styled-components";
 import { ReactComponent as Github } from "./github.svg";
 import { ReactComponent as Twitter } from "./twitter.svg";
 import { ReactComponent as Element } from "./element.svg";
+import { gap_x } from "../../styles/tailwindcss";
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-
-  > :not(:first-child) {
-    margin-left: 8px;
-  }
+  ${gap_x(16)};
 `;
 
 const Link = styled.a`
@@ -30,10 +28,6 @@ const Link = styled.a`
         fill-opacity: 0.35 !important;
       }
     }
-  }
-
-  &:not(:last-child) {
-    margin-right: 16px;
   }
 `;
 

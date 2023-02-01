@@ -17,7 +17,7 @@ const light = {
   fillSub: "#EFEFF0",
   fillSubDark: "#262B37",
   fillBase: "#F8F8F9",
-  fillButton: "#000000",
+  fillButton: "#1b202c",
   fillBub: "#EFEFF0",
   fillTooltip: "rgba(0, 0, 0, 0.85)",
   fillGradientIcon:

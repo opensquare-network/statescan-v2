@@ -11,6 +11,7 @@ import Symbol from "../../components/symbol";
 import { bigNumberToLocaleString } from "../viewFuncs";
 import TimeBody from "../../components/table/body/time";
 import { timeTypes } from "../constants";
+import { Flex } from "../../components/styled/flex";
 
 export function useAssetsTableData() {
   const list = useSelector(assetListSelector);
@@ -28,7 +29,7 @@ export function useAssetsTableData() {
 
     return [
       <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
-      metadata?.symbol ? <Symbol asset={asset} /> : "--",
+      <Flex>{metadata?.symbol ? <Symbol asset={asset} /> : "--"}</Flex>,
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
       <Tooltip tip={detail?.owner}>
         <AddressOrIdentity address={detail?.owner} />

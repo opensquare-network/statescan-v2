@@ -8,6 +8,15 @@ import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
 import FilterIcon from "./filterIcon";
 import { useWindowSize } from "@osn/common";
+import { useIsDark } from "../../utils/hooks";
+import {
+  bg_theme500,
+  p_x,
+  p_y,
+  rounded_4,
+  w_full,
+} from "../../styles/tailwindcss";
+import { Button } from "../styled/buttons";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -60,18 +69,15 @@ const DropdownWrapper = styled(Flex)`
   }
 `;
 
-const Button = styled.div`
-  padding: 4px 12px;
-  background: ${(p) => p.theme.fillButton};
-  border-radius: 4px;
-  ${Inter_14_600};
-  color: ${({ theme }) => theme.fontPrimaryInverse};
-  cursor: pointer;
-  text-align: center;
+const FilterButton = styled(Button)`
+  ${p_y(4)};
+  ${p_x(12)};
+  ${(p) => p.dark && bg_theme500};
+  ${rounded_4};
+
   @media screen and (max-width: 1150px) {
-    width: 100%;
-    padding-right: 0;
-    padding-left: 0;
+    ${w_full};
+    ${p_x(0)};
   }
 `;
 
@@ -103,6 +109,7 @@ export default function Filter({ title, data }) {
   const [selectData, setDropdownData] = useState(data);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const { width } = useWindowSize();
+  const isDark = useIsDark();
 
   useEffect(() => {
     setDropdownData(data);
@@ -133,14 +140,15 @@ export default function Filter({ title, data }) {
   };
 
   const filter_button = (
-    <Button
+    <FilterButton
+      dark={isDark}
       onClick={() => {
         const search = serialize(getCurrentFilter());
         navigate({ search: `?${search}${search ? "&" : ""}page=1` });
       }}
     >
       Filter
-    </Button>
+    </FilterButton>
   );
 
   return (
@@ -158,7 +166,7 @@ export default function Filter({ title, data }) {
         <FilterWrapper>
           {(selectData || []).map((item, index) =>
             item.name === "divider" ? (
-              <FilterDivider />
+              <FilterDivider key={index} />
             ) : (
               <DropdownWrapper key={index}>
                 <span>{item.name}</span>

@@ -3,12 +3,8 @@ import { Inter_12_600, Inter_14_500 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import { Panel } from "../styled/panel";
 import Link from "../styled/link";
-import { ReactComponent as CaretDown } from "./caret-down.svg";
 import Divider from "../styled/divider";
-
-const CaretDownIcon = styled(CaretDown)`
-  margin-left: 4px;
-`;
+import CaretDownIcon from "../icons/caretDownIcon";
 
 const Wrapper = styled.div`
   position: relative;

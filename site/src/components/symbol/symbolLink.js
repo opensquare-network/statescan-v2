@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { inline_flex } from "../../styles/tailwindcss";
 
 const MyLink = styled(Link)`
+  ${inline_flex};
   color: ${(props) => props.theme.fontPrimary};
   text-decoration: none;
 

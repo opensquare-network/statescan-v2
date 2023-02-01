@@ -7,6 +7,8 @@ import { chainSelector } from "../../../store/reducers/settingSlice";
 import { mobilecss } from "../../../styles/responsive";
 import ExploreInputOrigin from "./input";
 import { useRef } from "react";
+import { bg_theme500 } from "../../../styles/tailwindcss";
+import { useIsDark } from "../../../utils/hooks";
 
 const ExploreInput = styled(ExploreInputOrigin)`
   width: 545px;
@@ -14,6 +16,10 @@ const ExploreInput = styled(ExploreInputOrigin)`
   ${mobilecss(css`
     width: 100%;
   `)}
+`;
+
+const ExploreButton = styled(Button)`
+  ${(p) => p.dark && bg_theme500};
 `;
 
 const Wrapper = styled(Flex)`
@@ -41,6 +47,7 @@ const Title = styled.h1`
 export default function Explore() {
   const chain = useSelector(chainSelector);
   const exploreRef = useRef();
+  const isDark = useIsDark();
 
   function handleExplore() {
     exploreRef.current.handleExplore();
@@ -51,7 +58,9 @@ export default function Explore() {
       <Title>{chain} Explorer</Title>
       <Wrapper style={{ gap: 16 }}>
         <ExploreInput ref={exploreRef} />
-        <Button onClick={handleExplore}>Explore</Button>
+        <ExploreButton dark={isDark} onClick={handleExplore}>
+          Explore
+        </ExploreButton>
       </Wrapper>
     </div>
   );

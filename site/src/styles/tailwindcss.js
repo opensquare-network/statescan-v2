@@ -364,6 +364,7 @@ export const cursor_pointer = css`
 
 // background color
 export const bg_fill_panel = bg_theme("fillPanel");
+export const bg_theme500 = bg_theme("theme500");
 
 // private
 // ---
