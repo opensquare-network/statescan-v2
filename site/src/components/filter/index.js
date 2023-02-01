@@ -74,7 +74,6 @@ const FilterButton = styled(Button)`
   ${p_x(12)};
   ${(p) => p.dark && bg_theme500};
   ${rounded_4};
-  ${Inter_14_600};
 
   @media screen and (max-width: 1150px) {
     ${w_full};
