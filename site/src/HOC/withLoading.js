@@ -2,6 +2,17 @@ import React from "react";
 import LoadingIcon from "../components/icons/loadingIcon";
 import { Flex } from "../components/styled/flex";
 import styled from "styled-components";
+import {
+  absolute,
+  bg_theme,
+  flex,
+  inset_0,
+  items_center,
+  justify_center,
+  overflow_hidden,
+  relative,
+  z_10,
+} from "../styles/tailwindcss";
 
 const TdLoadingWrapper = styled.td`
   position: absolute;
@@ -14,6 +25,21 @@ const TdLoadingWrapper = styled.td`
   right: 0;
   bottom: 0;
   z-index: 1;
+`;
+
+const BlockWrapper = styled.div`
+  ${relative};
+  ${(p) => p.isLoading && overflow_hidden};
+`;
+const BlockLoadingWrapper = styled.div`
+  ${flex};
+  ${justify_center};
+  ${items_center};
+  ${absolute};
+  ${inset_0};
+  ${z_10};
+  ${bg_theme("fillPanelBlanket")};
+  top: 50px;
 `;
 
 const TbodyWrapper = ({ children }) => {
@@ -86,3 +112,36 @@ export const withLoadingTbody = (_deps) => {
     };
   };
 };
+
+export function withBlockLoading(_deps) {
+  return (Component) => {
+    return (props) => {
+      let deps = _deps;
+      if (typeof _deps === "function") {
+        deps = _deps(props);
+      }
+
+      const component = <Component {...props} />;
+      const isLoading = findTrueInArray(arrayed(deps.loadingStates));
+
+      if (isLoading) {
+        if (deps.loadingComponent) {
+          return deps.loadingComponent;
+        }
+
+        return (
+          <BlockWrapper isLoading={isLoading}>
+            {isLoading && (
+              <BlockLoadingWrapper>
+                <LoadingIcon />
+              </BlockLoadingWrapper>
+            )}
+            {component}
+          </BlockWrapper>
+        );
+      }
+
+      return component;
+    };
+  };
+}
