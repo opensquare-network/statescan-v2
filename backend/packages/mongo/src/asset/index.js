@@ -46,6 +46,8 @@ async function _createIndexes() {
     { assetId: 1, assetHeight: 1, module: 1 },
     { unique: true },
   );
+  await assetCol.createIndex({ assetId: 1, module: 1 });
+  await assetCol.createIndex({ assetId: 1, destroyed: 1, module: 1 });
 
   await assetTimelineCol.createIndex({
     assetId: 1,
