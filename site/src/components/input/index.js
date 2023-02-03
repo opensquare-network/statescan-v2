@@ -13,6 +13,10 @@ const InputOrigin = styled.input`
     color: ${(props) => props.theme.fontTertiary};
   }
 
+  &:placeholder-shown {
+    text-overflow: ellipsis;
+  }
+
   ${Inter_14_500};
 `;
 
