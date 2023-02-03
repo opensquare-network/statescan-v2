@@ -1,4 +1,4 @@
-const { isAssetsChain, isUniquesChain } = require("../../../env");
+const { isUniquesChain } = require("../../../env");
 const {
   asset: { getAssetDb },
   block: { getBlockDb },
@@ -12,16 +12,14 @@ async function getScanHeights(ctx) {
 
   const runtimeDb = await getRuntimeDb();
   const runtimeScanHeight = await runtimeDb.getScanHeight();
+  const assetDb = await getAssetDb();
+  const assetsScanHeight = await assetDb.getScanHeight();
 
   const obj = {
     block: blockScanHeight,
     runtime: runtimeScanHeight,
+    assets: assetsScanHeight,
   };
-
-  if (isAssetsChain()) {
-    const assetDb = await getAssetDb();
-    Object.assign(obj, { asset: await assetDb.getScanHeight() });
-  }
 
   if (isUniquesChain()) {
     const uniquesDb = await getUniquesDb();
