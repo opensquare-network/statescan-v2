@@ -1,14 +1,12 @@
-import polkadot from "./polkadot";
 import litentry from "./litentry";
-import litmus from "./litmus";
 import statemine from "./statemine";
 import statemint from "./statemint";
 import westmint from "./westmint";
 
 const chains = {
-  polkadot,
+  // polkadot,
   litentry,
-  litmus,
+  // litmus,
   statemine,
   statemint,
   westmint,
