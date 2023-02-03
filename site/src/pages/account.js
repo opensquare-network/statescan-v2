@@ -52,7 +52,7 @@ function Account() {
   const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
 
   const tabs = [
-    chainSetting.modules.assets && {
+    chainSetting.modules?.assets && {
       name: "Assets",
       count: detail?.assetsCount,
       children: (
