@@ -14,12 +14,17 @@ import {
   callListSelector,
   clearCallList,
 } from "../store/reducers/callSlice";
+import { useCallsFilter } from "../utils/hooks/callsFilter";
+import Filter from "../components/filter";
+import omit from "lodash.omit";
+import * as queryString from "query-string";
 
 function Calls() {
   const location = useLocation();
   const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const filters = useCallsFilter();
 
   const list = useSelector(callListSelector);
   const loading = useSelector(callListLoadingSelector);
@@ -28,11 +33,19 @@ function Calls() {
     const controller = new AbortController();
 
     dispatch(
-      callFetchList(page - 1, pageSize, null, { signal: controller.signal }),
+      callFetchList(
+        page - 1,
+        pageSize,
+        {
+          signed_only: "true",
+          ...omit(queryString.parse(location.search), ["page"]),
+        },
+        { signal: controller.signal },
+      ),
     );
 
     return () => controller.abort();
-  }, [dispatch, page, pageSize]);
+  }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
     dispatch(clearCallList());
@@ -41,6 +54,10 @@ function Calls() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Calls" }]} />
+      <Filter
+        title={`All ${list?.total?.toLocaleString?.() ?? ""} calls`}
+        data={filters}
+      />
 
       <StyledPanelTableWrapper
         footer={
