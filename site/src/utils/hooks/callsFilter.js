@@ -64,7 +64,6 @@ export function useCallsFilter() {
   const specFilters = useSelector(filtersSelector);
   const [filters, setFilters] = useState([]);
   const signedOnly = getFromQuery(location, "signed_only", "true");
-  console.log(specFilters);
 
   useEffect(() => {
     if (!specFilters) {
