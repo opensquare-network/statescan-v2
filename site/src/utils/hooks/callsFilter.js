@@ -6,7 +6,7 @@ import {
   filtersSelector,
 } from "../../store/reducers/filterSlice";
 import { signedOnlyFilter } from "../constants";
-import { stringCamelCase } from "@polkadot/util";
+import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
 import {
   AllOption,
   getFromQuery,
@@ -94,7 +94,8 @@ export function useCallsFilter() {
       const methodOptions = (
         sectionOptions.find(
           (section) =>
-            section.name.toLowerCase() === getFromQuery(location, "section"),
+            stringLowerFirst(section.name) ===
+            getFromQuery(location, "section"),
         ) ?? { calls: [] }
       ).calls;
 
@@ -122,7 +123,7 @@ export function useCallsFilter() {
           sectionOptions.map((section) => {
             return {
               text: section.name,
-              value: section.name.toLowerCase(),
+              value: stringLowerFirst(section.name),
               descendant: getSectionDescendant(section),
             };
           }),
