@@ -48,7 +48,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-console": "error"
+    }
   },
   "browserslist": {
     "production": [
