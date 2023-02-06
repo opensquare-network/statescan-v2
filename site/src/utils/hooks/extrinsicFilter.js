@@ -6,7 +6,7 @@ import {
 import { useEffect, useState } from "react";
 import { signedOnlyFilter } from "../constants";
 import { useLocation } from "react-router-dom";
-import { stringCamelCase } from "@polkadot/util";
+import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
 import {
   AllOption,
   getFromQuery,
@@ -94,7 +94,8 @@ export function useExtrinsicFilter() {
       const methodOptions = (
         sectionOptions.find(
           (section) =>
-            section.name.toLowerCase() === getFromQuery(location, "section"),
+            stringLowerFirst(section.name) ===
+            getFromQuery(location, "section"),
         ) ?? { calls: [] }
       ).calls;
 
@@ -122,7 +123,7 @@ export function useExtrinsicFilter() {
           sectionOptions.map((section) => {
             return {
               text: section.name,
-              value: section.name.toLowerCase(),
+              value: stringLowerFirst(section.name),
               descendant: getSectionDescendant(section),
             };
           }),
