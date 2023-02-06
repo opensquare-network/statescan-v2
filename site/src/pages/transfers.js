@@ -17,6 +17,8 @@ import {
 } from "../store/reducers/transferSlice";
 import TransferTableRow from "../components/transfer/list/row";
 import omit from "lodash.omit";
+import { useTransfersFilter } from "../utils/hooks/transfersFilter";
+import Filter from "../components/filter";
 
 function Transfers() {
   const location = useLocation();
@@ -24,6 +26,7 @@ function Transfers() {
   const chainSetting = useSelector(chainSettingSelector);
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const filters = useTransfersFilter();
 
   const list = useSelector(transferListSelector);
   const loading = useSelector(transferListLoadingSelector);
@@ -53,6 +56,10 @@ function Transfers() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
+      <Filter
+        title={`All ${list?.total?.toLocaleString?.() ?? ""} transfers`}
+        data={filters}
+      />
       <StyledPanelTableWrapper
         footer={
           <Pagination
