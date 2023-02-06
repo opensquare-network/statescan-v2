@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import TableHead from "./head";
 import TableBody from "./body";
+import { withTableLoading } from "../../HOC/withLoading";
 
 const StyledTable = styled.table`
   margin-top: 8px;
@@ -12,11 +13,20 @@ const StyledTable = styled.table`
   color: ${(p) => p.theme.fontPrimary};
 `;
 
-export default function Table({ heads = [], data = null, loading = false }) {
+const mapLoadingState = (props) => {
+  const { data, loading } = props;
+  return {
+    loadingStates: [data === null, loading],
+  };
+};
+
+function Table({ heads = [], data = null }) {
   return (
     <StyledTable>
       <TableHead heads={heads} />
-      <TableBody heads={heads} data={data} loading={loading} />
+      <TableBody heads={heads} data={data} />
     </StyledTable>
   );
 }
+
+export default withTableLoading(mapLoadingState)(Table);
