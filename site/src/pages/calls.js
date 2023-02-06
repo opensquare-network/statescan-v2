@@ -16,6 +16,8 @@ import {
 } from "../store/reducers/callSlice";
 import { useCallsFilter } from "../utils/hooks/callsFilter";
 import Filter from "../components/filter";
+import omit from "lodash.omit";
+import * as queryString from "query-string";
 
 function Calls() {
   const location = useLocation();
@@ -31,11 +33,19 @@ function Calls() {
     const controller = new AbortController();
 
     dispatch(
-      callFetchList(page - 1, pageSize, null, { signal: controller.signal }),
+      callFetchList(
+        page - 1,
+        pageSize,
+        {
+          signed_only: "true",
+          ...omit(queryString.parse(location.search), ["page"]),
+        },
+        { signal: controller.signal },
+      ),
     );
 
     return () => controller.abort();
-  }, [dispatch, page, pageSize]);
+  }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
     dispatch(clearCallList());
