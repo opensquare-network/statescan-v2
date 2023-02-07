@@ -71,7 +71,9 @@ export default function NftClass() {
           url={instancesApiKey}
           heads={nftClassInstanceHead}
           transformData={(instances) =>
-            toInstancesTabTableItem(detail, instances, showPreview)
+            instances?.map((instance) =>
+              toInstancesTabTableItem(detail, instance, showPreview),
+            )
           }
         />
       ),

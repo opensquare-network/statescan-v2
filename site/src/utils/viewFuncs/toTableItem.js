@@ -168,34 +168,40 @@ export const toAssetsTabItem = (assets) => {
   });
 };
 
-export const toInstancesTabTableItem = (nftClass, instances, showPreview) => {
-  return instances?.map((nftInstance) => {
-    const { details, indexer } = nftInstance;
-    const parsedMetadata = getNftInstanceParsedMetadata(nftClass, nftInstance);
-    const resource = parsedMetadata?.resource;
-    const link = getNftInstanceLink(nftClass, nftInstance);
+export const toInstancesTabTableItem = (
+  nftClass,
+  nftInstance,
+  showPreview,
+  showFullInstanceId = false,
+) => {
+  const { details, indexer } = nftInstance;
+  const parsedMetadata = getNftInstanceParsedMetadata(nftClass, nftInstance);
+  const resource = parsedMetadata?.resource;
+  const link = getNftInstanceLink(nftClass, nftInstance);
+  const instanceId = showFullInstanceId
+    ? `${nftInstance.classId}-${nftInstance.instanceId}`
+    : nftInstance.instanceId;
 
-    return [
-      <ColoredInterLink to={link}>{nftInstance.instanceId}</ColoredInterLink>,
-      <Thumbnail
-        image={resource?.thumbnail}
-        background={resource?.metadata?.background}
-        onClick={() => showPreview(nftInstance)}
-      />,
-      <ColoredInterLink to={link}>
-        <NftName name={parsedMetadata?.name} />
-      </ColoredInterLink>,
-      <TextSecondary>{time(indexer.blockTime)}</TextSecondary>,
-      <Tooltip tip={details?.owner}>
-        <AddressOrIdentity address={details?.owner} />
-      </Tooltip>,
-      <NftStatus status={getNftStatus(nftInstance)} />,
-    ];
-  });
+  return [
+    <ColoredInterLink to={link}>{instanceId}</ColoredInterLink>,
+    <Thumbnail
+      image={resource?.thumbnail}
+      background={resource?.metadata?.background}
+      onClick={() => showPreview(nftInstance)}
+    />,
+    <ColoredInterLink to={link}>
+      <NftName name={parsedMetadata?.name} />
+    </ColoredInterLink>,
+    <TextSecondary>{time(indexer.blockTime)}</TextSecondary>,
+    <Tooltip tip={details?.owner}>
+      <AddressOrIdentity address={details?.owner} />
+    </Tooltip>,
+    <NftStatus status={getNftStatus(nftInstance)} />,
+  ];
 };
 
 export const toNftInstanceTransferTabTableItem = (
-  nftTransfers,
+  transfer,
   nftClass,
   nftInstance,
 ) => {
@@ -203,29 +209,27 @@ export const toNftInstanceTransferTabTableItem = (
   const parsedMetadata = getNftInstanceParsedMetadata(nftClass, nftInstance);
   const resource = parsedMetadata?.resource;
 
-  return (nftTransfers || []).map((transfer, index) => {
-    return [
-      <ColoredLink
-        to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
-      >
-        {transfer?.indexer?.blockHeight.toLocaleString()}-
-        {transfer?.indexer?.extrinsicIndex}
-      </ColoredLink>,
-      <ColoredLink to={link}>
-        {nftInstance?.classId}-{nftInstance?.instanceId}
-      </ColoredLink>,
-      transfer?.indexer?.blockTime,
-      <Thumbnail
-        image={resource?.thumbnail}
-        background={resource?.metadata?.background}
-      />,
-      parsedMetadata?.name,
-      <Tooltip tip={transfer?.from}>
-        <AddressOrIdentity address={transfer?.from} />
-      </Tooltip>,
-      <Tooltip tip={transfer?.to}>
-        <AddressOrIdentity address={transfer?.to} />
-      </Tooltip>,
-    ];
-  });
+  return [
+    <ColoredLink
+      to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
+    >
+      {transfer?.indexer?.blockHeight.toLocaleString()}-
+      {transfer?.indexer?.extrinsicIndex}
+    </ColoredLink>,
+    <ColoredLink to={link}>
+      {nftInstance?.classId}-{nftInstance?.instanceId}
+    </ColoredLink>,
+    transfer?.indexer?.blockTime,
+    <Thumbnail
+      image={resource?.thumbnail}
+      background={resource?.metadata?.background}
+    />,
+    parsedMetadata?.name,
+    <Tooltip tip={transfer?.from}>
+      <AddressOrIdentity address={transfer?.from} />
+    </Tooltip>,
+    <Tooltip tip={transfer?.to}>
+      <AddressOrIdentity address={transfer?.to} />
+    </Tooltip>,
+  ];
 };
