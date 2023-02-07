@@ -1,1 +1,1 @@
-NODE_ENV=production pm2 start src/index.js --name statescan-v2-prod-statemine-uniques-scan --log-date-format 'YYYY-MM-DD HH:mm Z' --env production --max-memory-restart 600M
+NODE_ENV=production pm2 start src/index.js --name prod-statescan-v2-statemine-uniques-scan --log-date-format 'YYYY-MM-DD HH:mm Z' --env production --max-memory-restart 600M
