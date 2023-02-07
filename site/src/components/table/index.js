@@ -2,6 +2,7 @@ import styled from "styled-components";
 import TableHead from "./head";
 import TableBody from "./body";
 import { withTableLoading } from "../../HOC/withLoading";
+import NoData from "../noData";
 
 const StyledTable = styled.table`
   margin-top: 8px;
@@ -21,6 +22,10 @@ const mapLoadingState = (props) => {
 };
 
 function Table({ heads = [], data = null }) {
+  if (!data?.length) {
+    return <NoData />;
+  }
+
   return (
     <StyledTable>
       <TableHead heads={heads} />
