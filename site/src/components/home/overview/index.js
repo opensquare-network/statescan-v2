@@ -20,7 +20,7 @@ import OverviewItem from "./item";
 import ValueDisplay from "../../displayValue";
 import Tooltip from "../../tooltip";
 import NftSquareIcon from "../../icons/nftSquareIcon";
-import KusamaParaIdSquareIcon from "../../icons/kusamaParaIdSquareIcon";
+import ParaIdSquareIcon from "../../icons/paraIdSquareIcon";
 
 const Panel = styled(Flex)`
   margin: 24px;
@@ -105,11 +105,11 @@ function Overview() {
             }
           />
 
-          {chainSetting.kusamaParaId && (
+          {chainSetting.para && (
             <OverviewItem
-              icon={<KusamaParaIdSquareIcon />}
-              label="Kusama Para ID"
-              value={currencify(chainSetting.kusamaParaId)}
+              icon={<ParaIdSquareIcon />}
+              label={`${chainSetting.para.relay} Para ID`}
+              value={currencify(chainSetting.para.id)}
             />
           )}
 
@@ -132,14 +132,14 @@ function Overview() {
               <OverviewItem
                 icon={<NftSquareIcon />}
                 label="NFT Class"
-                tip="Recongized / All"
+                tip="Recognized / All"
                 value={currencify(overview.nftClasses?.valid)}
                 total={currencify(overview.nftClasses?.total)}
               />
               <OverviewItem
                 icon={<NftSquareIcon />}
                 label="NFT Instance"
-                tip="Recongized / All"
+                tip="Recognized / All"
                 value={currencify(overview.nftInstances?.valid)}
                 total={currencify(overview.nftInstances?.total)}
               />

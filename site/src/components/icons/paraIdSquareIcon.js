@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ReactComponent as KusamaParaIdSquare } from "./kusama-para-id-square.svg";
 
-const KusamaParaIdSquareIcon = styled(KusamaParaIdSquare)`
+const ParaIdSquareIcon = styled(KusamaParaIdSquare)`
   path {
     stroke: ${({ theme }) => theme.fontTertiary};
   }
@@ -17,4 +17,4 @@ const KusamaParaIdSquareIcon = styled(KusamaParaIdSquare)`
   }
 `;
 
-export default KusamaParaIdSquareIcon;
+export default ParaIdSquareIcon;

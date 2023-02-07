@@ -14,7 +14,10 @@ const statemine = {
   buttonColor: "#000000",
   logo: "logo-img-2",
   modules: assetChainModules,
-  kusamaParaId: 1000,
+  para: {
+    relay: "Kusama",
+    id: "1000",
+  },
 };
 
 export default statemine;

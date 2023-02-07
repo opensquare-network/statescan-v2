@@ -13,6 +13,10 @@ const westmint = {
   colorSecondary: "rgba(218, 104, 167, 0.1)",
   buttonColor: "#DA68A7",
   modules: assetChainModules,
+  para: {
+    relay: "Westend",
+    id: "1000",
+  },
 };
 
 export default westmint;
