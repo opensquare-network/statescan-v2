@@ -1,6 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
 import { addressEllipsis } from "@osn/common";
@@ -11,7 +11,12 @@ import DetailLayout from "../components/layout/detailLayout";
 import {
   accountAssetsHead,
   accountExtinsicsHead,
+  Assets,
   Extrinsics,
+  Nft,
+  nftClassInstanceHead,
+  NftTransfer,
+  nftTransfersHead,
   Transfers,
   transfersHead,
 } from "../utils/constants";
@@ -19,7 +24,9 @@ import DetailTable from "../components/detail/table";
 import {
   toAssetsTabItem,
   toExtrinsicsTabTableItem,
+  toNftInstanceTransferTabTableItem,
   toTransferTabTableItem,
+  toInstancesTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import {
@@ -28,11 +35,19 @@ import {
   clearAccountDetail,
 } from "../store/reducers/accountSlice";
 import DetailTabs from "../components/detail/tabs";
+import { NftInstancePreview } from "../components/nft/preview/index";
 
 function Account() {
   const { id } = useParams();
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
+  const [previewNft, setPreviewNft] = useState();
+  const [isPreview, setIsPreview] = useState(false);
+
+  const showPreview = useCallback((nft) => {
+    setPreviewNft(nft);
+    setIsPreview(true);
+  }, []);
 
   const detail = useSelector(accountDetailSelector);
 
@@ -50,10 +65,12 @@ function Account() {
   const assetsApiKey = `/accounts/${id}/assets`;
   const transfersApiKey = `/accounts/${id}/transfers`;
   const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
+  const nftInstanceApiKey = `/accounts/${id}/nft/instances`;
+  const nftTransfersApiKey = `/accounts/${id}/nft/transfers`;
 
   const tabs = [
     chainSetting.modules?.assets && {
-      name: "Assets",
+      name: Assets,
       count: detail?.assetsCount,
       children: (
         <DetailTable
@@ -85,6 +102,45 @@ function Account() {
         />
       ),
     },
+    {
+      name: Nft,
+      count: detail?.nftInstancesCount,
+      children: (
+        <DetailTable
+          url={nftInstanceApiKey}
+          heads={nftClassInstanceHead}
+          transformData={(instances) =>
+            instances?.map((instance) =>
+              toInstancesTabTableItem(
+                instance.class,
+                instance,
+                showPreview,
+                true,
+              ),
+            )
+          }
+        />
+      ),
+    },
+    {
+      name: NftTransfer,
+      count: detail?.nftTransfersCount,
+      children: (
+        <DetailTable
+          url={nftTransfersApiKey}
+          heads={nftTransfersHead}
+          transformData={(transfers) =>
+            (transfers || []).map((transfer) =>
+              toNftInstanceTransferTabTableItem(
+                transfer,
+                transfer.class,
+                transfer.instance,
+              ),
+            )
+          }
+        />
+      ),
+    },
   ].filter(Boolean);
 
   useEffect(() => {
@@ -113,6 +169,12 @@ function Account() {
       </Panel>
 
       <DetailTabs tabs={tabs} />
+      <NftInstancePreview
+        open={isPreview}
+        nftClass={detail}
+        nftInstance={previewNft}
+        onClose={() => setIsPreview(false)}
+      />
     </DetailLayout>
   );
 }

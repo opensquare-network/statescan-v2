@@ -4,6 +4,7 @@ export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
 
+export const Assets = "assets";
 export const Transfers = "transfers";
 export const Extrinsics = "extrinsics";
 export const Holders = "holders";
@@ -13,6 +14,8 @@ export const Timeline = "timeline";
 export const Analytics = "analytics";
 export const Instances = "instances";
 export const Attributes = "attributes";
+export const Nft = "NFT";
+export const NftTransfer = "NFT Transfer";
 
 export const menusBlockchain = [
   {

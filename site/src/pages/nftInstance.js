@@ -82,8 +82,14 @@ export default function NftInstance() {
         <DetailTable
           url={transfersApiKey}
           heads={nftTransfersHead}
-          transformData={(data) =>
-            toNftInstanceTransferTabTableItem(data, detail?.class, detail)
+          transformData={(transfers) =>
+            (transfers || []).map((transfer) =>
+              toNftInstanceTransferTabTableItem(
+                transfer,
+                detail?.class,
+                detail,
+              ),
+            )
           }
         />
       ),
