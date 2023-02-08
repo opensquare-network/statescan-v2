@@ -18,7 +18,7 @@ const ThumbnailWrapper = styled(Wrapper)`
   height: ${(p) => p.size}px;
   border-radius: 5px;
   overflow: hidden;
-  background-color: ${(props) => props.background ?? "#555555"};
+  background-color: ${(props) => props.background ?? props.theme.fillSub};
   ${(props) =>
     props.onClick !== noop &&
     css`
@@ -33,7 +33,7 @@ export default function Thumbnail({
   onClick = noop,
 }) {
   return image ? (
-    <ThumbnailWrapper size={size} onClick={onClick} background={background}>
+    <ThumbnailWrapper size={size} onClick={onClick}>
       <img width={size} src={image} alt="" />
     </ThumbnailWrapper>
   ) : (

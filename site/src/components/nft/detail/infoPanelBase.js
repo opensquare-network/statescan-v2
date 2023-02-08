@@ -14,6 +14,10 @@ const Wrapper = styled.div`
   background: ${(p) => p.theme.fillPanel};
   gap: 16px;
 
+  border: 1px solid ${(p) => p.theme.strokeBase};
+  box-shadow: ${(p) => p.theme.shadowPanel};
+  border-radius: 8px;
+
   > :first-child {
     margin: 0 0 0 24px;
     @media screen and (max-width: 1064px) {
