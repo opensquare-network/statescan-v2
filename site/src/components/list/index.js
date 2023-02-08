@@ -22,8 +22,8 @@ const Row = styled(Flex)`
 `;
 
 const Label = styled.span`
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: ${(p) => (p.compact ? "8px" : "12px")};
+  padding-bottom: ${(p) => (p.compact ? "8px" : "12px")};
   padding-left: 24px;
   flex-basis: 240px;
   ${Inter_14_600};
@@ -39,6 +39,7 @@ const Label = styled.span`
 const Value = styled(Flex)`
   flex-grow: 1;
   min-height: 44px;
+  min-height: ${(p) => (p.compact ? "36px" : "44px")};
   @media screen and (max-width: 900px) {
     min-height: 20px;
   }
@@ -54,7 +55,7 @@ const mapLoadingState = (props) => {
   };
 };
 
-function List({ data, header }) {
+function List({ data, header, compact = false }) {
   return (
     <Wrapper>
       {header}
@@ -62,8 +63,8 @@ function List({ data, header }) {
       {Object.keys(data).map((key, index) => {
         return (
           <Row key={index}>
-            <Label>{key}</Label>
-            <Value>{data[key]}</Value>
+            <Label compact={compact}>{key}</Label>
+            <Value compact={compact}>{data[key]}</Value>
           </Row>
         );
       })}
