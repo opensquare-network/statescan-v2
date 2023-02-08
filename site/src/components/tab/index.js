@@ -12,9 +12,13 @@ const TabWrapper = styled.button`
   gap: 8px;
 `;
 
-const active = css`
+const highlight = css`
   color: ${(p) => p.theme.fontPrimary};
   cursor: pointer;
+`;
+
+const active = css`
+  ${highlight};
   border-bottom: 3px solid ${(p) => p.theme.theme500};
 `;
 
@@ -26,7 +30,7 @@ const TabText = styled.div`
   text-transform: capitalize;
 
   &:hover {
-    ${active};
+    ${highlight};
   }
   ${(p) => p.active && active};
 `;

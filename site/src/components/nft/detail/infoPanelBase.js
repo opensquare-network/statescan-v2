@@ -66,6 +66,7 @@ export default function InfoPanelBase({ parsedMetadata, listData }) {
             </HeaderWrapper>
           }
           data={listData}
+          compact
         />
       </div>
     </Wrapper>
