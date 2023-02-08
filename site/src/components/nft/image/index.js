@@ -11,7 +11,7 @@ const ImageWrapper = styled.div`
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: ${(props) => props.background ?? "#555555"};
+  background-color: ${(props) => props.background ?? props.theme.fillSub};
 `;
 
 function ImageBox({ children, background }) {
@@ -25,15 +25,12 @@ function ImageBox({ children, background }) {
 export default function NftImage({ parsedMetadata }) {
   const {
     image,
-    resource: {
-      type,
-      metadata: { width, height, background, isDataUrl } = {},
-    } = {},
+    resource: { type, metadata: { width, height, isDataUrl } = {} } = {},
   } = parsedMetadata || {};
 
   if (isDataUrl) {
     return (
-      <ImageBox background={background}>
+      <ImageBox>
         <Image src={image} width={width ?? 480} height={height ?? 480} alt="" />
       </ImageBox>
     );
@@ -43,7 +40,7 @@ export default function NftImage({ parsedMetadata }) {
 
   if (!isImageCid) {
     return (
-      <ImageBox background={background}>
+      <ImageBox>
         <NftUnrecognizedSvg
           width={"100%"}
           height={"100%"}
@@ -73,5 +70,5 @@ export default function NftImage({ parsedMetadata }) {
     );
   }
 
-  return <ImageBox background={background}>{media}</ImageBox>;
+  return <ImageBox>{media}</ImageBox>;
 }
