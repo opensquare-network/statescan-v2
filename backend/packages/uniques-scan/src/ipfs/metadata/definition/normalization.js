@@ -23,12 +23,12 @@ function lowercaseObjectKey(obj = {}) {
  * @returns {boolean}
  */
 async function isDefinitionValid(definition = {}) {
-  const { image } = definition;
-  if (!image) {
+  const { image, mediaUri } = definition;
+  if (!image && !mediaUri) {
     return false;
   }
 
-  const maybeCid = extractCid(image);
+  const maybeCid = extractCid(image || mediaUri);
   if (await isCid(maybeCid)) {
     return true;
   }
@@ -45,10 +45,11 @@ async function normalizeDefinition(definition = {}) {
   }
 
   const keyLowercase = lowercaseObjectKey(definition);
+  const imageField = keyLowercase.image || keyLowercase.mediauri;
   return {
     ...keyLowercase,
-    image: extractCid(keyLowercase.image),
-    imageHash: md5(keyLowercase.image),
+    image: extractCid(imageField),
+    imageHash: md5(imageField),
   };
 }
 
