@@ -187,7 +187,7 @@ export const toInstancesTabTableItem = (
     <Thumbnail
       image={resource?.thumbnail}
       background={resource?.metadata?.background}
-      onClick={() => showPreview(nftInstance)}
+      onClick={showPreview}
     />,
     <ColoredInterLink to={link}>
       <NftName name={parsedMetadata?.name} />
@@ -204,6 +204,7 @@ export const toNftInstanceTransferTabTableItem = (
   transfer,
   nftClass,
   nftInstance,
+  showPreview,
 ) => {
   const link = getNftInstanceLink(nftClass, nftInstance);
   const parsedMetadata = getNftInstanceParsedMetadata(nftClass, nftInstance);
@@ -223,6 +224,7 @@ export const toNftInstanceTransferTabTableItem = (
     <Thumbnail
       image={resource?.thumbnail}
       background={resource?.metadata?.background}
+      onClick={showPreview}
     />,
     parsedMetadata?.name,
     <Tooltip tip={transfer?.from}>

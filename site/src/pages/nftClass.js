@@ -72,7 +72,9 @@ export default function NftClass() {
           heads={nftClassInstanceHead}
           transformData={(instances) =>
             instances?.map((instance) =>
-              toInstancesTabTableItem(detail, instance, showPreview),
+              toInstancesTabTableItem(detail, instance, () =>
+                showPreview(instance),
+              ),
             )
           }
         />

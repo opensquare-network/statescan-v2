@@ -114,7 +114,7 @@ function Account() {
               toInstancesTabTableItem(
                 instance.class,
                 instance,
-                showPreview,
+                () => showPreview({ class: instance.class, instance }),
                 true,
               ),
             )
@@ -135,6 +135,11 @@ function Account() {
                 transfer,
                 transfer.class,
                 transfer.instance,
+                () =>
+                  showPreview({
+                    class: transfer.class,
+                    instance: transfer.instance,
+                  }),
               ),
             )
           }
@@ -171,8 +176,8 @@ function Account() {
       <DetailTabs tabs={tabs} />
       <NftInstancePreview
         open={isPreview}
-        nftClass={detail}
-        nftInstance={previewNft}
+        nftClass={previewNft?.class}
+        nftInstance={previewNft?.instance}
         onClose={() => setIsPreview(false)}
       />
     </DetailLayout>
