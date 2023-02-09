@@ -64,13 +64,17 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
     Address: <AddressAndIdentity address={id} ellipsis={false} />,
     "Total Balance": (
       <Tooltip
-        tip={`${toPrecision(account?.data?.total, chainSetting.decimals)} ${
-          chainSetting.symbol
-        }`}
+        tip={`${toPrecision(
+          account?.data?.total || 0,
+          chainSetting.decimals,
+        )} ${chainSetting.symbol}`}
       >
         <TextSecondary>
           <ValueDisplay
-            value={toPrecision(account?.data?.total, chainSetting.decimals)}
+            value={toPrecision(
+              account?.data?.total || 0,
+              chainSetting.decimals,
+            )}
             symbol={chainSetting.symbol}
             abbreviate={false}
           />
@@ -79,13 +83,13 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
     ),
     Free: (
       <Tooltip
-        tip={`${toPrecision(account?.data?.free, chainSetting.decimals)} ${
+        tip={`${toPrecision(account?.data?.free || 0, chainSetting.decimals)} ${
           chainSetting.symbol
         }`}
       >
         <TextSecondary>
           <ValueDisplay
-            value={toPrecision(account?.data?.free, chainSetting.decimals)}
+            value={toPrecision(account?.data?.free || 0, chainSetting.decimals)}
             symbol={chainSetting.symbol}
             abbreviate={false}
           />
@@ -94,20 +98,24 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
     ),
     Reserved: (
       <Tooltip
-        tip={`${toPrecision(account?.data?.reserved, chainSetting.decimals)} ${
-          chainSetting.symbol
-        }`}
+        tip={`${toPrecision(
+          account?.data?.reserved || 0,
+          chainSetting.decimals,
+        )} ${chainSetting.symbol}`}
       >
         <TextSecondary>
           <ValueDisplay
-            value={toPrecision(account?.data?.reserved, chainSetting.decimals)}
+            value={toPrecision(
+              account?.data?.reserved || 0,
+              chainSetting.decimals,
+            )}
             symbol={chainSetting.symbol}
             abbreviate={false}
           />
         </TextSecondary>
       </Tooltip>
     ),
-    Nonce: <TextSecondary>{account?.detail?.nonce}</TextSecondary>,
+    Nonce: <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>,
   };
 };
 
