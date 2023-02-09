@@ -4,21 +4,22 @@ const {
   block: { getBlockDb },
   uniques: { getUniquesDb },
   runtime: { getRuntimeDb },
+  account: { getAccountDb },
 } = require("@statescan/mongo");
 
 async function getScanHeights(ctx) {
   const blockDb = await getBlockDb();
   const blockScanHeight = await blockDb.getScanHeight();
 
-  const runtimeDb = await getRuntimeDb();
-  const runtimeScanHeight = await runtimeDb.getScanHeight();
-  const assetDb = await getAssetDb();
-  const assetsScanHeight = await assetDb.getScanHeight();
+  const runtimeScanHeight = await getRuntimeDb().getScanHeight();
+  const assetsScanHeight = await getAssetDb().getScanHeight();
+  const accountScanHeight = await getAccountDb().getScanHeight();
 
   const obj = {
     block: blockScanHeight,
     runtime: runtimeScanHeight,
     assets: assetsScanHeight,
+    account: accountScanHeight,
   };
 
   if (isUniquesChain()) {
