@@ -30,6 +30,7 @@ import {
 } from "../utils/viewFuncs/toTableItem";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import {
+  accountDetailLoadingSelector,
   accountDetailSelector,
   accountFetchDetail,
   clearAccountDetail,
@@ -50,10 +51,11 @@ function Account() {
   }, []);
 
   const detail = useSelector(accountDetailSelector);
+  const detailLoading = useSelector(accountDetailLoadingSelector);
 
   const listData = useMemo(
-    () => (detail ? toAccountDetailItem(id, detail, chainSetting) : {}),
-    [id, detail, chainSetting],
+    () => (detailLoading ? {} : toAccountDetailItem(id, detail, chainSetting)),
+    [id, detail, detailLoading, chainSetting],
   );
 
   useEffect(() => {
