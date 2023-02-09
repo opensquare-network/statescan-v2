@@ -40,7 +40,7 @@ function normalizeExtrinsic(extrinsic, events, indexer) {
   };
 
   if (isSigned) {
-    const tip = extrinsic.tip.toBigInt().toString();
+    const tip = extrinsic.tip ? extrinsic.tip.toBigInt().toString() : "0";
     const nonce = extrinsic.nonce.toNumber();
     const signer = extrinsic.signer.toString();
     const signature = extrinsic.signature.toString();

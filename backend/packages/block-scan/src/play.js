@@ -6,12 +6,7 @@ const {
 const { handleBlock } = require("./scan");
 
 async function main() {
-  const blockHeights = [
-    746605,
-    // 10987021,
-    // 868559,
-    // 868596,
-  ];
+  const blockHeights = [299347];
 
   const api = await getApi();
   for (const height of blockHeights) {
