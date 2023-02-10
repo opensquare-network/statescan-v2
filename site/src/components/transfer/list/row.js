@@ -42,6 +42,7 @@ function TransferTableRow(transfer, key, chainSetting) {
         transfer.decimals || chainSetting.decimals,
       )}
       symbol={getTransferSymbol(transfer, chainSetting.symbol)}
+      showNotEqualTooltip
     />,
   ];
 }

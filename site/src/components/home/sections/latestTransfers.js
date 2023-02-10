@@ -124,6 +124,7 @@ function LatestTransfers({ transfers }) {
                     transfer.decimals || chainSetting.decimals,
                   )}
                   symbol={getTransferSymbol(transfer, chainSetting.symbol)}
+                  showNotEqualTooltip
                 />
               </Value>
               <Flex gap={8}>
