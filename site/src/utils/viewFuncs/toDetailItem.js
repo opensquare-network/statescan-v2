@@ -285,7 +285,7 @@ export const toExtrinsicDetailItem = (extrinsic) => {
     Call: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
     ...(extrinsic?.isSigned
       ? {
-          Singer: (
+          Signer: (
             <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
           ),
         }
