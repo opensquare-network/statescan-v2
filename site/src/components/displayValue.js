@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { bigNumberToLocaleString } from "../utils/viewFuncs";
 import { abbreviateBigNumber, getEffectiveNumbers } from "@osn/common";
+import TooltipOrigin from "./tooltip";
+import { inline_block } from "../styles/tailwindcss";
 
 const Wrapper = styled.div`
   white-space: nowrap;
@@ -16,7 +18,17 @@ const NotEqual = styled.div`
   white-space: nowrap;
 `;
 
-export default function ValueDisplay({ value, symbol, abbreviate = true }) {
+const Tooltip = styled(TooltipOrigin)`
+  ${inline_block};
+  width: auto;
+`;
+
+export default function ValueDisplay({
+  value,
+  symbol,
+  abbreviate = true,
+  showNotEqualTooltip = false,
+}) {
   if (isNaN(value)) {
     return <Wrapper>--</Wrapper>;
   }
@@ -38,14 +50,21 @@ export default function ValueDisplay({ value, symbol, abbreviate = true }) {
           <span className="symbol">{symbol}</span>
         </NotEqual>
       );
+
+      if (showNotEqualTooltip) {
+        display = (
+          <Tooltip tip={bigNumberToLocaleString(value)}>{display}</Tooltip>
+        );
+      }
     }
     return display;
   }
 
   const [int, decimal] = String(value).split(".");
-  if (decimal?.length > 5) {
-    const shortDeciaml = decimal.substring(0, 3);
-    return (
+  if (decimal?.length > 2) {
+    const shortDeciaml = decimal.substring(0, 2);
+
+    let display = (
       <NotEqual>
         <span className="figures">
           {bigNumberToLocaleString(int)}.{shortDeciaml}
@@ -53,6 +72,14 @@ export default function ValueDisplay({ value, symbol, abbreviate = true }) {
         <span className="symbol">{symbol}</span>
       </NotEqual>
     );
+
+    if (showNotEqualTooltip) {
+      display = (
+        <Tooltip tip={bigNumberToLocaleString(value)}>{display}</Tooltip>
+      );
+    }
+
+    return display;
   }
   return (
     <Wrapper>
