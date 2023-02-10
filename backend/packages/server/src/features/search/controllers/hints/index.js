@@ -1,3 +1,4 @@
+const { isAssetsChain, isUniquesChain } = require("../../../../env");
 const { queryAccount } = require("./account");
 const { queryExtrinsic } = require("./extrinsic");
 const { queryBlock } = require("./block");
@@ -33,28 +34,32 @@ async function getSearchHints(ctx) {
     };
   }
 
-  const assetQueryResult = await queryAssets(term);
-  if (assetQueryResult) {
-    result = {
-      ...result,
-      assets: assetQueryResult,
-    };
+  if (isAssetsChain()) {
+    const assetQueryResult = await queryAssets(term);
+    if (assetQueryResult) {
+      result = {
+        ...result,
+        assets: assetQueryResult,
+      };
+    }
   }
 
-  const nftClassQueryResult = await queryNftClasses(term);
-  if (nftClassQueryResult) {
-    result = {
-      ...result,
-      nftClasses: nftClassQueryResult,
-    };
-  }
+  if (isUniquesChain()) {
+    const nftClassQueryResult = await queryNftClasses(term);
+    if (nftClassQueryResult) {
+      result = {
+        ...result,
+        nftClasses: nftClassQueryResult,
+      };
+    }
 
-  const nftInstanceQueryResult = await queryNftInstances(term);
-  if (nftInstanceQueryResult) {
-    result = {
-      ...result,
-      nftInstances: nftInstanceQueryResult,
-    };
+    const nftInstanceQueryResult = await queryNftInstances(term);
+    if (nftInstanceQueryResult) {
+      result = {
+        ...result,
+        nftInstances: nftInstanceQueryResult,
+      };
+    }
   }
 
   ctx.body = result;

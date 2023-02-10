@@ -4,7 +4,7 @@ const {
   account: { getAddressCollection },
   uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
-const { isAssetsChain } = require("../../env");
+const { isAssetsChain, isUniquesChain } = require("../../env");
 
 const overview = {};
 
@@ -76,6 +76,9 @@ async function updateAll() {
 
   if (isAssetsChain()) {
     await updateAssets();
+  }
+
+  if (isUniquesChain()) {
     await updateNftClasses();
     await updateNftInstances();
   }
