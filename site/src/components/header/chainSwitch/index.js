@@ -7,12 +7,6 @@ import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { mobilecss } from "../../../styles/responsive";
 import CaretRightIcon from "../../icons/caretRightIcon";
 import CaretDownIcon from "../../icons/caretDownIcon";
-import Statemint from "../../icons/statemintIcon";
-import Statemine from "../../icons/statemineIcon";
-import Westmint from "../../icons/westmintIcon";
-import { ReactComponent as Litentry } from "../../icons/litentry.svg";
-import { ReactComponent as Litmus } from "../../icons/litmus.svg";
-import { ReactComponent as Polkadot } from "../../icons/polkadot.svg";
 import { useOnClickOutside } from "@osn/common";
 import chains from "../../../utils/consts/chains";
 
@@ -150,15 +144,6 @@ export default function ChainSwitch() {
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
 
-  const CHAIN_ICONS_MAP = {
-    polkadot: <Polkadot />,
-    statemint: <Statemint />,
-    statemine: <Statemine />,
-    westmint: <Westmint />,
-    litmus: <Litmus />,
-    litentry: <Litentry />,
-  };
-
   const chainOptions = [
     {
       title: "Polkadot & Parachain",
@@ -177,7 +162,7 @@ export default function ChainSwitch() {
   return (
     <Wrapper ref={ref}>
       <Dropdown active={show} onClick={() => setShow((state) => !state)}>
-        {CHAIN_ICONS_MAP[currentNode.value]}
+        {currentNode.icon}
         <Text>{currentNode.name}</Text>
         <ArrowDownIcon />
       </Dropdown>
@@ -202,7 +187,7 @@ export default function ChainSwitch() {
                         href={href}
                         target={isDiffChain ? "_blank" : ""}
                       >
-                        {CHAIN_ICONS_MAP[chain.value]}
+                        {chain.icon}
                         <ChainGroupItemName>
                           <span>{chain.name}</span>
                           <ChainGroupItemCaretWrapper>

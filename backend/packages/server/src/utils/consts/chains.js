@@ -6,6 +6,8 @@ const chains = Object.freeze({
   westmint: "westmint",
   litentry: "litentry",
   litmus: "litmus",
+  "westend-collectives": "westend-collectives",
+  collectives: "collectives",
 });
 
 const ss58Format = Object.freeze({
@@ -16,6 +18,8 @@ const ss58Format = Object.freeze({
   [chains.westmint]: 42,
   [chains.litentry]: 31,
   [chains.litmus]: 131,
+  [chains.collectives]: 0,
+  [chains["westend-collectives"]]: 0,
 });
 
 function getSs58Format(chain) {

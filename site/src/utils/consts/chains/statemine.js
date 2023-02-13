@@ -1,7 +1,9 @@
+import Statemine from "../../../components/icons/statemineIcon";
 import { assetChainModules } from "./assetChain";
 
 const statemine = {
   name: "Statemine",
+  icon: <Statemine />,
   identity: "kusama",
   sub: "kusama",
   value: "statemine",
