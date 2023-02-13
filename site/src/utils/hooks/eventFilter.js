@@ -138,7 +138,7 @@ export function useEventFilter() {
           methodOptions.map((method) => {
             return {
               text: method,
-              value: stringCamelCase(method),
+              value: method,
             };
           }),
         ),
