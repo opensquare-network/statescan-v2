@@ -12,7 +12,7 @@ const chains = {
   statemine,
   statemint,
   westmint,
-  westendCollectives,
+  "westend-collectives": westendCollectives,
 };
 
 export default chains;
