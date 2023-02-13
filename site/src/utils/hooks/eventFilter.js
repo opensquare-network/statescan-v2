@@ -5,7 +5,7 @@ import {
 } from "../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
+import { stringLowerFirst } from "@polkadot/util";
 import {
   AllOption,
   getFromQuery,
@@ -49,7 +49,7 @@ function getSectionDescendant(section) {
           return {
             name: method,
             text: method,
-            value: stringCamelCase(method),
+            value: method,
           };
         })
         .sort(sortByName),
