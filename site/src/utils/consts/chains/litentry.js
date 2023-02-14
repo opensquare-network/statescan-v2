@@ -1,5 +1,8 @@
+import { ReactComponent as Litentry } from "../../../components/icons/litentry.svg";
+
 const litentry = {
   name: "Litentry",
+  icon: <Litentry />,
   identity: "polkadot",
   sub: "litentry",
   value: "litentry",

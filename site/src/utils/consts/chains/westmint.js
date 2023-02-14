@@ -1,7 +1,9 @@
+import WestmintIcon from "../../../components/icons/westmintIcon";
 import { assetChainModules } from "./assetChain";
 
 const westmint = {
   name: "Westmint",
+  icon: <WestmintIcon />,
   identity: "westend",
   sub: "westend",
   value: "westmint",

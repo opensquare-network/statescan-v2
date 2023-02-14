@@ -1,7 +1,9 @@
+import Statemint from "../../../components/icons/statemintIcon";
 import { assetChainModules } from "./assetChain";
 
 const statemint = {
   name: "Statemint",
+  icon: <Statemint />,
   identity: "polkadot",
   sub: "polkadot",
   value: "statemint",

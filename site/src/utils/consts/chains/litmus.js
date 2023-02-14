@@ -1,5 +1,8 @@
+import { ReactComponent as Litmus } from "../../../components/icons/litmus.svg";
+
 const litmus = {
   name: "Litmus",
+  icon: <Litmus />,
   identity: "kusama",
   sub: "litentry",
   value: "litmus",

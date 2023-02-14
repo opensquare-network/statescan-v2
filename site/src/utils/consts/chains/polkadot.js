@@ -1,5 +1,8 @@
+import { ReactComponent as Polkadot } from "../../../components/icons/polkadot.svg";
+
 const polkadot = {
   name: "Polkadot",
+  icon: <Polkadot />,
   identity: "polkadot",
   sub: "polkadot",
   value: "polkadot",
