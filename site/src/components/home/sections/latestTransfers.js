@@ -11,7 +11,7 @@ import Link from "../../styled/link";
 import ValueDisplay from "../../../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import Tooltip from "../../tooltip";
+import TooltipOrigin from "../../tooltip";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
 import AddressOrIdentity from "../../address";
@@ -88,8 +88,8 @@ const TransferAddressWrapper = styled.div`
   ${max_w_full};
 `;
 
-const AddressTruncateTooltip = styled(Tooltip)`
-  ${truncate};
+const Tooltip = styled(TooltipOrigin)`
+  ${(p) => p.truncate && truncate};
 `;
 
 const mapLoadingState = (props) => {
@@ -155,16 +155,17 @@ function LatestTransfers({ transfers }) {
                   <TransferRightSquareIcon />
                 </div>
               </PC>
-              <AddressTruncateTooltip
+              <Tooltip
                 tip={transfer.to}
                 pullRight
                 style={{ marginLeft: 0 }}
+                truncate
               >
                 <AddressOrIdentity
                   address={transfer?.to}
                   network={chainSetting.value}
                 />
-              </AddressTruncateTooltip>
+              </Tooltip>
             </TransferAddressWrapper>
           </RowRight>
         </Row>
