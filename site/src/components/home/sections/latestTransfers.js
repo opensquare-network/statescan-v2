@@ -1,10 +1,6 @@
 import styled from "styled-components";
-import { Flex, FlexEnd } from "../../styled/flex";
-import {
-  Inter_12_500,
-  Inter_14_600,
-  Overpass_Mono_12_500,
-} from "../../../styles/text";
+import { Flex } from "../../styled/flex";
+import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
@@ -15,13 +11,21 @@ import Link from "../../styled/link";
 import ValueDisplay from "../../../components/displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import Tooltip from "../../tooltip";
+import TooltipOrigin from "../../tooltip";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import TransferRightSquareIcon from "../../icons/transferRightSquareIcon";
 import AddressOrIdentity from "../../address";
 import React from "react";
 import { PC } from "../../styled/responsive";
 import getTransferSymbol from "../../../utils/viewFuncs/transferSymbol";
+import {
+  flex,
+  gap_x,
+  items_center,
+  justify_end,
+  max_w_full,
+  truncate,
+} from "../../../styles/tailwindcss";
 
 const Rows = styled.ul`
   margin: 0;
@@ -76,12 +80,16 @@ const Time = styled.span`
   ${Inter_12_500};
 `;
 
-const AddressOrIdentityWrapper = styled.div`
-  display: inline-flex;
+const TransferAddressWrapper = styled.div`
+  ${flex};
+  ${items_center};
+  ${justify_end};
+  ${gap_x(8)};
+  ${max_w_full};
+`;
 
-  a {
-    ${Overpass_Mono_12_500};
-  }
+const Tooltip = styled(TooltipOrigin)`
+  ${(p) => p.truncate && truncate};
 `;
 
 const mapLoadingState = (props) => {
@@ -131,31 +139,34 @@ function LatestTransfers({ transfers }) {
                 showNotEqualTooltip
               />
             </Value>
-            <FlexEnd gap={8}>
+            <TransferAddressWrapper>
               <PC>
                 <Tooltip
                   tip={transfer.from}
                   pullRight
                   style={{ marginLeft: 0 }}
                 >
-                  <AddressOrIdentityWrapper>
-                    <AddressOrIdentity
-                      address={transfer?.from}
-                      network={chainSetting.value}
-                    />
-                  </AddressOrIdentityWrapper>
-                </Tooltip>
-                <TransferRightSquareIcon />
-              </PC>
-              <Tooltip tip={transfer.to} pullRight style={{ marginLeft: 0 }}>
-                <AddressOrIdentityWrapper>
                   <AddressOrIdentity
-                    address={transfer?.to}
+                    address={transfer?.from}
                     network={chainSetting.value}
                   />
-                </AddressOrIdentityWrapper>
+                </Tooltip>
+                <div>
+                  <TransferRightSquareIcon />
+                </div>
+              </PC>
+              <Tooltip
+                tip={transfer.to}
+                pullRight
+                style={{ marginLeft: 0 }}
+                truncate
+              >
+                <AddressOrIdentity
+                  address={transfer?.to}
+                  network={chainSetting.value}
+                />
               </Tooltip>
-            </FlexEnd>
+            </TransferAddressWrapper>
           </RowRight>
         </Row>
       ))}
