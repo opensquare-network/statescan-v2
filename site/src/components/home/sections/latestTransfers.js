@@ -6,7 +6,6 @@ import {
   Overpass_Mono_12_500,
 } from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
-import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import { timeDuration } from "../../../utils/viewFuncs/time";
@@ -30,13 +29,17 @@ import {
   max_w_full,
   truncate,
 } from "../../../styles/tailwindcss";
+import NoDataOrigin from "../../noData";
+import { latestSignedTransfersLoadingSelector } from "../../../store/reducers/socketSlice";
+
+const heightcss = `height: calc(100% - 52px)`;
 
 const Rows = styled.ul`
   margin: 0;
   padding-left: 0;
-  padding-top: 8px;
   display: flex;
   flex-wrap: wrap;
+  ${heightcss};
 `;
 
 const RowLeftFlex = styled(Flex)``;
@@ -100,17 +103,25 @@ const Tooltip = styled(TooltipOrigin)`
   ${(p) => p.truncate && truncate};
 `;
 
+const NoData = styled(NoDataOrigin)`
+  ${heightcss};
+`;
+
 const mapLoadingState = (props) => {
   const { loading } = props;
 
   return {
     loadingStates: loading,
-    loadingComponent: <Loading />,
   };
 };
 
 function LatestTransfers({ transfers }) {
   const chainSetting = useSelector(chainSettingSelector);
+  const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
+
+  if (!transfers?.length && !transfersLoading) {
+    return <NoData text="No transfers" />;
+  }
 
   return (
     <Rows>

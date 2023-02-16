@@ -24,6 +24,7 @@ import {
   flex_col,
   gap_x,
   max_w_full,
+  p_t,
   text_tertiary,
 } from "../../../styles/tailwindcss";
 import { assetListLoadingSelector } from "../../../store/reducers/assetSlice";
@@ -49,6 +50,15 @@ const Anchor = styled(Link)`
 `;
 
 const StyledPanel = styled(Panel)`
+  height: 100%;
+  min-height: 422px;
+  ${p_t(8)};
+
+  .loading {
+    padding: 0;
+    height: calc(100% - 52px);
+  }
+
   ${mdcss(css`
     max-width: 100%;
   `)}
@@ -100,7 +110,7 @@ export default function Sections() {
           <StyledPanel>
             <LatestBlocks blocks={blocks} loading={blocksLoading} />
             <AnchorWrapper>
-              <Anchor disabled={blocksLoading} to={"/blocks"}>
+              <Anchor disabled={!blocks.length || blocksLoading} to={"/blocks"}>
                 View All
               </Anchor>
             </AnchorWrapper>
@@ -112,7 +122,10 @@ export default function Sections() {
           <StyledPanel>
             <LatestTransfers transfers={transfers} loading={transfersLoading} />
             <AnchorWrapper>
-              <Anchor disabled={transfersLoading} to={"/transfers"}>
+              <Anchor
+                disabled={!transfers?.length || transfersLoading}
+                to={"/transfers"}
+              >
                 View All
               </Anchor>
             </AnchorWrapper>

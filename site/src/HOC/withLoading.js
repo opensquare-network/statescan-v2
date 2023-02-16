@@ -1,6 +1,5 @@
 import React from "react";
 import LoadingIcon from "../components/icons/loadingIcon";
-import { Flex } from "../components/styled/flex";
 import styled from "styled-components";
 import {
   absolute,
@@ -13,6 +12,7 @@ import {
   relative,
   z_10,
 } from "../styles/tailwindcss";
+import Loading from "../components/loadings/loading";
 
 const BlockWrapper = styled.div`
   ${relative};
@@ -48,14 +48,11 @@ export const withLoading = (_deps) => {
         if (deps.loadingComponent) {
           return deps.loadingComponent;
         }
+
         return (
-          <Flex
-            style={{ justifyContent: "center", padding: 64 }}
-            className="loading"
-          >
-            <LoadingIcon />
-            <Component {...props} />
-          </Flex>
+          <Loading>
+            <Component {...props}></Component>
+          </Loading>
         );
       }
 

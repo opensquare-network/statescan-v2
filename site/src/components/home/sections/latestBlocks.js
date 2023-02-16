@@ -5,7 +5,6 @@ import { withLoading } from "../../../HOC/withLoading";
 import React from "react";
 import { timeDuration } from "../../../utils/viewFuncs/time";
 import Link from "../../styled/link";
-import Loading from "../../loadings/loading";
 import Tooltip from "../../tooltip";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import FinalizedState from "../../states/finalizedState";
@@ -13,13 +12,17 @@ import { PC } from "../../styled/responsive";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import AddressOrIdentity from "../../address";
+import NoDataOrigin from "../../noData";
+import { latestBlocksLoadingSelector } from "../../../store/reducers/socketSlice";
+
+const heightcss = `height: calc(100% - 52px)`;
 
 const Rows = styled.ul`
   margin: 0;
   padding-left: 0;
-  padding-top: 8px;
   display: flex;
   flex-wrap: wrap;
+  ${heightcss};
 `;
 
 const RowLeftFlex = styled(Flex)``;
@@ -74,16 +77,24 @@ const Label = styled.span`
   color: ${(props) => props.theme.fontTertiary};
 `;
 
+const NoData = styled(NoDataOrigin)`
+  ${heightcss};
+`;
+
 const mapLoadingState = (props) => {
   const { loading } = props;
   return {
     loadingStates: loading,
-    loadingComponent: <Loading />,
   };
 };
 
 function LatestBlocks({ blocks }) {
   const chainSetting = useSelector(chainSettingSelector);
+  const blocksLoading = useSelector(latestBlocksLoadingSelector);
+
+  if (!blocks?.length && !blocksLoading) {
+    return <NoData text="No blocks" />;
+  }
 
   return (
     <Rows>
