@@ -21,6 +21,7 @@ import ValueDisplay from "../../displayValue";
 import Tooltip from "../../tooltip";
 import NftSquareIcon from "../../icons/nftSquareIcon";
 import ParaIdSquareIcon from "../../icons/paraIdSquareIcon";
+import { gap_x, gap_y, grid_cols } from "../../../styles/tailwindcss";
 
 const Panel = styled(Flex)`
   margin: 24px;
@@ -32,21 +33,16 @@ const Panel = styled(Flex)`
 `;
 
 const OverviewItemsWrapper = styled.div`
-  --gap-y: 32px;
-  --cols: 5;
   flex: 1;
   display: grid;
-  gap: var(--gap-y) 0;
   flex-wrap: wrap;
-  grid-template-columns: repeat(var(--cols), calc(100% / var(--cols)));
+  ${gap_x(72)};
+  ${gap_y(24)};
+  ${grid_cols(4)};
 
-  ${lgcss(css`
-    --cols: 3;
-  `)}
+  ${lgcss(grid_cols(3))}
 
-  ${smcss(css`
-    --cols: 2;
-  `)}
+  ${smcss(grid_cols(2))}
 `;
 
 const mapLoadingState = (_props) => {
