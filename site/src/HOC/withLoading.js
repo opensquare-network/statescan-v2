@@ -1,6 +1,5 @@
 import React from "react";
 import LoadingIcon from "../components/icons/loadingIcon";
-import { Flex } from "../components/styled/flex";
 import styled from "styled-components";
 import {
   absolute,
@@ -12,8 +11,8 @@ import {
   overflow_hidden,
   relative,
   z_10,
-  p,
 } from "../styles/tailwindcss";
+import Loading from "../components/loadings/loading";
 
 const BlockWrapper = styled.div`
   ${relative};
@@ -28,10 +27,6 @@ const BlockLoadingWrapper = styled.div`
   ${z_10};
   ${bg_theme("fillPanelBlanket")};
   top: 50px;
-`;
-const LoadingFlex = styled(Flex)`
-  ${justify_center};
-  ${p(64)};
 `;
 
 function findTrueInArray(deps) {
@@ -53,11 +48,11 @@ export const withLoading = (_deps) => {
         if (deps.loadingComponent) {
           return deps.loadingComponent;
         }
+
         return (
-          <LoadingFlex className="loading">
-            <LoadingIcon />
-            <Component {...props} />
-          </LoadingFlex>
+          <Loading>
+            <Component {...props}></Component>
+          </Loading>
         );
       }
 
