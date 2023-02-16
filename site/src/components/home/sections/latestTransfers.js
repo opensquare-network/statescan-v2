@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { Flex } from "../../styled/flex";
-import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
+import {
+  Inter_12_500,
+  Inter_14_600,
+  Overpass_Mono_12_500,
+} from "../../../styles/text";
 import { withLoading } from "../../../HOC/withLoading";
 import Loading from "../../loadings/loading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
@@ -86,6 +90,10 @@ const TransferAddressWrapper = styled.div`
   ${justify_end};
   ${gap_x(8)};
   ${max_w_full};
+
+  a span {
+    ${Overpass_Mono_12_500};
+  }
 `;
 
 const Tooltip = styled(TooltipOrigin)`
