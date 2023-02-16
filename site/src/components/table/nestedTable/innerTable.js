@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { text_theme } from "../../../styles/tailwindcss";
 import { Inter_14_500 } from "../../../styles/text";
 
 const Wrapper = styled.div`
@@ -70,6 +71,11 @@ const StyledTd = styled.td`
   }
 `;
 
+const NoParameters = styled.span`
+  ${text_theme("fontTertiary")};
+  ${Inter_14_500};
+`;
+
 export default function InnerTable({ data, nested = false }) {
   if (React.isValidElement(data)) {
     return data;
@@ -124,32 +130,42 @@ export default function InnerTable({ data, nested = false }) {
 
     const width = Array.isArray(data) ? 40 : 160;
 
-    return (
-      entries.length > 0 && (
-        <Wrapper>
-          <StyledTable>
-            <tbody>
-              {entries.map(([fieldName, fieldValue], index) => {
-                return (
-                  <StyledTr key={index} nested={nested}>
-                    <StyledTd
-                      style={{
-                        whiteSpace: "nowrap",
-                        width,
-                        minWidth: width,
-                        padding: "2px 24px",
-                      }}
-                    >
-                      {fieldName}
-                    </StyledTd>
-                    {formatValue(fieldValue)}
-                  </StyledTr>
-                );
-              })}
-            </tbody>
-          </StyledTable>
-        </Wrapper>
-      )
+    return entries.length > 0 ? (
+      <Wrapper>
+        <StyledTable>
+          <tbody>
+            {entries.map(([fieldName, fieldValue], index) => {
+              return (
+                <StyledTr key={index} nested={nested}>
+                  <StyledTd
+                    style={{
+                      whiteSpace: "nowrap",
+                      width,
+                      minWidth: width,
+                      padding: "2px 24px",
+                    }}
+                  >
+                    {fieldName}
+                  </StyledTd>
+                  {formatValue(fieldValue)}
+                </StyledTr>
+              );
+            })}
+          </tbody>
+        </StyledTable>
+      </Wrapper>
+    ) : (
+      <Wrapper>
+        <StyledTable>
+          <tbody>
+            <StyledTr>
+              <StyledTd style={{ padding: "2px 24px" }}>
+                <NoParameters>No parameters</NoParameters>
+              </StyledTd>
+            </StyledTr>
+          </tbody>
+        </StyledTable>
+      </Wrapper>
     );
   }
 
