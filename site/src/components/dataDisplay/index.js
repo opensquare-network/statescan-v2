@@ -16,7 +16,6 @@ const Title = styled.p`
 `;
 
 const TableWrapper = styled.div`
-  padding: 24px;
   background: ${({ theme }) => theme.fillBase};
 `;
 
