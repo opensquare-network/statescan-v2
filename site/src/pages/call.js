@@ -15,7 +15,12 @@ import {
   callFetchDetail,
   clearCallDetail,
 } from "../store/reducers/callSlice";
-import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
+import ExtrinsicParametersDisplayOrigin from "../components/extrinsicParametersDisplay";
+import styled from "styled-components";
+
+const ExtrinsicParametersDisplay = styled(ExtrinsicParametersDisplayOrigin)`
+  padding: 24px;
+`;
 
 function Call() {
   const { id } = useParams();

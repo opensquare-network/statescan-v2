@@ -16,7 +16,6 @@ const Title = styled.p`
 `;
 
 const TableWrapper = styled.div`
-  padding: 24px;
   background: ${({ theme }) => theme.fillBase};
 `;
 
@@ -49,7 +48,7 @@ const Tab = styled.button`
   ${(p) => p.active && tabActive};
 `;
 
-export default function DataDisplay({ tableData, JSONData, title }) {
+export default function DataDisplay({ tableData, JSONData, title, className }) {
   const [format, setFormat] = useState("table");
 
   if (!tableData && !JSONData) {
@@ -57,7 +56,7 @@ export default function DataDisplay({ tableData, JSONData, title }) {
   }
 
   const dataTable = (
-    <TableWrapper>
+    <TableWrapper className={className}>
       <Toolbar>
         <TabsWrapper>
           <Tab
