@@ -10,12 +10,12 @@ const Hint = styled.p`
   ${Inter_14_500};
 `;
 
-export default function NoData() {
+export default function NoData({ text = "No data" }) {
   return (
     <Flex style={{ justifyContent: "center", height: "192px" }}>
       <Flex style={{ flexDirection: "column" }}>
         <EmptyIcon />
-        <Hint>No data</Hint>
+        <Hint>{text}</Hint>
       </Flex>
     </Flex>
   );
