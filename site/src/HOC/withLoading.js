@@ -12,6 +12,7 @@ import {
   overflow_hidden,
   relative,
   z_10,
+  p,
 } from "../styles/tailwindcss";
 
 const BlockWrapper = styled.div`
@@ -27,6 +28,10 @@ const BlockLoadingWrapper = styled.div`
   ${z_10};
   ${bg_theme("fillPanelBlanket")};
   top: 50px;
+`;
+const LoadingFlex = styled(Flex)`
+  ${justify_center};
+  ${p(64)};
 `;
 
 function findTrueInArray(deps) {
@@ -49,13 +54,10 @@ export const withLoading = (_deps) => {
           return deps.loadingComponent;
         }
         return (
-          <Flex
-            style={{ justifyContent: "center", padding: 64 }}
-            className="loading"
-          >
+          <LoadingFlex className="loading">
             <LoadingIcon />
             <Component {...props} />
-          </Flex>
+          </LoadingFlex>
         );
       }
 
