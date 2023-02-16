@@ -4,18 +4,14 @@ import { Button } from "../../styled/buttons";
 import { Flex } from "../../styled/flex";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import { mobilecss } from "../../../styles/responsive";
+import { smcss } from "../../../styles/responsive";
 import ExploreInputOrigin from "./input";
 import { useRef } from "react";
-import { bg_theme500 } from "../../../styles/tailwindcss";
+import { bg_theme500, w_full } from "../../../styles/tailwindcss";
 import { useIsDark } from "../../../utils/hooks";
 
 const ExploreInput = styled(ExploreInputOrigin)`
-  width: 545px;
-
-  ${mobilecss(css`
-    width: 100%;
-  `)}
+  ${w_full};
 `;
 
 const ExploreButton = styled(Button)`
@@ -23,10 +19,12 @@ const ExploreButton = styled(Button)`
 `;
 
 const Wrapper = styled(Flex)`
+  width: 644px;
   position: relative;
   gap: 16px;
 
-  ${mobilecss(css`
+  ${smcss(w_full)};
+  ${smcss(css`
     flex-wrap: wrap;
     input,
     button {
