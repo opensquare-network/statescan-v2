@@ -23,6 +23,7 @@ import {
 } from "react";
 import { first } from "lodash";
 import { useEffectOnce } from "../../../utils/hooks/useEffectOnce";
+import { p_x, p_y } from "../../../styles/tailwindcss";
 
 const padding = 16;
 
@@ -33,7 +34,7 @@ const DropdownFlexColumn = styled(FlexColumn)`
   box-shadow: ${({ theme }) => theme.shadowPanel};
   border-radius: 8px;
   width: 545px;
-  padding: ${padding}px;
+  ${p_y(padding)};
   top: 55px;
   z-index: 9999;
 
@@ -46,9 +47,10 @@ const DropdownFlexColumn = styled(FlexColumn)`
 const DropdownGroup = styled.div``;
 const DropdownGroupTitle = styled.h5`
   margin: 0;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   color: ${(p) => p.theme.fontTertiary};
   text-transform: uppercase;
+  ${p_x(padding)};
   ${Inter_12_500};
 `;
 
@@ -57,8 +59,7 @@ const DropdownLinkItem = styled(Link)`
   align-items: center;
   text-decoration: none;
   height: 44px;
-  margin: 0 -${padding}px;
-  padding: 0 ${padding}px;
+  ${p_x(padding)};
 
   &:hover {
     background-color: ${(p) => p.theme.fillPopupHover};
