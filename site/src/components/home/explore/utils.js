@@ -19,5 +19,9 @@ export function makeExploreDropdownItemRouteLink(type, value) {
     return `/blocks/${value}`;
   }
 
+  if (type === "account") {
+    return `/accounts/${value}`;
+  }
+
   return `/${type}/${value}`;
 }
