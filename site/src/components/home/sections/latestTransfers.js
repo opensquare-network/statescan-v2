@@ -107,6 +107,12 @@ const NoData = styled(NoDataOrigin)`
   ${heightcss};
 `;
 
+const SymbolLink = styled(Link)`
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const mapLoadingState = (props) => {
   const { loading } = props;
 
@@ -125,70 +131,85 @@ function LatestTransfers({ transfers }) {
 
   return (
     <Rows>
-      {transfers?.slice(0, 5).map((transfer, i) => (
-        <Row key={i}>
-          <RowLeftFlex gap={16}>
-            <PC>
-              <TransferSquareIcon />
-            </PC>
-            <div>
-              <Link
-                to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
-              >
-                <BlockHeight>
-                  {transfer?.indexer?.blockHeight?.toLocaleString()}-
-                  {transfer?.indexer?.extrinsicIndex}
-                </BlockHeight>
-              </Link>
-              <Flex gap={8}>
-                {transfer.isFinalized ? <CheckIcon /> : <TimerIcon />}
-                <Time> {timeDuration(transfer?.indexer?.blockTime)} </Time>
-              </Flex>
-            </div>
-          </RowLeftFlex>
+      {transfers?.slice(0, 5).map((transfer, i) => {
+        let valueDisplaySymbol = getTransferSymbol(
+          transfer,
+          chainSetting.symbol,
+        );
 
-          <RowRight>
-            <Value>
-              <ValueDisplay
-                value={toPrecision(
-                  transfer.balance,
-                  transfer.decimals || chainSetting.decimals,
-                )}
-                symbol={getTransferSymbol(transfer, chainSetting.symbol)}
-                showNotEqualTooltip
-              />
-            </Value>
-            <TransferAddressWrapper>
+        if (chainSetting.modules?.assets && transfer.assetId) {
+          valueDisplaySymbol = (
+            <SymbolLink to={`/assets/${transfer.assetId}`}>
+              {valueDisplaySymbol}
+            </SymbolLink>
+          );
+        }
+
+        return (
+          <Row key={i}>
+            <RowLeftFlex gap={16}>
               <PC>
+                <TransferSquareIcon />
+              </PC>
+              <div>
+                <Link
+                  to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
+                >
+                  <BlockHeight>
+                    {transfer?.indexer?.blockHeight?.toLocaleString()}-
+                    {transfer?.indexer?.extrinsicIndex}
+                  </BlockHeight>
+                </Link>
+                <Flex gap={8}>
+                  {transfer.isFinalized ? <CheckIcon /> : <TimerIcon />}
+                  <Time> {timeDuration(transfer?.indexer?.blockTime)} </Time>
+                </Flex>
+              </div>
+            </RowLeftFlex>
+
+            <RowRight>
+              <Value>
+                <ValueDisplay
+                  value={toPrecision(
+                    transfer.balance,
+                    transfer.decimals || chainSetting.decimals,
+                  )}
+                  symbol={valueDisplaySymbol}
+                  showNotEqualTooltip
+                />
+              </Value>
+              <TransferAddressWrapper>
+                <PC>
+                  <Tooltip
+                    tip={transfer.from}
+                    pullRight
+                    style={{ marginLeft: 0 }}
+                  >
+                    <AddressOrIdentity
+                      address={transfer?.from}
+                      network={chainSetting.value}
+                    />
+                  </Tooltip>
+                  <div>
+                    <TransferRightSquareIcon />
+                  </div>
+                </PC>
                 <Tooltip
-                  tip={transfer.from}
+                  tip={transfer.to}
                   pullRight
                   style={{ marginLeft: 0 }}
+                  truncate
                 >
                   <AddressOrIdentity
-                    address={transfer?.from}
+                    address={transfer?.to}
                     network={chainSetting.value}
                   />
                 </Tooltip>
-                <div>
-                  <TransferRightSquareIcon />
-                </div>
-              </PC>
-              <Tooltip
-                tip={transfer.to}
-                pullRight
-                style={{ marginLeft: 0 }}
-                truncate
-              >
-                <AddressOrIdentity
-                  address={transfer?.to}
-                  network={chainSetting.value}
-                />
-              </Tooltip>
-            </TransferAddressWrapper>
-          </RowRight>
-        </Row>
-      ))}
+              </TransferAddressWrapper>
+            </RowRight>
+          </Row>
+        );
+      })}
     </Rows>
   );
 }
