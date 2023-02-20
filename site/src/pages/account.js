@@ -104,7 +104,7 @@ function Account() {
         />
       ),
     },
-    {
+    chainSetting.modules?.uniques && {
       name: Nft,
       count: detail?.nftInstancesCount,
       children: (
@@ -124,7 +124,7 @@ function Account() {
         />
       ),
     },
-    {
+    chainSetting.modules?.uniques && {
       name: NftTransfer,
       count: detail?.nftTransfersCount,
       children: (

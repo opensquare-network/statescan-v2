@@ -1,4 +1,5 @@
 const { HttpError } = require("../../../utils/httpError");
+const { isUniquesChain, isAssetsChain } = require("../../../env");
 const { normalizeData } = require("./common");
 const {
   account: { getAddressCollection },
@@ -47,20 +48,32 @@ async function getAccount(ctx) {
     throw new HttpError(404, "account not found");
   }
 
-  const assetsCount = await countAccountAssets(address);
   const transfersCount = await countAccountTransfers(address);
   const extrinsicsCount = await countAccountExtrinsics(address);
-  const nftInstancesCount = await countAccountNftInstances(address);
-  const nftTransfersCount = await countAccountNftTransfers(address);
+
+  let assetCounts = {};
+  if (isAssetsChain()) {
+    const assetsCount = await countAccountAssets(address);
+    assetCounts = { assetsCount };
+  }
+
+  let nftCounts = {};
+  if (isUniquesChain()) {
+    const nftInstancesCount = await countAccountNftInstances(address);
+    const nftTransfersCount = await countAccountNftTransfers(address);
+    nftCounts = {
+      nftInstancesCount,
+      nftTransfersCount,
+    };
+  }
 
   ctx.body = {
     ...account,
     data: normalizeData(account.data),
-    assetsCount,
     transfersCount,
     extrinsicsCount,
-    nftInstancesCount,
-    nftTransfersCount,
+    ...assetCounts,
+    ...nftCounts,
   };
 }
 
