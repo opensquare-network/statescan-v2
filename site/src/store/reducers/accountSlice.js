@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services/api";
-import { accountApi, accountListApi } from "../../services/urls";
+import {
+  accountApi,
+  accountListApi,
+  accountSummaryApi,
+} from "../../services/urls";
 
 const name = "account";
 
@@ -11,6 +15,7 @@ const accountSlice = createSlice({
     listLoading: false,
     detail: null,
     detailLoading: false,
+    summary: null,
   },
   reducers: {
     setList(state, { payload }) {
@@ -25,17 +30,26 @@ const accountSlice = createSlice({
     setDetailLoading(state, { payload }) {
       state.detailLoading = payload;
     },
+    setSummary(state, { payload }) {
+      state.summary = payload;
+    },
   },
 });
 
-export const { setList, setListLoading, setDetail, setDetailLoading } =
-  accountSlice.actions;
+export const {
+  setList,
+  setListLoading,
+  setDetail,
+  setDetailLoading,
+  setSummary,
+} = accountSlice.actions;
 
 export const accountListSelector = (state) => state[name].list;
 export const accountListLoadingSelector = (state) => state[name].listLoading;
 export const accountDetailSelector = (state) => state[name].detail;
 export const accountDetailLoadingSelector = (state) =>
   state[name].detailLoading;
+export const accountSummarySelector = (state) => state[name].summary;
 
 export const accountFetchList =
   (page, pageSize, params, fetchOptions) => async (dispatch) => {
@@ -71,6 +85,17 @@ export const accountFetchDetail = (id) => async (dispatch) => {
       dispatch(setDetailLoading(false));
     });
 };
+
+export const accountFetchSummary = (id) => async (dispatch) => {
+  dispatch(setSummary(null));
+
+  return api.fetch(accountSummaryApi(id)).then(({ result }) => {
+    if (result) {
+      dispatch(setSummary(result));
+    }
+  });
+};
+
 export const clearAccountDetail = () => (dispatch) => {
   dispatch(setDetail(null));
 };

@@ -21,6 +21,7 @@ export const callApi = (id) => `/calls/${id}`;
 // accounts
 export const accountListApi = `/accounts`;
 export const accountApi = (id) => `/accounts/${id}`;
+export const accountSummaryApi = (id) => `/accounts/${id}/summary`;
 
 // transfers
 export const transferListApi = `/transfers`;

@@ -6,10 +6,12 @@ const { getAccounts } = require("./controllers/accounts");
 const { getAccountAssets } = require("./controllers/assets");
 const { getAccountNftInstances } = require("./controllers/nftInstances");
 const { getAccountNftTransfers } = require("./controllers/nftTransfers");
+const { getAccountSummary } = require("./controllers/summary");
 
 const router = new Router();
 router.get("/accounts", getAccounts);
 router.get("/accounts/:address", getAccount);
+router.get("/accounts/:address/summary", getAccountSummary);
 
 router.get("/accounts/:address/transfers", getAccountTransfers);
 router.get("/accounts/:address/extrinsics", getAccountExtrinsics);
