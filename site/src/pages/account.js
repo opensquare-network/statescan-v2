@@ -33,6 +33,8 @@ import {
   accountDetailLoadingSelector,
   accountDetailSelector,
   accountFetchDetail,
+  accountFetchSummary,
+  accountSummarySelector,
   clearAccountDetail,
 } from "../store/reducers/accountSlice";
 import DetailTabs from "../components/detail/tabs";
@@ -52,6 +54,7 @@ function Account() {
 
   const detail = useSelector(accountDetailSelector);
   const detailLoading = useSelector(accountDetailLoadingSelector);
+  const summary = useSelector(accountSummarySelector);
 
   const listData = useMemo(
     () => (detailLoading ? {} : toAccountDetailItem(id, detail, chainSetting)),
@@ -73,7 +76,7 @@ function Account() {
   const tabs = [
     chainSetting.modules?.assets && {
       name: Assets,
-      count: detail?.assetsCount,
+      count: summary?.assetsCount,
       children: (
         <DetailTable
           url={assetsApiKey}
@@ -84,7 +87,7 @@ function Account() {
     },
     {
       name: Transfers,
-      count: detail?.transfersCount,
+      count: summary?.transfersCount,
       children: (
         <DetailTable
           url={transfersApiKey}
@@ -95,7 +98,7 @@ function Account() {
     },
     {
       name: Extrinsics,
-      count: detail?.extrinsicsCount,
+      count: summary?.extrinsicsCount,
       children: (
         <DetailTable
           url={extrinsicsApiKey}
@@ -106,7 +109,7 @@ function Account() {
     },
     chainSetting.modules?.uniques && {
       name: Nft,
-      count: detail?.nftInstancesCount,
+      count: summary?.nftInstancesCount,
       children: (
         <DetailTable
           url={nftInstanceApiKey}
@@ -126,7 +129,7 @@ function Account() {
     },
     chainSetting.modules?.uniques && {
       name: NftTransfer,
-      count: detail?.nftTransfersCount,
+      count: summary?.nftTransfersCount,
       children: (
         <DetailTable
           url={nftTransfersApiKey}
@@ -153,6 +156,7 @@ function Account() {
   useEffect(() => {
     if (id) {
       dispatch(accountFetchDetail(id));
+      dispatch(accountFetchSummary(id));
     }
 
     return () => {
