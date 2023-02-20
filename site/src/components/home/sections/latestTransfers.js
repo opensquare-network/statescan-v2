@@ -107,12 +107,6 @@ const NoData = styled(NoDataOrigin)`
   ${heightcss};
 `;
 
-const SymbolLink = styled(Link)`
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const mapLoadingState = (props) => {
   const { loading } = props;
 
@@ -139,9 +133,7 @@ function LatestTransfers({ transfers }) {
 
         if (chainSetting.modules?.assets && transfer.assetId) {
           valueDisplaySymbol = (
-            <SymbolLink to={`/assets/${transfer.assetId}`}>
-              {valueDisplaySymbol}
-            </SymbolLink>
+            <Link to={`/assets/${transfer.assetId}`}>{valueDisplaySymbol}</Link>
           );
         }
 
