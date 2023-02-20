@@ -76,7 +76,6 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
               chainSetting.decimals,
             )}
             symbol={chainSetting.symbol}
-            abbreviate={false}
           />
         </TextSecondary>
       </Tooltip>
@@ -91,7 +90,6 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
           <ValueDisplay
             value={toPrecision(account?.data?.free || 0, chainSetting.decimals)}
             symbol={chainSetting.symbol}
-            abbreviate={false}
           />
         </TextSecondary>
       </Tooltip>
