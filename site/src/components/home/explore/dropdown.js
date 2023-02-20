@@ -23,7 +23,12 @@ import {
 } from "react";
 import { first } from "lodash";
 import { useEffectOnce } from "../../../utils/hooks/useEffectOnce";
-import { p_x, p_y } from "../../../styles/tailwindcss";
+import {
+  justify_between,
+  p_x,
+  p_y,
+  truncate,
+} from "../../../styles/tailwindcss";
 
 const padding = 16;
 
@@ -71,7 +76,9 @@ const DropdownLinkItem = styled(Link)`
       background-color: ${(p) => p.theme.fillPopupHover};
     `}
 `;
-const DropdownItemContent = styled(Flex)``;
+const DropdownItemContent = styled(Flex)`
+  ${truncate};
+`;
 const DropdownItemContentIconWrapper = styled.div`
   display: inline-flex;
   margin-right: 8px;
@@ -80,13 +87,9 @@ const DropdownItemContentLabel = styled.span`
   margin-right: 8px;
   color: ${(p) => p.theme.fontPrimary};
   ${Inter_14_600};
+  ${truncate};
 `;
 const DropdownItemContentValue = styled.div`
-  word-break: break-all;
-  display: -webkit-inline-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   color: ${(p) => p.theme.fontTertiary};
   ${Inter_14_500};
 `;

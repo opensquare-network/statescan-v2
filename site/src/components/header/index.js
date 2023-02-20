@@ -92,6 +92,7 @@ const ExploreInputMobileWrapper = styled(ExploreInputWrapper)`
 
   & .explore-dropdown {
     width: auto;
+    top: 44px;
   }
 `;
 const ExploreInput = styled(ExploreInputOrigin)`
