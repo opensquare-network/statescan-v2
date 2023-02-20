@@ -75,10 +75,12 @@ const ExploreInputWrapper = styled.div`
 `;
 const ExploreInputPCWrapper = styled(ExploreInputWrapper)`
   margin-right: 16px;
+  width: 240px;
 
   .explore-dropdown {
     right: 0;
-    width: 234px;
+    width: 100%;
+    top: 44px;
   }
 
   ${mdcss(css`
@@ -90,6 +92,7 @@ const ExploreInputMobileWrapper = styled(ExploreInputWrapper)`
 
   & .explore-dropdown {
     width: auto;
+    top: 44px;
   }
 `;
 const ExploreInput = styled(ExploreInputOrigin)`
