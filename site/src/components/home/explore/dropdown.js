@@ -23,12 +23,7 @@ import {
 } from "react";
 import { first } from "lodash";
 import { useEffectOnce } from "../../../utils/hooks/useEffectOnce";
-import {
-  justify_between,
-  p_x,
-  p_y,
-  truncate,
-} from "../../../styles/tailwindcss";
+import { p_x, p_y, truncate } from "../../../styles/tailwindcss";
 
 const padding = 16;
 
