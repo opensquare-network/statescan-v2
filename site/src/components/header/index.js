@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Logo } from "./logo.svg";
 import { Flex, FlexBetween } from "../styled/flex";
 import { Mobile, PC } from "../styled/responsive";
-import { Inter_14_600 } from "../../styles/text";
 import styled, { css } from "styled-components";
 import MobileButton from "./mobile/button";
 import ChainSwitch from "./chainSwitch";
@@ -23,6 +22,7 @@ import { useLocation } from "react-router";
 import { MOBILE_SIZE } from "@osn/constants";
 import { getChainModules } from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
+import { HeaderMenuItem } from "./styled";
 
 const headerHeight = 68;
 
@@ -44,12 +44,7 @@ const MenuWrapper = styled(Flex)`
   margin-left: 64px;
 `;
 
-const MenuItem = styled.div`
-  ${Inter_14_600};
-  cursor: pointer;
-  text-decoration: none;
-  padding: 8px 12px;
-`;
+const MenuItem = styled(HeaderMenuItem)``;
 
 const MobileMenuWrapper = styled.div`
   padding: 0 24px;
@@ -136,14 +131,8 @@ export default function Header() {
               <Link to={`/`}>
                 <MenuItem>Home</MenuItem>
               </Link>
-              <MenuItem>
-                <SubMenu category="BlockChain" menus={menusBlockchain} />
-              </MenuItem>
-              {assets && (
-                <MenuItem>
-                  <SubMenu category="Assets" menus={menusAssets} />
-                </MenuItem>
-              )}
+              <SubMenu category="BlockChain" menus={menusBlockchain} />
+              {assets && <SubMenu category="Assets" menus={menusAssets} />}
             </MenuWrapper>
 
             <Flex>

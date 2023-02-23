@@ -5,8 +5,9 @@ import { Panel } from "../styled/panel";
 import Link from "../styled/link";
 import Divider from "../styled/divider";
 import CaretDownIcon from "../icons/caretDownIcon";
+import { HeaderMenuItem } from "./styled";
 
-const Wrapper = styled.div`
+const Wrapper = styled(HeaderMenuItem)`
   position: relative;
 `;
 
@@ -50,18 +51,17 @@ const TitleWrapper = styled.div`
     `}
 `;
 
-const MouseWrapper = styled(Panel)`
+const MouseWrapper = styled.div`
   z-index: 1;
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 8px 0;
-  overflow: hidden;
-  background: ${(p) => p.theme.fillPopup};
+  left: 0;
+  top: 100%;
 `;
 
-const MenuWrapper = styled.div`
+const MenuWrapper = styled(Panel)`
   min-width: 160px;
+  overflow: hidden;
+  padding: 8px 0;
   background: ${(p) => p.theme.fillPopup};
 `;
 
@@ -150,13 +150,19 @@ export default function SubMenu({ category, menus, closeMenu }) {
   };
 
   return (
-    <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+    <Wrapper
+      onMouseOver={onMouseOver}
+      onMouseEnter={onMouseOver}
+      onMouseLeave={onMouseLeave}
+      onMouseOut={onMouseLeave}
+    >
       <TitleWrapper isActive={isActive}>
         {category}
         <CaretDownIcon />
       </TitleWrapper>
       {isActive && (
         <MouseWrapper>
+          <div style={{ height: 4 }} />
           <MenuWrapper ref={ref}>
             {menus.map((menuItem, idx) => (
               <SubMenuItems

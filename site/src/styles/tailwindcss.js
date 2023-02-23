@@ -2,6 +2,8 @@
 // https://tailwindcss.com
 // `inline-block` => `inline_block`
 
+import { css } from "styled-components";
+
 // utility functions
 // ---
 
@@ -12,12 +14,12 @@ export function px(n) {
   return `${n}px`;
 }
 export function bg_theme(key) {
-  return `
+  return css`
     background-color: ${theme(key)};
   `;
 }
 export function text_theme(key) {
-  return `
+  return css`
     color: ${theme(key)};
   `;
 }
