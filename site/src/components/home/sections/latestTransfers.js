@@ -94,6 +94,7 @@ const TransferAddressWrapper = styled.div`
   ${gap_x(8)};
   ${max_w_full};
 
+  a,
   a span {
     ${Overpass_Mono_12_500};
   }
