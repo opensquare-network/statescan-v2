@@ -3,18 +3,21 @@ import styled, { css } from "styled-components";
 import { pretty_scroll_bar } from "../../styles";
 import { Inter_14_500 } from "../../styles/text";
 import { useState } from "react";
+import { border, border_theme } from "../../styles/tailwindcss";
 
 const OptionWrapper = styled.div`
   z-index: 99;
   position: absolute;
-  padding: 8px 0;
+  padding-top: 8px;
   background: ${(p) => p.theme.fillPopup};
   left: 0;
-  top: 40px;
+  top: 32px;
   min-width: 100%;
   box-shadow: ${(p) => p.theme.shadowPanel};
   overflow: hidden;
   border-radius: 8px;
+  ${border};
+  ${border_theme("strokeBase")};
 `;
 
 const OptionItemsWrapper = styled.div`

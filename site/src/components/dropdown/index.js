@@ -5,6 +5,8 @@ import { Flex, FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
 import Options from "./options";
 import { Inter_14_500 } from "../../styles/text";
+import Input from "../input";
+import { border_theme, border_theme500 } from "../../styles/tailwindcss";
 
 const CaretIcon = styled(Caret)`
   path {
@@ -39,16 +41,18 @@ const SelectWrapper = styled(FlexBetween)`
   }
 
   :hover {
-    border-color: ${(p) => p.theme.strokeBoxHover};
+    ${border_theme("strokeBoxSelected")};
   }
 
   ${(p) =>
     p.isActive &&
     css`
-      border-color: ${(p) => p.theme.strokeBoxHover};
+      ${border_theme500};
+      box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
 
       :hover {
         color: inherit;
+        ${border_theme500};
       }
     `}
 `;

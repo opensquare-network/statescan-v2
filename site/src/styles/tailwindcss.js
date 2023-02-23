@@ -23,6 +23,11 @@ export function text_theme(key) {
     color: ${theme(key)};
   `;
 }
+export function border_theme(key) {
+  return css`
+    border-color: ${theme(key)};
+  `;
+}
 export function m(n) {
   return `
     margin: ${px(n)};
@@ -290,10 +295,10 @@ export const rounded_full = make_rounded(9999);
 export const rounded_none = make_rounded(0);
 
 // border color
-export const border_theme500 = `
+export const border_theme500 = css`
   border-color: ${theme("theme500")};
 `;
-export const border_theme100 = `
+export const border_theme100 = css`
   border-color: ${theme("theme100")};
 `;
 
