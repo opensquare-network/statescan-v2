@@ -1,10 +1,11 @@
 import React from "react";
-import Link, { ColoredLink } from "../../styled/link";
+import { ColoredLink } from "../../styled/link";
 import Tooltip from "../../tooltip";
 import AddressOrIdentity from "../../address";
 import ValueDisplay from "../../displayValue";
 import { toPrecision } from "@osn/common";
 import getTransferSymbol from "../../../utils/viewFuncs/transferSymbol";
+import SymbolLink from "../../symbol/symbolLink";
 
 const ExtrinsicLink = ({ indexer }) => {
   if (!indexer?.extrinsicIndex) {
@@ -20,14 +21,6 @@ const ExtrinsicLink = ({ indexer }) => {
 };
 
 function TransferTableRow(transfer, key, chainSetting) {
-  let valueDisplaySymbol = getTransferSymbol(transfer, chainSetting.symbol);
-
-  if (chainSetting.modules?.assets && transfer.assetId) {
-    valueDisplaySymbol = (
-      <Link to={`/assets/${transfer.assetId}`}>{valueDisplaySymbol}</Link>
-    );
-  }
-
   return [
     <ColoredLink
       key={`${key}-1`}
@@ -49,7 +42,11 @@ function TransferTableRow(transfer, key, chainSetting) {
         transfer?.balance,
         transfer.decimals || chainSetting.decimals,
       )}
-      symbol={valueDisplaySymbol}
+      symbol={
+        <SymbolLink assetId={transfer.assetId}>
+          {getTransferSymbol(transfer, chainSetting.symbol)}
+        </SymbolLink>
+      }
       showNotEqualTooltip
     />,
   ];

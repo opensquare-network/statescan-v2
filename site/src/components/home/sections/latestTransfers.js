@@ -31,6 +31,7 @@ import {
 } from "../../../styles/tailwindcss";
 import NoDataOrigin from "../../noData";
 import { latestSignedTransfersLoadingSelector } from "../../../store/reducers/socketSlice";
+import SymbolLink from "../../symbol/symbolLink";
 
 const heightcss = `height: calc(100% - 52px)`;
 
@@ -127,17 +128,6 @@ function LatestTransfers({ transfers }) {
   return (
     <Rows>
       {transfers?.slice(0, 5).map((transfer, i) => {
-        let valueDisplaySymbol = getTransferSymbol(
-          transfer,
-          chainSetting.symbol,
-        );
-
-        if (chainSetting.modules?.assets && transfer.assetId) {
-          valueDisplaySymbol = (
-            <Link to={`/assets/${transfer.assetId}`}>{valueDisplaySymbol}</Link>
-          );
-        }
-
         return (
           <Row key={i}>
             <RowLeftFlex gap={16}>
@@ -167,7 +157,11 @@ function LatestTransfers({ transfers }) {
                     transfer.balance,
                     transfer.decimals || chainSetting.decimals,
                   )}
-                  symbol={valueDisplaySymbol}
+                  symbol={
+                    <SymbolLink assetId={transfer.assetId}>
+                      {getTransferSymbol(transfer, chainSetting.symbol)}
+                    </SymbolLink>
+                  }
                   showNotEqualTooltip
                 />
               </Value>
