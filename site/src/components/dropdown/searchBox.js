@@ -3,8 +3,8 @@ import { Flex } from "../styled/flex";
 import { Inter_14_500 } from "../../styles/text";
 
 const SearchBoxWrapper = styled(Flex)`
-  height: 52px;
-  border-bottom: 1px solid ${(p) => p.theme.strokeBox};
+  border-bottom: 1px solid ${(p) => p.theme.strokeBase};
+  padding-bottom: 8px;
   input {
     all: unset;
     width: 100%;
