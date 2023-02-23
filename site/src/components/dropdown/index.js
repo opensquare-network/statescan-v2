@@ -5,7 +5,6 @@ import { Flex, FlexBetween } from "../styled/flex";
 import { useOnClickOutside } from "@osn/common";
 import Options from "./options";
 import { Inter_14_500 } from "../../styles/text";
-import Input from "../input";
 import { border_theme, border_theme500 } from "../../styles/tailwindcss";
 
 const CaretIcon = styled(Caret)`
