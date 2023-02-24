@@ -50,7 +50,6 @@ const Anchor = styled(Link)`
 `;
 
 const StyledPanel = styled(Panel)`
-  height: 100%;
   min-height: 422px;
   ${p_t(8)};
 
