@@ -75,7 +75,7 @@ function LatestTransfers({ transfers }) {
   const chainSetting = useSelector(chainSettingSelector);
   const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
 
-  const listData = transfers?.slice(0, 5)?.map((transfer) => {
+  const listItems = transfers?.slice(0, 5)?.map((transfer) => {
     return {
       icon: <TransferSquareIcon />,
       left: (
@@ -141,7 +141,7 @@ function LatestTransfers({ transfers }) {
 
   return (
     <LatestList
-      data={listData}
+      items={listItems}
       loading={transfersLoading}
       noDataText="No transfers"
     />

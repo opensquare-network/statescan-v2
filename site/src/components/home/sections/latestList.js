@@ -60,15 +60,15 @@ function mapLoadingState(props) {
   };
 }
 
-function LatestList({ data = [], loading = false, noDataText = "No Data" }) {
-  if (!data.length && !loading) {
+function LatestList({ items = [], loading = false, noDataText = "No Data" }) {
+  if (!items.length && !loading) {
     return <NoData text={noDataText} />;
   }
 
   return (
     <div>
       <List>
-        {data.map((item, idx) => (
+        {items.map((item, idx) => (
           <ListItem key={idx}>
             <ListItemLeft>
               <ListItemIcon>{item.icon}</ListItemIcon>

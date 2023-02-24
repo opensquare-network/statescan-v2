@@ -46,7 +46,7 @@ function LatestBlocks({ blocks }) {
   const chainSetting = useSelector(chainSettingSelector);
   const blocksLoading = useSelector(latestBlocksLoadingSelector);
 
-  const listData = blocks?.slice(0, 5)?.map((block) => {
+  const listItems = blocks?.slice(0, 5)?.map((block) => {
     return {
       icon: <BlockSquareIcon />,
       left: (
@@ -89,7 +89,7 @@ function LatestBlocks({ blocks }) {
 
   return (
     <LatestList
-      data={listData}
+      items={listItems}
       loading={blocksLoading}
       noDataText="No blocks"
     />
