@@ -5,7 +5,6 @@ import {
   Inter_14_600,
   Overpass_Mono_12_500,
 } from "../../../styles/text";
-import { withLoading } from "../../../HOC/withLoading";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as TimerIcon } from "../../icons/timer.svg";
 import { timeDuration } from "../../../utils/viewFuncs/time";
@@ -29,42 +28,9 @@ import {
   max_w_full,
   truncate,
 } from "../../../styles/tailwindcss";
-import NoDataOrigin from "../../noData";
 import { latestSignedTransfersLoadingSelector } from "../../../store/reducers/socketSlice";
 import SymbolLink from "../../symbol/symbolLink";
-
-const heightcss = `height: calc(100% - 52px)`;
-
-const Rows = styled.ul`
-  margin: 0;
-  padding-left: 0;
-  display: flex;
-  flex-wrap: wrap;
-  ${heightcss};
-`;
-
-const RowLeftFlex = styled(Flex)``;
-const RowRight = styled.div``;
-
-const Row = styled.li`
-  all: unset;
-  padding-left: 24px;
-  padding-right: 24px;
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-  line-height: 16px;
-  border-bottom: 1px solid ${({ theme }) => theme.strokeBase};
-
-  ${RowLeftFlex},
-  ${RowRight} {
-    flex: 1;
-    max-width: 50%;
-  }
-`;
+import LatestList from "./latestList";
 
 const ThemeText = styled.p`
   margin: 0;
@@ -105,100 +71,81 @@ const Tooltip = styled(TooltipOrigin)`
   ${(p) => p.truncate && truncate};
 `;
 
-const NoData = styled(NoDataOrigin)`
-  ${heightcss};
-`;
-
-const mapLoadingState = (props) => {
-  const { loading } = props;
-
-  return {
-    loadingStates: loading,
-  };
-};
-
 function LatestTransfers({ transfers }) {
   const chainSetting = useSelector(chainSettingSelector);
   const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
 
-  if (!transfers?.length && !transfersLoading) {
-    return <NoData text="No transfers" />;
-  }
+  const listItems = transfers?.slice(0, 5)?.map((transfer) => {
+    return {
+      icon: <TransferSquareIcon />,
+      left: (
+        <div>
+          <Link
+            to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
+          >
+            <BlockHeight>
+              {transfer?.indexer?.blockHeight?.toLocaleString()}-
+              {transfer?.indexer?.extrinsicIndex}
+            </BlockHeight>
+          </Link>
+          <Flex gap={8}>
+            {transfer.isFinalized ? <CheckIcon /> : <TimerIcon />}
+            <Time> {timeDuration(transfer?.indexer?.blockTime)} </Time>
+          </Flex>
+        </div>
+      ),
+      right: (
+        <>
+          <Value>
+            <ValueDisplay
+              value={toPrecision(
+                transfer.balance,
+                transfer.decimals || chainSetting.decimals,
+              )}
+              symbol={
+                <SymbolLink assetId={transfer.assetId}>
+                  {getTransferSymbol(transfer, chainSetting.symbol)}
+                </SymbolLink>
+              }
+              showNotEqualTooltip
+            />
+          </Value>
+          <TransferAddressWrapper>
+            <PC>
+              <Tooltip tip={transfer.from} pullRight style={{ marginLeft: 0 }}>
+                <AddressOrIdentity
+                  address={transfer?.from}
+                  network={chainSetting.value}
+                />
+              </Tooltip>
+              <div>
+                <TransferRightSquareIcon />
+              </div>
+            </PC>
+            <Tooltip
+              tip={transfer.to}
+              pullRight
+              style={{ marginLeft: 0 }}
+              truncate
+            >
+              <AddressOrIdentity
+                address={transfer?.to}
+                network={chainSetting.value}
+              />
+            </Tooltip>
+          </TransferAddressWrapper>
+        </>
+      ),
+    };
+  });
 
   return (
-    <Rows>
-      {transfers?.slice(0, 5).map((transfer, i) => {
-        return (
-          <Row key={i}>
-            <RowLeftFlex gap={16}>
-              <PC>
-                <TransferSquareIcon />
-              </PC>
-              <div>
-                <Link
-                  to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
-                >
-                  <BlockHeight>
-                    {transfer?.indexer?.blockHeight?.toLocaleString()}-
-                    {transfer?.indexer?.extrinsicIndex}
-                  </BlockHeight>
-                </Link>
-                <Flex gap={8}>
-                  {transfer.isFinalized ? <CheckIcon /> : <TimerIcon />}
-                  <Time> {timeDuration(transfer?.indexer?.blockTime)} </Time>
-                </Flex>
-              </div>
-            </RowLeftFlex>
-
-            <RowRight>
-              <Value>
-                <ValueDisplay
-                  value={toPrecision(
-                    transfer.balance,
-                    transfer.decimals || chainSetting.decimals,
-                  )}
-                  symbol={
-                    <SymbolLink assetId={transfer.assetId}>
-                      {getTransferSymbol(transfer, chainSetting.symbol)}
-                    </SymbolLink>
-                  }
-                  showNotEqualTooltip
-                />
-              </Value>
-              <TransferAddressWrapper>
-                <PC>
-                  <Tooltip
-                    tip={transfer.from}
-                    pullRight
-                    style={{ marginLeft: 0 }}
-                  >
-                    <AddressOrIdentity
-                      address={transfer?.from}
-                      network={chainSetting.value}
-                    />
-                  </Tooltip>
-                  <div>
-                    <TransferRightSquareIcon />
-                  </div>
-                </PC>
-                <Tooltip
-                  tip={transfer.to}
-                  pullRight
-                  style={{ marginLeft: 0 }}
-                  truncate
-                >
-                  <AddressOrIdentity
-                    address={transfer?.to}
-                    network={chainSetting.value}
-                  />
-                </Tooltip>
-              </TransferAddressWrapper>
-            </RowRight>
-          </Row>
-        );
-      })}
-    </Rows>
+    <LatestList
+      items={listItems}
+      loading={transfersLoading}
+      noDataText="No transfers"
+    />
   );
 }
 
-export default withLoading(mapLoadingState)(LatestTransfers);
+export default LatestTransfers;

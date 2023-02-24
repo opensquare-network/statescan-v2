@@ -249,6 +249,9 @@ export const min_w_full = `
 export const max_w_full = `
   max-width: 100%;
 `;
+export const max_w_half = `
+  max-width: 50%;
+`;
 export const h_full = `
   height: 100%;
 `;
