@@ -5,8 +5,10 @@ import westmint from "./westmint";
 import litmus from "./litmus";
 import westendCollectives from "./westendCollectives";
 import collectives from "./collectives";
+import kusama from "./kusama";
 
 const chains = {
+  kusama,
   // polkadot,
   litentry,
   litmus,
