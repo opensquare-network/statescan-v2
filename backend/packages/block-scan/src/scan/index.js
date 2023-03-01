@@ -51,9 +51,8 @@ async function scan() {
   const finalizedHeight = getLatestFinalizedHeight();
   if (toScanHeight < finalizedHeight - 100) {
     await deleteAllUnFinalizedData();
-  } else if (toScanHeight > finalizedHeight - 100) {
-    await startJobs();
   }
+  await startJobs();
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
