@@ -59,7 +59,11 @@ export default function AssetInfo({ symbol, name }) {
   return (
     <Wrapper>
       <LeftWrapper>
-        <AssetLogo assetId={detail?.assetId} className="logo" />
+        <AssetLogo
+          assetId={detail?.assetId}
+          assetHeight={detail?.assetHeight}
+          className="logo"
+        />
         <SymbolWrapper>
           {symbol && <div className="symbol">{symbol}</div>}
           {name && <div className="name">{name}</div>}

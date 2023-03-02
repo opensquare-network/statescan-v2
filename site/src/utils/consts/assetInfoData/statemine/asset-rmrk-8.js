@@ -1,5 +1,6 @@
 export const assetRMRK = {
   id: 8,
+  height: 408735,
   data: {
     icon: "/imgs/icons/asset/rmrk.svg",
     about:

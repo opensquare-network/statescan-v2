@@ -34,13 +34,14 @@ const Symbol = styled.span`
 export default function AssetAnalyticsChartHeader({
   symbol,
   assetId,
+  assetHeight,
   range,
   setRange,
 }) {
   return (
     <Wrapper>
       <Flex gap={8}>
-        <AssetLogo assetId={assetId} />
+        <AssetLogo assetId={assetId} assetHeight={assetHeight} />
         <Symbol>{symbol}</Symbol>
       </Flex>
 

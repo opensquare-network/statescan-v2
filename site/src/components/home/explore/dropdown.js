@@ -119,7 +119,9 @@ function renderItem(type, value) {
 
     // value: object
     assets: {
-      icon: <AssetLogo assetId={value.assetId} />,
+      icon: (
+        <AssetLogo assetId={value.assetId} assetHeight={value?.assetHeight} />
+      ),
       label: value?.metadata?.symbol,
       contentValue: (
         <DropdownItemContentValue>

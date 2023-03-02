@@ -33,7 +33,10 @@ export default function Symbol({ asset, destroyed }) {
     >
       <Wrapper>
         <AssetLogoWrapper>
-          <AssetLogo assetId={asset?.assetId} />
+          <AssetLogo
+            assetId={asset?.assetId}
+            assetHeight={asset?.assetHeight}
+          />
           {destroyed && (
             <DestroyedBadge src="/imgs/icons/asset/destroyed-badge.svg" />
           )}

@@ -1,5 +1,6 @@
 export const assetBfkk = {
   id: 20,
+  height: 409799,
   data: {
     icon: "/imgs/icons/asset/bfkk.png",
     about:
