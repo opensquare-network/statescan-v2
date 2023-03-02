@@ -8,9 +8,7 @@ import assetInfoData from "../consts/assetInfoData";
  */
 export function useAssetInfoData() {
   const chain = useSelector(chainSelector);
-  const assetInfo = assetInfoData[chain] ?? {};
-
-  return assetInfo;
+  return assetInfoData[chain] ?? {};
 }
 
 /**
@@ -19,7 +17,6 @@ export function useAssetInfoData() {
 export function useAssetInfoDataDetail() {
   const detail = useSelector(assetDetailSelector);
   const assetInfoData = useAssetInfoData();
-  const data = assetInfoData[detail?.assetId] ?? {};
-
-  return data;
+  const { assetId, assetHeight } = detail || {};
+  return assetInfoData[`${assetId}_${assetHeight}`] ?? {};
 }
