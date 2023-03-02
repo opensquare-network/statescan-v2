@@ -6,6 +6,7 @@ import ValueDisplay from "../../displayValue";
 import { toPrecision } from "@osn/common";
 import getTransferSymbol from "../../../utils/viewFuncs/transferSymbol";
 import SymbolLink from "../../symbol/symbolLink";
+import getTransferDecimals from "../../../utils/viewFuncs/transferDecimals";
 
 const ExtrinsicLink = ({ indexer }) => {
   if (!indexer?.extrinsicIndex) {
@@ -40,7 +41,7 @@ function TransferTableRow(transfer, key, chainSetting) {
     <ValueDisplay
       value={toPrecision(
         transfer?.balance,
-        transfer.decimals || chainSetting.decimals,
+        getTransferDecimals(transfer, chainSetting.decimals),
       )}
       symbol={
         <SymbolLink assetId={transfer.assetId}>
