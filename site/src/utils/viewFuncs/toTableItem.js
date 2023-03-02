@@ -28,6 +28,7 @@ import { TextSecondary } from "../../components/styled/text";
 import NftStatus from "../../components/nft/status";
 import NftName from "../../components/nft/name";
 import Thumbnail from "../../components/nft/thumbnail";
+import getTransferDecimals from "./transferDecimals";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -82,12 +83,15 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
         <Tooltip
           tip={`${toPrecision(
             transfer?.balance,
-            chainSetting.decimals,
+            getTransferDecimals(transfer, chainSetting.decimals),
           )} ${getTransferSymbol(transfer, chainSetting.symbol)}`}
           pullRight
         >
           <ValueDisplay
-            value={toPrecision(transfer?.balance, chainSetting.decimals)}
+            value={toPrecision(
+              transfer?.balance,
+              getTransferDecimals(transfer, chainSetting.decimals),
+            )}
             symbol={getTransferSymbol(transfer, chainSetting.symbol)}
           />
         </Tooltip>,

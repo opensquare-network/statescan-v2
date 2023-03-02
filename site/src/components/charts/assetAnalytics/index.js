@@ -57,6 +57,7 @@ export default function AssetAnalyticsChart({ url }) {
     <Wrapper>
       <AssetAnalyticsChartHeader
         assetId={detail?.assetId}
+        assetHeight={detail?.assetHeight}
         symbol={detail?.metadata?.symbol}
         range={range}
         setRange={setRange}

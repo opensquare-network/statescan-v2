@@ -1,5 +1,6 @@
 export const assetDanger = {
   id: 43,
+  height: 1086390,
   data: {
     icon: "/imgs/icons/asset/danger.png",
     about:

@@ -5,7 +5,12 @@ const Icon = styled.img`
   border-radius: 9999px;
 `;
 
-export default function AssetLogo({ assetId, size = 24, className }) {
+export default function AssetLogo({
+  assetId,
+  assetHeight,
+  size = 24,
+  className,
+}) {
   const assetInfoData = useAssetInfoData();
 
   return (
@@ -13,7 +18,10 @@ export default function AssetLogo({ assetId, size = 24, className }) {
       className={className}
       width={size}
       height={size}
-      src={assetInfoData[assetId]?.icon ?? "/imgs/icons/default.svg"}
+      src={
+        assetInfoData[`${assetId}_${assetHeight}`]?.icon ??
+        "/imgs/icons/default.svg"
+      }
       alt="logo"
     />
   );

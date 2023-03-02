@@ -1,5 +1,6 @@
 export const assetUSDt = {
   id: 1984,
+  height: 1129161,
   data: {
     icon: "/imgs/icons/asset/usdt.svg",
     about:

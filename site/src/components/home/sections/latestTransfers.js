@@ -31,6 +31,7 @@ import {
 import { latestSignedTransfersLoadingSelector } from "../../../store/reducers/socketSlice";
 import SymbolLink from "../../symbol/symbolLink";
 import LatestList from "./latestList";
+import getTransferDecimals from "../../../utils/viewFuncs/transferDecimals";
 
 const ThemeText = styled.p`
   margin: 0;
@@ -100,7 +101,7 @@ function LatestTransfers({ transfers }) {
             <ValueDisplay
               value={toPrecision(
                 transfer.balance,
-                transfer.decimals || chainSetting.decimals,
+                getTransferDecimals(transfer, chainSetting.decimals),
               )}
               symbol={
                 <SymbolLink assetId={transfer.assetId}>

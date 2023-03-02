@@ -1,5 +1,6 @@
 export const assetPolarisDAO = {
   id: 16,
+  height: 410745,
   data: {
     icon: "/imgs/icons/asset/polarisdao.svg",
     about:

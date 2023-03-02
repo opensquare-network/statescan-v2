@@ -1,5 +1,6 @@
 export const assetChrawnna = {
   id: 567,
+  height: 414147,
   data: {
     icon: "/imgs/icons/asset/chrawnna.svg",
     about:
