@@ -5,6 +5,7 @@ import { assetDanger } from "./asset-danger-43";
 import { assetPolarisDAO } from "./asset-polarisdao-16";
 import { assetRMRK } from "./asset-rmrk-8";
 import { assetUSDt } from "./asset-usdt-1984";
+import { assetPNEO } from "./asset-pneo-222";
 
 export function constructAssetId({ id, height }) {
   return `${id}_${height}`;
@@ -18,4 +19,5 @@ export const statemineAssetInfo = {
   [constructAssetId(assetDanger)]: assetDanger.data,
   [constructAssetId(assetPolarisDAO)]: assetPolarisDAO.data,
   [constructAssetId(assetUSDt)]: assetUSDt.data,
+  [constructAssetId(assetPNEO)]: assetPNEO.data,
 };
