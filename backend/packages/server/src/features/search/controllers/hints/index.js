@@ -30,7 +30,7 @@ async function getSearchHints(ctx) {
   if (accountQueryResult) {
     result = {
       ...result,
-      accounts: accountQueryResult,
+      account: accountQueryResult,
     };
   }
 
