@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Inter_12_600 } from "../../../styles/text";
 import TimeHead from "./timeHead";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,8 @@ import {
   timeTypeSelector,
 } from "../../../store/reducers/preferenceSlice";
 import { useEffect } from "react";
-import { lgcss, mdcss } from "../../../styles/responsive";
+import { smcss } from "../../../styles/responsive";
+import { w } from "../../../styles/tailwindcss";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -24,12 +25,7 @@ const Th = styled.th`
 
 const CallTh = styled(Th)`
   width: 100%;
-  ${lgcss(css`
-    width: 250px;
-  `)}
-  ${mdcss(css`
-    width: 200px;
-  `)}
+  ${smcss(w(200))};
 `;
 
 export default function TableHead({ heads }) {
