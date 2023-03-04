@@ -2,7 +2,6 @@ const { extractPage } = require("../../../utils");
 const {
   block: { getEventCollection },
 } = require("@statescan/mongo");
-const { queryCount } = require("../../../utils/db/count");
 
 async function getEvents(ctx) {
   const { page, pageSize } = extractPage(ctx);
@@ -38,7 +37,6 @@ async function getEvents(ctx) {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const total = await queryCount(col, q);
 
   ctx.body = {
     items,

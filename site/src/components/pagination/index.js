@@ -8,6 +8,7 @@ import { ReactComponent as CaretRight } from "../icons/caret-right.svg";
 import { ReactComponent as CaretDoubleLeft } from "../icons/caret-first.svg";
 import { ReactComponent as CaretDoubleRight } from "../icons/caret-last.svg";
 import { PC } from "../styled/responsive";
+import isNil from "lodash.isnil";
 
 const Wrapper = styled(Flex)`
   padding-right: 24px;
@@ -60,12 +61,15 @@ export default function Pagination({
   total,
   onPageChange = null,
 }) {
-  const totalPages = Math.ceil(total / pageSize)
-    ? Math.ceil(total / pageSize)
-    : 1;
+  let totalPages;
+  if (isNil(total)) {
+    totalPages = Math.ceil(total / pageSize) ? Math.ceil(total / pageSize) : 1;
+  }
 
   const prevPage = Math.max(1, page - 1);
-  const nextPage = Math.min(totalPages, page + 1);
+  const nextPage = isNil(totalPages)
+    ? page + 1
+    : Math.min(totalPages, page + 1);
 
   return (
     <Wrapper>
@@ -81,14 +85,18 @@ export default function Pagination({
           <CaretLeft />
         </PageCaret>
       </Nav>
-      <Items page={page} total={totalPages - 1} onPageChange={onPageChange} />
+      <Items
+        page={page}
+        total={isNil(totalPages) ? null : totalPages - 1}
+        onPageChange={onPageChange}
+      />
       <Nav disabled={page === totalPages}>
         <PageCaret page={nextPage} onPageChange={onPageChange}>
           <CaretRight />
         </PageCaret>
       </Nav>
       <PC>
-        <Nav disabled={page === totalPages}>
+        <Nav disabled={page === totalPages || isNil(totalPages)}>
           <PageCaret page={totalPages} onPageChange={onPageChange}>
             <CaretDoubleRight />
           </PageCaret>
