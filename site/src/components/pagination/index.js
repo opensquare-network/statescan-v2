@@ -61,8 +61,9 @@ export default function Pagination({
   total,
   onPageChange = null,
 }) {
+  const hasTotal = !isNil(total);
   let totalPages;
-  if (isNil(total)) {
+  if (hasTotal) {
     totalPages = Math.ceil(total / pageSize) ? Math.ceil(total / pageSize) : 1;
   }
 
@@ -96,7 +97,7 @@ export default function Pagination({
         </PageCaret>
       </Nav>
       <PC>
-        <Nav disabled={page === totalPages || isNil(totalPages)}>
+        <Nav disabled={page === totalPages || !hasTotal}>
           <PageCaret page={totalPages} onPageChange={onPageChange}>
             <CaretDoubleRight />
           </PageCaret>
