@@ -42,7 +42,6 @@ async function getEvents(ctx) {
     items,
     page,
     pageSize,
-    total,
   };
 }
 
