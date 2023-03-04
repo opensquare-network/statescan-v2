@@ -36,13 +36,21 @@ async function createEventColIndexes(col) {
   await col.createIndex({
     section: 1,
     "indexer.blockHeight": -1,
-    "indexer.extrinsicIndex": 1,
+    "indexer.eventIndex": 1,
   });
   await col.createIndex({
     section: 1,
     method: 1,
     "indexer.blockHeight": -1,
-    "indexer.extrinsicIndex": 1,
+    "indexer.eventIndex": 1,
+  });
+  await col.createIndex({
+    section: 1,
+    method: 1,
+    isExtrinsic: 1,
+    isExtrinsicResult: 1,
+    "indexer.blockHeight": -1,
+    "indexer.eventIndex": 1,
   });
 }
 
