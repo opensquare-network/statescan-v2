@@ -36,7 +36,7 @@ async function initUniquesScanDb() {
   metadataCol = await db.createCol("metadata");
   resourceCol = await db.createCol("resource");
 
-  await _createIndexes();
+  _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
 async function _createIndexes() {

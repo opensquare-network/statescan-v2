@@ -26,7 +26,7 @@ async function initAssetScanDb() {
   assetHolderCol = await db.createCol("assetHolder");
   assetApprovalCol = await db.createCol("assetApproval");
   assetDailyStatisticCol = await db.createCol("assetDailyStatistic");
-  await _createIndexes();
+  _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
 async function _createIndexes() {
