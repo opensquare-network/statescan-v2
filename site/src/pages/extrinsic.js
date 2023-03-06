@@ -21,14 +21,9 @@ import {
   extrinsicFetchDetail,
   clearExtrinsicDetail,
 } from "../store/reducers/extrinsicSlice";
-import ExtrinsicParametersDisplayOrigin from "../components/extrinsicParametersDisplay";
+import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
-import styled from "styled-components";
-
-const ExtrinsicParametersDisplay = styled(ExtrinsicParametersDisplayOrigin)`
-  padding: 24px;
-`;
 
 function Extrinsic() {
   const { id } = useParams();
