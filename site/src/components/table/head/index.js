@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Inter_12_600 } from "../../../styles/text";
 import TimeHead from "./timeHead";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,8 @@ import {
 } from "../../../store/reducers/preferenceSlice";
 import { useEffect } from "react";
 import { smcss } from "../../../styles/responsive";
-import { w } from "../../../styles/tailwindcss";
+import { w, w_full } from "../../../styles/tailwindcss";
+import last from "lodash.last";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -21,16 +22,21 @@ const Th = styled.th`
   ${Inter_12_600};
   color: ${(p) => p.theme.fontTertiary};
   text-transform: uppercase;
-`;
+  text-align: ${(p) => p.align};
+  ${(p) => w(p.width)};
 
-const CallTh = styled(Th)`
-  width: 100%;
-  ${smcss(w(200))};
+  ${(p) =>
+    p.shouldFlexWidth &&
+    css`
+      ${w_full};
+      ${smcss(w(p.width))};
+    `}
 `;
 
 export default function TableHead({ heads }) {
   const dispatch = useDispatch();
   const timeType = useSelector(timeTypeSelector);
+  const isDataTableTypeLast = last(heads)?.type === "data";
 
   useEffect(() => {
     const timeType = localStorage.getItem("timeType");
@@ -46,11 +52,10 @@ export default function TableHead({ heads }) {
   return (
     <thead>
       <Tr>
-        {heads.map(({ name, align, type, width }, index) => {
-          const style = {
-            textAlign: align ?? "left",
-            ...(width ? { width } : {}),
-          };
+        {heads.map(({ name, align = "left", type, width }, index) => {
+          const isSecondToLast = heads.length - 2 === index;
+          const shouldFlexWidthSecondToLast =
+            isDataTableTypeLast && isSecondToLast;
 
           let content = name;
           if (type === "time") {
@@ -59,20 +64,21 @@ export default function TableHead({ heads }) {
             );
           }
           if (type === "data") {
-            style.width = width ?? 76;
+            width = width ?? 76;
             content = "";
           }
 
           if (type === "call") {
-            return (
-              <CallTh style={style} key={index}>
-                {content}
-              </CallTh>
-            );
+            width = width ?? 200;
           }
 
           return (
-            <Th style={style} key={index}>
+            <Th
+              key={index}
+              width={width}
+              align={align}
+              shouldFlexWidth={shouldFlexWidthSecondToLast}
+            >
               {content}
             </Th>
           );
