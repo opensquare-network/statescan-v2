@@ -19,10 +19,12 @@ import Assets from "./assets";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import Nfts from "./nfts";
 import {
+  border_theme,
   flex,
   flex_1,
   flex_col,
   gap_x,
+  justify_between,
   max_w_full,
   p_t,
   text_tertiary,
@@ -52,6 +54,9 @@ const Anchor = styled(Link)`
 const StyledPanel = styled(Panel)`
   min-height: 422px;
   ${p_t(8)};
+  ${flex};
+  ${flex_col};
+  ${justify_between};
 
   .loading {
     padding: 0;
@@ -90,6 +95,8 @@ const SectionsWrapper = styled.div`
 const AnchorWrapper = styled(FlexEnd)`
   padding-right: 24px;
   height: 52px;
+  border-top: 1px solid;
+  ${border_theme("strokeBase")};
 `;
 
 export default function Sections() {

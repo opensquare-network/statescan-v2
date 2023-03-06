@@ -23,7 +23,6 @@ const List = styled.ul`
   ${m(0)};
   ${p(0)};
   ${p_b(8)};
-  border-bottom: 1px solid ${theme("strokeBase")};
 `;
 
 const ListItemLeft = styled.div`
