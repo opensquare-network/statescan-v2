@@ -4,6 +4,7 @@ import { Inter_12_600, Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useState } from "react";
 import JsonView from "../JSON";
+import { bg_theme, p } from "../../styles/tailwindcss";
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -48,6 +49,11 @@ const Tab = styled.button`
   ${(p) => p.active && tabActive};
 `;
 
+const DataTableWrapper = styled.div`
+  ${p(24)}
+  ${bg_theme("fillBase")}
+`;
+
 export default function DataDisplay({ tableData, JSONData, title, className }) {
   const [format, setFormat] = useState("table");
 
@@ -89,7 +95,7 @@ export default function DataDisplay({ tableData, JSONData, title, className }) {
   return (
     <Wrapper>
       <Title>{title}</Title>
-      {dataTable}
+      <DataTableWrapper>{dataTable}</DataTableWrapper>
     </Wrapper>
   );
 }
