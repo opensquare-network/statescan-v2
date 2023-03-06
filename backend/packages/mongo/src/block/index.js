@@ -38,7 +38,7 @@ async function initBlockDb() {
   unFinalizedExtrinsicCol = await db.createCol("unFinalizedExtrinsic");
   unFinalizedCallCol = await db.createCol("unFinalizedCall");
 
-  await _createIndexes();
+  _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
 async function _createIndexes() {

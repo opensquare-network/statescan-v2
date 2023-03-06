@@ -37,13 +37,11 @@ async function getEvents(ctx) {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const total = await col.countDocuments(q);
 
   ctx.body = {
     items,
     page,
     pageSize,
-    total,
   };
 }
 

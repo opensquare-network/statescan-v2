@@ -14,7 +14,7 @@ async function initAccountScanDb() {
   await db.init();
 
   addressCol = await db.createCol("address");
-  await _createIndexes();
+  _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
 async function _createIndexes() {

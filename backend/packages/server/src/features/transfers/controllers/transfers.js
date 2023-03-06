@@ -24,13 +24,11 @@ async function getTransfers(ctx) {
     .skip(page * pageSize)
     .limit(pageSize)
     .toArray();
-  const total = await col.estimatedDocumentCount(q);
 
   ctx.body = {
     items: await normalizeTransfers(items),
     page,
     pageSize,
-    total,
   };
 }
 
