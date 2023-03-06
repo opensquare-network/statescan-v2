@@ -97,6 +97,7 @@ const FilterDivider = styled.div`
 
 const FilterWrapper = styled(Flex)`
   flex-grow: 1;
+  flex-wrap: wrap;
   gap: 24px;
   @media screen and (max-width: 1150px) {
     flex-direction: column;

@@ -280,6 +280,32 @@ export const signedOnlyFilter = {
   ],
 };
 
+export const isExtrinsicOnlyFilter = {
+  value: "true",
+  name: "Extrinsic",
+  query: "is_extrinsic",
+  options: [
+    { text: "All", value: "false" },
+    {
+      text: "Extrinsic only",
+      value: "true",
+    },
+  ],
+};
+
+export const isIncludeExtrinsicResultFilter = {
+  value: "true",
+  name: "Result",
+  query: "no_extrinsic_result",
+  options: [
+    { text: "All", value: "false" },
+    {
+      text: "No extrinsic result",
+      value: "true",
+    },
+  ],
+};
+
 export const ASSET_ANALYTICS_RANGE = {
   ONE_MONTH: "1m",
   ONE_YEAR: "1y",
