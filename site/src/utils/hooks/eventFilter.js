@@ -12,10 +12,7 @@ import {
   sortByName,
   makeOptionWithEmptyDescendant,
 } from "../filterCommon";
-import {
-  isExtrinsicOnlyFilter,
-  isIncludeExtrinsicResultFilter,
-} from "../constants";
+import { extrinsicOnlyFilter, noExtrinsicResultFilter } from "../constants";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -160,7 +157,7 @@ export function useEventFilter() {
 
   return [
     ...filters,
-    { ...isExtrinsicOnlyFilter, value: isExtrinsicOnly },
-    { ...isIncludeExtrinsicResultFilter, value: noExtrinsicResult },
+    { ...extrinsicOnlyFilter, value: isExtrinsicOnly },
+    { ...noExtrinsicResultFilter, value: noExtrinsicResult },
   ];
 }

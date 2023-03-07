@@ -20,7 +20,7 @@ import { Button } from "../styled/buttons";
 
 const ForSmallScreen = styled.div`
   display: none;
-  @media screen and (max-width: 1150px) {
+  @media screen and (max-width: 640px) {
     display: flex;
   }
 `;
@@ -34,7 +34,7 @@ const Wrapper = styled(Panel)`
   gap: 16px;
   overflow: visible;
   ${Inter_14_600};
-  @media screen and (max-width: 1150px) {
+  @media screen and (max-width: 640px) {
     flex-direction: column;
     align-items: stretch;
   }
@@ -54,18 +54,17 @@ const HeadWrapper = styled(FlexBetween)`
 `;
 
 const DropdownWrapper = styled(Flex)`
-  > :not(:first-child) {
-    margin-left: 16px;
-  }
   color: ${(p) => p.theme.fontPrimary};
-  @media screen and (max-width: 1150px) {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: right;
+  > :not(:first-child) {
+    margin-top: 8px;
+  }
+  @media screen and (max-width: 640px) {
     width: 100%;
     flex-direction: column;
     align-items: stretch;
-    > :not(:first-child) {
-      margin-left: 0;
-      margin-top: 8px;
-    }
   }
 `;
 
@@ -75,7 +74,7 @@ const FilterButton = styled(Button)`
   ${(p) => p.dark && bg_theme500};
   ${rounded_4};
 
-  @media screen and (max-width: 1150px) {
+  @media screen and (max-width: 640px) {
     ${w_full};
     ${p_x(0)};
   }
@@ -87,7 +86,7 @@ const FilterDivider = styled.div`
   height: 28px;
   margin: 0 24px;
   background: ${(p) => p.theme.strokeBase};
-  @media screen and (max-width: 1150px) {
+  @media screen and (max-width: 640px) {
     width: 100%;
     margin: 12px 0;
     margin-bottom: 4px;
@@ -98,8 +97,9 @@ const FilterDivider = styled.div`
 const FilterWrapper = styled(Flex)`
   flex-grow: 1;
   flex-wrap: wrap;
+  align-items: flex-end;
   gap: 24px;
-  @media screen and (max-width: 1150px) {
+  @media screen and (max-width: 640px) {
     flex-direction: column;
     gap: 16px;
   }
@@ -163,7 +163,7 @@ export default function Filter({ title, data }) {
           />
         </ForSmallScreen>
       </HeadWrapper>
-      {(showFilterPanel || width > 1150) && selectData?.length > 0 && (
+      {(showFilterPanel || width > 640) && selectData?.length > 0 && (
         <FilterWrapper>
           {(selectData || []).map((item, index) =>
             item.name === "divider" ? (

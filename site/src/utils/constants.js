@@ -280,7 +280,7 @@ export const signedOnlyFilter = {
   ],
 };
 
-export const isExtrinsicOnlyFilter = {
+export const extrinsicOnlyFilter = {
   value: "true",
   name: "Extrinsic",
   query: "is_extrinsic",
@@ -293,7 +293,7 @@ export const isExtrinsicOnlyFilter = {
   ],
 };
 
-export const isIncludeExtrinsicResultFilter = {
+export const noExtrinsicResultFilter = {
   value: "true",
   name: "Result",
   query: "no_extrinsic_result",
