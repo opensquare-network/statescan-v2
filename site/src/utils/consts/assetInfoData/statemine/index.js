@@ -11,7 +11,7 @@ export function constructAssetId({ id, height }) {
   return `${id}_${height}`;
 }
 
-export const statemineAssetInfo = {
+const statemineAssetInfo = {
   [constructAssetId(assetBfkk)]: assetBfkk.data,
   [constructAssetId(assetRMRK)]: assetRMRK.data,
   [constructAssetId(assetBill)]: assetBill.data,
@@ -21,3 +21,5 @@ export const statemineAssetInfo = {
   [constructAssetId(assetUSDt)]: assetUSDt.data,
   [constructAssetId(assetPNEO)]: assetPNEO.data,
 };
+
+export default statemineAssetInfo;
