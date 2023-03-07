@@ -65,7 +65,13 @@ export function useDestroyedAssetsTableData() {
       <ColoredInterLink to={link}>
         {assetHeight?.toLocaleString?.()}
       </ColoredInterLink>,
-      metadata?.symbol ? <Symbol asset={asset} destroyed={destroyed} /> : "--",
+      <Flex>
+        {metadata?.symbol ? (
+          <Symbol asset={asset} destroyed={destroyed} />
+        ) : (
+          "--"
+        )}
+      </Flex>,
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
       <TimeBody timeType={timeTypes.date} ts={destroyedAt?.blockTime} />,
       <Tooltip tip={detail?.owner}>
