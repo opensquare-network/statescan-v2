@@ -246,6 +246,7 @@ export const nftClassInstanceHead = [
 
 export const destroyedAssetsHead = [
   { name: "Asset ID", width: 120 },
+  { name: "Height", width: 160 },
   { name: "Symbol", width: 136 },
   { name: "Name", width: 232 },
   { name: "Destroyed Time", width: 200 },
