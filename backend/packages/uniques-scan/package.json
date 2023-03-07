@@ -24,8 +24,8 @@
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@ffprobe-installer/ffprobe": "^1.4.1",
-    "@osn/scan-common": "0.4.4",
-    "@polkadot/util": "10.4.2",
+    "@osn/scan-common": "0.4.5",
+    "@polkadot/util": "11.0.1",
     "@statescan/mongo": "1.0.0",
     "axios": "^1.2.2",
     "data-urls": "^4.0.0",
