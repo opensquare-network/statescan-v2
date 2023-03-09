@@ -376,6 +376,11 @@ export const truncate = `
   ${text_ellipsis};
 `;
 
+// decoration
+export const no_underline = `
+  text-decoration-line: none;
+`;
+
 // text color
 export const text_primary = text_theme("fontPrimary");
 export const text_primary_inverse = text_theme("fontPrimaryInverse");

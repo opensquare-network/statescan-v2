@@ -1,4 +1,5 @@
 import { ReactComponent as Polkadot } from "../../../components/icons/polkadot.svg";
+import { treasuryModules } from "./modules";
 
 const polkadot = {
   name: "Polkadot",
@@ -14,6 +15,10 @@ const polkadot = {
   colorSecondary: "rgba(230, 0, 122, 0.1)",
   buttonColor: "#E6007A",
   logo: "logo-img-2",
+  modules: {
+    ...treasuryModules,
+  },
+  treasuryWebsite: "https://www.dotreasury.com/dot",
 };
 
 export default polkadot;

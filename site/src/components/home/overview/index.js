@@ -1,12 +1,9 @@
 import { toPrecision } from "@osn/common";
 import { useSelector } from "react-redux";
-import styled, { css } from "styled-components";
 import { withLoading } from "../../../HOC/withLoading";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { overviewSelector } from "../../../store/reducers/socketSlice";
 import { currencify } from "../../../utils";
-import { lgcss, smcss } from "../../../styles/responsive";
-import { mobilecss } from "../../../styles/responsive";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
 import ExtrinsicsSquareIcon from "../../icons/extrinsicsSquareIcon";
@@ -14,36 +11,13 @@ import FinalizedBlockSquareIcon from "../../icons/finalizedBlockSquareIcon";
 import HolderSquareIcon from "../../icons/holderSquareIcon";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import Loading from "../../loadings/loading";
-import { Flex } from "../../styled/flex";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import OverviewItem from "./item";
 import ValueDisplay from "../../displayValue";
 import Tooltip from "../../tooltip";
 import NftSquareIcon from "../../icons/nftSquareIcon";
 import ParaIdSquareIcon from "../../icons/paraIdSquareIcon";
-import { gap_x, gap_y, grid_cols } from "../../../styles/tailwindcss";
-
-const Panel = styled(Flex)`
-  margin: 24px;
-  justify-content: space-between;
-
-  ${mobilecss(css`
-    display: block;
-  `)}
-`;
-
-const OverviewItemsWrapper = styled.div`
-  flex: 1;
-  display: grid;
-  flex-wrap: wrap;
-  ${gap_x(72)};
-  ${gap_y(24)};
-  ${grid_cols(4)};
-
-  ${lgcss(grid_cols(3))}
-
-  ${smcss(grid_cols(2))}
-`;
+import { OverviewItemsWrapper, OverviewPanel } from "./styled";
 
 const mapLoadingState = (_props) => {
   return {
@@ -63,7 +37,7 @@ function Overview() {
 
   return (
     <StyledPanelTableWrapper>
-      <Panel>
+      <OverviewPanel>
         <OverviewItemsWrapper>
           <OverviewItem
             icon={<BlockSquareIcon />}
@@ -142,7 +116,7 @@ function Overview() {
             </>
           )}
         </OverviewItemsWrapper>
-      </Panel>
+      </OverviewPanel>
     </StyledPanelTableWrapper>
   );
 }
