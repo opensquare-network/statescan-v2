@@ -5,6 +5,7 @@ import { Flex } from "../../styled/flex";
 import ThemedLink from "../../styled/link";
 import TooltipOrigin from "../../tooltip";
 import CircledInfoIcon from "../../icons/circledInfoIcon";
+import { flex } from "../../../styles/tailwindcss";
 
 const Tooltip = styled(TooltipOrigin)`
   display: inline-flex;
@@ -43,6 +44,10 @@ const Link = styled(ThemedLink)`
   }
 `;
 
+const Wrapper = styled.div`
+  ${flex};
+`;
+
 export default function OverviewItem({ icon, label, value, total, to, tip }) {
   const resolveContentValue = (
     <>
@@ -52,30 +57,28 @@ export default function OverviewItem({ icon, label, value, total, to, tip }) {
   );
 
   return (
-    <div>
-      <Flex>
-        <PC>
-          <IconWrapper>{icon}</IconWrapper>
-        </PC>
+    <Wrapper>
+      <PC>
+        <IconWrapper>{icon}</IconWrapper>
+      </PC>
 
-        <ContentWrapper>
-          <ContentLabel>
-            {label}
-            {tip && (
-              <Tooltip tip={tip}>
-                <CircledInfoIcon />
-              </Tooltip>
-            )}
-          </ContentLabel>
-          <ContentValue>
-            {to ? (
-              <Link to={to}>{resolveContentValue}</Link>
-            ) : (
-              resolveContentValue
-            )}
-          </ContentValue>
-        </ContentWrapper>
-      </Flex>
-    </div>
+      <ContentWrapper>
+        <ContentLabel>
+          {label}
+          {tip && (
+            <Tooltip tip={tip}>
+              <CircledInfoIcon />
+            </Tooltip>
+          )}
+        </ContentLabel>
+        <ContentValue>
+          {to ? (
+            <Link to={to}>{resolveContentValue}</Link>
+          ) : (
+            resolveContentValue
+          )}
+        </ContentValue>
+      </ContentWrapper>
+    </Wrapper>
   );
 }
