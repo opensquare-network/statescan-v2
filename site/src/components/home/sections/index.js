@@ -26,30 +26,21 @@ import {
   gap_x,
   justify_between,
   max_w_full,
+  no_underline,
   p_t,
   text_tertiary,
 } from "../../../styles/tailwindcss";
 import { assetListLoadingSelector } from "../../../store/reducers/assetSlice";
 import { nftListLoadingSelector } from "../../../store/reducers/nftSlice";
+import ExternalLink from "../../externalLink";
+import TreasurySection from "./treasury";
 
 const Title = styled.h2`
   ${Inter_18_700};
   color: ${(props) => props.theme.fontPrimary};
 `;
 
-const Anchor = styled(Link)`
-  width: fit-content;
-  ${Inter_14_500};
-  text-align: right;
-  color: ${(props) => props.theme.theme500};
-
-  ${(p) =>
-    p.disabled &&
-    css`
-      pointer-events: none;
-      ${text_tertiary};
-    `}
-`;
+const Anchor = styled(Link)``;
 
 const StyledPanel = styled(Panel)`
   min-height: 422px;
@@ -97,6 +88,22 @@ const AnchorWrapper = styled(FlexEnd)`
   height: 52px;
   border-top: 1px solid;
   ${border_theme("strokeBase")};
+  ${Inter_14_500};
+  ${text_tertiary};
+
+  a {
+    width: fit-content;
+    text-align: right;
+    color: ${(props) => props.theme.theme500};
+    ${no_underline};
+
+    ${(p) =>
+      p.disabled &&
+      css`
+        pointer-events: none;
+        ${text_tertiary};
+      `}
+  }
 `;
 
 export default function Sections() {
@@ -106,7 +113,7 @@ export default function Sections() {
   const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
   const assetsListLoading = useSelector(assetListLoadingSelector);
   const nftListLoading = useSelector(nftListLoadingSelector);
-  const { modules } = useChainSettings();
+  const { modules, treasuryWebsite } = useChainSettings();
 
   return (
     <FlexColumn gap={16}>
@@ -138,6 +145,21 @@ export default function Sections() {
           </StyledPanel>
         </Section>
       </SectionsWrapper>
+
+      {modules?.treasury && (
+        <Section>
+          <Title>Treasury</Title>
+          <StyledPanelTableWrapper>
+            <TreasurySection />
+            <AnchorWrapper>
+              <div>
+                <span>View on</span>{" "}
+                <ExternalLink href={treasuryWebsite}>doTreasury</ExternalLink>
+              </div>
+            </AnchorWrapper>
+          </StyledPanelTableWrapper>
+        </Section>
+      )}
 
       {modules?.assets && (
         <Section>
