@@ -18,6 +18,7 @@ const polkadot = {
   modules: {
     ...treasuryModules,
   },
+  treasuryWebsite: "https://www.dotreasury.com/dot",
 };
 
 export default polkadot;

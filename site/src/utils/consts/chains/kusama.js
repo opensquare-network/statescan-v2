@@ -16,6 +16,7 @@ const kusama = {
   modules: {
     ...treasuryModules,
   },
+  treasuryWebsite: "https://www.dotreasury.com/ksm",
 };
 
 export default kusama;
