@@ -313,3 +313,42 @@ export const ASSET_ANALYTICS_RANGE = {
   ALL: "all",
 };
 export const ASSET_ANALYTICS_RANGE_ITEMS = Object.values(ASSET_ANALYTICS_RANGE);
+
+export const DEFAULT_KUSAMA_NODE_URL = "wss://kusama-rpc.polkadot.io";
+export const DEFAULT_KUSAMA_NODES = [
+  {
+    name: "Parity",
+    url: "wss://kusama-rpc.polkadot.io",
+  },
+  {
+    name: "OnFinality",
+    url: "wss://kusama.api.onfinality.io/public-ws",
+  },
+  {
+    name: "Dwellir",
+    url: "wss://kusama-rpc.dwellir.com",
+  },
+  {
+    name: "RadiumBlock",
+    url: "wss://kusama.public.curie.radiumblock.co/ws",
+  },
+];
+
+export const DEFAULT_POLKADOT_NODE_URL = "wss://rpc.polkadot.io/";
+export const DEFAULT_POLKADOT_NODES = [
+  {
+    name: "Parity",
+    url: "wss://rpc.polkadot.io/",
+  },
+  {
+    name: "OnFinality",
+    url: "wss://polkadot.api.onfinality.io/public-ws",
+  },
+  {
+    name: "Dwellir",
+    url: "wss://polkadot-rpc.dwellir.com",
+  },
+];
+
+export const TREASURY_ACCOUNT =
+  "F3opxRbN5ZbjJNU511Kj2TLuzFcDq9BGduA9TgiECafpg29";
