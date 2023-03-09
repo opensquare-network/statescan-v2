@@ -54,6 +54,12 @@ export const Inter_14_400 = css`
   line-height: 20px;
 `;
 
+export const Inter_12_700 = css`
+  ${Inter};
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+`;
 export const Inter_12_600 = css`
   ${Inter};
   font-weight: 600;
