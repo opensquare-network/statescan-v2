@@ -5,7 +5,9 @@ import styled from "styled-components";
 import api from "../../../services/api";
 import { dotreasuryOverviewApi } from "../../../services/urls";
 import { text_tertiary } from "../../../styles/tailwindcss";
+import { TREASURY_ACCOUNT } from "../../../utils/constants";
 import useChain from "../../../utils/hooks/chain/useChain";
+import { useChainApi } from "../../../utils/hooks/chain/useChainApi";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BountiesSquareIcon from "../../icons/bountiesSquareIcon";
@@ -27,8 +29,10 @@ const ValueTotal = styled.span`
 
 export default function TreasurySection() {
   const [treasuryOverview, setTreasuryOverview] = useState({});
+  const [treasuryBurnt, setTreasuryBurnt] = useState({});
 
   const chain = useChain();
+  const chainApi = useChainApi();
   const { decimals: precision, symbol } = useChainSettings();
 
   const toBeAwarded = BigNumber(
@@ -44,13 +48,33 @@ export default function TreasurySection() {
     });
   }, [chain]);
 
+  useEffect(() => {
+    async function fetchTreasuryBurnt() {
+      const account = (
+        await chainApi.query.system.account(TREASURY_ACCOUNT)
+      ).toJSON();
+
+      setTreasuryBurnt({
+        free: account ? toPrecision(account.data.free, precision) : 0,
+        burnPercent: toPrecision(chainApi.consts.treasury.burn, 6),
+      });
+    }
+
+    fetchTreasuryBurnt();
+  }, [chainApi, precision]);
+
   return (
     <OverviewPanel>
       <OverviewItemsWrapper>
         <OverviewItem
           icon={<AssetSquareIcon />}
           label="Available"
-          value={"TODO"}
+          value={
+            <span>
+              {abbreviateBigNumber(treasuryBurnt?.free)}{" "}
+              <ValueSymbol>{symbol}</ValueSymbol>
+            </span>
+          }
         />
         <OverviewItem
           icon={<ToBeAwardedSquareIcon />}
@@ -65,7 +89,14 @@ export default function TreasurySection() {
         <OverviewItem
           icon={<NextBurnSquareIcon />}
           label="Next burn"
-          value={"TODO"}
+          value={
+            <span>
+              {abbreviateBigNumber(
+                treasuryBurnt?.free * treasuryBurnt?.burnPercent,
+              )}{" "}
+              <ValueSymbol>{symbol}</ValueSymbol>
+            </span>
+          }
         />
         <OverviewItem
           icon={<SpendPeriodSquareIcon />}
