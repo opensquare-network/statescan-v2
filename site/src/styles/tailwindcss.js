@@ -377,6 +377,9 @@ export const truncate = `
 `;
 
 // decoration
+export const underline = `
+  text-decoration-line: underline;
+`;
 export const no_underline = `
   text-decoration-line: none;
 `;
