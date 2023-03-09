@@ -36,3 +36,10 @@ export const nftClassApi = (id) => `/uniques/classes/${id}`;
 export const nftPopularListApi = `/uniques/classes/popular`;
 export const nftInstanceApi = (classId, instanceId) =>
   `/uniques/classes/${classId}/instances/${instanceId}`;
+
+// dotreasury
+const dotreasuryApiEndPoint =
+  process.env.REACT_APP_PUBLIC_DOTREASURY_API_END_POINT ||
+  "https://api.dotreasury.com";
+export const dotreasuryOverviewApi = (chain) =>
+  `${dotreasuryApiEndPoint}/${chain}/overview`;

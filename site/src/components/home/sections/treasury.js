@@ -1,9 +1,11 @@
 import { abbreviateBigNumber, toPrecision } from "@osn/common";
 import BigNumber from "bignumber.js";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { treasuryOverviewSelector } from "../../../store/reducers/socketSlice";
+import api from "../../../services/api";
+import { dotreasuryOverviewApi } from "../../../services/urls";
 import { text_tertiary } from "../../../styles/tailwindcss";
+import useChain from "../../../utils/hooks/chain/useChain";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BountiesSquareIcon from "../../icons/bountiesSquareIcon";
@@ -24,7 +26,9 @@ const ValueTotal = styled.span`
 `;
 
 export default function TreasurySection() {
-  const treasuryOverview = useSelector(treasuryOverviewSelector);
+  const [treasuryOverview, setTreasuryOverview] = useState({});
+
+  const chain = useChain();
   const { decimals: precision, symbol } = useChainSettings();
 
   const toBeAwarded = BigNumber(
@@ -33,6 +37,12 @@ export default function TreasurySection() {
   const toBeAwardedValue = BigNumber(
     toPrecision(toBeAwarded, precision),
   ).toNumber();
+
+  useEffect(() => {
+    api.fetch(dotreasuryOverviewApi(chain)).then(({ result }) => {
+      setTreasuryOverview(result);
+    });
+  }, [chain]);
 
   return (
     <OverviewPanel>
