@@ -3,8 +3,10 @@ import BigNumber from "bignumber.js";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import api from "../../../services/api";
+import { estimateBlocksTime } from "../../../services/chainApi";
 import { dotreasuryOverviewApi } from "../../../services/urls";
-import { text_tertiary } from "../../../styles/tailwindcss";
+import { text_quaternary, text_tertiary } from "../../../styles/tailwindcss";
+import { Inter_12_700 } from "../../../styles/text";
 import { TREASURY_ACCOUNT } from "../../../utils/constants";
 import useChain from "../../../utils/hooks/chain/useChain";
 import { useChainApi } from "../../../utils/hooks/chain/useChainApi";
@@ -17,6 +19,7 @@ import ProposalsSquareIcon from "../../icons/proposalsSquareIcon";
 import SpendPeriodSquareIcon from "../../icons/spendPeriodSquareIcon";
 import TipsSquareIcon from "../../icons/tipsSquareIcon";
 import ToBeAwardedSquareIcon from "../../icons/toBeAwardedSquareIcon";
+import TimePeriod from "../../timePeriod";
 import OverviewItem from "../overview/item";
 import { OverviewItemsWrapper, OverviewPanel } from "../overview/styled";
 
@@ -26,10 +29,20 @@ const ValueSymbol = styled.span`
 const ValueTotal = styled.span`
   ${text_tertiary};
 `;
+const Tertiary = styled.span`
+  ${text_tertiary};
+`;
+const SpendPeriodSlash = styled.span`
+  ${text_quaternary};
+`;
+const SpendPeriodSmall = styled.small`
+  ${Inter_12_700};
+`;
 
 export default function TreasurySection() {
   const [treasuryOverview, setTreasuryOverview] = useState({});
-  const [treasuryBurnt, setTreasuryBurnt] = useState({});
+  const [treasuryBurnt, setTreasuryBurnt] = useState();
+  const [treasurySpendPeriod, setTreasurySpendPeriod] = useState();
 
   const chain = useChain();
   const chainApi = useChainApi();
@@ -49,6 +62,10 @@ export default function TreasurySection() {
   }, [chain]);
 
   useEffect(() => {
+    if (!chainApi) {
+      return;
+    }
+
     async function fetchTreasuryBurnt() {
       const account = (
         await chainApi.query.system.account(TREASURY_ACCOUNT)
@@ -63,6 +80,28 @@ export default function TreasurySection() {
     fetchTreasuryBurnt();
   }, [chainApi, precision]);
 
+  useEffect(() => {
+    if (!chainApi) {
+      return;
+    }
+
+    async function fetchSpendPeriod() {
+      const bestNumber = await chainApi.derive.chain.bestNumber();
+      const spendPeriod = chainApi.consts.treasury.spendPeriod;
+      const goneBlocks = bestNumber.mod(spendPeriod);
+
+      setTreasurySpendPeriod({
+        blockNumber: spendPeriod.toNumber(),
+        periodTime: await estimateBlocksTime(chain, spendPeriod),
+        restBlocks: spendPeriod.sub(goneBlocks).toNumber(),
+        restTime: await estimateBlocksTime(chain, spendPeriod.sub(goneBlocks)),
+        progress: goneBlocks.muln(100).div(spendPeriod).toNumber(),
+      });
+    }
+
+    fetchSpendPeriod();
+  }, [chainApi, chain]);
+
   return (
     <OverviewPanel>
       <OverviewItemsWrapper>
@@ -71,7 +110,7 @@ export default function TreasurySection() {
           label="Available"
           value={
             <span>
-              {abbreviateBigNumber(treasuryBurnt?.free)}{" "}
+              {abbreviateBigNumber(treasuryBurnt?.free || 0)}{" "}
               <ValueSymbol>{symbol}</ValueSymbol>
             </span>
           }
@@ -92,7 +131,7 @@ export default function TreasurySection() {
           value={
             <span>
               {abbreviateBigNumber(
-                treasuryBurnt?.free * treasuryBurnt?.burnPercent,
+                treasuryBurnt?.free * treasuryBurnt?.burnPercent || 0,
               )}{" "}
               <ValueSymbol>{symbol}</ValueSymbol>
             </span>
@@ -101,7 +140,23 @@ export default function TreasurySection() {
         <OverviewItem
           icon={<SpendPeriodSquareIcon />}
           label="Spend period"
-          value={"TODO"}
+          value={
+            treasurySpendPeriod && (
+              <span>
+                <TimePeriod
+                  ms={treasurySpendPeriod?.restTime}
+                  renderUnit={(unit) => <Tertiary>{unit}</Tertiary>}
+                />
+                <SpendPeriodSmall>
+                  <SpendPeriodSlash>/</SpendPeriodSlash>{" "}
+                  <TimePeriod
+                    ms={treasurySpendPeriod?.periodTime}
+                    renderUnit={(unit) => <Tertiary>{unit}</Tertiary>}
+                  />
+                </SpendPeriodSmall>
+              </span>
+            )
+          }
         />
         <OverviewItem
           icon={<OpenGovSquareIcon />}
