@@ -1,3 +1,3 @@
-export const doTreasuryModules = {
-  doTreasury: true,
+export const treasuryModules = {
+  treasury: true,
 };
