@@ -23,12 +23,6 @@ import TimePeriod from "../../timePeriod";
 import OverviewItem from "../overview/item";
 import { OverviewItemsWrapper, OverviewPanel } from "../overview/styled";
 
-const ValueSymbol = styled.span`
-  ${text_tertiary};
-`;
-const ValueTotal = styled.span`
-  ${text_tertiary};
-`;
 const Tertiary = styled.span`
   ${text_tertiary};
 `;
@@ -111,7 +105,7 @@ export default function TreasurySection() {
           value={
             <span>
               {abbreviateBigNumber(treasuryBurnt?.free || 0)}{" "}
-              <ValueSymbol>{symbol}</ValueSymbol>
+              <Tertiary>{symbol}</Tertiary>
             </span>
           }
         />
@@ -121,7 +115,7 @@ export default function TreasurySection() {
           value={
             <span>
               {abbreviateBigNumber(toBeAwardedValue)}{" "}
-              <ValueSymbol>{symbol}</ValueSymbol>
+              <Tertiary>{symbol}</Tertiary>
             </span>
           }
         />
@@ -133,7 +127,7 @@ export default function TreasurySection() {
               {abbreviateBigNumber(
                 treasuryBurnt?.free * treasuryBurnt?.burnPercent || 0,
               )}{" "}
-              <ValueSymbol>{symbol}</ValueSymbol>
+              <Tertiary>{symbol}</Tertiary>
             </span>
           }
         />
@@ -164,10 +158,10 @@ export default function TreasurySection() {
           value={
             <>
               {treasuryOverview?.count?.referenda?.unFinished ?? 0}
-              <ValueTotal>
+              <Tertiary>
                 {" "}
                 / {treasuryOverview?.count?.referenda?.all ?? 0}
-              </ValueTotal>
+              </Tertiary>
             </>
           }
         />
@@ -177,10 +171,10 @@ export default function TreasurySection() {
           value={
             <>
               {treasuryOverview?.count?.proposal?.unFinished ?? 0}
-              <ValueTotal>
+              <Tertiary>
                 {" "}
                 / {treasuryOverview?.count?.proposal?.all ?? 0 ?? 0}
-              </ValueTotal>
+              </Tertiary>
             </>
           }
         />
@@ -190,10 +184,7 @@ export default function TreasurySection() {
           value={
             <>
               {treasuryOverview?.count?.tip?.unFinished ?? 0}
-              <ValueTotal>
-                {" "}
-                / {treasuryOverview?.count?.tip?.all ?? 0}
-              </ValueTotal>
+              <Tertiary> / {treasuryOverview?.count?.tip?.all ?? 0}</Tertiary>
             </>
           }
         />
@@ -203,10 +194,10 @@ export default function TreasurySection() {
           value={
             <>
               {treasuryOverview?.count?.bounty?.unFinished ?? 0}
-              <ValueTotal>
+              <Tertiary>
                 {" "}
                 / {treasuryOverview?.count?.bounty?.all ?? 0}
-              </ValueTotal>
+              </Tertiary>
             </>
           }
         />
