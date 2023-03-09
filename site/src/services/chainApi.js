@@ -35,3 +35,9 @@ export function getChainApi(chain, queryUrl) {
   }
   return apiInstanceMap.get(url);
 }
+
+export const estimateBlocksTime = async (chain, blocks) => {
+  const api = await getChainApi(chain);
+  const nsPerBlock = api.consts.babe.expectedBlockTime.toNumber();
+  return nsPerBlock * blocks;
+};
