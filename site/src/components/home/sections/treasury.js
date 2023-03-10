@@ -5,12 +5,19 @@ import styled from "styled-components";
 import api from "../../../services/api";
 import { estimateBlocksTime } from "../../../services/chainApi";
 import { dotreasuryOverviewApi } from "../../../services/urls";
-import { text_quaternary, text_tertiary } from "../../../styles/tailwindcss";
+import {
+  no_underline,
+  text_primary,
+  text_quaternary,
+  text_tertiary,
+  underline,
+} from "../../../styles/tailwindcss";
 import { Inter_12_700 } from "../../../styles/text";
 import { TREASURY_ACCOUNT } from "../../../utils/constants";
 import useChain from "../../../utils/hooks/chain/useChain";
 import { useChainApi } from "../../../utils/hooks/chain/useChainApi";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import ExternalLink from "../../externalLink";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BountiesSquareIcon from "../../icons/bountiesSquareIcon";
 import NextBurnSquareIcon from "../../icons/nextBurnSquareIcon";
@@ -25,6 +32,16 @@ import { OverviewItemsWrapper, OverviewPanel } from "../overview/styled";
 
 const Tertiary = styled.span`
   ${text_tertiary};
+
+  a {
+    color: inherit;
+    ${no_underline};
+
+    &:hover {
+      ${underline};
+      ${text_primary};
+    }
+  }
 `;
 const SpendPeriodSlash = styled.span`
   ${text_quaternary};
@@ -40,7 +57,7 @@ export default function TreasurySection() {
 
   const chain = useChain();
   const chainApi = useChainApi();
-  const { decimals: precision, symbol } = useChainSettings();
+  const { decimals: precision, symbol, treasuryWebsite } = useChainSettings();
 
   const toBeAwarded = BigNumber(
     treasuryOverview?.toBeAwarded?.total ?? 0,
@@ -160,7 +177,10 @@ export default function TreasurySection() {
               {treasuryOverview?.count?.referenda?.unFinished ?? 0}
               <Tertiary>
                 {" "}
-                / {treasuryOverview?.count?.referenda?.all ?? 0}
+                /{" "}
+                <ExternalLink href={`${treasuryWebsite}/referenda`}>
+                  {treasuryOverview?.count?.referenda?.all ?? 0}
+                </ExternalLink>
               </Tertiary>
             </>
           }
@@ -173,7 +193,10 @@ export default function TreasurySection() {
               {treasuryOverview?.count?.proposal?.unFinished ?? 0}
               <Tertiary>
                 {" "}
-                / {treasuryOverview?.count?.proposal?.all ?? 0 ?? 0}
+                /{" "}
+                <ExternalLink href={`${treasuryWebsite}/proposals`}>
+                  {treasuryOverview?.count?.proposal?.all ?? 0 ?? 0}
+                </ExternalLink>
               </Tertiary>
             </>
           }
@@ -184,7 +207,13 @@ export default function TreasurySection() {
           value={
             <>
               {treasuryOverview?.count?.tip?.unFinished ?? 0}
-              <Tertiary> / {treasuryOverview?.count?.tip?.all ?? 0}</Tertiary>
+              <Tertiary>
+                {" "}
+                /{" "}
+                <ExternalLink href={`${treasuryWebsite}/tips`}>
+                  {treasuryOverview?.count?.tip?.all ?? 0}
+                </ExternalLink>
+              </Tertiary>
             </>
           }
         />
@@ -196,7 +225,10 @@ export default function TreasurySection() {
               {treasuryOverview?.count?.bounty?.unFinished ?? 0}
               <Tertiary>
                 {" "}
-                / {treasuryOverview?.count?.bounty?.all ?? 0}
+                /{" "}
+                <ExternalLink href={`${treasuryWebsite}/bounties`}>
+                  {treasuryOverview?.count?.bounty?.all ?? 0}
+                </ExternalLink>
               </Tertiary>
             </>
           }
