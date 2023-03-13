@@ -21,7 +21,7 @@ const litmus = {
   modules: {
     ...governanceModules,
   },
-  subSquareWebsite: "https://litmus.subsquare.io/",
+  subSquareWebsite: "https://litmus.subsquare.io",
 };
 
 export default litmus;

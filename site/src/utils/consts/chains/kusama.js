@@ -18,7 +18,7 @@ const kusama = {
     ...governanceModules,
   },
   treasuryWebsite: "https://www.dotreasury.com/ksm",
-  subSquareWebsite: "https://kusama.subsquare.io/",
+  subSquareWebsite: "https://kusama.subsquare.io",
 };
 
 export default kusama;

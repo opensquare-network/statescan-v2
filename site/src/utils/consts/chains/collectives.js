@@ -19,7 +19,7 @@ const collectives = {
   modules: {
     ...governanceModules,
   },
-  subSquareWebsite: "https://collectives.subsquare.io/",
+  subSquareWebsite: "https://collectives.subsquare.io",
 };
 
 export default collectives;

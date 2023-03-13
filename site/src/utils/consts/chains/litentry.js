@@ -21,7 +21,7 @@ const litentry = {
   modules: {
     ...governanceModules,
   },
-  subSquareWebsite: "https://litentry.subsquare.io/",
+  subSquareWebsite: "https://litentry.subsquare.io",
 };
 
 export default litentry;

@@ -19,7 +19,7 @@ const westendCollectives = {
   modules: {
     ...governanceModules,
   },
-  subSquareWebsite: "https://westend-collectives.subsquare.io/",
+  subSquareWebsite: "https://westend-collectives.subsquare.io",
 };
 
 export default westendCollectives;
