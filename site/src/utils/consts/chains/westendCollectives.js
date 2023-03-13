@@ -1,5 +1,4 @@
 import WestendCollectivesIcon from "../../../components/icons/westendCollectivesIcon";
-import { governanceModules } from "./modules";
 
 const westendCollectives = {
   name: "Collectives",
@@ -16,10 +15,6 @@ const westendCollectives = {
     relay: "Westend",
     id: "1001",
   },
-  modules: {
-    ...governanceModules,
-  },
-  subSquareWebsite: "https://westend-collectives.subsquare.io",
 };
 
 export default westendCollectives;

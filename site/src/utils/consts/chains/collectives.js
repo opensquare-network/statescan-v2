@@ -1,5 +1,4 @@
 import PolkadotCollectivesIcon from "../../../components/icons/polkadotCollectivesIcon";
-import { governanceModules } from "./modules";
 
 const collectives = {
   name: "Collectives",
@@ -16,10 +15,6 @@ const collectives = {
     relay: "Polkadot",
     id: "1001",
   },
-  modules: {
-    ...governanceModules,
-  },
-  subSquareWebsite: "https://collectives.subsquare.io",
 };
 
 export default collectives;
