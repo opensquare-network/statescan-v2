@@ -3,8 +3,8 @@ import { ReactComponent as MotionsSquare } from "./motions-square.svg";
 
 const MotionsSquareIcon = styled(MotionsSquare)`
   path {
-    stroke: ${({ theme }) => theme.fontTertiary};
-    stroke-opacity: 1;
+    fill: ${({ theme }) => theme.fontTertiary};
+    fill-opacity: 1;
   }
 
   linearGradient {

@@ -3,8 +3,8 @@ import { ReactComponent as FellowshipSquare } from "./fellowship-square.svg";
 
 const FellowshipSquareIcon = styled(FellowshipSquare)`
   path {
-    stroke: ${({ theme }) => theme.fontTertiary};
-    stroke-opacity: 1;
+    fill: ${({ theme }) => theme.fontTertiary};
+    fill-opacity: 1;
   }
 
   linearGradient {
