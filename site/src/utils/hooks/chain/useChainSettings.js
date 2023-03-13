@@ -3,5 +3,16 @@ import chains from "../../consts/chains";
 
 export default function useChainSettings() {
   const chain = getEnvChain();
-  return chains[chain];
+
+  /**
+   * @type {typeof chains.kusama}
+   */
+  const chainData = chains[chain];
+
+  const data = {
+    ...chainData,
+    subsquareWebsite: `https://${chainData}.subsquare.io`
+  }
+
+  return data
 }
