@@ -9,10 +9,5 @@ export default function useChainSettings() {
    */
   const chainData = chains[chain];
 
-  const data = {
-    ...chainData,
-    subSquareWebsite: `https://${chainData.chain}.subsquare.io`,
-  };
-
-  return data;
+  return chainData;
 }
