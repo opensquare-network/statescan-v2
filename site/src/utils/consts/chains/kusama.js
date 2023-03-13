@@ -1,5 +1,5 @@
 import KusamaIcon from "../../../components/icons/kusamaIcon";
-import { treasuryModules } from "./modules";
+import { governanceModules, treasuryModules } from "./modules";
 
 const kusama = {
   name: "Kusama",
@@ -15,8 +15,10 @@ const kusama = {
   buttonColor: "#000000",
   modules: {
     ...treasuryModules,
+    ...governanceModules,
   },
   treasuryWebsite: "https://www.dotreasury.com/ksm",
+  subSquareWebsite: "https://kusama.subsquare.io/",
 };
 
 export default kusama;

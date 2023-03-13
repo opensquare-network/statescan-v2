@@ -1,4 +1,5 @@
 import { ReactComponent as Litentry } from "../../../components/icons/litentry.svg";
+import { governanceModules } from "./modules";
 
 const litentry = {
   name: "Litentry",
@@ -17,6 +18,10 @@ const litentry = {
     relay: "Polkadot",
     id: "2013",
   },
+  modules: {
+    ...governanceModules,
+  },
+  subSquareWebsite: "https://litentry.subsquare.io/",
 };
 
 export default litentry;
