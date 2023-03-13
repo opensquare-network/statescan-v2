@@ -11,7 +11,7 @@ export default function useChainSettings() {
 
   const data = {
     ...chainData,
-    subsquareWebsite: `https://${chainData}.subsquare.io`,
+    subSquareWebsite: `https://${chainData}.subsquare.io`,
   };
 
   return data;
