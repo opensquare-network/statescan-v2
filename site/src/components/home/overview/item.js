@@ -1,19 +1,21 @@
 import styled from "styled-components";
 import { Inter_12_500, Inter_18_700 } from "../../../styles/text";
-import { PC } from "../../styled/responsive";
-import { Flex } from "../../styled/flex";
 import ThemedLink from "../../styled/link";
 import TooltipOrigin from "../../tooltip";
 import CircledInfoIcon from "../../icons/circledInfoIcon";
-import { flex } from "../../../styles/tailwindcss";
+import { flex, hidden } from "../../../styles/tailwindcss";
+import { breakpoint } from "../../../styles/responsive";
 
 const Tooltip = styled(TooltipOrigin)`
   display: inline-flex;
   margin-left: 4px;
 `;
 
-const IconWrapper = styled(Flex)`
+const IconWrapper = styled.div`
+  ${flex};
   margin-right: 16px;
+
+  ${breakpoint(640, hidden)};
 `;
 
 const ContentLabel = styled.div`
@@ -58,9 +60,7 @@ export default function OverviewItem({ icon, label, value, total, to, tip }) {
 
   return (
     <Wrapper>
-      <PC>
-        <IconWrapper>{icon}</IconWrapper>
-      </PC>
+      <IconWrapper>{icon}</IconWrapper>
 
       <ContentWrapper>
         <ContentLabel>

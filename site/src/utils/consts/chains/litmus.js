@@ -1,4 +1,5 @@
 import { ReactComponent as Litmus } from "../../../components/icons/litmus.svg";
+import { governanceModules } from "./modules";
 
 const litmus = {
   name: "Litmus",
@@ -17,6 +18,10 @@ const litmus = {
     relay: "Kusama",
     id: "2106",
   },
+  modules: {
+    ...governanceModules,
+  },
+  subSquareWebsite: "https://litmus.subsquare.io",
 };
 
 export default litmus;

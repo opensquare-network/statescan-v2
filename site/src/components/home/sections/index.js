@@ -34,6 +34,7 @@ import { assetListLoadingSelector } from "../../../store/reducers/assetSlice";
 import { nftListLoadingSelector } from "../../../store/reducers/nftSlice";
 import ExternalLink from "../../externalLink";
 import TreasurySection from "./treasury";
+import GovernanceSection from "./governance";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -113,7 +114,7 @@ export default function Sections() {
   const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
   const assetsListLoading = useSelector(assetListLoadingSelector);
   const nftListLoading = useSelector(nftListLoadingSelector);
-  const { modules, treasuryWebsite } = useChainSettings();
+  const { modules, treasuryWebsite, subSquareWebsite } = useChainSettings();
 
   return (
     <FlexColumn gap={16}>
@@ -145,6 +146,21 @@ export default function Sections() {
           </StyledPanel>
         </Section>
       </SectionsWrapper>
+
+      {modules.governance && (
+        <Section>
+          <Title>Governance</Title>
+          <StyledPanelTableWrapper>
+            <GovernanceSection />
+            <AnchorWrapper>
+              <div>
+                <span>View on</span>{" "}
+                <ExternalLink href={subSquareWebsite}>SubSquare</ExternalLink>
+              </div>
+            </AnchorWrapper>
+          </StyledPanelTableWrapper>
+        </Section>
+      )}
 
       {modules?.treasury && (
         <Section>
