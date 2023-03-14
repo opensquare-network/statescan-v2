@@ -5,7 +5,9 @@ import styled from "styled-components";
 import api from "../../../services/api";
 import { estimateBlocksTime } from "../../../services/chainApi";
 import { dotreasuryOverviewApi } from "../../../services/urls";
+import { breakpoint, lgcss } from "../../../styles/responsive";
 import {
+  grid_cols,
   no_underline,
   text_primary,
   text_quaternary,
@@ -28,7 +30,16 @@ import TipsSquareIcon from "../../icons/tipsSquareIcon";
 import ToBeAwardedSquareIcon from "../../icons/toBeAwardedSquareIcon";
 import TimePeriod from "../../timePeriod";
 import OverviewItem from "../overview/item";
-import { OverviewItemsWrapper, OverviewPanel } from "../overview/styled";
+import {
+  OverviewPanel,
+  OverviewItemsWrapper as OverviewItemsWrapperOrigin,
+} from "../overview/styled";
+
+const OverviewItemsWrapper = styled(OverviewItemsWrapperOrigin)`
+  ${lgcss(grid_cols(4))};
+  ${breakpoint(1294, grid_cols(3))};
+  ${breakpoint(981, grid_cols(2))};
+`;
 
 const Tertiary = styled.span`
   ${text_tertiary};

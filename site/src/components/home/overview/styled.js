@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mobilecss, lgcss, smcss } from "../../../styles/responsive";
+import { mobilecss, smcss } from "../../../styles/responsive";
 import { Flex } from "../../styled/flex";
 import { block, gap_x, gap_y, grid_cols } from "../../../styles/tailwindcss";
 
@@ -18,7 +18,6 @@ export const OverviewItemsWrapper = styled.div`
   ${gap_y(24)};
   ${grid_cols(4)};
 
-  ${lgcss(grid_cols(3))}
-
+  ${mobilecss(grid_cols(2))};
   ${smcss(grid_cols(2))}
 `;
