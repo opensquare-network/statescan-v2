@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import api from "../../../services/api";
 import { subSquareSummaryApi } from "../../../services/urls";
-import { lgcss, mobilecss } from "../../../styles/responsive";
 import {
   flex,
   flex_col,
   gap_y,
-  grid_cols,
   m,
   m_b,
   no_underline,
@@ -26,15 +24,7 @@ import MotionsSquareIcon from "../../icons/motionsSquareIcon";
 import ProposalsSquareIcon from "../../icons/proposalsSquareIcon";
 import ReferendaSquareIcon from "../../icons/referendaSquareIcon";
 import OverviewItem from "../overview/item";
-import {
-  OverviewPanel,
-  OverviewItemsWrapper as OverviewItemsWrapperOrigin,
-} from "../overview/styled";
-
-const OverviewItemsWrapper = styled(OverviewItemsWrapperOrigin)`
-  ${lgcss(grid_cols(4))};
-  ${mobilecss(grid_cols(2))};
-`;
+import { OverviewPanel, OverviewItemsWrapper } from "../overview/styled";
 
 const CategoryWrapper = styled.div`
   ${flex};
