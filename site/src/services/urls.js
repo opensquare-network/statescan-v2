@@ -43,3 +43,12 @@ const dotreasuryApiEndPoint =
   "https://api.dotreasury.com";
 export const dotreasuryOverviewApi = (chain) =>
   `${dotreasuryApiEndPoint}/${chain}/overview`;
+
+// subsquare
+const subsquareApiEndPoint =
+  process.env.REACT_APP_PUBLIC_SUBSQUARE_API_END_POINT ||
+  "https://{chain}.subsquare.io/api";
+export const subSquareSummaryApi = (chain) => {
+  const endpoint = subsquareApiEndPoint.replace("{chain}", chain);
+  return `${endpoint}/summary`;
+};
