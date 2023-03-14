@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import api from "../../../services/api";
 import { subSquareSummaryApi } from "../../../services/urls";
-import { lgcss, smcss } from "../../../styles/responsive";
+import { lgcss, mobilecss } from "../../../styles/responsive";
 import {
   flex,
   flex_col,
@@ -33,7 +33,7 @@ import {
 
 const OverviewItemsWrapper = styled(OverviewItemsWrapperOrigin)`
   ${lgcss(grid_cols(4))};
-  ${smcss(grid_cols(2))};
+  ${mobilecss(grid_cols(2))};
 `;
 
 const CategoryWrapper = styled.div`
