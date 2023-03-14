@@ -15,7 +15,7 @@ const IconWrapper = styled.div`
   ${flex};
   margin-right: 16px;
 
-  ${breakpoint(648, hidden)};
+  ${breakpoint(640, hidden)};
 `;
 
 const ContentLabel = styled.div`
