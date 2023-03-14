@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import api from "../../../services/api";
+import { subSquareSummaryApi } from "../../../services/urls";
 import { lgcss, smcss } from "../../../styles/responsive";
 import {
   flex,
@@ -13,6 +16,7 @@ import {
   underline,
 } from "../../../styles/tailwindcss";
 import { Inter_14_600 } from "../../../styles/text";
+import useChain from "../../../utils/hooks/chain/useChain";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import ExternalLink from "../../externalLink";
 import FellowshipSquareIcon from "../../icons/fellowshipSquareIcon";
@@ -60,6 +64,15 @@ const Tertiary = styled.span`
 
 export default function GovernanceSection() {
   const { subSquareWebsite } = useChainSettings();
+  const chain = useChain();
+
+  const [summary, setSummary] = useState({});
+
+  useEffect(() => {
+    api.fetch(subSquareSummaryApi(chain)).then(({ result }) => {
+      setSummary(result);
+    });
+  }, [chain]);
 
   return (
     <OverviewPanel>
@@ -71,11 +84,11 @@ export default function GovernanceSection() {
             label="Referenda"
             value={
               <span>
-                3{" "}
+                {summary?.gov2Referenda?.active || 0}{" "}
                 <Tertiary>
                   /{" "}
                   <ExternalLink href={`${subSquareWebsite}/referenda`}>
-                    16
+                    {summary?.gov2Referenda?.all || 0}
                   </ExternalLink>
                 </Tertiary>
               </span>
@@ -86,11 +99,11 @@ export default function GovernanceSection() {
             label="Fellowship"
             value={
               <span>
-                3{" "}
+                {summary?.fellowshipReferenda?.active || 0}{" "}
                 <Tertiary>
                   /{" "}
                   <ExternalLink href={`${subSquareWebsite}/fellowship`}>
-                    16
+                    {summary?.fellowshipReferenda?.all || 0}
                   </ExternalLink>
                 </Tertiary>
               </span>
@@ -105,13 +118,13 @@ export default function GovernanceSection() {
             label="Referenda"
             value={
               <span>
-                3{" "}
+                {summary?.referenda?.active || 0}{" "}
                 <Tertiary>
                   /{" "}
                   <ExternalLink
                     href={`${subSquareWebsite}/democracy/referenda`}
                   >
-                    16
+                    {summary?.referenda?.all || 0}
                   </ExternalLink>
                 </Tertiary>
               </span>
@@ -122,13 +135,13 @@ export default function GovernanceSection() {
             label="Proposals"
             value={
               <span>
-                3{" "}
+                {summary?.publicProposals?.active || 0}{" "}
                 <Tertiary>
                   /{" "}
                   <ExternalLink
                     href={`${subSquareWebsite}/democracy/proposals`}
                   >
-                    16
+                    {summary?.publicProposals?.all || 0}
                   </ExternalLink>
                 </Tertiary>
               </span>
@@ -139,13 +152,13 @@ export default function GovernanceSection() {
             label="External Proposals"
             value={
               <span>
-                3{" "}
+                {summary?.externalProposals?.active || 0}{" "}
                 <Tertiary>
                   /{" "}
                   <ExternalLink
                     href={`${subSquareWebsite}/democracy/externals`}
                   >
-                    16
+                    {summary?.externalProposals?.all || 0}
                   </ExternalLink>
                 </Tertiary>
               </span>
@@ -160,11 +173,11 @@ export default function GovernanceSection() {
             label="Motions"
             value={
               <span>
-                3{" "}
+                {summary?.motions?.active || 0}{" "}
                 <Tertiary>
                   /{" "}
                   <ExternalLink href={`${subSquareWebsite}/council/motions`}>
-                    16
+                    {summary?.motions?.all || 0}
                   </ExternalLink>
                 </Tertiary>
               </span>
@@ -194,11 +207,11 @@ export default function GovernanceSection() {
             label="Proposals"
             value={
               <span>
-                3{" "}
+                {summary?.techCommMotions?.active || 0}{" "}
                 <Tertiary>
                   /{" "}
                   <ExternalLink href={`${subSquareWebsite}/techcomm/proposals`}>
-                    16
+                    {summary?.techCommMotions?.all || 0}
                   </ExternalLink>
                 </Tertiary>
               </span>
