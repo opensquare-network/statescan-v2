@@ -35,6 +35,10 @@ export const menusBlockchain = [
     value: "calls",
   },
   {
+    name: "Runtimes",
+    value: "runtimes",
+  },
+  {
     type: "divider",
   },
   {
