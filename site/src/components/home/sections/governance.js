@@ -17,6 +17,7 @@ import {
 } from "../../../styles/tailwindcss";
 import { Inter_14_600 } from "../../../styles/text";
 import useChain from "../../../utils/hooks/chain/useChain";
+import { useChainApi } from "../../../utils/hooks/chain/useChainApi";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import ExternalLink from "../../externalLink";
 import FellowshipSquareIcon from "../../icons/fellowshipSquareIcon";
@@ -62,17 +63,36 @@ const Tertiary = styled.span`
   }
 `;
 
+const MembersValue = styled(Tertiary)`
+  ${text_primary};
+`;
+
 export default function GovernanceSection() {
   const { subSquareWebsite } = useChainSettings();
   const chain = useChain();
+  const chainApi = useChainApi();
 
   const [summary, setSummary] = useState({});
+  const [councilMembers, setCouncilMembrs] = useState([]);
+  const [techCommMembers, setTechCommMembers] = useState([]);
 
   useEffect(() => {
     api.fetch(subSquareSummaryApi(chain)).then(({ result }) => {
       setSummary(result);
     });
   }, [chain]);
+
+  useEffect(() => {
+    if (!chainApi) {
+      return;
+    }
+
+    const electionsInfo = chainApi?.derive?.elections?.info?.();
+    electionsInfo.then((info) => setCouncilMembrs(info.members));
+
+    const tcMembers = chainApi?.derive?.technicalCommittee?.members?.();
+    tcMembers.then(setTechCommMembers);
+  }, [chainApi]);
 
   return (
     <OverviewPanel>
@@ -187,15 +207,11 @@ export default function GovernanceSection() {
             icon={<HolderSquareIcon />}
             label="Members"
             value={
-              <span>
-                3{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink href={`${subSquareWebsite}/council/members`}>
-                    16
-                  </ExternalLink>
-                </Tertiary>
-              </span>
+              <MembersValue>
+                <ExternalLink href={`${subSquareWebsite}/council/members`}>
+                  {councilMembers.length}
+                </ExternalLink>
+              </MembersValue>
             }
           />
         </CategoryWrapper>
@@ -221,15 +237,11 @@ export default function GovernanceSection() {
             icon={<HolderSquareIcon />}
             label="Members"
             value={
-              <span>
-                3{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink href={`${subSquareWebsite}/techcomm/members`}>
-                    16
-                  </ExternalLink>
-                </Tertiary>
-              </span>
+              <MembersValue>
+                <ExternalLink href={`${subSquareWebsite}/techcomm/members`}>
+                  {techCommMembers.length}
+                </ExternalLink>
+              </MembersValue>
             }
           />
         </CategoryWrapper>
