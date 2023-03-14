@@ -5,7 +5,7 @@ import styled from "styled-components";
 import api from "../../../services/api";
 import { estimateBlocksTime } from "../../../services/chainApi";
 import { dotreasuryOverviewApi } from "../../../services/urls";
-import { breakpoint, lgcss } from "../../../styles/responsive";
+import { breakpoint } from "../../../styles/responsive";
 import {
   grid_cols,
   no_underline,
@@ -36,7 +36,6 @@ import {
 } from "../overview/styled";
 
 const OverviewItemsWrapper = styled(OverviewItemsWrapperOrigin)`
-  ${lgcss(grid_cols(4))};
   ${breakpoint(1294, grid_cols(3))};
   ${breakpoint(981, grid_cols(2))};
 `;
