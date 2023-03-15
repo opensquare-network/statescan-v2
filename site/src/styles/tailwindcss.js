@@ -366,6 +366,11 @@ export const whitespace_nowrap = `
   white-space: nowrap;
 `;
 
+// text transform
+export const text_capitalize = `
+  text-transform: capitalize;
+`;
+
 // text overflow
 export const text_ellipsis = `
   text-overflow: ellipsis;
