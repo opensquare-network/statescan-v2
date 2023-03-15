@@ -14,7 +14,7 @@ const SpecName = styled.span`
 export default function RuntimesTable({ data = [], loading }) {
   const tableData = data?.map?.((item) => {
     return [
-      <ColoredLink to={`/runtimes/${item.specVersion}`}>
+      <ColoredLink to={`/runtimes/${item.specVersion}_${item.startHeight}`}>
         {item.specVersion}
       </ColoredLink>,
       <SpecName>{item.specName}</SpecName>,
