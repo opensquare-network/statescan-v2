@@ -62,7 +62,7 @@ function App() {
         <Route path="/calls" element={<Calls />} />
         <Route path="/calls/:id" element={<Call />} />
         <Route path="/runtimes" element={<Runtimes />} />
-        <Route path="/runtime/:version" element={<Runtime />} />
+        <Route path="/runtimes/:version" element={<Runtime />} />
       </Routes>
     </HashRouter>
   );
