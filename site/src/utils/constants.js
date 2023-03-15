@@ -174,6 +174,17 @@ export const callsHead = [
   },
 ];
 
+export const runtimesHead = [
+  { name: "VERSION", width: 120 },
+  { name: "NAME", width: 232 },
+  { name: "START HEIGHT", width: 160 },
+  { name: "PALLETS", width: 160, align: "right" },
+  { name: "CALLS", width: 160, align: "right" },
+  { name: "EVENTS", width: 160, align: "right" },
+  { name: "STORAGES", width: 160, align: "right" },
+  { name: "CONSTANTS", width: 160, align: "right" },
+];
+
 export const transfersHead = [
   { name: "Event ID", width: 160 },
   { name: "Extrinsic ID", width: 160, align: "center" },
