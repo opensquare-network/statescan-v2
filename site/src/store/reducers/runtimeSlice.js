@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services/api";
-import { runtimeListApi } from "../../services/urls";
+import { runtimeDetailApi, runtimeListApi } from "../../services/urls";
 
 const name = "runtime";
 
@@ -48,6 +48,20 @@ export const runtimeFetchList =
 
 export const clearRuntimeList = () => (dispatch) => {
   dispatch(setList(null));
+};
+
+export const runtimeFetchDetail = (version, startHeight) => (dispatch) => {
+  return api
+    .fetch(runtimeDetailApi(version, startHeight))
+    .then(({ result }) => {
+      if (result) {
+        dispatch(setDetail(result));
+      }
+    });
+};
+
+export const clearRuntimeDetail = () => (dispatch) => {
+  dispatch(setDetail(null));
 };
 
 export default runtimeSlice.reducer;
