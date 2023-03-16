@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../components/breadCrumb";
 import DetailLayout from "../components/layout/detailLayout";
+import List from "../components/list";
 import { Panel } from "../components/styled/panel";
 import {
   clearRuntimeDetail,
@@ -13,6 +14,7 @@ import {
   clearHttpError,
   handleApiError,
 } from "../utils/viewFuncs/errorHandles";
+import { toRuntimeDetailItem } from "../utils/viewFuncs/toDetailItem";
 
 export default function Runtime() {
   const { runtimeSlug } = useParams();
@@ -20,6 +22,8 @@ export default function Runtime() {
 
   const dispatch = useDispatch();
   const runtime = useSelector(runtimeDetailSelector);
+
+  const listData = runtime ? toRuntimeDetailItem(runtime) : {};
 
   useEffect(() => {
     if (version && startHeight) {
@@ -39,7 +43,7 @@ export default function Runtime() {
       data={[
         { name: "Runtimes", path: "/runtimes" },
         {
-          name: runtime ? version : "...",
+          name: version,
         },
       ]}
     />
@@ -47,7 +51,9 @@ export default function Runtime() {
 
   return (
     <DetailLayout breadCrumb={breadCrumb}>
-      <Panel></Panel>
+      <Panel>
+        <List data={listData} />
+      </Panel>
     </DetailLayout>
   );
 }
