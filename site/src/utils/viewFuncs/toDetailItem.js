@@ -237,6 +237,20 @@ export const toCallDetailItem = (indexer, section, method) => {
   };
 };
 
+export const toRuntimeDetailItem = (runtime) => {
+  return {
+    Version: (
+      <TextSecondary>{runtime?.runtimeVersion?.specVersion}</TextSecondary>
+    ),
+    ID: <TextSecondary>-</TextSecondary>,
+    "Start Height": (
+      <ColoredInterLink to={`/blocks/${runtime?.height}`}>
+        {runtime?.height?.toLocaleString?.()}
+      </ColoredInterLink>
+    ),
+  };
+};
+
 export const toEventDetailItem = (event) => {
   return {
     "Event Time": <DetailedTime ts={event?.indexer?.blockTime} />,
