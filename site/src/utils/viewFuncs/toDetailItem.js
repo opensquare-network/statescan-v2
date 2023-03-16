@@ -29,6 +29,7 @@ import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
 import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
+import capitalize from "lodash.capitalize";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -248,6 +249,12 @@ export const toRuntimeDetailItem = (runtime) => {
         {runtime?.height?.toLocaleString?.()}
       </ColoredInterLink>
     ),
+    "Spec Name": (
+      <TextSecondary>
+        {capitalize(runtime?.runtimeVersion?.specName)}
+      </TextSecondary>
+    ),
+    Pallets: <TextSecondary>-</TextSecondary>,
   };
 };
 
