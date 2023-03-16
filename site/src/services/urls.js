@@ -39,6 +39,8 @@ export const nftInstanceApi = (classId, instanceId) =>
 
 // runtimes
 export const runtimeListApi = "/runtimes";
+export const runtimeDetailApi = (version, startHeight) =>
+  `/runtimes/${version}_${startHeight}`;
 
 // dotreasury
 const dotreasuryApiEndPoint =
