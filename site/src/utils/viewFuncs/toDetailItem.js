@@ -8,6 +8,7 @@ import { withCopy } from "../../HOC/withCopy";
 import { TextSecondary } from "../../components/styled/text";
 import {
   ColoredInterLink,
+  ColoredInterLinkWithCopy,
   ColoredMonoLink,
 } from "../../components/styled/link";
 import Tooltip from "../../components/tooltip";
@@ -245,9 +246,9 @@ export const toRuntimeDetailItem = (runtime) => {
     ),
     ID: <TextSecondary>-</TextSecondary>,
     "Start Height": (
-      <ColoredInterLink to={`/blocks/${runtime?.height}`}>
+      <ColoredInterLinkWithCopy to={`/blocks/${runtime?.height}`}>
         {runtime?.height?.toLocaleString?.()}
-      </ColoredInterLink>
+      </ColoredInterLinkWithCopy>
     ),
     "Spec Name": (
       <TextSecondary>

@@ -10,6 +10,7 @@ import {
   runtimeDetailSelector,
   runtimeFetchDetail,
 } from "../store/reducers/runtimeSlice";
+import { bigNumberToLocaleString } from "../utils/viewFuncs";
 import {
   clearHttpError,
   handleApiError,
@@ -18,7 +19,7 @@ import { toRuntimeDetailItem } from "../utils/viewFuncs/toDetailItem";
 
 export default function Runtime() {
   const { runtimeSlug } = useParams();
-  const [version, startHeight] = runtimeSlug.split("_");
+  const [version, startHeight] = runtimeSlug.split("-");
 
   const dispatch = useDispatch();
   const runtime = useSelector(runtimeDetailSelector);
@@ -43,7 +44,7 @@ export default function Runtime() {
       data={[
         { name: "Runtimes", path: "/runtimes" },
         {
-          name: version,
+          name: version + "-" + bigNumberToLocaleString(startHeight),
         },
       ]}
     />
