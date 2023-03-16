@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../components/breadCrumb";
+import DetailTabs from "../components/detail/tabs";
 import DetailLayout from "../components/layout/detailLayout";
 import List from "../components/list";
+import RuntimePalletsTable from "../components/runtime/tabTables/palletsTable";
 import { Panel } from "../components/styled/panel";
 import {
   clearRuntimeDetail,
@@ -50,11 +52,21 @@ export default function Runtime() {
     />
   );
 
+  const tabs = [
+    {
+      name: "Pallets",
+      count: runtime?.metadata?.pallets?.length,
+      children: <RuntimePalletsTable pallets={runtime?.metadata?.pallets} />,
+    },
+  ];
+
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
       </Panel>
+
+      <DetailTabs tabs={tabs} />
     </DetailLayout>
   );
 }

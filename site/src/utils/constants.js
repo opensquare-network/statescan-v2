@@ -185,6 +185,24 @@ export const runtimesHead = [
   { name: "CONSTANTS", width: 160, align: "right" },
 ];
 
+/**
+ * page runtime detail tabs
+ */
+export const runtimePalletsHead = [
+  { name: "MODULES", width: 432 },
+  { name: "CALLS", width: 160, align: "right" },
+  { name: "EVENTS", width: 160, align: "right" },
+  { name: "STORAGES", width: 160, align: "right" },
+  { name: "CONSTANTS", width: 160, align: "right" },
+  { name: "ERROR TYPES", width: 160, align: "right" },
+  {
+    name: "Data",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
+];
+
 export const transfersHead = [
   { name: "Event ID", width: 160 },
   { name: "Extrinsic ID", width: 160, align: "center" },
