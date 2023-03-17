@@ -1,30 +1,30 @@
 import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
-import api from "../../../services/api";
-import { subSquareSummaryApi } from "../../../services/urls";
+import api from "../../../../services/api";
+import { subSquareSummaryApi } from "../../../../services/urls";
 import {
   flex,
   flex_col,
   gap_y,
   m,
   m_b,
-  no_underline,
   text_primary,
-  text_tertiary,
-  underline,
-} from "../../../styles/tailwindcss";
-import { Inter_14_600 } from "../../../styles/text";
-import useChain from "../../../utils/hooks/chain/useChain";
-import { useChainApi } from "../../../utils/hooks/chain/useChainApi";
-import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
-import ExternalLink from "../../externalLink";
-import FellowshipSquareIcon from "../../icons/fellowshipSquareIcon";
-import HolderSquareIcon from "../../icons/holderSquareIcon";
-import MotionsSquareIcon from "../../icons/motionsSquareIcon";
-import ProposalsSquareIcon from "../../icons/proposalsSquareIcon";
-import ReferendaSquareIcon from "../../icons/referendaSquareIcon";
-import OverviewItem from "../overview/item";
-import { OverviewPanel, OverviewItemsWrapper } from "../overview/styled";
+} from "../../../../styles/tailwindcss";
+import { Inter_14_600 } from "../../../../styles/text";
+import useChain from "../../../../utils/hooks/chain/useChain";
+import { useChainApi } from "../../../../utils/hooks/chain/useChainApi";
+import useChainSettings from "../../../../utils/hooks/chain/useChainSettings";
+import ExternalLink from "../../../externalLink";
+import FellowshipSquareIcon from "../../../icons/fellowshipSquareIcon";
+import HolderSquareIcon from "../../../icons/holderSquareIcon";
+import MotionsSquareIcon from "../../../icons/motionsSquareIcon";
+import ProposalsSquareIcon from "../../../icons/proposalsSquareIcon";
+import ReferendaSquareIcon from "../../../icons/referendaSquareIcon";
+import OverviewItem from "../../overview/item";
+import { OverviewItemsWrapper, OverviewPanel } from "../../overview/styled";
+import { Tertiary } from "./styled";
+import ValueWithAll from "./valueWithAll";
+import BountiesSquareIcon from "../../../icons/bountiesSquareIcon";
 
 const CategoryWrapper = styled.div`
   ${flex};
@@ -37,20 +37,6 @@ const CategoryTitle = styled.h4`
   ${text_primary};
   ${m(0)};
   ${m_b(8)};
-`;
-
-const Tertiary = styled.span`
-  ${text_tertiary};
-
-  a {
-    color: inherit;
-    ${no_underline};
-
-    &:hover {
-      ${underline};
-      ${text_primary};
-    }
-  }
 `;
 
 const MembersValue = styled(Tertiary)`
@@ -71,7 +57,7 @@ function withChildKeys(childs = []) {
 }
 
 export default function GovernanceSection() {
-  const { subSquareWebsite } = useChainSettings();
+  const { subSquareWebsite, modules } = useChainSettings();
   const chain = useChain();
   const chainApi = useChainApi();
 
@@ -108,15 +94,11 @@ export default function GovernanceSection() {
           icon={<ReferendaSquareIcon />}
           label="Referenda"
           value={
-            <span>
-              {summary?.gov2Referenda?.active || 0}{" "}
-              <Tertiary>
-                /{" "}
-                <ExternalLink href={`${subSquareWebsite}/referenda`}>
-                  {summary?.gov2Referenda?.all || 0}
-                </ExternalLink>
-              </Tertiary>
-            </span>
+            <ValueWithAll
+              active={summary?.gov2Referenda?.active}
+              all={summary?.gov2Referenda?.all}
+              link="referenda"
+            />
           }
         />,
       );
@@ -128,15 +110,11 @@ export default function GovernanceSection() {
           icon={<FellowshipSquareIcon />}
           label="Fellowship"
           value={
-            <span>
-              {summary?.fellowshipReferenda?.active || 0}{" "}
-              <Tertiary>
-                /{" "}
-                <ExternalLink href={`${subSquareWebsite}/fellowship`}>
-                  {summary?.fellowshipReferenda?.all || 0}
-                </ExternalLink>
-              </Tertiary>
-            </span>
+            <ValueWithAll
+              active={summary?.fellowshipReferenda?.active}
+              all={summary?.fellowshipReferenda?.all}
+              link="fellowship"
+            />
           }
         />,
       );
@@ -159,15 +137,11 @@ export default function GovernanceSection() {
           icon={<ReferendaSquareIcon />}
           label="Referenda"
           value={
-            <span>
-              {summary?.referenda?.active || 0}{" "}
-              <Tertiary>
-                /{" "}
-                <ExternalLink href={`${subSquareWebsite}/democracy/referenda`}>
-                  {summary?.referenda?.all || 0}
-                </ExternalLink>
-              </Tertiary>
-            </span>
+            <ValueWithAll
+              active={summary?.referenda?.active}
+              all={summary?.referenda?.all}
+              link="democracy/referenda"
+            />
           }
         />,
       );
@@ -179,15 +153,11 @@ export default function GovernanceSection() {
           icon={<ProposalsSquareIcon />}
           label="Proposals"
           value={
-            <span>
-              {summary?.publicProposals?.active || 0}{" "}
-              <Tertiary>
-                /{" "}
-                <ExternalLink href={`${subSquareWebsite}/democracy/proposals`}>
-                  {summary?.publicProposals?.all || 0}
-                </ExternalLink>
-              </Tertiary>
-            </span>
+            <ValueWithAll
+              active={summary?.publicProposals?.active}
+              all={summary?.publicProposals?.all}
+              link="democracy/proposals"
+            />
           }
         />,
       );
@@ -199,15 +169,11 @@ export default function GovernanceSection() {
           icon={<ProposalsSquareIcon />}
           label="External Proposals"
           value={
-            <span>
-              {summary?.externalProposals?.active || 0}{" "}
-              <Tertiary>
-                /{" "}
-                <ExternalLink href={`${subSquareWebsite}/democracy/externals`}>
-                  {summary?.externalProposals?.all || 0}
-                </ExternalLink>
-              </Tertiary>
-            </span>
+            <ValueWithAll
+              active={summary?.externalProposals?.active}
+              all={summary?.externalProposals?.all}
+              link="democracy/externals"
+            />
           }
         />,
       );
@@ -221,6 +187,51 @@ export default function GovernanceSection() {
     );
   }
 
+  if (
+    has(summary, ["treasuryProposals", "bounties", "childBounties"]) &&
+    !modules.treasury
+  ) {
+    const treasuryItems = [];
+    if (modules.governance?.treasury?.proposal) {
+      treasuryItems.push(
+        <OverviewItem
+          icon={<ProposalsSquareIcon />}
+          label="Proposals"
+          value={
+            <ValueWithAll
+              active={summary?.treasuryProposals?.active}
+              all={summary?.treasuryProposals?.all}
+              link="treasury/proposals"
+            />
+          }
+        />,
+      );
+    }
+
+    if (modules.governance?.treasury?.bounties) {
+      treasuryItems.push(
+        <OverviewItem
+          icon={<BountiesSquareIcon />}
+          label="Bounties"
+          value={
+            <ValueWithAll
+              active={summary?.bounties?.active}
+              all={summary?.bounties?.all}
+              link="treasury/bounties"
+            />
+          }
+        />,
+      );
+    }
+
+    overviewItems.push(
+      <CategoryWrapper>
+        <CategoryTitle>Treasury</CategoryTitle>
+        {withChildKeys(treasuryItems)}
+      </CategoryWrapper>,
+    );
+  }
+
   if (has(summary, ["motions"])) {
     const councilItems = [];
 
@@ -230,15 +241,11 @@ export default function GovernanceSection() {
           icon={<MotionsSquareIcon />}
           label="Motions"
           value={
-            <span>
-              {summary?.motions?.active || 0}{" "}
-              <Tertiary>
-                /{" "}
-                <ExternalLink href={`${subSquareWebsite}/council/motions`}>
-                  {summary?.motions?.all || 0}
-                </ExternalLink>
-              </Tertiary>
-            </span>
+            <ValueWithAll
+              active={summary?.motions?.active}
+              all={summary?.motions?.all}
+              link="council/motions"
+            />
           }
         />,
       );
@@ -275,15 +282,11 @@ export default function GovernanceSection() {
           icon={<ProposalsSquareIcon />}
           label="Proposals"
           value={
-            <span>
-              {summary?.techCommMotions?.active || 0}{" "}
-              <Tertiary>
-                /{" "}
-                <ExternalLink href={`${subSquareWebsite}/techcomm/proposals`}>
-                  {summary?.techCommMotions?.all || 0}
-                </ExternalLink>
-              </Tertiary>
-            </span>
+            <ValueWithAll
+              active={summary?.techCommMotions?.active}
+              all={summary?.techCommMotions?.all}
+              link="techcomm/motions"
+            />
           }
         />,
       );
