@@ -20,6 +20,12 @@ const litentry = {
   },
   modules: {
     ...governanceModules,
+    governance: {
+      treasury: {
+        proposal: true,
+        bounties: true,
+      },
+    },
   },
   subSquareWebsite: "https://litentry.subsquare.io",
 };

@@ -7,7 +7,5 @@ export default function useChainSettings() {
   /**
    * @type {typeof chains.kusama}
    */
-  const chainData = chains[chain];
-
-  return chainData;
+  return chains[chain];
 }
