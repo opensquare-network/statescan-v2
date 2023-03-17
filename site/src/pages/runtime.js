@@ -12,6 +12,10 @@ import {
   runtimeDetailSelector,
   runtimeFetchDetail,
 } from "../store/reducers/runtimeSlice";
+import {
+  transformLookupTypesDict,
+  transformTypedPallets,
+} from "../utils/runtime";
 import { bigNumberToLocaleString } from "../utils/viewFuncs";
 import {
   clearHttpError,
@@ -25,8 +29,11 @@ export default function Runtime() {
 
   const dispatch = useDispatch();
   const runtime = useSelector(runtimeDetailSelector);
+  const dict = transformLookupTypesDict(runtime?.metadata?.lookup?.types);
 
   const listData = runtime ? toRuntimeDetailItem(runtime) : {};
+
+  const typedPallets = transformTypedPallets(runtime?.metadata?.pallets, dict);
 
   useEffect(() => {
     if (version && startHeight) {
@@ -56,7 +63,7 @@ export default function Runtime() {
     {
       name: "Pallets",
       count: runtime?.metadata?.pallets?.length,
-      children: <RuntimePalletsTable pallets={runtime?.metadata?.pallets} />,
+      children: <RuntimePalletsTable pallets={typedPallets} />,
     },
   ];
 
