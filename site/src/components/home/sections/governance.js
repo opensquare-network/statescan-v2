@@ -76,7 +76,7 @@ export default function GovernanceSection() {
   const chainApi = useChainApi();
 
   const [summary, setSummary] = useState({});
-  const [councilMembers, setCouncilMembrs] = useState([]);
+  const [councilMembers, setCouncilMembers] = useState([]);
   const [techCommMembers, setTechCommMembers] = useState([]);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export default function GovernanceSection() {
     }
 
     const electionsInfo = chainApi?.derive?.elections?.info?.();
-    electionsInfo.then((info) => setCouncilMembrs(info.members));
+    electionsInfo.then((info) => setCouncilMembers(info.members));
 
     const tcMembers = chainApi?.derive?.technicalCommittee?.members?.();
     tcMembers.then(setTechCommMembers);
