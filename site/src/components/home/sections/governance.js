@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 import api from "../../../services/api";
 import { subSquareSummaryApi } from "../../../services/urls";
@@ -57,6 +57,19 @@ const MembersValue = styled(Tertiary)`
   ${text_primary};
 `;
 
+/**
+ * @param {string | string[]} keys
+ */
+function has(obj, keys = []) {
+  keys = Array.isArray(keys) ? keys : [keys];
+  return keys.some((k) => !!obj[k]);
+}
+
+/** quick resolve childs key */
+function withChildKeys(childs = []) {
+  return childs.map((child, idx) => <Fragment key={idx}>{child}</Fragment>);
+}
+
 export default function GovernanceSection() {
   const { subSquareWebsite } = useChainSettings();
   const chain = useChain();
@@ -84,157 +97,224 @@ export default function GovernanceSection() {
     tcMembers.then(setTechCommMembers);
   }, [chainApi]);
 
+  const overviewItems = [];
+
+  if (has(summary, ["gov2Referenda", "fellowshipReferenda"])) {
+    const gov2Items = [];
+
+    if (summary.gov2Referenda) {
+      gov2Items.push(
+        <OverviewItem
+          icon={<ReferendaSquareIcon />}
+          label="Referenda"
+          value={
+            <span>
+              {summary?.gov2Referenda?.active || 0}{" "}
+              <Tertiary>
+                /{" "}
+                <ExternalLink href={`${subSquareWebsite}/referenda`}>
+                  {summary?.gov2Referenda?.all || 0}
+                </ExternalLink>
+              </Tertiary>
+            </span>
+          }
+        />,
+      );
+    }
+
+    if (summary.fellowshipReferenda) {
+      gov2Items.push(
+        <OverviewItem
+          icon={<FellowshipSquareIcon />}
+          label="Fellowship"
+          value={
+            <span>
+              {summary?.fellowshipReferenda?.active || 0}{" "}
+              <Tertiary>
+                /{" "}
+                <ExternalLink href={`${subSquareWebsite}/fellowship`}>
+                  {summary?.fellowshipReferenda?.all || 0}
+                </ExternalLink>
+              </Tertiary>
+            </span>
+          }
+        />,
+      );
+    }
+
+    overviewItems.push(
+      <CategoryWrapper>
+        <CategoryTitle>OpenGov</CategoryTitle>
+        {withChildKeys(gov2Items)}
+      </CategoryWrapper>,
+    );
+  }
+
+  if (has(summary, ["referenda", "publicProposals", "externalProposals"])) {
+    const democracyItems = [];
+
+    if (summary.referenda) {
+      democracyItems.push(
+        <OverviewItem
+          icon={<ReferendaSquareIcon />}
+          label="Referenda"
+          value={
+            <span>
+              {summary?.referenda?.active || 0}{" "}
+              <Tertiary>
+                /{" "}
+                <ExternalLink href={`${subSquareWebsite}/democracy/referenda`}>
+                  {summary?.referenda?.all || 0}
+                </ExternalLink>
+              </Tertiary>
+            </span>
+          }
+        />,
+      );
+    }
+
+    if (summary.publicProposals) {
+      democracyItems.push(
+        <OverviewItem
+          icon={<ProposalsSquareIcon />}
+          label="Proposals"
+          value={
+            <span>
+              {summary?.publicProposals?.active || 0}{" "}
+              <Tertiary>
+                /{" "}
+                <ExternalLink href={`${subSquareWebsite}/democracy/proposals`}>
+                  {summary?.publicProposals?.all || 0}
+                </ExternalLink>
+              </Tertiary>
+            </span>
+          }
+        />,
+      );
+    }
+
+    if (summary.externalProposals) {
+      democracyItems.push(
+        <OverviewItem
+          icon={<ProposalsSquareIcon />}
+          label="External Proposals"
+          value={
+            <span>
+              {summary?.externalProposals?.active || 0}{" "}
+              <Tertiary>
+                /{" "}
+                <ExternalLink href={`${subSquareWebsite}/democracy/externals`}>
+                  {summary?.externalProposals?.all || 0}
+                </ExternalLink>
+              </Tertiary>
+            </span>
+          }
+        />,
+      );
+    }
+
+    overviewItems.push(
+      <CategoryWrapper>
+        <CategoryTitle>Democracy</CategoryTitle>
+        {withChildKeys(democracyItems)}
+      </CategoryWrapper>,
+    );
+  }
+
+  if (has(summary, ["motions"])) {
+    const councilItems = [];
+
+    if (summary.motions) {
+      councilItems.push(
+        <OverviewItem
+          icon={<MotionsSquareIcon />}
+          label="Motions"
+          value={
+            <span>
+              {summary?.motions?.active || 0}{" "}
+              <Tertiary>
+                /{" "}
+                <ExternalLink href={`${subSquareWebsite}/council/motions`}>
+                  {summary?.motions?.all || 0}
+                </ExternalLink>
+              </Tertiary>
+            </span>
+          }
+        />,
+      );
+    }
+
+    councilItems.push(
+      <OverviewItem
+        icon={<HolderSquareIcon />}
+        label="Members"
+        value={
+          <MembersValue>
+            <ExternalLink href={`${subSquareWebsite}/council/members`}>
+              {councilMembers.length}
+            </ExternalLink>
+          </MembersValue>
+        }
+      />,
+    );
+
+    overviewItems.push(
+      <CategoryWrapper>
+        <CategoryTitle>Council</CategoryTitle>
+        {withChildKeys(councilItems)}
+      </CategoryWrapper>,
+    );
+  }
+
+  if (has(summary, ["techCommMotions"])) {
+    const techCommItems = [];
+
+    if (summary.techCommMotions) {
+      techCommItems.push(
+        <OverviewItem
+          icon={<ProposalsSquareIcon />}
+          label="Proposals"
+          value={
+            <span>
+              {summary?.techCommMotions?.active || 0}{" "}
+              <Tertiary>
+                /{" "}
+                <ExternalLink href={`${subSquareWebsite}/techcomm/proposals`}>
+                  {summary?.techCommMotions?.all || 0}
+                </ExternalLink>
+              </Tertiary>
+            </span>
+          }
+        />,
+      );
+    }
+
+    techCommItems.push(
+      <OverviewItem
+        icon={<HolderSquareIcon />}
+        label="Members"
+        value={
+          <MembersValue>
+            <ExternalLink href={`${subSquareWebsite}/techcomm/members`}>
+              {techCommMembers.length}
+            </ExternalLink>
+          </MembersValue>
+        }
+      />,
+    );
+
+    overviewItems.push(
+      <CategoryWrapper>
+        <CategoryTitle>Tech.comm.</CategoryTitle>
+        {withChildKeys(techCommItems)}
+      </CategoryWrapper>,
+    );
+  }
+
   return (
     <OverviewPanel>
       <OverviewItemsWrapper>
-        <CategoryWrapper>
-          <CategoryTitle>OpenGov</CategoryTitle>
-          <OverviewItem
-            icon={<ReferendaSquareIcon />}
-            label="Referenda"
-            value={
-              <span>
-                {summary?.gov2Referenda?.active || 0}{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink href={`${subSquareWebsite}/referenda`}>
-                    {summary?.gov2Referenda?.all || 0}
-                  </ExternalLink>
-                </Tertiary>
-              </span>
-            }
-          />
-          <OverviewItem
-            icon={<FellowshipSquareIcon />}
-            label="Fellowship"
-            value={
-              <span>
-                {summary?.fellowshipReferenda?.active || 0}{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink href={`${subSquareWebsite}/fellowship`}>
-                    {summary?.fellowshipReferenda?.all || 0}
-                  </ExternalLink>
-                </Tertiary>
-              </span>
-            }
-          />
-        </CategoryWrapper>
-
-        <CategoryWrapper>
-          <CategoryTitle>Democracy</CategoryTitle>
-          <OverviewItem
-            icon={<ReferendaSquareIcon />}
-            label="Referenda"
-            value={
-              <span>
-                {summary?.referenda?.active || 0}{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink
-                    href={`${subSquareWebsite}/democracy/referenda`}
-                  >
-                    {summary?.referenda?.all || 0}
-                  </ExternalLink>
-                </Tertiary>
-              </span>
-            }
-          />
-          <OverviewItem
-            icon={<ProposalsSquareIcon />}
-            label="Proposals"
-            value={
-              <span>
-                {summary?.publicProposals?.active || 0}{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink
-                    href={`${subSquareWebsite}/democracy/proposals`}
-                  >
-                    {summary?.publicProposals?.all || 0}
-                  </ExternalLink>
-                </Tertiary>
-              </span>
-            }
-          />
-          <OverviewItem
-            icon={<ProposalsSquareIcon />}
-            label="External Proposals"
-            value={
-              <span>
-                {summary?.externalProposals?.active || 0}{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink
-                    href={`${subSquareWebsite}/democracy/externals`}
-                  >
-                    {summary?.externalProposals?.all || 0}
-                  </ExternalLink>
-                </Tertiary>
-              </span>
-            }
-          />
-        </CategoryWrapper>
-
-        <CategoryWrapper>
-          <CategoryTitle>Council</CategoryTitle>
-          <OverviewItem
-            icon={<MotionsSquareIcon />}
-            label="Motions"
-            value={
-              <span>
-                {summary?.motions?.active || 0}{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink href={`${subSquareWebsite}/council/motions`}>
-                    {summary?.motions?.all || 0}
-                  </ExternalLink>
-                </Tertiary>
-              </span>
-            }
-          />
-          <OverviewItem
-            icon={<HolderSquareIcon />}
-            label="Members"
-            value={
-              <MembersValue>
-                <ExternalLink href={`${subSquareWebsite}/council/members`}>
-                  {councilMembers.length}
-                </ExternalLink>
-              </MembersValue>
-            }
-          />
-        </CategoryWrapper>
-
-        <CategoryWrapper>
-          <CategoryTitle>Tech.comm.</CategoryTitle>
-          <OverviewItem
-            icon={<ProposalsSquareIcon />}
-            label="Proposals"
-            value={
-              <span>
-                {summary?.techCommMotions?.active || 0}{" "}
-                <Tertiary>
-                  /{" "}
-                  <ExternalLink href={`${subSquareWebsite}/techcomm/proposals`}>
-                    {summary?.techCommMotions?.all || 0}
-                  </ExternalLink>
-                </Tertiary>
-              </span>
-            }
-          />
-          <OverviewItem
-            icon={<HolderSquareIcon />}
-            label="Members"
-            value={
-              <MembersValue>
-                <ExternalLink href={`${subSquareWebsite}/techcomm/members`}>
-                  {techCommMembers.length}
-                </ExternalLink>
-              </MembersValue>
-            }
-          />
-        </CategoryWrapper>
+        {withChildKeys(overviewItems)}
       </OverviewItemsWrapper>
     </OverviewPanel>
   );
