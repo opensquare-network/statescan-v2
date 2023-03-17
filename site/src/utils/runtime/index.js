@@ -4,7 +4,7 @@ import noop from "lodash.noop";
 /**
  * @description transform lookup types to dict
  */
-export function transformLookupTypesDict(lookupTypes = []) {
+export function parseLookupTypesToDict(lookupTypes = []) {
   /** @type {{[k: string]: string}} */
   const dict = {};
   const laterItems = [];
@@ -80,7 +80,7 @@ export function transformLookupTypesDict(lookupTypes = []) {
 /**
  * @param {ReturnType<transformLookupTypesDict>} dict
  */
-export function transformTypedPallets(pallets = [], dict = {}) {
+export function parseTypedPallets(pallets = [], dict = {}) {
   return each(pallets, (pallet) => {
     pallet = cloneDeep(pallet);
 
