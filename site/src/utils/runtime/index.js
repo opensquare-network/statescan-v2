@@ -1,10 +1,11 @@
+import cloneDeep from "lodash.clonedeep";
 import noop from "lodash.noop";
 
 /**
  * @description transform lookup types to dict
  */
 export function transformLookupTypesDict(lookupTypes = []) {
-  /** @type {[k: string]: string} */
+  /** @type {{[k: string]: string}} */
   const dict = {};
   const laterItems = [];
 
@@ -76,11 +77,72 @@ export function transformLookupTypesDict(lookupTypes = []) {
   return dict;
 }
 
+/**
+ * @param {ReturnType<transformLookupTypesDict>} dict
+ */
+export function transformTypedPallets(pallets = [], dict = {}) {
+  return each(pallets, (pallet) => {
+    pallet = cloneDeep(pallet);
+
+    if (pallet.constants) {
+      pallet.constants = each(pallet.constants, (constant) => {
+        const { type, docs } = constant;
+
+        if (type) {
+          constant.type = dict[type];
+        }
+
+        if (docs) {
+          constant.docs = parseDocs(docs);
+        }
+
+        return constant;
+      });
+    }
+
+    if (pallet.storage?.items) {
+      pallet.storage.items = each(pallet.storage?.items, (storage) => {
+        const {
+          type: { plain, map },
+          docs,
+        } = storage;
+
+        if (map) {
+          const { key, value } = map;
+          storage.type.map.key = dict[key];
+          storage.type.map.value = dict[value];
+        }
+
+        if (plain) {
+          storage.type.plain = dict[plain];
+        }
+
+        if (docs) {
+          storage.docs = parseDocs(docs);
+        }
+
+        return storage;
+      });
+    }
+
+    return pallet;
+  });
+}
+
+/**
+ * @returns {any[]}
+ */
 function each(array = [], cb = noop) {
-  for (let idx = 0; idx < array.length; idx++) {
-    const element = array[idx];
-    cb(element, idx);
+  const res = [];
+
+  if (array?.length) {
+    for (let idx = 0; idx < array.length; idx++) {
+      const element = array[idx];
+      res.push(cb(element, idx));
+    }
   }
+
+  return res;
 }
 
 function parseParams(dict = {}, params = []) {
@@ -99,4 +161,21 @@ function parseParams(dict = {}, params = []) {
     .join(", ");
 
   return `<${genericStr}>`;
+}
+
+/**
+ * @param {string[]} docs
+ * @returns {string}
+ * @description parse docs array to string text
+ */
+function parseDocs(docs = []) {
+  return docs
+    .map((text) => {
+      if (text === "") {
+        return "\n";
+      }
+      return text;
+    })
+    .join("")
+    .trim();
 }
