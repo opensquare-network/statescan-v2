@@ -249,7 +249,7 @@ export const toRuntimePalletsTabTableItem = (pallet) => {
     pallet.name,
     "TODO",
     "TODO",
-    "TODO",
+    pallet.storage?.items?.length || 0,
     pallet.constants?.length || 0,
     "TODO",
     <RuntimePalletsDataDisplay pallet={pallet} />,
