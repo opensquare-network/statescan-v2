@@ -7,14 +7,13 @@ import noop from "lodash.noop";
 export function parseLookupTypesToDict(lookupTypes = []) {
   /** @type {{[k: string]: string}} */
   const dict = {};
-  const laterItems = [];
-
-  const later = (item) => laterItems.push(item);
+  const laterTypeItems = [];
+  const laterParamsItems = [];
 
   // collect dict
   each(lookupTypes, (item) => {
     const { id, type } = item;
-    const { def, path } = type;
+    const { def, path, params } = type;
 
     if (def?.primitive) {
       dict[id] = def?.primitive;
@@ -44,16 +43,20 @@ export function parseLookupTypesToDict(lookupTypes = []) {
       dict[id] = dict[def?.sequence.type];
     }
 
+    if (params?.length) {
+      laterParamsItems.push(item);
+    }
+
     // didn't match the type yet, match it again later
     // e.g. 9 map to 10, 12 map to 178
     if (!dict[id]) {
-      later(item);
+      laterTypeItems.push(item);
     }
   });
 
   // collect missed dict
   // compact, sequence
-  each(laterItems, (item) => {
+  each(laterTypeItems, (item) => {
     const {
       id,
       type: {
@@ -64,17 +67,16 @@ export function parseLookupTypesToDict(lookupTypes = []) {
 
     dict[id] = dict[type];
   });
-  laterItems.length = 0; // clean
+  laterTypeItems.length = 0; // clean
 
   // parse generic params
-  each(lookupTypes, (item) => {
+  each(laterParamsItems, (item) => {
     const { id, type } = item;
     const { params } = type;
 
-    if (params?.length) {
-      dict[id] = dict[id] + parseGenericParams(dict, params);
-    }
+    dict[id] = dict[id] + parseGenericParams(dict, params);
   });
+  laterParamsItems.length = 0; // clean
 
   return dict;
 }
