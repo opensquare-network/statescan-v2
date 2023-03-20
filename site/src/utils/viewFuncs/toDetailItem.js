@@ -8,6 +8,7 @@ import { withCopy } from "../../HOC/withCopy";
 import { TextSecondary } from "../../components/styled/text";
 import {
   ColoredInterLink,
+  ColoredInterLinkWithCopy,
   ColoredMonoLink,
 } from "../../components/styled/link";
 import Tooltip from "../../components/tooltip";
@@ -29,6 +30,7 @@ import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
 import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
+import capitalize from "lodash.capitalize";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -234,6 +236,26 @@ export const toCallDetailItem = (indexer, section, method) => {
         {section}({method})
       </CallText>
     ),
+  };
+};
+
+export const toRuntimeDetailItem = (runtime) => {
+  return {
+    Version: (
+      <TextSecondary>{runtime?.runtimeVersion?.specVersion}</TextSecondary>
+    ),
+    ID: <TextSecondary>-</TextSecondary>,
+    "Start Height": (
+      <ColoredInterLinkWithCopy to={`/blocks/${runtime?.height}`}>
+        {runtime?.height?.toLocaleString?.()}
+      </ColoredInterLinkWithCopy>
+    ),
+    "Spec Name": (
+      <TextSecondary>
+        {capitalize(runtime?.runtimeVersion?.specName)}
+      </TextSecondary>
+    ),
+    Pallets: <TextSecondary>-</TextSecondary>,
   };
 };
 
