@@ -49,10 +49,15 @@ export function parseLookupTypesToDict(lookupTypes = []) {
     else if (def?.historicMetaCompat) {
       dict[id] = def.historicMetaCompat;
     }
-    // unknown def, for safe
+    // hack, unknown def, for safe
     else {
       const key = Object.keys(def ?? {})[0] ?? "";
-      dict[id] = def[key];
+      const val = def[key];
+      if (typeof val === "number") {
+        dict[id] = dict[val] ?? val;
+      } else {
+        dict[id] = val;
+      }
     }
 
     if (params?.length) {
