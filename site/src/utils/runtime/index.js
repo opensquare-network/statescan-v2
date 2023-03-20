@@ -11,9 +11,11 @@ export function parseLookupTypesToDict(lookupTypes = []) {
   const laterParamsItems = [];
 
   // collect dict
+  // specs
+  // - def: object, has only single key
   each(lookupTypes, (item) => {
-    const { id, type } = item;
-    const { def, path, params } = type;
+    const { id, type } = item ?? {};
+    const { def, path, params } = type ?? {};
 
     if (def?.primitive) {
       dict[id] = def?.primitive;
@@ -42,6 +44,16 @@ export function parseLookupTypesToDict(lookupTypes = []) {
     else if (def?.sequence) {
       dict[id] = dict[def?.sequence.type];
     }
+    // historicMetaCompat
+    // value: string
+    else if (def?.historicMetaCompat) {
+      dict[id] = def.historicMetaCompat;
+    }
+    // unknown def, for safe
+    else {
+      const key = Object.keys(def ?? {})[0] ?? "";
+      dict[id] = def[key];
+    }
 
     if (params?.length) {
       laterParamsItems.push(item);
@@ -57,13 +69,9 @@ export function parseLookupTypesToDict(lookupTypes = []) {
   // collect missed dict
   // compact, sequence
   each(laterTypeItems, (item) => {
-    const {
-      id,
-      type: {
-        def: { compact, sequence },
-      },
-    } = item;
-    const { type } = compact || sequence;
+    const { id } = item ?? {};
+    const { type } =
+      item?.type?.def?.compact ?? item?.type?.def?.sequence ?? {};
 
     dict[id] = dict[type];
   });
