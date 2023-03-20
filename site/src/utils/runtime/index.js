@@ -21,11 +21,11 @@ export function parseLookupTypesToDict(lookupTypes = []) {
     }
     // struct
     else if (def?.composite) {
-      dict[id] = path.join("::");
+      dict[id] = parseUseCratePaths(path);
     }
     // struct
     else if (def?.variant) {
-      dict[id] = path.join("::");
+      dict[id] = parseUseCratePaths(path);
     }
     // NOTE: not sure, def.array.type = 2
     else if (def?.array) {
@@ -45,12 +45,14 @@ export function parseLookupTypesToDict(lookupTypes = []) {
     }
 
     // didn't match the type yet, match it again later
+    // e.g. 9 map to 10, 12 map to 178
     if (!dict[id]) {
       later(item);
     }
   });
 
   // collect missed dict
+  // compact, sequence
   each(laterItems, (item) => {
     const {
       id,
@@ -64,13 +66,13 @@ export function parseLookupTypesToDict(lookupTypes = []) {
   });
   laterItems.length = 0; // clean
 
-  // fill extras to dict items
+  // parse params
   each(lookupTypes, (item) => {
     const { id, type } = item;
     const { params } = type;
 
     if (params?.length) {
-      dict[id] = dict[id] + parseParams(dict, params);
+      dict[id] = dict[id] + parseGenericParams(dict, params);
     }
   });
 
@@ -145,7 +147,10 @@ function each(array = [], cb = noop) {
   return res;
 }
 
-function parseParams(dict = {}, params = []) {
+/**
+ * @description for struct, fn etc.
+ */
+function parseGenericParams(dict = {}, params = []) {
   let genericStr = params
     .map((param) => {
       let name = param.name;
@@ -178,4 +183,11 @@ function parseDocs(docs = []) {
     })
     .join("")
     .trim();
+}
+
+/**
+ * @description `::`
+ */
+function parseUseCratePaths(paths = []) {
+  return paths.join("::");
 }
