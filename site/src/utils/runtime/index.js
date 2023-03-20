@@ -66,7 +66,7 @@ export function parseLookupTypesToDict(lookupTypes = []) {
   });
   laterItems.length = 0; // clean
 
-  // parse params
+  // parse generic params
   each(lookupTypes, (item) => {
     const { id, type } = item;
     const { params } = type;
@@ -140,7 +140,7 @@ function each(array = [], cb = noop) {
   if (array?.length) {
     for (let idx = 0; idx < array.length; idx++) {
       const element = array[idx];
-      res.push(cb(element, idx));
+      res.push(cb(element, idx, array));
     }
   }
 
