@@ -21,9 +21,9 @@ async function createExtrinsicColIndexes(col) {
     "indexer.blockHeight": -1,
     "indexer.extrinsicIndex": 1,
   });
-  await col.createIndex("isSigned");
-  await col.createIndex("signer");
-  await col.createIndex("hash");
+  await col.createIndex({ isSigned: 1 });
+  await col.createIndex({ signer: 1 });
+  await col.createIndex({ hash: 1 });
 }
 
 async function createEventColIndexes(col) {
