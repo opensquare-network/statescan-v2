@@ -20,6 +20,12 @@ const litmus = {
   },
   modules: {
     ...governanceModules,
+    governance: {
+      treasury: {
+        proposal: true,
+        bounties: true,
+      },
+    },
   },
   subSquareWebsite: "https://litmus.subsquare.io",
 };

@@ -285,7 +285,7 @@ export default function GovernanceSection() {
             <ValueWithAll
               active={summary?.techCommMotions?.active}
               all={summary?.techCommMotions?.all}
-              link="techcomm/motions"
+              link="techcomm/proposals"
             />
           }
         />,
