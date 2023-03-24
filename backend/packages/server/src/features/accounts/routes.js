@@ -7,6 +7,7 @@ const { getAccountAssets } = require("./controllers/assets");
 const { getAccountNftInstances } = require("./controllers/nftInstances");
 const { getAccountNftTransfers } = require("./controllers/nftTransfers");
 const { getAccountSummary } = require("./controllers/summary");
+const { getAchainableProfile } = require("./controllers/achainable");
 
 const router = new Router();
 router.get("/accounts", getAccounts);
@@ -19,5 +20,7 @@ router.get("/accounts/:address/assets", getAccountAssets);
 
 router.get("/accounts/:address/nft/instances", getAccountNftInstances);
 router.get("/accounts/:address/nft/transfers", getAccountNftTransfers);
+
+router.get("/accounts/:address/achainable-profile", getAchainableProfile);
 
 module.exports = router;

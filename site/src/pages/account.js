@@ -39,6 +39,7 @@ import {
 } from "../store/reducers/accountSlice";
 import DetailTabs from "../components/detail/tabs";
 import { NftInstancePreview } from "../components/nft/preview/index";
+import useAchainableProfile from "../hooks/useAchainableProfile";
 
 function Account() {
   const { id } = useParams();
@@ -46,6 +47,7 @@ function Account() {
   const dispatch = useDispatch();
   const [previewNft, setPreviewNft] = useState();
   const [isPreview, setIsPreview] = useState(false);
+  const achainableProfile = useAchainableProfile(id);
 
   const showPreview = useCallback((nft) => {
     setPreviewNft(nft);
@@ -57,8 +59,11 @@ function Account() {
   const summary = useSelector(accountSummarySelector);
 
   const listData = useMemo(
-    () => (detailLoading ? {} : toAccountDetailItem(id, detail, chainSetting)),
-    [id, detail, detailLoading, chainSetting],
+    () =>
+      detailLoading
+        ? {}
+        : toAccountDetailItem(id, detail, chainSetting, achainableProfile),
+    [id, detail, detailLoading, chainSetting, achainableProfile],
   );
 
   useEffect(() => {

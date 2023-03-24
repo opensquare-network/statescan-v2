@@ -22,6 +22,8 @@ export const callApi = (id) => `/calls/${id}`;
 export const accountListApi = `/accounts`;
 export const accountApi = (id) => `/accounts/${id}`;
 export const accountSummaryApi = (id) => `/accounts/${id}/summary`;
+export const achainableProfileApi = (id) =>
+  `/accounts/${id}/achainable-profile`;
 
 // transfers
 export const transferListApi = `/transfers`;

@@ -29,6 +29,7 @@ import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
 import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
+import AchainableLabels from "../../components/achainableLabels/index";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -59,8 +60,13 @@ export const toBlockDetailItem = (block) => {
   };
 };
 
-export const toAccountDetailItem = (id, account, chainSetting) => {
-  return {
+export const toAccountDetailItem = (
+  id,
+  account,
+  chainSetting,
+  achainableProfile,
+) => {
+  const data = {
     Address: <AddressAndIdentity address={id} ellipsis={false} />,
     "Total Balance": (
       <Tooltip
@@ -117,6 +123,12 @@ export const toAccountDetailItem = (id, account, chainSetting) => {
     ),
     Nonce: <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>,
   };
+
+  if (achainableProfile) {
+    data["Labels"] = <AchainableLabels achainableProfile={achainableProfile} />;
+  }
+
+  return data;
 };
 
 export const toNftClassDetailItem = (nftClass) => {
