@@ -3,24 +3,23 @@ const fetch = (...args) =>
 const NodeCache = require("node-cache");
 const { HttpError } = require("../../../utils/httpError");
 
-const achainableApiUrl = process.env.ACHAINABLE_PROFILE_URL;
-if (!achainableApiUrl) {
-  console.error("ACHAINABLE_PROFILE_URL is not configured");
-  process.exit(1);
-}
-
-const achainableApiKey = process.env.ACHAINABLE_AUTHORIZATION_KEY;
-if (!achainableApiKey) {
-  console.error("ACHAINABLE_AUTHORIZATION_KEY is not configured");
-  process.exit(1);
-}
-
 const myCache = new NodeCache({ stdTTL: 3600, checkperiod: 60 });
 
 async function getAchainableProfile(ctx) {
   const { address } = ctx.params;
 
-  const cachedProfile = myCache.get(`achainable-profile-${address}`);
+  const achainableApiUrl = process.env.ACHAINABLE_PROFILE_URL;
+  if (!achainableApiUrl) {
+    throw new HttpError(500, "ACHAINABLE_PROFILE_URL is not configured");
+  }
+
+  const achainableApiKey = process.env.ACHAINABLE_AUTHORIZATION_KEY;
+  if (!achainableApiKey) {
+    throw new HttpError(500, "ACHAINABLE_AUTHORIZATION_KEY is not configured");
+  }
+
+  const cacheKey = `achainable-profile-${address}`;
+  const cachedProfile = myCache.get(cacheKey);
   if (cachedProfile) {
     ctx.body = cachedProfile;
     return;
@@ -50,7 +49,7 @@ async function getAchainableProfile(ctx) {
 
   const profile = await response.json();
 
-  myCache.set(`achainable-profile-${address}`, profile, 3600);
+  myCache.set(cacheKey, profile, 3600);
 
   ctx.body = profile;
 }
