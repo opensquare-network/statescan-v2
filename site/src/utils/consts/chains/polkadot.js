@@ -1,5 +1,5 @@
 import { ReactComponent as Polkadot } from "../../../components/icons/polkadot.svg";
-import { treasuryModules } from "./modules";
+import { governanceModules, treasuryModules } from "./modules";
 
 const polkadot = {
   name: "Polkadot",
@@ -17,8 +17,10 @@ const polkadot = {
   logo: "logo-img-2",
   modules: {
     ...treasuryModules,
+    ...governanceModules,
   },
   treasuryWebsite: "https://www.dotreasury.com/dot",
+  subSquareWebsite: "https://polkadot.subsquare.io",
 };
 
 export default polkadot;

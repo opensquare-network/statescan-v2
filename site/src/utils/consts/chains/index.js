@@ -6,10 +6,11 @@ import litmus from "./litmus";
 import westendCollectives from "./westendCollectives";
 import collectives from "./collectives";
 import kusama from "./kusama";
+import polkadot from "./polkadot";
 
 const chains = {
   kusama,
-  // polkadot,
+  polkadot,
   litentry,
   litmus,
   statemine,
