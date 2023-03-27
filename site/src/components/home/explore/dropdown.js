@@ -60,7 +60,6 @@ const DropdownLinkItem = styled(Link)`
   text-decoration: none;
   height: 44px;
   ${p_x(padding)};
-  ${truncate};
 
   &:hover {
     background-color: ${(p) => p.theme.fillPopupHover};
