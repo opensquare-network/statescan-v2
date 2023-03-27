@@ -16,5 +16,6 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "yarn --cwd=backend lint && yarn --cwd=site lint"
-  }
+  },
+  "packageManager": "yarn@3.5.0"
 }

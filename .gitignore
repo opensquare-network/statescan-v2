@@ -104,6 +104,15 @@ dist
 # TernJS port file
 .tern-port
 
+# yarnpkg non-zero-install
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 .idea
 *.deploy.sh
 .DS_Store
