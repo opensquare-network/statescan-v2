@@ -23,7 +23,7 @@ import {
 } from "react";
 import { first } from "lodash";
 import { useEffectOnce } from "../../../utils/hooks/useEffectOnce";
-import { p_x, p_y, truncate } from "../../../styles/tailwindcss";
+import { flex_1, p_x, p_y, truncate } from "../../../styles/tailwindcss";
 
 const padding = 16;
 
@@ -60,6 +60,7 @@ const DropdownLinkItem = styled(Link)`
   text-decoration: none;
   height: 44px;
   ${p_x(padding)};
+  ${truncate};
 
   &:hover {
     background-color: ${(p) => p.theme.fillPopupHover};
@@ -87,6 +88,8 @@ const DropdownItemContentLabel = styled.span`
 const DropdownItemContentValue = styled.div`
   color: ${(p) => p.theme.fontTertiary};
   ${Inter_14_500};
+  ${truncate};
+  ${flex_1};
 `;
 
 function renderItem(type, value) {
