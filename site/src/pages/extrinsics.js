@@ -49,7 +49,9 @@ function Extrinsics() {
   }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
-    dispatch(clearExtrinsicList());
+    return () => {
+      dispatch(clearExtrinsicList());
+    };
   }, [dispatch]);
 
   const data = toExtrinsicsTabTableItem(list?.items);

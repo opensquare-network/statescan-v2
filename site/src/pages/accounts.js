@@ -49,7 +49,9 @@ function Accounts() {
   }, [dispatch, page, pageSize]);
 
   useEffect(() => {
-    dispatch(clearAccountList());
+    return () => {
+      dispatch(clearAccountList());
+    };
   }, [dispatch]);
 
   const data =
