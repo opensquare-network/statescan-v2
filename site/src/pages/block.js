@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import List from "../components/list";
 import {
   blockEventsHead,
-  blockExtrinsicsHead,
+  extrinsicsHead,
   Events,
   Extrinsics,
   Logs,
@@ -71,7 +71,7 @@ function Block() {
       children: (
         <DetailTable
           url={`/blocks/${block?.height}/${Extrinsics}`}
-          heads={blockExtrinsicsHead}
+          heads={extrinsicsHead}
           transformData={toExtrinsicsTabTableItem}
         />
       ),

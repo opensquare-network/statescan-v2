@@ -87,19 +87,6 @@ export const blocksHead = [
   { name: "Events", align: "right", width: 160 },
 ];
 
-export const blockExtrinsicsHead = [
-  { name: "ID", width: 160 },
-  { name: "Hash", width: 200 },
-  { name: "Result", width: 160, align: "center" },
-  { name: "Call", type: "call" },
-  {
-    name: "Data",
-    type: "data",
-    align: "right",
-    display: "table",
-  },
-];
-
 export const blockEventsHead = [
   { name: "ID", width: 160 },
   { name: "Extrinsic ID", width: 200 },
@@ -200,8 +187,6 @@ export const holdersHead = [
   { name: "Address", width: 510 },
   { name: "Quantity", width: 240, align: "right" },
 ];
-
-export const accountExtinsicsHead = blockExtrinsicsHead;
 
 export const assetsHead = [
   { name: "Asset ID", width: 120 },

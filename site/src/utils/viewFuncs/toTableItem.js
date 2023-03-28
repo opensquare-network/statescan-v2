@@ -111,8 +111,17 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
           {extrinsic?.indexer?.blockHeight.toLocaleString()}-
           {extrinsic?.indexer?.extrinsicIndex}
         </ColoredLink>,
+        <ColoredLink
+          key={`${index}-2`}
+          to={`/blocks/${extrinsic?.indexer?.blockHeight}`}
+        >
+          {extrinsic?.indexer?.blockHeight.toLocaleString()}
+        </ColoredLink>,
+        extrinsic?.indexer?.blockTime,
         <Tooltip tip={extrinsic.hash}>
-          <ColoredMonoLink to={""}>
+          <ColoredMonoLink
+            to={`/extrinsics/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
+          >
             {hashEllipsis(extrinsic.hash)}
           </ColoredMonoLink>
         </Tooltip>,

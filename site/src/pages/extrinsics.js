@@ -1,21 +1,14 @@
-import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
-import { ReactComponent as CrossIcon } from "../components/icons/cross.svg";
-import { hashEllipsis } from "../utils/viewFuncs/text";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect } from "react";
 import { extrinsicsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
-import Link from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
-import styled from "styled-components";
-import { Overpass_Mono_14_500 } from "../styles/text";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import Filter from "../components/filter";
 import * as queryString from "query-string";
-import Tooltip from "../components/tooltip";
 import { useExtrinsicFilter } from "../utils/hooks/extrinsicFilter";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -24,17 +17,8 @@ import {
   extrinsicListLoadingSelector,
   extrinsicListSelector,
 } from "../store/reducers/extrinsicSlice";
-import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 import omit from "lodash.omit";
-
-const ColoredLink = styled(Link)`
-  color: ${({ theme }) => theme.theme500};
-`;
-
-const ColoredMonoLink = styled(Link)`
-  color: ${({ theme }) => theme.theme500};
-  ${Overpass_Mono_14_500};
-`;
+import { toExtrinsicsTabTableItem } from "../utils/viewFuncs/toTableItem";
 
 function Extrinsics() {
   const location = useLocation();
@@ -68,35 +52,7 @@ function Extrinsics() {
     dispatch(clearExtrinsicList());
   }, [dispatch]);
 
-  const data =
-    list?.items?.map((extrinsic, index) => {
-      return [
-        <ColoredLink
-          key={`${index}-1`}
-          to={`/extrinsics/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
-        >
-          {extrinsic?.indexer?.blockHeight.toLocaleString()}-
-          {extrinsic?.indexer?.extrinsicIndex}
-        </ColoredLink>,
-        <ColoredLink
-          key={`${index}-2`}
-          to={`/blocks/${extrinsic?.indexer?.blockHeight}`}
-        >
-          {extrinsic?.indexer?.blockHeight.toLocaleString()}
-        </ColoredLink>,
-        extrinsic?.indexer?.blockTime,
-        <Tooltip tip={extrinsic.hash}>
-          <ColoredMonoLink
-            to={`/extrinsics/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
-          >
-            {hashEllipsis(extrinsic.hash)}
-          </ColoredMonoLink>
-        </Tooltip>,
-        extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
-        `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
-        <ExtrinsicParametersDisplay extrinsic={extrinsic} />,
-      ];
-    }) ?? null;
+  const data = toExtrinsicsTabTableItem(list?.items);
 
   return (
     <Layout>
