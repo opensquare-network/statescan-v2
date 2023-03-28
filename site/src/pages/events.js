@@ -82,7 +82,9 @@ function Events() {
   }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
-    dispatch(clearEventList());
+    return () => {
+      dispatch(clearEventList());
+    };
   }, [dispatch]);
 
   const data =
