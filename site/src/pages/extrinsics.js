@@ -52,7 +52,7 @@ function Extrinsics() {
     dispatch(clearExtrinsicList());
   }, [dispatch]);
 
-  const data = toExtrinsicsTabTableItem(list);
+  const data = toExtrinsicsTabTableItem(list?.items);
 
   return (
     <Layout>
