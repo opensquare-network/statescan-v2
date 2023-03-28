@@ -10,7 +10,7 @@ import { toAccountDetailItem } from "../utils/viewFuncs/toDetailItem";
 import DetailLayout from "../components/layout/detailLayout";
 import {
   accountAssetsHead,
-  accountExtinsicsHead,
+  extrinsicsHead,
   Assets,
   Extrinsics,
   Nft,
@@ -107,7 +107,7 @@ function Account() {
       children: (
         <DetailTable
           url={extrinsicsApiKey}
-          heads={accountExtinsicsHead}
+          heads={extrinsicsHead}
           transformData={toExtrinsicsTabTableItem}
         />
       ),
