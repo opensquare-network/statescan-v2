@@ -54,7 +54,9 @@ function Blocks() {
   }, [dispatch, page, pageSize]);
 
   useEffect(() => {
-    dispatch(clearBlockList());
+    return () => {
+      dispatch(clearBlockList());
+    };
   }, [dispatch]);
 
   const data =

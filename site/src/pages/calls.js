@@ -48,7 +48,9 @@ function Calls() {
   }, [dispatch, location, page, pageSize]);
 
   useEffect(() => {
-    dispatch(clearCallList());
+    return () => {
+      dispatch(clearCallList());
+    };
   }, [dispatch]);
 
   return (
