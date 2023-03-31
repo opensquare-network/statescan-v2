@@ -5,14 +5,21 @@ import {
 } from "../../store/reducers/tooltipSlice";
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Wrapper = styled.div`
   position: relative;
   width: fit-content;
   max-width: 100%;
   margin: auto;
-  margin-${(p) => p.pull}: 0;
+  ${(p) =>
+    p.pullRight
+      ? css`
+          margin-right: 0;
+        `
+      : css`
+          margin-left: 0;
+        `}
 `;
 
 export default function Tooltip({
@@ -41,7 +48,7 @@ export default function Tooltip({
     dispatch(
       setPosition({
         left: position.left + position.width / 2,
-        top: position.top - position.height - 24,
+        bottom: window.innerHeight - position.top + 12,
       }),
     );
   }, [dispatch, ref, tip, disabled]);
@@ -65,7 +72,7 @@ export default function Tooltip({
   }, [ref, showTip, hideTip]);
 
   return (
-    <Wrapper ref={ref} pull={pullRight ? "right" : "left"} {...restProps}>
+    <Wrapper ref={ref} pullRight={pullRight} {...restProps}>
       {children}
     </Wrapper>
   );
