@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@osn/common": "^1.3.3",
+    "@osn/common": "^1.3.5",
     "@osn/constants": "^1.1.2",
     "@polkadot/api": "10.0.1",
     "@polkadot/util": "11.0.1",
