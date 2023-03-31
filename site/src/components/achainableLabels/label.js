@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 export default function Label({ name, description }) {
   return (
     <div>
-      <Tooltip tip={description} disabled={!description}>
+      <Tooltip tip={description}>
         <Wrapper>{name}</Wrapper>
       </Tooltip>
     </div>

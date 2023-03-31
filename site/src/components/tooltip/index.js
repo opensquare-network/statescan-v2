@@ -32,7 +32,7 @@ export default function Tooltip({
   }, [dispatch]);
 
   const showTip = useCallback(() => {
-    if (disabled) {
+    if (!tip || disabled) {
       return;
     }
     const position = ref.current.getBoundingClientRect();
