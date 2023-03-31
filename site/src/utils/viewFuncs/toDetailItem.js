@@ -30,6 +30,7 @@ import { time } from "./time";
 import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
 import AchainableLabels from "../../components/achainableLabels/index";
+import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -302,7 +303,7 @@ export const toExtrinsicDetailItem = (extrinsic) => {
           ),
         }
       : {}),
-    "Assets Transferred": "TODO",
+    "Assets Transferred": <ExtrinsicAssetsTransferredList />,
     ...(extrinsic?.nonce
       ? {
           Nonce: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
