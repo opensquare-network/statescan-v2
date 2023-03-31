@@ -171,8 +171,8 @@ export const toAssetsTabItem = (assets) => {
       <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
       metadata?.symbol ? <Symbol asset={asset} /> : "--",
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
-      bigNumberToLocaleString(fromAssetUnit(balance, metadata?.decimals)),
-      bigNumberToLocaleString(fromAssetUnit(approved || 0, metadata?.decimals)),
+      Number(fromAssetUnit(balance, metadata?.decimals)).toLocaleString(),
+      Number(fromAssetUnit(approved || 0, metadata?.decimals)).toLocaleString(),
       isFrozen?.toString(),
       <Tooltip pullRight tip={bigNumberToLocaleString(supply)}>
         <ValueDisplay value={supply} />

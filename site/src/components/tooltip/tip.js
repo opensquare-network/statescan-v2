@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   position: fixed;
   z-index: 1;
   left: ${(p) => p?.position?.left ?? 0}px;
-  top: ${(p) => p?.position?.top ?? 0}px;
+  bottom: ${(p) => p?.position?.bottom ?? 0}px;
   opacity: ${(p) => (p.ready ? 1 : 0)};
 `;
 
