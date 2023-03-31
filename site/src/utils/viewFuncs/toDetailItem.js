@@ -302,6 +302,7 @@ export const toExtrinsicDetailItem = (extrinsic) => {
           ),
         }
       : {}),
+    "Assets Transferred": "TODO",
     ...(extrinsic?.nonce
       ? {
           Nonce: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
