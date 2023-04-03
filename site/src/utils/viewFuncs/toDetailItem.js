@@ -32,7 +32,6 @@ import { getNftInstanceParsedMetadata } from "../nft";
 import AchainableLabels from "../../components/achainableLabels/index";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
 import styled from "styled-components";
-import { inline_block, w } from "../../styles/tailwindcss";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -274,11 +273,17 @@ export const toEventDetailItem = (event) => {
   };
 };
 
-const ExtrinsicAssetsTransferredLabel = styled.span`
-  ${inline_block};
-  ${w(240)};
-`;
-export const toExtrinsicDetailItem = (extrinsic) => {
+/**
+ * @param {object} opts
+ * @param {object} opts.modules chain settings modules
+ */
+export const toExtrinsicDetailItem = (extrinsic, opts) => {
+  const {
+    modules = {},
+    assetTransferredList = [],
+    uniqueTransferredList = [],
+  } = opts ?? {};
+
   return [
     {
       label: "Extrinsic Time",
@@ -320,13 +325,18 @@ export const toExtrinsicDetailItem = (extrinsic) => {
         <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
       ),
     },
-    {
-      label: (
-        <ExtrinsicAssetsTransferredLabel>
-          Assets Transferred
-        </ExtrinsicAssetsTransferredLabel>
+    (modules.assets ||
+      modules.uniques ||
+      assetTransferredList.length ||
+      uniqueTransferredList.length) && {
+      label: "Assets Transferred",
+      count: assetTransferredList.length + uniqueTransferredList.length,
+      content: (
+        <ExtrinsicAssetsTransferredList
+          assetTransferredList={assetTransferredList}
+          uniqueTransferredList={uniqueTransferredList}
+        />
       ),
-      content: <ExtrinsicAssetsTransferredList />,
     },
     extrinsic?.nonce && {
       label: "Nonce",
