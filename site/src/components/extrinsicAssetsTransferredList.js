@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
+  block,
   flex,
   flex_col,
   gap_x,
@@ -8,8 +9,11 @@ import {
   grid,
   grid_cols,
   items_center,
+  p_y,
   text_secondary,
+  w,
 } from "../styles/tailwindcss";
+import { mobilecss } from "../styles/responsive";
 import { Inter_14_500 } from "../styles/text";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import { bigNumberToLocaleString } from "../utils/viewFuncs";
@@ -21,12 +25,17 @@ const List = styled.div`
   ${gap_y(8)};
   ${Inter_14_500};
   ${text_secondary};
+  ${p_y(12)};
+
+  ${mobilecss(p_y(0))};
 `;
 
 const ListItemWrapper = styled.div`
   ${grid};
   ${grid_cols(3)};
   ${gap_x(32)};
+
+  ${mobilecss(block)};
 `;
 
 const ListItemContent = styled.div`
@@ -40,6 +49,11 @@ const ListItemContent = styled.div`
   }
 `;
 
+const ListItemSubtitle = styled.div`
+  min-width: max-content;
+  ${mobilecss(w(48))};
+`;
+
 // FIXME: for test
 const address = "HWyLYmpW68JGJYoVJcot6JQ1CJbtUQeTdxfY1kUTsvGCB1r";
 
@@ -47,15 +61,15 @@ function Item({ from, to, value, symbol }) {
   return (
     <ListItemWrapper>
       <ListItemContent>
-        <div>From</div>
+        <ListItemSubtitle>From</ListItemSubtitle>
         <AddressOrIdentity address={from} />
       </ListItemContent>
       <ListItemContent>
-        <div>To</div>
+        <ListItemSubtitle>To</ListItemSubtitle>
         <AddressOrIdentity address={to} />
       </ListItemContent>
       <ListItemContent>
-        <div>For</div>
+        <ListItemSubtitle>For</ListItemSubtitle>
         <div>
           {bigNumberToLocaleString(value)} {symbol}
         </div>
