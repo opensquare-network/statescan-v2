@@ -29,6 +29,8 @@ import noop from "lodash.noop";
 
 const Wrapper = styled.div`
   ${p_y(12)};
+
+  ${mobilecss(p_y(0))};
 `;
 
 const ListWrapper = styled.div`
@@ -41,8 +43,6 @@ const ListWrapper = styled.div`
   & + & {
     ${m_t(8)};
   }
-
-  ${mobilecss(p_y(0))};
 `;
 
 const ListItemWrapper = styled.div`
