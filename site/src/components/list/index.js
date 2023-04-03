@@ -1,8 +1,16 @@
 import { withLoading } from "../../HOC/withLoading";
-import { Inter_14_600 } from "../../styles/text";
+import { Inter_12_600, Inter_14_600 } from "../../styles/text";
 import Loading from "../loadings/loading";
 import styled from "styled-components";
 import { Flex } from "../styled/flex";
+import {
+  bg_theme,
+  m_l,
+  p_x,
+  p_y,
+  rounded_full,
+  text_theme,
+} from "../../styles/tailwindcss";
 
 const Wrapper = styled.div`
   margin-top: 16px;
@@ -47,6 +55,16 @@ const Value = styled(Flex)`
   word-break: break-all;
 `;
 
+const Count = styled.span`
+  ${p_y(2)};
+  ${p_x(6)};
+  ${Inter_12_600};
+  ${text_theme("theme500")};
+  ${bg_theme("theme100")};
+  ${rounded_full};
+  ${m_l(8)};
+`;
+
 const mapLoadingState = (props) => {
   const { data } = props;
   return {
@@ -77,7 +95,10 @@ function List({ data, header, compact = false }) {
 
       {items.map((item, idx) => (
         <Row key={idx}>
-          <Label compact={compact}>{item.label}</Label>
+          <Label compact={compact}>
+            {item.label}
+            {item.count && <Count>{item.count}</Count>}
+          </Label>
           <Value compact={compact}>{item.content}</Value>
         </Row>
       ))}
