@@ -1,14 +1,20 @@
 import styled from "styled-components";
 import {
+  bg_transparent,
   block,
+  border_hidden,
   flex,
   flex_col,
   gap_x,
   gap_y,
   items_center,
+  m_t,
   p_y,
   text_secondary,
+  text_theme,
   w,
+  p,
+  cursor_pointer,
 } from "../styles/tailwindcss";
 import { mobilecss } from "../styles/responsive";
 import { Inter_14_500 } from "../styles/text";
@@ -19,14 +25,22 @@ import { toPrecision } from "@osn/common";
 import Thumbnail from "./nft/thumbnail";
 import { useState } from "react";
 import { NftClassPreview } from "./nft/preview";
+import noop from "lodash.noop";
 
-const List = styled.div`
+const Wrapper = styled.div`
+  ${p_y(12)};
+`;
+
+const ListWrapper = styled.div`
   ${flex};
   ${flex_col};
   ${gap_y(8)};
   ${Inter_14_500};
   ${text_secondary};
-  ${p_y(12)};
+
+  & + & {
+    ${m_t(8)};
+  }
 
   ${mobilecss(p_y(0))};
 `;
@@ -52,6 +66,16 @@ const ListItemContent = styled.div`
 const ListItemSubtitle = styled.div`
   min-width: max-content;
   ${mobilecss(w(48))};
+`;
+
+const ToggleListButton = styled.button`
+  ${m_t(16)};
+  ${border_hidden};
+  ${text_theme("theme500")};
+  ${bg_transparent};
+  ${Inter_14_500};
+  ${p(0)};
+  ${cursor_pointer};
 `;
 
 function Item({
@@ -98,17 +122,11 @@ function Item({
   );
 }
 
-export default function ExtrinsicAssetsTransferredList({
-  assetTransferredList = [],
-  uniqueTransferredList = [],
-}) {
+function List({ items, setPreview = noop, setPreviewNft = noop }) {
   const { symbol, decimals } = useChainSettings();
-  const [preview, setPreview] = useState(false);
-  const [previewNft, setPreviewNft] = useState({});
-  const items = [...assetTransferredList, ...uniqueTransferredList];
 
   return (
-    <List>
+    <ListWrapper>
       {items.map((item, idx) => (
         <Item
           key={idx}
@@ -127,12 +145,50 @@ export default function ExtrinsicAssetsTransferredList({
           }}
         />
       ))}
+    </ListWrapper>
+  );
+}
+
+const SLICE_COUNT = 10;
+
+export default function ExtrinsicAssetsTransferredList({
+  assetTransferredList = [],
+  uniqueTransferredList = [],
+}) {
+  const [preview, setPreview] = useState(false);
+  const [previewNft, setPreviewNft] = useState({});
+  const [extraListVisible, setExtraListVisible] = useState(false);
+
+  const items = [...assetTransferredList, ...uniqueTransferredList];
+
+  return (
+    <Wrapper>
+      <List
+        items={items.slice(0, SLICE_COUNT)}
+        setPreview={setPreview}
+        setPreviewNft={setPreviewNft}
+      />
+
+      {items.length > 10 && (
+        <>
+          {extraListVisible && (
+            <List
+              items={items.slice(SLICE_COUNT)}
+              setPreview={setPreview}
+              setPreviewNft={setPreviewNft}
+            />
+          )}
+          <ToggleListButton onClick={() => setExtraListVisible((v) => !v)}>
+            {extraListVisible ? "Hide" : "View All"}
+          </ToggleListButton>
+        </>
+      )}
 
       <NftClassPreview
         open={preview}
         nftClass={previewNft}
         onClose={() => setPreview(false)}
       />
-    </List>
+    </Wrapper>
   );
 }
