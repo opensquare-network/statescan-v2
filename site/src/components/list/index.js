@@ -73,7 +73,6 @@ const mapLoadingState = (props) => {
   };
 };
 
-// FIXME: data should be array
 function List({ data, header, compact = false }) {
   let items = [];
   if (Array.isArray(data)) {
