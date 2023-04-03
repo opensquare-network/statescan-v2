@@ -283,6 +283,10 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     uniqueTransferredList = [],
   } = opts ?? {};
 
+  const showTransferredList =
+    (modules?.assets || modules?.uniques) &&
+    (assetTransferredList?.length || uniqueTransferredList?.length);
+
   return [
     {
       label: "Extrinsic Time",
@@ -324,10 +328,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
         <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
       ),
     },
-    (modules?.assets ||
-      modules?.uniques ||
-      assetTransferredList.length ||
-      uniqueTransferredList.length) && {
+    showTransferredList && {
       label: "Assets Transferred",
       count: assetTransferredList.length + uniqueTransferredList.length,
       content: (
