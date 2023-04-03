@@ -31,6 +31,8 @@ import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
 import AchainableLabels from "../../components/achainableLabels/index";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
+import styled from "styled-components";
+import { inline_block, w } from "../../styles/tailwindcss";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -272,6 +274,10 @@ export const toEventDetailItem = (event) => {
   };
 };
 
+const ExtrinsicAssetsTransferredLabel = styled.span`
+  ${inline_block};
+  ${w(240)};
+`;
 export const toExtrinsicDetailItem = (extrinsic) => {
   return [
     {
@@ -315,7 +321,11 @@ export const toExtrinsicDetailItem = (extrinsic) => {
       ),
     },
     {
-      label: "Assets Transferred",
+      label: (
+        <ExtrinsicAssetsTransferredLabel>
+          Assets Transferred
+        </ExtrinsicAssetsTransferredLabel>
+      ),
       content: <ExtrinsicAssetsTransferredList />,
     },
     extrinsic?.nonce && {
