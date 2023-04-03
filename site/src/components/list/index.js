@@ -55,19 +55,32 @@ const mapLoadingState = (props) => {
   };
 };
 
+// FIXME: data should be array
 function List({ data, header, compact = false }) {
+  let items = [];
+  if (Array.isArray(data)) {
+    items = data;
+  }
+  // compat object
+  else {
+    items = Object.keys(data).map((key) => {
+      return {
+        label: key,
+        content: data[key],
+      };
+    });
+  }
+
   return (
     <Wrapper>
       {header}
 
-      {Object.keys(data).map((key, index) => {
-        return (
-          <Row key={index}>
-            <Label compact={compact}>{key}</Label>
-            <Value compact={compact}>{data[key]}</Value>
-          </Row>
-        );
-      })}
+      {items.map((item, idx) => (
+        <Row key={idx}>
+          <Label compact={compact}>{item.label}</Label>
+          <Value compact={compact}>{item.content}</Value>
+        </Row>
+      ))}
     </Wrapper>
   );
 }
