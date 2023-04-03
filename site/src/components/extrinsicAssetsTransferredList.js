@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   block,
@@ -6,8 +5,6 @@ import {
   flex_col,
   gap_x,
   gap_y,
-  grid,
-  grid_cols,
   items_center,
   p_y,
   text_secondary,
@@ -18,6 +15,10 @@ import { Inter_14_500 } from "../styles/text";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import { bigNumberToLocaleString } from "../utils/viewFuncs";
 import AddressOrIdentity from "./address";
+import { toPrecision } from "@osn/common";
+import Thumbnail from "./nft/thumbnail";
+import { useState } from "react";
+import { NftClassPreview } from "./nft/preview";
 
 const List = styled.div`
   ${flex};
@@ -31,8 +32,7 @@ const List = styled.div`
 `;
 
 const ListItemWrapper = styled.div`
-  ${grid};
-  ${grid_cols(3)};
+  ${flex};
   ${gap_x(32)};
 
   ${mobilecss(block)};
@@ -54,62 +54,85 @@ const ListItemSubtitle = styled.div`
   ${mobilecss(w(48))};
 `;
 
-// FIXME: for test
-const address = "HWyLYmpW68JGJYoVJcot6JQ1CJbtUQeTdxfY1kUTsvGCB1r";
-
-function Item({ from, to, value, symbol }) {
+function Item({
+  from,
+  to,
+  balance,
+  symbol,
+  decimals,
+  instance,
+  onInstanceThumbnailClick,
+}) {
   return (
     <ListItemWrapper>
       <ListItemContent>
         <ListItemSubtitle>From</ListItemSubtitle>
-        <AddressOrIdentity address={from} />
+        <AddressOrIdentity maxWidth={93} address={from} />
       </ListItemContent>
       <ListItemContent>
         <ListItemSubtitle>To</ListItemSubtitle>
-        <AddressOrIdentity address={to} />
+        <AddressOrIdentity maxWidth={93} address={to} />
       </ListItemContent>
       <ListItemContent>
         <ListItemSubtitle>For</ListItemSubtitle>
-        <div>
-          {bigNumberToLocaleString(value)} {symbol}
-        </div>
+        {balance && (
+          <div>
+            {bigNumberToLocaleString(toPrecision(balance, decimals))} {symbol}
+          </div>
+        )}
+        {instance && (
+          <>
+            <Thumbnail
+              size={20}
+              image={instance?.class?.parsedMetadata?.resource?.thumbnail}
+              background={
+                instance?.class?.parsedMetadata?.resource?.metadata?.background
+              }
+              onClick={onInstanceThumbnailClick}
+            />
+            <span>{instance?.class?.parsedMetadata?.name}</span>
+          </>
+        )}
       </ListItemContent>
     </ListItemWrapper>
   );
 }
 
-export default function ExtrinsicAssetsTransferredList() {
-  const { symbol } = useChainSettings();
-
-  const [list, setList] = useState([]);
-
-  // FIXME: fetch data from server
-  useEffect(() => {
-    setList([
-      {
-        from: address,
-        to: address,
-        value: 100,
-      },
-      {
-        from: address,
-        to: address,
-        value: 1001,
-      },
-    ]);
-  }, []);
+export default function ExtrinsicAssetsTransferredList({
+  assetTransferredList = [],
+  uniqueTransferredList = [],
+}) {
+  const { symbol, decimals } = useChainSettings();
+  const [preview, setPreview] = useState(false);
+  const [previewNft, setPreviewNft] = useState({});
+  const items = [...assetTransferredList, ...uniqueTransferredList];
 
   return (
     <List>
-      {list.map((item, idx) => (
+      {items.map((item, idx) => (
         <Item
           key={idx}
           from={item.from}
           to={item.to}
-          value={item.value}
+          balance={item.balance}
           symbol={symbol}
+          decimals={decimals}
+          instance={item.instance}
+          onInstanceThumbnailClick={() => {
+            setPreview(true);
+            setPreviewNft({
+              ...item.instance,
+              ...item.instance?.class,
+            });
+          }}
         />
       ))}
+
+      <NftClassPreview
+        open={preview}
+        nftClass={previewNft}
+        onClose={() => setPreview(false)}
+      />
     </List>
   );
 }
