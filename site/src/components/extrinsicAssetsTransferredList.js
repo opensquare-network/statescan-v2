@@ -179,7 +179,7 @@ export default function ExtrinsicAssetsTransferredList({
             />
           )}
           <ToggleListButton onClick={() => setExtraListVisible((v) => !v)}>
-            {extraListVisible ? "Hide" : "View All"}
+            {extraListVisible ? "Hide" : "View all"}
           </ToggleListButton>
         </>
       )}
