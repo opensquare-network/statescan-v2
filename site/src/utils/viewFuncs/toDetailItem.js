@@ -273,47 +273,62 @@ export const toEventDetailItem = (event) => {
 };
 
 export const toExtrinsicDetailItem = (extrinsic) => {
-  return {
-    "Extrinsic Time": <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
-    Block: <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />,
-    ...(extrinsic?.lifetime
-      ? {
-          "Life Time": (
-            <>
-              <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[0]}`}>
-                {extrinsic?.lifetime?.[0].toLocaleString()}
-              </ColoredInterLink>
-              <TextSecondary>{" ~ "}</TextSecondary>
-              <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[1]}`}>
-                {extrinsic?.lifetime?.[1].toLocaleString()}
-              </ColoredInterLink>
-            </>
-          ),
-        }
-      : {}),
-    "Extrinsic Hash": (
-      <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>
-    ),
-    Module: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
-    Call: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
-    ...(extrinsic?.isSigned
-      ? {
-          Signer: (
-            <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
-          ),
-        }
-      : {}),
-    "Assets Transferred": <ExtrinsicAssetsTransferredList />,
-    ...(extrinsic?.nonce
-      ? {
-          Nonce: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
-        }
-      : {}),
-    ...(extrinsic?.tip > 0
-      ? {
-          Tip: extrinsic?.tip,
-        }
-      : {}),
-    Result: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
-  };
+  return [
+    {
+      label: "Extrinsic Time",
+      content: <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
+    },
+    {
+      label: "Block",
+      content: <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />,
+    },
+    extrinsic?.lifetime && {
+      label: "Life Time",
+      content: (
+        <>
+          <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[0]}`}>
+            {extrinsic?.lifetime?.[0].toLocaleString()}
+          </ColoredInterLink>
+          <TextSecondary>{" ~ "}</TextSecondary>
+          <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[1]}`}>
+            {extrinsic?.lifetime?.[1].toLocaleString()}
+          </ColoredInterLink>
+        </>
+      ),
+    },
+    {
+      label: "Extrinsic Hash",
+      content: <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>,
+    },
+    {
+      label: "Module",
+      content: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
+    },
+    {
+      label: "Call",
+      content: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
+    },
+    extrinsic?.isSigned && {
+      label: "Signer",
+      content: (
+        <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
+      ),
+    },
+    {
+      label: "Assets Transferred",
+      content: <ExtrinsicAssetsTransferredList />,
+    },
+    extrinsic?.nonce && {
+      label: "Nonce",
+      content: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
+    },
+    extrinsic?.tip > 0 && {
+      label: "Tip",
+      content: extrinsic?.tip,
+    },
+    {
+      label: "Result",
+      content: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
+    },
+  ].filter(Boolean);
 };
