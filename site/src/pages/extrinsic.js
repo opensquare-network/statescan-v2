@@ -101,7 +101,7 @@ function Extrinsic() {
 
   // FIXME: server url
   useEffect(() => {
-    if (modules.assets) {
+    if (modules?.assets) {
       api
         .fetch("https://test.opensquare.io/extrinsics/331582-2/transfers")
         .then(({ result }) => {
@@ -109,7 +109,7 @@ function Extrinsic() {
         });
     }
 
-    if (modules.uniques) {
+    if (modules?.uniques) {
       api
         .fetch(
           "https://test.opensquare.io/extrinsics/746037-2/unique-transfers",

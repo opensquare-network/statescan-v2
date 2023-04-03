@@ -324,8 +324,8 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
         <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
       ),
     },
-    (modules.assets ||
-      modules.uniques ||
+    (modules?.assets ||
+      modules?.uniques ||
       assetTransferredList.length ||
       uniqueTransferredList.length) && {
       label: "Assets Transferred",
