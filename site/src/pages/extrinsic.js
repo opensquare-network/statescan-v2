@@ -26,6 +26,10 @@ import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import api from "../services/api";
+import {
+  extrinsicTransfersApi,
+  extrinsicUniqueTransfersApi,
+} from "../services/urls";
 
 function Extrinsic() {
   const { id } = useParams();
@@ -99,24 +103,17 @@ function Extrinsic() {
     };
   }, [id, dispatch]);
 
-  // FIXME: server url
   useEffect(() => {
     if (modules?.assets) {
-      api
-        .fetch("https://test.opensquare.io/extrinsics/331582-2/transfers")
-        .then(({ result }) => {
-          setAssetTransferredList(result);
-        });
+      api.fetch(extrinsicTransfersApi(id)).then(({ result }) => {
+        setAssetTransferredList(result);
+      });
     }
 
     if (modules?.uniques) {
-      api
-        .fetch(
-          "https://test.opensquare.io/extrinsics/746037-2/unique-transfers",
-        )
-        .then(({ result }) => {
-          setUniqueTransferredList(result);
-        });
+      api.fetch(extrinsicUniqueTransfersApi(id)).then(({ result }) => {
+        setUniqueTransferredList(result);
+      });
     }
   }, [id, modules]);
 
