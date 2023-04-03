@@ -138,10 +138,7 @@ function List({ items, setPreview = noop, setPreviewNft = noop }) {
           instance={item.instance}
           onInstanceThumbnailClick={() => {
             setPreview(true);
-            setPreviewNft({
-              ...item.instance,
-              ...item.instance?.class,
-            });
+            setPreviewNft(item.instance?.class);
           }}
         />
       ))}
