@@ -97,7 +97,7 @@ function List({ data, header, compact = false }) {
         <Row key={idx}>
           <Label compact={compact}>
             {item.label}
-            {item.count && <Count>{item.count}</Count>}
+            {!!item.count && <Count>{item.count}</Count>}
           </Label>
           <Value compact={compact}>{item.content}</Value>
         </Row>
