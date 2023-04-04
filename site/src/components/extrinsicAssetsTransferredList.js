@@ -17,6 +17,7 @@ import {
   w_full,
   truncate,
   max_w_full,
+  p_r,
 } from "../styles/tailwindcss";
 import { mobilecss } from "../styles/responsive";
 import { Inter_14_500 } from "../styles/text";
@@ -30,10 +31,14 @@ import { NftClassPreview } from "./nft/preview";
 import noop from "lodash.noop";
 
 const Wrapper = styled.div`
-  ${w_full};
   ${p_y(12)};
+  ${p_r(24)};
+  /* minus padding right */
+  width: calc(100% - 24px);
 
   ${mobilecss(p_y(0))};
+  ${mobilecss(p_r(0))};
+  ${mobilecss(w_full)};
 `;
 
 const ListWrapper = styled.div`
