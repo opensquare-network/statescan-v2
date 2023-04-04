@@ -34,6 +34,7 @@ const Label = styled.span`
   padding-bottom: ${(p) => (p.compact ? "8px" : "12px")};
   padding-left: 24px;
   flex-basis: 240px;
+  min-width: 240px;
   ${Inter_14_600};
   color: ${({ theme }) => theme.fontPrimary};
   @media screen and (max-width: 900px) {
