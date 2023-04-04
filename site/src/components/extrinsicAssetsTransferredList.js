@@ -186,7 +186,7 @@ export default function ExtrinsicAssetsTransferredList({
         setPreviewNft={setPreviewNft}
       />
 
-      {items.length > 10 && (
+      {items.length > SLICE_COUNT && (
         <>
           {extraListVisible && (
             <List
