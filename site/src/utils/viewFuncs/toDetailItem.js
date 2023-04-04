@@ -290,15 +290,15 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
   return [
     {
       label: "Extrinsic Time",
-      content: <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
+      value: <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
     },
     {
       label: "Block",
-      content: <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />,
+      value: <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />,
     },
     extrinsic?.lifetime && {
       label: "Life Time",
-      content: (
+      value: (
         <>
           <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[0]}`}>
             {extrinsic?.lifetime?.[0].toLocaleString()}
@@ -312,26 +312,24 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
     {
       label: "Extrinsic Hash",
-      content: <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>,
+      value: <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>,
     },
     {
       label: "Module",
-      content: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
+      value: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
     },
     {
       label: "Call",
-      content: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
+      value: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
     },
     extrinsic?.isSigned && {
       label: "Signer",
-      content: (
-        <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
-      ),
+      value: <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />,
     },
     showTransferredList && {
       label: "Assets Transferred",
       count: assetTransferredList.length + uniqueTransferredList.length,
-      content: (
+      value: (
         <ExtrinsicAssetsTransferredList
           assetTransferredList={assetTransferredList}
           uniqueTransferredList={uniqueTransferredList}
@@ -340,15 +338,15 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
     extrinsic?.nonce && {
       label: "Nonce",
-      content: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
+      value: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
     },
     extrinsic?.tip > 0 && {
       label: "Tip",
-      content: extrinsic?.tip,
+      value: extrinsic?.tip,
     },
     {
       label: "Result",
-      content: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
+      value: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
     },
   ].filter(Boolean);
 };

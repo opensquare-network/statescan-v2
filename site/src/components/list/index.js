@@ -84,7 +84,7 @@ function List({ data, header, compact = false }) {
     items = Object.keys(data).map((key) => {
       return {
         label: key,
-        content: data[key],
+        value: data[key],
       };
     });
   }
@@ -99,7 +99,7 @@ function List({ data, header, compact = false }) {
             {item.label}
             {!!item.count && <Count>{item.count}</Count>}
           </Label>
-          <Value compact={compact}>{item.content}</Value>
+          <Value compact={compact}>{item.value}</Value>
         </Row>
       ))}
     </Wrapper>
