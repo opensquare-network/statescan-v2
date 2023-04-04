@@ -72,7 +72,12 @@ export function AddressAndIdentity({
   );
 }
 
-function AddressOrIdentity({ address, maxWidth = "100%", ellipsis = true }) {
+function AddressOrIdentity({
+  address,
+  maxWidth = "100%",
+  ellipsis = true,
+  className,
+}) {
   const [identity, setIdentity] = useState(null);
   const chainSetting = useSelector(chainSettingSelector);
   const identityChain = chainSetting.identity;
@@ -96,7 +101,7 @@ function AddressOrIdentity({ address, maxWidth = "100%", ellipsis = true }) {
   }
 
   return (
-    <Wrapper style={{ maxWidth }}>
+    <Wrapper className={className} style={{ maxWidth }}>
       <Link to={`/accounts/${address}`}>
         <Identity maxWidth={maxWidth} identity={identity} />
       </Link>
