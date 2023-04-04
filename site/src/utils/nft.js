@@ -31,7 +31,7 @@ export function getNftInstanceLink(nftClass, nftInstance) {
 }
 
 export function getNftInstanceParsedMetadata(nftClass, nftInstance) {
-  if (nftInstance?.metadata || nftInstance?.parsedMetadata) {
+  if (nftInstance?.metadata) {
     return nftInstance.parsedMetadata;
   }
 
