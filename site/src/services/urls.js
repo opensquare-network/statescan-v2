@@ -5,6 +5,9 @@ export const homeSearchHints = "/search/hints";
 // extrinsics
 export const extrinsicListApi = `/extrinsics`;
 export const extrinsicApi = (id) => `/extrinsics/${id}`;
+export const extrinsicTransfersApi = (id) => `/extrinsics/${id}/transfers`;
+export const extrinsicUniqueTransfersApi = (id) =>
+  `/extrinsics/${id}/unique-transfers`;
 
 // blocks
 export const blockListApi = `/blocks`;

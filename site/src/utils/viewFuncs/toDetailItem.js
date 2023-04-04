@@ -30,6 +30,7 @@ import { time } from "./time";
 import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
 import AchainableLabels from "../../components/achainableLabels/index";
+import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -271,47 +272,81 @@ export const toEventDetailItem = (event) => {
   };
 };
 
-export const toExtrinsicDetailItem = (extrinsic) => {
-  return {
-    "Extrinsic Time": <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
-    Block: <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />,
-    ...(extrinsic?.lifetime
-      ? {
-          "Life Time": (
-            <>
-              <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[0]}`}>
-                {extrinsic?.lifetime?.[0].toLocaleString()}
-              </ColoredInterLink>
-              <TextSecondary>{" ~ "}</TextSecondary>
-              <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[1]}`}>
-                {extrinsic?.lifetime?.[1].toLocaleString()}
-              </ColoredInterLink>
-            </>
-          ),
-        }
-      : {}),
-    "Extrinsic Hash": (
-      <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>
-    ),
-    Module: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
-    Call: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
-    ...(extrinsic?.isSigned
-      ? {
-          Signer: (
-            <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />
-          ),
-        }
-      : {}),
-    ...(extrinsic?.nonce
-      ? {
-          Nonce: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
-        }
-      : {}),
-    ...(extrinsic?.tip > 0
-      ? {
-          Tip: extrinsic?.tip,
-        }
-      : {}),
-    Result: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
-  };
+/**
+ * @param {object} opts
+ * @param {object} opts.modules chain settings modules
+ */
+export const toExtrinsicDetailItem = (extrinsic, opts) => {
+  const {
+    modules = {},
+    assetTransferredList = [],
+    uniqueTransferredList = [],
+  } = opts ?? {};
+
+  const showTransferredList =
+    (modules?.assets || modules?.uniques) &&
+    (assetTransferredList?.length || uniqueTransferredList?.length);
+
+  return [
+    {
+      label: "Extrinsic Time",
+      value: <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
+    },
+    {
+      label: "Block",
+      value: <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />,
+    },
+    extrinsic?.lifetime && {
+      label: "Life Time",
+      value: (
+        <>
+          <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[0]}`}>
+            {extrinsic?.lifetime?.[0].toLocaleString()}
+          </ColoredInterLink>
+          <TextSecondary>{" ~ "}</TextSecondary>
+          <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[1]}`}>
+            {extrinsic?.lifetime?.[1].toLocaleString()}
+          </ColoredInterLink>
+        </>
+      ),
+    },
+    {
+      label: "Extrinsic Hash",
+      value: <TextSecondaryWithCopy>{extrinsic?.hash}</TextSecondaryWithCopy>,
+    },
+    {
+      label: "Module",
+      value: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
+    },
+    {
+      label: "Call",
+      value: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
+    },
+    extrinsic?.isSigned && {
+      label: "Signer",
+      value: <AddressOrIdentity address={extrinsic?.signer} ellipsis={false} />,
+    },
+    showTransferredList && {
+      label: "Assets Transferred",
+      count: assetTransferredList.length + uniqueTransferredList.length,
+      value: (
+        <ExtrinsicAssetsTransferredList
+          assetTransferredList={assetTransferredList}
+          uniqueTransferredList={uniqueTransferredList}
+        />
+      ),
+    },
+    extrinsic?.nonce && {
+      label: "Nonce",
+      value: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
+    },
+    extrinsic?.tip > 0 && {
+      label: "Tip",
+      value: extrinsic?.tip,
+    },
+    {
+      label: "Result",
+      value: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
+    },
+  ].filter(Boolean);
 };

@@ -14,8 +14,8 @@ const ThumbnailWrapper = styled(Wrapper)`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: ${(p) => p.size}px;
-  height: ${(p) => p.size}px;
+  min-width: ${(p) => p.size}px;
+  min-height: ${(p) => p.size}px;
   border-radius: 5px;
   overflow: hidden;
   background-color: ${(props) => props.background ?? props.theme.fillSub};

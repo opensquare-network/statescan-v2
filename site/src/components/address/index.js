@@ -18,6 +18,12 @@ const Wrapper = styled.div`
   [href]:hover {
     cursor: pointer;
   }
+
+  ${(p) =>
+    p.maxWidth &&
+    `max-width: ${
+      typeof p.maxWidth === "number" ? `${p.maxWidth}px` : p.maxWidth
+    };`}
 `;
 
 const CombinationWrapper = styled(Wrapper)`
@@ -72,7 +78,12 @@ export function AddressAndIdentity({
   );
 }
 
-function AddressOrIdentity({ address, maxWidth = "100%", ellipsis = true }) {
+function AddressOrIdentity({
+  address,
+  maxWidth = "100%",
+  ellipsis = true,
+  className,
+}) {
   const [identity, setIdentity] = useState(null);
   const chainSetting = useSelector(chainSettingSelector);
   const identityChain = chainSetting.identity;
@@ -96,7 +107,7 @@ function AddressOrIdentity({ address, maxWidth = "100%", ellipsis = true }) {
   }
 
   return (
-    <Wrapper style={{ maxWidth }}>
+    <Wrapper className={className} maxWidth={maxWidth}>
       <Link to={`/accounts/${address}`}>
         <Identity maxWidth={maxWidth} identity={identity} />
       </Link>

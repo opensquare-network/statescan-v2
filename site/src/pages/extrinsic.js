@@ -1,6 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
 import { useMemo } from "react";
@@ -24,15 +24,32 @@ import {
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
+import useChainSettings from "../utils/hooks/chain/useChainSettings";
+import api from "../services/api";
+import {
+  extrinsicTransfersApi,
+  extrinsicUniqueTransfersApi,
+} from "../services/urls";
 
 function Extrinsic() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const extrinsic = useSelector(extrinsicDetailSelector);
+  const { modules } = useChainSettings();
+
+  const [assetTransferredList, setAssetTransferredList] = useState([]);
+  const [uniqueTransferredList, setUniqueTransferredList] = useState([]);
 
   const listData = useMemo(
-    () => (extrinsic ? toExtrinsicDetailItem(extrinsic) : {}),
-    [extrinsic],
+    () =>
+      extrinsic
+        ? toExtrinsicDetailItem(extrinsic, {
+            modules,
+            assetTransferredList,
+            uniqueTransferredList,
+          })
+        : {},
+    [extrinsic, modules, assetTransferredList, uniqueTransferredList],
   );
 
   const extrinsicId = useMemo(() => {
@@ -85,6 +102,20 @@ function Extrinsic() {
       dispatch(clearExtrinsicDetail());
     };
   }, [id, dispatch]);
+
+  useEffect(() => {
+    if (modules?.assets) {
+      api.fetch(extrinsicTransfersApi(id)).then(({ result }) => {
+        setAssetTransferredList(result);
+      });
+    }
+
+    if (modules?.uniques) {
+      api.fetch(extrinsicUniqueTransfersApi(id)).then(({ result }) => {
+        setUniqueTransferredList(result);
+      });
+    }
+  }, [id, modules]);
 
   const breadCrumb = (
     <BreadCrumb
