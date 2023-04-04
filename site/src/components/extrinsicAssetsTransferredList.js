@@ -12,17 +12,17 @@ import {
   p_y,
   text_secondary,
   text_theme,
-  w,
   p,
   cursor_pointer,
   w_full,
   truncate,
+  max_w_full,
 } from "../styles/tailwindcss";
 import { mobilecss } from "../styles/responsive";
 import { Inter_14_500 } from "../styles/text";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import { bigNumberToLocaleString } from "../utils/viewFuncs";
-import AddressOrIdentity from "./address";
+import AddressOrIdentityOrigin from "./address";
 import { toPrecision } from "@osn/common";
 import Thumbnail from "./nft/thumbnail";
 import { useState } from "react";
@@ -69,7 +69,7 @@ const ListItemContent = styled.div`
 
 const ListItemSubtitle = styled.div`
   min-width: max-content;
-  ${mobilecss(w(48))};
+  ${mobilecss(`min-width: 48px;`)};
 `;
 
 const NFTName = styled.span`
@@ -86,6 +86,13 @@ const ToggleListButton = styled.button`
   ${cursor_pointer};
 `;
 
+const AddressOrIdentity = styled(AddressOrIdentityOrigin)`
+  max-width: 93px;
+
+  ${mobilecss(max_w_full)};
+  ${mobilecss(truncate)};
+`;
+
 function Item({
   from,
   to,
@@ -99,11 +106,11 @@ function Item({
     <ListItemWrapper>
       <ListItemContent>
         <ListItemSubtitle>From</ListItemSubtitle>
-        <AddressOrIdentity maxWidth={93} address={from} />
+        <AddressOrIdentity address={from} />
       </ListItemContent>
       <ListItemContent>
         <ListItemSubtitle>To</ListItemSubtitle>
-        <AddressOrIdentity maxWidth={93} address={to} />
+        <AddressOrIdentity address={to} />
       </ListItemContent>
       <ListItemContent>
         <ListItemSubtitle>For</ListItemSubtitle>
