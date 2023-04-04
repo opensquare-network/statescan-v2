@@ -15,6 +15,8 @@ import {
   w,
   p,
   cursor_pointer,
+  w_full,
+  truncate,
 } from "../styles/tailwindcss";
 import { mobilecss } from "../styles/responsive";
 import { Inter_14_500 } from "../styles/text";
@@ -28,6 +30,7 @@ import { NftClassPreview } from "./nft/preview";
 import noop from "lodash.noop";
 
 const Wrapper = styled.div`
+  ${w_full};
   ${p_y(12)};
 
   ${mobilecss(p_y(0))};
@@ -56,6 +59,7 @@ const ListItemContent = styled.div`
   ${flex};
   ${items_center};
   ${gap_x(8)};
+  min-width: 136px;
 
   div {
     ${flex};
@@ -66,6 +70,10 @@ const ListItemContent = styled.div`
 const ListItemSubtitle = styled.div`
   min-width: max-content;
   ${mobilecss(w(48))};
+`;
+
+const NFTName = styled.span`
+  ${truncate};
 `;
 
 const ToggleListButton = styled.button`
@@ -114,7 +122,7 @@ function Item({
               }
               onClick={onInstanceThumbnailClick}
             />
-            <span>{instance?.class?.parsedMetadata?.name}</span>
+            <NFTName>{instance?.class?.parsedMetadata?.name}</NFTName>
           </>
         )}
       </ListItemContent>
