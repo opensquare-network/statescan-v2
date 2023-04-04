@@ -27,8 +27,9 @@ import AddressOrIdentityOrigin from "./address";
 import { toPrecision } from "@osn/common";
 import Thumbnail from "./nft/thumbnail";
 import { useState } from "react";
-import { NftClassPreview } from "./nft/preview";
+import { NftInstancePreview } from "./nft/preview";
 import noop from "lodash.noop";
+import { getNftInstanceParsedMetadata } from "../utils/nft";
 
 const Wrapper = styled.div`
   ${p_y(12)};
@@ -105,6 +106,7 @@ function Item({
   symbol,
   decimals,
   instance,
+  nftParsedMetaData,
   onInstanceThumbnailClick,
 }) {
   return (
@@ -128,13 +130,11 @@ function Item({
           <>
             <Thumbnail
               size={20}
-              image={instance?.class?.parsedMetadata?.resource?.thumbnail}
-              background={
-                instance?.class?.parsedMetadata?.resource?.metadata?.background
-              }
+              image={nftParsedMetaData?.resource?.thumbnail}
+              background={nftParsedMetaData?.resource?.metadata?.background}
               onClick={onInstanceThumbnailClick}
             />
-            <NFTName>{instance?.class?.parsedMetadata?.name}</NFTName>
+            <NFTName>{nftParsedMetaData?.name}</NFTName>
           </>
         )}
       </ListItemContent>
@@ -147,21 +147,29 @@ function List({ items, setPreview = noop, setPreviewNft = noop }) {
 
   return (
     <ListWrapper>
-      {items.map((item, idx) => (
-        <Item
-          key={idx}
-          from={item.from}
-          to={item.to}
-          balance={item.balance}
-          symbol={symbol}
-          decimals={decimals}
-          instance={item.instance}
-          onInstanceThumbnailClick={() => {
-            setPreview(true);
-            setPreviewNft(item.instance);
-          }}
-        />
-      ))}
+      {items.map((item, idx) => {
+        const nftParsedMetaData = getNftInstanceParsedMetadata(
+          item?.instance?.class,
+          item?.instance,
+        );
+
+        return (
+          <Item
+            key={idx}
+            from={item.from}
+            to={item.to}
+            balance={item.balance}
+            symbol={symbol}
+            decimals={decimals}
+            instance={item.instance}
+            nftParsedMetaData={nftParsedMetaData}
+            onInstanceThumbnailClick={() => {
+              setPreview(true);
+              setPreviewNft(item.instance);
+            }}
+          />
+        );
+      })}
     </ListWrapper>
   );
 }
@@ -201,9 +209,10 @@ export default function ExtrinsicAssetsTransferredList({
         </>
       )}
 
-      <NftClassPreview
+      <NftInstancePreview
         open={preview}
-        nftClass={previewNft}
+        nftInstance={previewNft}
+        nftClass={previewNft?.class}
         onClose={() => setPreview(false)}
       />
     </Wrapper>
