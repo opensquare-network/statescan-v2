@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Flex } from "../styled/flex";
 import {
   bg_theme,
+  max_w_full,
   m_l,
   p_x,
   p_y,
@@ -49,8 +50,11 @@ const Value = styled(Flex)`
   flex-grow: 1;
   min-height: 44px;
   min-height: ${(p) => (p.compact ? "36px" : "44px")};
+  /* label width - label padding left */
+  max-width: calc(100% - 240px - 24px);
   @media screen and (max-width: 900px) {
     min-height: 20px;
+    ${max_w_full};
   }
   white-space: pre-wrap;
   word-break: break-all;
