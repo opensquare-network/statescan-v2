@@ -27,7 +27,7 @@ import AddressOrIdentityOrigin from "./address";
 import { toPrecision } from "@osn/common";
 import Thumbnail from "./nft/thumbnail";
 import { useState } from "react";
-import { NftInstancePreview } from "./nft/preview";
+import { NftClassPreview } from "./nft/preview";
 import noop from "lodash.noop";
 import { getNftInstanceParsedMetadata } from "../utils/nft";
 
@@ -165,7 +165,9 @@ function List({ items, setPreview = noop, setPreviewNft = noop }) {
             nftParsedMetaData={nftParsedMetaData}
             onInstanceThumbnailClick={() => {
               setPreview(true);
-              setPreviewNft(item.instance);
+              setPreviewNft(
+                item.instance?.metadata ? item.instance : item.instance?.class,
+              );
             }}
           />
         );
@@ -209,10 +211,9 @@ export default function ExtrinsicAssetsTransferredList({
         </>
       )}
 
-      <NftInstancePreview
+      <NftClassPreview
         open={preview}
-        nftInstance={previewNft}
-        nftClass={previewNft?.class}
+        nftClass={previewNft}
         onClose={() => setPreview(false)}
       />
     </Wrapper>
