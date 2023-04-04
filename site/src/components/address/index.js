@@ -18,6 +18,12 @@ const Wrapper = styled.div`
   [href]:hover {
     cursor: pointer;
   }
+
+  ${(p) =>
+    p.maxWidth &&
+    `max-width: ${
+      typeof p.maxWidth === "number" ? `${p.maxWidth}px` : p.maxWidth
+    };`}
 `;
 
 const CombinationWrapper = styled(Wrapper)`
@@ -101,7 +107,7 @@ function AddressOrIdentity({
   }
 
   return (
-    <Wrapper className={className} style={{ maxWidth }}>
+    <Wrapper className={className} maxWidth={maxWidth}>
       <Link to={`/accounts/${address}`}>
         <Identity maxWidth={maxWidth} identity={identity} />
       </Link>

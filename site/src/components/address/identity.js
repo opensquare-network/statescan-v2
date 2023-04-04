@@ -7,6 +7,12 @@ const Wrapper = styled.div`
   display: inline-flex;
   align-items: center;
   position: relative;
+
+  ${(p) =>
+    p.maxWidth &&
+    `max-width: ${
+      typeof p.maxWidth === "number" ? `${p.maxWidth}px` : p.maxWidth
+    };`}
 `;
 
 const IdentityIconWrapper = styled.span`
@@ -31,7 +37,7 @@ export default function Identity({ maxWidth, identity }) {
   }
 
   return (
-    <Wrapper style={{ maxWidth }}>
+    <Wrapper maxWidth={maxWidth}>
       <IdentityIconWrapper>
         <IdentityIcon identity={identity} />
       </IdentityIconWrapper>
