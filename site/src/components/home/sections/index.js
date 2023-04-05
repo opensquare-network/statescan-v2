@@ -147,7 +147,7 @@ export default function Sections() {
         </Section>
       </SectionsWrapper>
 
-      {modules.governance && (
+      {modules?.governance && (
         <Section>
           <Title>Governance</Title>
           <StyledPanelTableWrapper>
