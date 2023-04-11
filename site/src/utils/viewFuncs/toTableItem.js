@@ -29,6 +29,7 @@ import NftStatus from "../../components/nft/status";
 import NftName from "../../components/nft/name";
 import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
+import RuntimePalletsDataDisplay from "../../components/runtime/tabTables/palletsDataDisplay";
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -237,5 +238,20 @@ export const toNftInstanceTransferTabTableItem = (
     <Tooltip tip={transfer?.to}>
       <AddressOrIdentity address={transfer?.to} />
     </Tooltip>,
+  ];
+};
+
+/**
+ * page runtime detail tab pallets
+ */
+export const toRuntimePalletsTabTableItem = (pallet) => {
+  return [
+    pallet.name,
+    "TODO",
+    "TODO",
+    pallet.storage?.items?.length || 0,
+    pallet.constants?.length || 0,
+    "TODO",
+    <RuntimePalletsDataDisplay pallet={pallet} />,
   ];
 };

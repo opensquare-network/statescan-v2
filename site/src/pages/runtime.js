@@ -2,14 +2,17 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../components/breadCrumb";
+import DetailTabs from "../components/detail/tabs";
 import DetailLayout from "../components/layout/detailLayout";
 import List from "../components/list";
+import RuntimePalletsTable from "../components/runtime/tabTables/palletsTable";
 import { Panel } from "../components/styled/panel";
 import {
   clearRuntimeDetail,
   runtimeDetailSelector,
   runtimeFetchDetail,
 } from "../store/reducers/runtimeSlice";
+import { parseLookupTypesToDict, parseTypedPallets } from "../utils/runtime";
 import { bigNumberToLocaleString } from "../utils/viewFuncs";
 import {
   clearHttpError,
@@ -23,8 +26,11 @@ export default function Runtime() {
 
   const dispatch = useDispatch();
   const runtime = useSelector(runtimeDetailSelector);
+  const dict = parseLookupTypesToDict(runtime?.metadata?.lookup?.types);
 
   const listData = runtime ? toRuntimeDetailItem(runtime) : {};
+
+  const typedPallets = parseTypedPallets(runtime?.metadata?.pallets, dict);
 
   useEffect(() => {
     if (version && startHeight) {
@@ -50,11 +56,21 @@ export default function Runtime() {
     />
   );
 
+  const tabs = [
+    {
+      name: "Pallets",
+      count: runtime?.metadata?.pallets?.length,
+      children: <RuntimePalletsTable pallets={typedPallets} />,
+    },
+  ];
+
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
       </Panel>
+
+      <DetailTabs tabs={tabs} />
     </DetailLayout>
   );
 }
