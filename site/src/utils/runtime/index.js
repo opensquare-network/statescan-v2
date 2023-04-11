@@ -1,5 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 import noop from "lodash.noop";
+import { Fragment } from "react";
 
 /**
  * @description transform lookup types to dict
@@ -185,19 +186,18 @@ function parseGenericParams(dict = {}, params = []) {
 
 /**
  * @param {string[]} docs
- * @returns {string}
  * @description parse docs array to string text
  */
 function parseDocs(docs = []) {
-  return docs
-    .map((text) => {
-      if (text === "") {
-        return "\n";
-      }
-      return text;
-    })
-    .join("")
-    .trim();
+  return (
+    <div>
+      {docs.map((text, idx) => (
+        <Fragment key={idx}>
+          {text ? <div role="document">{text}</div> : <p />}
+        </Fragment>
+      ))}
+    </div>
+  );
 }
 
 /**
