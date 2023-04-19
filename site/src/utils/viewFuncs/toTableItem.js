@@ -29,6 +29,21 @@ import NftStatus from "../../components/nft/status";
 import NftName from "../../components/nft/name";
 import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
+import isNil from "lodash.isnil";
+
+function ExtrinsicLink(indexer = {}) {
+  if (isNil(indexer.extrinsicIndex)) {
+    return "--";
+  }
+
+  return (
+    <ColoredLink
+      to={`/extrinsics/${indexer?.blockHeight}-${indexer?.extrinsicIndex}`}
+    >
+      {indexer?.blockHeight.toLocaleString()}-{indexer?.extrinsicIndex}
+    </ColoredLink>
+  );
+}
 
 export const toEventTabTableItem = (events) => {
   return (
@@ -41,13 +56,7 @@ export const toEventTabTableItem = (events) => {
           {event?.indexer?.blockHeight.toLocaleString()}-
           {event?.indexer?.eventIndex}
         </ColoredLink>,
-        <ColoredLink
-          key={`${index}-1`}
-          to={`/extrinsics/${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}-
-          {event?.indexer?.extrinsicIndex}
-        </ColoredLink>,
+        <ExtrinsicLink key={`${index}-1`} indexer={event?.indexer} />,
         `${event?.section}(${event?.method})`,
         <EventAttributeDisplay event={event} />,
       ];
