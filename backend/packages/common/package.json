@@ -19,7 +19,7 @@
     }
   },
   "dependencies": {
-    "@osn/scan-common": "0.4.6",
+    "@osn/scan-common": "0.4.8",
     "bignumber.js": "^9.1.0",
     "mongodb": "^4.7.0"
   },

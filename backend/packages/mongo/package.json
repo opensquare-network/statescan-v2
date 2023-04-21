@@ -7,7 +7,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@osn/scan-common": "0.4.6",
+    "@osn/scan-common": "0.4.8",
     "mongodb": "^4.7.0"
   }
 }
