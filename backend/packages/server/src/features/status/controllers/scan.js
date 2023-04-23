@@ -23,7 +23,7 @@ async function getScanHeights(ctx) {
   };
 
   if (isUniquesChain()) {
-    const uniquesDb = await getUniquesDb();
+    const uniquesDb = getUniquesDb();
     Object.assign(obj, { uniques: await uniquesDb.getScanHeight() });
   }
 

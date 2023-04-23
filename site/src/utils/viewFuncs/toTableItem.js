@@ -31,7 +31,7 @@ import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
 import isNil from "lodash.isnil";
 
-function ExtrinsicLink(indexer = {}) {
+function ExtrinsicLink({ indexer = {} }) {
   if (isNil(indexer.extrinsicIndex)) {
     return "--";
   }
@@ -45,7 +45,7 @@ function ExtrinsicLink(indexer = {}) {
   );
 }
 
-export const toEventTabTableItem = (events) => {
+export const toEventTabTableItem = (events = []) => {
   return (
     events?.map((event, index) => {
       return [
