@@ -1,9 +1,9 @@
 import React from "react";
 import BigNumber from "bignumber.js";
-import { hexToString } from "@polkadot/util";
 import AddressOrIdentity from "../components/address";
 import { hexEllipsis } from ".";
 import LongText from "../components/dataDisplay/longText";
+import maybeHexToUft8 from "./hex";
 
 export function convertCallForTableView(call) {
   return {
@@ -47,7 +47,7 @@ export function convertArgsForTableView(args, section, method) {
               return [arg.name, arg.value];
             }
 
-            return [arg.name, hexToString(arg.value)];
+            return [arg.name, maybeHexToUft8(arg.value)];
           }
           case "Balance":
           case "Compact<Balance>": {
@@ -133,7 +133,7 @@ export function convertArgsForJsonView(args, section, method) {
               return arg.value;
             }
 
-            return hexToString(arg.value);
+            return maybeHexToUft8(arg.value);
           }
           default: {
             return arg.value;
