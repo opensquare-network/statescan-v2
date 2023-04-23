@@ -1,6 +1,5 @@
 import React from "react";
 import BigNumber from "bignumber.js";
-import { hexToString } from "@polkadot/util";
 import AddressOrIdentity from "../components/address";
 import { hexEllipsis } from ".";
 import LongText from "../components/dataDisplay/longText";
@@ -134,7 +133,7 @@ export function convertArgsForJsonView(args, section, method) {
               return arg.value;
             }
 
-            return hexToString(arg.value);
+            return maybeHexToUft8(arg.value);
           }
           default: {
             return arg.value;
