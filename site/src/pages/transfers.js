@@ -56,10 +56,7 @@ function Transfers() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
-      <Filter
-        title={`All ${list?.total?.toLocaleString?.() ?? ""} transfers`}
-        data={filters}
-      />
+      <Filter data={filters} />
       <StyledPanelTableWrapper
         footer={
           <Pagination

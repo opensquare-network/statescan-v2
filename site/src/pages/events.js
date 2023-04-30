@@ -120,10 +120,7 @@ function Events() {
     <Layout>
       <BreadCrumb data={[{ name: "Events" }]} />
 
-      <Filter
-        title={`All ${list?.total?.toLocaleString?.() ?? ""} events`}
-        data={filters}
-      />
+      <Filter data={filters} />
 
       <StyledPanelTableWrapper
         footer={

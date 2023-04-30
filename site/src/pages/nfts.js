@@ -65,10 +65,7 @@ function Nfts() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "NFT" }]} />
-      <Filter
-        title={`All ${list?.total?.toLocaleString?.() ?? ""} NFT classes`}
-        data={filters}
-      />
+      <Filter data={filters} />
       <StyledPanelTableWrapper
         footer={
           <Pagination

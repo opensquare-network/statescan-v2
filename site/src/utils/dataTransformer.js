@@ -76,7 +76,7 @@ export function convertArgsForTableView(args, section, method) {
               arg.value.map((v, i) => (
                 <AddressOrIdentity
                   key={`arg-${index}-${i}`}
-                  address={v.id}
+                  address={typeof v === "string" ? v : v?.id}
                   ellipsis={false}
                 />
               )),

@@ -59,10 +59,7 @@ function Extrinsics() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Extrinsics" }]} />
-      <Filter
-        title={`All ${list?.total?.toLocaleString?.() ?? ""} extrinsics`}
-        data={filters}
-      />
+      <Filter data={filters} />
       <StyledPanelTableWrapper
         footer={
           <Pagination

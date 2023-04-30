@@ -56,10 +56,7 @@ function Calls() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Calls" }]} />
-      <Filter
-        title={`All ${list?.total?.toLocaleString?.() ?? ""} calls`}
-        data={filters}
-      />
+      <Filter data={filters} />
 
       <StyledPanelTableWrapper
         footer={

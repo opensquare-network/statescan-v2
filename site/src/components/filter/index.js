@@ -154,15 +154,17 @@ export default function Filter({ title, data }) {
 
   return (
     <Wrapper>
-      <HeadWrapper>
-        <Title>{title}</Title>
-        <ForSmallScreen>
-          <FilterIcon
-            active={showFilterPanel}
-            onClick={() => setShowFilterPanel(!showFilterPanel)}
-          />
-        </ForSmallScreen>
-      </HeadWrapper>
+      {title && (
+        <HeadWrapper>
+          <Title>{title}</Title>
+        </HeadWrapper>
+      )}
+      <ForSmallScreen>
+        <FilterIcon
+          active={showFilterPanel}
+          onClick={() => setShowFilterPanel(!showFilterPanel)}
+        />
+      </ForSmallScreen>
       {(showFilterPanel || width > 900) && selectData?.length > 0 && (
         <FilterWrapper>
           {(selectData || []).map((item, index) =>
