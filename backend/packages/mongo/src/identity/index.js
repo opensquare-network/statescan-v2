@@ -30,7 +30,15 @@ async function _createIndexes() {
   }
 
   //index for identity display name
-  await getIdentityCol().createIndex({ 'info.display': 1 });
+  const identityCollection = await getIdentityCol();
+  await identityCollection.createIndex({ 'info.display': 1 });
+
+  const registrarsCollection =  await  getRegistrarsCollection()
+  await registrarsCollection.createIndex({ 'accountId': 1 });
+
+  const registrarsTimelineCollection =  await  getRegistrarsTimelineCollection()
+  await registrarsTimelineCollection.createIndex({ 'registrarIndex': 1 });
+  await registrarsTimelineCollection.createIndex({ 'requestingAccountId': 1 });
 }
 
 async function makeSureInit(col) {

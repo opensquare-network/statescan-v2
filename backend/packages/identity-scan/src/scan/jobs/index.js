@@ -1,7 +1,7 @@
 const {
     identity: {
         getRegistrarsCollection
-    }, getIdentityCol,
+    }
 } = require("@statescan/mongo");
 const {
     chain: {getApi},
@@ -10,19 +10,13 @@ const {
     getidentityStorage
 } = require("../utils/getidentityStorage");
 
-//TODO: optimize this function by using bulk write
-async function updateRegistrars(registrar) {
-    const registrarsCollection = await getRegistrarsCollection();
-    await registrarsCollection.updateOne({accountId: registrar.accountId}, {$set: registrar}, {upsert: true});
-}
-
 async function bulkUpdateRegistrars(registrars) {
     const identityCollection = await getRegistrarsCollection();
 
     // Create an array of updateOne operations
     const operations = registrars.map((identity) => ({
         updateOne: {
-            filter: {index: identity.accountId},
+            filter: {_id: identity.registrarIndex},
             update: {$set: identity},
             upsert: true
         }
