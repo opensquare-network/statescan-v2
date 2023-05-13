@@ -1,5 +1,13 @@
 const { handleIdentityEvents } = require("./identity");
 
+/**
+ * handle events and extrinsics
+ *
+ * @param events
+ * @param blockIndexer
+ * @param extrinsics
+ * @returns {Promise<void>}
+ */
 async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
     return;
