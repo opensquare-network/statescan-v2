@@ -33,7 +33,6 @@ async function handleIdentityEvents(
   blockEvents = [],
 ) {
   const { section, method } = event;
-  const api = getApi();
   if ("identity" === section) {
     console.log(`handleIdentityEv nents: ${section}.${method}`);
     console.log(`Event type: ${event.section}.${event.method}`);
@@ -73,8 +72,6 @@ async function handleIdentityEvents(
       console.log(`Main AccountId: ${event.data[0].toString()}, Sub-identity AccountId: ${event.data[1].toString()}, Balance: ${event.data[2].toString()}`);
 
     }
-
-    return;
   }
 
 
