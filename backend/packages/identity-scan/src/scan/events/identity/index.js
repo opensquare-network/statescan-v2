@@ -5,7 +5,9 @@ const {
     setIdentity,
     deleteIdentity
 } = require("./identityOperations");
-const {setRegisrarJudgement} = require("./registrarOperations");
+const {
+    setRegistrarJudgement
+} = require("./registrarOperations");
 
 const {
     IDENTITY_SET,
@@ -19,6 +21,10 @@ const {
     SUB_IDENTITY_REMOVED,
     SUB_IDENTITY_REVOKED
 } = require('./constants');
+const {
+    setSubIdentity,
+    deleteSubIdentity
+} = require("./subIdentityOperations");
 
 /**
  * Handle identity events and save to DB
@@ -48,40 +54,37 @@ async function handleIdentityEvents(
             console.log(`AccountId: ${event.data[0].toString()}, Balance: ${event.data[1].toString()}`);
 
         } else if (IDENTITY_KILLED === method) {
-          await deleteIdentity(event)
-          console.log(`AccountId: ${event.data[0].toString()}, Balance: ${event.data[1].toString()}`);
+            await deleteIdentity(event)
+            console.log(`AccountId: ${event.data[0].toString()}, Balance: ${event.data[1].toString()}`);
 
         } else if (JUDGEMENT_GIVEN === method) {
-            setRegisrarJudgement(JUDGEMENT_GIVEN, event, extrinsic)
+            await setRegistrarJudgement(JUDGEMENT_GIVEN, event, extrinsic)
             console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
         } else if (JUDGEMENT_REQUESTED === method) {
-            setRegisrarJudgement(JUDGEMENT_REQUESTED, event, extrinsic)
+            await setRegistrarJudgement(JUDGEMENT_REQUESTED, event, extrinsic)
             console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
         } else if (JUDGEMENT_UNREQUESTED === method) {
-            setRegisrarJudgement(JUDGEMENT_UNREQUESTED, event, extrinsic)
+            await setRegistrarJudgement(JUDGEMENT_UNREQUESTED, event, extrinsic)
             console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
         } else if (REGISTRAR_ADDED === method) {
             console.log(`RegistrarIndex: ${event.data[0].toString()}`);
 
         } else if (SUB_IDENTITY_ADDED === method) {
+            await setSubIdentity(event);
             console.log(`Main AccountId: ${event.data[0].toString()}, Sub-identity AccountId: ${event.data[1].toString()}, Balance: ${event.data[2].toString()}`);
 
         } else if (SUB_IDENTITY_REMOVED === method) {
+            await deleteSubIdentity(event)
             console.log(`Main AccountId: ${event.data[0].toString()}, Sub-identity AccountId: ${event.data[1].toString()}, Balance: ${event.data[2].toString()}`);
 
         } else if (SUB_IDENTITY_REVOKED === method) {
+            await deleteSubIdentity(event)
             console.log(`Main AccountId: ${event.data[0].toString()}, Sub-identity AccountId: ${event.data[1].toString()}, Balance: ${event.data[2].toString()}`);
-
         }
     }
-
-
-    //TODO: handle all identity events
-
-    // todo: handle various identity events, extract business data and save it to DB
 
 
     // todo: handle batch completed event via extrinsic with api.query.system.events.at(blockHash) and filter phase.isApplyExtrinsic

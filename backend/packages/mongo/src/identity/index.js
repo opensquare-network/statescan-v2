@@ -8,6 +8,7 @@ let identityCol = null;
 let identityTimelineCol = null;
 let registrarsCollection  = null;
 let registrarsTimelineCollection = null;
+let subIdentitiesCol = null;
 
 async function initIdentityScanDb() {
   db = new ScanDb(
@@ -18,6 +19,7 @@ async function initIdentityScanDb() {
 
   identityCol = await db.createCol("identity");
   identityTimelineCol = await db.createCol("identityTimeline");
+  subIdentitiesCol = await db.createCol("subIdentities");
   registrarsCollection = await db.createCol("registrars");
   registrarsTimelineCollection = await db.createCol("registrarsTimeline");
   _createIndexes().then(() => console.log("DB indexes created!"));
@@ -35,6 +37,9 @@ async function _createIndexes() {
 
   const registrarsCollection =  await  getRegistrarsCollection()
   await registrarsCollection.createIndex({ 'accountId': 1 });
+
+  const subIdentitiesCollection =  await  getSubIdentitiesCol()
+  await subIdentitiesCollection.createIndex({ 'mainIdentityAccountId': 1 });
 
   const registrarsTimelineCollection =  await  getRegistrarsTimelineCollection()
   await registrarsTimelineCollection.createIndex({ 'registrarIndex': 1 });
@@ -55,6 +60,11 @@ async function getIdentityCol() {
 async function getIdentityTimelineCol() {
   await makeSureInit(identityTimelineCol);
   return identityTimelineCol;
+}
+
+async function getSubIdentitiesCol() {
+    await makeSureInit(subIdentitiesCol);
+    return subIdentitiesCol;
 }
 
 async function getRegistrarsCollection() {
