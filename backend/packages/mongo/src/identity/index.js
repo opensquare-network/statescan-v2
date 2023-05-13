@@ -6,6 +6,8 @@ const {
 let db = null;
 let identityCol = null;
 let identityTimelineCol = null;
+let registrarsCollection  = null;
+let registrarsTimelineCollection = null;
 
 async function initIdentityScanDb() {
   db = new ScanDb(
@@ -16,6 +18,8 @@ async function initIdentityScanDb() {
 
   identityCol = await db.createCol("identity");
   identityTimelineCol = await db.createCol("identityTimeline");
+  registrarsCollection = await db.createCol("registrars");
+  registrarsTimelineCollection = await db.createCol("registrarsTimeline");
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
@@ -25,7 +29,8 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  // todo: create indexes
+  //index for identity display name
+  await getIdentityCol().createIndex({ 'info.display': 1 });
 }
 
 async function makeSureInit(col) {
@@ -44,6 +49,16 @@ async function getIdentityTimelineCol() {
   return identityTimelineCol;
 }
 
+async function getRegistrarsCollection() {
+    await makeSureInit(registrarsCollection);
+    return registrarsCollection;
+}
+
+async function getRegistrarsTimelineCollection() {
+    await makeSureInit(registrarsTimelineCollection);
+    return registrarsTimelineCollection;
+}
+
 async function getIdentityDb() {
   if (!db) {
     await initIdentityScanDb();
@@ -57,4 +72,6 @@ module.exports = {
   getIdentityDb,
   getIdentityCol,
   getIdentityTimelineCol,
+  getRegistrarsCollection,
+  getRegistrarsTimelineCollection,
 };
