@@ -2,6 +2,20 @@ const {
   chain: { getApi },
 } = require("@osn/scan-common");
 const {setIdentity} = require("./identityOperations");
+const {setRegisrarJudgement} = require("./registrarOperations");
+
+const {
+  IDENTITY_SET,
+  IDENTITY_CLEARED,
+  IDENTITY_KILLED,
+  JUDGEMENT_GIVEN,
+  JUDGEMENT_REQUESTED,
+  JUDGEMENT_UNREQUESTED,
+  REGISTRAR_ADDED,
+  SUB_IDENTITY_ADDED,
+  SUB_IDENTITY_REMOVED,
+  SUB_IDENTITY_REVOKED
+} = require('./constants');
 
 /**
  * Handle identity events and save to DB
@@ -22,46 +36,47 @@ async function handleIdentityEvents(
   const api = getApi();
   if ("identity" === section) {
     console.log(`handleIdentityEv nents: ${section}.${method}`);
-
-    if("IdentitySet" === method) {
+    console.log(`Event type: ${event.section}.${event.method}`);
+    let senderAccountId = extrinsic.signer.toString();
+    if(IDENTITY_SET === method) {
+      await setIdentity(senderAccountId, event, extrinsic)
       console.log(`AccountId: ${event.data[0].toString()}, Balance: ${event.data[1].toString()}`);
 
-    }else if("IdentityCleared" === method) {
+    }else if(IDENTITY_CLEARED === method) {
       console.log(`AccountId: ${event.data[0].toString()}, Balance: ${event.data[1].toString()}`);
 
-    } else if("IdentityKilled" === method) {
+    } else if(IDENTITY_KILLED === method) {
       console.log(`AccountId: ${event.data[0].toString()}, Balance: ${event.data[1].toString()}`);
 
-    } else if("JudgementGiven" === method) {
+    } else if(JUDGEMENT_GIVEN === method) {
+      setRegisrarJudgement(JUDGEMENT_GIVEN, event, extrinsic)
       console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
-    } else if("JudgementRequested" === method) {
+    } else if(JUDGEMENT_REQUESTED === method) {
+      setRegisrarJudgement(JUDGEMENT_REQUESTED, event, extrinsic)
       console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
-    } else if("JudgementUnrequested" === method) {
+    } else if(JUDGEMENT_UNREQUESTED === method) {
+      setRegisrarJudgement(JUDGEMENT_UNREQUESTED, event, extrinsic)
       console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
-    } else if("RegistrarAdded" === method) {
+    } else if(REGISTRAR_ADDED === method) {
       console.log(`RegistrarIndex: ${event.data[0].toString()}`);
 
-    } else if("SubIdentityAdded" === method) {
+    } else if(SUB_IDENTITY_ADDED === method) {
       console.log(`Main AccountId: ${event.data[0].toString()}, Sub-identity AccountId: ${event.data[1].toString()}, Balance: ${event.data[2].toString()}`);
 
-    } else if("SubIdentityRemoved" === method) {
+    } else if(SUB_IDENTITY_REMOVED === method) {
       console.log(`Main AccountId: ${event.data[0].toString()}, Sub-identity AccountId: ${event.data[1].toString()}, Balance: ${event.data[2].toString()}`);
 
-    } else if("SubIdentityRevoked" === method) {
+    } else if(SUB_IDENTITY_REVOKED === method) {
       console.log(`Main AccountId: ${event.data[0].toString()}, Sub-identity AccountId: ${event.data[1].toString()}, Balance: ${event.data[2].toString()}`);
 
     }
 
     return;
   }
-  console.log(`Event type: ${event.section}.${event.method}`);
-  let senderAccountId = null;
-  if(extrinsic.isSigned){
-    senderAccountId = extrinsic.signer.toString();
-  }
+
 
   //TODO: handle all identity events
 
