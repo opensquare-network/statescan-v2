@@ -92,4 +92,5 @@ module.exports = {
   getIdentityTimelineCol,
   getRegistrarsCollection,
   getRegistrarsTimelineCollection,
+  getSubIdentitiesCol
 };
