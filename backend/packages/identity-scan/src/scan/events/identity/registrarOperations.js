@@ -7,14 +7,15 @@ const {
     chain: { getApi },
 } = require("@osn/scan-common");
 
-async function setRegistrarJudgement(method, event, extrinsic) {
-
+async function setRegistrarJudgement(method, event, indexer) {
+    const api = await getApi();
     let registrarJudgement = {};
     const eventData = event.data;
     registrarJudgement.requestingAccountId = eventData[0].toString();
     registrarJudgement.registrarIndex = eventData[1].toNumber();
     registrarJudgement.judgementStatus = method;
-    registrarJudgement.requestTimestamp = getApi().query.timestamp.now.at(extrinsic.blockHash);
+    const currentBlockTimestamp = await api.query.timestamp.now.at(indexer.blockHash);
+    registrarJudgement.requestedTimestamp = new Date(currentBlockTimestamp.toNumber());
     console.log(`registrarJudgement: ${JSON.stringify(registrarJudgement)}`);
     await addRegistrarsTimelineCollection(registrarJudgement);
 }

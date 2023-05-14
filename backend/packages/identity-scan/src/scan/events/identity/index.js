@@ -58,15 +58,15 @@ async function handleIdentityEvents(
             console.log(`AccountId: ${event.data[0].toString()}, Balance: ${event.data[1].toString()}`);
 
         } else if (JUDGEMENT_GIVEN === method) {
-            await setRegistrarJudgement(JUDGEMENT_GIVEN, event, extrinsic)
+            await setRegistrarJudgement(JUDGEMENT_GIVEN, event, indexer)
             console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
         } else if (JUDGEMENT_REQUESTED === method) {
-            await setRegistrarJudgement(JUDGEMENT_REQUESTED, event, extrinsic)
+            await setRegistrarJudgement(JUDGEMENT_REQUESTED, event, indexer)
             console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
         } else if (JUDGEMENT_UNREQUESTED === method) {
-            await setRegistrarJudgement(JUDGEMENT_UNREQUESTED, event, extrinsic)
+            await setRegistrarJudgement(JUDGEMENT_UNREQUESTED, event, indexer)
             console.log(`AccountId: ${event.data[0].toString()}, RegistrarIndex: ${event.data[1].toString()}`);
 
         } else if (REGISTRAR_ADDED === method) {
