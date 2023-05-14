@@ -2,18 +2,22 @@ const {
     getidentityStorage
 } = require('../../utils/getidentityStorage');
 const {
-    getIdentityCol
+    identity: {
+        getIdentityCol
+    }
 } = require("@statescan/mongo");
-
 
 async function updateIdentity(identity) {
     const registrarsCollection = await getIdentityCol();
-    await registrarsCollection.updateOne({ index: identity.accountId }, { $set: identity }, { upsert: true });
+    await registrarsCollection.updateOne({ _id: identity.accountId }, { $set: identity }, { upsert: true });
 }
 
 async function setIdentity(event) {
     let accountId = event.data[0].toString();
-    let identityInfo = getidentityStorage(accountId);
+
+    //TODO: execute after current block is finalized
+    let identityInfo = await getidentityStorage(accountId);
+    console.log(`identityInfo: ${JSON.stringify(identityInfo)}`);
     await updateIdentity(identityInfo);
 }
 
