@@ -5,7 +5,7 @@ const {
 } = require("@statescan/mongo");
 const {
     currentBlockTimestamp
-} = require("../../utils/timeStampConversion");
+} = require("../../utils/unitConversion");
 
 async function setRegistrarJudgement(method, event, indexer) {
     let registrarJudgement = {};
