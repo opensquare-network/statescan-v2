@@ -9,11 +9,6 @@ const {
 const {
     currentBlockTimestamp, getSubIdentityDisplay
 } = require("../../utils/unitConversion");
-const {
-    chain: {
-        getApi
-    },
-} = require("@osn/scan-common");
 
 async function addSubIdentitiesCollection(subIdentity) {
     const collection = await getSubIdentitiesCol();
