@@ -9,7 +9,7 @@ async function getidentityStorage(accountId) {
     if (identityInfo.isSome) {
         const { info, judgements, deposit } = identityInfo.unwrap();
         identity.info = {
-            display: info.display.asRaw.toHuman(),
+            display: info.display.asRaw.toUtf8(),
             legal: info.legal.asRaw.toHuman(),
             web: info.web.asRaw.toHuman(),
             riot: info.riot.asRaw.toHuman(),

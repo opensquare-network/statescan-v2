@@ -9,36 +9,50 @@ const {
 const {
     currentBlockTimestamp
 } = require("../../utils/timeStampConversion");
+const {
+    chain: {
+        getApi
+    },
+} = require("@osn/scan-common");
 
 async function addSubIdentitiesCollection(subIdentity) {
     const collection = await getSubIdentitiesCol();
     //update and upsert collection
     await collection.updateOne(
-        { _id: subIdentity.accountId },
-        { $set: subIdentity },
-        { upsert: true }
+        {_id: subIdentity.accountId},
+        {$set: subIdentity},
+        {upsert: true}
     );
 }
 
 async function setSubIdentity(method, event, indexer) {
-        let subIdentity = {};
-        let subIdentityAccountId = event.data[0].toString();
-
-        //TODO: execute after current block is finalized
-        subIdentity = await getidentityStorage(subIdentityAccountId);
-        subIdentity.subIdentityAccountId = subIdentityAccountId;
-        subIdentity.mainIdentityAccountId = event.data[1].toString();
-        subIdentity.subIdentityStatus = method;
-        subIdentity.requestTimestamp = await currentBlockTimestamp(indexer)
-        console.log(`subIdentity: ${JSON.stringify(subIdentity)}`);
-        await addSubIdentitiesCollection(subIdentity);
+    let subIdentity = {};
+    const api = await getApi();
+    const mainIdentityAccountId = event.data[1].toString();
+    const subIdentityAccountId = event.data[0].toString();
+    subIdentity = await getidentityStorage(mainIdentityAccountId);
+    const subIdentityStorage = await api.query.identity.superOf(subIdentityAccountId);
+    if (subIdentityStorage.isSome) {
+        const [, raw] = subIdentityStorage.unwrap();
+        const display = raw.asRaw.toUtf8();
+        console.log(`superAccount`, display);
+        // override main identity display with sub identity display below
+        subIdentity.info.display = display;
+    }
+    subIdentity.accountId = subIdentityAccountId;
+    subIdentity.subIdentityAccountId = subIdentityAccountId;
+    subIdentity.mainIdentityAccountId = mainIdentityAccountId;
+    subIdentity.subIdentityStatus = method;
+    subIdentity.requestTimestamp = await currentBlockTimestamp(indexer)
+    console.log(`subIdentity: ${JSON.stringify(subIdentity)}`);
+    await addSubIdentitiesCollection(subIdentity);
 }
 
 // delete sub identity
 async function deleteSubIdentity(event) {
     let accountId = event.data[0].toString();
     const registrarsCollection = await getSubIdentitiesCol();
-    await registrarsCollection.deleteOne({ index: accountId });
+    await registrarsCollection.deleteOne({index: accountId});
 }
 
 module.exports = {
