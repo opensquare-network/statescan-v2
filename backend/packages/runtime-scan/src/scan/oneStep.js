@@ -49,11 +49,15 @@ async function oneStepScan(startHeight) {
     latestVersion?.runtimeVersion,
   );
 
+  const toSaveVersions = [];
   for (const version of differentVersions) {
     const metadata = await getMetadata(version.height);
-    Object.assign(version, { metadata });
+    toSaveVersions.push({
+      ...version,
+      metadata,
+    });
   }
-  await batchInsertVersions(differentVersions);
+  await batchInsertVersions(toSaveVersions);
 
   const lastHeight = last(versions || []).height;
   await getRuntimeDb().updateScanHeight(lastHeight);
