@@ -22,7 +22,7 @@ async function getidentityStorage(accountId) {
             twitter: info.twitter.asRaw.toHuman(),
             pgpFingerprint: info.pgpFingerprint.isSome ? info.pgpFingerprint.unwrap().toHex() : null,
         };
-        identity.deposit = deposit.toHuman();
+        identity.deposit = deposit.toNumber();
         if (judgements.length > 0) {
             let judgementsList = [];
             judgements.forEach(([registrarIndex, judgement]) => {
