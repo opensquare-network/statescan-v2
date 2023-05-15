@@ -7,8 +7,8 @@ const {
     getidentityStorage
 } = require("../../utils/getidentityStorage");
 const {
-    currentBlockTimestamp
-} = require("../../utils/timeStampConversion");
+    currentBlockTimestamp, getSubIdentityDisplay
+} = require("../../utils/unitConversion");
 const {
     chain: {
         getApi
@@ -31,14 +31,9 @@ async function setSubIdentity(method, event, indexer) {
     const mainIdentityAccountId = event.data[1].toString();
     const subIdentityAccountId = event.data[0].toString();
     subIdentity = await getidentityStorage(mainIdentityAccountId);
-    const subIdentityStorage = await api.query.identity.superOf(subIdentityAccountId);
-    if (subIdentityStorage.isSome) {
-        const [, raw] = subIdentityStorage.unwrap();
-        const display = raw.asRaw.toUtf8();
-        console.log(`superAccount`, display);
-        // override main identity display with sub identity display below
-        subIdentity.info.display = display;
-    }
+
+    // override main identity display with sub identity display below
+    subIdentity.info.display = await getSubIdentityDisplay(subIdentityAccountId);
     subIdentity.accountId = subIdentityAccountId;
     subIdentity.subIdentityAccountId = subIdentityAccountId;
     subIdentity.mainIdentityAccountId = mainIdentityAccountId;

@@ -2,6 +2,10 @@ const {
     chain: { getApi },
 } = require("@osn/scan-common");
 
+module.exports = {
+    getidentityStorage
+}
+
 async function getidentityStorage(accountId) {
     const api = await getApi();
     const identityInfo = await api.query.identity.identityOf(accountId);
@@ -34,8 +38,4 @@ async function getidentityStorage(accountId) {
     identity.accountId = accountId;
     identity.updatedAt = new Date();
     return identity;
-}
-
-module.exports = {
-    getidentityStorage
 }
