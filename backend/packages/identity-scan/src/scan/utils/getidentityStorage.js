@@ -39,6 +39,5 @@ async function getidentityStorage(accountId) {
         }
     }
     identity.accountId = accountId;
-    identity.updatedAt = new Date();
     return identity;
 }
