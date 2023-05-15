@@ -7,7 +7,8 @@ const {
     getidentityStorage
 } = require("../../utils/getidentityStorage");
 const {
-    currentBlockTimestamp, getSubIdentityDisplay
+    currentBlockTimestamp,
+    getSubIdentityDisplay
 } = require("../../utils/unitConversion");
 
 async function addSubIdentitiesCollection(subIdentity) {
