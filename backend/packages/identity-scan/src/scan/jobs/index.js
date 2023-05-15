@@ -44,7 +44,6 @@ async function getAllRegistrars(api) {
             registrarInfo = await getidentityStorage(accountId);
         } else {
             registrarInfo.accountId = accountId;
-            registrarInfo.updatedAt = new Date();
         }
         registrarInfo.registrarIndex = registrars.indexOf(registrar);
         registrarsDB.push(registrarInfo);
