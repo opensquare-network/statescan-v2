@@ -32,6 +32,12 @@ async function getSubIdentityDisplay(accountId) {
     return null;
 }
 
+/**
+ * convert planck unit to decimal with token name(WND,DOT,KSM) e.g. / 1000000000000 to 1.0000 WND
+ *
+ * @param balance
+ * @returns {Promise<string>}
+ */
 async function toDecimal(balance) {
     const api = await getApi();
     const decimals = api.registry.chainDecimals[0];
