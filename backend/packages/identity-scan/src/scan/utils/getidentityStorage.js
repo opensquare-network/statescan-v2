@@ -1,6 +1,9 @@
 const {
     chain: { getApi },
 } = require("@osn/scan-common");
+const {
+    toDecimal
+} = require("./unitConversion");
 
 module.exports = {
     getidentityStorage
@@ -22,7 +25,7 @@ async function getidentityStorage(accountId) {
             twitter: info.twitter.asRaw.toHuman(),
             pgpFingerprint: info.pgpFingerprint.isSome ? info.pgpFingerprint.unwrap().toHex() : null,
         };
-        identity.deposit = deposit.toNumber();
+        identity.deposit = await toDecimal(deposit.toNumber());
         if (judgements.length > 0) {
             let judgementsList = [];
             judgements.forEach(([registrarIndex, judgement]) => {

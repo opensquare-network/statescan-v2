@@ -1,5 +1,4 @@
-
-
+const { BN } = require('@polkadot/util');
 const {
     chain: { getApi },
 } = require("@osn/scan-common");
@@ -33,8 +32,16 @@ async function getSubIdentityDisplay(accountId) {
     return null;
 }
 
+async function toDecimal(balance) {
+    const api = await getApi();
+    const decimals = api.registry.chainDecimals[0];
+    const base = new BN(10).pow(new BN(decimals));
+    const dm = new BN(balance).divmod(base);
+    return parseFloat(dm.div.toString() + "." + dm.mod.toString()) + " " + api.registry.chainTokens[0];
+}
 
 module.exports = {
     currentBlockTimestamp,
-    getSubIdentityDisplay
+    getSubIdentityDisplay,
+    toDecimal
 }
