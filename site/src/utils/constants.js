@@ -335,5 +335,26 @@ export const DEFAULT_POLKADOT_NODES = [
   },
 ];
 
+export const DEFAULT_LITENTRY_NODE_URL =
+  "wss://rpc.litentry-parachain.litentry.io/";
+export const DEFAULT_LITENTRY_NODES = [
+  {
+    name: "Litentry",
+    url: "wss://rpc.litentry-parachain.litentry.io/",
+  },
+  {
+    name: "Dwellir",
+    url: "wss://litentry-rpc.dwellir.com/",
+  },
+];
+
+export const DEFAULT_LITMUS_NODE_URL = "wss://rpc.litmus-parachain.litentry.io";
+export const DEFAULT_LITMUS_NODES = [
+  {
+    name: "Litentry",
+    url: "wss://rpc.litmus-parachain.litentry.io",
+  },
+];
+
 export const TREASURY_ACCOUNT =
   "F3opxRbN5ZbjJNU511Kj2TLuzFcDq9BGduA9TgiECafpg29";

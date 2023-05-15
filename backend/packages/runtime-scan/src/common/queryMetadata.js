@@ -1,12 +1,12 @@
-const { queryBlockHash } = require("./queryBlockHash");
 const {
-  chain: { findBlockApi },
+  chain: { getApi },
 } = require("@osn/scan-common");
 
 async function getMetadata(blockHeight) {
-  const blockHash = await queryBlockHash(blockHeight);
-  const blockApi = await findBlockApi(blockHash);
-  return blockApi.registry.metadata.toJSON();
+  const api = await getApi();
+  const blockHash = await api.rpc.chain.getBlockHash(blockHeight);
+  const metadata = await api.rpc.state.getMetadata(blockHash);
+  return Object.values(metadata.get("metadata").toJSON())[0];
 }
 
 module.exports = {

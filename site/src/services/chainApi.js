@@ -4,6 +4,10 @@ import {
   DEFAULT_KUSAMA_NODE_URL,
   DEFAULT_POLKADOT_NODES,
   DEFAULT_POLKADOT_NODE_URL,
+  DEFAULT_LITENTRY_NODES,
+  DEFAULT_LITENTRY_NODE_URL,
+  DEFAULT_LITMUS_NODE_URL,
+  DEFAULT_LITMUS_NODES,
 } from "../utils/constants";
 
 let nodeUrl = (() => {
@@ -20,6 +24,12 @@ let nodeUrl = (() => {
     polkadot:
       DEFAULT_POLKADOT_NODES.find((item) => item.url === localNodeUrl?.polkadot)
         ?.url || DEFAULT_POLKADOT_NODE_URL,
+    litentry:
+      DEFAULT_LITENTRY_NODES.find((item) => item.url === localNodeUrl?.litentry)
+        ?.url || DEFAULT_LITENTRY_NODE_URL,
+    litmus:
+      DEFAULT_LITMUS_NODES.find((item) => item.url === localNodeUrl?.litmus)
+        ?.url || DEFAULT_LITMUS_NODE_URL,
   };
 })();
 

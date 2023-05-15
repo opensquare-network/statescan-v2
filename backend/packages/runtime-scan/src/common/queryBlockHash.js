@@ -1,15 +1,10 @@
 const {
-  chain: { getProvider },
+  chain: { getApi },
 } = require("@osn/scan-common");
 
 async function queryBlockHash(blockHeight) {
-  const provider = await getProvider();
-  try {
-    return await provider.send("chain_getBlockHash", [blockHeight]);
-  } catch (e) {
-    console.error("Can not get block hash");
-    throw e;
-  }
+  const api = await getApi();
+  return api.rpc.chain.getBlockHash(blockHeight);
 }
 
 module.exports = {
