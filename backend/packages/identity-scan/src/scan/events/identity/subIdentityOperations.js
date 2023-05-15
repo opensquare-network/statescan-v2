@@ -27,7 +27,6 @@ async function addSubIdentitiesCollection(subIdentity) {
 
 async function setSubIdentity(method, event, indexer) {
     let subIdentity = {};
-    const api = await getApi();
     const mainIdentityAccountId = event.data[1].toString();
     const subIdentityAccountId = event.data[0].toString();
     subIdentity = await getidentityStorage(mainIdentityAccountId);

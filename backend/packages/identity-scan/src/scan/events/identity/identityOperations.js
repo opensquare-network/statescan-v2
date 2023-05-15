@@ -15,7 +15,7 @@ async function updateIdentity(identity) {
 async function setIdentity(event) {
     let accountId = event.data[0].toString();
 
-    //TODO: execute after current block is finalized
+    //TODO: execute after current block is finalized for storage not included in current block
     let identityInfo = await getidentityStorage(accountId);
     console.log(`identityInfo: ${JSON.stringify(identityInfo)}`);
     await updateIdentity(identityInfo);

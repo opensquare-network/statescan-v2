@@ -1,7 +1,4 @@
 const {
-    chain: {getApi},
-} = require("@osn/scan-common");
-const {
     setIdentity,
     deleteIdentity
 } = require("./identityOperations");

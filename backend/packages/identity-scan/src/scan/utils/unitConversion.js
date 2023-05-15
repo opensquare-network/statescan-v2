@@ -28,8 +28,7 @@ async function getSubIdentityDisplay(accountId) {
     const subIdentityStorage = await api.query.identity.superOf(accountId);
     if (subIdentityStorage.isSome) {
         const [, raw] = subIdentityStorage.unwrap();
-        const display = raw.asRaw.toUtf8();
-        return display;
+        return raw.asRaw.toUtf8();
     }
     return null;
 }
