@@ -4,6 +4,7 @@ const runtime = require("./runtime");
 const asset = require("./asset");
 const uniques = require("./uniques");
 const identity = require("./identity");
+const vesting = require("./vesting");
 
 module.exports = {
   account,
@@ -12,4 +13,5 @@ module.exports = {
   asset,
   uniques,
   identity,
+  vesting,
 };
