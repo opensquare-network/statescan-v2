@@ -39,7 +39,7 @@ async function _createIndexes() {
   await registrarsCollection.createIndex({ 'accountId': 1 });
 
   const subIdentitiesCollection =  await  getSubIdentitiesCol()
-  await subIdentitiesCollection.createIndex({ 'mainIdentityAccountId': 1 });
+  await subIdentitiesCollection.createIndex({ 'parentIdentityAccountId': 1 });
 
   const registrarsTimelineCollection =  await  getRegistrarsTimelineCollection()
   await registrarsTimelineCollection.createIndex({ 'registrarIndex': 1 });
