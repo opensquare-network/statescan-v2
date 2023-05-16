@@ -1,5 +1,6 @@
 // constants.js
 module.exports = {
+    IDENTITY: 'Identity',
     IDENTITY_SET: 'IdentitySet',
     IDENTITY_CLEARED: 'IdentityCleared',
     IDENTITY_KILLED: 'IdentityKilled',
