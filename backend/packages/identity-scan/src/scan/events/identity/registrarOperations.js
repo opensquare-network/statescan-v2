@@ -4,7 +4,7 @@ const {
     }
 } = require("@statescan/mongo");
 const {
-    currentBlockTimestamp
+    getCurrentBlockTimestamp
 } = require("../../utils/unitConversion");
 
 async function setRegistrarJudgement(method, event, indexer) {
@@ -13,7 +13,7 @@ async function setRegistrarJudgement(method, event, indexer) {
     registrarJudgement.requestingAccountId = eventData[0].toString();
     registrarJudgement.registrarIndex = eventData[1].toNumber();
     registrarJudgement.judgementStatus = method;
-    registrarJudgement.requestedTimestamp = currentBlockTimestamp(indexer)
+    registrarJudgement.requestedTimestamp = getCurrentBlockTimestamp(indexer)
     console.log(`registrarJudgement: ${JSON.stringify(registrarJudgement)}`);
     await addRegistrarsTimelineCollection(registrarJudgement);
 }

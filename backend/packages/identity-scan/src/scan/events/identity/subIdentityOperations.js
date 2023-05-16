@@ -7,7 +7,7 @@ const {
     getidentityStorage
 } = require("../../utils/getidentityStorage");
 const {
-    currentBlockTimestamp,
+    getCurrentBlockTimestamp,
     getSubIdentityDisplay
 } = require("../../utils/unitConversion");
 
@@ -33,7 +33,7 @@ async function setSubIdentity(method, event, indexer) {
     subIdentity.subIdentityAccountId = subIdentityAccountId;
     subIdentity.parentIdentityAccountId = parentIdentityAccountId;
     subIdentity.subIdentityStatus = method;
-    subIdentity.requestTimestamp = await currentBlockTimestamp(indexer)
+    subIdentity.requestTimestamp = await getCurrentBlockTimestamp(indexer)
     console.log(`subIdentity: ${JSON.stringify(subIdentity)}`);
     await addSubIdentitiesCollection(subIdentity);
 }

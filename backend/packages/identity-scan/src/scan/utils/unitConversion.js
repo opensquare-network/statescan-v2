@@ -9,7 +9,7 @@ const {
  * @param indexer
  * @returns {Promise<Date>}
  */
-async function currentBlockTimestamp(indexer) {
+async function getCurrentBlockTimestamp(indexer) {
     const api = await getApi();
     const currentBlockTimestamp = await api.query.timestamp.now.at(indexer.blockHash);
     return new Date(currentBlockTimestamp.toNumber());
@@ -47,7 +47,7 @@ async function toDecimal(balance) {
 }
 
 module.exports = {
-    currentBlockTimestamp,
+    getCurrentBlockTimestamp,
     getSubIdentityDisplay,
     toDecimal
 }
