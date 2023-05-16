@@ -23,15 +23,15 @@ async function addSubIdentitiesCollection(subIdentity) {
 
 async function setSubIdentity(method, event, indexer) {
     let subIdentity = {};
-    const mainIdentityAccountId = event.data[1].toString();
+    const parentIdentityAccountId = event.data[1].toString();
     const subIdentityAccountId = event.data[0].toString();
-    subIdentity = await getidentityStorage(mainIdentityAccountId);
+    subIdentity = await getidentityStorage(parentIdentityAccountId);
 
     // override main identity display with sub identity display below
     subIdentity.info.display = await getSubIdentityDisplay(subIdentityAccountId);
     subIdentity.accountId = subIdentityAccountId;
     subIdentity.subIdentityAccountId = subIdentityAccountId;
-    subIdentity.mainIdentityAccountId = mainIdentityAccountId;
+    subIdentity.parentIdentityAccountId = parentIdentityAccountId;
     subIdentity.subIdentityStatus = method;
     subIdentity.requestTimestamp = await currentBlockTimestamp(indexer)
     console.log(`subIdentity: ${JSON.stringify(subIdentity)}`);
