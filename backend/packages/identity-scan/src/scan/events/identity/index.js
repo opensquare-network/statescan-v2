@@ -16,7 +16,8 @@ const {
     REGISTRAR_ADDED,
     SUB_IDENTITY_ADDED,
     SUB_IDENTITY_REMOVED,
-    SUB_IDENTITY_REVOKED
+    SUB_IDENTITY_REVOKED,
+    IDENTITY
 } = require('./constants');
 const {
     setSubIdentity,
@@ -40,7 +41,7 @@ async function handleIdentityEvents(
 ) {
     const {section, method} = event;
     console.log(`handleIdentityEvents: ${section}.${method}`);
-    if ("identity" === section) {
+    if (IDENTITY === section) {
 
         if (IDENTITY_SET === method) {
             await setIdentity(event)
