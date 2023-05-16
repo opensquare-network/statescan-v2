@@ -10,12 +10,12 @@ async function main() {
 
   const col = await getRuntimeCollection();
   const versions = await col.find({}, { projection: { height: 1 } }).toArray();
-  const bulk = col.initializeUnorderedBulkOp();
+  console.log(`Got ${versions.length} versions`);
   for (const { height } of versions) {
     const metadata = await getMetadata(height);
-    bulk.find({ height }).upsert().updateOne({ $set: { metadata } });
+    await col.updateOne({ height }, { $set: { metadata } });
+    console.log(`version on ${height} updated!`);
   }
-  await bulk.execute();
   process.exit(0);
 }
 
