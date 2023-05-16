@@ -10,7 +10,7 @@ const {
 async function main() {
     await initIdentityScanDb();
     await subscribeFinalizedHeight();
-    // blockHeights for RegistarsTimelineCollection, identityCollection, subIdentityCollection
+    // blockHeights for collection registarsTimeline, identity, subIdentity
     const blockHeights = [17914288,17884357,17664915];
 
     const api = await getApi();
