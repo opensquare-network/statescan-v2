@@ -1,6 +1,6 @@
 const {
     identity: {
-        getSubIdentitiesCol
+        getSubIdentitiesCollection
     }
 } = require("@statescan/mongo");
 const {
@@ -12,7 +12,7 @@ const {
 } = require("../../utils/unitConversion");
 
 async function addSubIdentitiesCollection(subIdentity) {
-    const collection = await getSubIdentitiesCol();
+    const collection = await getSubIdentitiesCollection();
     //update and upsert collection
     await collection.updateOne(
         {_id: subIdentity.accountId},
@@ -41,7 +41,7 @@ async function setSubIdentity(method, event, indexer) {
 // delete sub identity
 async function deleteSubIdentity(event) {
     const subIdentityAccountId = event.data[0].toString();
-    const registrarsCollection = await getSubIdentitiesCol();
+    const registrarsCollection = await getSubIdentitiesCollection();
     await registrarsCollection.deleteOne({_id: subIdentityAccountId});
 }
 

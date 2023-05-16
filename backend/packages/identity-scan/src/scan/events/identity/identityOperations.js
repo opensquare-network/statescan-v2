@@ -3,12 +3,12 @@ const {
 } = require('../../utils/getIdentityStorage');
 const {
     identity: {
-        getIdentityCol
+        getIdentityCollection
     }
 } = require("@statescan/mongo");
 
 async function updateIdentity(identity) {
-    const registrarsCollection = await getIdentityCol();
+    const registrarsCollection = await getIdentityCollection();
     await registrarsCollection.updateOne({ _id: identity.accountId }, { $set: identity }, { upsert: true });
 }
 
@@ -24,7 +24,7 @@ async function setIdentity(event) {
 // delete identity
 async function deleteIdentity(event) {
     const accountId = event.data[0].toString();
-    const registrarsCollection = await getIdentityCol();
+    const registrarsCollection = await getIdentityCollection();
     await registrarsCollection.deleteOne({ _id: accountId });
 }
 
