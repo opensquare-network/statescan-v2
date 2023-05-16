@@ -1,19 +1,32 @@
 require("dotenv").config();
 const {
-    chain: { getApi, setSpecHeights, subscribeFinalizedHeight },
+    chain: {getApi, setSpecHeights, subscribeFinalizedHeight},
 } = require("@osn/scan-common");
-const { handleBlock } = require("./scan/block");
+const {handleBlock} = require("./scan/block");
 const {
-    identity: { initIdentityScanDb },
+    identity: {initIdentityScanDb},
+} = require("@statescan/mongo");
+const {deleteFrom} = require("./scan/delete");
+
+const {
+    identity: {
+        getIdentityDb
+    },
 } = require("@statescan/mongo");
 
 async function main() {
     await initIdentityScanDb();
     await subscribeFinalizedHeight();
     // blockHeights for collection registarsTimeline, identity, subIdentity
-    const blockHeights = [17914288,17884357,17664915];
-
+    const blockHeights =
+        [17935411, 17877876, //registrarTimeline
+        17914288, 17884357, //identity
+        17664915]; //subIdentity
+    const db = await getIdentityDb();
     const api = await getApi();
+    let toScanHeight = await db.getNextScanHeight();
+    await deleteFrom(toScanHeight);
+
     for (const height of blockHeights) {
         await setSpecHeights([height - 1]);
 
@@ -22,9 +35,7 @@ async function main() {
         const allEvents = await api.query.system.events.at(blockHash);
 
         await handleBlock({
-            height,
-            block: block.block,
-            events: allEvents,
+            height, block: block.block, events: allEvents,
         });
         console.log(`${height} finished`);
     }
