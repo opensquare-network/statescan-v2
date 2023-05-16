@@ -42,7 +42,7 @@ async function setSubIdentity(method, event, indexer) {
 async function deleteSubIdentity(event) {
     let accountId = event.data[0].toString();
     const registrarsCollection = await getSubIdentitiesCol();
-    await registrarsCollection.deleteOne({index: accountId});
+    await registrarsCollection.deleteOne({_id: accountId});
 }
 
 module.exports = {
