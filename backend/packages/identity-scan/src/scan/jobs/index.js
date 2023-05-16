@@ -7,8 +7,8 @@ const {
     chain: {getApi},
 } = require("@osn/scan-common");
 const {
-    getidentityStorage
-} = require("../utils/getidentityStorage");
+    getIdentityStorage
+} = require("../utils/getIdentityStorage");
 
 async function bulkUpdateRegistrars(registrars) {
     const identityCollection = await getRegistrarsCollection();
@@ -41,7 +41,7 @@ async function getAllRegistrars(api) {
         let registrarInfo = {};
         let accountId = registrar.unwrap().account.toString();
         if (registrar.isSome) {
-            registrarInfo = await getidentityStorage(accountId);
+            registrarInfo = await getIdentityStorage(accountId);
         } else {
             registrarInfo.accountId = accountId;
         }
