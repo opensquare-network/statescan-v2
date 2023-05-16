@@ -13,7 +13,7 @@ async function updateIdentity(identity) {
 }
 
 async function setIdentity(event) {
-    let accountId = event.data[0].toString();
+    const accountId = event.data[0].toString();
 
     //TODO: execute after current block is finalized for storage not included in current block
     let identityInfo = await getidentityStorage(accountId);
@@ -23,7 +23,7 @@ async function setIdentity(event) {
 
 // delete identity
 async function deleteIdentity(event) {
-    let accountId = event.data[0].toString();
+    const accountId = event.data[0].toString();
     const registrarsCollection = await getIdentityCol();
     await registrarsCollection.deleteOne({ _id: accountId });
 }

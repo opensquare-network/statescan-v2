@@ -40,7 +40,7 @@ async function setSubIdentity(method, event, indexer) {
 
 // delete sub identity
 async function deleteSubIdentity(event) {
-    let subIdentityAccountId = event.data[0].toString();
+    const subIdentityAccountId = event.data[0].toString();
     const registrarsCollection = await getSubIdentitiesCol();
     await registrarsCollection.deleteOne({_id: subIdentityAccountId});
 }
