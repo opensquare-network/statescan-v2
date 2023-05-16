@@ -27,7 +27,7 @@ async function setSubIdentity(method, event, indexer) {
     const subIdentityAccountId = event.data[0].toString();
     subIdentity = await getidentityStorage(parentIdentityAccountId);
 
-    // override main identity display with sub identity display below
+    // override main identity display with sub identity display below as only sub identity display name is different, rest info is inherited from parent identity
     subIdentity.info.display = await getSubIdentityDisplay(subIdentityAccountId);
     subIdentity.accountId = subIdentityAccountId;
     subIdentity.subIdentityAccountId = subIdentityAccountId;
