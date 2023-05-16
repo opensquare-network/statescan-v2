@@ -1,6 +1,6 @@
 const {
-    getidentityStorage
-} = require('../../utils/getidentityStorage');
+    getIdentityStorage
+} = require('../../utils/getIdentityStorage');
 const {
     identity: {
         getIdentityCol
@@ -16,7 +16,7 @@ async function setIdentity(event) {
     const accountId = event.data[0].toString();
 
     //TODO: execute after current block is finalized for storage not included in current block
-    let identityInfo = await getidentityStorage(accountId);
+    let identityInfo = await getIdentityStorage(accountId);
     console.log(`identityInfo: ${JSON.stringify(identityInfo)}`);
     await updateIdentity(identityInfo);
 }

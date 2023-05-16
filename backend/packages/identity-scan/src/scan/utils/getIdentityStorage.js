@@ -5,11 +5,9 @@ const {
     toDecimal
 } = require("./unitConversion");
 
-module.exports = {
-    getidentityStorage
-}
 
-async function getidentityStorage(accountId) {
+
+async function getIdentityStorage(accountId) {
     const api = await getApi();
     const identityInfo = await api.query.identity.identityOf(accountId);
     let identity = {};
@@ -40,4 +38,8 @@ async function getidentityStorage(accountId) {
     }
     identity.accountId = accountId;
     return identity;
+}
+
+module.exports = {
+    getIdentityStorage
 }

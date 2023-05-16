@@ -4,8 +4,8 @@ const {
     }
 } = require("@statescan/mongo");
 const {
-    getidentityStorage
-} = require("../../utils/getidentityStorage");
+    getIdentityStorage
+} = require("../../utils/getIdentityStorage");
 const {
     getCurrentBlockTimestamp,
     getSubIdentityDisplay
@@ -25,7 +25,7 @@ async function setSubIdentity(method, event, indexer) {
     let subIdentity = {};
     const parentIdentityAccountId = event.data[1].toString();
     const subIdentityAccountId = event.data[0].toString();
-    subIdentity = await getidentityStorage(parentIdentityAccountId);
+    subIdentity = await getIdentityStorage(parentIdentityAccountId);
 
     // override main identity display with sub identity display below as only sub identity display name is different, rest info is inherited from parent identity
     subIdentity.info.display = await getSubIdentityDisplay(subIdentityAccountId);
