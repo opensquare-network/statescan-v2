@@ -25,7 +25,7 @@ async function setIdentity(event) {
 async function deleteIdentity(event) {
     let accountId = event.data[0].toString();
     const registrarsCollection = await getIdentityCol();
-    await registrarsCollection.deleteOne({ index: accountId });
+    await registrarsCollection.deleteOne({ _id: accountId });
 }
 
 module.exports = {
