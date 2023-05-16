@@ -18,10 +18,17 @@ async function main() {
     await initIdentityScanDb();
     await subscribeFinalizedHeight();
     // blockHeights for collection registarsTimeline, identity, subIdentity
-    const blockHeights =
-        [17935411, 17877876, //registrarTimeline
-        17914288, 17884357, //identity
-        17664915]; //subIdentity
+/*    const blockHeights =
+        [   17935411, 17877876, //registrarTimeline
+            17914288, 17884357, //identity
+            17664915,  //subIdentity
+            10957429, 10957452, 17664901, 17664907, 17664910, 17664915, //identityTimeline
+            17935340, 17935363 , 17935385 //identityTimeline
+        ];*/
+
+    const blockHeights = [
+        10957429, 10957452, 17664901, 17664907, 17664910, 17664915, //identityTimeline
+    ]
     const db = await getIdentityDb();
     const api = await getApi();
     let toScanHeight = await db.getNextScanHeight();
