@@ -6,6 +6,7 @@ async function getMetadata(blockHeight) {
   const api = await getApi();
   const blockHash = await api.rpc.chain.getBlockHash(blockHeight);
   const metadata = await api.rpc.state.getMetadata(blockHash);
+  // fixme: need to transform all metadata to same version
   return Object.values(metadata.get("metadata").toJSON())[0];
 }
 
