@@ -6,11 +6,11 @@ const {
   env: { isUseMetaDb },
 } = require("@osn/scan-common");
 const {
-  identity: { initIdentityScanDb },
+  vesting: { initVestingScanDb },
 } = require("@statescan/mongo");
 
 async function main() {
-  await initIdentityScanDb();
+  await initVestingScanDb();
   await subscribeFinalizedHeight();
   if (isUseMetaDb()) {
     await updateSpecs();
