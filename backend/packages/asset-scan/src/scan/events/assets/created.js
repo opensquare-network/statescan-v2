@@ -34,9 +34,10 @@ async function handleCreated(event, indexer, extrinsic, isForced = false) {
     destroyed: false,
   });
 
+  const owner = isForced ? data[1].toString() : data[2].toString();
   const args = {
     assetId,
-    owner: data[2].toString(),
+    owner,
   };
   if (!isForced) {
     Object.assign(args, { creator: data[1].toString() });
