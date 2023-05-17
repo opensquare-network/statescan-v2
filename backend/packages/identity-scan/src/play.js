@@ -7,7 +7,11 @@ const {
     identity: {initIdentityScanDb},
 } = require("@statescan/mongo");
 const {deleteFrom} = require("./scan/delete");
-
+const {
+    identity: {
+        getIdentityTimelineCollection
+    }
+} = require("@statescan/mongo");
 const {
     identity: {
         getIdentityDb
@@ -33,7 +37,8 @@ async function main() {
     const api = await getApi();
     let toScanHeight = await db.getNextScanHeight();
     await deleteFrom(toScanHeight);
-
+    const identityTimelineCollection = await getIdentityTimelineCollection();
+    identityTimelineCollection.drop();
     for (const height of blockHeights) {
         await setSpecHeights([height - 1]);
 
