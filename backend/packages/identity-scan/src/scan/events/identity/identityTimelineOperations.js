@@ -3,7 +3,7 @@ const {
         getIdentityTimelineCollection
     }
 } = require("@statescan/mongo");
-const {getCurrentBlockTimestamp} = require("../../utils/unitConversion");
+const {getCurrentBlockTimestamp, getSubIdentityDisplay} = require("../../utils/unitConversion");
 const {
     JUDGEMENT_GIVEN,
     JUDGEMENT_REQUESTED,
@@ -12,20 +12,30 @@ const {
     SUB_IDENTITY_REMOVED,
     SUB_IDENTITY_REVOKED,
 } = require('./constants');
-
+const {getIdentityStorage} = require("../../utils/getIdentityStorage");
 
 async function setIdentityEventForTimeline(method, event, indexer) {
     let identityEvent = {};
     const eventData = event.data;
-    identityEvent.accountId = eventData[0].toString();
+    const accountId = eventData[0].toString();
+
+    identityEvent = await getIdentityStorage(accountId);
+
     //check if judgement or subidentity related method then add extra data
-    identityEvent = checkIfJudgementRelated(method, eventData, identityEvent);
-    identityEvent = checkIfSubIdentityRelated(method, eventData, identityEvent);
+    const judgementRelatedData = checkIfJudgementRelated(method, eventData, identityEvent);
+    identityEvent = {...identityEvent, ...judgementRelatedData};
+
+    const subIdentityRelatedData = await checkIfSubIdentityRelated(method, eventData, identityEvent);
+    identityEvent = {...identityEvent, ...subIdentityRelatedData};
+
     identityEvent.identityStatus = method;
-    identityEvent.timestamp = await getCurrentBlockTimestamp(indexer)
+    identityEvent.timestamp = await getCurrentBlockTimestamp(indexer);
+
     console.log(`identityEventForTimeline: ${JSON.stringify(identityEvent)}`);
+
     await addIdentityTimelineCollection(identityEvent, indexer);
 }
+
 
 async function addIdentityTimelineCollection(identityEvent, indexer) {
     const collection = await getIdentityTimelineCollection();
@@ -44,12 +54,20 @@ function checkIfJudgementRelated(method, eventData, identityEvent) {
     return identityEvent;
 }
 
-function checkIfSubIdentityRelated(method, eventData, identityEvent) {
+async function checkIfSubIdentityRelated(method, eventData, identityEvent) {
 
     if (method === SUB_IDENTITY_ADDED || method === SUB_IDENTITY_REMOVED || method === SUB_IDENTITY_REVOKED) {
-        identityEvent.subIdentityAccountId = eventData[0].toString();
-        identityEvent.accountId = eventData[1].toString();
+        const subIdentityAccountId = eventData[0].toString();
+        const parentIdentityAccountId = eventData[1].toString();
+        identityEvent.subIdentityAccountId = subIdentityAccountId;
+        identityEvent.accountId = parentIdentityAccountId;
         identityEvent.subIdentityStatus = method;
+
+        // override main identity display with sub identity display below as only sub identity display name is different, rest info is inherited from parent identity
+        if(method === SUB_IDENTITY_ADDED){
+            identityEvent = await getIdentityStorage(parentIdentityAccountId);
+            identityEvent.info.display = await getSubIdentityDisplay(subIdentityAccountId);
+        }
     }
     return identityEvent;
 
