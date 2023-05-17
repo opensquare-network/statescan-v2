@@ -1,5 +1,5 @@
 const {
-  asset: { getTransferCollection, getAssetTimelineCol },
+  asset: { getTransferCollection, getAssetTimelineCol, getAssetCol },
 } = require("@statescan/mongo");
 
 async function deleteFrom(height) {
@@ -7,8 +7,11 @@ async function deleteFrom(height) {
     throw new Error("No height given when deleting unFinalized transfers");
   }
 
-  const col = await getTransferCollection();
-  await col.deleteMany({ "indexer.blockHeight": { $gte: height } });
+  const assetCol = await getAssetCol();
+  await assetCol.deleteMany({ assetHeight: { $gte: height } });
+
+  const transferCol = await getTransferCollection();
+  await transferCol.deleteMany({ "indexer.blockHeight": { $gte: height } });
 
   const timelineCol = await getAssetTimelineCol();
   await timelineCol.deleteMany({ "indexer.blockHeight": { $gte: height } });
