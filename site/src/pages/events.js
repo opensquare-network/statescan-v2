@@ -20,6 +20,7 @@ import {
 } from "../store/reducers/eventSlice";
 import EventAttributeDisplay from "../components/eventAttributeDisplay";
 import omit from "lodash.omit";
+import ExtrinsicLink from "../components/extrinsic/link";
 
 const filter = [
   {
@@ -104,13 +105,7 @@ function Events() {
           {event?.indexer?.blockHeight.toLocaleString()}
         </ColoredLink>,
         event?.indexer?.blockTime,
-        <ColoredLink
-          key={`${index}-3`}
-          to={`/extrinsics/${event?.indexer?.blockHeight}-${event?.indexer?.extrinsicIndex}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}-
-          {event?.indexer?.extrinsicIndex}
-        </ColoredLink>,
+        <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
         `${event?.section}(${event?.method})`,
         <EventAttributeDisplay event={event} />,
       ];
