@@ -7,19 +7,7 @@ import { toPrecision } from "@osn/common";
 import getTransferSymbol from "../../../utils/viewFuncs/transferSymbol";
 import SymbolLink from "../../symbol/symbolLink";
 import getTransferDecimals from "../../../utils/viewFuncs/transferDecimals";
-
-const ExtrinsicLink = ({ indexer }) => {
-  if (!indexer?.extrinsicIndex) {
-    return `--`;
-  }
-  return (
-    <ColoredLink
-      to={`/extrinsics/${indexer?.blockHeight}-${indexer?.extrinsicIndex}`}
-    >
-      {indexer?.blockHeight.toLocaleString()}-{indexer?.extrinsicIndex}
-    </ColoredLink>
-  );
-};
+import ExtrinsicLink from "../../extrinsic/link";
 
 function TransferTableRow(transfer, key, chainSetting) {
   return [

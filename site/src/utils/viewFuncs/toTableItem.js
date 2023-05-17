@@ -29,21 +29,7 @@ import NftStatus from "../../components/nft/status";
 import NftName from "../../components/nft/name";
 import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
-import isNil from "lodash.isnil";
-
-function ExtrinsicLink({ indexer = {} }) {
-  if (isNil(indexer.extrinsicIndex)) {
-    return "--";
-  }
-
-  return (
-    <ColoredLink
-      to={`/extrinsics/${indexer?.blockHeight}-${indexer?.extrinsicIndex}`}
-    >
-      {indexer?.blockHeight.toLocaleString()}-{indexer?.extrinsicIndex}
-    </ColoredLink>
-  );
-}
+import ExtrinsicLink from "../../components/extrinsic/link";
 
 export const toEventTabTableItem = (events = []) => {
   return (
