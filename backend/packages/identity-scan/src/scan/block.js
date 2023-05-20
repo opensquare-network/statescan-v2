@@ -16,7 +16,7 @@ const {
 async function handleBlock({ block, events, height }) {
   console.log(`handleBlock: ${height}`);
   const blockIndexer = getBlockIndexer(block);
-  await handleEvents(events, blockIndexer, block.extrinsics);
+  await handleEvents(events, blockIndexer);
 
   const db = await getIdentityDb();
   await db.updateScanHeight(height);
