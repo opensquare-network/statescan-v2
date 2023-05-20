@@ -8,7 +8,7 @@ async function updateIdentity(identity) {
   await registrarsCollection.updateOne(
     { _id: identity.accountId },
     { $set: identity },
-    { upsert: true }
+    { upsert: true },
   );
 }
 

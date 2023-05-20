@@ -30,6 +30,7 @@ const { setIdentityEventForTimeline } = require("./identityTimelineOperations");
  */
 async function handleIdentityEvents(event, indexer) {
   const { section, method } = event;
+
   if (IDENTITY === section) {
     if (IDENTITY_SET === method) {
       await setIdentity(event);
@@ -60,8 +61,6 @@ async function handleIdentityEvents(event, indexer) {
       await setIdentityEventForTimeline(SUB_IDENTITY_REVOKED, event, indexer);
     }
   }
-
-  // todo: handle batch completed event via extrinsic with api.query.system.events.at(blockHash) and filter phase.isApplyExtrinsic
 }
 
 module.exports = {
