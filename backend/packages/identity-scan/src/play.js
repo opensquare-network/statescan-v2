@@ -1,59 +1,76 @@
 require("dotenv").config();
 const {
-    chain: {getApi, setSpecHeights, subscribeFinalizedHeight},
+  chain: { getApi, setSpecHeights, subscribeFinalizedHeight },
 } = require("@osn/scan-common");
-const {handleBlock} = require("./scan/block");
+const { handleBlock } = require("./scan/block");
 const {
-    identity: {initIdentityScanDb},
+  identity: { initIdentityScanDb },
 } = require("@statescan/mongo");
-const {deleteFrom} = require("./scan/delete");
+const { deleteFrom } = require("./scan/delete");
 const {
-    identity: {
-        getIdentityTimelineCollection
-    }
+  identity: { getIdentityTimelineCollection },
 } = require("@statescan/mongo");
 const {
-    identity: {
-        getIdentityDb
-    },
+  identity: { getIdentityDb },
 } = require("@statescan/mongo");
 
 async function main() {
-    await initIdentityScanDb();
-    await subscribeFinalizedHeight();
-    // blockHeights for collection registarsTimeline, identity, subIdentity
-/*    const blockHeights =
-        [   17935411, 17877876, //registrarTimeline
-            17914288, 17884357, //identity
-            17664915,  //subIdentity
-            10957429, 10957452, 17664901, 17664907, 17664910, 17664915, //identityTimeline
-            17935340, 17935363 , 17935385 //identityTimeline
-        ];*/
+  await initIdentityScanDb();
+  await subscribeFinalizedHeight();
 
-    const blockHeights = [
-        10957429, 10957452, 17664901, 17664907, 17664910, 17664915, //identityTimeline
-    ]
-    const db = await getIdentityDb();
-    const api = await getApi();
-    let toScanHeight = await db.getNextScanHeight();
-    await deleteFrom(toScanHeight);
-    const identityTimelineCollection = await getIdentityTimelineCollection();
-    identityTimelineCollection.drop();
-    for (const height of blockHeights) {
-        await setSpecHeights([height - 1]);
+  // blockHeights for collection registarsTimeline, identity, subIdentity, identityTimeline events
 
-        const blockHash = await api.rpc.chain.getBlockHash(height);
-        const block = await api.rpc.chain.getBlock(blockHash);
-        const allEvents = await api.query.system.events.at(blockHash);
+  const registrarTimelineEvents = [
+    17935411,
+    17877876, //registrarTimeline
+  ];
+  const identityEvents = [
+    17914288,
+    17884357, //identity
+  ];
+  const subIdentityEvents = [
+    17664915, //subIdentity
+  ];
 
-        await handleBlock({
-            height, block: block.block, events: allEvents,
-        });
-        console.log(`${height} finished`);
-    }
+  const identityTimelineEvents = [
+    10957429,
+    10957452,
+    17664901,
+    17664907,
+    17664910,
+    17664915, //identityTimeline
+  ];
+  let blockHeights = [
+    ...identityTimelineEvents,
+    ...identityEvents,
+    ...subIdentityEvents,
+    ...registrarTimelineEvents,
+  ];
 
-    console.log("finished");
-    process.exit(0);
+  const db = await getIdentityDb();
+  const api = await getApi();
+  let toScanHeight = await db.getNextScanHeight();
+  await deleteFrom(toScanHeight);
+  const identityTimelineCollection = await getIdentityTimelineCollection();
+  identityTimelineCollection.drop();
+
+  for (const height of blockHeights) {
+    await setSpecHeights([height - 1]);
+
+    const blockHash = await api.rpc.chain.getBlockHash(height);
+    const block = await api.rpc.chain.getBlock(blockHash);
+    const allEvents = await api.query.system.events.at(blockHash);
+
+    await handleBlock({
+      height,
+      block: block.block,
+      events: allEvents,
+    });
+    console.log(`${height} finished`);
+  }
+
+  console.log("finished");
+  process.exit(0);
 }
 
 main().then(console.log);
