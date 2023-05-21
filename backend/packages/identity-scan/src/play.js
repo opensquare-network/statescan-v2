@@ -28,27 +28,29 @@ async function main() {
     17914288,
     17884357, //identity
   ];
+
+  const identityAddAndRemoveEvents = [
+    6884575, //add identity
+    17878291, //remove identity
+  ]; // should add and remove accountID G7iL4n1wmubEyojuD3ATarFRhJMFEYbNuCYJeATnFkbgekK
+
   const subIdentityEvents = [
-    17664915, //subIdentity
-  ];
+    17664915, //add subIdentity
+    17664910, //remove subIdentity
+  ]; // should add and remove accountID DAm6jqp5N4kYRbSQeRVebLGnZS3vsbXg6BrUkfW718Qow72
 
   const identityTimelineEvents = [
-    10957429,
-    10957452,
-    17664901,
-    17664907,
-    17664910,
-    17664915, //identityTimeline
+    10957429, 10957452, 17664901, 17664907, 17664915, 17664910,
   ];
   let blockHeights = [
     ...identityTimelineEvents,
     ...identityEvents,
     ...subIdentityEvents,
     ...registrarTimelineEvents,
+    ...identityAddAndRemoveEvents,
   ];
-
-  const db = await getIdentityDb();
   await dropIdentityCollectionAndInit();
+  const db = await getIdentityDb();
   const api = await getApi();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
