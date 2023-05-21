@@ -4,7 +4,7 @@ const {
 } = require("@osn/scan-common");
 const { handleBlock } = require("./scan/block");
 const {
-  identity: { initIdentityScanDb },
+  identity: { initIdentityScanDb, dropIdentityCollectionAndInit },
 } = require("@statescan/mongo");
 const { deleteFrom } = require("./scan/delete");
 const {
@@ -48,6 +48,7 @@ async function main() {
   ];
 
   const db = await getIdentityDb();
+  await dropIdentityCollectionAndInit();
   const api = await getApi();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
