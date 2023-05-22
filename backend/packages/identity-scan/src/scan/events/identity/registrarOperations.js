@@ -13,7 +13,6 @@ async function setRegistrarJudgement(method, event, indexer) {
   registrarJudgement.requestedTimestamp = await getCurrentBlockTimestamp(
     indexer,
   );
-  console.log(`registrarJudgement: ${JSON.stringify(registrarJudgement)}`);
 
   await addRegistrarsTimelineCollection(registrarJudgement, indexer);
 }

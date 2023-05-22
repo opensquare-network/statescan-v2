@@ -32,7 +32,6 @@ async function setSubIdentity(method, event, indexer) {
   subIdentity.parentIdentityAccountId = parentIdentityAccountId;
   subIdentity.subIdentityStatus = method;
   subIdentity.requestTimestamp = await getCurrentBlockTimestamp(indexer);
-  console.log(`subIdentity: ${JSON.stringify(subIdentity)}`);
 
   await addSubIdentitiesCollection(subIdentity);
 }

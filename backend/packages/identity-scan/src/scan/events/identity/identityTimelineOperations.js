@@ -40,8 +40,6 @@ async function setIdentityEventForTimeline(method, event, indexer) {
   identityEvent.identityStatus = method;
   identityEvent.timestamp = await getCurrentBlockTimestamp(indexer);
 
-  console.log(`identityEventForTimeline: ${JSON.stringify(identityEvent)}`);
-
   await addIdentityTimelineCollection(identityEvent, indexer);
 }
 
