@@ -9,7 +9,6 @@ const { getIdentityStorage } = require("../utils/getIdentityStorage");
 async function bulkUpdateRegistrars(registrars) {
   const identityCollection = await getRegistrarsCollection();
 
-  // Create an array of updateOne operations
   const operations = registrars.map((identity) => ({
     updateOne: {
       filter: { _id: identity.registrarIndex },
@@ -18,7 +17,6 @@ async function bulkUpdateRegistrars(registrars) {
     },
   }));
 
-  // Perform the batch update
   await identityCollection.bulkWrite(operations);
 }
 
