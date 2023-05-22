@@ -27,7 +27,6 @@ async function initRegistrars() {
 
 async function getAllRegistrars(api) {
   const registrars = await api.query.identity.registrars();
-  console.log(`total registrars`, registrars.length);
 
   let registrarsDB = [];
   for (const registrar of registrars) {
