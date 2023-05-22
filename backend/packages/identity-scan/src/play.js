@@ -8,9 +8,6 @@ const {
 } = require("@statescan/mongo");
 const { deleteFrom } = require("./scan/delete");
 const {
-  identity: { getIdentityTimelineCollection },
-} = require("@statescan/mongo");
-const {
   identity: { getIdentityDb },
 } = require("@statescan/mongo");
 const { saveAllRegistrars } = require("./scan/jobs");
@@ -44,7 +41,7 @@ async function main() {
   const identityTimelineEvents = [
     10957429, 10957452, 17664901, 17664907, 17664915, 17664910,
   ];
-  let blockHeights = [
+  /*  let blockHeights = [
     ...identityTimelineEvents,
     ...identityEvents,
     ...subIdentityAddRemoveEvents,
@@ -52,6 +49,11 @@ async function main() {
     ...identityAddAndRemoveEvents,
     ...subIdentityAddEvents,
   ];
+
+  */
+
+  const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
+  let blockHeights = [...set_sub_extrinsics];
   await dropIdentityCollectionAndInit();
   const db = await getIdentityDb();
   const api = await getApi();

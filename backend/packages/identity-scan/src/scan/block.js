@@ -5,6 +5,7 @@ const {
 const {
   identity: { getIdentityDb },
 } = require("@statescan/mongo");
+const { handleExtrinsics } = require("./extrinsic");
 
 /**
  * fetch block indexer and handle events
@@ -15,7 +16,10 @@ const {
  */
 async function handleBlock({ block, events, height }) {
   const blockIndexer = getBlockIndexer(block);
-  await handleEvents(events, blockIndexer);
+
+  await handleEvents(events, blockIndexer, block.extrinsics);
+
+  await handleExtrinsics(block.extrinsics, events, blockIndexer);
 
   const db = await getIdentityDb();
   await db.updateScanHeight(height);
