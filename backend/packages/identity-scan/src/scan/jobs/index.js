@@ -22,10 +22,10 @@ async function bulkUpdateRegistrars(registrars) {
 
 async function initRegistrars() {
   const api = await getApi();
-  await getAllRegistrars(api);
+  await saveAllRegistrars(api);
 }
 
-async function getAllRegistrars(api) {
+async function saveAllRegistrars(api) {
   const registrars = await api.query.identity.registrars();
 
   let registrarsDB = [];
@@ -53,5 +53,5 @@ async function startJobs() {
 
 module.exports = {
   startJobs,
-  getAllRegistrars,
+  saveAllRegistrars,
 };

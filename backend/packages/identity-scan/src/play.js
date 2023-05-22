@@ -13,7 +13,7 @@ const {
 const {
   identity: { getIdentityDb },
 } = require("@statescan/mongo");
-const { getAllRegistrars } = require("./scan/jobs");
+const { saveAllRegistrars } = require("./scan/jobs");
 
 async function main() {
   await initIdentityScanDb();
@@ -57,7 +57,7 @@ async function main() {
   const api = await getApi();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
-  await getAllRegistrars(api);
+  await saveAllRegistrars(api);
 
   for (const height of blockHeights) {
     await setSpecHeights([height - 1]);
