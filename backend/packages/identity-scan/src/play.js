@@ -35,20 +35,22 @@ async function main() {
     17878291, //remove identity
   ]; // should add and remove accountID G7iL4n1wmubEyojuD3ATarFRhJMFEYbNuCYJeATnFkbgekK
 
-  const subIdentityEvents = [
+  const subIdentityAddRemoveEvents = [
     17664915, //add subIdentity
     17664910, //remove subIdentity
   ]; // should add and remove accountID DAm6jqp5N4kYRbSQeRVebLGnZS3vsbXg6BrUkfW718Qow72
 
+  const subIdentityAddEvents = [15091877, 14576724];
   const identityTimelineEvents = [
     10957429, 10957452, 17664901, 17664907, 17664915, 17664910,
   ];
   let blockHeights = [
     ...identityTimelineEvents,
     ...identityEvents,
-    ...subIdentityEvents,
+    ...subIdentityAddRemoveEvents,
     ...registrarTimelineEvents,
     ...identityAddAndRemoveEvents,
+    ...subIdentityAddEvents,
   ];
   await dropIdentityCollectionAndInit();
   const db = await getIdentityDb();
