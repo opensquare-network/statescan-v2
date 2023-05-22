@@ -31,6 +31,10 @@ const { setIdentityEventForTimeline } = require("./identityTimelineOperations");
 async function handleIdentityEvents(event, indexer) {
   const { section, method } = event;
 
+  if (IDENTITY !== section) {
+    return;
+  }
+
   if (IDENTITY === section) {
     if (IDENTITY_SET === method) {
       await setIdentity(event);

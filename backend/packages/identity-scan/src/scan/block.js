@@ -14,7 +14,6 @@ const {
  * @returns {Promise<void>}
  */
 async function handleBlock({ block, events, height }) {
-  console.log(`handleBlock: ${height}`);
   const blockIndexer = getBlockIndexer(block);
   await handleEvents(events, blockIndexer);
 
