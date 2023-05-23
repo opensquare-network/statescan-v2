@@ -6,15 +6,14 @@ const {
 const { getCurrentBlockTimestamp } = require("../utils/unitConversion");
 
 async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {
-  const parentAccountId = extrinsic.signer.toString();
-  const parentIdentity = await getIdentityStorage(parentAccountId);
+  const parentIdentityAccountId = extrinsic.signer.toString();
+  const parentIdentity = await getIdentityStorage(parentIdentityAccountId);
   const timestamp = await getCurrentBlockTimestamp(indexer);
 
   let subIdentityList = [];
   const extrinsicData = extrinsic.method.args[0];
   extrinsicData.forEach(([subAccountId, subDisplay]) => {
     let subIdentity = JSON.parse(JSON.stringify(parentIdentity));
-    subIdentity.parentIdentityAccountId = parentAccountId;
     subIdentity.requestTimestamp = timestamp;
     subIdentity.accountId = subAccountId.toHuman();
     subIdentity.subIdentityAccountId = subAccountId.toHuman();
@@ -24,17 +23,29 @@ async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {
   });
   console.log(`subIdentityList`, subIdentityList);
 
-  await bulkUpdateSubIdentities(subIdentityList);
-  await bulkInsertIdentityTimeline(subIdentityList, parentAccountId, indexer);
+  await bulkUpdateSubIdentities(subIdentityList, parentIdentityAccountId);
+  await bulkInsertIdentityTimeline(
+    subIdentityList,
+    parentIdentityAccountId,
+    indexer,
+  );
 }
 
-async function bulkUpdateSubIdentities(subIdentityList) {
+async function bulkUpdateSubIdentities(
+  subIdentityList,
+  parentIdentityAccountId,
+) {
   const subIdentityCollection = await getSubIdentitiesCollection();
 
   const operations = subIdentityList.map((subIdentity) => ({
     updateOne: {
       filter: { _id: subIdentity.accountId },
-      update: { $set: subIdentity },
+      update: {
+        $set: {
+          ...subIdentity,
+          parentIdentityAccountId: parentIdentityAccountId,
+        },
+      },
       upsert: true,
     },
   }));
