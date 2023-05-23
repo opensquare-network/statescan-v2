@@ -3,8 +3,6 @@ const { getSubIdentitiesCollection } = require("@statescan/mongo/src/identity");
 const { getCurrentBlockTimestamp } = require("../utils/unitConversion");
 
 async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {
-  console.log("handleSubIdentityExtrinsics");
-
   let subIdentityList = [];
   const parentId = extrinsic.signer.toString();
   const parentIdentity = await getIdentityStorage(parentId);
@@ -12,9 +10,6 @@ async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {
 
   const extrinsicData = extrinsic.method.args[0];
   extrinsicData.forEach(([subAccountId, subDisplay]) => {
-    console.log(`subAccountId`, subAccountId.toHuman());
-    console.log(`subDisplay`, subDisplay.toHuman());
-
     let subIdentity = {
       parentIdentityAccountId: parentId,
       requestTimestamp: timestamp,
@@ -22,12 +17,12 @@ async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {
       subIdentityAccountId: subAccountId.toHuman(),
       status: method,
     };
+
     subIdentity = { ...parentIdentity, ...subIdentity };
     subIdentity.info.display = subDisplay.asRaw.toUtf8();
     subIdentityList.push(subIdentity);
   });
 
-  console.log(`subIdentityList`, subIdentityList);
   await bulkUpdateSubIdentities(subIdentityList);
 }
 

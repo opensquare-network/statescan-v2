@@ -5,7 +5,6 @@ const {
 
 async function handleExtrinsics(extrinsics = [], events = [], indexer) {
   for (const extrinsic of extrinsics) {
-    //TODO: check if extrinsic is success with events
     if (!isExtrinsicSuccess(events)) {
       continue;
     }
