@@ -3,11 +3,11 @@ const { getSubIdentitiesCollection } = require("@statescan/mongo/src/identity");
 const { getCurrentBlockTimestamp } = require("../utils/unitConversion");
 
 async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {
-  let subIdentityList = [];
   const parentId = extrinsic.signer.toString();
   const parentIdentity = await getIdentityStorage(parentId);
   const timestamp = await getCurrentBlockTimestamp(indexer);
 
+  let subIdentityList = [];
   const extrinsicData = extrinsic.method.args[0];
   extrinsicData.forEach(([subAccountId, subDisplay]) => {
     let subIdentity = {
