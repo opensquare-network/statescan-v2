@@ -1,6 +1,9 @@
 const { isExtrinsicSuccess } = require("@osn/scan-common/src/utils");
+const {
+  handleSubIdentityExtrinsics,
+} = require("./extrinsics/subIdentityExtrinsics");
 
-async function handleExtrinsics(extrinsics = [], events = [], blockIndexer) {
+async function handleExtrinsics(extrinsics = [], events = [], indexer) {
   for (const extrinsic of extrinsics) {
     //TODO: check if extrinsic is success with events
     if (!isExtrinsicSuccess(events)) {
@@ -10,9 +13,8 @@ async function handleExtrinsics(extrinsics = [], events = [], blockIndexer) {
     const {
       method: { method },
     } = extrinsic;
-    if (method === "setSubs") {
-      const extrinsicData = extrinsic.method.args[0]; // assuming the data you're interested in is the first argument
-      console.log(`extrinsicData`, extrinsicData.toHuman());
+    if (method === "setSubs" || method === "renameSub") {
+      await handleSubIdentityExtrinsics(extrinsic, indexer, method);
     }
   }
 }
