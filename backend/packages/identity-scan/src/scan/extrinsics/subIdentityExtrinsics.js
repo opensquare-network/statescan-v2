@@ -17,7 +17,7 @@ async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {
     subIdentity.requestTimestamp = timestamp;
     subIdentity.accountId = subAccountId.toHuman();
     subIdentity.subIdentityAccountId = subAccountId.toHuman();
-    subIdentity.subIdentityStatus = method;
+    subIdentity.method = method;
     subIdentity.info.display = subDisplay.asRaw.toUtf8();
     subIdentityList.push(subIdentity);
   });

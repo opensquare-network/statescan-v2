@@ -37,7 +37,7 @@ async function setIdentityEventForTimeline(method, event, indexer) {
   );
   identityEvent = { ...identityEvent, ...subIdentityRelatedData };
 
-  identityEvent.identityStatus = method;
+  identityEvent.method = method;
   identityEvent.timestamp = await getCurrentBlockTimestamp(indexer);
 
   await addIdentityTimelineCollection(identityEvent, indexer);
@@ -58,7 +58,6 @@ function checkIfJudgementRelated(method, eventData, identityEvent) {
     method === JUDGEMENT_REQUESTED
   ) {
     identityEvent.registrarIndex = eventData[1].toNumber();
-    identityEvent.judgementStatus = method;
   }
   return identityEvent;
 }
@@ -73,7 +72,6 @@ async function checkIfSubIdentityRelated(method, eventData, identityEvent) {
     const parentIdentityAccountId = eventData[1].toString();
     identityEvent.subIdentityAccountId = subIdentityAccountId;
     identityEvent.accountId = parentIdentityAccountId;
-    identityEvent.subIdentityStatus = method;
 
     // override main identity display with sub identity display below as only sub identity display name is different, rest info is inherited from parent identity
     if (method === SUB_IDENTITY_ADDED) {
