@@ -30,7 +30,7 @@ async function setSubIdentity(method, event, indexer) {
   subIdentity.accountId = subIdentityAccountId;
   subIdentity.subIdentityAccountId = subIdentityAccountId;
   subIdentity.parentIdentityAccountId = parentIdentityAccountId;
-  subIdentity.subIdentityStatus = method;
+  subIdentity.method = method;
   subIdentity.requestTimestamp = await getCurrentBlockTimestamp(indexer);
 
   await addSubIdentitiesCollection(subIdentity);

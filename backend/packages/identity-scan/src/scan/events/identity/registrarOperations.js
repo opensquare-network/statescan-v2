@@ -8,7 +8,7 @@ async function setRegistrarJudgement(method, event, indexer) {
   const eventData = event.data;
   registrarJudgement.requestingAccountId = eventData[0].toString();
   registrarJudgement.registrarIndex = eventData[1].toNumber();
-  registrarJudgement.judgementStatus = method;
+  registrarJudgement.method = method;
 
   registrarJudgement.requestedTimestamp = await getCurrentBlockTimestamp(
     indexer,
