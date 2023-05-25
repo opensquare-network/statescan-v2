@@ -67,7 +67,9 @@ export default function GovernanceSection() {
 
   useEffect(() => {
     api.fetch(subSquareSummaryApi(chain)).then(({ result }) => {
-      setSummary(result);
+      if (result) {
+        setSummary(result);
+      }
     });
   }, [chain]);
 
