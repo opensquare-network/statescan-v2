@@ -32,8 +32,7 @@ async function saveAllRegistrars(api) {
     let accountId = registrar.unwrap().account.toString();
     let registrarInfo = {};
     if (registrar.isSome) {
-      const response = await getIdentityStorage(accountId);
-      registrarInfo = response ? response : {};
+      registrarInfo = await getIdentityStorage(accountId);
     }
     registrarInfo.registrarIndex = registrars.indexOf(registrar);
     registrarsDB.push(registrarInfo);
