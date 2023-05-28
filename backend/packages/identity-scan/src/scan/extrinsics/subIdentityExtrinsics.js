@@ -3,8 +3,10 @@ const {
   getSubIdentitiesCollection,
   getIdentityTimelineCollection,
 } = require("@statescan/mongo/src/identity");
-const { getCurrentBlockTimestamp } = require("../utils/unitConversion");
-const { hexToU8a, u8aToString } = require("@polkadot/util");
+const {
+  getCurrentBlockTimestamp,
+  hexToString,
+} = require("../utils/unitConversion");
 
 async function handleSubIdentityExtrinsicsV2(
   author,
@@ -25,33 +27,26 @@ async function handleSubIdentityExtrinsicsV2(
     let subAccountId = extrinsicData.sub.id;
     let data = extrinsicData.data;
     console.log(`sub`, subAccountId);
-    const hex = data.raw;
-    const u8a = hexToU8a(hex);
-    const subDisplay = u8aToString(u8a);
-    console.log(`subDisplay`, subDisplay);
-    let subIdentity = JSON.parse(JSON.stringify(parentIdentity));
-    subIdentity.requestTimestamp = timestamp;
-    subIdentity.accountId = subAccountId;
-    subIdentity.subIdentityAccountId = subAccountId;
-    subIdentity.method = method;
-    subIdentity.info.display = subDisplay;
+    const subIdentity = processSubIdentity(
+      subAccountId,
+      data,
+      parentIdentity,
+      method,
+      timestamp,
+    );
     subIdentityList.push(subIdentity);
   }
 
   if (extrinsicData?.subs) {
     let subs = extrinsicData.subs;
     subs.forEach(([subAccountId, data]) => {
-      console.log(`subAccountId`, subAccountId);
-      const hex = data.raw;
-      const u8a = hexToU8a(hex);
-      const subDisplay = u8aToString(u8a);
-      console.log(`subDisplay`, subDisplay);
-      let subIdentity = JSON.parse(JSON.stringify(parentIdentity));
-      subIdentity.requestTimestamp = timestamp;
-      subIdentity.accountId = subAccountId;
-      subIdentity.subIdentityAccountId = subAccountId;
-      subIdentity.method = method;
-      subIdentity.info.display = subDisplay;
+      const subIdentity = processSubIdentity(
+        subAccountId,
+        data,
+        parentIdentity,
+        method,
+        timestamp,
+      );
       subIdentityList.push(subIdentity);
     });
   }
@@ -62,6 +57,26 @@ async function handleSubIdentityExtrinsicsV2(
     parentIdentityAccountId,
     indexer,
   );
+}
+
+function processSubIdentity(
+  subAccountId,
+  data,
+  parentIdentity,
+  method,
+  timestamp,
+) {
+  console.log(`subAccountId`, subAccountId);
+  const hex = data.raw;
+  const subDisplay = hexToString(hex);
+  console.log(`subDisplay`, subDisplay);
+  let subIdentity = JSON.parse(JSON.stringify(parentIdentity));
+  subIdentity.requestTimestamp = timestamp;
+  subIdentity.accountId = subAccountId;
+  subIdentity.subIdentityAccountId = subAccountId;
+  subIdentity.method = method;
+  subIdentity.info.display = subDisplay;
+  return subIdentity;
 }
 
 async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {

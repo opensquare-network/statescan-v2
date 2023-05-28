@@ -2,6 +2,7 @@ const { BN } = require("@polkadot/util");
 const {
   chain: { getApi },
 } = require("@osn/scan-common");
+const { hexToU8a, u8aToString } = require("@polkadot/util");
 
 /**
  * Get the current block timestamp of the given indexer.
@@ -51,8 +52,21 @@ async function toDecimal(balance) {
   );
 }
 
+/**
+ *  converts hex to UTF-8 string
+ *
+ * @param hex
+ * @returns {string}
+ */
+function hexToString(hex) {
+  const u8a = hexToU8a(hex);
+  const subDisplay = u8aToString(u8a);
+  return subDisplay;
+}
+
 module.exports = {
   getCurrentBlockTimestamp,
   getSubIdentityDisplay,
   toDecimal,
+  hexToString,
 };
