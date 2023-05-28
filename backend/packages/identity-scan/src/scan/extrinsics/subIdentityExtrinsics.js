@@ -32,7 +32,7 @@ async function handleSubIdentityExtrinsics(
     subIdentityList.push(subIdentity);
   }
 
-  if (extrinsicData?.subs) {
+  if (extrinsicData.subs) {
     let subs = extrinsicData.subs;
     subs.forEach(([subAccountId, data]) => {
       const subIdentity = processSubIdentity(
