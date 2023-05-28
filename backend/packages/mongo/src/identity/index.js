@@ -89,7 +89,6 @@ async function getIdentityDb() {
   return db;
 }
 
-//function to drop all the collections in module.exports
 async function dropIdentityCollection() {
   const identityCollection = await getIdentityCollection();
   identityCollection.drop();

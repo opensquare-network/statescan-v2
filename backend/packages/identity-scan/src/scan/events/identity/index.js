@@ -3,7 +3,7 @@ const { setRegistrarJudgement } = require("./registrarOperations");
 
 const {
   SECTION: { IDENTITY },
-  METHOD: {
+  EVENT_METHOD: {
     IDENTITY_SET,
     IDENTITY_CLEARED,
     IDENTITY_KILLED,
@@ -14,7 +14,7 @@ const {
     SUB_IDENTITY_REMOVED,
     SUB_IDENTITY_REVOKED,
   },
-} = require("./constants");
+} = require("../../constants");
 const {
   setSubIdentity,
   deleteSubIdentity,

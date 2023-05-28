@@ -4,6 +4,65 @@ const {
   getIdentityTimelineCollection,
 } = require("@statescan/mongo/src/identity");
 const { getCurrentBlockTimestamp } = require("../utils/unitConversion");
+const { hexToU8a, u8aToString } = require("@polkadot/util");
+
+async function handleSubIdentityExtrinsicsV2(
+  author,
+  extrinsicData,
+  indexer,
+  method,
+) {
+  console.log(
+    `handleSubIdentityExtrinsicsV2:::::::extrinsicData`,
+    JSON.stringify(extrinsicData),
+  );
+  const parentIdentityAccountId = author.toString();
+  const parentIdentity = await getIdentityStorage(parentIdentityAccountId);
+  const timestamp = await getCurrentBlockTimestamp(indexer);
+  let subIdentityList = [];
+
+  if (extrinsicData.sub && extrinsicData.data) {
+    let subAccountId = extrinsicData.sub.id;
+    let data = extrinsicData.data;
+    console.log(`sub`, subAccountId);
+    const hex = data.raw;
+    const u8a = hexToU8a(hex);
+    const subDisplay = u8aToString(u8a);
+    console.log(`subDisplay`, subDisplay);
+    let subIdentity = JSON.parse(JSON.stringify(parentIdentity));
+    subIdentity.requestTimestamp = timestamp;
+    subIdentity.accountId = subAccountId;
+    subIdentity.subIdentityAccountId = subAccountId;
+    subIdentity.method = method;
+    subIdentity.info.display = subDisplay;
+    subIdentityList.push(subIdentity);
+  }
+
+  if (extrinsicData?.subs) {
+    let subs = extrinsicData.subs;
+    subs.forEach(([subAccountId, data]) => {
+      console.log(`subAccountId`, subAccountId);
+      const hex = data.raw;
+      const u8a = hexToU8a(hex);
+      const subDisplay = u8aToString(u8a);
+      console.log(`subDisplay`, subDisplay);
+      let subIdentity = JSON.parse(JSON.stringify(parentIdentity));
+      subIdentity.requestTimestamp = timestamp;
+      subIdentity.accountId = subAccountId;
+      subIdentity.subIdentityAccountId = subAccountId;
+      subIdentity.method = method;
+      subIdentity.info.display = subDisplay;
+      subIdentityList.push(subIdentity);
+    });
+  }
+
+  await bulkUpdateSubIdentities(subIdentityList, parentIdentityAccountId);
+  await bulkInsertIdentityTimeline(
+    subIdentityList,
+    parentIdentityAccountId,
+    indexer,
+  );
+}
 
 async function handleSubIdentityExtrinsics(extrinsic, indexer, method) {
   const parentIdentityAccountId = extrinsic.signer.toString();
@@ -71,4 +130,5 @@ async function bulkInsertIdentityTimeline(
 
 module.exports = {
   handleSubIdentityExtrinsics,
+  handleSubIdentityExtrinsicsV2,
 };

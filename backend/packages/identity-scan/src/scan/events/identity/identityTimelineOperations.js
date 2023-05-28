@@ -12,7 +12,7 @@ const {
   SUB_IDENTITY_ADDED,
   SUB_IDENTITY_REMOVED,
   SUB_IDENTITY_REVOKED,
-} = require("./constants");
+} = require("../../constants");
 const { getIdentityStorage } = require("../../utils/getIdentityStorage");
 
 async function setIdentityEventForTimeline(method, event, indexer) {
