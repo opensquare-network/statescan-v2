@@ -45,7 +45,6 @@ async function handleSubIdentityExtrinsics(
       subIdentityList.push(subIdentity);
     });
   }
-  console.log(`subIdentityList`, subIdentityList);
   await bulkUpdateSubIdentities(subIdentityList, parentIdentityAccountId);
   await bulkInsertIdentityTimeline(
     subIdentityList,

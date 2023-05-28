@@ -24,16 +24,16 @@ async function initRegistrars() {
   const api = await getApi();
   await saveAllRegistrars(api);
 }
-
 async function saveAllRegistrars(api) {
   const registrars = await api.query.identity.registrars();
 
   let registrarsDB = [];
   for (const registrar of registrars) {
-    let registrarInfo = {};
     let accountId = registrar.unwrap().account.toString();
+    let registrarInfo = {};
     if (registrar.isSome) {
-      registrarInfo = await getIdentityStorage(accountId);
+      const response = await getIdentityStorage(accountId);
+      registrarInfo = response ? response : {};
     }
     registrarInfo.registrarIndex = registrars.indexOf(registrar);
     registrarsDB.push(registrarInfo);

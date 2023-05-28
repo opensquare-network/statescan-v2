@@ -41,20 +41,22 @@ async function main() {
   const identityTimelineEvents = [
     10957429, 10957452, 17664901, 17664907, 17664915, 17664910,
   ];
-  /*  let blockHeights = [
+  const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
+  const batch_extrinsics = [18068116];
+  let blockHeights = [
     ...identityTimelineEvents,
     ...identityEvents,
     ...subIdentityAddRemoveEvents,
     ...registrarTimelineEvents,
     ...identityAddAndRemoveEvents,
     ...subIdentityAddEvents,
+    ...batch_extrinsics,
+    ...set_sub_extrinsics,
   ];
 
-  */
-
-  const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
+  /*  const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
   const batch_extrinsics = [18068116];
-  let blockHeights = [...batch_extrinsics, ...set_sub_extrinsics];
+  let blockHeights = [...batch_extrinsics, ...set_sub_extrinsics];*/
 
   await dropIdentityCollectionAndInit();
   const db = await getIdentityDb();

@@ -13,8 +13,10 @@ const {
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
   let index = 0;
+
   for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(allEvents, index);
+
     if (!isExtrinsicSuccess(events)) {
       continue;
     }
@@ -33,11 +35,9 @@ async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
 async function handleNestedExtrinsics(call, author, extrinsicIndexer) {
   const [section, method] = [call.section, call.method];
 
-  if (isNotIdentityExtrinsic(method, section)) {
+  if (isNotIdentityExtrinsic(section, method)) {
     return;
   }
-
-  console.log("handleNestedExtrinsics:::::section", section, "method", method);
 
   const extrinsicData = call.toJSON().args;
 
@@ -59,8 +59,8 @@ async function handleIdentityCalls(
 }
 
 // boolean function to check if the extrinsic is a setSubs or renameSub extrinsic and identity section
-function isNotIdentityExtrinsic(method, section) {
-  return section !== IDENTITY && ![SET_SUBS, RENAME_SUB].includes(method);
+function isNotIdentityExtrinsic(section, method) {
+  return section !== IDENTITY || (method !== SET_SUBS && method !== RENAME_SUB);
 }
 
 module.exports = {
