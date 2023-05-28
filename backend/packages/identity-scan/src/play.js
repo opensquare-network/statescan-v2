@@ -52,16 +52,11 @@ async function main() {
 
   */
 
-  /* const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
-  const batch_extrinsics = [18068116];
-  let blockHeights = [...batch_extrinsics, ...set_sub_extrinsics];*/
-
   const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
+  const batch_extrinsics = [18068116];
+  let blockHeights = [...batch_extrinsics, ...set_sub_extrinsics];
 
-  let blockHeights = [...set_sub_extrinsics];
-
-  // TODO: revert
-  // await dropIdentityCollectionAndInit();
+  await dropIdentityCollectionAndInit();
   const db = await getIdentityDb();
   const api = await getApi();
   let toScanHeight = await db.getNextScanHeight();

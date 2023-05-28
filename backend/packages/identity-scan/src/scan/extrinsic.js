@@ -4,7 +4,6 @@ const {
 } = require("@osn/scan-common/src/utils");
 const {
   handleSubIdentityExtrinsics,
-  handleSubIdentityExtrinsicsV2,
 } = require("./extrinsics/subIdentityExtrinsics");
 const { handleCallsInExtrinsic } = require("@osn/scan-common");
 const {
@@ -26,30 +25,11 @@ async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
       extrinsic,
       events,
       extrinsicIndexer,
-      handleCall,
+      handleIdentityCalls,
     );
-
-    /*    //TODO: don't remove
-    const {
-      method: { method, section },
-    } = extrinsic;
-    if (isNotIdentityExtrinsic(method, section)) {
-      continue;
-    }
-
-    //   await handleSubIdentityExtrinsics(extrinsic, indexer, method);
-    const author = extrinsic.signer.toString();
-    const extrinsicData = extrinsic.method.args[0];
-    await handleSubIdentityExtrinsicsV2(
-      author,
-      extrinsicData,
-      extrinsicIndexer,
-      method,
-    );*/
   }
 }
 
-//TODO:handle nested calls
 async function handleNestedExtrinsics(call, author, extrinsicIndexer) {
   const [section, method] = [call.section, call.method];
 
@@ -61,7 +41,7 @@ async function handleNestedExtrinsics(call, author, extrinsicIndexer) {
 
   const extrinsicData = call.toJSON().args;
 
-  await handleSubIdentityExtrinsicsV2(
+  await handleSubIdentityExtrinsics(
     author,
     extrinsicData,
     extrinsicIndexer,
@@ -69,8 +49,12 @@ async function handleNestedExtrinsics(call, author, extrinsicIndexer) {
   );
 }
 
-// eslint-disable-next-line no-unused-vars
-async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
+async function handleIdentityCalls(
+  call,
+  author,
+  extrinsicIndexer,
+  wrappedEvents,
+) {
   await handleNestedExtrinsics(...arguments);
 }
 
