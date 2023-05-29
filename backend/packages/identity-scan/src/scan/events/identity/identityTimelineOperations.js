@@ -6,12 +6,14 @@ const {
   getSubIdentityDisplay,
 } = require("../../utils/unitConversion");
 const {
-  JUDGEMENT_GIVEN,
-  JUDGEMENT_REQUESTED,
-  JUDGEMENT_UNREQUESTED,
-  SUB_IDENTITY_ADDED,
-  SUB_IDENTITY_REMOVED,
-  SUB_IDENTITY_REVOKED,
+  EVENT_METHOD: {
+    JUDGEMENT_GIVEN,
+    JUDGEMENT_REQUESTED,
+    JUDGEMENT_UNREQUESTED,
+    SUB_IDENTITY_ADDED,
+    SUB_IDENTITY_REMOVED,
+    SUB_IDENTITY_REVOKED,
+  },
 } = require("../../constants");
 const { getIdentityStorage } = require("../../utils/getIdentityStorage");
 
