@@ -4,6 +4,9 @@ const {
 } = require("@statescan/mongo");
 
 async function batchUpsertAccountVestingSummary(accountVestingSummaryList) {
+  if (accountVestingSummaryList.length == 0) {
+    return;
+  }
   const accountSummaryCol = await getAccountSummaryCol();
   const bulkOp = accountSummaryCol.initializeUnorderedBulkOp();
 

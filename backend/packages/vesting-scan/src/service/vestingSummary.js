@@ -1,16 +1,21 @@
 const {
   chain: { findBlockApi },
+  call,
 } = require("@osn/scan-common");
 
 const { getVestingEvents } = require("../store/event");
+const { getVestingCalls } = require("../store/call");
 
 async function generateVestingSummary(indexer) {
   const events = getVestingEvents(indexer);
-  if (events.length <= 0) {
+  // For some blocks, events are not emitted.
+  // For example, in block 8730807, there is a mergeSchedules call but without any events.
+  const calls = getVestingCalls(indexer);
+  const accounts = await findChangedAccounts(events, calls);
+  if (accounts.length <= 0) {
     return;
   }
 
-  const accounts = await findChangedAccounts(events);
   const api = await findBlockApi(indexer.blockHash);
 
   const accountScheduels = await fetchAllVestings(api);
@@ -53,7 +58,7 @@ async function generateVestingSummary(indexer) {
   return [vestingSummary, accountSummaryList];
 }
 
-async function findChangedAccounts(events) {
+async function findChangedAccounts(events, calls) {
   const accounts = new Set();
   for (const event of events) {
     if (
@@ -61,6 +66,18 @@ async function findChangedAccounts(events) {
       event.event.type === "VestingCompleted"
     ) {
       accounts.add(event.event.account);
+    }
+  }
+
+  for (const call of calls) {
+    if (call.call.type === "mergeSchedules") {
+      accounts.add(call.signedBy);
+    }
+    if (call.call.type === "vest") {
+      accounts.add(call.call.target);
+    }
+    if (call.call.type === "vestedTransfer") {
+      accounts.add(call.call.source, call.call.target);
     }
   }
 
