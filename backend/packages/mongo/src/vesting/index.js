@@ -4,8 +4,11 @@ const {
 } = require("@osn/scan-common");
 
 let db = null;
-let scheduleCol = null;
-let vestingCol = null; // store every account vesting
+let summaryCol = null;
+let accountSummaryCol = null;
+let blockRecordCol = null;
+let eventCol = null;
+let callCol = null;
 
 async function initVestingScanDb() {
   db = new ScanDb(
@@ -14,8 +17,12 @@ async function initVestingScanDb() {
   );
   await db.init();
 
-  scheduleCol = await db.createCol("schedule");
-  vestingCol = await db.createCol("vesting");
+  summaryCol = await db.createCol("summary");
+  accountSummaryCol = await db.createCol("accountSummary");
+  blockRecordCol = await db.createCol("blockRecord");
+  eventCol = await db.createCol("event");
+  callCol = await db.createCol("call");
+
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
@@ -34,14 +41,29 @@ async function makeSureInit(col) {
   }
 }
 
-async function getScheduleCol() {
-  await makeSureInit(scheduleCol);
-  return scheduleCol;
+async function getSummaryCol() {
+  await makeSureInit(summaryCol);
+  return summaryCol;
 }
 
-async function getVestingCol() {
-  await makeSureInit(vestingCol);
-  return vestingCol;
+async function getAccountSummaryCol() {
+  await makeSureInit(accountSummaryCol);
+  return accountSummaryCol;
+}
+
+async function getBlockRecordCol() {
+  await makeSureInit(blockRecordCol);
+  return blockRecordCol;
+}
+
+async function getEventCol() {
+  await makeSureInit(eventCol);
+  return eventCol;
+}
+
+async function getCallCol() {
+  await makeSureInit(callCol);
+  return callCol;
 }
 
 async function getVestingDb() {
@@ -54,7 +76,10 @@ async function getVestingDb() {
 
 module.exports = {
   initVestingScanDb,
-  getScheduleCol,
-  getVestingCol,
   getVestingDb,
+  getSummaryCol,
+  getAccountSummaryCol,
+  getBlockRecordCol,
+  getEventCol,
+  getCallCol,
 };

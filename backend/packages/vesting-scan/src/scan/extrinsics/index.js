@@ -56,7 +56,7 @@ async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
   }
 
   parsedCall = {
-    extrinsicIndexer,
+    indexer: extrinsicIndexer,
     signedBy: author,
     call: parsedCall,
   };

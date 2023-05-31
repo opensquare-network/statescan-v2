@@ -11,7 +11,14 @@ const {
 async function main() {
   await initVestingScanDb();
   await subscribeFinalizedHeight();
-  const blockHeights = [15551258];
+  const blockHeights = [
+    8730807, // merge schedules
+    15701277, // vest
+    15630362, // vest other,
+    15562357, // vest transfer,
+    15604996, // force vested transfer,
+    15551258, // two completed vesting
+  ];
 
   const api = await getApi();
   for (const height of blockHeights) {
