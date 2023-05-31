@@ -6,7 +6,6 @@ const {
 let db = null;
 let summaryCol = null;
 let accountSummaryCol = null;
-let blockRecordCol = null;
 let eventCol = null;
 let callCol = null;
 
@@ -19,7 +18,6 @@ async function initVestingScanDb() {
 
   summaryCol = await db.createCol("summary");
   accountSummaryCol = await db.createCol("accountSummary");
-  blockRecordCol = await db.createCol("blockRecord");
   eventCol = await db.createCol("event");
   callCol = await db.createCol("call");
 
@@ -32,7 +30,16 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  // todo: create indexes
+  await summaryCol.createIndex({ "indexer.blockHeight": 1 });
+  await accountSummaryCol.createIndex({ account: 1, "indexer.blockHeight": 1 });
+  await eventCol.createIndex({
+    "indexer.blockHeight": 1,
+    "indexer.eventIndex": 1,
+  });
+  await callCol.createIndex({
+    "indexer.blockHeight": 1,
+    "indexer.extrinsicIndex": 1,
+  });
 }
 
 async function makeSureInit(col) {
@@ -49,11 +56,6 @@ async function getSummaryCol() {
 async function getAccountSummaryCol() {
   await makeSureInit(accountSummaryCol);
   return accountSummaryCol;
-}
-
-async function getBlockRecordCol() {
-  await makeSureInit(blockRecordCol);
-  return blockRecordCol;
 }
 
 async function getEventCol() {
@@ -79,7 +81,6 @@ module.exports = {
   getVestingDb,
   getSummaryCol,
   getAccountSummaryCol,
-  getBlockRecordCol,
   getEventCol,
   getCallCol,
 };
