@@ -4,7 +4,7 @@ const {
   chain: { getBlockIndexer },
 } = require("@osn/scan-common");
 const {
-  identity: { getIdentityDb },
+  vesting: { getVestingDb },
 } = require("@statescan/mongo");
 
 const { getVestingEvents, clearAllEvents } = require("../store/event");
@@ -36,7 +36,7 @@ async function handleBlock({ block, events, height }) {
 
   clearAllEvents();
   clearAllCalls();
-  const db = await getIdentityDb();
+  const db = await getVestingDb();
   await db.updateScanHeight(height);
 }
 

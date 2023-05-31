@@ -11,8 +11,8 @@ let callCol = null;
 
 async function initVestingScanDb() {
   db = new ScanDb(
-    getEnvOrThrow("MONGO_IDENTITY_SCAN_URL"),
-    getEnvOrThrow("MONGO_IDENTITY_SCAN_NAME"),
+    getEnvOrThrow("MONGO_VESTING_SCAN_URL"),
+    getEnvOrThrow("MONGO_VESTING_SCAN_NAME"),
   );
   await db.init();
 
