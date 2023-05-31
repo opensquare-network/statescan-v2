@@ -1,3 +1,5 @@
+const { addVestingEvent } = require("../../../store/event");
+
 async function handleVestingEvents(
   event,
   indexer,
@@ -5,11 +7,34 @@ async function handleVestingEvents(
   blockEvents = [],
 ) {
   const { section, method } = event;
-  if ("vesting" === section) {
+  if ("vesting" !== section) {
     return;
   }
 
-  // todo: handle various vesting events, extract business data and save it to DB
+  let parsedEvent;
+
+  if ("VestingUpdated" === method) {
+    parsedEvent = {
+      type: method,
+      account: event.data[0].toString(),
+      unvested: event.data[1].toString(),
+    };
+  }
+
+  if ("VestingCompleted" === method) {
+    parsedEvent = { type: method, account: event.data[0].toString() };
+  }
+
+  if (!parsedEvent) {
+    throw new Error(`Unknown event ${section}.${method}`);
+  }
+
+  parsedEvent = {
+    indexer,
+    event: parsedEvent,
+  };
+
+  addVestingEvent(parsedEvent);
 }
 
 module.exports = {
