@@ -1,17 +1,14 @@
 const { handleBlock } = require("./block");
 const { deleteFrom } = require("./delete");
 const {
-  identity: {
-    getIdentityDb
-  },
+  identity: { getIdentityDb },
 } = require("@statescan/mongo");
 const {
   chain: { wrapBlockHandler },
   scan: { oneStepScan },
   utils: { sleep },
 } = require("@osn/scan-common");
-const {startJobs} = require("./jobs");
-
+const { startJobs } = require("./jobs");
 
 async function scan() {
   const db = await getIdentityDb();
@@ -28,9 +25,6 @@ async function scan() {
     await sleep(1);
   }
 }
-
-
-
 
 module.exports = {
   scan,

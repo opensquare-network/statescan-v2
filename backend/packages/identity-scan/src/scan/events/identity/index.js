@@ -26,8 +26,6 @@ const { setIdentityEventForTimeline } = require("./identityTimelineOperations");
  *
  * @param event
  * @param indexer
- * @param extrinsic
- * @param blockEvents
  * @returns {Promise<void>}
  */
 async function handleIdentityEvents(event, indexer) {
