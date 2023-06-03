@@ -38,9 +38,7 @@ async function setIdentityEventForTimeline(method, event, indexer) {
     identityEvent,
   );
   identityEvent = { ...identityEvent, ...subIdentityRelatedData };
-
   identityEvent.method = method;
-  identityEvent.timestamp = await getCurrentBlockTimestamp(indexer);
 
   await addIdentityTimelineCollection(identityEvent, indexer);
 }

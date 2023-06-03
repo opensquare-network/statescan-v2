@@ -35,24 +35,6 @@ async function getSubIdentityDisplay(accountId) {
 }
 
 /**
- * convert planck unit to decimal with token name(WND,DOT,KSM) e.g. / 1000000000000 to 1.0000 WND
- *
- * @param balance
- * @returns {Promise<string>}
- */
-async function toDecimal(balance) {
-  const api = await getApi();
-  const decimals = api.registry.chainDecimals[0];
-  const base = new BN(10).pow(new BN(decimals));
-  const dm = new BN(balance).divmod(base);
-  return (
-    parseFloat(dm.div.toString() + "." + dm.mod.toString()) +
-    " " +
-    api.registry.chainTokens[0]
-  );
-}
-
-/**
  *  converts hex to UTF-8 string
  *
  * @param hex
@@ -67,6 +49,5 @@ function hexToString(hex) {
 module.exports = {
   getCurrentBlockTimestamp,
   getSubIdentityDisplay,
-  toDecimal,
   hexToString,
 };

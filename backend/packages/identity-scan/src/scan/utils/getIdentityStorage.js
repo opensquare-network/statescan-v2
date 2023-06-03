@@ -1,7 +1,7 @@
 const {
   chain: { getApi },
 } = require("@osn/scan-common");
-const { toDecimal } = require("./unitConversion");
+const { toDecimal128 } = require("@statescan/common/src/utils/toDecimal128");
 
 async function getIdentityStorage(accountId) {
   const api = await getApi();
@@ -27,9 +27,19 @@ async function getIdentityStorage(accountId) {
       ? info.pgpFingerprint.unwrap().toHex()
       : null,
   };
-  identity.deposit = await toDecimal(deposit.toNumber());
+  identity.deposit = await toDecimal128(deposit);
   if (judgements.length > 0) {
-    let judgementsList = [];
+    identity.judgements = setIdentityJudgements(identity, judgements);
+  }
+  identity.accountId = accountId;
+  console.log("getIdentityStorage", identity);
+  return identity;
+}
+
+function setIdentityJudgements(identity, judgements) {
+  const judgementsList = [];
+
+  if (judgements.length > 0) {
     judgements.forEach(([registrarIndex, judgement]) => {
       let judgementInfo = {
         registrarIndex: registrarIndex.toNumber(),
@@ -37,10 +47,9 @@ async function getIdentityStorage(accountId) {
       };
       judgementsList.push(judgementInfo);
     });
-    identity.judgements = judgementsList;
   }
-  identity.accountId = accountId;
-  return identity;
+
+  return judgementsList;
 }
 
 module.exports = {
