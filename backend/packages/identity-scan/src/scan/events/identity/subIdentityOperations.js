@@ -2,10 +2,7 @@ const {
   identity: { getSubIdentitiesCollection },
 } = require("@statescan/mongo");
 const { getIdentityStorage } = require("../../utils/getIdentityStorage");
-const {
-  getCurrentBlockTimestamp,
-  getSubIdentityDisplay,
-} = require("../../utils/unitConversion");
+const { getSubIdentityDisplay } = require("../../utils/unitConversion");
 
 async function addSubIdentitiesCollection(subIdentity) {
   const collection = await getSubIdentitiesCollection();
@@ -31,7 +28,7 @@ async function setSubIdentity(method, event, indexer) {
   subIdentity.subIdentityAccountId = subIdentityAccountId;
   subIdentity.parentIdentityAccountId = parentIdentityAccountId;
   subIdentity.method = method;
-  subIdentity.requestTimestamp = await getCurrentBlockTimestamp(indexer);
+  subIdentity.indexer = indexer;
 
   await addSubIdentitiesCollection(subIdentity);
 }

@@ -3,10 +3,7 @@ const {
   getSubIdentitiesCollection,
   getIdentityTimelineCollection,
 } = require("@statescan/mongo/src/identity");
-const {
-  getCurrentBlockTimestamp,
-  hexToString,
-} = require("../utils/unitConversion");
+const { hexToString } = require("../utils/unitConversion");
 
 async function handleSubIdentityExtrinsics(
   author,
@@ -16,7 +13,6 @@ async function handleSubIdentityExtrinsics(
 ) {
   const parentIdentityAccountId = author.toString();
   const parentIdentity = await getIdentityStorage(parentIdentityAccountId);
-  const timestamp = await getCurrentBlockTimestamp(indexer);
   let subIdentityList = [];
 
   if (extrinsicData.sub && extrinsicData.data) {
@@ -27,7 +23,7 @@ async function handleSubIdentityExtrinsics(
       data,
       parentIdentity,
       method,
-      timestamp,
+      indexer,
     );
     subIdentityList.push(subIdentity);
   }
@@ -40,7 +36,7 @@ async function handleSubIdentityExtrinsics(
         data,
         parentIdentity,
         method,
-        timestamp,
+        indexer,
       );
       subIdentityList.push(subIdentity);
     });
@@ -58,12 +54,12 @@ function processSubIdentity(
   data,
   parentIdentity,
   method,
-  timestamp,
+  indexer,
 ) {
   const hex = data.raw;
   const subDisplay = hexToString(hex);
   let subIdentity = JSON.parse(JSON.stringify(parentIdentity));
-  subIdentity.requestTimestamp = timestamp;
+  subIdentity.indexer = indexer;
   subIdentity.accountId = subAccountId;
   subIdentity.subIdentityAccountId = subAccountId;
   subIdentity.method = method;

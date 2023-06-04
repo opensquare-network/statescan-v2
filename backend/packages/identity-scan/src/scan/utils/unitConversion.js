@@ -4,20 +4,6 @@ const {
 const { hexToU8a, u8aToString } = require("@polkadot/util");
 
 /**
- * Get the current block timestamp of the given indexer.
- *
- * @param indexer
- * @returns {Promise<Date>}
- */
-async function getCurrentBlockTimestamp(indexer) {
-  const api = await getApi();
-  const currentBlockTimestamp = await api.query.timestamp.now.at(
-    indexer.blockHash,
-  );
-  return new Date(currentBlockTimestamp.toNumber());
-}
-
-/**
  * Get the display name of the sub identity of the given account and convert it to utf8.
  *
  * @param accountId
@@ -46,7 +32,6 @@ function hexToString(hex) {
 }
 
 module.exports = {
-  getCurrentBlockTimestamp,
   getSubIdentityDisplay,
   hexToString,
 };
