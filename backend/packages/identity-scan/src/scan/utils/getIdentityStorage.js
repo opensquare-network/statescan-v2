@@ -32,20 +32,18 @@ async function getIdentityStorage(accountId) {
     identity.judgements = setIdentityJudgements(identity, judgements);
   }
   identity.accountId = accountId;
-  console.log("getIdentityStorage", identity);
   return identity;
 }
 
 function setIdentityJudgements(identity, judgements) {
-  const judgementsList = [];
+  let judgementsList = [];
 
   if (judgements.length > 0) {
-    judgements.forEach(([registrarIndex, judgement]) => {
-      let judgementInfo = {
+    judgementsList = judgements.map(([registrarIndex, judgement]) => {
+      return {
         registrarIndex: registrarIndex.toNumber(),
         judgement: judgement.toString(),
       };
-      judgementsList.push(judgementInfo);
     });
   }
 

@@ -2,10 +2,6 @@ const {
   identity: { getIdentityTimelineCollection },
 } = require("@statescan/mongo");
 const {
-  getCurrentBlockTimestamp,
-  getSubIdentityDisplay,
-} = require("../../utils/unitConversion");
-const {
   EVENT_METHOD: {
     JUDGEMENT_GIVEN,
     JUDGEMENT_REQUESTED,
@@ -15,14 +11,12 @@ const {
     SUB_IDENTITY_REVOKED,
   },
 } = require("../../constants");
-const { getIdentityStorage } = require("../../utils/getIdentityStorage");
 
 async function setIdentityEventForTimeline(method, event, indexer) {
   let identityEvent = {};
   const eventData = event.data;
   const accountId = eventData[0].toString();
-
-  identityEvent = await getIdentityStorage(accountId);
+  identityEvent.accountId = accountId;
 
   //check if judgement or subidentity related method then add extra data
   const judgementRelatedData = checkIfJudgementRelated(
@@ -72,14 +66,6 @@ async function checkIfSubIdentityRelated(method, eventData, identityEvent) {
     const parentIdentityAccountId = eventData[1].toString();
     identityEvent.subIdentityAccountId = subIdentityAccountId;
     identityEvent.accountId = parentIdentityAccountId;
-
-    // override main identity display with sub identity display below as only sub identity display name is different, rest info is inherited from parent identity
-    if (method === SUB_IDENTITY_ADDED) {
-      identityEvent = await getIdentityStorage(parentIdentityAccountId);
-      identityEvent.info.display = await getSubIdentityDisplay(
-        subIdentityAccountId,
-      );
-    }
   }
   return identityEvent;
 }

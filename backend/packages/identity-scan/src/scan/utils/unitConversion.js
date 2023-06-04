@@ -1,4 +1,3 @@
-const { BN } = require("@polkadot/util");
 const {
   chain: { getApi },
 } = require("@osn/scan-common");

@@ -17,7 +17,7 @@ const { handleExtrinsics } = require("./extrinsic");
 async function handleBlock({ block, events, height }) {
   const blockIndexer = getBlockIndexer(block);
 
-  await handleEvents(events, blockIndexer);
+  await handleEvents(events, blockIndexer, block.extrinsics);
 
   await handleExtrinsics(block.extrinsics, events, blockIndexer);
 

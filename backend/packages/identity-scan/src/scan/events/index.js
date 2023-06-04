@@ -5,9 +5,10 @@ const { handleIdentityEvents } = require("./identity");
  *
  * @param events
  * @param blockIndexer
+ * @param extrinsics
  * @returns {Promise<void>}
  */
-async function handleEvents(events = [], blockIndexer) {
+async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
     return;
   }
@@ -18,9 +19,18 @@ async function handleEvents(events = [], blockIndexer) {
       eventIndex,
     };
 
-    const { event } = events[eventIndex];
+    const { event, phase } = events[eventIndex];
+    let extrinsic;
+    if (!phase.isNone) {
+      const extrinsicIndex = phase.value.toNumber();
+      indexer = {
+        ...indexer,
+        extrinsicIndex,
+      };
+      extrinsic = extrinsics[extrinsicIndex];
+    }
 
-    await handleIdentityEvents(event, indexer);
+    await handleIdentityEvents(event, indexer, extrinsic);
   }
 }
 
