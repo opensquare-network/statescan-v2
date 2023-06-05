@@ -88,8 +88,8 @@ function processSubIdentity(
   if (parentIdentity) {
     subIdentity = JSON.parse(JSON.stringify(parentIdentity));
     subIdentity.info.display = subDisplay;
+    subIdentity.deposit = deposit;
   }
-  subIdentity.deposit = deposit;
   subIdentity.indexer = indexer;
   subIdentity.accountId = subAccountId;
   subIdentity.subIdentityAccountId = subAccountId;
