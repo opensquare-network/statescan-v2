@@ -13,7 +13,9 @@ async function handleSubIdentityExtrinsics(
 ) {
   const parentIdentityAccountId = author.toString();
   const parentIdentity = await getIdentityStorage(parentIdentityAccountId);
+  const deposit = parentIdentity.deposit;
   let subIdentityList = [];
+  let subIdentityTimelineList = [];
 
   if (extrinsicData.sub && extrinsicData.data) {
     let subAccountId = extrinsicData.sub.id;
@@ -24,8 +26,18 @@ async function handleSubIdentityExtrinsics(
       parentIdentity,
       method,
       indexer,
+      deposit,
     );
     subIdentityList.push(subIdentity);
+    const subIdentityTimeline = processSubIdentity(
+      subAccountId,
+      data,
+      null,
+      method,
+      indexer,
+      deposit,
+    );
+    subIdentityTimelineList.push(subIdentityTimeline);
   }
 
   if (extrinsicData.subs) {
@@ -37,13 +49,26 @@ async function handleSubIdentityExtrinsics(
         parentIdentity,
         method,
         indexer,
+        deposit,
       );
       subIdentityList.push(subIdentity);
+
+      const subIdentityTimeline = processSubIdentity(
+        subAccountId,
+        data,
+        null,
+        method,
+        indexer,
+        deposit,
+      );
+      subIdentityTimelineList.push(subIdentityTimeline);
     });
   }
+
   await bulkUpdateSubIdentities(subIdentityList, parentIdentityAccountId);
+
   await bulkInsertIdentityTimeline(
-    subIdentityList,
+    subIdentityTimelineList,
     parentIdentityAccountId,
     indexer,
   );
@@ -55,15 +80,20 @@ function processSubIdentity(
   parentIdentity,
   method,
   indexer,
+  deposit,
 ) {
   const hex = data.raw;
   const subDisplay = hexToString(hex);
-  let subIdentity = JSON.parse(JSON.stringify(parentIdentity));
+  let subIdentity = {};
+  if (parentIdentity) {
+    subIdentity = JSON.parse(JSON.stringify(parentIdentity));
+    subIdentity.info.display = subDisplay;
+  }
+  subIdentity.deposit = deposit;
   subIdentity.indexer = indexer;
   subIdentity.accountId = subAccountId;
   subIdentity.subIdentityAccountId = subAccountId;
   subIdentity.method = method;
-  subIdentity.info.display = subDisplay;
   return subIdentity;
 }
 
