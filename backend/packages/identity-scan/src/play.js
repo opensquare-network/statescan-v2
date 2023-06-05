@@ -44,6 +44,7 @@ async function main() {
   const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
   const batch_extrinsics = [18068116];
   const setSubs_and_renameSubs = [15480156, 16172875];
+  const subIdentity_deposit = [18024646];
   let blockHeights = [
     ...setSubs_and_renameSubs,
     ...identityTimelineEvents,
@@ -54,6 +55,7 @@ async function main() {
     ...subIdentityAddEvents,
     ...batch_extrinsics,
     ...set_sub_extrinsics,
+    ...subIdentity_deposit,
   ];
 
   /*  const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
