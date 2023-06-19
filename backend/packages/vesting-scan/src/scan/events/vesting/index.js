@@ -1,5 +1,3 @@
-const { addVestingEvent } = require("../../../store/event");
-
 async function handleVestingEvents(
   event,
   indexer,
@@ -33,8 +31,6 @@ async function handleVestingEvents(
     indexer,
     event: parsedEvent,
   };
-
-  addVestingEvent(parsedEvent);
 }
 
 module.exports = {

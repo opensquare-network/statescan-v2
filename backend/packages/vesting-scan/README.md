@@ -1,81 +1,53 @@
 # Vesting Scan
 
-## Schema
-
 ```ts
 interface Indexer {
   blockHeight: number;
-  blockHash: string;
+  initialIndex: number;
+  currentIndex: number;
 }
 
-// Summaries
-interface VestingSummary {
-  numSchedules: number;
-  numActiveSchedules: number;
-  lockedAmount: bigint;
+interface Vesting {
   indexer: Indexer;
+  from: account;
+  target: account;
+  starting_block: number;
+  locked: bigint;
+  per_block: bigint;
+  ending_block: number | null;
 }
 
-interface AccountVestingSummary {
-  account: string;
-  numSchedules: number;
-  numActiveSchduels: number;
-  lockedAmount: bigint;
-  indexer: Indexer;
+interface VestingTimeline {
+  vestingIndexer: {
+    blockHeight: number;
+    initialIndex: number;
+  };
+  event: VestingEvent;
 }
 
-// Vesting Records
-interface VestingInfo {
-  locked: number;
-  perBlock: bigint;
-  startingBlock: number;
+VestingEvent = VestingStartEvent | VestingEndEvent | VestingVestedEvent;
+
+interface VestingStartEvent {
+  type: "start";
+  blockHeight: number;
+  from: account;
+  target: account;
+  action: "vestTransfer" | "forceVestTransfer" | "merged";
 }
 
-interface VestingBlockRecord {
-  account: string;
-  block: number;
-  schedules: VestingInfo[];
+interface VestingVestedEvent {
+  type: "vested";
+  blockHeight: number;
+  from: account;
+  target: account;
+  action: "vested";
 }
 
-// Vesting Events
-interface VestingCompleted {
-  type: "VestingCompleted";
-  account: string;
-}
-
-interface VestingUpdated {
-  type: "VestingUpdated";
-  account: string;
-  unvested: bigint;
-}
-
-interface VestingEvent {
-  indexer: Indexer;
-  event: VestingCompleted | VestingUpdated;
-}
-
-// Vesting Calls
-interface VestedTransfer {
-  source: string;
-  target: string;
-  scheduel: VestingInfo;
-  type: "vestedTransfer";
-}
-
-interface Vest {
-  target: string;
-  type: "vest";
-}
-
-interface MergeSchedules {
-  scheduleIndex1: number;
-  scheduleIndex2: number;
-  type: "mergeSchedules";
-}
-
-interface VestingCall {
-  indexer: Indexer;
-  signedBy: string;
-  call: VestedTransfer | Vest | MergeSchedules;
+interface VestingEndEvent {
+  type: "end";
+  blockHeight: number;
+  from: account;
+  target: account;
+  action: "vestedCompleted" | "forceVestTransfer";
 }
 ```
