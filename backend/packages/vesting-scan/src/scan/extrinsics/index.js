@@ -3,7 +3,14 @@ const {
   handleCallsInExtrinsic,
 } = require("@osn/scan-common");
 
-const { addNewVesting } = require("../../store/vesting");
+const {
+  getPreviousVestigns,
+  setPreviousVestings,
+  getCurrentVestings,
+  setCurrentVestings,
+} = require("../../store/vestings");
+
+const { getVestingsAtBlock } = require("../../service/vestings");
 
 async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
   if (call.section !== "vesting") {
@@ -12,7 +19,6 @@ async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
 
   const method = call.method;
   const args = call.args;
-  const blockHeight = extrinsicIndexer.blockHeight;
 
   if (method === "vestedTransfer" || method === "forceVestedTransfer") {
     const from = method === "vestedTransfer" ? author : args[0].toString();
@@ -45,12 +51,21 @@ function lockedAt(vesting, blockHeight) {
   return Math.max(0, vesting.locked - vestedBlockCount * vesting.per_block);
 }
 
-async function getPreviousVestings(account, indexer) {
-  //TODO: ENRICH it with index
-  return [];
+async function getVestings(account, indexer) {
+  let vestings = getCurrentVestings(account);
+  if (vestings === undefined) {
+    vestings = getPreviousVestings(account);
+    if (vestings === undefined) {
+      vestings = await getVestingsAtBlock(account, indexer.parentHash);
+      setPreviousVestings(account, vestings);
+    }
+  }
+  return vestings;
 }
 
-function setVestings(account, vestings) {}
+function setVestings(account, vestings) {
+  setCurrentVestings(account, vestings);
+}
 
 function shouldKeepVesting(vesting, blockHeight) {
   return lockedAt(vesting, blockHeight) === 0;
@@ -75,7 +90,7 @@ function removeEndedVestings(vestings, blockHeight) {
 }
 
 function handleVestedTransfer(from, target, vesting, indexer) {
-  const vestings = getPreviousVestings(target, indexer);
+  const vestings = getVestings(target, indexer);
   const { endedVestings, remainingVestings } = removeEndedVestings(
     vestings,
     indexer.blockHeight,
@@ -95,7 +110,7 @@ function handleVestedTransfer(from, target, vesting, indexer) {
 }
 
 function handleVest(from, target, indexer) {
-  const vestings = getPreviousVestings(target, indexer);
+  const vestings = getVestings(target, indexer);
   const { endedVestings, remainingVestings } = removeEndedVestings(
     vestings,
     indexer.blockHeight,
@@ -123,7 +138,7 @@ function handleMerge(from, target, index1, index2, indexer) {
     return;
   }
 
-  const vestings = getPreviousVestings(target, indexer);
+  const vestings = getVestings(target, indexer);
 
   const vesting1 = vestings[index1];
   const vesting2 = vestings[index2];
@@ -193,7 +208,12 @@ function parseVestingInfo(map) {
   };
 }
 
-async function handleExtrinsics(extrinsics = [], allEvents = [], blockIndexer) {
+async function handleExtrinsics(
+  extrinsics = [],
+  allEvents = [],
+  blockIndexer,
+  parentHash,
+) {
   let index = 0;
   for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(allEvents, index);
@@ -201,7 +221,11 @@ async function handleExtrinsics(extrinsics = [], allEvents = [], blockIndexer) {
       continue;
     }
 
-    const extrinsicIndexer = { ...blockIndexer, extrinsicIndex: index++ };
+    const extrinsicIndexer = {
+      ...blockIndexer,
+      extrinsicIndex: index++,
+      parentHash,
+    };
     await handleCallsInExtrinsic(
       extrinsic,
       events,

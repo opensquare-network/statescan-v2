@@ -1,23 +1,31 @@
 // acccount to new vesting lists
-let newVestings = {};
 
-function addNewVestings(account, vesting) {
-  if (!newVestings[account]) {
-    newVestings[account] = [];
+let previousVestings = {};
+let vestings = {};
+
+function getPreviousVestings(account) {
+  const vestings = previousVestings[account];
+  if (vestings === undefined) {
+    return undefined;
   }
-  newVestings[account].push(vesting);
+  return JSON.parse(JSON.stringify(vestings));
 }
 
-function getNewVestings() {
-  return newVestings;
+function setPreviousVestings(account, vesting) {
+  previousVestings[account] = vesting;
 }
 
-function clearNewVestings() {
-  newVestings = {};
+function getCurrentVestings(account) {
+  return vestings[account];
+}
+
+function setCurrentVestings(account, vesting) {
+  vestings[account] = vesting;
 }
 
 module.exports = {
-  addNewVestings,
-  getNewVestings,
-  clearNewVestings,
+  getPreviousVestings,
+  setPreviousVestings,
+  getCurrentVestings,
+  setCurrentVestings,
 };
