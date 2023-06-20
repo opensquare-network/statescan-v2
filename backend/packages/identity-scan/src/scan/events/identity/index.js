@@ -1,5 +1,5 @@
-const { handleIdentitySet } = require("./events");
-const { setIdentity, deleteIdentity } = require("./identityOperations");
+const { handleIdentityCleared, handleIdentitySet } = require("./events");
+const { deleteIdentity } = require("./identityOperations");
 const { setRegistrarJudgement } = require("./registrarOperations");
 
 const {
@@ -36,11 +36,11 @@ async function handleIdentityEvents(event, indexer, extrinsic) {
   if (IDENTITY !== section) {
     return;
   }
+
   if (IDENTITY_SET === method) {
     await handleIdentitySet(event, indexer);
   } else if (IDENTITY_CLEARED === method) {
-    await deleteIdentity(event);
-    await setIdentityEventForTimeline(IDENTITY_CLEARED, event, indexer);
+    await handleIdentityCleared(event, indexer);
   } else if (IDENTITY_KILLED === method) {
     await deleteIdentity(event);
     await setIdentityEventForTimeline(IDENTITY_KILLED, event, indexer);
