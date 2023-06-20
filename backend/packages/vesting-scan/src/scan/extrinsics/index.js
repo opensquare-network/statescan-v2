@@ -8,9 +8,11 @@ const {
   setPreviousVestings,
   getCurrentVestings,
   setCurrentVestings,
+  addEndedVestings,
 } = require("../../store/vestings");
 
 const { getVestingsAtBlock } = require("../../service/vestings");
+const { account } = require("@statescan/mongo");
 
 async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
   if (call.section !== "vesting") {
@@ -100,12 +102,9 @@ function handleVestedTransfer(from, target, vesting, indexer) {
   if (shouldKeepVesting(vesting)) {
     // we can't decide the final index of the newly created vesting now since there could be serveral vestedTransfer/vest/merge action in one block.
     remainingVestings.push(vesting);
-
-    // TODO record index as newly created vesting
   }
 
-  // TODO record endedVestings
-
+  addEndedVestings(account, endedVestings);
   setVestings(target, remainingVestings);
 }
 
@@ -116,7 +115,7 @@ function handleVest(from, target, indexer) {
     indexer.blockHeight,
   );
 
-  // TODO record endedVestings
+  addEndedVestings(account, endedVestings);
   setVestings(target, remainingVestings);
 }
 
@@ -158,8 +157,12 @@ function handleMerge(from, target, index1, index2, indexer) {
     indexer.blockHeight,
   );
 
-  remainingVestings.push(mergedVesting);
+  if (mergedVesting !== null) {
+    remainingVestings.push(mergedVesting);
+  }
+
   setVestings(target, remainingVestings);
+  addEndedVestings(account, endedVestings);
 }
 
 function mergeTwoVestings(vesting1, vesting2, blockHeight) {

@@ -2,6 +2,7 @@
 
 let previousVestings = {};
 let vestings = {};
+let endedVestings = {};
 
 function getPreviousVestings(account) {
   const vestings = previousVestings[account];
@@ -21,6 +22,16 @@ function getCurrentVestings(account) {
 
 function setCurrentVestings(account, vesting) {
   vestings[account] = vesting;
+}
+
+function getEndedVestings() {
+  return endedVestings;
+}
+
+function addEndedVestings(account, vestings) {
+  const allVestings = endedVestings[account] || [];
+  allVestings.push(vestings);
+  endedVestings[account] = allVestings;
 }
 
 module.exports = {
