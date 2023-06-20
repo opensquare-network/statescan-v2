@@ -1,8 +1,5 @@
 const {
-  identity: {
-    getRegistrarsTimelineCollection,
-    getIdentityTimelineCollection
-  }
+  identity: { getRegistrarsTimelineCollection, getIdentityTimelineCol },
 } = require("@statescan/mongo");
 
 async function deleteFrom(height) {
@@ -14,9 +11,10 @@ async function deleteFrom(height) {
   const collection = await getRegistrarsTimelineCollection();
   await collection.deleteMany({ "indexer.blockHeight": { $gte: height } });
 
-  const identityTimelineCollection = await getIdentityTimelineCollection();
-  await identityTimelineCollection.deleteMany({ "indexer.blockHeight": { $gte: height } });
-
+  const identityTimelineCollection = await getIdentityTimelineCol();
+  await identityTimelineCollection.deleteMany({
+    "indexer.blockHeight": { $gte: height },
+  });
 }
 
 module.exports = {

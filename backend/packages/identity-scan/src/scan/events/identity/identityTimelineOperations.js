@@ -1,5 +1,5 @@
 const {
-  identity: { getIdentityTimelineCollection },
+  identity: { getIdentityTimelineCol },
 } = require("@statescan/mongo");
 const {
   EVENT_METHOD: {
@@ -38,7 +38,7 @@ async function setIdentityEventForTimeline(method, event, indexer) {
 }
 
 async function addIdentityTimelineCollection(identityEvent, indexer) {
-  const collection = await getIdentityTimelineCollection();
+  const collection = await getIdentityTimelineCol();
   await collection.insertOne({
     ...identityEvent,
     indexer,

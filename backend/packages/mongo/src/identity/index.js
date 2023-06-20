@@ -35,8 +35,8 @@ async function _createIndexes() {
   const identityCollection = await getIdentityCollection();
   await identityCollection.createIndex({ "info.display": 1 });
 
-  const identityTimelineCollection = await getIdentityTimelineCollection();
-  await identityTimelineCollection.createIndex({ accountId: 1 });
+  const identityTimelineCollection = await getIdentityTimelineCol();
+  await identityTimelineCollection.createIndex({ account: 1 });
 
   const subIdentitiesCollection = await getSubIdentitiesCollection();
   await subIdentitiesCollection.createIndex({ parentIdentityAccountId: 1 });
@@ -61,7 +61,7 @@ async function getIdentityCollection() {
   return identityCol;
 }
 
-async function getIdentityTimelineCollection() {
+async function getIdentityTimelineCol() {
   await makeSureInit(identityTimelineCol);
   return identityTimelineCol;
 }
@@ -92,7 +92,7 @@ async function getIdentityDb() {
 async function dropIdentityCollection() {
   const identityCollection = await getIdentityCollection();
   identityCollection.drop();
-  const identityTimelineCollection = await getIdentityTimelineCollection();
+  const identityTimelineCollection = await getIdentityTimelineCol();
   identityTimelineCollection.drop();
   const subIdentitiesCollection = await getSubIdentitiesCollection();
   subIdentitiesCollection.drop();
@@ -107,7 +107,7 @@ module.exports = {
   initIdentityScanDb,
   getIdentityDb,
   getIdentityCollection,
-  getIdentityTimelineCollection,
+  getIdentityTimelineCol,
   getRegistrarsCollection,
   getRegistrarsTimelineCollection,
   getSubIdentitiesCollection,

@@ -1,7 +1,7 @@
 const { getIdentityStorage } = require("../utils/getIdentityStorage");
 const {
   getSubIdentitiesCollection,
-  getIdentityTimelineCollection,
+  getIdentityTimelineCol,
 } = require("@statescan/mongo/src/identity");
 const { hexToString } = require("../utils/unitConversion");
 
@@ -124,7 +124,7 @@ async function bulkInsertIdentityTimeline(
   parentAccountId,
   indexer,
 ) {
-  const collection = await getIdentityTimelineCollection();
+  const collection = await getIdentityTimelineCol();
 
   //overwrite accountId with parentAccountId because we use parentAccountId as _id in identityTimeline collection
   const eventsWithIndexer = identityEvents.map((event) => ({
