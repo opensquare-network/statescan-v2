@@ -46,16 +46,17 @@ async function main() {
   const setSubs_and_renameSubs = [15480156, 16172875];
   const subIdentity_deposit = [18024646];
   let blockHeights = [
-    ...setSubs_and_renameSubs,
-    ...identityTimelineEvents,
-    ...identityEvents,
-    ...subIdentityAddRemoveEvents,
-    ...registrarTimelineEvents,
-    ...identityAddAndRemoveEvents,
-    ...subIdentityAddEvents,
-    ...batch_extrinsics,
-    ...set_sub_extrinsics,
-    ...subIdentity_deposit,
+    // ...setSubs_and_renameSubs,
+    // ...identityTimelineEvents,
+    // ...identityEvents,
+    // ...subIdentityAddRemoveEvents,
+    // ...registrarTimelineEvents,
+    // ...identityAddAndRemoveEvents,
+    // ...subIdentityAddEvents,
+    // ...batch_extrinsics,
+    // ...set_sub_extrinsics,
+    // ...subIdentity_deposit,
+    6884575,
   ];
 
   /*  const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
