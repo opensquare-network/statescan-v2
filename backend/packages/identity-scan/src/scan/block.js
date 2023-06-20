@@ -1,3 +1,5 @@
+const { clearBlockAccounts } = require("../store");
+const { updateBlockIdentities } = require("./jobs/block");
 const { handleEvents } = require("./events");
 const {
   chain: { getBlockIndexer },
@@ -16,10 +18,11 @@ const { handleExtrinsics } = require("./extrinsic");
  */
 async function handleBlock({ block, events, height }) {
   const blockIndexer = getBlockIndexer(block);
-
   await handleEvents(events, blockIndexer, block.extrinsics);
-
   await handleExtrinsics(block.extrinsics, events, blockIndexer);
+
+  await updateBlockIdentities(blockIndexer);
+  clearBlockAccounts(blockIndexer.blockHash);
 
   const db = await getIdentityDb();
   await db.updateScanHeight(height);

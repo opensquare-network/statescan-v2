@@ -1,3 +1,4 @@
+const { queryMultipleIdentity } = require("../info");
 const { normalizeIdentityJudgements } = require("../../utils");
 const { queryIdentityInfo } = require("../info");
 const {
@@ -6,7 +7,7 @@ const {
 } = require("@osn/scan-common");
 jest.setTimeout(3000000);
 
-describe("Query identity", () => {
+describe("Query", () => {
   beforeAll(async () => {
     await setPolkadot();
   });
@@ -15,7 +16,7 @@ describe("Query identity", () => {
     await disconnect();
   });
 
-  test("works", async () => {
+  test("identity works", async () => {
     const api = await getApi();
     const blockHeight = 16044900;
     const blockHash = await api.rpc.chain.getBlockHash(blockHeight);
@@ -44,5 +45,22 @@ describe("Query identity", () => {
         judgement: "Reasonable",
       },
     ]);
+  });
+
+  test("multiple identities works", async () => {
+    const api = await getApi();
+    const blockHeight = 16044900;
+    const blockHash = await api.rpc.chain.getBlockHash(blockHeight);
+
+    const identities = await queryMultipleIdentity(
+      [
+        "12NLgzqfhuJkc9mZ5XUTTG85N8yhhzfptwqF1xVhtK3ZX7f6",
+        "1hCMdtRsaRA4ZTEKpPKPvEjK9rZpGhyFnRHSDhqFMCEayRL",
+      ],
+      { blockHeight, blockHash },
+    );
+
+    expect(identities[0].isSome).toBeTruthy();
+    expect(identities[1].isSome).toBeTruthy();
   });
 });
