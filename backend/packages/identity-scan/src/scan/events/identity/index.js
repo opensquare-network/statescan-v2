@@ -1,3 +1,4 @@
+const { handleJudgementRequested } = require("./events");
 const {
   handleIdentityCleared,
   handleIdentitySet,
@@ -50,8 +51,9 @@ async function handleIdentityEvents(event, indexer, extrinsic) {
     await setRegistrarJudgement(JUDGEMENT_GIVEN, event, indexer);
     await setIdentityEventForTimeline(JUDGEMENT_GIVEN, event, indexer);
   } else if (JUDGEMENT_REQUESTED === method) {
-    await setRegistrarJudgement(JUDGEMENT_REQUESTED, event, indexer);
-    await setIdentityEventForTimeline(JUDGEMENT_REQUESTED, event, indexer);
+    await handleJudgementRequested(event, indexer);
+    // await setRegistrarJudgement(JUDGEMENT_REQUESTED, event, indexer);
+    // await setIdentityEventForTimeline(JUDGEMENT_REQUESTED, event, indexer);
   } else if (JUDGEMENT_UNREQUESTED === method) {
     await setRegistrarJudgement(JUDGEMENT_UNREQUESTED, event, indexer);
     await setIdentityEventForTimeline(JUDGEMENT_UNREQUESTED, event, indexer);
