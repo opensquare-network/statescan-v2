@@ -1,15 +1,19 @@
-const {
-  isExtrinsicSuccess,
-  extractExtrinsicEvents,
-} = require("@osn/scan-common/src/utils");
+const { handleSetSubs } = require("./calls/setSubs");
 const {
   handleSubIdentityExtrinsics,
-} = require("./extrinsics/subIdentityExtrinsics");
-const { handleCallsInExtrinsic } = require("@osn/scan-common");
+} = require("./calls/subIdentityExtrinsics");
+const {
+  handleCallsInExtrinsic,
+  utils: { isExtrinsicSuccess, extractExtrinsicEvents },
+} = require("@osn/scan-common");
 const {
   SECTION: { IDENTITY },
   EXTRINSIC_METHOD: { SET_SUBS, RENAME_SUB },
 } = require("./constants");
+
+async function handleCalls(call, author, extrinsicIndexer, wrappedEvents) {
+  await handleSetSubs(call, author, extrinsicIndexer, wrappedEvents);
+}
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
   let index = 0;
@@ -27,7 +31,7 @@ async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
       extrinsic,
       events,
       extrinsicIndexer,
-      handleIdentityCalls,
+      handleCalls,
     );
   }
 }
