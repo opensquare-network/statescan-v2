@@ -45,6 +45,8 @@ function normalizeIdentity(onchainIdentity) {
   const { judgements, deposit } = onchainIdentity.unwrap();
   const info = extractIdentityInfo(onchainIdentity);
   return {
+    display: info.display,
+    fullDisplay: info.display,
     info,
     judgements: normalizeIdentityJudgements(judgements),
     deposit: toDecimal128(deposit),
