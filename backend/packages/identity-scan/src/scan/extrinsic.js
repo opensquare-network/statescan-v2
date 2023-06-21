@@ -1,3 +1,6 @@
+const { handleSetFieldsCall } = require("./calls/setFields");
+const { handleSetAccountIdCall } = require("./calls/setAccountId");
+const { handleSetFeeCall } = require("./calls/setFee");
 const { handleRenameSub } = require("./calls/renameSub");
 const { handleSetSubs } = require("./calls/setSubs");
 const {
@@ -15,6 +18,9 @@ const {
 async function handleCalls(call, author, extrinsicIndexer, wrappedEvents) {
   await handleSetSubs(call, author, extrinsicIndexer, wrappedEvents);
   await handleRenameSub(call, author, extrinsicIndexer, wrappedEvents);
+  await handleSetFeeCall(call, author, extrinsicIndexer, wrappedEvents);
+  await handleSetAccountIdCall(call, author, extrinsicIndexer, wrappedEvents);
+  await handleSetFieldsCall(call, author, extrinsicIndexer, wrappedEvents);
 }
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
