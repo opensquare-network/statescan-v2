@@ -6,7 +6,7 @@ const {
 let db = null;
 let identityCol = null;
 let identityTimelineCol = null;
-let registrarsCollection = null;
+let registrarsCol = null;
 let registrarsTimelineCollection = null;
 let subIdentitiesCol = null;
 
@@ -20,7 +20,7 @@ async function initIdentityScanDb() {
   identityCol = await db.createCol("identity");
   identityTimelineCol = await db.createCol("identityTimeline");
   subIdentitiesCol = await db.createCol("subIdentities");
-  registrarsCollection = await db.createCol("registrars");
+  registrarsCol = await db.createCol("registrars");
   registrarsTimelineCollection = await db.createCol("registrarsTimeline");
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
@@ -43,7 +43,7 @@ async function _createIndexes() {
   await subIdentitiesCollection.createIndex({ parentIdentityAccountId: 1 });
 
   // _id set to accountId as index
-  const registrarsCollection = await getRegistrarsCollection();
+  const registrarsCollection = await getRegistrarsCol();
   await registrarsCollection.createIndex({ accountId: 1 });
 
   const registrarsTimelineCollection = await getRegistrarsTimelineCollection();
@@ -72,9 +72,9 @@ async function getSubIdentitiesCollection() {
   return subIdentitiesCol;
 }
 
-async function getRegistrarsCollection() {
-  await makeSureInit(registrarsCollection);
-  return registrarsCollection;
+async function getRegistrarsCol() {
+  await makeSureInit(registrarsCol);
+  return registrarsCol;
 }
 
 async function getRegistrarsTimelineCollection() {
@@ -97,7 +97,7 @@ async function dropIdentityCollection() {
   identityTimelineCollection.drop();
   const subIdentitiesCollection = await getSubIdentitiesCollection();
   subIdentitiesCollection.drop();
-  const registrarsCollection = await getRegistrarsCollection();
+  const registrarsCollection = await getRegistrarsCol();
   registrarsCollection.drop();
   const registrarsTimelineCollection = await getRegistrarsTimelineCollection();
   registrarsTimelineCollection.drop();
@@ -109,7 +109,7 @@ module.exports = {
   getIdentityDb,
   getIdentityCol,
   getIdentityTimelineCol,
-  getRegistrarsCollection,
+  getRegistrarsCol,
   getRegistrarsTimelineCollection,
   getSubIdentitiesCollection,
   dropIdentityCollectionAndInit: dropIdentityCollection,
