@@ -12,7 +12,7 @@ async function getIdentityInfo(account, indexer) {
 
   const info = extractIdentityInfo(rawIdentity);
   return Object.entries(info).reduce((result, [key, value]) => {
-    if (isEmpty(value)) {
+    if (isEmpty(value) || isEmpty(value)) {
       return result;
     }
 
