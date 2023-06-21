@@ -1,9 +1,17 @@
+const { queryIdentityAsSub } = require("../../common");
 const { normalizeIdentity } = require("../../utils");
 const { queryMultipleIdentity } = require("../../query");
 const { getBlockAccounts } = require("../../../store");
 const {
   identity: { getIdentityCol },
 } = require("@statescan/mongo");
+
+function bulkUpsert(bulk, account, info) {
+  bulk
+    .find({ account })
+    .upsert()
+    .updateOne({ $set: { ...info } });
+}
 
 async function updateBlockIdentities(indexer) {
   const accounts = await getBlockAccounts(indexer.blockHash);
@@ -14,18 +22,24 @@ async function updateBlockIdentities(indexer) {
   const identities = await queryMultipleIdentity(accounts, indexer);
   const col = await getIdentityCol();
   const bulk = col.initializeUnorderedBulkOp();
-  for (let index = 0; index < accounts.length; index++) {
-    const account = accounts[index];
+  let index = 0;
+  for (const account of accounts) {
     const identity = identities[index];
-    if (!identity.isSome) {
+    if (identity.isSome) {
+      const normalizedInfo = normalizeIdentity(identity);
+      bulkUpsert(bulk, account, normalizedInfo);
+      index++;
+      continue;
+    }
+
+    const infoAsSub = await queryIdentityAsSub(account, indexer);
+    if (!infoAsSub) {
       bulk.find({ account }).delete();
     } else {
-      const normalizedInfo = normalizeIdentity(identity);
-      bulk
-        .find({ account })
-        .upsert()
-        .updateOne({ $set: { ...normalizedInfo } });
+      bulkUpsert(bulk, account, infoAsSub);
     }
+
+    index++;
   }
 
   await bulk.execute();

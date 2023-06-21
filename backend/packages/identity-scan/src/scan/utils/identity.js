@@ -1,21 +1,35 @@
+const { dataAsString } = require("./dataAsString");
 const { normalizeIdentityJudgements } = require("./judgement");
 const {
   utils: { toDecimal128 },
 } = require("@statescan/common");
 
+function extractAdditional(additional) {
+  return additional.reduce((other, [_key, _value]) => {
+    const key = dataAsString(_key);
+    const value = dataAsString(_value);
+
+    if (key && value) {
+      other[key] = value;
+    }
+
+    return other;
+  }, {});
+}
+
 function extractIdentityInfo(rawIdentity) {
   const { info } = rawIdentity.unwrap();
 
   return {
-    display: info.display.asRaw.toHuman(),
-    legal: info.legal.asRaw.toHuman(),
-    web: info.web.asRaw.toHuman(),
-    riot: info.riot.asRaw.toHuman(),
-    email: info.email.asRaw.toHuman(),
-    image: info.image.asRaw.toHuman(),
+    display: dataAsString(info.display),
+    legal: dataAsString(info.legal),
+    web: dataAsString(info.web),
+    riot: dataAsString(info.riot),
+    email: dataAsString(info.email),
+    image: dataAsString(info.image),
     pgpFingerprint: info.pgpFingerprint.toJSON(),
-    twitter: info.twitter.asRaw.toHuman(),
-    additional: info.additional.toJSON(),
+    twitter: dataAsString(info.twitter),
+    additional: extractAdditional(info.additional),
   };
 }
 
