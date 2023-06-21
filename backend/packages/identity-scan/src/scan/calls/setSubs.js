@@ -1,6 +1,7 @@
 const { addBlockAccount } = require("../../store");
 const { insertIdentityTimeline } = require("../mongo");
 const { dataAsString } = require("../utils");
+const { busLogger } = require("@osn/scan-common");
 
 async function handleSetSubs(call, signer, extrinsicIndexer) {
   const { section, method } = call;
@@ -38,6 +39,17 @@ async function handleSetSubs(call, signer, extrinsicIndexer) {
   }
 }
 
+async function wrappedHandle(call, signer, extrinsicIndexer) {
+  try {
+    await handleSetSubs(call, signer, extrinsicIndexer);
+  } catch (e) {
+    busLogger.error(
+      `${extrinsicIndexer.blockHeight} handle set_subs error:`,
+      e,
+    );
+  }
+}
+
 module.exports = {
-  handleSetSubs,
+  handleSetSubs: wrappedHandle,
 };
