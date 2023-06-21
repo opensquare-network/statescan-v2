@@ -5,4 +5,6 @@ module.exports = {
   ...require("./judgementRequested"),
   ...require("./judgementUnrequested"),
   ...require("./subIdentityAdded"),
+  ...require("./subIdentityRemoved"),
+  ...require("./subIdentityRevoked"),
 };

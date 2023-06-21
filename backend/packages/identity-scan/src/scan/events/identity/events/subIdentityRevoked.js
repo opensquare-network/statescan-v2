@@ -1,9 +1,9 @@
 const { handleSubIdentityCommon } = require("./common");
 
-async function handleSubIdentityAdded(event, indexer) {
+async function handleSubIdentityRevoked(event, indexer) {
   await handleSubIdentityCommon(event, indexer);
 }
 
 module.exports = {
-  handleSubIdentityAdded,
+  handleSubIdentityRevoked,
 };

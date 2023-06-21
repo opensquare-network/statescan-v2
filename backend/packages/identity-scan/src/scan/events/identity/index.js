@@ -5,6 +5,8 @@ const {
   handleJudgementRequested,
   handleJudgementUnrequested,
   handleSubIdentityAdded,
+  handleSubIdentityRemoved,
+  handleSubIdentityRevoked,
 } = require("./events");
 const { setRegistrarJudgement } = require("./registrarOperations");
 
@@ -22,7 +24,6 @@ const {
     SUB_IDENTITY_REVOKED,
   },
 } = require("../../constants");
-const { deleteSubIdentity } = require("./subIdentityOperations");
 const { setIdentityEventForTimeline } = require("./identityTimelineOperations");
 
 /**
@@ -59,14 +60,10 @@ async function handleIdentityEvents(event, indexer, extrinsic) {
     // await setIdentityEventForTimeline(JUDGEMENT_UNREQUESTED, event, indexer);
   } else if (SUB_IDENTITY_ADDED === method) {
     await handleSubIdentityAdded(event, indexer);
-    // await setSubIdentity(SUB_IDENTITY_ADDED, event, indexer);
-    // await setIdentityEventForTimeline(SUB_IDENTITY_ADDED, event, indexer);
   } else if (SUB_IDENTITY_REMOVED === method) {
-    await deleteSubIdentity(event);
-    await setIdentityEventForTimeline(SUB_IDENTITY_REMOVED, event, indexer);
+    await handleSubIdentityRemoved(event, indexer);
   } else if (SUB_IDENTITY_REVOKED === method) {
-    await deleteSubIdentity(event);
-    await setIdentityEventForTimeline(SUB_IDENTITY_REVOKED, event, indexer);
+    await handleSubIdentityRevoked(event, indexer);
   }
 }
 
