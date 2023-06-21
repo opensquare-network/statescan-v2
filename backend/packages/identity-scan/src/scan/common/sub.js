@@ -11,6 +11,9 @@ async function queryIdentityAsSub(account, indexer) {
   const superOf = rawSuperOf.unwrap();
   const parentAddress = superOf[0].toString();
   const display = dataAsString(superOf[1]);
+  if (!display) {
+    return null;
+  }
   let fullDisplay = display;
 
   const parentIdentity = await queryIdentityInfo(parentAddress, indexer);

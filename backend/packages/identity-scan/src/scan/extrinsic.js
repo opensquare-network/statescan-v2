@@ -1,3 +1,4 @@
+const { handleRenameSub } = require("./calls/renameSub");
 const { handleSetSubs } = require("./calls/setSubs");
 const {
   handleSubIdentityExtrinsics,
@@ -13,6 +14,7 @@ const {
 
 async function handleCalls(call, author, extrinsicIndexer, wrappedEvents) {
   await handleSetSubs(call, author, extrinsicIndexer, wrappedEvents);
+  await handleRenameSub(call, author, extrinsicIndexer, wrappedEvents);
 }
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
