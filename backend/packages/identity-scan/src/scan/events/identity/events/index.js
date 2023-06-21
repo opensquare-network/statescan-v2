@@ -4,4 +4,5 @@ module.exports = {
   ...require("./identityKilled"),
   ...require("./judgementRequested"),
   ...require("./judgementUnrequested"),
+  ...require("./subIdentityAdded"),
 };
