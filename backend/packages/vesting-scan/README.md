@@ -14,7 +14,7 @@ interface Vesting {
   starting_block: number;
   locked: bigint;
   per_block: bigint;
-  ending_block: number | null;
+  removed_block: number | null;
 }
 
 interface VestingTimeline {
@@ -27,27 +27,21 @@ interface VestingTimeline {
 
 VestingEvent = VestingStartEvent | VestingEndEvent | VestingVestedEvent;
 
-interface VestingStartEvent {
-  type: "start";
+interface VestingCreatedEvent {
+  type: "created";
   blockHeight: number;
   from: account;
   target: account;
-  action: "vestTransfer" | "forceVestTransfer" | "merged";
+  index: number;
+  extrinsic: ExtrinsicIndexer;
 }
 
-interface VestingVestedEvent {
-  type: "vested";
+interface VestingRemovedEvent {
+  type: "removed";
   blockHeight: number;
   from: account;
   target: account;
-  action: "vested";
-}
-
-interface VestingEndEvent {
-  type: "end";
-  blockHeight: number;
-  from: account;
-  target: account;
-  action: "vestedCompleted" | "forceVestTransfer";
+  index: number;
+  extrinsic: ExtrinsicIndexer;
 }
 ```

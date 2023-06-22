@@ -4,11 +4,10 @@ const {
 } = require("@osn/scan-common");
 
 const {
-  getPreviousVestings,
-  setPreviousVestings,
-  getCurrentVestings,
-  setCurrentVestings,
-  addEndedVestings,
+  getVestingsOf,
+  addRemovedVestings,
+  setVestingsOf,
+  addChangedAccount,
 } = require("../../store/vestings");
 
 const { getVestingsAtBlock } = require("../../service/vestings");
@@ -47,6 +46,23 @@ async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
   }
 }
 
+function enrichVestingCreated(from, target, vesting, extrinsicIndexer) {
+  addChangedAccount(target);
+  vesting.from = from;
+  vesting.target = target;
+  extrinsicIndexer = extrinsicIndexer;
+}
+
+function enrichVestingRemoved(from, target, vestings, extrinsicIndexer) {
+  for (const vesting of vestings) {
+    vesting.from = from;
+    vesting.target = target;
+    extrinsicIndexer = extrinsicIndexer;
+  }
+  addChangedAccount(target);
+  addRemovedVestings(target, vestings);
+}
+
 function lockedAt(vesting, blockHeight) {
   const vestedBlockCount = blockHeight - vesting.startingBlock;
   return max(0n, vesting.locked - BigInt(vestedBlockCount) * vesting.perBlock);
@@ -57,23 +73,19 @@ function max(a, b) {
 }
 
 async function getVestings(account, indexer) {
-  let vestings = getCurrentVestings(account);
+  let vestings = getVestingsOf(account);
   if (vestings === undefined) {
-    vestings = getPreviousVestings(account);
-    if (vestings === undefined) {
-      vestings = await getVestingsAtBlock(account, indexer.parentHash);
-      setPreviousVestings(account, vestings);
-    }
+    vestings = await getVestingsAtBlock(account, indexer.parentHash);
   }
   return vestings;
 }
 
 function setVestings(account, vestings) {
-  setCurrentVestings(account, vestings);
+  setVestingsOf(account, vestings);
 }
 
 function shouldKeepVesting(vesting, blockHeight) {
-  return lockedAt(vesting, blockHeight) === 0;
+  return lockedAt(vesting, blockHeight) !== 0;
 }
 
 function removeEndedVestings(vestings, blockHeight) {
@@ -81,7 +93,7 @@ function removeEndedVestings(vestings, blockHeight) {
   const remainedVestings = [];
 
   for (const vesting of vestings) {
-    if (shouldKeepVesting(vesting, blockHeight)) {
+    if (!shouldKeepVesting(vesting, blockHeight)) {
       endedVestings.push(vesting);
     } else {
       remainedVestings.push(vesting);
@@ -104,10 +116,11 @@ async function handleVestedTransfer(from, target, vesting, indexer) {
   // if the vesting is ended in this block, we can't assign a index to it. so we just ignore it.
   if (shouldKeepVesting(vesting, indexer.blockHeight)) {
     // we can't decide the final index of the newly created vesting now since there could be serveral vestedTransfer/vest/merge action in one block.
+    enrichVestingCreated(from, target, vesting, indexer);
     remainedVestings.push(vesting);
   }
 
-  addEndedVestings(target, endedVestings);
+  enrichVestingRemoved(from, target, endedVestings, indexer);
   setVestings(target, remainedVestings);
 }
 
@@ -118,7 +131,7 @@ async function handleVest(from, target, indexer) {
     indexer.blockHeight,
   );
 
-  addEndedVestings(target, endedVestings);
+  enrichVestingRemoved(from, target, endedVestings, indexer);
   setVestings(target, remainedVestings);
 }
 
@@ -161,10 +174,11 @@ async function handleMerge(from, target, index1, index2, indexer) {
   );
 
   if (mergedVesting !== null) {
+    enrichVestingCreated(from, target, mergedVesting, indexer);
     remainedVestings.push(mergedVesting);
   }
 
-  addEndedVestings(target, endedVestings);
+  enrichVestingRemoved(from, target, endedVestings, extrinsicIndexer);
   setVestings(target, remainedVestings);
 }
 

@@ -1,47 +1,50 @@
 // acccount to new vesting lists
 
-let previousVestings = {};
+let changedAccounts = [];
 let vestings = {};
 let endedVestings = {};
 
-function getPreviousVestings(account) {
-  const vestings = previousVestings[account];
-  if (vestings === undefined) {
-    return undefined;
-  }
-  return vestings.map((vesting) => {
-    return {
-      ...vesting,
-    };
-  });
-}
-
-function setPreviousVestings(account, vesting) {
-  previousVestings[account] = vesting;
-}
-
-function getCurrentVestings(account) {
+function getVestingsOf(account) {
   return vestings[account];
 }
 
-function setCurrentVestings(account, vesting) {
+function setVestingsOf(account, vesting) {
   vestings[account] = vesting;
 }
 
-function getEndedVestings() {
+function getRemovedVestings() {
   return endedVestings;
 }
 
-function addEndedVestings(account, vestings) {
+function addRemovedVestings(account, vestings) {
   const allVestings = endedVestings[account] || [];
-  allVestings.push(vestings);
+  allVestings.push(...vestings);
   endedVestings[account] = allVestings;
 }
 
+function clearRemovedVestings() {
+  endedVestings = {};
+}
+
+function addChangedAccount(account) {
+  changedAccounts.push(account);
+}
+
+function getChangedAccounts() {
+  return changedAccounts;
+}
+
+function clearChangedAccounts() {
+  changedAccounts = [];
+}
+
 module.exports = {
-  getPreviousVestings,
-  setPreviousVestings,
-  getCurrentVestings,
-  setCurrentVestings,
-  addEndedVestings,
+  getVestingsOf,
+  getRemovedVestings,
+  addRemovedVestings,
+  clearRemovedVestings,
+  setVestingsOf,
+  addChangedAccount,
+  getChangedAccounts,
+  clearChangedAccounts,
 };
