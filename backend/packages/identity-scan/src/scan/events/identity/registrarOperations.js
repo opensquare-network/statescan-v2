@@ -1,5 +1,5 @@
 const {
-  identity: { getRegistrarsTimelineCollection },
+  identity: { getRegistrarsTimelineCol },
 } = require("@statescan/mongo");
 
 async function setRegistrarJudgement(method, event, indexer) {
@@ -13,7 +13,7 @@ async function setRegistrarJudgement(method, event, indexer) {
 }
 
 async function addRegistrarsTimelineCollection(object, indexer) {
-  const collection = await getRegistrarsTimelineCollection();
+  const collection = await getRegistrarsTimelineCol();
   await collection.insertOne({
     ...object,
     indexer,

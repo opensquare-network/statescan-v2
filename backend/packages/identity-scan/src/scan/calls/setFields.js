@@ -1,4 +1,5 @@
-const { batchInsertRegistrars } = require("../mongo");
+const { getRegistrar } = require("../common");
+const { batchInsertRegistrars, insertRegistrarTimeline } = require("../mongo");
 const { queryRegistrars } = require("../query");
 
 async function handleSetFieldsCall(call, signer, extrinsicIndexer) {
@@ -9,6 +10,26 @@ async function handleSetFieldsCall(call, signer, extrinsicIndexer) {
 
   const rawRegistrars = await queryRegistrars(extrinsicIndexer);
   await batchInsertRegistrars(rawRegistrars.toJSON());
+
+  const index = call.args[0].toNumber();
+  const fields = call.args[1].toJSON();
+
+  let registrar = signer;
+  if (!signer) {
+    registrar = getRegistrar(rawRegistrars, index, extrinsicIndexer);
+  }
+
+  if (registrar) {
+    await insertRegistrarTimeline({
+      account: registrar,
+      indexer: extrinsicIndexer,
+      name: method,
+      args: {
+        index,
+        fields,
+      },
+    });
+  }
 }
 
 module.exports = {

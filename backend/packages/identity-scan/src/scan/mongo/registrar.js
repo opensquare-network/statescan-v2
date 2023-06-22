@@ -1,5 +1,5 @@
 const {
-  identity: { getRegistrarsCol },
+  identity: { getRegistrarsCol, getRegistrarsTimelineCol },
 } = require("@statescan/mongo");
 
 async function batchInsertRegistrars(registrars = []) {
@@ -17,6 +17,12 @@ async function batchInsertRegistrars(registrars = []) {
   await bulk.execute();
 }
 
+async function insertRegistrarTimeline(obj = {}) {
+  const collection = await getRegistrarsTimelineCol();
+  await collection.insertOne(obj);
+}
+
 module.exports = {
   batchInsertRegistrars,
+  insertRegistrarTimeline,
 };
