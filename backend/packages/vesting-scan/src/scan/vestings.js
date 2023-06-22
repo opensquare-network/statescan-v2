@@ -6,7 +6,7 @@ const {
   clearChangedAccounts,
 } = require("../store/vestings");
 
-function handleVestingsChange(blockIndexer, parentHash) {
+async function handleVestingsChange(blockIndexer, parentHash) {
   const changedAccounts = getChangedAccounts();
 
   for (const account of changedAccounts) {

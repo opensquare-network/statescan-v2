@@ -85,7 +85,7 @@ function setVestings(account, vestings) {
 }
 
 function shouldKeepVesting(vesting, blockHeight) {
-  return lockedAt(vesting, blockHeight) !== 0;
+  return lockedAt(vesting, blockHeight) !== 0n;
 }
 
 function removeEndedVestings(vestings, blockHeight) {
@@ -137,15 +137,15 @@ async function handleVest(from, target, indexer) {
 
 function endingBlock(vesting) {
   let duration = 1;
-  if (vesting.per_block < vesting.locked) {
+  if (vesting.perBlock < vesting.locked) {
     let extra = 1;
-    if (vesting.locked % vesting.per_block === 0) {
+    if (vesting.locked % vesting.perBlock === 0n) {
       extra = 0;
     }
-    duration = Math.floor(vesting.locked / vesting.per_block) + extra;
+    duration = Math.floor(number(vesting.locked / vesting.perBlock)) + extra;
   }
 
-  return vesting.starting_block + duration;
+  return vesting.startingBlock + duration;
 }
 
 async function handleMerge(from, target, index1, index2, indexer) {
@@ -166,6 +166,9 @@ async function handleMerge(from, target, index1, index2, indexer) {
     filteredVestings,
     indexer.blockHeight,
   );
+
+  endedVestings.push(vesting1);
+  endedVestings.push(vesting2);
 
   const mergedVesting = mergeTwoVestings(
     vesting1,
@@ -211,7 +214,7 @@ function mergeTwoVestings(vesting1, vesting2, blockHeight) {
     lockedAt(vesting1, blockHeight) + lockedAt(vesting2, blockHeight);
 
   let duration = Math.max(1, endedBlock - startBlock);
-  let perBlock = Math.max(1, Math.floor(locked / duration));
+  let perBlock = max(1n, Math.floor(locked / BigInt(duration)));
 
   return {
     startingBlock: startBlock,

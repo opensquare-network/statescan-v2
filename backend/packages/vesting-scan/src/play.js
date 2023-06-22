@@ -12,12 +12,9 @@ async function main() {
   await initVestingScanDb();
   await subscribeFinalizedHeight();
   const blockHeights = [
-    8730807, // merge schedules
-    15701277, // vest
-    15630362, // vest other,
-    15562357, // vest transfer,
-    15604996, // force vested transfer,
-    15551258, // two completed vesting
+    16675360, // transfer to JEWRHBymADy77q5SCt2pBTtb7qhcdrCF6E8DtU7F99pjwkC
+    16675389,
+    16675437, // vesting completed
   ];
 
   const api = await getApi();
