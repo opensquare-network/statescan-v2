@@ -21,13 +21,11 @@ async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
 
   for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(allEvents, index);
-
     if (!isExtrinsicSuccess(events)) {
       continue;
     }
 
     const extrinsicIndexer = { ...indexer, extrinsicIndex: index++ };
-
     await handleCallsInExtrinsic(
       extrinsic,
       events,

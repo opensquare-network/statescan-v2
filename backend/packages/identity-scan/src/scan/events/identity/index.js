@@ -10,7 +10,6 @@ const {
   handleRegistrarAdded,
   handleJudgementGiven,
 } = require("./events");
-const { setRegistrarJudgement } = require("./registrarOperations");
 
 const {
   SECTION: { IDENTITY },
@@ -27,7 +26,6 @@ const {
     RegistrarAdded,
   },
 } = require("../../constants");
-const { setIdentityEventForTimeline } = require("./identityTimelineOperations");
 
 /**
  * Handle identity events and save to DB

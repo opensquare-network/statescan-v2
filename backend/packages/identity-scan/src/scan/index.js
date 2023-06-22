@@ -8,13 +8,11 @@ const {
   scan: { oneStepScan },
   utils: { sleep },
 } = require("@osn/scan-common");
-const { startJobs } = require("./jobs");
 
 async function scan() {
   const db = await getIdentityDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
-  await startJobs();
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     toScanHeight = await oneStepScan(
