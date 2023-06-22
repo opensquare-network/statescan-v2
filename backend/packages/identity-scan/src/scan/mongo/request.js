@@ -15,7 +15,7 @@ async function getPendingRequest(account, registrarIndex) {
 
 async function getAllPendingRequest(account) {
   const col = await getRequestCol();
-  return await col.find({ account, isFinal: false });
+  return await col.find({ account, isFinal: false }).toArray();
 }
 
 async function updateJudgementRequest(account, registrarIndex, updates) {
