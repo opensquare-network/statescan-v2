@@ -13,6 +13,11 @@ async function getPendingRequest(account, registrarIndex) {
   return await col.findOne({ account, registrarIndex, isFinal: false });
 }
 
+async function getAllPendingRequest(account) {
+  const col = await getRequestCol();
+  return await col.find({ account, isFinal: false });
+}
+
 async function updateJudgementRequest(account, registrarIndex, updates) {
   if (isEmpty(updates)) {
     return;
@@ -35,4 +40,5 @@ module.exports = {
   updateJudgementRequest,
   insertRequestTimeline,
   getPendingRequest,
+  getAllPendingRequest,
 };

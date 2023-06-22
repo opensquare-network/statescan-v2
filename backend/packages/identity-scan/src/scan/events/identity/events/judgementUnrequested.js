@@ -1,5 +1,9 @@
 const { REQUEST_STATUS } = require("../../../constants");
-const { updateJudgementRequest } = require("../../../mongo");
+const {
+  updateJudgementRequest,
+  insertRequestTimeline,
+  getPendingRequest,
+} = require("../../../mongo");
 const { handleJudgementCommon } = require("./common");
 
 async function handleJudgementUnrequested(event, indexer) {
@@ -16,7 +20,20 @@ async function handleJudgementUnrequested(event, indexer) {
     isFinal: true,
   });
 
-  // todo: insert request timeline
+  const pendingRequest = await getPendingRequest(account, registrarIndex);
+  if (!pendingRequest) {
+    return;
+  }
+
+  const requestHeight = pendingRequest.indexer?.blockHeight;
+  await insertRequestTimeline({
+    account,
+    registrarIndex,
+    requestHeight,
+    indexer,
+    name: event.method,
+    args: {},
+  });
 }
 
 module.exports = {

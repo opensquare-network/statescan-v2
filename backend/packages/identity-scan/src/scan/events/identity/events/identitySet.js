@@ -2,6 +2,9 @@ const { insertIdentityTimeline } = require("../../../mongo");
 const { extractIdentityInfo } = require("../../../utils");
 const { queryIdentityInfo } = require("../../../query");
 const isEmpty = require("lodash.isempty");
+const { REQUEST_STATUS } = require("../../../constants");
+const { insertRequestTimeline } = require("../../../mongo");
+const { getAllPendingRequest } = require("../../../mongo");
 const { addBlockAccount } = require("../../../../store/account");
 
 async function getIdentityInfo(account, indexer) {
@@ -33,6 +36,19 @@ async function handleIdentitySet(event, indexer) {
     name: event.method,
     args: await getIdentityInfo(account, indexer),
   });
+
+  const pendingRequests = await getAllPendingRequest(account);
+  for (const request of pendingRequests) {
+    const { registrarIndex, requestHeight } = request;
+    await insertRequestTimeline({
+      account,
+      registrarIndex,
+      requestHeight,
+      indexer,
+      name: REQUEST_STATUS.REMOVED,
+      args: {},
+    });
+  }
 }
 
 module.exports = {
