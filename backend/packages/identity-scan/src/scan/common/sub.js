@@ -4,7 +4,7 @@ const { queryIdentityInfo, querySuperOf } = require("../query");
 
 async function queryIdentityAsSub(account, indexer) {
   const rawSuperOf = await querySuperOf(account, indexer);
-  if (!rawSuperOf.isSome) {
+  if (!rawSuperOf || !rawSuperOf.isSome) {
     return null;
   }
 
