@@ -8,4 +8,5 @@ module.exports = {
   ...require("./subIdentityRemoved"),
   ...require("./subIdentityRevoked"),
   ...require("./registrarAdded"),
+  ...require("./judgementGiven"),
 };

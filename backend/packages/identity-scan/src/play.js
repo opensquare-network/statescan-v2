@@ -1,16 +1,16 @@
 require("dotenv").config();
+
 const {
   chain: { getApi, setSpecHeights, subscribeFinalizedHeight },
 } = require("@osn/scan-common");
 const { handleBlock } = require("./scan/block");
 const {
-  identity: { initIdentityScanDb, dropIdentityCollectionAndInit },
+  identity: { initIdentityScanDb },
 } = require("@statescan/mongo");
 const { deleteFrom } = require("./scan/delete");
 const {
   identity: { getIdentityDb },
 } = require("@statescan/mongo");
-const { saveAllRegistrars } = require("./scan/jobs");
 
 async function main() {
   await initIdentityScanDb();
@@ -56,19 +56,17 @@ async function main() {
     // ...batch_extrinsics,
     // ...set_sub_extrinsics,
     // ...subIdentity_deposit,
-    4588420,
+    8798164, 8798397,
   ];
 
   /*  const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];
   const batch_extrinsics = [18068116];
   let blockHeights = [...batch_extrinsics, ...set_sub_extrinsics];*/
 
-  await dropIdentityCollectionAndInit();
   const db = await getIdentityDb();
   const api = await getApi();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
-  await saveAllRegistrars(api);
 
   for (const height of blockHeights) {
     await setSpecHeights([height - 1]);

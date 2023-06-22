@@ -9,6 +9,7 @@ let identityTimelineCol = null;
 let registrarsCol = null;
 let registrarsTimelineCollection = null;
 let subIdentitiesCol = null;
+let requestCol = null; // for judgement request
 
 async function initIdentityScanDb() {
   db = new ScanDb(
@@ -22,6 +23,7 @@ async function initIdentityScanDb() {
   subIdentitiesCol = await db.createCol("subIdentities");
   registrarsCol = await db.createCol("registrars");
   registrarsTimelineCollection = await db.createCol("registrarsTimeline");
+  requestCol = await db.createCol("request");
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
@@ -82,26 +84,17 @@ async function getRegistrarsTimelineCol() {
   return registrarsTimelineCollection;
 }
 
+async function getRequestCol() {
+  await makeSureInit(requestCol);
+  return requestCol;
+}
+
 async function getIdentityDb() {
   if (!db) {
     await initIdentityScanDb();
   }
 
   return db;
-}
-
-async function dropIdentityCollection() {
-  const identityCollection = await getIdentityCol();
-  identityCollection.drop();
-  const identityTimelineCollection = await getIdentityTimelineCol();
-  identityTimelineCollection.drop();
-  const subIdentitiesCollection = await getSubIdentitiesCollection();
-  subIdentitiesCollection.drop();
-  const registrarsCollection = await getRegistrarsCol();
-  registrarsCollection.drop();
-  const registrarsTimelineCollection = await getRegistrarsTimelineCol();
-  registrarsTimelineCollection.drop();
-  await initIdentityScanDb();
 }
 
 module.exports = {
@@ -112,5 +105,5 @@ module.exports = {
   getRegistrarsCol,
   getRegistrarsTimelineCol,
   getSubIdentitiesCollection,
-  dropIdentityCollectionAndInit: dropIdentityCollection,
+  getRequestCol,
 };

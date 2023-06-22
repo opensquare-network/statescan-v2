@@ -16,7 +16,7 @@ async function handleJudgementCommon(event, indexer) {
     rawRegistrars[registrarIndex] &&
     rawRegistrars[registrarIndex].isSome
   ) {
-    registrar[account] = rawRegistrars[registrarIndex]
+    registrar.account = rawRegistrars[registrarIndex]
       .unwrap()
       .account.toString();
   }
@@ -27,6 +27,11 @@ async function handleJudgementCommon(event, indexer) {
     name: event.method,
     args: { registrar },
   });
+
+  return {
+    account,
+    registrar,
+  };
 }
 
 module.exports = {

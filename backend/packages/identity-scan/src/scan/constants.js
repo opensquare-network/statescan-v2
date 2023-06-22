@@ -18,4 +18,10 @@ module.exports = {
     SET_SUBS: "setSubs",
     RENAME_SUB: "renameSub",
   },
+  REQUEST_STATUS: {
+    PENDING: "pending",
+    REMOVED: "removed",
+    CANCELLED: "cancelled",
+    GIVEN: "given",
+  },
 };
