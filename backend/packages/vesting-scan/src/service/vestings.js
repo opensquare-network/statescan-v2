@@ -10,7 +10,9 @@ async function getVestingsAtBlock(account, blockHash) {
   }
   const vestings = vestingsMaybe.unwrap();
   return vestings.map((v, i) => ({
-    index: i,
+    indexder: {
+      currentIndex: i,
+    },
     locked: BigInt(v.locked),
     perBlock: BigInt(v.perBlock),
     startingBlock: parseInt(v.startingBlock, 10),

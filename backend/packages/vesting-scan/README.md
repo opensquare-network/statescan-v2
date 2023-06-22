@@ -2,7 +2,7 @@
 
 ```ts
 interface Indexer {
-  blockHeight: number;
+  initialBlockHeight: number;
   initialIndex: number;
   currentIndex: number;
 }
@@ -11,10 +11,10 @@ interface Vesting {
   indexer: Indexer;
   from: account;
   target: account;
-  starting_block: number;
+  startingBlock: number;
   locked: bigint;
-  per_block: bigint;
-  removed_block: number | null;
+  perBlock: bigint;
+  removedBlock: number | null;
 }
 
 interface VestingTimeline {
@@ -32,7 +32,6 @@ interface VestingCreatedEvent {
   blockHeight: number;
   from: account;
   target: account;
-  index: number;
   extrinsic: ExtrinsicIndexer;
 }
 
@@ -41,7 +40,6 @@ interface VestingRemovedEvent {
   blockHeight: number;
   from: account;
   target: account;
-  index: number;
   extrinsic: ExtrinsicIndexer;
 }
 ```

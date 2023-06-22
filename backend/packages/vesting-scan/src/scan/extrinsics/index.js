@@ -50,14 +50,22 @@ function enrichVestingCreated(from, target, vesting, extrinsicIndexer) {
   addChangedAccount(target);
   vesting.from = from;
   vesting.target = target;
-  extrinsicIndexer = extrinsicIndexer;
+  vesting.extrinsicIndexer = {
+    blockHeight: extrinsicIndexer.blockHeight,
+    blockHash: extrinsicIndexer.blockHash,
+    extrinsicIndex: extrinsicIndexer.extrinsicIndex,
+  };
 }
 
 function enrichVestingRemoved(from, target, vestings, extrinsicIndexer) {
   for (const vesting of vestings) {
     vesting.from = from;
     vesting.target = target;
-    extrinsicIndexer = extrinsicIndexer;
+    vesting.extrinsicIndexer = {
+      blockHeight: extrinsicIndexer.blockHeight,
+      blockHash: extrinsicIndexer.blockHash,
+      extrinsicIndex: extrinsicIndexer.extrinsicIndex,
+    };
   }
   addChangedAccount(target);
   addRemovedVestings(target, vestings);
