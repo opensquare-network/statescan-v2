@@ -1,11 +1,16 @@
 const {
-  identity: { getRequestCol },
+  identity: { getRequestCol, getRequestTimelineCol },
 } = require("@statescan/mongo");
 const isEmpty = require("lodash.isempty");
 
 async function insertJudgementRequest(obj = {}) {
   const col = await getRequestCol();
   await col.insertOne(obj);
+}
+
+async function getPendingRequest(account, registrarIndex) {
+  const col = await getRequestCol();
+  return await col.findOne({ account, registrarIndex, isFinal: false });
 }
 
 async function updateJudgementRequest(account, registrarIndex, updates) {
@@ -20,7 +25,14 @@ async function updateJudgementRequest(account, registrarIndex, updates) {
   );
 }
 
+async function insertRequestTimeline(obj) {
+  const col = await getRequestTimelineCol();
+  await col.insertOne(obj);
+}
+
 module.exports = {
   insertJudgementRequest,
   updateJudgementRequest,
+  insertRequestTimeline,
+  getPendingRequest,
 };

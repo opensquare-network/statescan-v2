@@ -10,6 +10,7 @@ let registrarsCol = null;
 let registrarsTimelineCollection = null;
 let subIdentitiesCol = null;
 let requestCol = null; // for judgement request
+let requestTimelineCol = null;
 
 async function initIdentityScanDb() {
   db = new ScanDb(
@@ -24,6 +25,7 @@ async function initIdentityScanDb() {
   registrarsCol = await db.createCol("registrars");
   registrarsTimelineCollection = await db.createCol("registrarsTimeline");
   requestCol = await db.createCol("request");
+  requestTimelineCol = await db.createCol("requestTimeline");
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
@@ -89,6 +91,11 @@ async function getRequestCol() {
   return requestCol;
 }
 
+async function getRequestTimelineCol() {
+  await makeSureInit(requestTimelineCol);
+  return requestTimelineCol;
+}
+
 async function getIdentityDb() {
   if (!db) {
     await initIdentityScanDb();
@@ -106,4 +113,5 @@ module.exports = {
   getRegistrarsTimelineCol,
   getSubIdentitiesCollection,
   getRequestCol,
+  getRequestTimelineCol,
 };

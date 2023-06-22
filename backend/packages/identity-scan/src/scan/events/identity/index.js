@@ -51,15 +51,11 @@ async function handleIdentityEvents(event, indexer, extrinsic) {
   } else if (IDENTITY_KILLED === method) {
     await handleIdentityKilled(event, indexer);
   } else if (JUDGEMENT_GIVEN === method) {
-    await handleJudgementGiven(event, indexer);
+    await handleJudgementGiven(event, indexer, extrinsic);
   } else if (JUDGEMENT_REQUESTED === method) {
-    await handleJudgementRequested(event, indexer);
-    // await setRegistrarJudgement(JUDGEMENT_REQUESTED, event, indexer);
-    // await setIdentityEventForTimeline(JUDGEMENT_REQUESTED, event, indexer);
+    await handleJudgementRequested(event, indexer, extrinsic);
   } else if (JUDGEMENT_UNREQUESTED === method) {
     await handleJudgementUnrequested(event, indexer);
-    // await setRegistrarJudgement(JUDGEMENT_UNREQUESTED, event, indexer);
-    // await setIdentityEventForTimeline(JUDGEMENT_UNREQUESTED, event, indexer);
   } else if (SUB_IDENTITY_ADDED === method) {
     await handleSubIdentityAdded(event, indexer);
   } else if (SUB_IDENTITY_REMOVED === method) {

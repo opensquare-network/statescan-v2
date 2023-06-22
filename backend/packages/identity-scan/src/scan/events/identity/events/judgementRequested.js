@@ -1,5 +1,8 @@
 const { REQUEST_STATUS } = require("../../../constants");
-const { insertJudgementRequest } = require("../../../mongo");
+const {
+  insertJudgementRequest,
+  insertRequestTimeline,
+} = require("../../../mongo");
 const { handleJudgementCommon } = require("./common");
 
 async function handleJudgementRequested(event, indexer) {
@@ -18,6 +21,17 @@ async function handleJudgementRequested(event, indexer) {
       indexer,
     },
     isFinal: false,
+  });
+
+  await insertRequestTimeline({
+    account,
+    registrarIndex,
+    requestHeight: indexer.blockHeight,
+    indexer,
+    name: event.method,
+    args: {
+      registrarIndex,
+    },
   });
 }
 
