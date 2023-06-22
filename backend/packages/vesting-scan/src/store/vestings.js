@@ -9,7 +9,11 @@ function getPreviousVestings(account) {
   if (vestings === undefined) {
     return undefined;
   }
-  return JSON.parse(JSON.stringify(vestings));
+  return vestings.map((vesting) => {
+    return {
+      ...vesting,
+    };
+  });
 }
 
 function setPreviousVestings(account, vesting) {
@@ -39,4 +43,5 @@ module.exports = {
   setPreviousVestings,
   getCurrentVestings,
   setCurrentVestings,
+  addEndedVestings,
 };

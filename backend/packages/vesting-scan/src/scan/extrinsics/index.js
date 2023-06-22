@@ -4,7 +4,7 @@ const {
 } = require("@osn/scan-common");
 
 const {
-  getPreviousVestigns,
+  getPreviousVestings,
   setPreviousVestings,
   getCurrentVestings,
   setCurrentVestings,
@@ -12,7 +12,6 @@ const {
 } = require("../../store/vestings");
 
 const { getVestingsAtBlock } = require("../../service/vestings");
-const { account } = require("@statescan/mongo");
 
 async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
   if (call.section !== "vesting") {
@@ -31,26 +30,30 @@ async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
         ? parseVestingInfo(args[1])
         : parseVestingInfo(args[2]);
 
-    handleVestedTransfer(from, to, schedule, extrinsicIndexer);
+    await handleVestedTransfer(from, to, schedule, extrinsicIndexer);
   }
 
   if (method === "vest" || method === "vestOther") {
     const from = author;
     const target = method === "vest" ? author : args[0].toString();
-    handleVest(from, target, extrinsicIndexer);
+    await handleVest(from, target, extrinsicIndexer);
   }
 
   if (method === "mergeSchedules") {
     const index1 = parseInt(args[0].toString(), 10);
     const index2 = parseInt(args[1].toString(), 10);
 
-    handleMerge(from, target, index1, index2, extrinsicIndexer);
+    await handleMerge(author, author, index1, index2, extrinsicIndexer);
   }
 }
 
 function lockedAt(vesting, blockHeight) {
-  const vestedBlockCount = blockHeight - vesting.starting_block;
-  return Math.max(0, vesting.locked - vestedBlockCount * vesting.per_block);
+  const vestedBlockCount = blockHeight - vesting.startingBlock;
+  return max(0n, vesting.locked - BigInt(vestedBlockCount) * vesting.perBlock);
+}
+
+function max(a, b) {
+  return a > b ? a : b;
 }
 
 async function getVestings(account, indexer) {
@@ -91,32 +94,32 @@ function removeEndedVestings(vestings, blockHeight) {
   };
 }
 
-function handleVestedTransfer(from, target, vesting, indexer) {
-  const vestings = getVestings(target, indexer);
-  const { endedVestings, remainingVestings } = removeEndedVestings(
+async function handleVestedTransfer(from, target, vesting, indexer) {
+  const vestings = await getVestings(target, indexer);
+  const { endedVestings, remainedVestings } = removeEndedVestings(
     vestings,
     indexer.blockHeight,
   );
 
   // if the vesting is ended in this block, we can't assign a index to it. so we just ignore it.
-  if (shouldKeepVesting(vesting)) {
+  if (shouldKeepVesting(vesting, indexer.blockHeight)) {
     // we can't decide the final index of the newly created vesting now since there could be serveral vestedTransfer/vest/merge action in one block.
-    remainingVestings.push(vesting);
+    remainedVestings.push(vesting);
   }
 
-  addEndedVestings(account, endedVestings);
-  setVestings(target, remainingVestings);
+  addEndedVestings(target, endedVestings);
+  setVestings(target, remainedVestings);
 }
 
-function handleVest(from, target, indexer) {
-  const vestings = getVestings(target, indexer);
-  const { endedVestings, remainingVestings } = removeEndedVestings(
+async function handleVest(from, target, indexer) {
+  const vestings = await getVestings(target, indexer);
+  const { endedVestings, remainedVestings } = removeEndedVestings(
     vestings,
     indexer.blockHeight,
   );
 
-  addEndedVestings(account, endedVestings);
-  setVestings(target, remainingVestings);
+  addEndedVestings(target, endedVestings);
+  setVestings(target, remainedVestings);
 }
 
 function endingBlock(vesting) {
@@ -132,7 +135,7 @@ function endingBlock(vesting) {
   return vesting.starting_block + duration;
 }
 
-function handleMerge(from, target, index1, index2, indexer) {
+async function handleMerge(from, target, index1, index2, indexer) {
   if (index1 == index2) {
     return;
   }
@@ -146,7 +149,7 @@ function handleMerge(from, target, index1, index2, indexer) {
     return index !== index1 && index !== index2;
   });
 
-  const { endedVestings, remainingVestings } = removeEndedVestings(
+  const { endedVestings, remainedVestings } = removeEndedVestings(
     filteredVestings,
     indexer.blockHeight,
   );
@@ -158,11 +161,11 @@ function handleMerge(from, target, index1, index2, indexer) {
   );
 
   if (mergedVesting !== null) {
-    remainingVestings.push(mergedVesting);
+    remainedVestings.push(mergedVesting);
   }
 
-  setVestings(target, remainingVestings);
-  addEndedVestings(account, endedVestings);
+  addEndedVestings(target, endedVestings);
+  setVestings(target, remainedVestings);
 }
 
 function mergeTwoVestings(vesting1, vesting2, blockHeight) {
@@ -186,8 +189,8 @@ function mergeTwoVestings(vesting1, vesting2, blockHeight) {
 
   const endedBlock = Math.max(endingBlock1, endingBlock2);
   const startBlock = Math.max(
-    vesting1.starting_block,
-    vesting2.starting_block,
+    vesting1.startingBlock,
+    vesting2.startingBlock,
     blockHeight,
   );
   const locked =
@@ -197,16 +200,16 @@ function mergeTwoVestings(vesting1, vesting2, blockHeight) {
   let perBlock = Math.max(1, Math.floor(locked / duration));
 
   return {
-    starting_block: startBlock,
+    startingBlock: startBlock,
     locked,
-    per_block: perBlock,
+    perBlock: perBlock,
   };
 }
 
 function parseVestingInfo(map) {
   return {
-    locked: map.get("locked").toString(),
-    perBlock: map.get("perBlock").toString(),
+    locked: BigInt(map.get("locked").toString()),
+    perBlock: BigInt(map.get("perBlock").toString()),
     startingBlock: parseInt(map.get("startingBlock").toString(), 10),
   };
 }
