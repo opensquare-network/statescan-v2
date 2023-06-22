@@ -1,5 +1,10 @@
 const {
-  identity: { getRegistrarsTimelineCol, getIdentityTimelineCol, getRequestCol },
+  identity: {
+    getRegistrarsTimelineCol,
+    getIdentityTimelineCol,
+    getRequestCol,
+    getRequestTimelineCol,
+  },
 } = require("@statescan/mongo");
 
 async function deleteFrom(height) {
@@ -8,16 +13,18 @@ async function deleteFrom(height) {
     throw new Error("No height given when deleting unFinalized transfers");
   }
 
+  const commonQ = { "indexer.blockHeight": { $gte: height } };
+
   const col = await getRegistrarsTimelineCol();
-  await col.deleteMany({ "indexer.blockHeight": { $gte: height } });
+  await col.deleteMany(commonQ);
 
   const identityTimelineCollection = await getIdentityTimelineCol();
-  await identityTimelineCollection.deleteMany({
-    "indexer.blockHeight": { $gte: height },
-  });
+  await identityTimelineCollection.deleteMany(commonQ);
 
   const requestCol = await getRequestCol();
-  await requestCol.deleteMany({ "indexer.blockHeight": { $gte: height } });
+  await requestCol.deleteMany(commonQ);
+  const requestTimelineCol = await getRequestTimelineCol();
+  await requestTimelineCol.deleteMany(commonQ);
 }
 
 module.exports = {
