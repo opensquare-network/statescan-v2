@@ -8,7 +8,6 @@ let identityCol = null;
 let identityTimelineCol = null;
 let registrarsCol = null;
 let registrarsTimelineCollection = null;
-let subIdentitiesCol = null;
 let requestCol = null; // for judgement request
 let requestTimelineCol = null;
 
@@ -21,7 +20,6 @@ async function initIdentityScanDb() {
 
   identityCol = await db.createCol("identity");
   identityTimelineCol = await db.createCol("identityTimeline");
-  subIdentitiesCol = await db.createCol("subIdentities");
   registrarsCol = await db.createCol("registrars");
   registrarsTimelineCollection = await db.createCol("registrarsTimeline");
   requestCol = await db.createCol("request");
@@ -43,9 +41,6 @@ async function _createIndexes() {
   const identityTimelineCollection = await getIdentityTimelineCol();
   await identityTimelineCollection.createIndex({ account: 1 });
 
-  const subIdentitiesCollection = await getSubIdentitiesCollection();
-  await subIdentitiesCollection.createIndex({ parentIdentityAccountId: 1 });
-
   // _id set to accountId as index
   const registrarsCollection = await getRegistrarsCol();
   await registrarsCollection.createIndex({ accountId: 1 });
@@ -53,6 +48,9 @@ async function _createIndexes() {
   const registrarsTimelineCollection = await getRegistrarsTimelineCol();
   await registrarsTimelineCollection.createIndex({ registrarIndex: 1 });
   await registrarsTimelineCollection.createIndex({ requestingAccountId: 1 });
+
+  await requestCol.createIndex({ account: 1 });
+  await requestCol.createIndex({ registrarIndex: 1 });
 }
 
 async function makeSureInit(col) {
@@ -69,11 +67,6 @@ async function getIdentityCol() {
 async function getIdentityTimelineCol() {
   await makeSureInit(identityTimelineCol);
   return identityTimelineCol;
-}
-
-async function getSubIdentitiesCollection() {
-  await makeSureInit(subIdentitiesCol);
-  return subIdentitiesCol;
 }
 
 async function getRegistrarsCol() {
@@ -111,7 +104,6 @@ module.exports = {
   getIdentityTimelineCol,
   getRegistrarsCol,
   getRegistrarsTimelineCol,
-  getSubIdentitiesCollection,
   getRequestCol,
   getRequestTimelineCol,
 };
