@@ -18,7 +18,8 @@
     "lint:uniques-scan": "yarn workspace @statescan/uniques-scan lint",
     "test:asset-scan": "yarn workspace @statescan/account-scan test",
     "test:uniques-scan": "yarn workspace @statescan/uniques-scan test",
-    "test:account-scan": "yarn workspace @statescan/account-scan test"
+    "test:account-scan": "yarn workspace @statescan/account-scan test",
+    "test:identity-scan": "yarn workspace @statescan/identity-scan test"
   },
   "devDependencies": {
     "eslint": "^8.31.0"
