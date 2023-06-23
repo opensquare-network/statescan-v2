@@ -56,7 +56,7 @@ async function main() {
     // ...batch_extrinsics,
     // ...set_sub_extrinsics,
     // ...subIdentity_deposit,
-    264192,
+    18480000,
   ];
 
   /*  const set_sub_extrinsics = [12916708, 17999455, 17982913, 17999158];

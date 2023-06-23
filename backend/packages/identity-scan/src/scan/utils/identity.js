@@ -47,6 +47,7 @@ function normalizeIdentity(onchainIdentity) {
   return {
     display: info.display,
     fullDisplay: info.display,
+    isSub: false,
     info,
     judgements: normalizeIdentityJudgements(judgements),
     deposit: toDecimal128(deposit),

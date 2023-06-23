@@ -11,20 +11,19 @@ async function queryIdentityAsSub(account, indexer) {
   const superOf = rawSuperOf.unwrap();
   const parentAddress = superOf[0].toString();
   const display = dataAsString(superOf[1]);
-  if (!display) {
-    return null;
-  }
-  let fullDisplay = display;
 
   const parentIdentity = await queryIdentityInfo(parentAddress, indexer);
   const parent = normalizeIdentity(parentIdentity);
   const parentDisplay = parent?.info?.display;
+
+  const suffix = display || parentDisplay;
+  let fullDisplay = suffix;
   if (parentDisplay) {
-    fullDisplay = `${parentDisplay}/${display}`;
+    fullDisplay = `${parentDisplay}/${suffix}`;
   }
 
   return {
-    display,
+    display: display || fullDisplay,
     fullDisplay,
     isSub: true,
     parentAddress,
