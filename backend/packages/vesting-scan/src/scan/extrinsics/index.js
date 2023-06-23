@@ -10,7 +10,7 @@ const {
   addChangedAccount,
 } = require("../../store/vestings");
 
-const { getVestingsAtBlock } = require("../../service/vestings");
+const { getVestingsFromDb } = require("../../service/vestings");
 
 async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
   if (call.section !== "vesting") {
@@ -83,7 +83,7 @@ function max(a, b) {
 async function getVestings(account, indexer) {
   let vestings = getVestingsOf(account);
   if (vestings === undefined) {
-    vestings = await getVestingsAtBlock(account, indexer.parentHash);
+    vestings = await getVestingsFromDb(account);
   }
   return vestings;
 }

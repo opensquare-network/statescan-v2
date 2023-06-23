@@ -1,84 +1,123 @@
 const { Decimal128 } = require("mongodb");
 const {
-  vesting: { getSummaryCol, getAccountSummaryCol, getEventCol, getCallCol },
+  vesting: { getVestingCol, getVestingTimelineCol },
 } = require("@statescan/mongo");
 
-async function batchUpsertAccountVestingSummary(accountVestingSummaryList) {
-  if (accountVestingSummaryList.length == 0) {
+async function getCurrentVestingsOf(target) {
+  const vestingCol = await getVestingCol();
+  const vestings = await vestingCol
+    .find({
+      target,
+      removedBlock: { $exists: false },
+    })
+    .map((vesting) => {
+      return {
+        ...vesting,
+        locked: BigInt(vesting.locked),
+        perBlock: BigInt(vesting.perBlock),
+      };
+    })
+    .toArray();
+
+  return vestings;
+}
+
+async function createNewVestings(vestings) {
+  if (vestings.length == 0) {
     return;
   }
-  const accountSummaryCol = await getAccountSummaryCol();
-  const bulkOp = accountSummaryCol.initializeUnorderedBulkOp();
 
-  accountVestingSummaryList.forEach((summary) => {
+  const vestingCol = await getVestingCol();
+  const bulkOp = vestingCol.initializeUnorderedBulkOp();
+
+  vestings.forEach((vesting) => {
     bulkOp
       .find({
-        "indexer.blockHash": summary.indexer.blockHash,
-        account: summary.account,
+        "indexer.initialBlockHeight": vesting.indexer.initialBlockHeight,
+        "indexer.initialIndex": vesting.indexer.initialIndex,
+        target: vesting.target,
       })
       .upsert()
       .updateOne({
-        $set: { ...summary, lockedAmount: toDecimal128(summary.lockedAmount) },
+        $set: {
+          ...vesting,
+          locked: toDecimal128(vesting.locked),
+          perBlock: toDecimal128(vesting.perBlock),
+        },
       });
   });
+
   await bulkOp.execute();
 }
 
-async function upsertVestingSummary(summary) {
-  const vestingSummaryCol = await getSummaryCol();
-  const option = { upsert: true };
-  await vestingSummaryCol.updateOne(
-    { "indexer.blockHash": summary.indexer.blockHash },
-    { $set: { ...summary, lockedAmount: toDecimal128(summary.lockedAmount) } },
-    option,
-  );
-}
-
-async function batchUpsertEvents(events) {
-  if (events.length === 0) {
+async function createVestingTimeline(vestingTimelines) {
+  if (vestingTimelines.length == 0) {
     return;
   }
-  const eventCol = await getEventCol();
-  const bulkOp = eventCol.initializeUnorderedBulkOp();
 
-  events.forEach((event) => {
-    bulkOp
-      .find({
-        "indexer.blockHash": event.indexer.blockHash,
-        "indexer.eventIndex": event.indexer.eventIndex,
-      })
-      .upsert()
-      .updateOne({ $set: event });
-  });
-  await bulkOp.execute();
+  const vestingTimelineCol = await getVestingTimelineCol();
+
+  await vestingTimelineCol.insertMany(vestingTimelines);
 }
 
-async function batchUpsertCalls(calls) {
-  if (calls.length === 0) {
+async function updateVestingIndex(vestingIndexUpdates) {
+  if (vestingIndexUpdates.length == 0) {
     return;
   }
-  const callCol = await getCallCol();
-  const bulkOp = callCol.initializeUnorderedBulkOp();
 
-  calls.forEach((call) => {
+  const vestingCol = await getVestingCol();
+  const bulkOp = vestingCol.initializeUnorderedBulkOp();
+  vestingIndexUpdates.forEach((update) => {
     bulkOp
       .find({
-        "indexer.blockHash": call.indexer.blockHash,
-        "indexer.extrinsicIndex": call.indexer.extrinsicIndex,
+        "indexer.initialBlockHeight": update.indexer.initialBlockHeight,
+        "indexer.initialIndex": update.indexer.initialIndex,
+        target: update.target,
       })
-      .upsert()
-      .updateOne({ $set: call });
+      .updateOne({
+        $set: {
+          indexer: {
+            currentIndex: update.indexer.currentIndex,
+          },
+        },
+      });
   });
+
   await bulkOp.execute();
 }
 
+async function markVestingsAsRemoved(vestingRemovals) {
+  if (vestingRemovals.length == 0) {
+    return;
+  }
+
+  const vestingCol = await getVestingCol();
+  const bulkOp = vestingCol.initializeUnorderedBulkOp();
+  vestingRemovals.forEach((removal) => {
+    bulkOp
+      .find({
+        "indexer.initialBlockHeight": removal.indexer.initialBlockHeight,
+        "indexer.initialIndex": removal.indexer.initialIndex,
+        target: removal.target,
+      })
+      .updateOne({
+        $set: {
+          indexer: {
+            currentIndex: removal.indexer.currentIndex,
+          },
+          removedBlock: removal.removedBlock,
+        },
+      });
+  });
+}
 function toDecimal128(amount) {
   return Decimal128.fromString(amount.toString());
 }
 
 module.exports = {
-  batchUpsertAccountVestingSummary,
-  batchUpsertEvents,
-  batchUpsertCalls,
-  upsertVestingSummary,
+  getCurrentVestingsOf,
+  createNewVestings,
+  createVestingTimeline,
+  updateVestingIndex,
+  markVestingsAsRemoved,
 };

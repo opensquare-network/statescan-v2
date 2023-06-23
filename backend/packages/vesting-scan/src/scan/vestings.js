@@ -6,6 +6,13 @@ const {
   clearChangedAccounts,
 } = require("../store/vestings");
 
+const {
+  createNewVestings,
+  createVestingTimeline,
+  updateVestingIndex,
+  markVestingsAsRemoved,
+} = require("../mongo");
+
 async function handleVestingsChange(blockIndexer) {
   const changedAccounts = getChangedAccounts();
 
@@ -95,6 +102,13 @@ async function handleVestingsChange(blockIndexer) {
       vestingTimelines.push(vestingRemovedTimeline);
     }
   }
+
+  await Promise.all([
+    createNewVestings(newVestingsUpdate),
+    createVestingTimeline(vestingTimelines),
+    updateVestingIndex(vestingIndexUpdated),
+    markVestingsAsRemoved(removedVestingsUpdate),
+  ]);
 
   clearRemovedVestings();
   clearChangedAccounts();

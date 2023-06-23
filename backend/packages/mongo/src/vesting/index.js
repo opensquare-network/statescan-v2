@@ -4,10 +4,8 @@ const {
 } = require("@osn/scan-common");
 
 let db = null;
-let summaryCol = null;
-let accountSummaryCol = null;
-let eventCol = null;
-let callCol = null;
+let vestingCol = null;
+let vestingTimelineCol = null;
 
 async function initVestingScanDb() {
   db = new ScanDb(
@@ -16,10 +14,8 @@ async function initVestingScanDb() {
   );
   await db.init();
 
-  summaryCol = await db.createCol("summary");
-  accountSummaryCol = await db.createCol("accountSummary");
-  eventCol = await db.createCol("event");
-  callCol = await db.createCol("call");
+  vestingCol = await db.createCol("vesting");
+  vestingTimelineCol = await db.createCol("vestingTimeline");
 
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
@@ -30,15 +26,16 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  await summaryCol.createIndex({ "indexer.blockHeight": 1 });
-  await accountSummaryCol.createIndex({ account: 1, "indexer.blockHeight": 1 });
-  await eventCol.createIndex({
-    "indexer.blockHeight": 1,
-    "indexer.eventIndex": 1,
+  await vestingCol.createIndex({
+    target: 1,
+    "indexer.initialBlockHeigh": 1,
+    "indexer.initialIndex": 1,
+    "indexer.currentIndex": 1,
   });
-  await callCol.createIndex({
-    "indexer.blockHeight": 1,
-    "indexer.extrinsicIndex": 1,
+  await vestingTimelineCol.createIndex({
+    "event.target": 1,
+    "indexer.initialBlockHeigh": 1,
+    "indexer.initialIndex": 1,
   });
 }
 
@@ -48,24 +45,14 @@ async function makeSureInit(col) {
   }
 }
 
-async function getSummaryCol() {
-  await makeSureInit(summaryCol);
-  return summaryCol;
+async function getVestingCol() {
+  await makeSureInit(vestingCol);
+  return vestingCol;
 }
 
-async function getAccountSummaryCol() {
-  await makeSureInit(accountSummaryCol);
-  return accountSummaryCol;
-}
-
-async function getEventCol() {
-  await makeSureInit(eventCol);
-  return eventCol;
-}
-
-async function getCallCol() {
-  await makeSureInit(callCol);
-  return callCol;
+async function getVestingTimelineCol() {
+  await makeSureInit(vestingTimelineCol);
+  return vestingTimelineCol;
 }
 
 async function getVestingDb() {
@@ -79,8 +66,6 @@ async function getVestingDb() {
 module.exports = {
   initVestingScanDb,
   getVestingDb,
-  getSummaryCol,
-  getAccountSummaryCol,
-  getEventCol,
-  getCallCol,
+  getVestingCol,
+  getVestingTimelineCol,
 };
