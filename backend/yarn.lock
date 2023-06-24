@@ -954,10 +954,10 @@
   resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.1.2.tgz#6d6695b5273461bbabc1897e010edffdacfc4e0c"
   integrity sha512-9lfcNiXFAKRMGcFrr+t6K9Uul/Y9I/lnaPbPe6FMDbv4U24TWkTlNdHWK/DqGLJAJrksRwfnS82TEw3pe02vcQ==
 
-"@osn/scan-common@0.5.1":
-  version "0.5.1"
-  resolved "https://registry.npmjs.org/@osn/scan-common/-/scan-common-0.5.1.tgz#0e9d9cd9f5163e114cb4d0849e08198636191cb8"
-  integrity sha512-nCkUgKj43ZDL7iZsp45fSUwbAQE2utzPIrkKjvWgx0F/mNVtsr8DgzuY0UxD9QMSgz7VEIGHhFvSgmtl21D4Kw==
+"@osn/scan-common@0.5.5":
+  version "0.5.5"
+  resolved "https://registry.npmjs.org/@osn/scan-common/-/scan-common-0.5.5.tgz#724e4066a68b4373f0b8439b3a68ff7fc81a39c7"
+  integrity sha512-wtP3qjHIrW979PnVH8o39dfZKU3FAFt8R0EKWXRnSsjwEkp99/chG1JFoLfI3gzi0Zv7UTp9yWmFI6akwHA4mA==
   dependencies:
     "@osn/provider-options" "1.1.2"
     "@polkadot/api" "10.9.1"
