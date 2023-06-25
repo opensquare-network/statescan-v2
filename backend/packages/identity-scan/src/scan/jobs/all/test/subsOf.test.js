@@ -21,12 +21,11 @@ describe("Query identity subsOf", () => {
 
     const map = await getSubsOfMap({ blockHeight, blockHash });
     const address = "16SDAKg9N6kKAbhgDyxBXdHEwpwHUHs2CNEiLNGeZV55qHna";
-    expect(map[address]).toEqual({
-      deposit: "401060000000",
-      accounts: [
-        "12ZGvKApnos8M3rzmjRQ8me9ycTuzhe4zxAte5WCdcq4ZK31",
-        "13RDY9nrJpyTDBSUdBw12dGwhk19sGwsrVZ2bxkzYHBSagP2",
-      ],
-    });
+    const subsOf = map[address];
+    expect(subsOf[0].toString()).toEqual("401060000000");
+    expect(subsOf[1].toJSON()).toEqual([
+      "12ZGvKApnos8M3rzmjRQ8me9ycTuzhe4zxAte5WCdcq4ZK31",
+      "13RDY9nrJpyTDBSUdBw12dGwhk19sGwsrVZ2bxkzYHBSagP2",
+    ]);
   });
 });

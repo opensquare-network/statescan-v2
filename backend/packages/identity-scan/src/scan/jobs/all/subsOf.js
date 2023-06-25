@@ -8,14 +8,9 @@ async function getSubsOfMap(indexer) {
   return (entries || []).reduce((result, [key, subsOf]) => {
     const address = key.args[0].toString();
 
-    const deposit = subsOf[0].toString();
-    const accounts = subsOf[1].toJSON();
     return {
       ...result,
-      [address]: {
-        deposit,
-        accounts,
-      },
+      [address]: subsOf,
     };
   }, {});
 }
