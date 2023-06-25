@@ -1,3 +1,5 @@
+const { setAccount, addAccountTimeline } = require("../../../store/account");
+
 async function handleVestingEvents(
   event,
   indexer,
@@ -9,28 +11,41 @@ async function handleVestingEvents(
     return;
   }
 
-  let parsedEvent;
+  let accountTimelineIndexer = {
+    blockHeight: indexer.blockHeight,
+    extrinsicIndex: indexer.extrinsicIndex,
+    eventIndex: indexer.eventIndex,
+  };
 
   if ("VestingUpdated" === method) {
-    parsedEvent = {
-      type: method,
-      account: event.data[0].toString(),
-      unvested: event.data[1].toString(),
-    };
+    const account = event.data[0].toString();
+    const locked = BigInt(event.data[1].toString());
+    setAccount(account, {
+      account: account,
+      locked: locked,
+    });
+
+    addAccountTimeline({
+      indexer: accountTimelineIndexer,
+      account: account,
+      locked: locked,
+    });
   }
 
   if ("VestingCompleted" === method) {
-    parsedEvent = { type: method, account: event.data[0].toString() };
-  }
+    const account = event.data[0].toString();
 
-  if (!parsedEvent) {
-    throw new Error(`Unknown event ${section}.${method}`);
-  }
+    setAccount(account, {
+      account: account,
+      locked: BigInt(0),
+    });
 
-  parsedEvent = {
-    indexer,
-    event: parsedEvent,
-  };
+    addAccountTimeline({
+      indexer: accountTimelineIndexer,
+      account: account,
+      locked: BigInt(0),
+    });
+  }
 }
 
 module.exports = {

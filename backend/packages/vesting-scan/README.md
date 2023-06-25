@@ -42,4 +42,21 @@ interface VestingRemovedEvent {
   target: account;
   extrinsic: ExtrinsicIndexer;
 }
+
+interface Account {
+  account: account;
+  locked: bigint;
+}
+
+interface AcccountTimelineIndexer {
+  blockHeight: number;
+  extrinsicIndex: number;
+  eventIndex: number;
+}
+
+interface AccountTimeline {
+  indexer: AccountTimelineIndexer;
+  account: account;
+  locked: bigint;
+}
 ```

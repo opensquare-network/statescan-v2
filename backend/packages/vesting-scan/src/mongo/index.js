@@ -1,6 +1,11 @@
 const { Decimal128 } = require("mongodb");
 const {
-  vesting: { getVestingCol, getVestingTimelineCol },
+  vesting: {
+    getVestingCol,
+    getVestingTimelineCol,
+    getAccountCol,
+    getAccountTimelineCol,
+  },
 } = require("@statescan/mongo");
 
 async function getCurrentVestingsOf(target) {
@@ -56,8 +61,25 @@ async function createVestingTimeline(vestingTimelines) {
   }
 
   const vestingTimelineCol = await getVestingTimelineCol();
+  const bulkOp = vestingTimelineCol.initializeUnorderedBulkOp();
 
-  await vestingTimelineCol.insertMany(vestingTimelines);
+  vestingTimelines.forEach((vestingTimeline) => {
+    bulkOp
+      .find({
+        "event.extrinsicIndexer.blockHeight":
+          vestingTimeline.event.extrinsicIndexer.blockHeight,
+        "event.extrinsicIndexer.index":
+          vestingTimeline.event.extrinsicIndexer.extrinsicIndex,
+      })
+      .upsert()
+      .updateOne({
+        $set: {
+          ...vestingTimeline,
+        },
+      });
+  });
+
+  await bulkOp.execute();
 }
 
 async function updateVestingIndex(vestingIndexUpdates) {
@@ -110,6 +132,57 @@ async function markVestingsAsRemoved(vestingRemovals) {
       });
   });
 }
+
+async function upsertAccounts(accounts) {
+  if (accounts.length == 0) {
+    return;
+  }
+
+  const accountCol = await getAccountCol();
+  const bulkOp = accountCol.initializeUnorderedBulkOp();
+  accounts.forEach((account) => {
+    bulkOp
+      .find({
+        address: account.address,
+      })
+      .upsert()
+      .updateOne({
+        $set: {
+          ...account,
+          locked: toDecimal128(account.locked),
+        },
+      });
+  });
+
+  await bulkOp.execute();
+}
+
+async function upsertAccountTimeline(accountTimelines) {
+  if (accountTimelines.length === 0) {
+    return;
+  }
+
+  const accountTimelineCol = await getAccountTimelineCol();
+  const bulkOp = accountTimelineCol.initializeUnorderedBulkOp();
+  accountTimelines.forEach((accountTimeline) => {
+    bulkOp
+      .find({
+        "indexer.blockHeight": accountTimeline.indexer.blockHeight,
+        "indexer.extrinsicIndex": accountTimeline.indexer.extrinsicIndex,
+        "indexer.eventIndex": accountTimeline.indexer.eventIndex,
+      })
+      .upsert()
+      .updateOne({
+        $set: {
+          ...accountTimeline,
+          locked: toDecimal128(accountTimeline.locked),
+        },
+      });
+  });
+
+  await bulkOp.execute();
+}
+
 function toDecimal128(amount) {
   return Decimal128.fromString(amount.toString());
 }
@@ -120,4 +193,6 @@ module.exports = {
   createVestingTimeline,
   updateVestingIndex,
   markVestingsAsRemoved,
+  upsertAccounts,
+  upsertAccountTimeline,
 };

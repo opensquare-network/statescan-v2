@@ -6,6 +6,8 @@ const {
 let db = null;
 let vestingCol = null;
 let vestingTimelineCol = null;
+let accountCol = null;
+let accountTimelineCol = null;
 
 async function initVestingScanDb() {
   db = new ScanDb(
@@ -16,6 +18,9 @@ async function initVestingScanDb() {
 
   vestingCol = await db.createCol("vesting");
   vestingTimelineCol = await db.createCol("vestingTimeline");
+
+  accountCol = await db.createCol("account");
+  accountTimelineCol = await db.createCol("accountTimeline");
 
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
@@ -37,6 +42,13 @@ async function _createIndexes() {
     "indexer.initialBlockHeigh": 1,
     "indexer.initialIndex": 1,
   });
+  await accountCol.createIndex({
+    account: 1,
+  });
+  await accountTimelineCol.createIndex({
+    account: 1,
+    "indexer.blockHeight": 1,
+  });
 }
 
 async function makeSureInit(col) {
@@ -55,6 +67,16 @@ async function getVestingTimelineCol() {
   return vestingTimelineCol;
 }
 
+async function getAccountCol() {
+  await makeSureInit(accountCol);
+  return accountCol;
+}
+
+async function getAccountTimelineCol() {
+  await makeSureInit(accountTimelineCol);
+  return accountTimelineCol;
+}
+
 async function getVestingDb() {
   if (!db) {
     await initVestingScanDb();
@@ -68,4 +90,6 @@ module.exports = {
   getVestingDb,
   getVestingCol,
   getVestingTimelineCol,
+  getAccountCol,
+  getAccountTimelineCol,
 };
