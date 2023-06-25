@@ -1,6 +1,10 @@
 const { queryIdentityAsSub } = require("../../common");
-const { normalizeIdentity } = require("../../utils");
-const { queryMultipleIdentity } = require("../../query");
+const {
+  normalizeIdentity,
+  normalizeSubsInfo,
+  emptySubs,
+} = require("../../utils");
+const { queryMultipleIdentity, queryMultipleSubsOf } = require("../../query");
 const { getBlockAccounts } = require("../../../store");
 const {
   identity: { getIdentityCol },
@@ -20,6 +24,7 @@ async function updateBlockIdentities(indexer) {
   }
 
   const identities = await queryMultipleIdentity(accounts, indexer);
+  const subsArray = await queryMultipleSubsOf(accounts, indexer);
   const col = await getIdentityCol();
   const bulk = col.initializeUnorderedBulkOp();
   let index = 0;
@@ -27,7 +32,8 @@ async function updateBlockIdentities(indexer) {
     const identity = identities[index];
     if (identity.isSome) {
       const normalizedInfo = normalizeIdentity(identity);
-      bulkUpsert(bulk, account, normalizedInfo);
+      const normalizedSubsInfo = normalizeSubsInfo(subsArray[index]);
+      bulkUpsert(bulk, account, { ...normalizedInfo, ...normalizedSubsInfo });
       index++;
       continue;
     }
@@ -36,7 +42,7 @@ async function updateBlockIdentities(indexer) {
     if (!infoAsSub) {
       bulk.find({ account }).delete();
     } else {
-      bulkUpsert(bulk, account, infoAsSub);
+      bulkUpsert(bulk, account, { ...infoAsSub, ...emptySubs });
     }
 
     index++;

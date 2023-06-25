@@ -1,6 +1,11 @@
-const { normalizeIdentity } = require("../../utils");
+const {
+  normalizeIdentity,
+  normalizeSubsInfo,
+  emptySubs,
+} = require("../../utils");
 const { getSuperOfMap } = require("./superOf");
 const { getIdentityMap } = require("./identityOf");
+const { getSubsOfMap } = require("./subsOf");
 const {
   identity: { getIdentityCol },
 } = require("@statescan/mongo");
@@ -36,6 +41,7 @@ function extractIdentityAsSub(parentAddress, parentIdentity, display) {
 async function updateAllIdentities(indexer) {
   const identityMap = await getIdentityMap(indexer);
   const superOfMap = await getSuperOfMap(indexer);
+  const subsOfMap = await getSubsOfMap(indexer);
 
   const allAddresses = [
     ...Object.keys(identityMap),
@@ -48,8 +54,9 @@ async function updateAllIdentities(indexer) {
     const identityOf = identityMap[address];
     if (identityOf && identityOf.isSome) {
       const normalizedInfo = normalizeIdentity(identityOf);
+      const normalizedSubsInfo = normalizeSubsInfo(subsOfMap[address]);
       // bulk insert this info
-      bulkUpsert(bulk, address, normalizedInfo);
+      bulkUpsert(bulk, address, { ...normalizedInfo, ...normalizedSubsInfo });
       continue;
     }
 
@@ -62,7 +69,7 @@ async function updateAllIdentities(indexer) {
     const parentIdentity = identityMap[parent];
     const infoAsSub = extractIdentityAsSub(parent, parentIdentity, display);
     if (infoAsSub) {
-      bulkUpsert(bulk, address, infoAsSub);
+      bulkUpsert(bulk, address, { ...infoAsSub, ...emptySubs });
     }
   }
 
