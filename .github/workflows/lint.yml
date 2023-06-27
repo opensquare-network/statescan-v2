@@ -27,8 +27,20 @@ jobs:
           cmd: install
           dir: "backend" # will run `yarn install` in `backend` sub folder
 
+      - name: Run backend lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
+          dir: "backend"
+
       - name: Run site install
         uses: borales/actions-yarn@v4
         with:
           cmd: install
           dir: "site" # will run `yarn install` in `site` sub folder
+
+      - name: Run site lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
+          dir: "site"
