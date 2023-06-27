@@ -1,4 +1,4 @@
-name: LINT
+name: CI
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,6 +31,12 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: lint
+          dir: "backend"
+
+      - name: Run backend test
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test
           dir: "backend"
 
       - name: Run site install
