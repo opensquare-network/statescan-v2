@@ -70,5 +70,11 @@
     "eslint": "^8.43.0",
     "typescript": "4.8.4"
   },
+  "overrides": {
+    "react-json-view": {
+      "react": "^18.0.0",
+      "react-dom": "^18.0.0"
+    }
+  },
   "packageManager": "yarn@3.6.0"
 }
