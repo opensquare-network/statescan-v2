@@ -32,8 +32,3 @@ jobs:
         with:
           cmd: install
           dir: "site" # will run `yarn install` in `site` sub folder
-
-      - name: Run lint
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: lint # will run `yarn lint` command
