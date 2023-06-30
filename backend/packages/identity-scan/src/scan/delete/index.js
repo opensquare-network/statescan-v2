@@ -1,22 +1,29 @@
 const {
   identity: {
-    getRegistrarsTimelineCollection,
-    getIdentityTimelineCollection
-  }
+    getRegistrarsTimelineCol,
+    getIdentityTimelineCol,
+    getRequestCol,
+    getRequestTimelineCol,
+  },
 } = require("@statescan/mongo");
 
 async function deleteFrom(height) {
-  // todo: delete business generated from block whose height is >= height
   if (!height) {
     throw new Error("No height given when deleting unFinalized transfers");
   }
 
-  const collection = await getRegistrarsTimelineCollection();
-  await collection.deleteMany({ "indexer.blockHeight": { $gte: height } });
+  const commonQ = { "indexer.blockHeight": { $gte: height } };
 
-  const identityTimelineCollection = await getIdentityTimelineCollection();
-  await identityTimelineCollection.deleteMany({ "indexer.blockHeight": { $gte: height } });
+  const col = await getRegistrarsTimelineCol();
+  await col.deleteMany(commonQ);
 
+  const identityTimelineCollection = await getIdentityTimelineCol();
+  await identityTimelineCollection.deleteMany(commonQ);
+
+  const requestCol = await getRequestCol();
+  await requestCol.deleteMany(commonQ);
+  const requestTimelineCol = await getRequestTimelineCol();
+  await requestTimelineCol.deleteMany(commonQ);
 }
 
 module.exports = {

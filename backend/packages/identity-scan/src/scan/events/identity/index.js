@@ -1,5 +1,15 @@
-const { setIdentity, deleteIdentity } = require("./identityOperations");
-const { setRegistrarJudgement } = require("./registrarOperations");
+const {
+  handleIdentityCleared,
+  handleIdentitySet,
+  handleIdentityKilled,
+  handleJudgementRequested,
+  handleJudgementUnrequested,
+  handleSubIdentityAdded,
+  handleSubIdentityRemoved,
+  handleSubIdentityRevoked,
+  handleRegistrarAdded,
+  handleJudgementGiven,
+} = require("./events");
 
 const {
   SECTION: { IDENTITY },
@@ -13,13 +23,9 @@ const {
     SUB_IDENTITY_ADDED,
     SUB_IDENTITY_REMOVED,
     SUB_IDENTITY_REVOKED,
+    RegistrarAdded,
   },
 } = require("../../constants");
-const {
-  setSubIdentity,
-  deleteSubIdentity,
-} = require("./subIdentityOperations");
-const { setIdentityEventForTimeline } = require("./identityTimelineOperations");
 
 /**
  * Handle identity events and save to DB
@@ -35,33 +41,27 @@ async function handleIdentityEvents(event, indexer, extrinsic) {
   if (IDENTITY !== section) {
     return;
   }
+
   if (IDENTITY_SET === method) {
-    await setIdentity(event);
-    await setIdentityEventForTimeline(IDENTITY_SET, event, indexer);
+    await handleIdentitySet(event, indexer);
   } else if (IDENTITY_CLEARED === method) {
-    await deleteIdentity(event);
-    await setIdentityEventForTimeline(IDENTITY_CLEARED, event, indexer);
+    await handleIdentityCleared(event, indexer);
   } else if (IDENTITY_KILLED === method) {
-    await deleteIdentity(event);
-    await setIdentityEventForTimeline(IDENTITY_KILLED, event, indexer);
+    await handleIdentityKilled(event, indexer);
   } else if (JUDGEMENT_GIVEN === method) {
-    await setRegistrarJudgement(JUDGEMENT_GIVEN, event, indexer);
-    await setIdentityEventForTimeline(JUDGEMENT_GIVEN, event, indexer);
+    await handleJudgementGiven(event, indexer, extrinsic);
   } else if (JUDGEMENT_REQUESTED === method) {
-    await setRegistrarJudgement(JUDGEMENT_REQUESTED, event, indexer);
-    await setIdentityEventForTimeline(JUDGEMENT_REQUESTED, event, indexer);
+    await handleJudgementRequested(event, indexer, extrinsic);
   } else if (JUDGEMENT_UNREQUESTED === method) {
-    await setRegistrarJudgement(JUDGEMENT_UNREQUESTED, event, indexer);
-    await setIdentityEventForTimeline(JUDGEMENT_UNREQUESTED, event, indexer);
+    await handleJudgementUnrequested(event, indexer);
   } else if (SUB_IDENTITY_ADDED === method) {
-    await setSubIdentity(SUB_IDENTITY_ADDED, event, indexer);
-    await setIdentityEventForTimeline(SUB_IDENTITY_ADDED, event, indexer);
+    await handleSubIdentityAdded(event, indexer);
   } else if (SUB_IDENTITY_REMOVED === method) {
-    await deleteSubIdentity(event);
-    await setIdentityEventForTimeline(SUB_IDENTITY_REMOVED, event, indexer);
+    await handleSubIdentityRemoved(event, indexer);
   } else if (SUB_IDENTITY_REVOKED === method) {
-    await deleteSubIdentity(event);
-    await setIdentityEventForTimeline(SUB_IDENTITY_REVOKED, event, indexer);
+    await handleSubIdentityRevoked(event, indexer);
+  } else if (RegistrarAdded === method) {
+    await handleRegistrarAdded(event, indexer);
   }
 }
 

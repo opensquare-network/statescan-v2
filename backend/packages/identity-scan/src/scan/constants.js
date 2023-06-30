@@ -12,9 +12,16 @@ module.exports = {
     SUB_IDENTITY_ADDED: "SubIdentityAdded",
     SUB_IDENTITY_REMOVED: "SubIdentityRemoved",
     SUB_IDENTITY_REVOKED: "SubIdentityRevoked",
+    RegistrarAdded: "RegistrarAdded",
   },
   EXTRINSIC_METHOD: {
     SET_SUBS: "setSubs",
     RENAME_SUB: "renameSub",
+  },
+  REQUEST_STATUS: {
+    PENDING: "pending",
+    REMOVED: "removed",
+    CANCELLED: "cancelled",
+    GIVEN: "given",
   },
 };
