@@ -1,4 +1,5 @@
-const { setAccount, addAccountTimeline } = require("../../../store/account");
+const { handleVestingUpdated } = require("./vestingUpdated");
+const { handleVestingCompleted } = require("./vestingCompleted");
 
 async function handleVestingEvents(
   event,
@@ -6,46 +7,8 @@ async function handleVestingEvents(
   extrinsic,
   blockEvents = [],
 ) {
-  const { section, method } = event;
-  if ("vesting" !== section) {
-    return;
-  }
-
-  let accountTimelineIndexer = {
-    blockHeight: indexer.blockHeight,
-    extrinsicIndex: indexer.extrinsicIndex,
-    eventIndex: indexer.eventIndex,
-  };
-
-  if ("VestingUpdated" === method) {
-    const account = event.data[0].toString();
-    const locked = BigInt(event.data[1].toString());
-    setAccount(account, {
-      account: account,
-      locked: locked,
-    });
-
-    addAccountTimeline({
-      indexer: accountTimelineIndexer,
-      account: account,
-      locked: locked,
-    });
-  }
-
-  if ("VestingCompleted" === method) {
-    const account = event.data[0].toString();
-
-    setAccount(account, {
-      account: account,
-      locked: BigInt(0),
-    });
-
-    addAccountTimeline({
-      indexer: accountTimelineIndexer,
-      account: account,
-      locked: BigInt(0),
-    });
-  }
+  await handleVestingUpdated(event, indexer);
+  await handleVestingCompleted(event, indexer);
 }
 
 module.exports = {
