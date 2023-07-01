@@ -4,4 +4,5 @@ module.exports = {
   ...require("./big"),
   ...require("./chainFieldToString"),
   ...require("./md5"),
+  ...require("./known"),
 };

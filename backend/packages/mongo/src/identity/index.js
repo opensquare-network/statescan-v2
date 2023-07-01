@@ -6,6 +6,10 @@ const {
 let db = null;
 let identityCol = null;
 let identityTimelineCol = null;
+let registrarsCol = null;
+let registrarsTimelineCollection = null;
+let requestCol = null; // for judgement request
+let requestTimelineCol = null;
 
 async function initIdentityScanDb() {
   db = new ScanDb(
@@ -16,6 +20,10 @@ async function initIdentityScanDb() {
 
   identityCol = await db.createCol("identity");
   identityTimelineCol = await db.createCol("identityTimeline");
+  registrarsCol = await db.createCol("registrars");
+  registrarsTimelineCollection = await db.createCol("registrarsTimeline");
+  requestCol = await db.createCol("request");
+  requestTimelineCol = await db.createCol("requestTimeline");
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
@@ -25,7 +33,24 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  // todo: create indexes
+  // _id set to accountId as index
+  const identityCollection = await getIdentityCol();
+  await identityCollection.createIndex({ account: 1 });
+  await identityCollection.createIndex({ "info.display": 1 });
+
+  const identityTimelineCollection = await getIdentityTimelineCol();
+  await identityTimelineCollection.createIndex({ account: 1 });
+
+  // _id set to accountId as index
+  const registrarsCollection = await getRegistrarsCol();
+  await registrarsCollection.createIndex({ accountId: 1 });
+
+  const registrarsTimelineCollection = await getRegistrarsTimelineCol();
+  await registrarsTimelineCollection.createIndex({ registrarIndex: 1 });
+  await registrarsTimelineCollection.createIndex({ requestingAccountId: 1 });
+
+  await requestCol.createIndex({ account: 1 });
+  await requestCol.createIndex({ registrarIndex: 1 });
 }
 
 async function makeSureInit(col) {
@@ -44,6 +69,26 @@ async function getIdentityTimelineCol() {
   return identityTimelineCol;
 }
 
+async function getRegistrarsCol() {
+  await makeSureInit(registrarsCol);
+  return registrarsCol;
+}
+
+async function getRegistrarsTimelineCol() {
+  await makeSureInit(registrarsTimelineCollection);
+  return registrarsTimelineCollection;
+}
+
+async function getRequestCol() {
+  await makeSureInit(requestCol);
+  return requestCol;
+}
+
+async function getRequestTimelineCol() {
+  await makeSureInit(requestTimelineCol);
+  return requestTimelineCol;
+}
+
 async function getIdentityDb() {
   if (!db) {
     await initIdentityScanDb();
@@ -57,4 +102,8 @@ module.exports = {
   getIdentityDb,
   getIdentityCol,
   getIdentityTimelineCol,
+  getRegistrarsCol,
+  getRegistrarsTimelineCol,
+  getRequestCol,
+  getRequestTimelineCol,
 };
