@@ -19,11 +19,7 @@ function enrichVestingCreated(from, target, vesting, extrinsicIndexer) {
   addChangedAccount(target);
   vesting.from = from;
   vesting.target = target;
-  vesting.extrinsicIndexer = {
-    blockHeight: extrinsicIndexer.blockHeight,
-    blockHash: extrinsicIndexer.blockHash,
-    extrinsicIndex: extrinsicIndexer.extrinsicIndex,
-  };
+  vesting.extrinsicIndexer = extrinsicIndexer;
 }
 
 function shouldKeepVesting(vesting, blockHeight) {
@@ -52,11 +48,7 @@ function enrichVestingRemoved(from, target, vestings, extrinsicIndexer) {
   for (const vesting of vestings) {
     vesting.from = from;
     vesting.target = target;
-    vesting.extrinsicIndexer = {
-      blockHeight: extrinsicIndexer.blockHeight,
-      blockHash: extrinsicIndexer.blockHash,
-      extrinsicIndex: extrinsicIndexer.extrinsicIndex,
-    };
+    vesting.extrinsicIndexer = extrinsicIndexer;
   }
   addChangedAccount(target);
   addRemovedVestings(target, vestings);
