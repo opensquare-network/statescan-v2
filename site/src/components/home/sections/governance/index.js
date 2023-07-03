@@ -79,10 +79,10 @@ export default function GovernanceSection() {
     }
 
     const electionsInfo = chainApi?.derive?.elections?.info?.();
-    electionsInfo.then((info) => setCouncilMembers(info.members));
+    electionsInfo?.then((info) => setCouncilMembers(info.members));
 
     const tcMembers = chainApi?.derive?.technicalCommittee?.members?.();
-    tcMembers.then(setTechCommMembers);
+    tcMembers?.then(setTechCommMembers);
   }, [chainApi]);
 
   const overviewItems = [];

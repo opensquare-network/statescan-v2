@@ -38,7 +38,7 @@ function Calls() {
         pageSize,
         {
           signed_only: "true",
-          ...omit(queryString.parse(location.search), ["page"]),
+          ...omit(queryString.parse(location.search), ["page", "spec"]),
         },
         { signal: controller.signal },
       ),

@@ -73,7 +73,7 @@ function Events() {
         pageSize,
         {
           ...defaultFilterQuery,
-          ...omit(queryString.parse(location.search), ["page"]),
+          ...omit(queryString.parse(location.search), ["page", "spec"]),
         },
         { signal: controller.signal },
       ),
