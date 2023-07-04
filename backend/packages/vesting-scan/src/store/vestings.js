@@ -3,6 +3,7 @@
 let changedAccounts = [];
 let vestings = {};
 let endedVestings = {};
+let ephemeralVestings = {};
 
 function getVestingsOf(account) {
   return vestings[account];
@@ -38,6 +39,20 @@ function clearChangedAccounts() {
   changedAccounts = [];
 }
 
+function addEphemeralVesting(account, vesting) {
+  const allVestings = ephemeralVestings[account] || [];
+  allVestings.push(vesting);
+  ephemeralVestings[account] = allVestings;
+}
+
+function getEphemeralVestings() {
+  return ephemeralVestings;
+}
+
+function clearEphemeralVestings() {
+  ephemeralVestings = {};
+}
+
 module.exports = {
   getVestingsOf,
   getRemovedVestings,
@@ -47,4 +62,7 @@ module.exports = {
   addChangedAccount,
   getChangedAccounts,
   clearChangedAccounts,
+  addEphemeralVesting,
+  getEphemeralVestings,
+  clearEphemeralVestings,
 };

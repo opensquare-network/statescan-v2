@@ -32,11 +32,11 @@ async function handleVestedTransferImpl(from, target, vesting, indexer) {
     indexer.blockHeight,
   );
 
-  // if the vesting is ended in this block, we can't assign a index to it. so we just ignore it.
   if (shouldKeepVesting(vesting, indexer.blockHeight)) {
-    // we can't decide the final index of the newly created vesting now since there could be serveral vestedTransfer/vest/merge action in one block.
     enrichVestingCreated(from, target, vesting, indexer);
     remainedVestings.push(vesting);
+  } else {
+    enrichEphemeralVesting(from, target, vesting, indexer);
   }
 
   enrichVestingRemoved(from, target, endedVestings, indexer);

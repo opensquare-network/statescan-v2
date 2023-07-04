@@ -3,6 +3,8 @@ const {
   getRemovedVestings,
   clearRemovedVestings,
   getChangedAccounts,
+  getEphemeralVestings,
+  clearEphemeralVestings,
   clearChangedAccounts,
 } = require("../store/vestings");
 
@@ -14,10 +16,56 @@ const {
 } = require("../mongo");
 
 async function handleVestingsChange(blockIndexer) {
+  await Promise.all([
+    handleChangedAccounts(blockIndexer),
+    handleRemovedVestings(blockIndexer),
+  ]);
+}
+
+async function handleRemovedVestings(blockIndexer) {
+  const removedVestingsUpdate = [];
+  const removedVestings = getRemovedVestings();
+  const vestingTimelines = [];
+  for (const [account, vestings] of Object.entries(removedVestings)) {
+    for (const vesting of vestings) {
+      const vestingRemoveUpdate = {
+        indexer: {
+          initialBlockHeight: vesting.indexer.initialBlockHeight,
+          initialIndex: vesting.indexer.initialIndex,
+          currentIndex: -1,
+        },
+        target: vesting.target,
+        removedBlock: blockIndexer.blockHeight,
+      };
+      removedVestingsUpdate.push(vestingRemoveUpdate);
+
+      const vestingRemovedTimeline = {
+        vestingIndexer: {
+          initialBlockHeight: vesting.indexer.initialBlockHeight,
+          initialIndex: vesting.indexer.initialIndex,
+        },
+        event: {
+          type: "removed",
+          blockHeight: blockIndexer.blockHeight,
+          from: vesting.from,
+          target: vesting.target,
+          index: vesting.indexer.initialIndex,
+          extrinsicIndexer: vesting.extrinsicIndexer,
+        },
+      };
+      vestingTimelines.push(vestingRemovedTimeline);
+    }
+  }
+
+  await Promise.all([markVestingsAsRemoved(removedVestingsUpdate)]);
+
+  clearRemovedVestings();
+}
+
+async function handleChangedAccounts(blockIndexer) {
   const changedAccounts = getChangedAccounts();
 
   const newVestingsUpdate = [];
-  const removedVestingsUpdate = [];
   const vestingTimelines = [];
   const vestingIndexUpdated = [];
 
@@ -71,47 +119,70 @@ async function handleVestingsChange(blockIndexer) {
     }
   }
 
-  const removedVestings = getRemovedVestings();
-  for (const [account, vestings] of Object.entries(removedVestings)) {
-    for (const vesting of vestings) {
-      const vestingRemoveUpdate = {
-        indexer: {
-          initialBlockHeight: vesting.indexer.initialBlockHeight,
-          initialIndex: vesting.indexer.initialIndex,
-          currentIndex: -1,
-        },
-        target: vesting.target,
-        removedBlock: blockIndexer.blockHeight,
-      };
-      removedVestingsUpdate.push(vestingRemoveUpdate);
+  await Promise.all([
+    createNewVestings(newVestingsUpdate),
+    createVestingTimeline(vestingTimelines),
+    updateVestingIndex(vestingIndexUpdated),
+  ]);
+  clearChangedAccounts();
+}
 
-      const vestingRemovedTimeline = {
-        vestingIndexer: {
-          initialBlockHeight: vesting.indexer.initialBlockHeight,
-          initialIndex: vesting.indexer.initialIndex,
-        },
-        event: {
-          type: "removed",
-          blockHeight: blockIndexer.blockHeight,
-          from: vesting.from,
-          target: vesting.target,
-          index: vesting.indexer.initialIndex,
-          extrinsicIndexer: vesting.extrinsicIndexer,
-        },
-      };
-      vestingTimelines.push(vestingRemovedTimeline);
-    }
+async function handleEphemeralVestings(blockIndexer) {
+  const ephemeralVestings = getEphemeralVestings();
+  const newVestingsUpdate = [];
+  const vestingTimelines = [];
+  for (const vesting of ephemeralVestings) {
+    const newVesting = {
+      indexer: {
+        initialBlockHeight: blockIndexer.blockHeight,
+        initialIndex: -1,
+        currentIndex: -1,
+      },
+      from: vesting.from,
+      target: vesting.target,
+      startingBlock: vesting.startingBlock,
+      locked: vesting.locked,
+      perBlock: vesting.perBlock,
+    };
+
+    const vestingCreatedTimeline = {
+      vestingIndexer: {
+        initialBlockHeight: blockIndexer.blockHeight,
+        initialIndex: -1,
+      },
+      event: {
+        type: "created",
+        blockHeight: blockIndexer.blockHeight,
+        from: vesting.from,
+        target: vesting.target,
+        index: -1,
+        extrinsicIndexer: vesting.extrinsicIndexer,
+      },
+    };
+    const vestingRemovedTimeline = {
+      vestingIndexer: {
+        initialBlockHeight: blockIndexer.blockHeight,
+        initialIndex: -1,
+      },
+      event: {
+        type: "removed",
+        blockHeight: blockIndexer.blockHeight,
+        from: vesting.from,
+        target: vesting.target,
+        index: -1,
+        extrinsicIndexer: vesting.extrinsicIndexer,
+      },
+    };
+    newVestingsUpdate.push(newVesting);
+    vestingTimelines.push(vestingCreatedTimeline);
+    vestingTimelines.push(vestingRemovedTimeline);
   }
 
   await Promise.all([
     createNewVestings(newVestingsUpdate),
     createVestingTimeline(vestingTimelines),
-    updateVestingIndex(vestingIndexUpdated),
-    markVestingsAsRemoved(removedVestingsUpdate),
   ]);
-
-  clearRemovedVestings();
-  clearChangedAccounts();
+  clearEphemeralVestings();
 }
 
 module.exports = {

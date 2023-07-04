@@ -3,6 +3,7 @@ const {
   addRemovedVestings,
   setVestingsOf,
   addChangedAccount,
+  addEphemeralVesting,
 } = require("../../../store/vestings");
 
 const { getVestingsFromDb } = require("../../../service/vestings");
@@ -54,6 +55,14 @@ function enrichVestingRemoved(from, target, vestings, extrinsicIndexer) {
   addRemovedVestings(target, vestings);
 }
 
+function enrichEphemeralVesting(from, target, vesting, extrinsicIndexer) {
+  vesting.from = from;
+  vesting.target = target;
+  vesting.extrinsicIndexer = extrinsicIndexer;
+  addChangedAccount(target);
+  addEphemeralVesting(target, vesting);
+}
+
 function lockedAt(vesting, blockHeight) {
   const vestedBlockCount = blockHeight - vesting.startingBlock;
   return max(0n, vesting.locked - BigInt(vestedBlockCount) * vesting.perBlock);
@@ -74,6 +83,7 @@ function parseVestingInfo(vesting) {
 module.exports = {
   enrichVestingCreated,
   enrichVestingRemoved,
+  enrichEphemeralVesting,
   removeEndedVestings,
   getVestings,
   shouldKeepVesting,
