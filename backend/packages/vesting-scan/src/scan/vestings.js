@@ -19,6 +19,7 @@ async function handleVestingsChange(blockIndexer) {
   await Promise.all([
     handleChangedAccounts(blockIndexer),
     handleRemovedVestings(blockIndexer),
+    handleEphemeralVestings(blockIndexer),
   ]);
 }
 
