@@ -1,20 +1,16 @@
 const { makeExecutableSchema } = require("@graphql-tools/schema");
-
-const typeDefinitions = /* GraphQL */ `
-  type Query {
-    hello: String!
-  }
-`;
+const { typeDefs } = require("./types");
+const resolverFunctions = require("./resolvers");
 
 const resolvers = {
   Query: {
-    hello: () => "Hello World!",
+    ...resolverFunctions,
   },
 };
 
 const schema = makeExecutableSchema({
   resolvers: [resolvers],
-  typeDefs: [typeDefinitions],
+  typeDefs,
 });
 
 module.exports = {
