@@ -4,6 +4,12 @@ const queries = /* GraphQL */ `
     timeline(account: String!): [TimelineItem]!
     registrars: [Registrar]!
     registrarTimeline(account: String!): [TimelineItem]!
+    requests(
+      registrarIndex: Int
+      account: String
+      offset: Int!
+      limit: Int!
+    ): PagedRequests!
   }
 `;
 

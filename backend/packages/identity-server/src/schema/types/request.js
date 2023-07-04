@@ -8,8 +8,8 @@ const request = /* GraphQL */ `
     account: String!
     registrarIndex: Int!
     registrar: String!
-    indexer: Indexer!
     status: RequestStatus!
+    indexer: Indexer!
     isFinal: Boolean!
   }
 
@@ -20,6 +20,13 @@ const request = /* GraphQL */ `
     name: String!
     args: JSONObject
     indexer: Indexer!
+  }
+
+  type PagedRequests {
+    requests: [Request]!
+    offset: Int!
+    limit: Int!
+    total: Int!
   }
 `;
 

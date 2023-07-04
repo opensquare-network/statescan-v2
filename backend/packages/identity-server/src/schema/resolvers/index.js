@@ -4,4 +4,5 @@ module.exports = {
   ...require("./timeline"),
   ...require("./registrars"),
   ...require("./registrarTimeline"),
+  ...require("./requests"),
 };
