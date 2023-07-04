@@ -25,6 +25,7 @@
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
     "graphql": "^16.7.1",
+    "graphql-type-json": "^0.3.2",
     "graphql-yoga": "^4.0.3"
   },
   "devDependencies": {

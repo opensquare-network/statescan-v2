@@ -1,5 +1,7 @@
-// fixme: we should also add `additional` field
 const info = /* GraphQL */ `
+  scalar JSON
+  scalar JSONObject
+
   type IdentityInfo {
     display: String
     legal: String
@@ -9,6 +11,7 @@ const info = /* GraphQL */ `
     image: String
     pgpFingerprint: String
     twitter: String
+    additional: JSONObject
   }
 `;
 
