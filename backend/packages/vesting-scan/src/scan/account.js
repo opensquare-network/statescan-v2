@@ -6,8 +6,8 @@ const {
 } = require("../store/account");
 
 async function handleAccountChanges() {
-  const accounts = await getAccounts();
-  const accountTimelines = await getAccountTimelines();
+  const accounts = getAccounts();
+  const accountTimelines = getAccountTimelines();
 
   await upsertAccounts(accounts);
   await upsertAccountTimeline(accountTimelines);

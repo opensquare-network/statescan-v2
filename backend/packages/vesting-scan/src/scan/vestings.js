@@ -31,8 +31,7 @@ async function handleRemovedVestings(blockIndexer) {
     for (const vesting of vestings) {
       const vestingRemoveUpdate = {
         indexer: {
-          initialBlockHeight: vesting.indexer.initialBlockHeight,
-          initialIndex: vesting.indexer.initialIndex,
+          ...vesting.indexer,
           currentIndex: -1,
         },
         target: vesting.target,
@@ -41,24 +40,23 @@ async function handleRemovedVestings(blockIndexer) {
       removedVestingsUpdate.push(vestingRemoveUpdate);
 
       const vestingRemovedTimeline = {
-        vestingIndexer: {
-          initialBlockHeight: vesting.indexer.initialBlockHeight,
-          initialIndex: vesting.indexer.initialIndex,
-        },
+        indexer: vesting.extrinsicIndexer,
+        vestingIndexer: vesting.indexer,
         event: {
           type: "removed",
           blockHeight: blockIndexer.blockHeight,
           from: vesting.from,
           target: vesting.target,
-          index: vesting.indexer.initialIndex,
-          extrinsicIndexer: vesting.extrinsicIndexer,
         },
       };
       vestingTimelines.push(vestingRemovedTimeline);
     }
   }
 
-  await Promise.all([markVestingsAsRemoved(removedVestingsUpdate)]);
+  await Promise.all([
+    createVestingTimeline(vestingTimelines),
+    markVestingsAsRemoved(removedVestingsUpdate),
+  ]);
 
   clearRemovedVestings();
 }
@@ -77,8 +75,7 @@ async function handleChangedAccounts(blockIndexer) {
       if (vesting.indexer === undefined) {
         const newVesting = {
           indexer: {
-            initialBlockHeight: blockIndexer.blockHeight,
-            initialIndex: i,
+            ...vesting.extrinsicIndexer,
             currentIndex: i,
           },
           from: vesting.from,
@@ -89,17 +86,13 @@ async function handleChangedAccounts(blockIndexer) {
         };
 
         const vestingCreatedTimeline = {
-          vestingIndexer: {
-            initialBlockHeight: blockIndexer.blockHeight,
-            initialIndex: i,
-          },
+          indexer: vesting.extrinsicIndexer,
+          vestingIndexer: vesting.extrinsicIndexer,
           event: {
             type: "created",
             blockHeight: blockIndexer.blockHeight,
             from: vesting.from,
             target: vesting.target,
-            index: i,
-            extrinsicIndexer: vesting.extrinsicIndexer,
           },
         };
         newVestingsUpdate.push(newVesting);
@@ -108,8 +101,7 @@ async function handleChangedAccounts(blockIndexer) {
       } else if (vesting.indexer.currentIndex != i) {
         const vestingUpdated = {
           indexer: {
-            initialBlockHeight: vesting.indexer.initialBlockHeight,
-            initialIndex: vesting.indexer.initialIndex,
+            ...vesting.indexer,
             currentIndex: i,
           },
           target: vesting.target,
@@ -132,11 +124,10 @@ async function handleEphemeralVestings(blockIndexer) {
   const ephemeralVestings = getEphemeralVestings();
   const newVestingsUpdate = [];
   const vestingTimelines = [];
-  for (const vesting of ephemeralVestings) {
+  for (const [account, vesting] of Object.entries(ephemeralVestings)) {
     const newVesting = {
       indexer: {
-        initialBlockHeight: blockIndexer.blockHeight,
-        initialIndex: -1,
+        ...vesting.extrinsicIndexer,
         currentIndex: -1,
       },
       from: vesting.from,
@@ -147,31 +138,23 @@ async function handleEphemeralVestings(blockIndexer) {
     };
 
     const vestingCreatedTimeline = {
-      vestingIndexer: {
-        initialBlockHeight: blockIndexer.blockHeight,
-        initialIndex: -1,
-      },
+      indexer: vesting.extrinsicIndexer,
+      vestingIndexer: vesting.extrinsicIndexer,
       event: {
         type: "created",
         blockHeight: blockIndexer.blockHeight,
         from: vesting.from,
         target: vesting.target,
-        index: -1,
-        extrinsicIndexer: vesting.extrinsicIndexer,
       },
     };
     const vestingRemovedTimeline = {
-      vestingIndexer: {
-        initialBlockHeight: blockIndexer.blockHeight,
-        initialIndex: -1,
-      },
+      indexer: vesting.extrinsicIndexer,
+      vestingIndexer: vesting.extrinsicIndexer,
       event: {
         type: "removed",
         blockHeight: blockIndexer.blockHeight,
         from: vesting.from,
         target: vesting.target,
-        index: -1,
-        extrinsicIndexer: vesting.extrinsicIndexer,
       },
     };
     newVestingsUpdate.push(newVesting);

@@ -38,8 +38,8 @@ async function createNewVestings(vestings) {
   vestings.forEach((vesting) => {
     bulkOp
       .find({
-        "indexer.initialBlockHeight": vesting.indexer.initialBlockHeight,
-        "indexer.initialIndex": vesting.indexer.initialIndex,
+        "indexer.blockHeight": vesting.indexer.blockHeight,
+        "indexer.extrinsicIndex": vesting.indexer.extrinsicIndex,
         target: vesting.target,
       })
       .upsert()
@@ -66,10 +66,8 @@ async function createVestingTimeline(vestingTimelines) {
   vestingTimelines.forEach((vestingTimeline) => {
     bulkOp
       .find({
-        "event.extrinsicIndexer.blockHeight":
-          vestingTimeline.event.extrinsicIndexer.blockHeight,
-        "event.extrinsicIndexer.index":
-          vestingTimeline.event.extrinsicIndexer.extrinsicIndex,
+        "indexer.blockHeight": vestingTimeline.indexer.blockHeight,
+        "indexer.extrinsicIndex": vestingTimeline.indexer.extrinsicIndex,
       })
       .upsert()
       .updateOne({
@@ -92,15 +90,12 @@ async function updateVestingIndex(vestingIndexUpdates) {
   vestingIndexUpdates.forEach((update) => {
     bulkOp
       .find({
-        "indexer.initialBlockHeight": update.indexer.initialBlockHeight,
-        "indexer.initialIndex": update.indexer.initialIndex,
-        target: update.target,
+        "indexer.blockHeight": update.indexer.blockHeight,
+        "indexer.extrinsicIndex": update.indexer.extrinsicIndex,
       })
       .updateOne({
         $set: {
-          indexer: {
-            currentIndex: update.indexer.currentIndex,
-          },
+          indexer: update.indexer,
         },
       });
   });
@@ -118,19 +113,18 @@ async function markVestingsAsRemoved(vestingRemovals) {
   vestingRemovals.forEach((removal) => {
     bulkOp
       .find({
-        "indexer.initialBlockHeight": removal.indexer.initialBlockHeight,
-        "indexer.initialIndex": removal.indexer.initialIndex,
-        target: removal.target,
+        "indexer.blockHeight": removal.indexer.blockHeight,
+        "indexer.extrinsicIndex": removal.indexer.extrinsicIndex,
       })
       .updateOne({
         $set: {
-          indexer: {
-            currentIndex: removal.indexer.currentIndex,
-          },
+          indexer: removal.indexer,
           removedBlock: removal.removedBlock,
         },
       });
   });
+
+  await bulkOp.execute();
 }
 
 async function upsertAccounts(accounts) {
@@ -143,7 +137,7 @@ async function upsertAccounts(accounts) {
   accounts.forEach((account) => {
     bulkOp
       .find({
-        address: account.address,
+        account: account.account,
       })
       .upsert()
       .updateOne({

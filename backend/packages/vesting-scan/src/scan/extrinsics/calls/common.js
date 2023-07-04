@@ -59,6 +59,7 @@ function enrichEphemeralVesting(from, target, vesting, extrinsicIndexer) {
   vesting.from = from;
   vesting.target = target;
   vesting.extrinsicIndexer = extrinsicIndexer;
+  vesting.indexer = extrinsicIndexer;
   addChangedAccount(target);
   addEphemeralVesting(target, vesting);
 }
