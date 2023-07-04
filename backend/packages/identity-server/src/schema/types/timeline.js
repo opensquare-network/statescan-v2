@@ -1,9 +1,9 @@
 const timelineItem = /* GraphQL */ `
   type TimelineItem {
     account: String!
-    indexer: Indexer!
     name: String!
     args: JSONObject
+    indexer: Indexer!
   }
 `;
 
