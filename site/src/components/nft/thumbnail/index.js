@@ -34,7 +34,7 @@ export default function Thumbnail({
 }) {
   return image ? (
     <ThumbnailWrapper size={size} onClick={onClick}>
-      <img width={size} src={image} alt="" />
+      <img width={size} height={size} src={image} alt="" />
     </ThumbnailWrapper>
   ) : (
     <Wrapper onClick={onClick}>
