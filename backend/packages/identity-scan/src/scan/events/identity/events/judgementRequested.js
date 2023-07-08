@@ -29,7 +29,7 @@ async function handleJudgementRequested(event, indexer, extrinsic) {
     });
 
     if (call) {
-      maxFee = call.args[1].toString();
+      maxFee = call.args[1].toJSON();
     }
   }
 
@@ -41,6 +41,7 @@ async function handleJudgementRequested(event, indexer, extrinsic) {
     account,
     registrarIndex,
     registrar,
+    requestHeight: indexer.blockHeight,
     indexer,
     maxFee: toDecimal128(maxFee),
     status: {
