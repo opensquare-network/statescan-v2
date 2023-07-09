@@ -28,7 +28,7 @@ async function getCurrentVestingsOf(target) {
 }
 
 async function createNewVestings(vestings) {
-  if (vestings.length == 0) {
+  if (vestings.length === 0) {
     return;
   }
 
@@ -56,7 +56,7 @@ async function createNewVestings(vestings) {
 }
 
 async function createVestingTimeline(vestingTimelines) {
-  if (vestingTimelines.length == 0) {
+  if (vestingTimelines.length === 0) {
     return;
   }
 
@@ -81,7 +81,7 @@ async function createVestingTimeline(vestingTimelines) {
 }
 
 async function updateVestingIndex(vestingIndexUpdates) {
-  if (vestingIndexUpdates.length == 0) {
+  if (vestingIndexUpdates.length === 0) {
     return;
   }
 
@@ -104,7 +104,7 @@ async function updateVestingIndex(vestingIndexUpdates) {
 }
 
 async function markVestingsAsRemoved(vestingRemovals) {
-  if (vestingRemovals.length == 0) {
+  if (vestingRemovals.length === 0) {
     return;
   }
 
@@ -128,7 +128,7 @@ async function markVestingsAsRemoved(vestingRemovals) {
 }
 
 async function upsertAccounts(accounts) {
-  if (accounts.length == 0) {
+  if (accounts.length === 0) {
     return;
   }
 

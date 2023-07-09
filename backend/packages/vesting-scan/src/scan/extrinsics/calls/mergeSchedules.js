@@ -33,7 +33,7 @@ async function handleMergeSchedules(call, author, extrinsicIndexer) {
 }
 
 async function handleMergeSchedulesImpl(from, target, index1, index2, indexer) {
-  if (index1 == index2) {
+  if (index1 === index2) {
     return;
   }
 

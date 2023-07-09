@@ -6,6 +6,7 @@ const {
   setVestingsOf,
   shouldKeepVesting,
   parseVestingInfo,
+  enrichEphemeralVesting,
 } = require("./common");
 
 const {

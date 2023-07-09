@@ -6,7 +6,7 @@ const { setAccount, addAccountTimeline } = require("../../../store/account");
 
 async function handleVestingUpdated(event, indexer) {
   const { section, method } = event;
-  if (section != VESTING || method != VESTING_UPDATED) {
+  if (section !== VESTING || method !== VESTING_UPDATED) {
     return;
   }
 
