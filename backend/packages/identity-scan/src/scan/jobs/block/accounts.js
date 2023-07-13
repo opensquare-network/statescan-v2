@@ -18,7 +18,7 @@ function bulkUpsert(bulk, account, info) {
 }
 
 async function updateBlockIdentities(indexer) {
-  const accounts = await getBlockAccounts(indexer.blockHash);
+  const accounts = getBlockAccounts(indexer.blockHash);
   if (accounts.length <= 0) {
     return;
   }
