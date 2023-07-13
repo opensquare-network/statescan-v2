@@ -3,6 +3,7 @@ const {
 } = require("@statescan/mongo");
 const {
   utils: { bigAdd },
+  busLogger,
 } = require("@osn/scan-common");
 const BigNumber = require("bignumber.js");
 
@@ -40,9 +41,10 @@ async function incRegistrarStats(registrarIndex, key, amount, indexer) {
   const col = await getRegistrarStatCol();
   const registrar = await col.findOne({ index: registrarIndex });
   if (!registrar) {
-    throw new Error(
+    busLogger.error(
       `Can not find registrar ${registrarIndex} when inc ${key} by ${amount} at ${indexer.blockHeight}`,
     );
+    return;
   }
 
   const value = bigAdd(registrar[key] || 0, amount);
