@@ -65,7 +65,7 @@ function enrichEphemeralVesting(from, target, vesting, extrinsicIndexer) {
 }
 
 function lockedAt(vesting, blockHeight) {
-  const vestedBlockCount = blockHeight - vesting.startingBlock;
+  const vestedBlockCount = Math.max(blockHeight - vesting.startingBlock, 0);
   return max(0n, vesting.locked - BigInt(vestedBlockCount) * vesting.perBlock);
 }
 

@@ -14,7 +14,7 @@ const {
 } = require("../../constants");
 
 async function handleMergeSchedules(call, author, extrinsicIndexer) {
-  const { section, method } = call;
+  const { section, method, args } = call;
   if (section !== VESTING || method !== MERGE_SCHEDULES) {
     return;
   }
@@ -37,7 +37,7 @@ async function handleMergeSchedulesImpl(from, target, index1, index2, indexer) {
     return;
   }
 
-  const vestings = getVestings(target, indexer);
+  const vestings = await getVestings(target, indexer);
 
   const vesting1 = vestings[index1];
   const vesting2 = vestings[index2];
@@ -65,7 +65,7 @@ async function handleMergeSchedulesImpl(from, target, index1, index2, indexer) {
     remainedVestings.push(mergedVesting);
   }
 
-  enrichVestingRemoved(from, target, endedVestings, extrinsicIndexer);
+  enrichVestingRemoved(from, target, endedVestings, indexer);
   setVestingsOf(target, remainedVestings);
 }
 
@@ -98,7 +98,7 @@ function mergeTwoVestings(vesting1, vesting2, blockHeight) {
     lockedAt(vesting1, blockHeight) + lockedAt(vesting2, blockHeight);
 
   let duration = Math.max(1, endedBlock - startBlock);
-  let perBlock = max(1n, Math.floor(locked / BigInt(duration)));
+  let perBlock = max(1n, locked / BigInt(duration));
 
   return {
     startingBlock: startBlock,
@@ -110,11 +110,11 @@ function mergeTwoVestings(vesting1, vesting2, blockHeight) {
 function endingBlock(vesting) {
   let duration = 1;
   if (vesting.perBlock < vesting.locked) {
-    let extra = 1;
+    let extra = 1n;
     if (vesting.locked % vesting.perBlock === 0n) {
-      extra = 0;
+      extra = 0n;
     }
-    duration = Math.floor(number(vesting.locked / vesting.perBlock)) + extra;
+    duration = Number(vesting.locked / vesting.perBlock + extra);
   }
 
   return vesting.startingBlock + duration;

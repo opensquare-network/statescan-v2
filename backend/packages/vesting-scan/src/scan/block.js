@@ -10,9 +10,8 @@ const { handleVestingsChange } = require("./vestings");
 const { handleAccountChanges } = require("./account");
 
 async function handleBlock({ block, events, height }) {
-  const parentHash = block?.header?.parentHash;
   const blockIndexer = getBlockIndexer(block);
-  await handleExtrinsics(block?.extrinsics, events, blockIndexer, parentHash);
+  await handleExtrinsics(block?.extrinsics, events, blockIndexer);
   await handleEvents(events, blockIndexer, block.extrinsics);
 
   await handleVestingsChange(blockIndexer);

@@ -11,11 +11,7 @@ const {
 async function main() {
   await initVestingScanDb();
   await subscribeFinalizedHeight();
-  const blockHeights = [
-    16675360, // transfer to JEWRHBymADy77q5SCt2pBTtb7qhcdrCF6E8DtU7F99pjwkC
-    16675389,
-    16675437, // vesting completed
-  ];
+  const blockHeights = [6221520, 6221527, 6221534, 6221611];
 
   const api = await getApi();
   for (const height of blockHeights) {
