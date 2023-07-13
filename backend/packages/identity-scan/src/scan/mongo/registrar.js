@@ -18,7 +18,7 @@ async function batchInsertRegistrars(registrars = []) {
   for (const registrar of registrars) {
     bulk.insert({
       index,
-      registrar,
+      ...registrar,
     });
 
     index++;
