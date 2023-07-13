@@ -39,7 +39,7 @@ async function incRegistrarStats(registrarIndex, key, amount, indexer) {
 
   const col = await getRegistrarStatCol();
   const registrar = await col.findOne({ index: registrarIndex });
-  const value = bigAdd(registrar[key] || 0, amount);
+  const value = bigAdd((registrar && registrar[key]) || 0, amount);
   await col.findOneAndUpdate(
     { index: registrarIndex },
     { $set: { [key]: value } },
