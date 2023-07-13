@@ -1,5 +1,5 @@
 const {
-  identity: { getRegistrarsCol, getRegistrarsTimelineCol },
+  identity: { getRegistrarsCol, getRegistrarsTimelineCol, getRegistrarStatCol },
 } = require("@statescan/mongo");
 const {
   utils: { bigAdd },
@@ -32,29 +32,25 @@ async function insertRegistrarTimeline(obj = {}) {
   await collection.insertOne(obj);
 }
 
-async function incRegistrarStats(index, key, amount, indexer) {
+async function incRegistrarStats(registrarIndex, key, amount, indexer) {
   if (new BigNumber(amount).lte(0)) {
     return;
   }
 
-  const col = await getRegistrarsCol();
-  const registrar = await col.findOne({ index });
+  const col = await getRegistrarStatCol();
+  const registrar = await col.findOne({ index: registrarIndex });
   if (!registrar) {
     throw new Error(
-      `Can not find registrar ${index} when inc ${key} by ${amount} at ${indexer.blockHeight}`,
+      `Can not find registrar ${registrarIndex} when inc ${key} by ${amount} at ${indexer.blockHeight}`,
     );
   }
 
-  let stat = registrar.stat;
-  if (!stat) {
-    stat = {
-      [key]: amount,
-    };
-  } else {
-    stat[key] = bigAdd(stat[key] || 0, amount);
-  }
-
-  await col.findOneAndUpdate({ index }, { $set: { stat } });
+  const value = bigAdd(registrar[key] || 0, amount);
+  await col.findOneAndUpdate(
+    { index: registrarIndex },
+    { $set: { [key]: value } },
+    { upsert: true },
+  );
 }
 
 module.exports = {
