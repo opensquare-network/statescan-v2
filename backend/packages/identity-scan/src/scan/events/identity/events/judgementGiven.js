@@ -15,6 +15,8 @@ const {
   busLogger: logger,
 } = require("@osn/scan-common");
 const { getPendingRequest } = require("../../../mongo/request");
+const { incRegistrarStats } = require("../../../mongo/registrar");
+const { RegistrarStatKeys } = require("../../../common/consts");
 
 async function calcFee(target, registrarIndex, indexer) {
   const identity = await queryIdentityInfoByHeight(
@@ -121,7 +123,8 @@ async function handleJudgementGiven(event, indexer, extrinsic) {
     );
   }
 
-  // todo: calculate statistics data for the registrar
+  await incRegistrarStats(registrarIndex, RegistrarStatKeys.fee, fee, indexer);
+  await incRegistrarStats(registrarIndex, RegistrarStatKeys.given, 1, indexer);
 }
 
 module.exports = {
