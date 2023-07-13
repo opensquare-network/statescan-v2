@@ -2,7 +2,7 @@ const {
   queryRegistrars,
   queryIdentityInfoByHeight,
 } = require("../../../query");
-const { getRegistrar, getRegistrarFee } = require("../../../common");
+const { getRegistrar } = require("../../../common");
 const { addBlockAccount } = require("../../../../store");
 const { REQUEST_STATUS } = require("../../../constants");
 const {
