@@ -124,42 +124,43 @@ async function handleEphemeralVestings(blockIndexer) {
   const ephemeralVestings = getEphemeralVestings();
   const newVestingsUpdate = [];
   const vestingTimelines = [];
-  for (const [account, vesting] of Object.entries(ephemeralVestings)) {
-    const newVesting = {
-      indexer: {
-        ...vesting.extrinsicIndexer,
-        currentIndex: -1,
-      },
-      from: vesting.from,
-      target: vesting.target,
-      startingBlock: vesting.startingBlock,
-      locked: vesting.locked,
-      perBlock: vesting.perBlock,
-    };
-
-    const vestingCreatedTimeline = {
-      indexer: vesting.extrinsicIndexer,
-      vestingIndexer: vesting.extrinsicIndexer,
-      event: {
-        type: "created",
-        blockHeight: blockIndexer.blockHeight,
+  for (const [account, vestings] of Object.entries(ephemeralVestings)) {
+    for (const vesting of vestings) {
+      const newVesting = {
+        indexer: {
+          ...vesting.extrinsicIndexer,
+          currentIndex: -1,
+        },
         from: vesting.from,
         target: vesting.target,
-      },
-    };
-    const vestingRemovedTimeline = {
-      indexer: vesting.extrinsicIndexer,
-      vestingIndexer: vesting.extrinsicIndexer,
-      event: {
-        type: "removed",
-        blockHeight: blockIndexer.blockHeight,
-        from: vesting.from,
-        target: vesting.target,
-      },
-    };
-    newVestingsUpdate.push(newVesting);
-    vestingTimelines.push(vestingCreatedTimeline);
-    vestingTimelines.push(vestingRemovedTimeline);
+        startingBlock: vesting.startingBlock,
+        locked: vesting.locked,
+        perBlock: vesting.perBlock,
+      };
+      const vestingCreatedTimeline = {
+        indexer: vesting.extrinsicIndexer,
+        vestingIndexer: vesting.extrinsicIndexer,
+        event: {
+          type: "created",
+          blockHeight: blockIndexer.blockHeight,
+          from: vesting.from,
+          target: vesting.target,
+        },
+      };
+      const vestingRemovedTimeline = {
+        indexer: vesting.extrinsicIndexer,
+        vestingIndexer: vesting.extrinsicIndexer,
+        event: {
+          type: "removed",
+          blockHeight: blockIndexer.blockHeight,
+          from: vesting.from,
+          target: vesting.target,
+        },
+      };
+      newVestingsUpdate.push(newVesting);
+      vestingTimelines.push(vestingCreatedTimeline);
+      vestingTimelines.push(vestingRemovedTimeline);
+    }
   }
 
   await Promise.all([

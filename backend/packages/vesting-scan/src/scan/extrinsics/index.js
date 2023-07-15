@@ -18,12 +18,7 @@ async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
   await handleMergeSchedules(call, author, extrinsicIndexer);
 }
 
-async function handleExtrinsics(
-  extrinsics = [],
-  allEvents = [],
-  blockIndexer,
-  parentHash,
-) {
+async function handleExtrinsics(extrinsics = [], allEvents = [], blockIndexer) {
   let index = 0;
   for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(allEvents, index);
@@ -34,7 +29,6 @@ async function handleExtrinsics(
     const extrinsicIndexer = {
       ...blockIndexer,
       extrinsicIndex: index++,
-      parentHash,
     };
     await handleCallsInExtrinsic(
       extrinsic,

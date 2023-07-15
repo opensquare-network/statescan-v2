@@ -11,7 +11,7 @@ const {
 async function main() {
   await initVestingScanDb();
   await subscribeFinalizedHeight();
-  const blockHeights = [6221520, 6221527, 6221534, 6221611];
+  const blockHeights = [6221520, 6221527, 6221534, 6221611, 6248156];
 
   const api = await getApi();
   for (const height of blockHeights) {
