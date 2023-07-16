@@ -84,7 +84,6 @@ async function handleChangedAccounts(blockIndexer) {
           locked: vesting.locked,
           perBlock: vesting.perBlock,
         };
-
         const vestingCreatedTimeline = {
           indexer: vesting.extrinsicIndexer,
           vestingIndexer: vesting.extrinsicIndexer,
@@ -98,7 +97,7 @@ async function handleChangedAccounts(blockIndexer) {
         newVestingsUpdate.push(newVesting);
         vestingTimelines.push(vestingCreatedTimeline);
         vesting.indexer = newVesting.indexer;
-      } else if (vesting.indexer.currentIndex != i) {
+      } else if (vesting.indexer.currentIndex !== i) {
         const vestingUpdated = {
           indexer: {
             ...vesting.indexer,
