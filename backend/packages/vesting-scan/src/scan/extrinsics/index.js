@@ -10,7 +10,13 @@ const {
   handleMergeSchedules,
 } = require("./calls");
 
+let callIndex = 0;
+
 async function handleCall(call, author, extrinsicIndexer, wrappedEvents) {
+  extrinsicIndexer = {
+    callIndex: callIndex++,
+    ...extrinsicIndexer,
+  };
   await handleVestedTransfer(call, author, extrinsicIndexer);
   await handleForceVestedTransfer(call, author, extrinsicIndexer);
   await handleVest(call, author, extrinsicIndexer);
@@ -30,6 +36,7 @@ async function handleExtrinsics(extrinsics = [], allEvents = [], blockIndexer) {
       ...blockIndexer,
       extrinsicIndex: index++,
     };
+    callIndex = 0;
     await handleCallsInExtrinsic(
       extrinsic,
       events,
