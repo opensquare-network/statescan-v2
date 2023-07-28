@@ -4,4 +4,5 @@ module.exports = {
   ...require("./registrars"),
   ...require("./registrarTimeline"),
   ...require("./requests"),
+  ...require("./scanHeight"),
 };

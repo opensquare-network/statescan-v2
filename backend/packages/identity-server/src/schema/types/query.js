@@ -10,6 +10,7 @@ const queries = /* GraphQL */ `
       offset: Int!
       limit: Int!
     ): PagedRequests!
+    scanHeight: Int
   }
 `;
 
