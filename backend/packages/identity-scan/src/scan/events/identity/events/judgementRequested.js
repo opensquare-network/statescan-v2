@@ -10,6 +10,8 @@ const {
 const {
   utils: { toDecimal128 },
 } = require("@statescan/common");
+const { incRegistrarStats } = require("../../../mongo/registrar");
+const { RegistrarStatKeys } = require("../../../common/consts");
 
 async function handleJudgementRequested(event, indexer, extrinsic) {
   const {
@@ -60,6 +62,13 @@ async function handleJudgementRequested(event, indexer, extrinsic) {
     name: event.method,
     args,
   });
+
+  await incRegistrarStats(
+    registrarIndex,
+    RegistrarStatKeys.request,
+    1,
+    indexer,
+  );
 }
 
 module.exports = {
