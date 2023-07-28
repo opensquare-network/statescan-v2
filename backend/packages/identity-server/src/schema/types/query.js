@@ -1,7 +1,7 @@
 const queries = /* GraphQL */ `
   type Query {
     identity(account: String!): Identity
-    timeline(account: String!): [TimelineItem]!
+    identityTimeline(account: String!): [TimelineItem]!
     registrars: [Registrar]!
     registrarTimeline(account: String!): [TimelineItem]!
     requests(

@@ -1,6 +1,6 @@
 module.exports = {
   ...require("./identity"),
-  ...require("./timeline"),
+  ...require("./identityTimeline"),
   ...require("./registrars"),
   ...require("./registrarTimeline"),
   ...require("./requests"),
