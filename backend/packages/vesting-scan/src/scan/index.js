@@ -1,7 +1,7 @@
 const { handleBlock } = require("./block");
 const { deleteFrom } = require("./delete");
 const {
-  identity: { getIdentityDb },
+  vesting: { getVestingDb },
 } = require("@statescan/mongo");
 const {
   chain: { wrapBlockHandler },
@@ -10,7 +10,7 @@ const {
 } = require("@osn/scan-common");
 
 async function scan() {
-  const db = await getIdentityDb();
+  const db = await getVestingDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
 

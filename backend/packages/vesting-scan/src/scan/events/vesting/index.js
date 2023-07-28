@@ -1,15 +1,14 @@
+const { handleVestingUpdated } = require("./vestingUpdated");
+const { handleVestingCompleted } = require("./vestingCompleted");
+
 async function handleVestingEvents(
   event,
   indexer,
   extrinsic,
   blockEvents = [],
 ) {
-  const { section, method } = event;
-  if ("vesting" === section) {
-    return;
-  }
-
-  // todo: handle various vesting events, extract business data and save it to DB
+  await handleVestingUpdated(event, indexer);
+  await handleVestingCompleted(event, indexer);
 }
 
 module.exports = {

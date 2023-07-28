@@ -4,18 +4,24 @@ const {
 } = require("@osn/scan-common");
 
 let db = null;
-let scheduleCol = null;
-let vestingCol = null; // store every account vesting
+let vestingCol = null;
+let vestingTimelineCol = null;
+let accountCol = null;
+let accountTimelineCol = null;
 
 async function initVestingScanDb() {
   db = new ScanDb(
-    getEnvOrThrow("MONGO_IDENTITY_SCAN_URL"),
-    getEnvOrThrow("MONGO_IDENTITY_SCAN_NAME"),
+    getEnvOrThrow("MONGO_VESTING_SCAN_URL"),
+    getEnvOrThrow("MONGO_VESTING_SCAN_NAME"),
   );
   await db.init();
 
-  scheduleCol = await db.createCol("schedule");
   vestingCol = await db.createCol("vesting");
+  vestingTimelineCol = await db.createCol("vestingTimeline");
+
+  accountCol = await db.createCol("account");
+  accountTimelineCol = await db.createCol("accountTimeline");
+
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
@@ -25,7 +31,24 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  // todo: create indexes
+  await vestingCol.createIndex({
+    target: 1,
+    "indexer.initialBlockHeigh": 1,
+    "indexer.initialIndex": 1,
+    "indexer.currentIndex": 1,
+  });
+  await vestingTimelineCol.createIndex({
+    "event.target": 1,
+    "indexer.initialBlockHeigh": 1,
+    "indexer.initialIndex": 1,
+  });
+  await accountCol.createIndex({
+    account: 1,
+  });
+  await accountTimelineCol.createIndex({
+    account: 1,
+    "indexer.blockHeight": 1,
+  });
 }
 
 async function makeSureInit(col) {
@@ -34,14 +57,24 @@ async function makeSureInit(col) {
   }
 }
 
-async function getScheduleCol() {
-  await makeSureInit(scheduleCol);
-  return scheduleCol;
-}
-
 async function getVestingCol() {
   await makeSureInit(vestingCol);
   return vestingCol;
+}
+
+async function getVestingTimelineCol() {
+  await makeSureInit(vestingTimelineCol);
+  return vestingTimelineCol;
+}
+
+async function getAccountCol() {
+  await makeSureInit(accountCol);
+  return accountCol;
+}
+
+async function getAccountTimelineCol() {
+  await makeSureInit(accountTimelineCol);
+  return accountTimelineCol;
 }
 
 async function getVestingDb() {
@@ -54,7 +87,9 @@ async function getVestingDb() {
 
 module.exports = {
   initVestingScanDb,
-  getScheduleCol,
-  getVestingCol,
   getVestingDb,
+  getVestingCol,
+  getVestingTimelineCol,
+  getAccountCol,
+  getAccountTimelineCol,
 };
