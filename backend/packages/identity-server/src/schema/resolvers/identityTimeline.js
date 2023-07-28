@@ -5,7 +5,7 @@ const {
   utils: { isValidAddress },
 } = require("@statescan/common");
 
-async function timeline(_, _args) {
+async function identityTimeline(_, _args) {
   const { account } = _args;
   if (!isValidAddress(account)) {
     return [];
@@ -19,5 +19,5 @@ async function timeline(_, _args) {
 }
 
 module.exports = {
-  timeline,
+  identityTimeline,
 };

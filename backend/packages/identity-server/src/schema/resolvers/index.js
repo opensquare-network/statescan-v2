@@ -1,8 +1,8 @@
 module.exports = {
-  ...require("./hello"),
   ...require("./identity"),
-  ...require("./timeline"),
+  ...require("./identityTimeline"),
   ...require("./registrars"),
   ...require("./registrarTimeline"),
   ...require("./requests"),
+  ...require("./scanHeight"),
 };
