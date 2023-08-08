@@ -51,14 +51,17 @@ export default function RegistrarsPage() {
         <Index>#{item.index + 1}</Index>
         <AddressOrIdentity address={item.account} />
       </Flex>,
-      "",
-      "",
-      "",
+      item.statistics.request,
+      item.statistics.given,
+      "", // TODO: registrars pending request
       <ValueDisplay
         value={toPrecision(item.fee, chainSetting.decimals)}
         symbol={chainSetting.symbol}
       />,
-      "",
+      <ValueDisplay
+        value={toPrecision(item.statistics.totalFee, chainSetting.decimals)}
+        symbol={chainSetting.symbol}
+      />,
     ];
   });
 
