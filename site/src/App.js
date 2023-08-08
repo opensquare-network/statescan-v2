@@ -21,9 +21,12 @@ import DestroyedAssets from "./pages/destroyed/assets";
 import NftClass from "./pages/nftClass";
 import NftInstance from "./pages/nftInstance";
 import DestroyedNfts from "./pages/destroyed/nfts";
+import IdentitiesPage from "./pages/identities";
+import RegistrarsPage from "./pages/registrars";
+import RequestsPage from "./pages/requests";
 
 function App() {
-  const { assets, uniques } = getChainModules();
+  const { assets, uniques, identity } = getChainModules();
 
   return (
     <HashRouter>
@@ -59,6 +62,13 @@ function App() {
         <Route path="/accounts/:id" element={<Account />} />
         <Route path="/calls" element={<Calls />} />
         <Route path="/calls/:id" element={<Call />} />
+        {identity && (
+          <>
+            <Route path="/identities" element={<IdentitiesPage />} />
+            <Route path="/requests" element={<RequestsPage />} />
+            <Route path="/registrars" element={<RegistrarsPage />} />
+          </>
+        )}
       </Routes>
     </HashRouter>
   );

@@ -77,6 +77,24 @@ export const menusAssets = [
   },
 ];
 
+export const menusIdentity = [
+  {
+    name: "Identities",
+    value: "identities",
+  },
+  {
+    type: "divider",
+  },
+  {
+    name: "Requests",
+    value: "requests",
+  },
+  {
+    name: "Registrars",
+    value: "registrars",
+  },
+];
+
 export const blocksHead = [
   { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
