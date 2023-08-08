@@ -266,6 +266,15 @@ export const destroyedNftsHead = [
   { name: "Instance", width: 120, align: "right" },
 ];
 
+export const registrarsHead = [
+  { name: "Registrar", width: 512 },
+  { name: "Received Req.", width: 160, align: "right" },
+  { name: "Total Given.", width: 160, align: "right" },
+  { name: "Pending Req.", width: 160, align: "right" },
+  { name: "Fee", width: 160, align: "right" },
+  { name: "Total earn", width: 160, align: "right" },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
