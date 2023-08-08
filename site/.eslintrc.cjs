@@ -10,5 +10,5 @@ module.exports = {
         "no-console": "off",
       },
     },
-  ],
+  ].filter(Boolean),
 };
