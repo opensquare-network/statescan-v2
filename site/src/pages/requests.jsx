@@ -10,7 +10,7 @@ import Pagination from "../components/pagination";
 import { Flex } from "../components/styled/flex";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
-import { useLocationSearch } from "../hooks/useLocationSearch";
+import { useQueryParams } from "../hooks/useLocationSearch";
 import { Inter_14_500, Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, requestsHead } from "../utils/constants";
 import { useRequestsFilter } from "../utils/hooks/requestsFilter";
@@ -79,7 +79,7 @@ export default function RequestsPage() {
   const location = useLocation();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { account, registrarIndex } = useLocationSearch();
+  const { account, registrarIndex } = useQueryParams();
   const filter = useRequestsFilter();
 
   const { data, loading } = useQuery(GET_REQUESTS, {

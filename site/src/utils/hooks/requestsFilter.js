@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useLocationSearch } from "../../hooks/useLocationSearch";
+import { useQueryParams } from "../../hooks/useQueryParams";
 import SearchIcon from "../../components/icons/searchIcon";
 
 const GET_REGISTRARS_INDEX = gql`
@@ -14,7 +14,7 @@ const GET_REGISTRARS_INDEX = gql`
 
 export function useRequestsFilter() {
   const [filter, setFilter] = useState([]);
-  const { account = "", registrarIndex = "" } = useLocationSearch();
+  const { account = "", registrarIndex = "" } = useQueryParams();
 
   const { data: registrarsIndexData } = useQuery(GET_REGISTRARS_INDEX);
 
