@@ -120,6 +120,10 @@ export default function Filter({ title, data }) {
     let descendant = item?.descendant ?? null;
     setDropdownData(
       (selectData || []).map((item) => {
+        if (item?.type === "divider") {
+          return item;
+        }
+
         if (item?.name === descendant?.name) {
           const newItem = { ...descendant };
           descendant = descendant?.options?.[0]?.descendant ?? null;
