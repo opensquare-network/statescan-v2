@@ -13,7 +13,11 @@ import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
 import { useQueryParams } from "../hooks/useQueryParams";
 import { Inter_14_500, Overpass_Mono_14_500 } from "../styles/text";
-import { LIST_DEFAULT_PAGE_SIZE, requestsHead } from "../utils/constants";
+import {
+  LIST_DEFAULT_PAGE_SIZE,
+  requestsHead,
+  REQUEST_STATUS,
+} from "../utils/constants";
 import { useRequestsFilter } from "../utils/hooks/requestsFilter";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import { time } from "../utils/viewFuncs/time";
@@ -29,10 +33,10 @@ const Time = styled.div`
 `;
 
 const STATUS_COLORS = {
-  pending: "var(--fillPending)",
-  removed: "var(--fontSecondary)",
-  cancelled: "var(--fillNegative)",
-  given: "var(--fillPositive)",
+  [REQUEST_STATUS.PENDING]: "var(--fillPending)",
+  [REQUEST_STATUS.REMOVED]: "var(--fontSecondary)",
+  [REQUEST_STATUS.CANCELLED]: "var(--fillNegative)",
+  [REQUEST_STATUS.GIVEN]: "var(--fillPositive)",
 };
 const Status = styled.div`
   ${Inter_14_500};

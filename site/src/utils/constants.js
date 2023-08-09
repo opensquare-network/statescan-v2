@@ -393,3 +393,10 @@ export const DEFAULT_LITMUS_NODES = [
 
 export const TREASURY_ACCOUNT =
   "F3opxRbN5ZbjJNU511Kj2TLuzFcDq9BGduA9TgiECafpg29";
+
+export const REQUEST_STATUS = {
+  PENDING: "pending",
+  CANCELLED: "cancelled",
+  GIVEN: "given",
+  REMOVED: "removed",
+};
