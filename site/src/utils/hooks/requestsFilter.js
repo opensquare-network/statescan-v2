@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useLocationSearch } from "../../hooks/useLocationSearch";
 import { getFromQuery } from "../filterCommon";
 
 const GET_REGISTRARS_INDEX = gql`
@@ -15,12 +16,23 @@ const GET_REGISTRARS_INDEX = gql`
 export function useRequestsFilter() {
   const location = useLocation();
   const [filter, setFilter] = useState([]);
+  const { account, registrarIndex = "" } = useLocationSearch();
 
   const { data: registrarsIndexData } = useQuery(GET_REGISTRARS_INDEX);
 
   useEffect(() => {
+    const searchFilter = {
+      value: account,
+      type: "input",
+      name: "Search",
+      query: "account",
+      inputProps: {
+        placeholder: "Address/Identity...",
+      },
+    };
+
     const registrarsFilter = {
-      value: getFromQuery(location, "registrarIndex"),
+      value: registrarIndex,
       name: "Registrar Index",
       query: "registrarIndex",
       options: [
@@ -30,15 +42,16 @@ export function useRequestsFilter() {
           value: index?.toString(),
         })),
       ],
-      defaultDisplay: "#" + getFromQuery(location, "registrarIndex"),
+      defaultDisplay: "#" + registrarIndex,
     };
 
     setFilter([
+      searchFilter,
       //
-      { name: "divider" },
+      { type: "divider" },
       registrarsFilter,
     ]);
-  }, [location, registrarsIndexData]);
+  }, [account, location, registrarIndex, registrarsIndexData]);
 
   return filter;
 }
