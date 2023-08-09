@@ -19,6 +19,11 @@ const Index = styled.div`
   color: ${(p) => p.theme.fontSecondary};
 `;
 
+const Time = styled.div`
+  ${Inter_14_500};
+  color: var(--fontTertiary);
+`;
+
 const STATUS_COLOR_MAP = {
   pending: "var(--fillPending)",
   removed: "var(--fontSecondary)",
@@ -77,8 +82,8 @@ export default function RequestsPage() {
         <AddressOrIdentity address={item.registrar} />
       </Flex>,
       // FIXME: requests, time
-      time(Number(item.indexer.blockTime)),
-      time(Number(item.status.indexer.blockTime)),
+      <Time>{time(Number(item.indexer.blockTime))}</Time>,
+      <Time>{time(Number(item.status.indexer.blockTime))}</Time>,
       <Status color={STATUS_COLOR_MAP[item.status.name]}>
         {item.status.name}
       </Status>,
