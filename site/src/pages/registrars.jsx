@@ -48,7 +48,7 @@ export default function RegistrarsPage() {
   const tableData = data?.registrars.map((item) => {
     return [
       <Flex gap={24}>
-        <Index>#{item.index + 1}</Index>
+        <Index>#{item.index}</Index>
         <AddressOrIdentity address={item.account} />
       </Flex>,
       item.statistics.request,
