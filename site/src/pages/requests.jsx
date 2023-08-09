@@ -4,13 +4,16 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import AddressOrIdentity from "../components/address";
 import BreadCrumb from "../components/breadCrumb";
+import Filter from "../components/filter";
 import Layout from "../components/layout";
 import Pagination from "../components/pagination";
 import { Flex } from "../components/styled/flex";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
+import { useLocationSearch } from "../hooks/useLocationSearch";
 import { Inter_14_500, Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, requestsHead } from "../utils/constants";
+import { useRequestsFilter } from "../utils/hooks/requestsFilter";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import { time } from "../utils/viewFuncs/time";
 
@@ -37,8 +40,8 @@ const Status = styled.div`
 `;
 
 const GET_REQUESTS = gql`
-  query GetRequests($limit: Int!, $offset: Int!) {
-    requests(limit: $limit, offset: $offset) {
+  query GetRequests($limit: Int!, $offset: Int!, $registrarIndex: Int) {
+    requests(limit: $limit, offset: $offset, registrarIndex: $registrarIndex) {
       limit
       offset
       total
@@ -66,11 +69,14 @@ export default function RequestsPage() {
   const location = useLocation();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const { registrarIndex } = useLocationSearch();
+  const filter = useRequestsFilter();
 
   const { data, loading } = useQuery(GET_REQUESTS, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
+      registrarIndex: parseInt(registrarIndex),
     },
   });
 
@@ -93,6 +99,8 @@ export default function RequestsPage() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Requests" }]} />
+
+      <Filter data={filter} />
 
       <StyledPanelTableWrapper
         footer={
