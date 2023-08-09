@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { parseInt } from "lodash";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import AddressOrIdentity from "../components/address";
@@ -82,13 +83,17 @@ export default function RequestsPage() {
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const { account, registrarIndex } = useQueryParams();
   const filter = useRequestsFilter();
+  const [data, setData] = useState(null);
 
-  const { data, loading } = useQuery(GET_REQUESTS, {
+  const { loading } = useQuery(GET_REQUESTS, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
       account,
+    },
+    onCompleted(data) {
+      setData(data);
     },
   });
 
