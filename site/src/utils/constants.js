@@ -266,6 +266,14 @@ export const destroyedNftsHead = [
   { name: "Instance", width: 120, align: "right" },
 ];
 
+export const requestsHead = [
+  { name: "Requester", width: 240 },
+  { name: "Registrar" },
+  { name: "Start at", width: 200 },
+  { name: "End at", width: 200 },
+  { name: "Status", width: 200 },
+];
+
 export const registrarsHead = [
   { name: "Registrar", width: 512 },
   { name: "Received Req.", width: 160, align: "right" },
