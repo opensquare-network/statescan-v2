@@ -10,7 +10,7 @@ import Pagination from "../components/pagination";
 import { Flex } from "../components/styled/flex";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
-import { useQueryParams } from "../hooks/useLocationSearch";
+import { useQueryParams } from "../hooks/useQueryParams";
 import { Inter_14_500, Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, requestsHead } from "../utils/constants";
 import { useRequestsFilter } from "../utils/hooks/requestsFilter";
