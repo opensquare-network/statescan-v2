@@ -1,27 +1,45 @@
 import { gql, useQuery } from "@apollo/client";
 import { parseInt } from "lodash";
 import { useLocation } from "react-router-dom";
+import styled from "styled-components";
 import AddressOrIdentity from "../components/address";
 import BreadCrumb from "../components/breadCrumb";
 import Layout from "../components/layout";
 import Pagination from "../components/pagination";
+import { Flex } from "../components/styled/flex";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
+import { Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, requestsHead } from "../utils/constants";
 import { getPageFromQuery } from "../utils/viewFuncs";
+import { time } from "../utils/viewFuncs/time";
+
+const Index = styled.div`
+  ${Overpass_Mono_14_500};
+  color: ${(p) => p.theme.fontSecondary};
+`;
 
 const GET_REQUESTS = gql`
   query GetRequests($limit: Int!, $offset: Int!) {
     requests(limit: $limit, offset: $offset) {
-      total
       limit
       offset
+      total
       requests {
-        registrar
         status {
           name
+          indexer {
+            blockTime
+            blockHeight
+          }
         }
+        registrar
+        registrarIndex
         account
+        indexer {
+          blockTime
+          blockHeight
+        }
       }
     }
   }
@@ -42,7 +60,14 @@ export default function RequestsPage() {
   const tableData = data?.requests.requests.map((item) => {
     return [
       <AddressOrIdentity address={item.account} />,
-      <AddressOrIdentity address={item.registrar} />,
+      <Flex gap={24}>
+        <Index>#{item.registrarIndex}</Index>
+        <AddressOrIdentity address={item.registrar} />
+      </Flex>,
+      // FIXME: requests, time
+      time(Number(item.indexer.blockTime)),
+      time(Number(item.status.indexer.blockTime)),
+      item.status.name,
     ];
   });
 
