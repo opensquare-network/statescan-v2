@@ -39,6 +39,7 @@ const Status = styled.div`
   text-transform: capitalize;
 `;
 
+// FIXME: requests, status
 const GET_REQUESTS = gql`
   query GetRequests(
     $limit: Int!

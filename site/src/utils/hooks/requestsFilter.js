@@ -14,7 +14,7 @@ const GET_REGISTRARS_INDEX = gql`
 
 export function useRequestsFilter() {
   const [filter, setFilter] = useState([]);
-  const { account = "", registrarIndex = "" } = useQueryParams();
+  const { account = "", registrarIndex = "", status = "" } = useQueryParams();
 
   const { data: registrarsIndexData } = useQuery(GET_REGISTRARS_INDEX);
 
@@ -44,13 +44,23 @@ export function useRequestsFilter() {
       defaultDisplay: "#" + registrarIndex,
     };
 
+    const statusFilter = {
+      value: status,
+      name: "Status",
+      query: "status",
+      options: [
+        { text: "All status", value: "" },
+        // FIXME: requests, status
+      ],
+    };
+
     setFilter([
       searchFilter,
-      //
       { type: "divider" },
       registrarsFilter,
+      statusFilter,
     ]);
-  }, [account, registrarIndex, registrarsIndexData]);
+  }, [account, registrarIndex, registrarsIndexData, status]);
 
   return filter;
 }
