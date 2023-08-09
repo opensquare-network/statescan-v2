@@ -168,7 +168,7 @@ export default function Filter({ title, data }) {
       {(showFilterPanel || width > 900) && selectData?.length > 0 && (
         <FilterWrapper>
           {(selectData || []).map((item, index) =>
-            item.name === "divider" ? (
+            item.type === "divider" ? (
               <FilterDivider key={index} />
             ) : (
               <DropdownWrapper key={index}>
