@@ -19,7 +19,7 @@ const Index = styled.div`
   color: ${(p) => p.theme.fontSecondary};
 `;
 
-const StatusColorMap = {
+const STATUS_COLOR_MAP = {
   pending: "var(--fillPending)",
   removed: "var(--fontSecondary)",
   cancelled: "var(--fillNegative)",
@@ -79,7 +79,7 @@ export default function RequestsPage() {
       // FIXME: requests, time
       time(Number(item.indexer.blockTime)),
       time(Number(item.status.indexer.blockTime)),
-      <Status color={StatusColorMap[item.status.name]}>
+      <Status color={STATUS_COLOR_MAP[item.status.name]}>
         {item.status.name}
       </Status>,
     ];
