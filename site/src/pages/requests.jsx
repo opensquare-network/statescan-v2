@@ -9,7 +9,7 @@ import Pagination from "../components/pagination";
 import { Flex } from "../components/styled/flex";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
-import { Overpass_Mono_14_500 } from "../styles/text";
+import { Inter_14_500, Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, requestsHead } from "../utils/constants";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import { time } from "../utils/viewFuncs/time";
@@ -17,6 +17,18 @@ import { time } from "../utils/viewFuncs/time";
 const Index = styled.div`
   ${Overpass_Mono_14_500};
   color: ${(p) => p.theme.fontSecondary};
+`;
+
+const StatusColorMap = {
+  pending: "var(--fillPending)",
+  removed: "var(--fontSecondary)",
+  cancelled: "var(--fillNegative)",
+  given: "var(--fillPositive)",
+};
+const Status = styled.div`
+  ${Inter_14_500};
+  color: ${(p) => p.color};
+  text-transform: capitalize;
 `;
 
 const GET_REQUESTS = gql`
@@ -67,7 +79,9 @@ export default function RequestsPage() {
       // FIXME: requests, time
       time(Number(item.indexer.blockTime)),
       time(Number(item.status.indexer.blockTime)),
-      item.status.name,
+      <Status color={StatusColorMap[item.status.name]}>
+        {item.status.name}
+      </Status>,
     ];
   });
 
