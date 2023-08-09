@@ -152,7 +152,7 @@ export function useCallsFilter() {
 
   return [
     ...filters,
-    { name: "divider" },
+    { type: "divider" },
     { ...signedOnlyFilter, value: signedOnly },
   ];
 }

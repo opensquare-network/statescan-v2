@@ -273,6 +273,14 @@ export const identitiesHead = [
   { name: "Update at", width: 200 },
 ];
 
+export const requestsHead = [
+  { name: "Requester", width: 240 },
+  { name: "Registrar" },
+  { name: "Start at", width: 200 },
+  { name: "End at", width: 200 },
+  { name: "Status", width: 200 },
+];
+
 export const registrarsHead = [
   { name: "Registrar", width: 512 },
   { name: "Received Req.", width: 160, align: "right" },

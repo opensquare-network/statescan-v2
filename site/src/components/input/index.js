@@ -8,6 +8,7 @@ const InputOrigin = styled.input`
   border: none;
   outline: none;
   width: 100%;
+  padding: 0;
 
   &::placeholder {
     color: ${(props) => props.theme.fontTertiary};
@@ -44,6 +45,21 @@ const InputWrapper = styled.span`
   ${mobilecss(css`
     padding: 6px 12px;
   `)}
+
+  ${(p) =>
+    p.mini &&
+    css`
+      padding: 3px 11px;
+      border-radius: 6px;
+
+      & input {
+        height: 20px;
+      }
+
+      ${mobilecss(css`
+        padding: 3px 11px;
+      `)}
+    `}
 `;
 
 const PrefixWrapper = styled.span`
@@ -59,10 +75,10 @@ const SuffixWrapper = styled.span`
  * @param {import("./types").InputProps} props
  */
 export default function Input(props) {
-  const { prefix, suffix, className, small } = props ?? {};
+  const { prefix, suffix, className, small, mini } = props ?? {};
 
   return (
-    <InputWrapper className={className} small={small}>
+    <InputWrapper className={className} small={small} mini={mini}>
       {prefix && <PrefixWrapper>{prefix}</PrefixWrapper>}
       <InputOrigin {...props} />
       {suffix && <SuffixWrapper>{suffix}</SuffixWrapper>}

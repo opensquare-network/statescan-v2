@@ -17,6 +17,7 @@ import {
   w_full,
 } from "../../styles/tailwindcss";
 import { Button } from "../styled/buttons";
+import Input from "../input";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -51,6 +52,20 @@ const Title = styled.h2`
 const HeadWrapper = styled(FlexBetween)`
   flex-grow: 1;
   flex-basis: 100%;
+`;
+
+const InputWrapper = styled(Flex)`
+  color: var(--fontPrimary);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: right;
+  row-gap: 8px;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const DropdownWrapper = styled(Flex)`
@@ -120,6 +135,10 @@ export default function Filter({ title, data }) {
     let descendant = item?.descendant ?? null;
     setDropdownData(
       (selectData || []).map((item) => {
+        if (item?.type === "divider") {
+          return item;
+        }
+
         if (item?.name === descendant?.name) {
           const newItem = { ...descendant };
           descendant = descendant?.options?.[0]?.descendant ?? null;
@@ -168,8 +187,20 @@ export default function Filter({ title, data }) {
       {(showFilterPanel || width > 900) && selectData?.length > 0 && (
         <FilterWrapper>
           {(selectData || []).map((item, index) =>
-            item.name === "divider" ? (
+            item.type === "divider" ? (
               <FilterDivider key={index} />
+            ) : item.type === "input" ? (
+              <InputWrapper key={index}>
+                <div>{item.name}</div>
+                <Input
+                  mini
+                  value={item.value}
+                  {...(item.inputProps || {})}
+                  onChange={(event) => {
+                    onDropdown(item.name, event.target.value);
+                  }}
+                />
+              </InputWrapper>
             ) : (
               <DropdownWrapper key={index}>
                 <span>{item.name}</span>
