@@ -40,8 +40,18 @@ const Status = styled.div`
 `;
 
 const GET_REQUESTS = gql`
-  query GetRequests($limit: Int!, $offset: Int!, $registrarIndex: Int) {
-    requests(limit: $limit, offset: $offset, registrarIndex: $registrarIndex) {
+  query GetRequests(
+    $limit: Int!
+    $offset: Int!
+    $registrarIndex: Int
+    $account: String
+  ) {
+    requests(
+      limit: $limit
+      offset: $offset
+      registrarIndex: $registrarIndex
+      account: $account
+    ) {
       limit
       offset
       total
@@ -69,7 +79,7 @@ export default function RequestsPage() {
   const location = useLocation();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { registrarIndex } = useLocationSearch();
+  const { account, registrarIndex } = useLocationSearch();
   const filter = useRequestsFilter();
 
   const { data, loading } = useQuery(GET_REQUESTS, {
@@ -77,6 +87,7 @@ export default function RequestsPage() {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
+      account,
     },
   });
 

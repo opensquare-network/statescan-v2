@@ -1,9 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useLocationSearch } from "../../hooks/useLocationSearch";
-import { getFromQuery } from "../filterCommon";
+import SearchIcon from "../../components/icons/searchIcon";
 
 const GET_REGISTRARS_INDEX = gql`
   query GetRegistrarsIndex {
@@ -14,9 +13,8 @@ const GET_REGISTRARS_INDEX = gql`
 `;
 
 export function useRequestsFilter() {
-  const location = useLocation();
   const [filter, setFilter] = useState([]);
-  const { account, registrarIndex = "" } = useLocationSearch();
+  const { account = "", registrarIndex = "" } = useLocationSearch();
 
   const { data: registrarsIndexData } = useQuery(GET_REGISTRARS_INDEX);
 
@@ -28,6 +26,7 @@ export function useRequestsFilter() {
       query: "account",
       inputProps: {
         placeholder: "Address/Identity...",
+        prefix: <SearchIcon style={{ width: 16, height: 16 }} />,
       },
     };
 
@@ -51,7 +50,7 @@ export function useRequestsFilter() {
       { type: "divider" },
       registrarsFilter,
     ]);
-  }, [account, location, registrarIndex, registrarsIndexData]);
+  }, [account, registrarIndex, registrarsIndexData]);
 
   return filter;
 }
