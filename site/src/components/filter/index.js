@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Dropdown from "../dropdown";
 import { Panel } from "../styled/panel";
-import { Inter_12_600, Inter_14_600 } from "../../styles/text";
+import { Inter_12_600, Inter_14_500, Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
@@ -18,6 +18,9 @@ import {
 } from "../../styles/tailwindcss";
 import { Button } from "../styled/buttons";
 import Input from "../input";
+import Checkbox from "../checkbox";
+import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
+import { useUpdateEffect } from "usehooks-ts";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -83,6 +86,12 @@ const DropdownWrapper = styled(Flex)`
   }
 `;
 
+const CheckboxWrapper = styled(Flex)`
+  color: var(--fontPrimary);
+  padding: 4px 0;
+  ${Inter_14_500};
+`;
+
 const FilterButton = styled(Button)`
   ${p_y(4)};
   ${p_x(12)};
@@ -120,7 +129,12 @@ const FilterWrapper = styled(Flex)`
   }
 `;
 
-export default function Filter({ title, data }) {
+export default function Filter({
+  title,
+  data,
+  showFilterButton = true,
+  filterOnDataChange,
+}) {
   const navigate = useNavigate();
   const [selectData, setDropdownData] = useState(data);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
@@ -159,14 +173,21 @@ export default function Filter({ title, data }) {
     return filter;
   };
 
+  function handleFilter() {
+    const search = serialize(getCurrentFilter());
+    navigate({ search: `?${search}${search ? "&" : ""}page=1` });
+  }
+
+  const debouncedSelectData = useFilterDebounce(selectData);
+
+  useUpdateEffect(() => {
+    if (filterOnDataChange) {
+      handleFilter();
+    }
+  }, [debouncedSelectData, filterOnDataChange]);
+
   const filter_button = (
-    <FilterButton
-      dark={isDark}
-      onClick={() => {
-        const search = serialize(getCurrentFilter());
-        navigate({ search: `?${search}${search ? "&" : ""}page=1` });
-      }}
-    >
+    <FilterButton dark={isDark} onClick={handleFilter}>
       Filter
     </FilterButton>
   );
@@ -201,6 +222,16 @@ export default function Filter({ title, data }) {
                   }}
                 />
               </InputWrapper>
+            ) : item.type === "checkbox" ? (
+              <CheckboxWrapper key={index}>
+                <Checkbox
+                  defaultChecked={item.value}
+                  label={item.name}
+                  onCheckedChange={(checked) => {
+                    onDropdown(item.name, checked);
+                  }}
+                />
+              </CheckboxWrapper>
             ) : (
               <DropdownWrapper key={index}>
                 <span>{item.name}</span>
@@ -217,7 +248,7 @@ export default function Filter({ title, data }) {
               </DropdownWrapper>
             ),
           )}
-          {filter_button}
+          {showFilterButton && filter_button}
         </FilterWrapper>
       )}
     </Wrapper>
