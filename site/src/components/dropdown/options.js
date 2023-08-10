@@ -23,7 +23,7 @@ const OptionWrapper = styled.div`
 
 const OptionItemsWrapper = styled.div`
   max-height: 240px;
-  overflow-y: scroll;
+  overflow-y: auto;
   ${pretty_scroll_bar};
 `;
 
