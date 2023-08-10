@@ -129,7 +129,12 @@ const FilterWrapper = styled(Flex)`
   }
 `;
 
-export default function Filter({ title, data, filterOnDataChange }) {
+export default function Filter({
+  title,
+  data,
+  showFilterButton = true,
+  filterOnDataChange,
+}) {
   const navigate = useNavigate();
   const [selectData, setDropdownData] = useState(data);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
@@ -243,7 +248,7 @@ export default function Filter({ title, data, filterOnDataChange }) {
               </DropdownWrapper>
             ),
           )}
-          {filter_button}
+          {showFilterButton && filter_button}
         </FilterWrapper>
       )}
     </Wrapper>
