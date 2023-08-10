@@ -43,15 +43,113 @@ function getFields(timelineItem, chainSetting) {
       };
     }
     case "setSubs": {
+      if (timelineItem.args.subs) {
+        return {
+          Subs: (
+            <FlexColumn style={{ gap: 4 }}>
+              {timelineItem.args.subs?.map(({ account }) => (
+                <AddressOrIdentity ellipsis={false} address={account} />
+              ))}
+            </FlexColumn>
+          ),
+        };
+      }
+
+      if (timelineItem.args.parent) {
+        return {
+          Parent: (
+            <AddressOrIdentity
+              ellipsis={false}
+              address={timelineItem.args.parent}
+            />
+          ),
+        };
+      }
+
+      return {};
+    }
+    case "renameSub": {
+      if (timelineItem.args.sub) {
+        return {
+          Sub: (
+            <AddressOrIdentity
+              ellipsis={false}
+              address={timelineItem.args.sub}
+            />
+          ),
+        };
+      }
+
+      if (timelineItem.args.parent) {
+        return {
+          Parent: (
+            <AddressOrIdentity
+              ellipsis={false}
+              address={timelineItem.args.parent}
+            />
+          ),
+        };
+      }
+
+      return {};
+    }
+    case "IdentityKilled": {
       return {
-        Subs: (
-          <FlexColumn style={{ gap: 4 }}>
-            {timelineItem.args.subs?.map(({ account }) => (
-              <AddressOrIdentity ellipsis={false} address={account} />
-            ))}
-          </FlexColumn>
+        Slashed: (
+          <Text>
+            <ValueDisplay
+              value={toPrecision(
+                timelineItem.args.slashed,
+                chainSetting.decimals,
+              )}
+              symbol={chainSetting.symbol}
+            />
+          </Text>
         ),
       };
+    }
+    case "SubIdentityAdded":
+    case "SubIdentityRemoved":
+    case "SubIdentityRevoked": {
+      const args = {
+        Deposit: (
+          <Text>
+            <ValueDisplay
+              value={toPrecision(
+                timelineItem.args.deposit,
+                chainSetting.decimals,
+              )}
+              symbol={chainSetting.symbol}
+            />
+          </Text>
+        ),
+      };
+
+      if (timelineItem.args.sub) {
+        return {
+          Sub: (
+            <AddressOrIdentity
+              ellipsis={false}
+              address={timelineItem.args.sub}
+            />
+          ),
+          ...args,
+        };
+      }
+
+      if (timelineItem.args.parent) {
+        return {
+          Parent: (
+            <AddressOrIdentity
+              ellipsis={false}
+              address={timelineItem.args.parent}
+            />
+          ),
+          ...args,
+        };
+      }
+
+      return args;
     }
     default: {
       return Object.fromEntries(

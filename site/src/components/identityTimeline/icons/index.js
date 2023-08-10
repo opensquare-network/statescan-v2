@@ -8,7 +8,7 @@ import { ReactComponent as SubIdentityRevoked } from "./sub-identity-revoked.svg
 import { ReactComponent as SubIdentityAdded } from "./sub-identity-added.svg";
 import { ReactComponent as SubIdentityRemoved } from "./sub-identity-removed.svg";
 import { ReactComponent as setSubs } from "./set-subs.svg";
-import { ReactComponent as RenameSubIdentity } from "./rename-sub-identity.svg";
+import { ReactComponent as renameSub } from "./rename-sub-identity.svg";
 
 const Icons = {
   IdentitySet,
@@ -21,7 +21,7 @@ const Icons = {
   SubIdentityAdded,
   SubIdentityRemoved,
   setSubs,
-  RenameSubIdentity,
+  renameSub,
 };
 
 export default Icons;
