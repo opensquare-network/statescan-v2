@@ -18,7 +18,7 @@ import {
   requestsHead,
   REQUEST_STATUS,
 } from "../utils/constants";
-import { useRequestsFilter } from "../utils/hooks/requestsFilter";
+import { useRequestsFilter } from "../utils/hooks/useRequestsFilter";
 import { getPageFromQuery } from "../utils/viewFuncs";
 import { time } from "../utils/viewFuncs/time";
 
