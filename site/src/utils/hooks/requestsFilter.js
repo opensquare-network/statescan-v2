@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import SearchIcon from "../../components/icons/searchIcon";
+import { REQUEST_STATUS } from "../constants";
+import capitalize from "lodash.capitalize";
 
 const GET_REGISTRARS_INDEX = gql`
   query GetRegistrarsIndex {
@@ -50,7 +52,15 @@ export function useRequestsFilter() {
       query: "status",
       options: [
         { text: "All status", value: "" },
-        // FIXME: requests, status
+        ...[
+          REQUEST_STATUS.PENDING,
+          REQUEST_STATUS.REMOVED,
+          REQUEST_STATUS.CANCELLED,
+          REQUEST_STATUS.GIVEN,
+        ].map((status) => ({
+          text: capitalize(status),
+          value: status,
+        })),
       ],
     };
 
