@@ -19,6 +19,8 @@ import {
 import { Button } from "../styled/buttons";
 import Input from "../input";
 import Checkbox from "../checkbox";
+import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
+import { useUpdateEffect } from "usehooks-ts";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -127,7 +129,7 @@ const FilterWrapper = styled(Flex)`
   }
 `;
 
-export default function Filter({ title, data }) {
+export default function Filter({ title, data, filterOnDataChange }) {
   const navigate = useNavigate();
   const [selectData, setDropdownData] = useState(data);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
@@ -166,14 +168,21 @@ export default function Filter({ title, data }) {
     return filter;
   };
 
+  function handleFilter() {
+    const search = serialize(getCurrentFilter());
+    navigate({ search: `?${search}${search ? "&" : ""}page=1` });
+  }
+
+  const debouncedSelectData = useFilterDebounce(selectData);
+
+  useUpdateEffect(() => {
+    if (filterOnDataChange) {
+      handleFilter();
+    }
+  }, [debouncedSelectData, filterOnDataChange]);
+
   const filter_button = (
-    <FilterButton
-      dark={isDark}
-      onClick={() => {
-        const search = serialize(getCurrentFilter());
-        navigate({ search: `?${search}${search ? "&" : ""}page=1` });
-      }}
-    >
+    <FilterButton dark={isDark} onClick={handleFilter}>
       Filter
     </FilterButton>
   );
