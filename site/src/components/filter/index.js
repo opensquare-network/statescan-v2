@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Dropdown from "../dropdown";
 import { Panel } from "../styled/panel";
-import { Inter_12_600, Inter_14_600 } from "../../styles/text";
+import { Inter_12_600, Inter_14_500, Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
@@ -18,6 +18,7 @@ import {
 } from "../../styles/tailwindcss";
 import { Button } from "../styled/buttons";
 import Input from "../input";
+import Checkbox from "../checkbox";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -81,6 +82,12 @@ const DropdownWrapper = styled(Flex)`
     flex-direction: column;
     align-items: stretch;
   }
+`;
+
+const CheckboxWrapper = styled(Flex)`
+  color: var(--fontPrimary);
+  padding: 4px 0;
+  ${Inter_14_500};
 `;
 
 const FilterButton = styled(Button)`
@@ -201,6 +208,16 @@ export default function Filter({ title, data }) {
                   }}
                 />
               </InputWrapper>
+            ) : item.type === "checkbox" ? (
+              <CheckboxWrapper key={index}>
+                <Checkbox
+                  defaultChecked={item.value}
+                  label={item.name}
+                  onCheckedChange={(checked) => {
+                    onDropdown(item.name, checked);
+                  }}
+                />
+              </CheckboxWrapper>
             ) : (
               <DropdownWrapper key={index}>
                 <span>{item.name}</span>
