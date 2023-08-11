@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { parseInt } from "lodash";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import AddressOrIdentity from "../components/address";
 import BreadCrumb from "../components/breadCrumb";
@@ -19,7 +18,6 @@ import {
   REQUEST_STATUS,
 } from "../utils/constants";
 import { useRequestsFilter } from "../utils/hooks/useRequestsFilter";
-import { getPageFromQuery } from "../utils/viewFuncs";
 import { time } from "../utils/viewFuncs/time";
 
 const Index = styled.div`
@@ -82,10 +80,14 @@ const GET_REQUESTS = gql`
 `;
 
 export default function RequestsPage() {
-  const location = useLocation();
-  const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { account, registrarIndex } = useQueryParams();
+  const {
+    page = 1,
+    account,
+    registrarIndex,
+    ascendingBy,
+    descendingBy = "startAt",
+  } = useQueryParams();
   const filter = useRequestsFilter();
   const [data, setData] = useState(null);
 
@@ -95,6 +97,8 @@ export default function RequestsPage() {
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
       account,
+      ascendingBy,
+      descendingBy,
     },
     onCompleted(data) {
       setData(data);
@@ -132,7 +136,12 @@ export default function RequestsPage() {
           />
         }
       >
-        <Table heads={requestsHead} data={tableData} loading={loading} />
+        <Table
+          heads={requestsHead}
+          data={tableData}
+          loading={loading}
+          onSortChange={() => {}}
+        />
       </StyledPanelTableWrapper>
     </Layout>
   );
