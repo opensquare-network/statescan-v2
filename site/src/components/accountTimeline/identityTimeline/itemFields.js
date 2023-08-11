@@ -1,12 +1,12 @@
 import { stringUpperFirst } from "@polkadot/util";
-import TimelineItemFields from "../timeline/itemFields";
-import { Text } from "../timeline/styled";
-import AddressOrIdentity from "../address";
-import ValueDisplay from "../displayValue";
+import TimelineItemFields from "../../timeline/itemFields";
+import { Text } from "../../timeline/styled";
+import AddressOrIdentity from "../../address";
+import ValueDisplay from "../../displayValue";
 import { useSelector } from "react-redux";
-import { chainSettingSelector } from "../../store/reducers/settingSlice";
+import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { toPrecision } from "@osn/common";
-import { FlexColumn } from "../styled/flex";
+import { FlexColumn } from "../../styled/flex";
 
 function getFields(timelineItem, chainSetting) {
   switch (timelineItem.name) {
@@ -48,7 +48,11 @@ function getFields(timelineItem, chainSetting) {
           Subs: (
             <FlexColumn style={{ gap: 4 }}>
               {timelineItem.args.subs?.map(({ account }) => (
-                <AddressOrIdentity ellipsis={false} address={account} />
+                <AddressOrIdentity
+                  key={account}
+                  ellipsis={false}
+                  address={account}
+                />
               ))}
             </FlexColumn>
           ),
