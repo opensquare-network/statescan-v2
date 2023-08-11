@@ -70,6 +70,13 @@ export default function useAccountTimeline(account) {
     [updateQueryParam],
   );
 
+  let timeline = null;
+  if (selectedTab === identityTab) {
+    timeline = identityTimeline;
+  } else if (selectedTab === registrarTab) {
+    timeline = registrarTimeline;
+  }
+
   const component = (
     <Wrapper>
       <TabBar
@@ -77,8 +84,7 @@ export default function useAccountTimeline(account) {
         selectedTab={selectedTab}
         setSelectedTab={switchToTab}
       />
-      {selectedTab === identityTab && identityTimeline}
-      {selectedTab === registrarTab && registrarTimeline}
+      {timeline}
     </Wrapper>
   );
 
