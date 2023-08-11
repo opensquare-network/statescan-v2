@@ -63,7 +63,7 @@ export default function useAccountTimeline(account) {
     }
   }
 
-  const switchToTab = useCallback(
+  const setSelectedTab = useCallback(
     (tab) => {
       updateQueryParam("sub", tab);
     },
@@ -82,7 +82,7 @@ export default function useAccountTimeline(account) {
       <TabBar
         tabs={tabs}
         selectedTab={selectedTab}
-        setSelectedTab={switchToTab}
+        setSelectedTab={setSelectedTab}
       />
       {timeline}
     </Wrapper>
