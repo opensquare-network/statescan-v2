@@ -7,7 +7,6 @@ export const CACHE_KEY = {
 export const Assets = "assets";
 export const Transfers = "transfers";
 export const Extrinsics = "extrinsics";
-export const IdentityTimeline = "identity timeline";
 export const Holders = "holders";
 export const Events = "events";
 export const Logs = "logs";

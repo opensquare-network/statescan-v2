@@ -19,7 +19,7 @@ import {
   nftTransfersHead,
   Transfers,
   transfersHead,
-  IdentityTimeline,
+  Timeline,
 } from "../utils/constants";
 import DetailTable from "../components/detail/table";
 import {
@@ -41,39 +41,7 @@ import {
 import DetailTabs from "../components/detail/tabs";
 import { NftInstancePreview } from "../components/nft/preview/index";
 import useAchainableProfile from "../hooks/useAchainableProfile";
-import { gql, useQuery } from "@apollo/client";
-import IdentityTimelineList from "../components/identityTimeline";
-
-function useIdentityTimeline(account) {
-  const [data, setData] = useState(null);
-
-  const GET_IDENTITY_TIMELINE = gql`
-    query GetIdentityTimeline($account: String!) {
-      identityTimeline(account: $account) {
-        name
-        args
-        indexer {
-          blockHeight
-          blockHash
-          blockTime
-          extrinsicIndex
-          eventIndex
-        }
-      }
-    }
-  `;
-
-  const { loading } = useQuery(GET_IDENTITY_TIMELINE, {
-    variables: {
-      account,
-    },
-    onCompleted(data) {
-      setData(data);
-    },
-  });
-
-  return { data, loading };
-}
+import useAccountTimeline from "../components/accountTimeline";
 
 function Account() {
   const { id } = useParams();
@@ -82,8 +50,6 @@ function Account() {
   const [previewNft, setPreviewNft] = useState();
   const [isPreview, setIsPreview] = useState(false);
   const achainableProfile = useAchainableProfile(id);
-
-  const { loading: identityTimelineLoading, data } = useIdentityTimeline(id);
 
   const showPreview = useCallback((nft) => {
     setPreviewNft(nft);
@@ -107,6 +73,8 @@ function Account() {
       dispatch(clearDetailTables());
     };
   }, [dispatch]);
+
+  const { hasTimeline, component: accountTimeline } = useAccountTimeline(id);
 
   const assetsApiKey = `/accounts/${id}/assets`;
   const transfersApiKey = `/accounts/${id}/transfers`;
@@ -149,15 +117,9 @@ function Account() {
       ),
     },
     chainSetting.modules?.identity &&
-      data?.identityTimeline?.length > 0 && {
-        name: IdentityTimeline,
-        count: data?.identityTimeline?.length || 0,
-        children: (
-          <IdentityTimelineList
-            timeline={data?.identityTimeline || []}
-            loading={identityTimelineLoading}
-          />
-        ),
+      hasTimeline && {
+        name: Timeline,
+        children: accountTimeline,
       },
     chainSetting.modules?.uniques && {
       name: Nft,

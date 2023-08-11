@@ -9,8 +9,12 @@ import { ReactComponent as SubIdentityAdded } from "./sub-identity-added.svg";
 import { ReactComponent as SubIdentityRemoved } from "./sub-identity-removed.svg";
 import { ReactComponent as setSubs } from "./set-subs.svg";
 import { ReactComponent as renameSub } from "./rename-sub-identity.svg";
+import { ReactComponent as setFee } from "./set-fee.svg";
+import { ReactComponent as setFields } from "./set-fields.svg";
+import { ReactComponent as setAccountId } from "./set-account-id.svg";
+import { ReactComponent as RegistrarAdded } from "./registrar-added.svg";
 
-const Icons = {
+export const IdentityTimelineIcons = {
   IdentitySet,
   IdentityKilled,
   JudgementRequested,
@@ -24,4 +28,9 @@ const Icons = {
   renameSub,
 };
 
-export default Icons;
+export const RegistrarTimelineIcons = {
+  setFee,
+  setFields,
+  setAccountId,
+  RegistrarAdded,
+};
