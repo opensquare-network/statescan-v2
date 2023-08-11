@@ -39,11 +39,7 @@ export default function SortableHead({
   children,
   head,
 }) {
-  const {
-    align,
-    sortQueryValue,
-    sortDefaultDirection = "descending",
-  } = head ?? {};
+  const { align, sortQueryValue, sortDefaultDirection } = head ?? {};
 
   const navigate = useNavigate();
   const params = useQueryParams();
@@ -51,7 +47,11 @@ export default function SortableHead({
   const [active, setActive] = useState();
   useEffectOnce(() => {
     const urlKey = params.ascendingBy || params.descendingBy;
-    setActive(urlKey === sortQueryValue);
+    if (urlKey) {
+      setActive(urlKey === sortQueryValue);
+    } else if (sortDefaultDirection) {
+      setActive(!!sortDefaultDirection);
+    }
   });
   useUpdateEffect(() => {
     setActive(activeSortQueryValue === sortQueryValue);
@@ -61,8 +61,10 @@ export default function SortableHead({
   useEffectOnce(() => {
     if (params.ascendingBy === sortQueryValue) {
       setDescending(false);
-    } else {
+    } else if (sortDefaultDirection) {
       setDescending(sortDefaultDirection === "descending");
+    } else {
+      setDescending(true);
     }
   });
 
