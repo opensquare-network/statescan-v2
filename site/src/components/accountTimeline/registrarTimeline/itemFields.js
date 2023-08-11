@@ -6,6 +6,7 @@ import ValueDisplay from "../../displayValue";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { toPrecision } from "@osn/common";
+import { FlexColumn } from "../../styled/flex";
 
 function getFields(timelineItem, chainSetting) {
   switch (timelineItem.name) {
@@ -41,6 +42,18 @@ function getFields(timelineItem, chainSetting) {
             ellipsis={false}
             address={timelineItem.args.registrar}
           />
+        ),
+      };
+    }
+    case "setFields": {
+      return {
+        Index: <Text>{timelineItem.args.index}</Text>,
+        Fields: (
+          <FlexColumn style={{ gap: 4 }}>
+            {timelineItem.args.fields?.map((field, index) => (
+              <Text key={index}>{field}</Text>
+            ))}
+          </FlexColumn>
         ),
       };
     }
