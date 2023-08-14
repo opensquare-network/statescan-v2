@@ -275,12 +275,48 @@ export const requestsHead = [
 ];
 
 export const registrarsHead = [
-  { name: "Registrar", width: 512 },
-  { name: "Received Req.", width: 160, align: "right" },
-  { name: "Total Given.", width: 160, align: "right" },
-  { name: "Pending Req.", width: 160, align: "right" },
-  { name: "Fee", width: 160, align: "right" },
-  { name: "Total earn", width: 160, align: "right" },
+  {
+    name: "Registrar",
+    width: 512,
+    type: "sortable",
+    sortQueryValue: "registrarIndex",
+    sortDefaultDirection: "ascending",
+  },
+  {
+    name: "Received Req.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "receivedReq",
+  },
+  {
+    name: "Total Given.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "totalGiven",
+  },
+  {
+    name: "Pending Req.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "pendingReq",
+  },
+  {
+    name: "Fee",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "fee",
+  },
+  {
+    name: "Total earn",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "totalEarn",
+  },
 ];
 
 export const timeTypes = {
