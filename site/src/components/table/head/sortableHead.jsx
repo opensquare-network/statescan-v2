@@ -61,6 +61,8 @@ export default function SortableHead({
   useEffectOnce(() => {
     if (params.ascendingBy === sortQueryValue) {
       setDescending(false);
+    } else if (params.descendingBy === sortQueryValue) {
+      setDescending(true);
     } else if (sortDefaultDirection) {
       setDescending(sortDefaultDirection === "descending");
     } else {
