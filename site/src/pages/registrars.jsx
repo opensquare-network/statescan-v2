@@ -1,8 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
 import { toPrecision } from "@osn/common";
-import { parseInt } from "lodash";
+import { parseInt, get, clone } from "lodash";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import AddressOrIdentity from "../components/address";
 import BreadCrumb from "../components/breadCrumb";
@@ -12,10 +13,10 @@ import Pagination from "../components/pagination";
 import { Flex } from "../components/styled/flex";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
+import { useQueryParams } from "../hooks/useQueryParams";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import { Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, registrarsHead } from "../utils/constants";
-import { getPageFromQuery } from "../utils/viewFuncs";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
@@ -38,12 +39,49 @@ const GET_REGISTRARS = gql`
 `;
 
 export default function RegistrarsPage() {
-  const location = useLocation();
   const chainSetting = useSelector(chainSettingSelector);
-  const page = getPageFromQuery(location);
+  const { page = 1, descendingBy, ascendingBy } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const [data, setData] = useState(null);
 
-  const { data, loading } = useQuery(GET_REGISTRARS);
+  useEffect(() => {
+    const SORT_QUERY_KEY_MAP = {
+      registrarIndex: "index",
+      receivedReq: "statistics.request",
+      totalGiven: "statistics.given",
+      pendingReq: "",
+      fee: "fee",
+      totalEarn: "statistics.totalFee",
+    };
+
+    if (descendingBy || ascendingBy) {
+      setData((data) => {
+        const registrars = clone(data?.registrars);
+        if (!registrars) return data;
+
+        const sortedData = (registrars || []).sort((a, b) => {
+          if (descendingBy) {
+            const key = SORT_QUERY_KEY_MAP[descendingBy];
+            return get(b, key) - get(a, key);
+          } else {
+            const key = SORT_QUERY_KEY_MAP[ascendingBy];
+            return get(a, key) - get(b, key);
+          }
+        });
+
+        return {
+          ...data,
+          registrars: sortedData,
+        };
+      });
+    }
+  }, [descendingBy, ascendingBy]);
+
+  const { loading } = useQuery(GET_REGISTRARS, {
+    onCompleted(data) {
+      setData(data);
+    },
+  });
 
   const tableData = data?.registrars.map((item) => {
     return [
