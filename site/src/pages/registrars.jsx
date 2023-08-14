@@ -49,7 +49,7 @@ export default function RegistrarsPage() {
       registrarIndex: "index",
       receivedReq: "statistics.request",
       totalGiven: "statistics.given",
-      pendingReq: "",
+      pendingReq: "", // TODO: registrars pending request
       fee: "fee",
       totalEarn: "statistics.totalFee",
     };
@@ -77,7 +77,7 @@ export default function RegistrarsPage() {
     return [
       <Flex gap={24}>
         <Index>#{item.index}</Index>
-        <AddressOrIdentity address={item.account} />
+        <AddressOrIdentity address={item.account} linkToTimelineRegistrarPage />
       </Flex>,
       item.statistics.request,
       item.statistics.given,
