@@ -7,6 +7,7 @@ import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import { useIsMounted } from "@osn/common";
 import Link, { ColoredMonoLink } from "../styled/link";
 import { withCopy } from "../../HOC/withCopy";
+import * as queryString from "query-string";
 
 const Wrapper = styled.div`
   display: flex;
@@ -83,6 +84,7 @@ function AddressOrIdentity({
   maxWidth = "100%",
   ellipsis = true,
   className,
+  linkToTimelineRegistrarPage,
 }) {
   const [identity, setIdentity] = useState(null);
   const chainSetting = useSelector(chainSettingSelector);
@@ -99,16 +101,22 @@ function AddressOrIdentity({
     });
   }, [address, identityChain, isMounted]);
 
+  let linkAccountPage = `/accounts/${address}`;
+  if (linkToTimelineRegistrarPage) {
+    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
+      tab: "timeline",
+      sub: "registrar",
+    })}`;
+  }
+
   if (!identity || identity?.info?.status === "NO_ID") {
     const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
-    return (
-      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
-    );
+    return <AddressTag to={linkAccountPage}>{displayAddress}</AddressTag>;
   }
 
   return (
     <Wrapper className={className} maxWidth={maxWidth}>
-      <Link to={`/accounts/${address}`}>
+      <Link to={linkAccountPage}>
         <Identity maxWidth={maxWidth} identity={identity} />
       </Link>
     </Wrapper>
