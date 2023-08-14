@@ -268,8 +268,14 @@ export const destroyedNftsHead = [
 
 export const requestsHead = [
   { name: "Requester", width: 240 },
-  { name: "Registrar" },
-  { name: "Start at", width: 200 },
+  { name: "Registrar", type: "sortable", sortQueryValue: "registrarIndex" },
+  {
+    name: "Start at",
+    width: 200,
+    type: "sortable",
+    sortQueryValue: "startAt",
+    sortDefaultDirection: "descending",
+  },
   { name: "End at", width: 200 },
   { name: "Status", width: 200 },
 ];
