@@ -22,7 +22,6 @@ import Checkbox from "../checkbox";
 import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
 import { useUpdateEffect } from "usehooks-ts";
 import { useQueryParams } from "../../hooks/useQueryParams";
-import * as queryString from "query-string";
 
 const ForSmallScreen = styled.div`
   display: none;
