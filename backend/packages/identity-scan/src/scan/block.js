@@ -1,4 +1,3 @@
-const { executeUpdateAllIdentitiesJob } = require("./jobs");
 const { clearBlockAccounts } = require("../store");
 const { updateBlockIdentities } = require("./jobs/block");
 const { handleEvents } = require("./events");
@@ -25,7 +24,8 @@ async function handleBlock({ block, events, height }) {
   await updateBlockIdentities(blockIndexer);
   clearBlockAccounts(blockIndexer.blockHash);
 
-  await executeUpdateAllIdentitiesJob(blockIndexer);
+  // note: we disable this because we can not get the latest update for identity
+  // await executeUpdateAllIdentitiesJob(blockIndexer);
 
   const db = await getIdentityDb();
   await db.updateScanHeight(height);
