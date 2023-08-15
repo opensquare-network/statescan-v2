@@ -36,13 +36,6 @@ const identity = /* GraphQL */ `
     subsDeposit: String
     lastUpdate: Indexer!
   }
-
-  type PagedIdentities {
-    identities: [Identity]!
-    offset: Int!
-    limit: Int!
-    total: Int!
-  }
 `;
 
 module.exports = {
