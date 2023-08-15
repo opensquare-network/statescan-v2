@@ -38,7 +38,7 @@ const identity = /* GraphQL */ `
   }
 
   type PagedIdentities {
-    requests: [Identity]!
+    identities: [Identity]!
     offset: Int!
     limit: Int!
     total: Int!

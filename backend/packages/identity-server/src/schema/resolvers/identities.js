@@ -7,7 +7,7 @@ async function identities(_, _args) {
   const col = await getIdentityCol();
   const identities = await col
     .find({}, { projection: { _id: 0 } })
-    .sort({ lastUpdate: -1 })
+    .sort({ "lastUpdate.blockHeight": -1 })
     .skip(offset)
     .limit(limit)
     .toArray();
