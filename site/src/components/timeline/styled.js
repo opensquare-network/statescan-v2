@@ -1,9 +1,9 @@
 import styled from "styled-components";
+import { Inter_14_500 } from "../../styles/text";
 
 export const Text = styled.div`
-  font-size: 14px;
-  line-height: 20px;
-  color: ${(p) => p.theme.fontSecondary};
+  color: ${(p) => p.theme.fontPrimary};
+  ${Inter_14_500};
 `;
 
 export const BoldText = styled(Text)`

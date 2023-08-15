@@ -23,7 +23,7 @@ const Title = styled.div`
   min-width: 176px;
   ${Inter_14_500}
   flex: 0 0 auto;
-  color: ${(p) => p.theme.fontPrimary};
+  color: ${(p) => p.theme.fontSecondary};
 `;
 
 const Body = styled.div`
