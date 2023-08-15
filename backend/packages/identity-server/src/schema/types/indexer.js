@@ -2,7 +2,7 @@ const indexer = /* GraphQL */ `
   type Indexer {
     blockHeight: Int!
     blockHash: String!
-    blockTime: String!
+    blockTime: Float!
     extrinsicIndex: Int
     eventIndex: Int
   }

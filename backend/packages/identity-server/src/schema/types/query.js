@@ -1,6 +1,7 @@
 const queries = /* GraphQL */ `
   type Query {
     identity(account: String!): Identity
+    identities(offset: Int!, limit: Int!, search: String): PagedIdentities!
     identityTimeline(account: String!): [TimelineItem]!
     registrars: [Registrar]!
     registrarTimeline(account: String!): [TimelineItem]!
