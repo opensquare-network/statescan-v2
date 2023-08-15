@@ -34,6 +34,14 @@ const identity = /* GraphQL */ `
     subs: [String]
     subsCount: Int!
     subsDeposit: String
+    lastUpdate: Indexer!
+  }
+
+  type PagedIdentities {
+    requests: [Identity]!
+    offset: Int!
+    limit: Int!
+    total: Int!
   }
 `;
 
