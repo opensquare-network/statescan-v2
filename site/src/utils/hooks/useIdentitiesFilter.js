@@ -4,14 +4,14 @@ import SearchIcon from "../../components/icons/searchIcon";
 
 export function useIdentitiesFilter() {
   const [filter, setFilter] = useState([]);
-  const { account = "", showSubIdentity = false } = useQueryParams();
+  const { search = "" } = useQueryParams();
 
   useEffect(() => {
     const searchFilter = {
-      value: account,
+      value: search,
       type: "input",
       name: "Search",
-      query: "account",
+      query: "search",
       inputProps: {
         placeholder: "Address/Identity...",
         prefix: <SearchIcon style={{ width: 16, height: 16 }} />,
@@ -19,14 +19,15 @@ export function useIdentitiesFilter() {
     };
 
     const showSubIdentityFilter = {
-      value: showSubIdentity === "true",
+      value: true,
       type: "checkbox",
       name: "Show Sub Identity",
       query: "showSubIdentity",
+      persist: false,
     };
 
     setFilter([searchFilter, { type: "divider" }, showSubIdentityFilter]);
-  }, [account, showSubIdentity]);
+  }, [search]);
 
   return filter;
 }
