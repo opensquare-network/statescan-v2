@@ -33,6 +33,13 @@ const request = /* GraphQL */ `
     REQUEST_HEIGHT_ASC
     REQUEST_HEIGHT_DESC
   }
+
+  enum RequestStatusValue {
+    PENDING
+    REMOVED
+    CANCELLED
+    GIVEN
+  }
 `;
 
 module.exports = {
