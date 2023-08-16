@@ -22,6 +22,7 @@ import Checkbox from "../checkbox";
 import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
 import { useUpdateEffect } from "usehooks-ts";
 import { useQueryParams } from "../../hooks/useQueryParams";
+import noop from "lodash.noop";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -135,6 +136,7 @@ export default function Filter({
   data,
   showFilterButton = true,
   filterOnDataChange,
+  onDataChange = noop,
 }) {
   const navigate = useNavigate();
   const [selectData, setDropdownData] = useState(data);
@@ -180,11 +182,24 @@ export default function Filter({
     if (ascendingBy) value.ascendingBy = ascendingBy;
     if (descendingBy) value.descendingBy = descendingBy;
 
+    // exclude all filter with persist === false
+    data?.forEach?.((item) => {
+      if (item.persist === false) {
+        delete value[item.query];
+      }
+    });
+
     const search = serialize(value);
     navigate({ search: `?${search}${search ? "&" : ""}page=1` });
   }
 
   const debouncedSelectData = useFilterDebounce(selectData);
+
+  useEffect(() => {
+    const filterData = getCurrentFilter();
+    onDataChange(filterData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectData, onDataChange]);
 
   useUpdateEffect(() => {
     if (filterOnDataChange) {
