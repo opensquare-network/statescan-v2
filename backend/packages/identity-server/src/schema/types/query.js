@@ -11,10 +11,12 @@ const queries = /* GraphQL */ `
     registrars: [Registrar]!
     registrarTimeline(account: String!): [TimelineItem]!
     requests(
-      registrarIndex: Int
-      account: String
       offset: Int!
       limit: Int!
+      registrarIndex: Int
+      account: String
+      sort: RequestSort
+      status: RequestStatusValue
     ): PagedRequests!
     scanHeight: Int
   }
