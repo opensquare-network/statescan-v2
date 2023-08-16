@@ -4,6 +4,7 @@ import { Inter_14_500 } from "../../styles/text";
 import BlockTime from "./blockTime";
 import BlockHeight from "./blockHeight";
 import Link from "./link";
+import isNil from "lodash.isnil";
 
 const Wrapper = styled(FlexColumn)`
   padding: 8px 48px 24px 0;
@@ -42,10 +43,12 @@ export default function TimelineItemInfoHeader({ item }) {
           name="Extrinsic"
           to={`/extrinsics/${item.indexer.blockHeight}-${item.indexer.extrinsicIndex}`}
         />
-        <Link
-          name="Event"
-          to={`/events/${item.indexer.blockHeight}-${item.indexer.eventIndex}`}
-        />
+        {!isNil(item.indexer.eventIndex) && (
+          <Link
+            name="Event"
+            to={`/events/${item.indexer.blockHeight}-${item.indexer.eventIndex}`}
+          />
+        )}
       </Links>
     </Wrapper>
   );

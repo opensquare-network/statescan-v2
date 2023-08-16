@@ -4,11 +4,12 @@ import { pretty_scroll_bar } from "../../styles";
 import { Inter_14_500 } from "../../styles/text";
 import { useState } from "react";
 import { border, border_theme } from "../../styles/tailwindcss";
+import Divider from "../styled/divider";
 
 const OptionWrapper = styled.div`
   z-index: 99;
   position: absolute;
-  padding-top: 8px;
+  padding: 8px 0;
   background: ${(p) => p.theme.fillPopup};
   left: 0;
   top: 32px;
@@ -22,7 +23,7 @@ const OptionWrapper = styled.div`
 
 const OptionItemsWrapper = styled.div`
   max-height: 240px;
-  overflow-y: scroll;
+  overflow-y: auto;
   ${pretty_scroll_bar};
 `;
 
@@ -53,11 +54,6 @@ const OptionItem = styled.div`
 function Options({ value, isSearch, options, name, onSelect, setIsActive }) {
   const [searchText, setSearchText] = useState("");
 
-  const displayOptions =
-    options.filter((item) =>
-      item.text.toLowerCase().includes(searchText.toLowerCase()),
-    ) ?? [];
-
   return (
     <OptionWrapper>
       <SearchBox
@@ -67,21 +63,25 @@ function Options({ value, isSearch, options, name, onSelect, setIsActive }) {
         name={name}
       />
       <OptionItemsWrapper>
-        {displayOptions.map((option, index) => (
-          <OptionItem
-            key={index}
-            isActive={option.value === value && value !== ""}
-            onClick={() => {
-              setIsActive(false);
-              if (option.value === value) return;
-              onSelect(name, option.value, option);
-              setSearchText("");
-            }}
-          >
-            {option.text}
-          </OptionItem>
-        ))}
-        {displayOptions.length === 0 && <NoOption>No result found</NoOption>}
+        {options.map((option, index) =>
+          option?.type === "divider" ? (
+            <Divider key={index} />
+          ) : (
+            <OptionItem
+              key={index}
+              isActive={option.value === value && value !== ""}
+              onClick={() => {
+                setIsActive(false);
+                if (option.value === value) return;
+                onSelect(name, option.value, option);
+                setSearchText("");
+              }}
+            >
+              {option.text}
+            </OptionItem>
+          ),
+        )}
+        {options.length === 0 && <NoOption>No result found</NoOption>}
       </OptionItemsWrapper>
     </OptionWrapper>
   );

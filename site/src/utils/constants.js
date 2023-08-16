@@ -275,19 +275,61 @@ export const identitiesHead = [
 
 export const requestsHead = [
   { name: "Requester", width: 240 },
-  { name: "Registrar" },
-  { name: "Start at", width: 200 },
+  { name: "Registrar", type: "sortable", sortQueryValue: "registrarIndex" },
+  {
+    name: "Start at",
+    width: 200,
+    type: "sortable",
+    sortQueryValue: "startAt",
+    sortDefaultDirection: "descending",
+  },
   { name: "End at", width: 200 },
   { name: "Status", width: 200 },
 ];
 
 export const registrarsHead = [
-  { name: "Registrar", width: 512 },
-  { name: "Received Req.", width: 160, align: "right" },
-  { name: "Total Given.", width: 160, align: "right" },
-  { name: "Pending Req.", width: 160, align: "right" },
-  { name: "Fee", width: 160, align: "right" },
-  { name: "Total earn", width: 160, align: "right" },
+  {
+    name: "Registrar",
+    width: 512,
+    type: "sortable",
+    sortQueryValue: "registrarIndex",
+    sortDefaultDirection: "ascending",
+  },
+  {
+    name: "Received Req.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "receivedReq",
+  },
+  {
+    name: "Total Given.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "totalGiven",
+  },
+  {
+    name: "Pending Req.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "pendingReq",
+  },
+  {
+    name: "Fee",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "fee",
+  },
+  {
+    name: "Total earn",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortQueryValue: "totalEarn",
+  },
 ];
 
 export const timeTypes = {

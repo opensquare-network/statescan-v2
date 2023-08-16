@@ -21,6 +21,7 @@ import Input from "../input";
 import Checkbox from "../checkbox";
 import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
 import { useUpdateEffect } from "usehooks-ts";
+import { useQueryParams } from "../../hooks/useQueryParams";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -140,6 +141,7 @@ export default function Filter({
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const { width } = useWindowSize();
   const isDark = useIsDark();
+  const { ascendingBy, descendingBy } = useQueryParams();
 
   useEffect(() => {
     setDropdownData(data);
@@ -174,7 +176,11 @@ export default function Filter({
   };
 
   function handleFilter() {
-    const search = serialize(getCurrentFilter());
+    const value = getCurrentFilter();
+    if (ascendingBy) value.ascendingBy = ascendingBy;
+    if (descendingBy) value.descendingBy = descendingBy;
+
+    const search = serialize(value);
     navigate({ search: `?${search}${search ? "&" : ""}page=1` });
   }
 

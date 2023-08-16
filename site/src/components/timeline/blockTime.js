@@ -35,8 +35,8 @@ export default function BlockTime({ ts }) {
   return (
     <Wrapper>
       <ClockIcon />
-      <Date>{time(ts)}</Date>
-      <Duration>{timeDuration(ts)}</Duration>
+      <Date>{time(Number(ts))}</Date>
+      <Duration>{timeDuration(Number(ts))}</Duration>
     </Wrapper>
   );
 }

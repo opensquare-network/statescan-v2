@@ -10,8 +10,8 @@ const Placeholder = styled(PlaceholderSVG)`
 export default function TimelineItemIcon({ icons = {}, name }) {
   const IconComponent = icons[name];
   if (!IconComponent) {
-    return <Placeholder />;
+    return <Placeholder width={24} height={24} />;
   }
 
-  return <IconComponent />;
+  return <IconComponent width={24} height={24} />;
 }

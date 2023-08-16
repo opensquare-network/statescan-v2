@@ -38,6 +38,7 @@ export function useRequestsFilter() {
       query: "registrarIndex",
       options: [
         { text: "All", value: "" },
+        { type: "divider" },
         ...(registrarsIndexData?.registrars ?? []).map(({ index }) => ({
           text: "#" + index,
           value: index?.toString(),
@@ -52,6 +53,7 @@ export function useRequestsFilter() {
       query: "status",
       options: [
         { text: "All status", value: "" },
+        { type: "divider" },
         ...[
           REQUEST_STATUS.PENDING,
           REQUEST_STATUS.REMOVED,
