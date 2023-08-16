@@ -33,7 +33,11 @@ async function updateBlockIdentities(indexer) {
     if (identity.isSome) {
       const normalizedInfo = normalizeIdentity(identity);
       const normalizedSubsInfo = normalizeSubsInfo(subsArray[index]);
-      bulkUpsert(bulk, account, { ...normalizedInfo, ...normalizedSubsInfo });
+      bulkUpsert(bulk, account, {
+        ...normalizedInfo,
+        ...normalizedSubsInfo,
+        lastUpdate: indexer,
+      });
       index++;
       continue;
     }

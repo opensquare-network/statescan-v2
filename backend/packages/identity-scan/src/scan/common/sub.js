@@ -28,6 +28,7 @@ async function queryIdentityAsSub(account, indexer) {
     isSub: true,
     parentAddress,
     parentInfo: parent,
+    lastUpdate: indexer,
   };
 }
 
