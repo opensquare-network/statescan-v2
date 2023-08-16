@@ -61,7 +61,7 @@ export function useRequestsFilter() {
           REQUEST_STATUS.GIVEN,
         ].map((status) => ({
           text: capitalize(status),
-          value: status,
+          value: status.toUpperCase(),
         })),
       ],
     };
