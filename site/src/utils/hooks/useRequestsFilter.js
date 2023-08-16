@@ -27,7 +27,7 @@ export function useRequestsFilter() {
       name: "Search",
       query: "account",
       inputProps: {
-        placeholder: "Address/Identity...",
+        placeholder: "Address...",
         prefix: <SearchIcon style={{ width: 16, height: 16 }} />,
       },
     };
