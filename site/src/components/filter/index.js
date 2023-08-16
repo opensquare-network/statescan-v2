@@ -196,7 +196,8 @@ export default function Filter({
   const debouncedSelectData = useFilterDebounce(selectData);
 
   useEffect(() => {
-    onDataChange(getCurrentFilter());
+    const filterData = getCurrentFilter();
+    onDataChange(filterData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectData, onDataChange]);
 
