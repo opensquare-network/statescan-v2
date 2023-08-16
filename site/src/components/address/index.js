@@ -41,6 +41,13 @@ const AddressLink = styled(ColoredMonoLink)`
 
 const AddressLinkWithCopy = withCopy(AddressLink);
 
+export function Address({ address, ellipsis = true }) {
+  const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  return (
+    <AddressLink to={`/accounts/${address}`}>{displayAddress}</AddressLink>
+  );
+}
+
 export function AddressAndIdentity({
   address,
   maxWidth = "100%",
