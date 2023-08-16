@@ -5,7 +5,7 @@ const isNil = require("lodash.isnil");
 const trim = require("lodash.trim");
 
 async function requests(_, _args) {
-  const { offset, limit, registrarIndex, account } = _args;
+  const { offset, limit, registrarIndex, account, sort } = _args;
   let q = {};
   if (!isNil(registrarIndex)) {
     q.registrarIndex = registrarIndex;
@@ -16,10 +16,17 @@ async function requests(_, _args) {
     q.account = trimmedAccount;
   }
 
+  const querySort = { "status.indexer.blockHeight": -1 };
+  if (sort === "REQUEST_HEIGHT_ASC") {
+    Object.assign(querySort, { requestHeight: 1 });
+  } else if (sort === "REQUEST_HEIGHT_DESC") {
+    Object.assign(querySort, { requestHeight: -1 });
+  }
+
   const col = await getRequestCol();
   const requests = await col
     .find(q, { projection: { _id: 0 } })
-    .sort({ "status.indexer.blockHeight": -1 })
+    .sort(querySort)
     .skip(offset)
     .limit(limit)
     .toArray();

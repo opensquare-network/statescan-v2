@@ -15,6 +15,7 @@ const queries = /* GraphQL */ `
       limit: Int!
       registrarIndex: Int
       account: String
+      sort: RequestSort
     ): PagedRequests!
     scanHeight: Int
   }
