@@ -18,8 +18,6 @@ jobs:
         with:
           node-version: 18.x
           check-latest: true
-          cache: yarn
-          cache-dependency-path: yarn.lock
 
       - name: Run backend install
         uses: borales/actions-yarn@v4
