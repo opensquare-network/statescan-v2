@@ -92,6 +92,7 @@ function AddressOrIdentity({
   ellipsis = true,
   className,
   linkToTimelineRegistrarPage,
+  linkToTimelineIdentityPage,
 }) {
   const [identity, setIdentity] = useState(null);
   const chainSetting = useSelector(chainSettingSelector);
@@ -113,6 +114,12 @@ function AddressOrIdentity({
     linkAccountPage = `${linkAccountPage}?${queryString.stringify({
       tab: "timeline",
       sub: "registrar",
+    })}`;
+  }
+  if (linkToTimelineIdentityPage) {
+    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
+      tab: "timeline",
+      sub: "identity",
     })}`;
   }
 

@@ -8,6 +8,7 @@ import Layout from "../components/layout";
 import Pagination from "../components/pagination";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
+import Tooltip from "../components/tooltip";
 import { useQueryParams } from "../hooks/useQueryParams";
 import { Inter_14_500 } from "../styles/text";
 import { identitiesHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
@@ -67,8 +68,12 @@ export default function IdentitiesPage() {
 
   const tableData = data?.identities?.identities?.map?.((item) => {
     return [
-      <AddressOrIdentity address={item.account} />,
-      <Address address={item.account} />,
+      <div style={{ display: "inline-block" }}>
+        <AddressOrIdentity address={item.account} linkToTimelineIdentityPage />
+      </div>,
+      <Tooltip tip={item.account}>
+        <Address address={item.account} />
+      </Tooltip>,
       item?.subsCount,
       <Time>{time(item?.lastUpdate?.blockTime)}</Time>,
     ];
