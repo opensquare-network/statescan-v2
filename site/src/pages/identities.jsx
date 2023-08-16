@@ -20,7 +20,7 @@ const Time = styled.div`
 `;
 
 const GET_IDENTITIES = gql`
-  query GetIdentity(
+  query GetIdentities(
     $limit: Int!
     $offset: Int!
     $search: String
