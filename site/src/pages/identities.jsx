@@ -6,22 +6,13 @@ import BreadCrumb from "../components/breadCrumb";
 import Filter from "../components/filter";
 import Layout from "../components/layout";
 import Pagination from "../components/pagination";
-import { Flex } from "../components/styled/flex";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
 import { useQueryParams } from "../hooks/useQueryParams";
-import { Inter_14_500, Overpass_Mono_14_500 } from "../styles/text";
+import { Inter_14_500 } from "../styles/text";
 import { identitiesHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import { useIdentitiesFilter } from "../utils/hooks/useIdentitiesFilter";
 import { time } from "../utils/viewFuncs/time";
-
-const SubIdentityNameWrapper = styled(Flex)`
-  position: relative;
-  top: -0.5px;
-  gap: 8px;
-  color: var(--fontSecondary);
-  ${Overpass_Mono_14_500};
-`;
 
 const Time = styled.div`
   ${Inter_14_500};
