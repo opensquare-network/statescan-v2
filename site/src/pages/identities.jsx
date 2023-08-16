@@ -67,7 +67,9 @@ export default function IdentitiesPage() {
 
   const tableData = data?.identities?.identities?.map?.((item) => {
     return [
-      <AddressOrIdentity address={item.account} />,
+      <div style={{ display: "inline-block" }}>
+        <AddressOrIdentity address={item.account} linkToTimelineIdentityPage />
+      </div>,
       <Address address={item.account} />,
       item?.subsCount,
       <Time>{time(item?.lastUpdate?.blockTime)}</Time>,
