@@ -10,7 +10,7 @@ import { withCopy } from "../../HOC/withCopy";
 import * as queryString from "query-string";
 
 const Wrapper = styled.div`
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   a {
     width: 100%;

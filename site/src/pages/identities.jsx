@@ -68,9 +68,7 @@ export default function IdentitiesPage() {
 
   const tableData = data?.identities?.identities?.map?.((item) => {
     return [
-      <div style={{ display: "inline-block" }}>
-        <AddressOrIdentity address={item.account} linkToTimelineIdentityPage />
-      </div>,
+      <AddressOrIdentity address={item.account} linkToTimelineIdentityPage />,
       <Tooltip tip={item.account}>
         <Address address={item.account} />
       </Tooltip>,
