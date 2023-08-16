@@ -38,7 +38,9 @@ async function _createIndexes() {
   // _id set to accountId as index
   const identityCollection = await getIdentityCol();
   await identityCollection.createIndex({ account: 1 });
-  await identityCollection.createIndex({ "info.display": 1 });
+  await identityCollection.createIndex({ display: 1 });
+  await identityCollection.createIndex({ fullDisplay: 1 });
+  await identityCollection.createIndex({ "lastUpdate.blockHeight": -1 });
 
   const identityTimelineCollection = await getIdentityTimelineCol();
   await identityTimelineCollection.createIndex({ account: 1 });
