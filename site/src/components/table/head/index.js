@@ -25,7 +25,13 @@ const Th = styled.th`
   color: ${(p) => p.theme.fontTertiary};
   text-transform: uppercase;
   text-align: ${(p) => p.align};
-  ${(p) => w(p.width)};
+  ${(p) => p.width && w(p.width)};
+  ${(p) =>
+    p.minWidth &&
+    p.width &&
+    css`
+      width: clamp(${p.minWidth}px, calc(100vw - ${p.width}px), ${p.width}px);
+    `}
 
   ${(p) =>
     p.shouldFlexWidth &&
@@ -56,7 +62,7 @@ export default function TableHead({ heads }) {
     <thead>
       <Tr>
         {heads.map((head, index) => {
-          let { name, align = "left", type, width } = head ?? {};
+          let { name, align = "left", type, width, minWidth } = head ?? {};
 
           const isSecondToLast = heads.length - 2 === index;
           const shouldFlexWidthSecondToLast =
@@ -94,6 +100,7 @@ export default function TableHead({ heads }) {
             <Th
               key={index}
               width={width}
+              minWidth={minWidth}
               align={align}
               shouldFlexWidth={shouldFlexWidthSecondToLast}
             >

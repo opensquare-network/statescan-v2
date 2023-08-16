@@ -267,7 +267,7 @@ export const destroyedNftsHead = [
 ];
 
 export const identitiesHead = [
-  { name: "Identity Name" },
+  { name: "Identity Name", minWidth: 300, width: 712 },
   { name: "Address", width: 240 },
   { name: "Sub Identity", width: 160, align: "right" },
   { name: "Update at", width: 200 },
@@ -275,7 +275,13 @@ export const identitiesHead = [
 
 export const requestsHead = [
   { name: "Requester", width: 240 },
-  { name: "Registrar", type: "sortable", sortQueryValue: "registrarIndex" },
+  {
+    name: "Registrar",
+    type: "sortable",
+    sortQueryValue: "registrarIndex",
+    minWidth: 300,
+    width: 472,
+  },
   {
     name: "Start at",
     width: 200,
