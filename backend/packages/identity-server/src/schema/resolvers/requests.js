@@ -2,21 +2,24 @@ const {
   identity: { getRequestCol },
 } = require("@statescan/mongo");
 const isNil = require("lodash.isnil");
+const trim = require("lodash.trim");
 
 async function requests(_, _args) {
-  const { registrarIndex, account, offset, limit } = _args;
+  const { offset, limit, registrarIndex, account } = _args;
   let q = {};
   if (!isNil(registrarIndex)) {
     q.registrarIndex = registrarIndex;
   }
 
-  if (account) {
-    q.account = account;
+  const trimmedAccount = trim(account);
+  if (trimmedAccount) {
+    q.account = trimmedAccount;
   }
 
   const col = await getRequestCol();
   const requests = await col
     .find(q, { projection: { _id: 0 } })
+    .sort({ "status.indexer.blockHeight": -1 })
     .skip(offset)
     .limit(limit)
     .toArray();
