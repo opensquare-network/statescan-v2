@@ -7,7 +7,7 @@ const {
 const trim = require("lodash.trim");
 
 async function identities(_, _args) {
-  const { offset, limit, search = "" } = _args;
+  const { offset, limit, search = "", includeSubIdentities } = _args;
   const trimmedSearch = trim(search);
   let q;
   if (!trimmedSearch) {
@@ -16,6 +16,10 @@ async function identities(_, _args) {
     q = { account: trimmedSearch };
   } else {
     q = { fullDisplay: new RegExp(trimmedSearch, "i") };
+  }
+
+  if (!includeSubIdentities) {
+    Object.assign(q, { isSub: false });
   }
 
   const col = await getIdentityCol();
