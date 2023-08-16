@@ -29,15 +29,24 @@ const Time = styled.div`
 `;
 
 const GET_IDENTITIES = gql`
-  query GetIdentity($limit: Int!, $offset: Int!, $search: String) {
-    identities(limit: $limit, offset: $offset, search: $search) {
+  query GetIdentity(
+    $limit: Int!
+    $offset: Int!
+    $search: String
+    $includeSubIdentities: Boolean
+  ) {
+    identities(
+      limit: $limit
+      offset: $offset
+      search: $search
+      includeSubIdentities: $includeSubIdentities
+    ) {
       limit
       offset
       total
       identities {
         subsCount
         account
-        isSub
         lastUpdate {
           blockTime
         }
@@ -58,6 +67,7 @@ export default function IdentitiesPage() {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       search,
+      includeSubIdentities: !!filterData.includeSubIdentities,
     },
     onCompleted(data) {
       setData(data);
@@ -66,15 +76,7 @@ export default function IdentitiesPage() {
 
   const tableData = data?.identities?.identities?.map?.((item) => {
     return [
-      <Flex gap={8}>
-        <AddressOrIdentity address={item.account} />
-
-        {filterData.showSubIdentity && item?.isSub && (
-          <SubIdentityNameWrapper>
-            <div></div>
-          </SubIdentityNameWrapper>
-        )}
-      </Flex>,
+      <AddressOrIdentity address={item.account} />,
       <Address address={item.account} />,
       item?.subsCount,
       <Time>{time(item?.lastUpdate?.blockTime)}</Time>,
