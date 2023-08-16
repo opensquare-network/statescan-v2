@@ -1,13 +1,20 @@
 const {
   identity: { getIdentityCol },
 } = require("@statescan/mongo");
+const {
+  utils: { isValidAddress },
+} = require("@statescan/common");
 const trim = require("lodash.trim");
 
 async function identities(_, _args) {
   const { offset, limit, search = "" } = _args;
   const trimmedSearch = trim(search);
-  let q = {};
-  if (trimmedSearch) {
+  let q;
+  if (!trimmedSearch) {
+    q = {};
+  } else if (isValidAddress(trimmedSearch)) {
+    q = { account: trimmedSearch };
+  } else {
     q = { fullDisplay: new RegExp(trimmedSearch, "i") };
   }
 
