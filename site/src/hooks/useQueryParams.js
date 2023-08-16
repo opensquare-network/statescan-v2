@@ -6,5 +6,5 @@ import * as queryString from "query-string";
  */
 export function useQueryParams() {
   const location = useLocation();
-  return queryString.parse(location.search);
+  return queryString.parse(location.search, { parseNumbers: true });
 }
