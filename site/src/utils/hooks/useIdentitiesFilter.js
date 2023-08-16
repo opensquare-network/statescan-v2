@@ -22,7 +22,7 @@ export function useIdentitiesFilter() {
       value: true,
       type: "checkbox",
       name: "Show Sub Identity",
-      query: "showSubIdentity",
+      query: "includeSubIdentities",
       persist: false,
     };
 
