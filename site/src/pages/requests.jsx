@@ -49,6 +49,7 @@ const GET_REQUESTS = gql`
     $registrarIndex: Int
     $account: String
     $status: RequestStatusValue
+    $sort: RequestSort
   ) {
     requests(
       limit: $limit
@@ -56,6 +57,7 @@ const GET_REQUESTS = gql`
       registrarIndex: $registrarIndex
       account: $account
       status: $status
+      sort: $sort
     ) {
       limit
       offset
@@ -82,14 +84,7 @@ const GET_REQUESTS = gql`
 
 export default function RequestsPage() {
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const {
-    page = 1,
-    account,
-    registrarIndex,
-    ascendingBy,
-    descendingBy = "startAt",
-    status,
-  } = useQueryParams();
+  const { page = 1, account, registrarIndex, status, sort } = useQueryParams();
   const filter = useRequestsFilter();
   const [data, setData] = useState(null);
 
@@ -99,9 +94,8 @@ export default function RequestsPage() {
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
       account,
-      ascendingBy,
-      descendingBy,
       status,
+      sort,
     },
     onCompleted(data) {
       setData(data);
