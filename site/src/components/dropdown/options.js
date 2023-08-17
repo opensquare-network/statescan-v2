@@ -17,6 +17,7 @@ const OptionWrapper = styled.div`
   box-shadow: ${(p) => p.theme.shadowPanel};
   overflow: hidden;
   border-radius: 8px;
+  width: ${(p) => p.width || 140}px;
   ${border};
   ${border_theme("strokeBase")};
 `;
@@ -51,11 +52,19 @@ const OptionItem = styled.div`
     `}
 `;
 
-function Options({ value, isSearch, options, name, onSelect, setIsActive }) {
+function Options({
+  width,
+  value,
+  isSearch,
+  options,
+  name,
+  onSelect,
+  setIsActive,
+}) {
   const [searchText, setSearchText] = useState("");
 
   return (
-    <OptionWrapper>
+    <OptionWrapper width={width}>
       <SearchBox
         isSearch={isSearch}
         searchText={searchText}

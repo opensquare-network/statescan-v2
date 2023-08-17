@@ -42,19 +42,22 @@ const Status = styled.div`
   text-transform: capitalize;
 `;
 
-// FIXME: requests, status
 const GET_REQUESTS = gql`
   query GetRequests(
     $limit: Int!
     $offset: Int!
     $registrarIndex: Int
     $account: String
+    $status: RequestStatusValue
+    $sort: RequestSort
   ) {
     requests(
       limit: $limit
       offset: $offset
       registrarIndex: $registrarIndex
       account: $account
+      status: $status
+      sort: $sort
     ) {
       limit
       offset
@@ -81,13 +84,7 @@ const GET_REQUESTS = gql`
 
 export default function RequestsPage() {
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const {
-    page = 1,
-    account,
-    registrarIndex,
-    ascendingBy,
-    descendingBy = "startAt",
-  } = useQueryParams();
+  const { page = 1, account, registrarIndex, status, sort } = useQueryParams();
   const filter = useRequestsFilter();
   const [data, setData] = useState(null);
 
@@ -97,8 +94,8 @@ export default function RequestsPage() {
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
       account,
-      ascendingBy,
-      descendingBy,
+      status,
+      sort,
     },
     onCompleted(data) {
       setData(data);
@@ -112,7 +109,6 @@ export default function RequestsPage() {
         <Index>#{item.registrarIndex}</Index>
         <AddressOrIdentity address={item.registrar} />
       </Flex>,
-      // FIXME: requests, time
       <Time>{time(Number(item.indexer.blockTime))}</Time>,
       <Time>{time(Number(item.status.indexer.blockTime))}</Time>,
       <Status color={STATUS_COLORS[item.status.name]}>

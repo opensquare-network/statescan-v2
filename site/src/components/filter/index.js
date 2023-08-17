@@ -23,6 +23,7 @@ import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
 import { useUpdateEffect } from "usehooks-ts";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import noop from "lodash.noop";
+import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -143,7 +144,7 @@ export default function Filter({
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const { width } = useWindowSize();
   const isDark = useIsDark();
-  const { ascendingBy, descendingBy } = useQueryParams();
+  const params = useQueryParams();
 
   useEffect(() => {
     setDropdownData(data);
@@ -179,8 +180,8 @@ export default function Filter({
 
   function handleFilter() {
     const value = getCurrentFilter();
-    if (ascendingBy) value.ascendingBy = ascendingBy;
-    if (descendingBy) value.descendingBy = descendingBy;
+    if (params[TABLE_SORT_QUERY_KEY])
+      value[TABLE_SORT_QUERY_KEY] = params[TABLE_SORT_QUERY_KEY];
 
     // exclude all filter with persist === false
     data?.forEach?.((item) => {
@@ -257,6 +258,7 @@ export default function Filter({
               <DropdownWrapper key={index}>
                 <span>{item.name}</span>
                 <Dropdown
+                  width={item.width}
                   isSearch={!!item?.isSearch}
                   value={item.value}
                   name={item.name}
