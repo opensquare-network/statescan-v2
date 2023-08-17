@@ -275,19 +275,14 @@ export const identitiesHead = [
 
 export const requestsHead = [
   { name: "Requester", width: 240 },
-  {
-    name: "Registrar",
-    type: "sortable",
-    sortQueryValue: "registrarIndex",
-    minWidth: 300,
-    width: 472,
-  },
+  { name: "Registrar", minWidth: 300, width: 472 },
   {
     name: "Start at",
     width: 200,
     type: "sortable",
-    sortQueryValue: "startAt",
-    sortDefaultDirection: "descending",
+    sortAscendingQueryValue: "REQUEST_HEIGHT_ASC",
+    sortDescendingQueryValue: "REQUEST_HEIGHT_DESC",
+    sortDefaultQueryValue: "REQUEST_HEIGHT_DESC",
   },
   { name: "End at", width: 200 },
   { name: "Status", width: 200 },
