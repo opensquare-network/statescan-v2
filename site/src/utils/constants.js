@@ -450,3 +450,5 @@ export const REQUEST_STATUS = {
   GIVEN: "given",
   REMOVED: "removed",
 };
+
+export const TABLE_SORT_QUERY_KEY = "sort";
