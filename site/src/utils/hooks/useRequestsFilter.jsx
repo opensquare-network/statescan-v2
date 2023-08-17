@@ -5,11 +5,36 @@ import { useQueryParams } from "../../hooks/useQueryParams";
 import SearchIcon from "../../components/icons/searchIcon";
 import { REQUEST_STATUS } from "../constants";
 import capitalize from "lodash.capitalize";
+import AddressOrIdentityOrigin from "../../components/address";
+import { Flex } from "../../components/styled/flex";
+import styled from "styled-components";
+import { Overpass_Mono_14_500 } from "../../styles/text";
 
-const GET_REGISTRARS_INDEX = gql`
-  query GetRegistrarsIndex {
+const AddressOrIdentity = styled(AddressOrIdentityOrigin)`
+  overflow: hidden;
+`;
+
+const Index = styled.div`
+  ${Overpass_Mono_14_500};
+  color: ${(p) => p.theme.fontSecondary};
+`;
+
+const OptionDisplay = styled(Flex)`
+  gap: 12px;
+  pointer-events: none;
+
+  a {
+    position: relative;
+    top: 0.5px;
+    color: var(--textPrimary);
+  }
+`;
+
+const GET_REGISTRARS = gql`
+  query GetRegistrars {
     registrars {
       index
+      account
     }
   }
 `;
@@ -18,7 +43,7 @@ export function useRequestsFilter() {
   const [filter, setFilter] = useState([]);
   const { account = "", registrarIndex = "", status = "" } = useQueryParams();
 
-  const { data: registrarsIndexData } = useQuery(GET_REGISTRARS_INDEX);
+  const { data: registrarsIndexData } = useQuery(GET_REGISTRARS);
 
   useEffect(() => {
     const searchFilter = {
@@ -33,18 +58,25 @@ export function useRequestsFilter() {
     };
 
     const registrarsFilter = {
+      width: 240,
       value: registrarIndex,
       name: "Registrar Index",
       query: "registrarIndex",
       options: [
         { text: "All", value: "" },
         { type: "divider" },
-        ...(registrarsIndexData?.registrars ?? []).map(({ index }) => ({
-          text: "#" + index,
-          value: index?.toString(),
-        })),
+        ...(registrarsIndexData?.registrars ?? []).map(
+          ({ index, account }) => ({
+            text: (
+              <OptionDisplay>
+                <Index>#{index}</Index>
+                <AddressOrIdentity address={account} />
+              </OptionDisplay>
+            ),
+            value: index,
+          }),
+        ),
       ],
-      defaultDisplay: "#" + registrarIndex,
     };
 
     const statusFilter = {
