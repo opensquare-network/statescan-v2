@@ -39,30 +39,34 @@ const GET_REGISTRARS = gql`
 
 export default function RegistrarsPage() {
   const chainSetting = useSelector(chainSettingSelector);
-  const { page = 1, descendingBy, ascendingBy } = useQueryParams();
+  const { page = 1, sort } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   const { data, loading } = useQuery(GET_REGISTRARS);
 
   const sortedData = useMemo(() => {
-    const SORT_QUERY_KEY_MAP = {
-      registrarIndex: "index",
-      receivedReq: "statistics.request",
-      totalGiven: "statistics.given",
-      pendingReq: "", // TODO: registrars pending request
-      fee: "fee",
-      totalEarn: "statistics.totalFee",
+    // REGISTRAR_INDEX_ASC -> REGISTRAR_INDEX
+    const sortKeyPrefix = sort?.replace?.(/_(ASC|DESC)$/, "");
+    const descending = sort?.endsWith?.("_DESC");
+
+    const SORT_QUERY_DATA_KEY_MAP = {
+      REGISTRAR_INDEX: "index",
+      REGISTRAR_RECEIVED_REQ: "statistics.request",
+      REGISTRAR_TOTAL_GIVEN: "statistics.given",
+      REGISTRAR_PENDING_REQ: "", // TODO: registrars pending request
+      REGISTRAR_FEE: "fee",
+      REGISTRAR_TOTAL_EARN: "statistics.totalFee",
     };
 
     const registrars = clone(data?.registrars);
     if (!registrars) return data;
 
     const sortedData = (registrars || []).sort((a, b) => {
-      if (descendingBy) {
-        const key = SORT_QUERY_KEY_MAP[descendingBy];
+      if (descending) {
+        const key = SORT_QUERY_DATA_KEY_MAP[sortKeyPrefix];
         return get(b, key) - get(a, key);
       } else {
-        const key = SORT_QUERY_KEY_MAP[ascendingBy];
+        const key = SORT_QUERY_DATA_KEY_MAP[sortKeyPrefix];
         return get(a, key) - get(b, key);
       }
     });
@@ -71,7 +75,7 @@ export default function RegistrarsPage() {
       ...data,
       registrars: sortedData,
     };
-  }, [descendingBy, ascendingBy, data]);
+  }, [sort, data]);
 
   const tableData = sortedData?.registrars.map((item) => {
     return [
