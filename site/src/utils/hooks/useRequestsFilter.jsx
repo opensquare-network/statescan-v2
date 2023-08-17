@@ -30,8 +30,8 @@ const OptionDisplay = styled(Flex)`
   }
 `;
 
-const GET_REGISTRARS = gql`
-  query GetRegistrars {
+const GET_REGISTRARS_OPTIONS = gql`
+  query GetRegistrarsOptions {
     registrars {
       index
       account
@@ -43,7 +43,7 @@ export function useRequestsFilter() {
   const [filter, setFilter] = useState([]);
   const { account = "", registrarIndex = "", status = "" } = useQueryParams();
 
-  const { data: registrarsIndexData } = useQuery(GET_REGISTRARS);
+  const { data: registrarsIndexData } = useQuery(GET_REGISTRARS_OPTIONS);
 
   useEffect(() => {
     const searchFilter = {
