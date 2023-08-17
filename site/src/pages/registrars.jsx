@@ -62,11 +62,10 @@ export default function RegistrarsPage() {
     if (!registrars) return data;
 
     const sortedData = (registrars || []).sort((a, b) => {
+      const key = SORT_QUERY_DATA_KEY_MAP[sortKeyPrefix];
       if (descending) {
-        const key = SORT_QUERY_DATA_KEY_MAP[sortKeyPrefix];
         return get(b, key) - get(a, key);
       } else {
-        const key = SORT_QUERY_DATA_KEY_MAP[sortKeyPrefix];
         return get(a, key) - get(b, key);
       }
     });
