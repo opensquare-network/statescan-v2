@@ -16,11 +16,13 @@ async function requests(_, _args) {
     q.account = trimmedAccount;
   }
 
-  const querySort = { "status.indexer.blockHeight": -1 };
+  const querySort = {};
   if (sort === "REQUEST_HEIGHT_ASC") {
     Object.assign(querySort, { requestHeight: 1 });
   } else if (sort === "REQUEST_HEIGHT_DESC") {
     Object.assign(querySort, { requestHeight: -1 });
+  } else {
+    Object.assign(querySort, { "status.indexer.blockHeight": -1 });
   }
 
   if (status) {
