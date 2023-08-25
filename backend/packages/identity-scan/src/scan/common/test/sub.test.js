@@ -22,5 +22,6 @@ describe("Query identity", () => {
     const account = "13RDY9nrJpyTDBSUdBw12dGwhk19sGwsrVZ2bxkzYHBSagP2";
     const info = await queryIdentityAsSub(account, { blockHeight, blockHash });
     expect(info.fullDisplay).toEqual("🍺 Gav 🥃/🏛 Council 🏛");
+    expect(info.subDisplay).toEqual("🏛 Council 🏛");
   });
 });
