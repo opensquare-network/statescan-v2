@@ -38,15 +38,13 @@ async function updateBlockIdentities(indexer) {
         ...normalizedSubsInfo,
         lastUpdate: indexer,
       });
-      index++;
-      continue;
-    }
-
-    const infoAsSub = await queryIdentityAsSub(account, indexer);
-    if (!infoAsSub) {
-      bulk.find({ account }).delete();
     } else {
-      bulkUpsert(bulk, account, { ...infoAsSub, ...emptySubs });
+      const infoAsSub = await queryIdentityAsSub(account, indexer);
+      if (!infoAsSub) {
+        bulk.find({ account }).delete();
+      } else {
+        bulkUpsert(bulk, account, { ...infoAsSub, ...emptySubs });
+      }
     }
 
     index++;

@@ -25,6 +25,7 @@ async function queryIdentityAsSub(account, indexer) {
   return {
     display: display || fullDisplay,
     fullDisplay,
+    subDisplay: display,
     isSub: true,
     parentAddress,
     parentInfo: parent,
