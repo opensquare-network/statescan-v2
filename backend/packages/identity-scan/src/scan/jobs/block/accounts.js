@@ -17,18 +17,31 @@ function bulkUpsert(bulk, account, info) {
     .updateOne({ $set: { ...info } });
 }
 
+async function populateSubAccounts(accounts, indexer) {
+  const subsArray = await queryMultipleSubsOf(accounts, indexer);
+  const allSubAccounts = subsArray.reduce((result, subs) => {
+    return [...result, ...subs[1].toJSON()];
+  }, []);
+
+  return [...new Set([...accounts, ...allSubAccounts])];
+}
+
 async function updateBlockIdentities(indexer) {
   const accounts = getBlockAccounts(indexer.blockHash);
   if (accounts.length <= 0) {
     return;
   }
 
-  const identities = await queryMultipleIdentity(accounts, indexer);
-  const subsArray = await queryMultipleSubsOf(accounts, indexer);
+  const populated = await populateSubAccounts(accounts, indexer);
+  const identities = await queryMultipleIdentity(populated, indexer);
+  const subsArray = await queryMultipleSubsOf(populated, indexer);
+
   const col = await getIdentityCol();
   const bulk = col.initializeUnorderedBulkOp();
   let index = 0;
-  for (const account of accounts) {
+  for (const account of populated) {
+    bulk.find({ parentAddress: account, isSub: true }).delete();
+
     const identity = identities[index];
     if (identity.isSome) {
       const normalizedInfo = normalizeIdentity(identity);
@@ -55,4 +68,5 @@ async function updateBlockIdentities(indexer) {
 
 module.exports = {
   updateBlockIdentities,
+  populateSubAccounts,
 };
