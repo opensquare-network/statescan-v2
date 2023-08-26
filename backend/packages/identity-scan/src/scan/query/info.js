@@ -22,8 +22,20 @@ async function queryMultipleIdentity(accounts = [], indexer) {
   return await blockApi.query.identity.identityOf.multi(accounts);
 }
 
+async function queryMultipleIdentityAsMap(accounts, indexer) {
+  const identities = await queryMultipleIdentity(accounts, indexer);
+  return accounts.reduce((result, account, index) => {
+    const identity = identities[index];
+    return {
+      ...result,
+      [account]: identity,
+    };
+  }, {});
+}
+
 module.exports = {
   queryIdentityInfo,
   queryIdentityInfoByHeight,
   queryMultipleIdentity,
+  queryMultipleIdentityAsMap,
 };

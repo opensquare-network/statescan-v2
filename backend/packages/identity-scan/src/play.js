@@ -16,7 +16,7 @@ async function main() {
   await initIdentityScanDb();
   await subscribeFinalizedHeight();
 
-  let blockHeights = [680041, 694821];
+  let blockHeights = [234629, 264134, 3591413];
 
   const db = await getIdentityDb();
   const api = await getApi();

@@ -4,11 +4,17 @@ const {
   normalizeSubsInfo,
   emptySubs,
 } = require("../../utils");
-const { queryMultipleIdentity, queryMultipleSubsOf } = require("../../query");
+const {
+  queryMultipleIdentity,
+  queryMultipleSubsOf,
+  queryMultipleIdentityAsMap,
+  queryMultipleSubsAsMap,
+} = require("../../query");
 const { getBlockAccounts } = require("../../../store");
 const {
   identity: { getIdentityCol },
 } = require("@statescan/mongo");
+const groupBy = require("lodash.groupby");
 
 function bulkUpsert(bulk, account, info) {
   bulk
@@ -33,34 +39,37 @@ async function updateBlockIdentities(indexer) {
   }
 
   const populated = await populateSubAccounts(accounts, indexer);
-  const identities = await queryMultipleIdentity(populated, indexer);
-  const subsArray = await queryMultipleSubsOf(populated, indexer);
+  const identitiesMap = await queryMultipleIdentityAsMap(populated, indexer);
+  const subsMap = await queryMultipleSubsAsMap(populated, indexer);
+  const {
+    true: hasDirectIdentityAccounts = [],
+    false: noIdentityAccounts = [],
+  } = groupBy(populated, (account) => {
+    const identity = identitiesMap[account];
+    return identity && identity.isSome;
+  });
 
   const col = await getIdentityCol();
-  const bulk = col.initializeUnorderedBulkOp();
-  let index = 0;
-  for (const account of populated) {
+  const bulk = col.initializeOrderedBulkOp();
+  for (const account of hasDirectIdentityAccounts) {
     bulk.find({ parentAddress: account, isSub: true }).delete();
+    const normalizedInfo = normalizeIdentity(identitiesMap[account]);
+    const normalizedSubsInfo = normalizeSubsInfo(subsMap[account]);
+    bulkUpsert(bulk, account, {
+      ...normalizedInfo,
+      ...normalizedSubsInfo,
+      lastUpdate: indexer,
+    });
+  }
 
-    const identity = identities[index];
-    if (identity.isSome) {
-      const normalizedInfo = normalizeIdentity(identity);
-      const normalizedSubsInfo = normalizeSubsInfo(subsArray[index]);
-      bulkUpsert(bulk, account, {
-        ...normalizedInfo,
-        ...normalizedSubsInfo,
-        lastUpdate: indexer,
-      });
+  for (const account of noIdentityAccounts) {
+    bulk.find({ parentAddress: account, isSub: true }).delete();
+    const infoAsSub = await queryIdentityAsSub(account, indexer);
+    if (!infoAsSub) {
+      bulk.find({ account }).delete();
     } else {
-      const infoAsSub = await queryIdentityAsSub(account, indexer);
-      if (!infoAsSub) {
-        bulk.find({ account }).delete();
-      } else {
-        bulkUpsert(bulk, account, { ...infoAsSub, ...emptySubs });
-      }
+      bulkUpsert(bulk, account, { ...infoAsSub, ...emptySubs });
     }
-
-    index++;
   }
 
   await bulk.execute();
