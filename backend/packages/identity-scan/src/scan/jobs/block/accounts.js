@@ -4,11 +4,17 @@ const {
   normalizeSubsInfo,
   emptySubs,
 } = require("../../utils");
-const { queryMultipleIdentity, queryMultipleSubsOf } = require("../../query");
+const {
+  queryMultipleIdentity,
+  queryMultipleSubsOf,
+  queryMultipleIdentityAsMap,
+  queryMultipleSubsAsMap,
+} = require("../../query");
 const { getBlockAccounts } = require("../../../store");
 const {
   identity: { getIdentityCol },
 } = require("@statescan/mongo");
+const groupBy = require("lodash.groupby");
 
 function bulkUpsert(bulk, account, info) {
   bulk
@@ -17,37 +23,53 @@ function bulkUpsert(bulk, account, info) {
     .updateOne({ $set: { ...info } });
 }
 
+async function populateSubAccounts(accounts, indexer) {
+  const subsArray = await queryMultipleSubsOf(accounts, indexer);
+  const allSubAccounts = subsArray.reduce((result, subs) => {
+    return [...result, ...subs[1].toJSON()];
+  }, []);
+
+  return [...new Set([...accounts, ...allSubAccounts])];
+}
+
 async function updateBlockIdentities(indexer) {
   const accounts = getBlockAccounts(indexer.blockHash);
   if (accounts.length <= 0) {
     return;
   }
 
-  const identities = await queryMultipleIdentity(accounts, indexer);
-  const subsArray = await queryMultipleSubsOf(accounts, indexer);
-  const col = await getIdentityCol();
-  const bulk = col.initializeUnorderedBulkOp();
-  let index = 0;
-  for (const account of accounts) {
-    const identity = identities[index];
-    if (identity.isSome) {
-      const normalizedInfo = normalizeIdentity(identity);
-      const normalizedSubsInfo = normalizeSubsInfo(subsArray[index]);
-      bulkUpsert(bulk, account, {
-        ...normalizedInfo,
-        ...normalizedSubsInfo,
-        lastUpdate: indexer,
-      });
-    } else {
-      const infoAsSub = await queryIdentityAsSub(account, indexer);
-      if (!infoAsSub) {
-        bulk.find({ account }).delete();
-      } else {
-        bulkUpsert(bulk, account, { ...infoAsSub, ...emptySubs });
-      }
-    }
+  const populated = await populateSubAccounts(accounts, indexer);
+  const identitiesMap = await queryMultipleIdentityAsMap(populated, indexer);
+  const subsMap = await queryMultipleSubsAsMap(populated, indexer);
+  const {
+    true: hasDirectIdentityAccounts = [],
+    false: noIdentityAccounts = [],
+  } = groupBy(populated, (account) => {
+    const identity = identitiesMap[account];
+    return identity && identity.isSome;
+  });
 
-    index++;
+  const col = await getIdentityCol();
+  const bulk = col.initializeOrderedBulkOp();
+  for (const account of hasDirectIdentityAccounts) {
+    bulk.find({ parentAddress: account, isSub: true }).delete();
+    const normalizedInfo = normalizeIdentity(identitiesMap[account]);
+    const normalizedSubsInfo = normalizeSubsInfo(subsMap[account]);
+    bulkUpsert(bulk, account, {
+      ...normalizedInfo,
+      ...normalizedSubsInfo,
+      lastUpdate: indexer,
+    });
+  }
+
+  for (const account of noIdentityAccounts) {
+    bulk.find({ parentAddress: account, isSub: true }).delete();
+    const infoAsSub = await queryIdentityAsSub(account, indexer);
+    if (!infoAsSub) {
+      bulk.find({ account }).delete();
+    } else {
+      bulkUpsert(bulk, account, { ...infoAsSub, ...emptySubs });
+    }
   }
 
   await bulk.execute();
@@ -55,4 +77,5 @@ async function updateBlockIdentities(indexer) {
 
 module.exports = {
   updateBlockIdentities,
+  populateSubAccounts,
 };

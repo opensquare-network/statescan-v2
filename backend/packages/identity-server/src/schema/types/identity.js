@@ -28,6 +28,7 @@ const identity = /* GraphQL */ `
     deposit: String
     display: String
     fullDisplay: String
+    subDisplay: String
     info: IdentityInfo
     isSub: Boolean
     judgements: [Judgement]

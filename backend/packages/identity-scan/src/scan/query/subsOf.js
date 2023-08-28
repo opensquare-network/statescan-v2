@@ -20,7 +20,18 @@ async function queryMultipleSubsOf(accounts = [], indexer) {
   return await blockApi.query.identity.subsOf.multi(accounts);
 }
 
+async function queryMultipleSubsAsMap(accounts = [], indexer) {
+  const subsArr = await queryMultipleSubsOf(accounts, indexer);
+  return accounts.reduce((result, account, index) => {
+    return {
+      ...result,
+      [account]: subsArr[index],
+    };
+  }, {});
+}
+
 module.exports = {
   querySubsOf,
   queryMultipleSubsOf,
+  queryMultipleSubsAsMap,
 };
