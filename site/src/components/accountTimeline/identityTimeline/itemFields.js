@@ -64,7 +64,7 @@ function getFields(timelineItem, chainSetting) {
           Subs: (
             <FlexColumn style={{ gap: 24 }}>
               {timelineItem.args.subs?.map(({ account, data }) => (
-                <FlexColumn key={account}>
+                <FlexColumn key={account} style={{ gap: 4 }}>
                   <CopyableAddress ellipsis={false} address={account} />
                   <Text>{data}</Text>
                 </FlexColumn>
