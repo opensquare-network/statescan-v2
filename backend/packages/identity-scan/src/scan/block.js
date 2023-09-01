@@ -26,7 +26,7 @@ async function handleBlock({ block, events, height }) {
   clearBlockAccounts(blockIndexer.blockHash);
 
   const chainHeight = getLatestFinalizedHeight();
-  if (chainHeight > height + 100 && chainHeight % 100 === 0) {
+  if (height > chainHeight - 200 && chainHeight % 100 === 0) {
     await saveGeneralStatistics(blockIndexer);
   }
 
