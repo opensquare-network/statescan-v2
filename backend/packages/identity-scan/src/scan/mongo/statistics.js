@@ -17,7 +17,7 @@ async function incJudgementGiven(indexer) {
   } else {
     await col.updateOne(
       { name: keyName },
-      { value: judgementGiven.value + 1, indexer },
+      { $set: { value: judgementGiven.value + 1, indexer } },
     );
   }
 }
