@@ -14,8 +14,8 @@ async function getAllIdentities() {
 async function figureIdentity() {
   const identities = await getAllIdentities();
   return countBy(identities, ({ judgements = [] }) => {
-    const isVerified = judgements.some(([, judgementGiven]) => {
-      return [judgement.reasonable, judgement.knownGood].includes(
+    const isVerified = judgements.some(({ judgement: judgementGiven }) => {
+      return [judgement.Reasonable, judgement.KnownGood].includes(
         judgementGiven,
       );
     });
@@ -23,8 +23,8 @@ async function figureIdentity() {
       return status.verified;
     }
 
-    const isErroneous = judgements.some(([, judgementGiven]) => {
-      return [judgement.erroneous, judgement.lowQuality].includes(
+    const isErroneous = judgements.some(({ judgement: judgementGiven }) => {
+      return [judgement.Erroneous, judgement.LowQuality].includes(
         judgementGiven,
       );
     });

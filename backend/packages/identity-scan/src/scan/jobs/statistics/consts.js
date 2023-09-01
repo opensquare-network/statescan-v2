@@ -5,11 +5,11 @@ const status = Object.freeze({
 });
 
 const judgement = Object.freeze({
-  reasonable: "reasonable",
-  knownGood: "knownGood",
-  outOfDate: "outOfDate",
-  lowQuality: "lowQuality",
-  erroneous: "erroneous",
+  Reasonable: "Reasonable",
+  KnownGood: "KnownGood",
+  OutOfDate: "OutOfDate",
+  LowQuality: "LowQuality",
+  Erroneous: "Erroneous",
 });
 
 module.exports = {
