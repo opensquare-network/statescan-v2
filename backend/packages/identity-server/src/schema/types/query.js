@@ -19,6 +19,7 @@ const queries = /* GraphQL */ `
       status: RequestStatusValue
     ): PagedRequests!
     scanHeight: Int
+    statistics: Statistics!
   }
 `;
 
