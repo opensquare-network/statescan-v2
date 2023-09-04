@@ -458,3 +458,21 @@ export const REQUEST_STATUS = {
 };
 
 export const TABLE_SORT_QUERY_KEY = "sort";
+
+export const IDENTITY_ID_TYPE = {
+  NO_ID: "NO_ID",
+  NOT_VERIFIED: "NOT_VERIFIED",
+  VERIFIED: "VERIFIED",
+  ERRONEOUS: "ERRONEOUS",
+  VERIFIED_LINKED: "VERIFIED_LINKED",
+  NOT_VERIFIED_LINKED: "LINKED",
+  ERRONEOUS_LINKED: "ERRONEOUS_LINKED",
+};
+
+export const IDENTITY_JUDGEMENT = {
+  Reasonable: "Reasonable",
+  KnownGood: "KnownGood",
+  OutOfDate: "OutOfDate",
+  LowQuality: "LowQuality",
+  Erroneous: "Erroneous",
+};
