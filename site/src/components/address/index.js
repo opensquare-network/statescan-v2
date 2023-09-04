@@ -1,13 +1,10 @@
 import styled from "styled-components";
 import Identity from "./identity";
-import { addressEllipsis, fetchIdentity } from "@osn/common";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { chainSettingSelector } from "../../store/reducers/settingSlice";
-import { useIsMounted } from "@osn/common";
+import { addressEllipsis } from "@osn/common";
 import Link, { ColoredMonoLink } from "../styled/link";
 import { withCopy } from "../../HOC/withCopy";
 import * as queryString from "query-string";
+import { useIdentity } from "../../hooks/useIdentity";
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -53,20 +50,8 @@ export function AddressAndIdentity({
   maxWidth = "100%",
   ellipsis = true,
 }) {
-  const [identity, setIdentity] = useState(null);
-  const chainSetting = useSelector(chainSettingSelector);
-  const identityChain = chainSetting.identity;
-  const isMounted = useIsMounted();
+  const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
-
-  useEffect(() => {
-    setIdentity(null);
-    fetchIdentity(identityChain, address).then((identity) => {
-      if (isMounted) {
-        setIdentity(identity);
-      }
-    });
-  }, [address, identityChain, isMounted]);
 
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
@@ -94,20 +79,8 @@ function AddressOrIdentity({
   linkToTimelineRegistrarPage,
   linkToTimelineIdentityPage,
 }) {
-  const [identity, setIdentity] = useState(null);
-  const chainSetting = useSelector(chainSettingSelector);
-  const identityChain = chainSetting.identity;
-  const isMounted = useIsMounted();
+  const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
-
-  useEffect(() => {
-    setIdentity(null);
-    fetchIdentity(identityChain, address).then((identity) => {
-      if (isMounted) {
-        setIdentity(identity);
-      }
-    });
-  }, [address, identityChain, isMounted]);
 
   let linkAccountPage = `/accounts/${address}`;
   if (linkToTimelineRegistrarPage) {
