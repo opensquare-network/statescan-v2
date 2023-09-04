@@ -468,3 +468,11 @@ export const IDENTITY_ID_TYPE = {
   NOT_VERIFIED_LINKED: "LINKED",
   ERRONEOUS_LINKED: "ERRONEOUS_LINKED",
 };
+
+export const IDENTITY_JUDGEMENT = {
+  Reasonable: "Reasonable",
+  KnownGood: "KnownGood",
+  OutOfDate: "OutOfDate",
+  LowQuality: "LowQuality",
+  Erroneous: "Erroneous",
+};
