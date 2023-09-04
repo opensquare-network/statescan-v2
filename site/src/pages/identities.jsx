@@ -49,8 +49,8 @@ const GET_IDENTITIES = gql`
 
 export default function IdentitiesPage() {
   const [data, setData] = useState(null);
-  const filter = useIdentitiesFilter();
   const [filterData, setFilterData] = useState({});
+  const filter = useIdentitiesFilter(filterData);
   const { page = 1, search = "" } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
