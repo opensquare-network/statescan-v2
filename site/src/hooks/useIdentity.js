@@ -34,11 +34,13 @@ function useGqlFetcher(address = "") {
   const GET_IDENTITY = gql`
     query GetIdentity($account: String!) {
       identity(account: $account) {
+        display
         fullDisplay
         judgements {
           judgement
         }
         parentInfo {
+          display
           judgements {
             judgement
           }
@@ -58,6 +60,21 @@ function useGqlFetcher(address = "") {
 
 // osn/common fetchIdentity result
 function normalizeIdentity(identity) {
+  const info = normalizeIdentityInfo(identity);
+
+  return {
+    address: identity?.account,
+    info,
+  };
+}
+
+function normalizeIdentityInfo(identity) {
+  if (!identity?.display && !identity?.parentInfo?.display) {
+    return {
+      status: IDENTITY_ID_TYPE.NO_ID,
+    };
+  }
+
   const judgements = identity?.isSub
     ? identity?.parentInfo?.judgements
     : identity?.judgements;
@@ -89,10 +106,7 @@ function normalizeIdentity(identity) {
   }
 
   return {
-    address: identity?.account,
-    info: {
-      display: identity?.fullDisplay,
-      status,
-    },
+    display: identity?.fullDisplay,
+    status,
   };
 }
