@@ -17,8 +17,10 @@ export function useIdentity(address = "") {
     if (hasIdentity) {
       fetcher().then((resp) => {
         const { data } = resp;
-        const normalizedIdentity = normalizeIdentity(data.identity);
-        setIdentity(normalizedIdentity);
+
+        if (data.identity) {
+          setIdentity(normalizeIdentity(data.identity));
+        }
       });
     } else {
       fetchIdentity(chainSettings.identity, address).then((identity) => {
@@ -34,6 +36,7 @@ function useGqlFetcher(address = "") {
   const GET_IDENTITY = gql`
     query GetIdentity($account: String!) {
       identity(account: $account) {
+        account
         display
         fullDisplay
         judgements {
@@ -46,7 +49,6 @@ function useGqlFetcher(address = "") {
           }
         }
         isSub
-        account
       }
     }
   `;
