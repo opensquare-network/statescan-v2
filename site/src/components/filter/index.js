@@ -24,6 +24,7 @@ import { useUpdateEffect } from "usehooks-ts";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import noop from "lodash.noop";
 import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
+import isNil from "lodash.isnil";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -171,7 +172,7 @@ export default function Filter({
   const getCurrentFilter = () => {
     const filter = {};
     (selectData || []).forEach((item) => {
-      if (item.query && item.value) {
+      if (item.query && !isNil(item.value)) {
         Object.assign(filter, { [item.query]: item.value });
       }
     });
