@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import { fetchIdentity } from "@osn/common";
 import { gql, useLazyQuery } from "@apollo/client";
-import { IDENTITY_ID_TYPE } from "../utils/constants";
+import { IDENTITY_ID_TYPE, IDENTITY_JUDGEMENT } from "../utils/constants";
 
 export function useIdentity(address = "") {
   const chainSettings = useChainSettings();
@@ -82,10 +82,14 @@ function normalizeIdentityInfo(identity) {
     : identity?.judgements;
 
   const isAuthorized = judgements?.some?.(
-    (j) => j.judgement === "Reasonable" || j.judgement === "KnownGood",
+    (j) =>
+      j.judgement === IDENTITY_JUDGEMENT.Reasonable ||
+      j.judgement === IDENTITY_JUDGEMENT.KnownGood,
   );
   const isBad = judgements?.some?.(
-    (j) => j.judgement === "Erroneous" || j.judgement === "LowQuality",
+    (j) =>
+      j.judgement === IDENTITY_JUDGEMENT.Erroneous ||
+      j.judgement === IDENTITY_JUDGEMENT.LowQuality,
   );
 
   let status;
