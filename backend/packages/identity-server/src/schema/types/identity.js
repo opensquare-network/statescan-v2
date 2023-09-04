@@ -32,6 +32,8 @@ const identity = /* GraphQL */ `
     info: IdentityInfo
     isSub: Boolean
     judgements: [Judgement]
+    parentAddress: String
+    parentInfo: Identity
     subs: [String]
     subsCount: Int!
     subsDeposit: String
