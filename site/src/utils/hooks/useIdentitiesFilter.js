@@ -27,7 +27,7 @@ export function useIdentitiesFilter({ includeSubIdentities } = {}) {
     };
 
     setFilter([searchFilter, { type: "divider" }, showSubIdentityFilter]);
-  }, [search]);
+  }, [search, includeSubIdentities]);
 
   return filter;
 }
