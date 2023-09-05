@@ -1,18 +1,25 @@
 import ExternalLink from "../../externalLink";
 import { Tertiary } from "../sections/governance/styled";
-import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import Tooltip from "../../tooltip";
+import { lowerCase } from "../../../utils/viewFuncs/text";
 
-export default function OverviewItemValueWithAll({ active, all, link }) {
-  const { subSquareWebsite } = useChainSettings();
-
+export default function OverviewItemValueWithAll({
+  active,
+  all,
+  link,
+  label = "",
+}) {
   return (
     <span>
       {active || 0}{" "}
       <Tertiary>
         /{" "}
-        <ExternalLink href={`${subSquareWebsite}/${link}`}>
-          {all || 0}
-        </ExternalLink>
+        <Tooltip
+          tip={`Total ${lowerCase(label)}`}
+          style={{ display: "inline" }}
+        >
+          <ExternalLink href={link}>{all || 0}</ExternalLink>
+        </Tooltip>
       </Tertiary>
     </span>
   );

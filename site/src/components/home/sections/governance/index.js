@@ -101,9 +101,10 @@ export default function GovernanceSection() {
           label="Referenda"
           value={
             <OverviewItemValueWithAll
+              label="Referenda"
               active={summary?.gov2Referenda?.active}
               all={summary?.gov2Referenda?.all}
-              link="referenda"
+              link={`${subSquareWebsite}/referenda`}
             />
           }
         />,
@@ -117,9 +118,10 @@ export default function GovernanceSection() {
           label="Fellowship"
           value={
             <OverviewItemValueWithAll
+              label="Fellowship"
               active={summary?.fellowshipReferenda?.active}
               all={summary?.fellowshipReferenda?.all}
-              link="fellowship"
+              link={`${subSquareWebsite}/fellowship`}
             />
           }
         />,
@@ -144,9 +146,10 @@ export default function GovernanceSection() {
           label="Referenda"
           value={
             <OverviewItemValueWithAll
+              label="Referenda"
               active={summary?.referenda?.active}
               all={summary?.referenda?.all}
-              link="democracy/referenda"
+              link={`${subSquareWebsite}/democracy/referenda`}
             />
           }
         />,
@@ -160,9 +163,10 @@ export default function GovernanceSection() {
           label="Proposals"
           value={
             <OverviewItemValueWithAll
+              label="Proposals"
               active={summary?.publicProposals?.active}
               all={summary?.publicProposals?.all}
-              link="democracy/proposals"
+              link={`${subSquareWebsite}/democracy/proposals`}
             />
           }
         />,
@@ -176,9 +180,10 @@ export default function GovernanceSection() {
           label="External Proposals"
           value={
             <OverviewItemValueWithAll
+              label="External Proposals"
               active={summary?.externalProposals?.active}
               all={summary?.externalProposals?.all}
-              link="democracy/externals"
+              link={`${subSquareWebsite}/democracy/externals`}
             />
           }
         />,
@@ -205,9 +210,10 @@ export default function GovernanceSection() {
           label="Proposals"
           value={
             <OverviewItemValueWithAll
+              label="Proposals"
               active={summary?.treasuryProposals?.active}
               all={summary?.treasuryProposals?.all}
-              link="treasury/proposals"
+              link={`${subSquareWebsite}/treasury/proposals`}
             />
           }
         />,
@@ -221,9 +227,10 @@ export default function GovernanceSection() {
           label="Bounties"
           value={
             <OverviewItemValueWithAll
+              label="Bounties"
               active={summary?.bounties?.active}
               all={summary?.bounties?.all}
-              link="treasury/bounties"
+              link={`${subSquareWebsite}/treasury/bounties`}
             />
           }
         />,
@@ -248,9 +255,10 @@ export default function GovernanceSection() {
           label="Motions"
           value={
             <OverviewItemValueWithAll
+              label="Motions"
               active={summary?.motions?.active}
               all={summary?.motions?.all}
-              link="council/motions"
+              link={`${subSquareWebsite}/council/motions`}
             />
           }
         />,
@@ -289,9 +297,10 @@ export default function GovernanceSection() {
           label="Proposals"
           value={
             <OverviewItemValueWithAll
+              label="Proposals"
               active={summary?.techCommMotions?.active}
               all={summary?.techCommMotions?.all}
-              link="techcomm/proposals"
+              link={`${subSquareWebsite}/techcomm/proposals`}
             />
           }
         />,
