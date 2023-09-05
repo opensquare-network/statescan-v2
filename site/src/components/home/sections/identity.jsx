@@ -1,3 +1,5 @@
+import { OverviewPanel } from "../overview/styled";
+
 export default function IdentitySection() {
-  return <div>IdentitySection</div>;
+  return <OverviewPanel>Identity Section</OverviewPanel>;
 }
