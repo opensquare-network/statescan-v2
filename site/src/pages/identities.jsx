@@ -49,9 +49,12 @@ const GET_IDENTITIES = gql`
 
 export default function IdentitiesPage() {
   const [data, setData] = useState(null);
-  const [filterData, setFilterData] = useState({});
-  const filter = useIdentitiesFilter(filterData);
-  const { page = 1, search = "" } = useQueryParams();
+  const {
+    page = 1,
+    search = "",
+    includeSubIdentities = true,
+  } = useQueryParams();
+  const filter = useIdentitiesFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   const { loading } = useQuery(GET_IDENTITIES, {
@@ -59,7 +62,7 @@ export default function IdentitiesPage() {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       search,
-      includeSubIdentities: !!filterData.includeSubIdentities,
+      includeSubIdentities,
     },
     onCompleted(data) {
       setData(data);
@@ -81,12 +84,7 @@ export default function IdentitiesPage() {
     <Layout>
       <BreadCrumb data={[{ name: "Identities" }]} />
 
-      <Filter
-        data={filter}
-        showFilterButton={false}
-        filterOnDataChange
-        onDataChange={setFilterData}
-      />
+      <Filter data={filter} showFilterButton={false} filterOnDataChange />
 
       <StyledPanelTableWrapper
         footer={
