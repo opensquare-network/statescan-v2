@@ -16,25 +16,11 @@ import { useQueryParams } from "../hooks/useQueryParams";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import { Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, registrarsHead } from "../utils/constants";
+import { GET_REGISTRARS } from "../services/gqls";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
   color: ${(p) => p.theme.fontSecondary};
-`;
-
-const GET_REGISTRARS = gql`
-  query GetRegistrars {
-    registrars {
-      fee
-      statistics {
-        given
-        request
-        totalFee
-      }
-      index
-      account
-    }
-  }
 `;
 
 export default function RegistrarsPage() {
