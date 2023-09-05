@@ -62,7 +62,7 @@ export function AddressAndIdentity({
 
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
-  if (!identity) {
+  if (!identity || identity?.info?.status === "NO_ID") {
     return (
       <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
     );
