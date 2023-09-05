@@ -34,6 +34,7 @@ import {
   OverviewPanel,
   OverviewItemsWrapper as OverviewItemsWrapperOrigin,
 } from "../overview/styled";
+import OverviewItemValueWithAll from "../overview/valueWithAll";
 
 const OverviewItemsWrapper = styled(OverviewItemsWrapperOrigin)`
   ${breakpoint(1294, grid_cols(3))};
@@ -183,64 +184,48 @@ export default function TreasurySection() {
           icon={<OpenGovSquareIcon />}
           label="OpenGov"
           value={
-            <>
-              {treasuryOverview?.count?.referenda?.unFinished ?? 0}
-              <Tertiary>
-                {" "}
-                /{" "}
-                <ExternalLink href={`${treasuryWebsite}/referenda`}>
-                  {treasuryOverview?.count?.referenda?.all ?? 0}
-                </ExternalLink>
-              </Tertiary>
-            </>
+            <OverviewItemValueWithAll
+              active={treasuryOverview?.count?.referenda?.unFinished}
+              label="OpenGov"
+              all={treasuryOverview?.count?.referenda?.all}
+              link={`${treasuryWebsite}/referenda`}
+            />
           }
         />
         <OverviewItem
           icon={<ProposalsSquareIcon />}
           label="Proposals"
           value={
-            <>
-              {treasuryOverview?.count?.proposal?.unFinished ?? 0}
-              <Tertiary>
-                {" "}
-                /{" "}
-                <ExternalLink href={`${treasuryWebsite}/proposals`}>
-                  {treasuryOverview?.count?.proposal?.all ?? 0 ?? 0}
-                </ExternalLink>
-              </Tertiary>
-            </>
+            <OverviewItemValueWithAll
+              active={treasuryOverview?.count?.proposal?.unFinished}
+              label="Proposals"
+              all={treasuryOverview?.count?.proposal?.all}
+              link={`${treasuryWebsite}/proposals`}
+            />
           }
         />
         <OverviewItem
           icon={<TipsSquareIcon />}
           label="Tips"
           value={
-            <>
-              {treasuryOverview?.count?.tip?.unFinished ?? 0}
-              <Tertiary>
-                {" "}
-                /{" "}
-                <ExternalLink href={`${treasuryWebsite}/tips`}>
-                  {treasuryOverview?.count?.tip?.all ?? 0}
-                </ExternalLink>
-              </Tertiary>
-            </>
+            <OverviewItemValueWithAll
+              active={treasuryOverview?.count?.tip?.unFinished}
+              label="Tips"
+              all={treasuryOverview?.count?.tip?.all}
+              link={`${treasuryWebsite}/tips`}
+            />
           }
         />
         <OverviewItem
           icon={<BountiesSquareIcon />}
           label="Bounties"
           value={
-            <>
-              {treasuryOverview?.count?.bounty?.unFinished ?? 0}
-              <Tertiary>
-                {" "}
-                /{" "}
-                <ExternalLink href={`${treasuryWebsite}/bounties`}>
-                  {treasuryOverview?.count?.bounty?.all ?? 0}
-                </ExternalLink>
-              </Tertiary>
-            </>
+            <OverviewItemValueWithAll
+              active={treasuryOverview?.count?.bounty?.unFinished}
+              label="Bounties"
+              all={treasuryOverview?.count?.bounty?.all}
+              link={`${treasuryWebsite}/bounties`}
+            />
           }
         />
       </OverviewItemsWrapper>
