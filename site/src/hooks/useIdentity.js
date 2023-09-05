@@ -93,7 +93,7 @@ function normalizeIdentityInfo(identity) {
   );
 
   let status;
-  if (identity?.parentInfo?.judgements) {
+  if (identity?.isSub) {
     if (isAuthorized) {
       status = IDENTITY_ID_TYPE.VERIFIED_LINKED;
     } else if (isBad) {
