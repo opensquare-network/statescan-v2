@@ -12,7 +12,6 @@ function getFields(timelineItem, chainSetting) {
   switch (timelineItem.name) {
     case "setFee": {
       return {
-        Index: <Text>{timelineItem.args.index}</Text>,
         Fee: (
           <Text>
             <ValueDisplay
@@ -25,7 +24,6 @@ function getFields(timelineItem, chainSetting) {
     }
     case "setAccountId": {
       return {
-        Index: <Text>{timelineItem.args.index}</Text>,
         newAccount: (
           <AddressOrIdentity
             ellipsis={false}
@@ -47,7 +45,6 @@ function getFields(timelineItem, chainSetting) {
     }
     case "setFields": {
       return {
-        Index: <Text>{timelineItem.args.index}</Text>,
         Fields: (
           <FlexColumn style={{ gap: 4 }}>
             {timelineItem.args.fields?.map((field, index) => (
