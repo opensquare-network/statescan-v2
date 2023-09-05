@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import SearchIcon from "../../components/icons/searchIcon";
 
-export function useIdentitiesFilter({ includeSubIdentities } = {}) {
+export function useIdentitiesFilter() {
   const [filter, setFilter] = useState([]);
-  const { search = "" } = useQueryParams();
+  const { search = "", includeSubIdentities } = useQueryParams();
 
   useEffect(() => {
     const searchFilter = {
@@ -23,7 +23,6 @@ export function useIdentitiesFilter({ includeSubIdentities } = {}) {
       type: "checkbox",
       name: "Show Sub Identity",
       query: "includeSubIdentities",
-      persist: false,
     };
 
     setFilter([searchFilter, { type: "divider" }, showSubIdentityFilter]);
