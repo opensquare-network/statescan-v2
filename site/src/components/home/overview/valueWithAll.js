@@ -1,7 +1,6 @@
 import ExternalLink from "../../externalLink";
 import { Tertiary } from "../sections/governance/styled";
 import Tooltip from "../../tooltip";
-import { lowerCase } from "../../../utils/viewFuncs/text";
 
 export default function OverviewItemValueWithAll({
   active,
@@ -14,10 +13,7 @@ export default function OverviewItemValueWithAll({
       {active || 0}{" "}
       <Tertiary>
         /{" "}
-        <Tooltip
-          tip={`Total ${lowerCase(label)}`}
-          style={{ display: "inline" }}
-        >
+        <Tooltip tip={`Total ${label}`} style={{ display: "inline" }}>
           <ExternalLink href={link}>{all || 0}</ExternalLink>
         </Tooltip>
       </Tertiary>
