@@ -19,7 +19,6 @@ import { TREASURY_ACCOUNT } from "../../../utils/constants";
 import useChain from "../../../utils/hooks/chain/useChain";
 import { useChainApi } from "../../../utils/hooks/chain/useChainApi";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
-import ExternalLink from "../../externalLink";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BountiesSquareIcon from "../../icons/bountiesSquareIcon";
 import NextBurnSquareIcon from "../../icons/nextBurnSquareIcon";
