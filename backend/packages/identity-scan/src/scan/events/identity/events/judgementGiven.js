@@ -9,6 +9,7 @@ const {
   updateJudgementRequest,
   insertRequestTimeline,
   insertIdentityTimeline,
+  incJudgementGiven,
 } = require("../../../mongo");
 const {
   call: { findTargetCall },
@@ -47,6 +48,7 @@ async function handleJudgementGiven(event, indexer, extrinsic) {
   const target = event.data[0].toString();
   const registrarIndex = event.data[1].toNumber();
   addBlockAccount(indexer.blockHash, target);
+  await incJudgementGiven(indexer);
 
   const pendingRequest = await getPendingRequest(target, registrarIndex);
 

@@ -26,6 +26,8 @@
     "@osn/scan-common": "0.5.5",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
+    "lodash.countby": "^4.6.0",
+    "lodash.groupby": "^4.6.0",
     "lodash.isempty": "^4.4.0"
   },
   "devDependencies": {

@@ -28,9 +28,12 @@ const identity = /* GraphQL */ `
     deposit: String
     display: String
     fullDisplay: String
+    subDisplay: String
     info: IdentityInfo
     isSub: Boolean
     judgements: [Judgement]
+    parentAddress: String
+    parentInfo: Identity
     subs: [String]
     subsCount: Int!
     subsDeposit: String
