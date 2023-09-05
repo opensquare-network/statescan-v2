@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { toPrecision } from "@osn/common";
 import { parseInt, get, clone } from "lodash";
 import { useMemo } from "react";
