@@ -70,6 +70,7 @@ const GET_REQUESTS = gql`
             blockHeight
           }
         }
+        isFinal
         registrar
         registrarIndex
         account
@@ -110,7 +111,9 @@ export default function RequestsPage() {
         <AddressOrIdentity address={item.registrar} />
       </Flex>,
       <Time>{time(Number(item.indexer.blockTime))}</Time>,
-      <Time>{time(Number(item.status.indexer.blockTime))}</Time>,
+      <Time>
+        {item.isFinal ? time(Number(item.status.indexer.blockTime)) : "--"}
+      </Time>,
       <Status color={STATUS_COLORS[item.status.name]}>
         {item.status.name}
       </Status>,
