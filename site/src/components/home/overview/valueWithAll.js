@@ -1,8 +1,8 @@
-import ExternalLink from "../../../externalLink";
-import { Tertiary } from "./styled";
-import useChainSettings from "../../../../utils/hooks/chain/useChainSettings";
+import ExternalLink from "../../externalLink";
+import { Tertiary } from "../sections/governance/styled";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 
-export default function ValueWithAll({ active, all, link }) {
+export default function OverviewItemValueWithAll({ active, all, link }) {
   const { subSquareWebsite } = useChainSettings();
 
   return (

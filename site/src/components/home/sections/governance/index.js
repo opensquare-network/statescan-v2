@@ -23,7 +23,7 @@ import ReferendaSquareIcon from "../../../icons/referendaSquareIcon";
 import OverviewItem from "../../overview/item";
 import { OverviewItemsWrapper, OverviewPanel } from "../../overview/styled";
 import { Tertiary } from "./styled";
-import ValueWithAll from "./valueWithAll";
+import OverviewItemValueWithAll from "../../overview/valueWithAll";
 import BountiesSquareIcon from "../../../icons/bountiesSquareIcon";
 
 const CategoryWrapper = styled.div`
@@ -100,7 +100,7 @@ export default function GovernanceSection() {
           icon={<ReferendaSquareIcon />}
           label="Referenda"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.gov2Referenda?.active}
               all={summary?.gov2Referenda?.all}
               link="referenda"
@@ -116,7 +116,7 @@ export default function GovernanceSection() {
           icon={<FellowshipSquareIcon />}
           label="Fellowship"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.fellowshipReferenda?.active}
               all={summary?.fellowshipReferenda?.all}
               link="fellowship"
@@ -143,7 +143,7 @@ export default function GovernanceSection() {
           icon={<ReferendaSquareIcon />}
           label="Referenda"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.referenda?.active}
               all={summary?.referenda?.all}
               link="democracy/referenda"
@@ -159,7 +159,7 @@ export default function GovernanceSection() {
           icon={<ProposalsSquareIcon />}
           label="Proposals"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.publicProposals?.active}
               all={summary?.publicProposals?.all}
               link="democracy/proposals"
@@ -175,7 +175,7 @@ export default function GovernanceSection() {
           icon={<ProposalsSquareIcon />}
           label="External Proposals"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.externalProposals?.active}
               all={summary?.externalProposals?.all}
               link="democracy/externals"
@@ -204,7 +204,7 @@ export default function GovernanceSection() {
           icon={<ProposalsSquareIcon />}
           label="Proposals"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.treasuryProposals?.active}
               all={summary?.treasuryProposals?.all}
               link="treasury/proposals"
@@ -220,7 +220,7 @@ export default function GovernanceSection() {
           icon={<BountiesSquareIcon />}
           label="Bounties"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.bounties?.active}
               all={summary?.bounties?.all}
               link="treasury/bounties"
@@ -247,7 +247,7 @@ export default function GovernanceSection() {
           icon={<MotionsSquareIcon />}
           label="Motions"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.motions?.active}
               all={summary?.motions?.all}
               link="council/motions"
@@ -288,7 +288,7 @@ export default function GovernanceSection() {
           icon={<ProposalsSquareIcon />}
           label="Proposals"
           value={
-            <ValueWithAll
+            <OverviewItemValueWithAll
               active={summary?.techCommMotions?.active}
               all={summary?.techCommMotions?.all}
               link="techcomm/proposals"
