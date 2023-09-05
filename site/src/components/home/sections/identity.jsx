@@ -123,9 +123,12 @@ export default function IdentitySection() {
           label="Requests"
           value={
             <div>
-              <Tooltip tip="Requests given" style={{ display: "inline-block" }}>
+              <Tooltip
+                tip="Total judgement requests"
+                style={{ display: "inline-block" }}
+              >
                 <Link to={"/requests"}>
-                  {currencify(data?.statistics?.judgementGiven || 0)}
+                  {currencify(data?.statistics?.request || 0)}
                 </Link>
               </Tooltip>
               <div
@@ -137,9 +140,12 @@ export default function IdentitySection() {
               >
                 •
               </div>
-              <Tooltip tip="Total requests" style={{ display: "inline-block" }}>
+              <Tooltip
+                tip="Total judgements given"
+                style={{ display: "inline-block" }}
+              >
                 <Link to={"/requests"}>
-                  {currencify(data?.statistics?.request || 0)}
+                  {currencify(data?.statistics?.judgementGiven || 0)}
                 </Link>
               </Tooltip>
             </div>
