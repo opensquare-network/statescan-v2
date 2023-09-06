@@ -69,9 +69,7 @@ export default function IdentitySection() {
           value={
             <div>
               <Tooltip tip="Total identities">
-                <Link to={"/identities?includeSubIdentities=false"}>
-                  {currencify(totalIdentities)}
-                </Link>
+                <Link to={"/identities"}>{currencify(totalIdentities)}</Link>
               </Tooltip>
               <IdentityStatusWrapper>
                 <IdentityStatus>
@@ -103,7 +101,7 @@ export default function IdentitySection() {
           label="Total sub identities"
           value={
             <Tooltip tip="Total sub identities">
-              <Link to={"/identities"}>
+              <Link to={"/identities?identityType=SUB"}>
                 {currencify(data?.statistics?.subIdentity || 0)}
               </Link>
             </Tooltip>
