@@ -11,7 +11,11 @@ import Table from "../components/table";
 import Tooltip from "../components/tooltip";
 import { useQueryParams } from "../hooks/useQueryParams";
 import { Inter_14_500 } from "../styles/text";
-import { identitiesHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
+import {
+  identitiesHead,
+  IDENTITY_ID_TYPE,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../utils/constants";
 import { useIdentitiesFilter } from "../utils/hooks/useIdentitiesFilter";
 import { time } from "../utils/viewFuncs/time";
 
@@ -26,12 +30,14 @@ const GET_IDENTITIES = gql`
     $offset: Int!
     $search: String
     $identityType: IdentitySubType
+    $verificationStatus: VerificationStatus
   ) {
     identities(
       limit: $limit
       offset: $offset
       search: $search
       identityType: $identityType
+      verificationStatus: $verificationStatus
     ) {
       limit
       offset
@@ -49,16 +55,26 @@ const GET_IDENTITIES = gql`
 
 export default function IdentitiesPage() {
   const [data, setData] = useState(null);
-  const { page = 1, search = "", identityType } = useQueryParams();
+  const {
+    page = 1,
+    search = "",
+    identityType,
+    verificationStatus,
+  } = useQueryParams();
   const filter = useIdentitiesFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const verificationStatusValue = verificationStatus?.toUpperCase?.();
 
   const { loading } = useQuery(GET_IDENTITIES, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       search,
-      identityType,
+      identityType: identityType?.toUpperCase?.(),
+      verificationStatus:
+        verificationStatusValue === IDENTITY_ID_TYPE.NOT_VERIFIED
+          ? "UNVERIFIED"
+          : verificationStatusValue,
     },
     onCompleted(data) {
       setData(data);
