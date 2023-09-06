@@ -73,23 +73,15 @@ export default function IdentitySection() {
               </Tooltip>
               <IdentityStatusWrapper>
                 <IdentityStatus>
-                  <IdentityIcon
-                    identity={{ info: { status: IDENTITY_ID_TYPE.VERIFIED } }}
-                  />
+                  <IdentityIcon status={IDENTITY_ID_TYPE.VERIFIED} />
                   {verifiedCount}
                 </IdentityStatus>
                 <IdentityStatus>
-                  <IdentityIcon
-                    identity={{
-                      info: { status: IDENTITY_ID_TYPE.NOT_VERIFIED },
-                    }}
-                  />
+                  <IdentityIcon status={IDENTITY_ID_TYPE.NOT_VERIFIED} />
                   {unverifiedCount}
                 </IdentityStatus>
                 <IdentityStatus>
-                  <IdentityIcon
-                    identity={{ info: { status: IDENTITY_ID_TYPE.ERRONEOUS } }}
-                  />
+                  <IdentityIcon status={IDENTITY_ID_TYPE.ERRONEOUS} />
                   {erroneousCount}
                 </IdentityStatus>
               </IdentityStatusWrapper>
