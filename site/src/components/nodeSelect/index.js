@@ -1,16 +1,10 @@
 import styled from "styled-components";
 import { useRef, useState } from "react";
 import { useOnClickOutside } from "@osn/common";
-import DropDown from "./dropDown";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  currentNodeSelector,
-  nodesSelector,
-  setCurrentNode,
-} from "../../store/reducers/nodeSlice";
-import { chainSelector, modeSelector } from "../../store/reducers/settingSlice";
-import { getDelayType } from "./utils";
-import { DarkSignalIcons, LightSignalIcons } from "./signalIcon";
+import NodeList from "./nodeList";
+import { DropDownContentWrapper } from "./styled";
+import useCurrentNode from "./useCurrentNode";
+import useSignalIcon from "./useSignalIcon";
 
 const Wrapper = styled.div`
   position: relative;
@@ -30,46 +24,22 @@ const Wrapper = styled.div`
 `;
 
 export default function NodeSelect() {
-  const dispatch = useDispatch();
-  const chain = useSelector(chainSelector);
-  const nodesSetting = useSelector(nodesSelector);
-  const currentNodeSetting = useSelector(currentNodeSelector);
   const [showDropDown, setShowDropDown] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => {
     setShowDropDown(false);
   });
 
-  const nodes = nodesSetting?.[chain] || [];
-  const currentNetwork = nodes?.find(
-    (item) => item.url === currentNodeSetting?.[chain],
-  );
-
-  const themeMode = useSelector(modeSelector);
-  const SignalIcons =
-    themeMode === "light" ? LightSignalIcons : DarkSignalIcons;
-  const delayType = getDelayType(currentNetwork?.delay);
-  const SignalIcon = SignalIcons[delayType];
+  const currentNode = useCurrentNode();
+  const SignalIcon = useSignalIcon(currentNode?.delay);
 
   return (
     <Wrapper ref={ref} onClick={() => setShowDropDown(!showDropDown)}>
       <SignalIcon width={20} height={20} />
       {showDropDown && (
-        <DropDown
-          nodes={nodes}
-          selectedItem={currentNetwork}
-          setSelectedItem={(selectedItem) => {
-            if (selectedItem && selectedItem.url === currentNetwork?.url) {
-              return;
-            }
-            dispatch(
-              setCurrentNode({
-                chain,
-                url: selectedItem.url,
-              }),
-            );
-          }}
-        />
+        <DropDownContentWrapper>
+          <NodeList />
+        </DropDownContentWrapper>
       )}
     </Wrapper>
   );

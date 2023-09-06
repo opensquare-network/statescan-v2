@@ -9,6 +9,7 @@ import CaretRightIcon from "../../icons/caretRightIcon";
 import CaretDownIcon from "../../icons/caretDownIcon";
 import { useOnClickOutside } from "@osn/common";
 import chains from "../../../utils/consts/chains";
+import { Dropdown } from "../styled";
 
 const ArrowDownIcon = styled(CaretDownIcon)`
   position: absolute;
@@ -19,38 +20,6 @@ const ArrowDownIcon = styled(CaretDownIcon)`
 
 const Wrapper = styled.div`
   position: relative;
-`;
-
-const Dropdown = styled.div`
-  box-sizing: border-box;
-  height: 36px;
-  width: 160px;
-  ${mobilecss(css`
-    width: 100%;
-  `)}
-  background: ${({ theme }) => theme.fillPanel};
-  border: 1px solid ${({ theme }) => theme.strokeBox};
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  cursor: pointer;
-
-  svg {
-    margin-right: 8px;
-  }
-
-  :hover {
-    border-color: ${(p) => p.theme.theme500};
-  }
-
-  ${(p) =>
-    p.active &&
-    css`
-      border-color: ${(p) => p.theme.theme500};
-      outline: none;
-      box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
-    `}
 `;
 
 const Text = styled.div`

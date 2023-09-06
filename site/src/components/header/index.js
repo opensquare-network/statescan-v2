@@ -24,7 +24,7 @@ import { getChainModules } from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
 import NodeSelect from "../nodeSelect";
-import NodeSwitch from "./nodeSwitch";
+import MobileNodeSwitch from "./mobileNodeSwitch";
 import useUpdateNodesDelay from "../../utils/hooks/useUpdateNodesDelay";
 
 const headerHeight = 68;
@@ -169,7 +169,7 @@ export default function Header() {
               </ExploreInputMobileWrapper>
 
               <ChainSwitch />
-              <NodeSwitch />
+              <MobileNodeSwitch />
               <Navi />
             </MobileMenuWrapper>
           )}

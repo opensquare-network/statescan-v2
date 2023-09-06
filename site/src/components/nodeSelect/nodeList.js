@@ -1,33 +1,21 @@
 import isNil from "lodash.isnil";
 import styled, { css } from "styled-components";
 import { getDelayType } from "./utils";
+import useNodes from "./useNodes";
+import useCurrentNode from "./useCurrentNode";
+import { useDispatch, useSelector } from "react-redux";
+import { chainSelector } from "../../store/reducers/settingSlice";
+import { setCurrentNode } from "../../store/reducers/nodeSlice";
 
 const Wrapper = styled.div`
-  position: absolute;
-  right: 0;
-  top: calc(100% + 8px);
-  z-index: 999;
-
-  width: 320px;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
   display: flex;
-  padding: 8px 0px;
   flex-direction: column;
-
-  border-radius: 8px;
-  border: 1px solid var(--strokeBase);
-  background: var(--fillPopup);
-  box-shadow: 0px 0.5px 1px 0px rgba(27, 32, 44, 0.02),
-    0px 2px 4px 0px rgba(27, 32, 44, 0.03),
-    0px 6px 16px 0px rgba(27, 32, 44, 0.05);
 `;
 
 const Item = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 8px 0;
   align-items: baseline;
   gap: 8px;
   color: var(--fontPrimary);
@@ -66,7 +54,24 @@ const Delay = styled.span`
     `}
 `;
 
-export default function DropDown({ nodes, selectedItem, setSelectedItem }) {
+export default function NodeList() {
+  const dispatch = useDispatch();
+  const chain = useSelector(chainSelector);
+  const nodes = useNodes();
+  const currentNode = useCurrentNode();
+
+  const onSelectNode = (node) => {
+    if (node && node.url === currentNode?.url) {
+      return;
+    }
+    dispatch(
+      setCurrentNode({
+        chain,
+        url: node.url,
+      }),
+    );
+  };
+
   return (
     <Wrapper>
       {nodes.map((node) => {
@@ -74,8 +79,8 @@ export default function DropDown({ nodes, selectedItem, setSelectedItem }) {
         return (
           <Item
             key={node.url}
-            active={node === selectedItem}
-            onClick={() => setSelectedItem(node)}
+            active={node === currentNode}
+            onClick={() => onSelectNode(node)}
           >
             <span>Hosted by {node.name}</span>
             {!isNil(node.delay) && !isNaN(node.delay) && (
