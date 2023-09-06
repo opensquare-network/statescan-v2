@@ -476,3 +476,8 @@ export const IDENTITY_JUDGEMENT = {
   LowQuality: "LowQuality",
   Erroneous: "Erroneous",
 };
+
+export const IDENTITY_TYPE = {
+  DIRECT: "DIRECT",
+  SUB: "SUB",
+};

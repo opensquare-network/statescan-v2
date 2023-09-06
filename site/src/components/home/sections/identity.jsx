@@ -12,7 +12,7 @@ import styled from "styled-components";
 import { GET_REGISTRARS } from "../../../services/gqls";
 import { Inter_12_500 } from "../../../styles/text";
 import IdentityIcon from "../../address/identityIcon";
-import { IDENTITY_ID_TYPE } from "../../../utils/constants";
+import { IDENTITY_ID_TYPE, IDENTITY_TYPE } from "../../../utils/constants";
 
 const Link = styled(LinkOrigin)`
   &:hover {
@@ -69,9 +69,7 @@ export default function IdentitySection() {
           value={
             <div>
               <Tooltip tip="Total identities">
-                <Link to={"/identities?includeSubIdentities=false"}>
-                  {currencify(totalIdentities)}
-                </Link>
+                <Link to={"/identities"}>{currencify(totalIdentities)}</Link>
               </Tooltip>
               <IdentityStatusWrapper>
                 <IdentityStatus>
@@ -103,7 +101,7 @@ export default function IdentitySection() {
           label="Total sub identities"
           value={
             <Tooltip tip="Total sub identities">
-              <Link to={"/identities"}>
+              <Link to={`/identities?identityType=${IDENTITY_TYPE.SUB}`}>
                 {currencify(data?.statistics?.subIdentity || 0)}
               </Link>
             </Tooltip>

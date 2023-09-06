@@ -25,13 +25,13 @@ const GET_IDENTITIES = gql`
     $limit: Int!
     $offset: Int!
     $search: String
-    $includeSubIdentities: Boolean
+    $identityType: IdentitySubType
   ) {
     identities(
       limit: $limit
       offset: $offset
       search: $search
-      includeSubIdentities: $includeSubIdentities
+      identityType: $identityType
     ) {
       limit
       offset
@@ -49,11 +49,7 @@ const GET_IDENTITIES = gql`
 
 export default function IdentitiesPage() {
   const [data, setData] = useState(null);
-  const {
-    page = 1,
-    search = "",
-    includeSubIdentities = true,
-  } = useQueryParams();
+  const { page = 1, search = "", identityType } = useQueryParams();
   const filter = useIdentitiesFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
@@ -62,7 +58,7 @@ export default function IdentitiesPage() {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       search,
-      includeSubIdentities,
+      identityType,
     },
     onCompleted(data) {
       setData(data);
@@ -84,7 +80,7 @@ export default function IdentitiesPage() {
     <Layout>
       <BreadCrumb data={[{ name: "Identities" }]} />
 
-      <Filter data={filter} showFilterButton={false} filterOnDataChange />
+      <Filter data={filter} />
 
       <StyledPanelTableWrapper
         footer={
