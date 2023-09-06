@@ -9,6 +9,9 @@ const Wrapper = styled.div`
   z-index: 999;
 
   width: 320px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
   display: flex;
   padding: 8px 0px;
   flex-direction: column;

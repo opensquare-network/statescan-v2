@@ -24,6 +24,8 @@ import { getChainModules } from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
 import NodeSelect from "../nodeSelect";
+import NodeSwitch from "./nodeSwitch";
+import useUpdateNodesDelay from "../../utils/hooks/useUpdateNodesDelay";
 
 const headerHeight = 68;
 
@@ -48,6 +50,8 @@ const MenuWrapper = styled(Flex)`
 const MenuItem = styled(HeaderMenuItem)``;
 
 const MobileMenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 0 24px;
   background-color: ${(p) => p.theme.fillPanel};
 
@@ -63,6 +67,7 @@ const MobileMenuWrapper = styled.div`
   bottom: 0;
   overflow: scroll;
   z-index: 2;
+  gap: 16px;
 `;
 
 const ExploreInputWrapper = styled.div`
@@ -84,8 +89,6 @@ const ExploreInputPCWrapper = styled(ExploreInputWrapper)`
   `)}
 `;
 const ExploreInputMobileWrapper = styled(ExploreInputWrapper)`
-  margin-bottom: 16px;
-
   & .explore-dropdown {
     width: auto;
     top: 44px;
@@ -97,6 +100,8 @@ const ExploreInput = styled(ExploreInputOrigin)`
 `;
 
 export default function Header() {
+  useUpdateNodesDelay();
+
   const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -164,6 +169,7 @@ export default function Header() {
               </ExploreInputMobileWrapper>
 
               <ChainSwitch />
+              <NodeSwitch />
               <Navi />
             </MobileMenuWrapper>
           )}

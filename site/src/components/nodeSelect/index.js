@@ -1,12 +1,4 @@
 import styled from "styled-components";
-import { ReactComponent as SignalFastDarkSVG } from "./icons/node-signal-fast-dark.svg";
-import { ReactComponent as SignalFastSVG } from "./icons/node-signal-fast.svg";
-import { ReactComponent as SignalMediumDarkSVG } from "./icons/node-signal-medium-dark.svg";
-import { ReactComponent as SignalMediumSVG } from "./icons/node-signal-medium.svg";
-import { ReactComponent as SignalSlowDarkSVG } from "./icons/node-signal-slow-dark.svg";
-import { ReactComponent as SignalSlowSVG } from "./icons/node-signal-slow.svg";
-import { ReactComponent as SignalUnavailableDarkSVG } from "./icons/node-signal-unavailable-dark.svg";
-import { ReactComponent as SignalUnavailableSVG } from "./icons/node-signal-unavailable.svg";
 import { useRef, useState } from "react";
 import { useOnClickOutside } from "@osn/common";
 import DropDown from "./dropDown";
@@ -17,22 +9,8 @@ import {
   setCurrentNode,
 } from "../../store/reducers/nodeSlice";
 import { chainSelector, modeSelector } from "../../store/reducers/settingSlice";
-import useUpdateNodesDelay from "../../utils/hooks/useUpdateNodesDelay";
 import { getDelayType } from "./utils";
-
-const DarkSignalIcons = {
-  Fast: SignalFastDarkSVG,
-  Medium: SignalMediumDarkSVG,
-  Slow: SignalSlowDarkSVG,
-  Unavailable: SignalUnavailableDarkSVG,
-};
-
-const LightSignalIcons = {
-  Fast: SignalFastSVG,
-  Medium: SignalMediumSVG,
-  Slow: SignalSlowSVG,
-  Unavailable: SignalUnavailableSVG,
-};
+import { DarkSignalIcons, LightSignalIcons } from "./signalIcon";
 
 const Wrapper = styled.div`
   position: relative;
@@ -52,8 +30,6 @@ const Wrapper = styled.div`
 `;
 
 export default function NodeSelect() {
-  useUpdateNodesDelay();
-
   const dispatch = useDispatch();
   const chain = useSelector(chainSelector);
   const nodesSetting = useSelector(nodesSelector);

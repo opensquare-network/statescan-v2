@@ -19,7 +19,6 @@ const ArrowDownIcon = styled(CaretDownIcon)`
 
 const Wrapper = styled.div`
   position: relative;
-  z-index: 1;
 `;
 
 const Dropdown = styled.div`
@@ -69,6 +68,7 @@ const Options = styled.div`
   border-radius: 8px;
   width: 320px;
   padding: 24px;
+  z-index: 999;
 
   ${mobilecss(css`
     left: 0;
@@ -160,8 +160,8 @@ export default function ChainSwitch() {
   ];
 
   return (
-    <Wrapper ref={ref}>
-      <Dropdown active={show} onClick={() => setShow((state) => !state)}>
+    <Wrapper ref={ref} onClick={() => setShow((state) => !state)}>
+      <Dropdown active={show}>
         {currentNode.icon}
         <Text>{currentNode.name}</Text>
         <ArrowDownIcon />
