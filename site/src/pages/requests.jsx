@@ -96,7 +96,7 @@ export default function RequestsPage() {
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
       account,
-      status: toUpper(status),
+      status: status ? toUpper(status) : null,
       sort,
     },
     onCompleted(data) {
