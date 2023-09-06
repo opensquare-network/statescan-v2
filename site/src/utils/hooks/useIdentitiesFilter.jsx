@@ -47,7 +47,7 @@ export function useIdentitiesFilter() {
         { type: "divider" },
         ...[
           IDENTITY_ID_TYPE.VERIFIED,
-          IDENTITY_ID_TYPE.UNVERIFIED,
+          IDENTITY_ID_TYPE.NOT_VERIFIED,
           IDENTITY_ID_TYPE.ERRONEOUS,
         ].map((type) => ({
           text: (
