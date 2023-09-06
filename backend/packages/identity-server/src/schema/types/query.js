@@ -4,6 +4,12 @@ const queries = /* GraphQL */ `
     SUB
   }
 
+  enum VerificationStatus {
+    VERIFIED
+    UNVERIFIED
+    ERRONEOUS
+  }
+
   type Query {
     identity(account: String!): Identity
     identities(
@@ -11,6 +17,7 @@ const queries = /* GraphQL */ `
       limit: Int!
       search: String
       identityType: IdentitySubType
+      verificationStatus: VerificationStatus
     ): PagedIdentities!
     identityTimeline(account: String!): [TimelineItem]!
     registrars: [Registrar]!
