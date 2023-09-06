@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import SearchIcon from "../../components/icons/searchIcon";
+import { IDENTITY_TYPE } from "../constants";
+import capitalize from "lodash.capitalize";
+import toUpper from "lodash.toupper";
 
 export function useIdentitiesFilter() {
   const [filter, setFilter] = useState([]);
-  const { search = "", includeSubIdentities } = useQueryParams();
+  const { search = "", identityType } = useQueryParams();
 
   useEffect(() => {
     const searchFilter = {
@@ -18,15 +21,22 @@ export function useIdentitiesFilter() {
       },
     };
 
-    const showSubIdentityFilter = {
-      value: includeSubIdentities ?? true,
-      type: "checkbox",
-      name: "Show Sub Identity",
-      query: "includeSubIdentities",
+    const identityTypeFilter = {
+      value: identityType,
+      name: "Identity Type",
+      query: "identityType",
+      options: [
+        { text: "All", value: undefined },
+        { type: "divider" },
+        ...[IDENTITY_TYPE.DIRECT, IDENTITY_TYPE.SUB].map((type) => ({
+          text: capitalize(type),
+          value: toUpper(type),
+        })),
+      ],
     };
 
-    setFilter([searchFilter, { type: "divider" }, showSubIdentityFilter]);
-  }, [search, includeSubIdentities]);
+    setFilter([searchFilter, { type: "divider" }, identityTypeFilter]);
+  }, [search, identityType]);
 
   return filter;
 }
