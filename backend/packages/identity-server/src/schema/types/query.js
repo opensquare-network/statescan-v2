@@ -1,11 +1,16 @@
 const queries = /* GraphQL */ `
+  enum IdentitySubType {
+    DIRECT
+    SUB
+  }
+
   type Query {
     identity(account: String!): Identity
     identities(
       offset: Int!
       limit: Int!
       search: String
-      includeSubIdentities: Boolean = true
+      identityType: IdentitySubType
     ): PagedIdentities!
     identityTimeline(account: String!): [TimelineItem]!
     registrars: [Registrar]!
