@@ -65,8 +65,8 @@ function App() {
         {identity && (
           <>
             <Route path="/identities" element={<IdentitiesPage />} />
-            <Route path="/requests" element={<RequestsPage />} />
-            <Route path="/registrars" element={<RegistrarsPage />} />
+            <Route path="/identities/judgements" element={<RequestsPage />} />
+            <Route path="/identities/registrars" element={<RegistrarsPage />} />
           </>
         )}
       </Routes>

@@ -86,12 +86,12 @@ export const menusIdentity = [
     type: "divider",
   },
   {
-    name: "Requests",
-    value: "requests",
+    name: "Judgements",
+    value: "identities/judgements",
   },
   {
     name: "Registrars",
-    value: "registrars",
+    value: "identities/registrars",
   },
 ];
 

@@ -9,6 +9,7 @@ import AddressOrIdentityOrigin from "../../components/address";
 import { Flex } from "../../components/styled/flex";
 import styled from "styled-components";
 import { Overpass_Mono_14_500 } from "../../styles/text";
+import toUpper from "lodash.toupper";
 
 const AddressOrIdentity = styled(AddressOrIdentityOrigin)`
   overflow: hidden;
@@ -80,7 +81,7 @@ export function useRequestsFilter() {
     };
 
     const statusFilter = {
-      value: status,
+      value: toUpper(status),
       name: "Status",
       query: "status",
       options: [
