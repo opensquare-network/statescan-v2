@@ -34,7 +34,7 @@ const testNet = async (api) => {
 };
 
 const useUpdateNodesDelay = () => {
-  const nodesSetting = useSelector(nodesSelector);
+  const nodes = useSelector(nodesSelector);
   const chain = useSelector(chainSelector);
   const currentNode = useSelector(currentNodeSelector);
   const dispatch = useDispatch();
@@ -49,8 +49,8 @@ const useUpdateNodesDelay = () => {
       }
     };
     const intervalId = setInterval(async () => {
-      const updateNodes = (nodesSetting[chain] || []).filter(
-        (item) => item.url === currentNode?.[chain] || item.update,
+      const updateNodes = (nodes || []).filter(
+        (item) => item.url === currentNode || item.update,
       );
       if (updateNodes && updateNodes.length > 0) {
         const updateNode = updateNodes[count % updateNodes.length];
@@ -60,7 +60,7 @@ const useUpdateNodesDelay = () => {
       count++;
     }, 5000);
     return () => clearInterval(intervalId);
-  }, [dispatch, nodesSetting, chain, currentNode]);
+  }, [dispatch, nodes, chain, currentNode]);
 };
 
 export default useUpdateNodesDelay;

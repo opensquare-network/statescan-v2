@@ -1,16 +1,11 @@
 import { useSelector } from "react-redux";
-import { currentNodeSelector } from "../../store/reducers/nodeSlice";
-import { chainSelector } from "../../store/reducers/settingSlice";
-import useNodes from "./useNodes";
+import {
+  currentNodeSelector,
+  nodesSelector,
+} from "../../store/reducers/nodeSlice";
 
 export default function useCurrentNode() {
-  const chain = useSelector(chainSelector);
-  const currentNodeSetting = useSelector(currentNodeSelector);
-
-  const nodes = useNodes();
-  const currentNode = nodes?.find(
-    (item) => item.url === currentNodeSetting?.[chain],
-  );
-
-  return currentNode;
+  const nodes = useSelector(nodesSelector);
+  const currentNode = useSelector(currentNodeSelector);
+  return nodes?.find((item) => item.url === currentNode);
 }

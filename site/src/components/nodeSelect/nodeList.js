@@ -1,11 +1,10 @@
 import isNil from "lodash.isnil";
 import styled, { css } from "styled-components";
 import { getDelayType } from "./utils";
-import useNodes from "./useNodes";
 import useCurrentNode from "./useCurrentNode";
 import { useDispatch, useSelector } from "react-redux";
 import { chainSelector } from "../../store/reducers/settingSlice";
-import { setCurrentNode } from "../../store/reducers/nodeSlice";
+import { nodesSelector, setCurrentNode } from "../../store/reducers/nodeSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -57,7 +56,7 @@ const Delay = styled.span`
 export default function NodeList() {
   const dispatch = useDispatch();
   const chain = useSelector(chainSelector);
-  const nodes = useNodes();
+  const nodes = useSelector(nodesSelector);
   const currentNode = useCurrentNode();
 
   const onSelectNode = (node) => {
@@ -74,7 +73,7 @@ export default function NodeList() {
 
   return (
     <Wrapper>
-      {nodes.map((node) => {
+      {(nodes || []).map((node) => {
         const delay = getDelayType(node.delay);
         return (
           <Item
