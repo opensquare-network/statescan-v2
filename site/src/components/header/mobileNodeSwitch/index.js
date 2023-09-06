@@ -30,12 +30,12 @@ export default function MobileNodeSwitch() {
   });
 
   const currentNode = useCurrentNode();
-  const SignalIcon = useSignalIcon(currentNode?.delay);
+  const signalIcon = useSignalIcon(currentNode?.delay);
 
   return (
     <Wrapper ref={ref} onClick={() => setShowDropDown(!showDropDown)}>
       <Dropdown active={showDropDown}>
-        <SignalIcon width={20} height={20} />
+        {signalIcon}
         <Text>{currentNode.name}</Text>
         <ArrowDownIcon />
       </Dropdown>

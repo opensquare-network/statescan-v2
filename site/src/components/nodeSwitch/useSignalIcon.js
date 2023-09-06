@@ -10,5 +10,5 @@ export default function useSignalIcon(delay) {
   const delayType = getDelayType(delay);
   const SignalIcon = SignalIcons[delayType];
 
-  return SignalIcon;
+  return <SignalIcon width={20} height={20} />;
 }
