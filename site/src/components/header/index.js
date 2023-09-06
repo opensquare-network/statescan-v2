@@ -23,6 +23,7 @@ import { MOBILE_SIZE } from "@osn/constants";
 import { getChainModules } from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
+import NodeSelect from "../nodeSelect";
 
 const headerHeight = 68;
 
@@ -141,8 +142,9 @@ export default function Header() {
                   <ExploreInput small />
                 </ExploreInputPCWrapper>
               )}
-              <Flex>
+              <Flex gap={8}>
                 <ChainSwitch />
+                <NodeSelect />
               </Flex>
             </Flex>
           </FlexBetween>

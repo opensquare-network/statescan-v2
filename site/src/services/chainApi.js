@@ -33,6 +33,15 @@ let nodeUrl = (() => {
   };
 })();
 
+export const getNodeUrl = () => nodeUrl;
+
+export const getNodes = () => ({
+  kusama: DEFAULT_KUSAMA_NODES,
+  polkadot: DEFAULT_POLKADOT_NODES,
+  litentry: DEFAULT_LITENTRY_NODES,
+  litmus: DEFAULT_LITMUS_NODES,
+});
+
 const apiInstanceMap = new Map();
 
 export function getChainApi(chain, queryUrl) {
