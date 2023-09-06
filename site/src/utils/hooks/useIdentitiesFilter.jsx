@@ -39,7 +39,7 @@ export function useIdentitiesFilter() {
     };
 
     const verificationStatusFilter = {
-      value: verificationStatus,
+      value: toUpper(verificationStatus),
       name: "Verification Status",
       query: "verificationStatus",
       options: [
@@ -53,7 +53,7 @@ export function useIdentitiesFilter() {
           text: (
             <Flex gap={8}>
               <IdentityIcon status={type} />
-              {capitalize(type)}
+              {startCase(capitalize(type))}
             </Flex>
           ),
           value: toUpper(type),

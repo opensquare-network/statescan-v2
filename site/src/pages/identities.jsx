@@ -66,7 +66,7 @@ export default function IdentitiesPage() {
       offset: (page - 1) * pageSize,
       search,
       identityType,
-      verificationStatus,
+      verificationStatus: verificationStatus?.toUpperCase?.(),
     },
     onCompleted(data) {
       setData(data);
