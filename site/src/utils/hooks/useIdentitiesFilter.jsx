@@ -25,14 +25,14 @@ export function useIdentitiesFilter() {
     };
 
     const identityTypeFilter = {
-      value: identityType,
+      value: toUpper(identityType),
       name: "Identity Type",
       query: "identityType",
       options: [
-        { text: "All", value: undefined },
+        { text: "All", value: "" },
         { type: "divider" },
         ...[IDENTITY_TYPE.DIRECT, IDENTITY_TYPE.SUB].map((type) => ({
-          text: capitalize(type),
+          text: capitalize(type) + " Identity",
           value: toUpper(type),
         })),
       ],
@@ -43,7 +43,7 @@ export function useIdentitiesFilter() {
       name: "Verification Status",
       query: "verificationStatus",
       options: [
-        { text: "All Status", value: undefined },
+        { text: "All Status", value: "" },
         { type: "divider" },
         ...[
           IDENTITY_ID_TYPE.VERIFIED,
