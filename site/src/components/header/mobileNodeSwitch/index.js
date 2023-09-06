@@ -1,24 +1,16 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Inter_14_600 } from "../../../styles/text";
-import CaretDownIcon from "../../icons/caretDownIcon";
 import { useOnClickOutside } from "@osn/common";
 import NodeList from "../../nodeSelect/nodeList";
 import { DropDownContentWrapper } from "../../nodeSelect/styled";
 import useSignalIcon from "../../nodeSelect/useSignalIcon";
-import { Dropdown } from "../styled";
+import { ArrowDownIcon, Dropdown } from "../styled";
 import useCurrentNode from "../../nodeSelect/useCurrentNode";
 
 const NodeDropDownContentWrapper = styled(DropDownContentWrapper)`
   width: unset;
   left: 0;
-`;
-
-const ArrowDownIcon = styled(CaretDownIcon)`
-  position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-  right: 6px;
 `;
 
 const Wrapper = styled.div`

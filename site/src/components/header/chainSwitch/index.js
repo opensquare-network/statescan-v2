@@ -6,17 +6,9 @@ import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { mobilecss } from "../../../styles/responsive";
 import CaretRightIcon from "../../icons/caretRightIcon";
-import CaretDownIcon from "../../icons/caretDownIcon";
 import { useOnClickOutside } from "@osn/common";
 import chains from "../../../utils/consts/chains";
-import { Dropdown } from "../styled";
-
-const ArrowDownIcon = styled(CaretDownIcon)`
-  position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-  right: 6px;
-`;
+import { ArrowDownIcon, Dropdown } from "../styled";
 
 const Wrapper = styled.div`
   position: relative;

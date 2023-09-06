@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { bg_theme, rounded_8 } from "../../styles/tailwindcss";
 import { Inter_14_600 } from "../../styles/text";
 import { mobilecss } from "@osn/common";
+import CaretDownIcon from "../icons/caretDownIcon";
 
 export const HeaderMenuItem = styled.div`
   ${Inter_14_600};
@@ -45,4 +46,11 @@ export const Dropdown = styled.div`
       outline: none;
       box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
     `}
+`;
+
+export const ArrowDownIcon = styled(CaretDownIcon)`
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  right: 6px;
 `;
