@@ -39,7 +39,7 @@ export default function Identity({ maxWidth, identity }) {
   return (
     <Wrapper maxWidth={maxWidth}>
       <IdentityIconWrapper>
-        <IdentityIcon identity={identity} />
+        <IdentityIcon status={identity?.info?.status} />
       </IdentityIconWrapper>
       <Display>{identity?.info?.display}</Display>
     </Wrapper>
