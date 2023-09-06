@@ -9711,6 +9711,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.toupper@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "lodash.toupper@npm:4.1.2"
+  checksum: d12c6ff04c8c203c466853fa537bd3863e89cee8337c372dcadef26101fcc31e22dfeabaf60ba2bc0890a6dadf868bb4b6d457a87acefba59a1d09fc0d4ab6a4
+  languageName: node
+  linkType: hard
+
 "lodash.uniq@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.uniq@npm:4.5.0"
@@ -12940,6 +12947,7 @@ __metadata:
     lodash.last: ^3.0.0
     lodash.noop: ^3.0.1
     lodash.omit: ^4.5.0
+    lodash.toupper: ^4.1.2
     moment: ^2.29.4
     query-string: ^7.1.1
     react: ^18.2.0

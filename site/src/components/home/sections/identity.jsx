@@ -120,14 +120,14 @@ export default function IdentitySection() {
         />
         <OverviewItem
           icon={<DataRequestsIcon />}
-          label="Requests"
+          label="Judgements"
           value={
             <div>
               <Tooltip
                 tip="Total judgement requests"
                 style={{ display: "inline-block" }}
               >
-                <Link to={"/requests"}>
+                <Link to={"/identities/judgements"}>
                   {currencify(data?.statistics?.request || 0)}
                 </Link>
               </Tooltip>
@@ -144,7 +144,7 @@ export default function IdentitySection() {
                 tip="Total judgements given"
                 style={{ display: "inline-block" }}
               >
-                <Link to={"/requests"}>
+                <Link to={"/identities/judgements?status=GIVEN"}>
                   {currencify(data?.statistics?.judgementGiven || 0)}
                 </Link>
               </Tooltip>

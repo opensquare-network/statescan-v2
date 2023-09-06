@@ -19,6 +19,7 @@ import {
 } from "../utils/constants";
 import { useRequestsFilter } from "../utils/hooks/useRequestsFilter";
 import { time } from "../utils/viewFuncs/time";
+import toUpper from "lodash.toupper";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
@@ -95,7 +96,7 @@ export default function RequestsPage() {
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
       account,
-      status,
+      status: toUpper(status),
       sort,
     },
     onCompleted(data) {
@@ -122,7 +123,7 @@ export default function RequestsPage() {
 
   return (
     <Layout>
-      <BreadCrumb data={[{ name: "Requests" }]} />
+      <BreadCrumb data={[{ name: "Judgement Requests" }]} />
 
       <Filter data={filter} />
 
