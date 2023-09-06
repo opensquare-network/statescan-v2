@@ -2,6 +2,7 @@ const { dataAsString } = require("../utils");
 const { normalizeIdentity } = require("../utils");
 const { queryIdentityInfo, querySuperOf } = require("../query");
 const isEmpty = require("lodash.isempty");
+const { getVerificationType } = require("../utils/verification");
 
 async function queryIdentityAsSub(account, indexer) {
   const rawSuperOf = await querySuperOf(account, indexer);
@@ -33,6 +34,7 @@ async function queryIdentityAsSub(account, indexer) {
     parentAddress,
     parentInfo: parent,
     lastUpdate: indexer,
+    verification: getVerificationType(parentDisplay, parent.judgements),
   };
 }
 

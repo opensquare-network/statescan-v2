@@ -3,4 +3,5 @@ module.exports = {
   ...require("./identity"),
   ...require("./dataAsString"),
   ...require("./subs"),
+  ...require("./verification"),
 };

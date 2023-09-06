@@ -3,6 +3,7 @@ const { normalizeIdentityJudgements } = require("./judgement");
 const {
   utils: { toDecimal128 },
 } = require("@statescan/common");
+const { getVerificationType } = require("./verification");
 
 function extractAdditional(additional) {
   return additional.reduce((other, [_key, _value]) => {
@@ -44,13 +45,15 @@ function normalizeIdentity(onchainIdentity) {
 
   const { judgements, deposit } = onchainIdentity.unwrap();
   const info = extractIdentityInfo(onchainIdentity);
+  const normalizedJudgements = normalizeIdentityJudgements(judgements);
   return {
     display: info.display,
     fullDisplay: info.display,
     isSub: false,
     info,
-    judgements: normalizeIdentityJudgements(judgements),
+    judgements: normalizedJudgements,
     deposit: toDecimal128(deposit),
+    verification: getVerificationType(info.display, normalizedJudgements),
   };
 }
 
