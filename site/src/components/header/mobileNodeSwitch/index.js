@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Inter_14_600 } from "../../../styles/text";
 import { useOnClickOutside } from "@osn/common";
-import NodeList from "../../nodeSelect/nodeList";
-import { DropDownContentWrapper } from "../../nodeSelect/styled";
-import useSignalIcon from "../../nodeSelect/useSignalIcon";
+import NodeList from "../../nodeSwitch/nodeList";
+import { DropDownContentWrapper } from "../../nodeSwitch/styled";
+import useSignalIcon from "../../nodeSwitch/useSignalIcon";
 import { ArrowDownIcon, Dropdown } from "../styled";
-import useCurrentNode from "../../nodeSelect/useCurrentNode";
+import useCurrentNode from "../../nodeSwitch/useCurrentNode";
 
 const NodeDropDownContentWrapper = styled(DropDownContentWrapper)`
   width: unset;

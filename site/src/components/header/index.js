@@ -23,7 +23,7 @@ import { MOBILE_SIZE } from "@osn/constants";
 import { getChainModules } from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
-import NodeSelect from "../nodeSelect";
+import NodeSwitch from "../nodeSwitch";
 import MobileNodeSwitch from "./mobileNodeSwitch";
 import useUpdateNodesDelay from "../../utils/hooks/useUpdateNodesDelay";
 
@@ -149,7 +149,7 @@ export default function Header() {
               )}
               <Flex gap={8}>
                 <ChainSwitch />
-                <NodeSelect />
+                <NodeSwitch />
               </Flex>
             </Flex>
           </FlexBetween>

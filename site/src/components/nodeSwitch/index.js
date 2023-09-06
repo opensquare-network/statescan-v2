@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 0px 2px rgba(55, 101, 220, 0.1);
 `;
 
-export default function NodeSelect() {
+export default function NodeSwitch() {
   const [showDropDown, setShowDropDown] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => {
