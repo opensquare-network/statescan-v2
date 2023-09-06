@@ -5,6 +5,7 @@ import useCurrentNode from "./useCurrentNode";
 import { useDispatch, useSelector } from "react-redux";
 import { chainSelector } from "../../store/reducers/settingSlice";
 import { nodesSelector, setCurrentNode } from "../../store/reducers/nodeSlice";
+import { Inter_14_500 } from "../../styles/text";
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,10 +29,7 @@ const Item = styled.div`
       color: var(--theme500);
     `}
 
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
+  ${Inter_14_500}
 `;
 
 const Delay = styled.span`
