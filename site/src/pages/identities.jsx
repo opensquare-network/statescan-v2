@@ -26,12 +26,14 @@ const GET_IDENTITIES = gql`
     $offset: Int!
     $search: String
     $identityType: IdentitySubType
+    $verificationStatus: VerificationStatus
   ) {
     identities(
       limit: $limit
       offset: $offset
       search: $search
       identityType: $identityType
+      verificationStatus: $verificationStatus
     ) {
       limit
       offset
@@ -49,7 +51,12 @@ const GET_IDENTITIES = gql`
 
 export default function IdentitiesPage() {
   const [data, setData] = useState(null);
-  const { page = 1, search = "", identityType } = useQueryParams();
+  const {
+    page = 1,
+    search = "",
+    identityType,
+    verificationStatus,
+  } = useQueryParams();
   const filter = useIdentitiesFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
@@ -59,6 +66,7 @@ export default function IdentitiesPage() {
       offset: (page - 1) * pageSize,
       search,
       identityType,
+      verificationStatus,
     },
     onCompleted(data) {
       setData(data);

@@ -8,6 +8,7 @@ import { ReactComponent as SubRedIcon } from "../icons/identity/sub-red.svg";
 export default function IdentityIcon({ size = 12, status }) {
   const statusIconMap = new Map([
     ["NOT_VERIFIED", UnauthorizedIcon],
+    ["UNVERIFIED", UnauthorizedIcon],
     ["VERIFIED", AuthIcon],
     ["ERRONEOUS", ErrorIcon],
     ["VERIFIED_LINKED", SubIcon],
