@@ -299,7 +299,6 @@ export const ASSET_ANALYTICS_RANGE = {
 };
 export const ASSET_ANALYTICS_RANGE_ITEMS = Object.values(ASSET_ANALYTICS_RANGE);
 
-export const DEFAULT_KUSAMA_NODE_URL = "wss://kusama-rpc.polkadot.io";
 export const DEFAULT_KUSAMA_NODES = [
   {
     name: "Parity",
@@ -319,7 +318,6 @@ export const DEFAULT_KUSAMA_NODES = [
   },
 ];
 
-export const DEFAULT_POLKADOT_NODE_URL = "wss://rpc.polkadot.io/";
 export const DEFAULT_POLKADOT_NODES = [
   {
     name: "Parity",
@@ -335,8 +333,6 @@ export const DEFAULT_POLKADOT_NODES = [
   },
 ];
 
-export const DEFAULT_LITENTRY_NODE_URL =
-  "wss://rpc.litentry-parachain.litentry.io/";
 export const DEFAULT_LITENTRY_NODES = [
   {
     name: "Litentry",
@@ -348,7 +344,6 @@ export const DEFAULT_LITENTRY_NODES = [
   },
 ];
 
-export const DEFAULT_LITMUS_NODE_URL = "wss://rpc.litmus-parachain.litentry.io";
 export const DEFAULT_LITMUS_NODES = [
   {
     name: "Litentry",

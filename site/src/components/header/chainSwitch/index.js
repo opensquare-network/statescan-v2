@@ -6,52 +6,12 @@ import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { mobilecss } from "../../../styles/responsive";
 import CaretRightIcon from "../../icons/caretRightIcon";
-import CaretDownIcon from "../../icons/caretDownIcon";
 import { useOnClickOutside } from "@osn/common";
 import chains from "../../../utils/consts/chains";
-
-const ArrowDownIcon = styled(CaretDownIcon)`
-  position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-  right: 6px;
-`;
+import { ArrowDownIcon, Dropdown } from "../styled";
 
 const Wrapper = styled.div`
   position: relative;
-  z-index: 1;
-`;
-
-const Dropdown = styled.div`
-  box-sizing: border-box;
-  height: 36px;
-  width: 160px;
-  ${mobilecss(css`
-    width: 100%;
-  `)}
-  background: ${({ theme }) => theme.fillPanel};
-  border: 1px solid ${({ theme }) => theme.strokeBox};
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  cursor: pointer;
-
-  svg {
-    margin-right: 8px;
-  }
-
-  :hover {
-    border-color: ${(p) => p.theme.theme500};
-  }
-
-  ${(p) =>
-    p.active &&
-    css`
-      border-color: ${(p) => p.theme.theme500};
-      outline: none;
-      box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
-    `}
 `;
 
 const Text = styled.div`
@@ -69,6 +29,7 @@ const Options = styled.div`
   border-radius: 8px;
   width: 320px;
   padding: 24px;
+  z-index: 999;
 
   ${mobilecss(css`
     left: 0;
@@ -160,8 +121,8 @@ export default function ChainSwitch() {
   ];
 
   return (
-    <Wrapper ref={ref}>
-      <Dropdown active={show} onClick={() => setShow((state) => !state)}>
+    <Wrapper ref={ref} onClick={() => setShow((state) => !state)}>
+      <Dropdown active={show}>
         {currentNode.icon}
         <Text>{currentNode.name}</Text>
         <ArrowDownIcon />
