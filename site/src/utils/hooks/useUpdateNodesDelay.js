@@ -42,8 +42,7 @@ const useUpdateNodesDelay = () => {
     const updateNodeDelay = async (url) => {
       try {
         const api = await getChainApi(chain, url);
-        const delay = await testNet(api);
-        return delay;
+        return await testNet(api);
       } catch {
         return "";
       }
@@ -52,10 +51,11 @@ const useUpdateNodesDelay = () => {
       const updateNodes = (nodes || []).filter(
         (item) => item.url === currentNode || item.update,
       );
+
       if (updateNodes && updateNodes.length > 0) {
         const updateNode = updateNodes[count % updateNodes.length];
         const delay = await updateNodeDelay(updateNode.url);
-        dispatch(setNodesDelay([{ chain, url: updateNode.url, delay }]));
+        dispatch(setNodesDelay({ chain, url: updateNode.url, delay }));
       }
       count++;
     }, 5000);

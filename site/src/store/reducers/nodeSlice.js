@@ -43,10 +43,10 @@ const nodeSlice = createSlice({
       }
     },
     setNodesDelay(state, { payload }) {
-      (payload || []).forEach((item) => {
-        const node = (state.nodes || []).find((node) => item.url === node.url);
-        if (node) node.delay = item.delay;
-      });
+      const node = (state.nodes || []).find(
+        (node) => payload?.url === node.url,
+      );
+      if (node) node.delay = payload?.delay;
     },
   },
 });
