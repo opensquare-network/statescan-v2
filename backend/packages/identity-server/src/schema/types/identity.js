@@ -15,6 +15,13 @@ const info = /* GraphQL */ `
   }
 `;
 
+const sub = /* GraphQL */ `
+  type IdentitySubInfo {
+    account: String
+    name: String
+  }
+`;
+
 const judgement = /* GraphQL */ `
   type Judgement {
     registrarIndex: Int!
@@ -34,7 +41,7 @@ const identity = /* GraphQL */ `
     judgements: [Judgement]
     parentAddress: String
     parentInfo: Identity
-    subs: [String]
+    subs: [IdentitySubInfo]
     subsCount: Int!
     subsDeposit: String
     lastUpdate: Indexer!
@@ -49,5 +56,5 @@ const identity = /* GraphQL */ `
 `;
 
 module.exports = {
-  identityTypeDefs: [info, judgement, identity],
+  identityTypeDefs: [info, sub, judgement, identity],
 };
