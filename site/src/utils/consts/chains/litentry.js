@@ -29,9 +29,9 @@ const litentry = {
   },
   subSquareWebsite: "https://litentry.subsquare.io",
   nodes: [
+    { name: "OnFinality", url: "wss://litentry.api.onfinality.io/public-ws" },
     { name: "Dwellir", url: "wss://litentry-rpc.dwellir.com" },
     { name: "Litentry", url: "wss://rpc.litentry-parachain.litentry.io" },
-    { name: "OnFinality", url: "wss://litentry.api.onfinality.io/public-ws" },
   ],
 };
 

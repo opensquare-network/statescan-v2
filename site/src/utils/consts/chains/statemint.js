@@ -21,13 +21,13 @@ const statemint = {
     id: "1000",
   },
   nodes: [
+    { name: "Parity", url: "wss://polkadot-asset-hub-rpc.polkadot.io" },
     { name: "Dwellir", url: "wss://statemint-rpc.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://statemint-rpc-tn.dwellir.com" },
     { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/statemint" },
     { name: "IBP-GeoDNS2", url: "wss://sys.dotters.network/statemint" },
     { name: "LuckyFriday", url: "wss://rpc-asset-hub-polkadot.luckyfriday.io" },
     { name: "OnFinality", url: "wss://statemint.api.onfinality.io/public-ws" },
-    { name: "Parity", url: "wss://polkadot-asset-hub-rpc.polkadot.io" },
     {
       name: "RadiumBlock",
       url: "wss://statemint.public.curie.radiumblock.co/ws",
