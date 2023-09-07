@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@osn/scan-common": "0.5.5",
+    "@statescan/common": "1.0.0",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
     "lodash.countby": "^4.6.0",

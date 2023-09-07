@@ -113,15 +113,18 @@ export default function TreasurySection() {
 
       setTreasurySpendPeriod({
         blockNumber: spendPeriod.toNumber(),
-        periodTime: await estimateBlocksTime(chain, spendPeriod),
+        periodTime: await estimateBlocksTime(chainApi, spendPeriod),
         restBlocks: spendPeriod.sub(goneBlocks).toNumber(),
-        restTime: await estimateBlocksTime(chain, spendPeriod.sub(goneBlocks)),
+        restTime: await estimateBlocksTime(
+          chainApi,
+          spendPeriod.sub(goneBlocks),
+        ),
         progress: goneBlocks.muln(100).div(spendPeriod).toNumber(),
       });
     }
 
     fetchSpendPeriod();
-  }, [chainApi, chain]);
+  }, [chainApi]);
 
   return (
     <OverviewPanel>

@@ -388,64 +388,8 @@ export const ASSET_ANALYTICS_RANGE = {
   ONE_YEAR: "1y",
   ALL: "all",
 };
+
 export const ASSET_ANALYTICS_RANGE_ITEMS = Object.values(ASSET_ANALYTICS_RANGE);
-
-export const DEFAULT_KUSAMA_NODE_URL = "wss://kusama-rpc.polkadot.io";
-export const DEFAULT_KUSAMA_NODES = [
-  {
-    name: "Parity",
-    url: "wss://kusama-rpc.polkadot.io",
-  },
-  {
-    name: "OnFinality",
-    url: "wss://kusama.api.onfinality.io/public-ws",
-  },
-  {
-    name: "Dwellir",
-    url: "wss://kusama-rpc.dwellir.com",
-  },
-  {
-    name: "RadiumBlock",
-    url: "wss://kusama.public.curie.radiumblock.co/ws",
-  },
-];
-
-export const DEFAULT_POLKADOT_NODE_URL = "wss://rpc.polkadot.io/";
-export const DEFAULT_POLKADOT_NODES = [
-  {
-    name: "Parity",
-    url: "wss://rpc.polkadot.io/",
-  },
-  {
-    name: "OnFinality",
-    url: "wss://polkadot.api.onfinality.io/public-ws",
-  },
-  {
-    name: "Dwellir",
-    url: "wss://polkadot-rpc.dwellir.com",
-  },
-];
-
-export const DEFAULT_LITENTRY_NODE_URL =
-  "wss://rpc.litentry-parachain.litentry.io/";
-export const DEFAULT_LITENTRY_NODES = [
-  {
-    name: "Litentry",
-    url: "wss://rpc.litentry-parachain.litentry.io/",
-  },
-  {
-    name: "Dwellir",
-    url: "wss://litentry-rpc.dwellir.com/",
-  },
-];
-
-export const DEFAULT_LITMUS_NODE_URL = "wss://rpc.litmus-parachain.litentry.io";
-export const DEFAULT_LITMUS_NODES = [
-  {
-    name: "Litentry",
-    url: "wss://rpc.litmus-parachain.litentry.io",
-  },
-];
 
 export const TREASURY_ACCOUNT =
   "F3opxRbN5ZbjJNU511Kj2TLuzFcDq9BGduA9TgiECafpg29";
