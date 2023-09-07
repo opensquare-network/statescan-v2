@@ -75,12 +75,17 @@ const SuffixWrapper = styled.span`
  * @param {import("./types").InputProps} props
  */
 export default function Input(props) {
-  const { prefix, suffix, className, small, mini } = props ?? {};
+  const { prefix, suffix, className, small, mini, onKeyDown } = props ?? {};
 
   return (
     <InputWrapper className={className} small={small} mini={mini}>
       {prefix && <PrefixWrapper>{prefix}</PrefixWrapper>}
-      <InputOrigin {...props} />
+      <InputOrigin
+        {...props}
+        onKeyDown={(e) => {
+          onKeyDown?.(e);
+        }}
+      />
       {suffix && <SuffixWrapper>{suffix}</SuffixWrapper>}
     </InputWrapper>
   );
