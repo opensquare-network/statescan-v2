@@ -243,6 +243,11 @@ export default function Filter({
                   onChange={(event) => {
                     onDropdown(item.name, event.target.value);
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleFilter();
+                    }
+                  }}
                 />
               </InputWrapper>
             ) : item.type === "checkbox" ? (
