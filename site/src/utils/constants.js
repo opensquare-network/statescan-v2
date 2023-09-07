@@ -425,3 +425,9 @@ export const IDENTITY_TYPE = {
   DIRECT: "DIRECT",
   SUB: "SUB",
 };
+
+export const ACCOUNT_IDENTITY_TAB_NAME = "identity";
+export const ACCOUNT_IDENTITY_TAB_SUBTAB = {
+  IDENTITY_TIMELINE: "identity_timeline",
+  REGISTRAR_TIMELINE: "registrar_timeline",
+};

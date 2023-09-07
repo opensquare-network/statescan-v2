@@ -1,4 +1,4 @@
-import { stringUpperFirst } from "@polkadot/util";
+import startCase from "lodash.startcase";
 import styled, { css } from "styled-components";
 
 const Wrapper = styled.div`
@@ -59,7 +59,7 @@ export default function TabBar({ tabs = [], selectedTab, setSelectedTab }) {
           onClick={() => setSelectedTab(name)}
         >
           <TabIcon active={name === selectedTab}>{icon}</TabIcon>
-          <span>{stringUpperFirst(name)}</span>
+          <span>{startCase(name)}</span>
         </TabButton>
       ))}
     </Wrapper>

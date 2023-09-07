@@ -7,6 +7,7 @@ import useRegistrarTimeline from "./registrarTimeline";
 import useIdentityTimeline from "./identityTimeline";
 import useQueryParamsUpdater from "../../hooks/useQueryParamsUpdater";
 import { useQueryParams } from "../../hooks/useQueryParams";
+import { ACCOUNT_IDENTITY_TAB_SUBTAB } from "../../utils/constants";
 
 const Wrapper = styled.div`
   border-radius: 8px;
@@ -17,10 +18,7 @@ const Wrapper = styled.div`
     0px 6px 16px 0px rgba(27, 32, 44, 0.05);
 `;
 
-const identityTab = "identity";
-const registrarTab = "registrar";
-
-export default function useAccountTimeline(account) {
+export default function useAccountIdentity(account) {
   const queryParams = useQueryParams();
   const updateQueryParam = useQueryParamsUpdater();
 
@@ -43,23 +41,23 @@ export default function useAccountTimeline(account) {
   if (hasIdentityTimeline) {
     tabs.push({
       icon: <IdentityIcon width={20} height={20} />,
-      name: identityTab,
+      name: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
     });
   }
 
   if (hasRegistrarTimeline) {
     tabs.push({
       icon: <RegistrarIcon width={20} height={20} />,
-      name: registrarTab,
+      name: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
     });
   }
 
   let selectedTab = queryParams.sub;
   if (!selectedTab) {
     if (hasIdentityTimeline) {
-      selectedTab = identityTab;
+      selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE;
     } else if (hasRegistrarTimeline) {
-      selectedTab = registrarTab;
+      selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE;
     }
   }
 
@@ -71,9 +69,9 @@ export default function useAccountTimeline(account) {
   );
 
   let timeline = null;
-  if (selectedTab === identityTab) {
+  if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE) {
     timeline = identityTimeline;
-  } else if (selectedTab === registrarTab) {
+  } else if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE) {
     timeline = registrarTimeline;
   }
 
@@ -90,7 +88,7 @@ export default function useAccountTimeline(account) {
 
   return {
     loading: isIdentityTimelineLoading || isRegistrarTimelineLoading,
-    hasTimeline: hasIdentityTimeline || hasRegistrarTimeline,
+    hasIdentity: hasIdentityTimeline || hasRegistrarTimeline,
     component,
   };
 }

@@ -19,7 +19,7 @@ import {
   nftTransfersHead,
   Transfers,
   transfersHead,
-  Timeline,
+  ACCOUNT_IDENTITY_TAB_NAME,
 } from "../utils/constants";
 import DetailTable from "../components/detail/table";
 import {
@@ -41,7 +41,7 @@ import {
 import DetailTabs from "../components/detail/tabs";
 import { NftInstancePreview } from "../components/nft/preview/index";
 import useAchainableProfile from "../hooks/useAchainableProfile";
-import useAccountTimeline from "../components/accountTimeline";
+import useAccountIdentity from "../components/accountIdentity";
 
 function Account() {
   const { id } = useParams();
@@ -74,7 +74,7 @@ function Account() {
     };
   }, [dispatch]);
 
-  const { hasTimeline, component: accountTimeline } = useAccountTimeline(id);
+  const { hasIdentity, component: accountIdentity } = useAccountIdentity(id);
 
   const assetsApiKey = `/accounts/${id}/assets`;
   const transfersApiKey = `/accounts/${id}/transfers`;
@@ -117,9 +117,9 @@ function Account() {
       ),
     },
     chainSetting.modules?.identity &&
-      hasTimeline && {
-        name: Timeline,
-        children: accountTimeline,
+      hasIdentity && {
+        name: ACCOUNT_IDENTITY_TAB_NAME,
+        children: accountIdentity,
       },
     chainSetting.modules?.uniques && {
       name: Nft,

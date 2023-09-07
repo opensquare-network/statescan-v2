@@ -5,6 +5,10 @@ import Link, { ColoredMonoLink } from "../styled/link";
 import { withCopy } from "../../HOC/withCopy";
 import * as queryString from "query-string";
 import { useIdentity } from "../../hooks/useIdentity";
+import {
+  ACCOUNT_IDENTITY_TAB_SUBTAB,
+  ACCOUNT_IDENTITY_TAB_NAME,
+} from "../../utils/constants";
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -85,14 +89,14 @@ function AddressOrIdentity({
   let linkAccountPage = `/accounts/${address}`;
   if (linkToTimelineRegistrarPage) {
     linkAccountPage = `${linkAccountPage}?${queryString.stringify({
-      tab: "timeline",
-      sub: "registrar",
+      tab: ACCOUNT_IDENTITY_TAB_NAME,
+      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
     })}`;
   }
   if (linkToTimelineIdentityPage) {
     linkAccountPage = `${linkAccountPage}?${queryString.stringify({
-      tab: "timeline",
-      sub: "identity",
+      tab: ACCOUNT_IDENTITY_TAB_NAME,
+      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
     })}`;
   }
 
