@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 const identityTab = "identity";
 const registrarTab = "registrar";
 
-export default function useAccountTimeline(account) {
+export default function useAccountIdentity(account) {
   const queryParams = useQueryParams();
   const updateQueryParam = useQueryParamsUpdater();
 
@@ -90,7 +90,7 @@ export default function useAccountTimeline(account) {
 
   return {
     loading: isIdentityTimelineLoading || isRegistrarTimelineLoading,
-    hasTimeline: hasIdentityTimeline || hasRegistrarTimeline,
+    hasIdentity: hasIdentityTimeline || hasRegistrarTimeline,
     component,
   };
 }
