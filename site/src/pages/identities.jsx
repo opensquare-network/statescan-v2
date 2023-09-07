@@ -96,7 +96,7 @@ export default function IdentitiesPage() {
     <Layout>
       <BreadCrumb data={[{ name: "Identities" }]} />
 
-      <Filter data={filter} />
+      <Filter data={filter} filterOnDataChange />
 
       <StyledPanelTableWrapper
         footer={
