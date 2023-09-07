@@ -7,6 +7,7 @@ import useRegistrarTimeline from "./registrarTimeline";
 import useIdentityTimeline from "./identityTimeline";
 import useQueryParamsUpdater from "../../hooks/useQueryParamsUpdater";
 import { useQueryParams } from "../../hooks/useQueryParams";
+import { ACCOUNT_IDENTITY_TAB_SUBTAB } from "../../utils/constants";
 
 const Wrapper = styled.div`
   border-radius: 8px;
@@ -16,9 +17,6 @@ const Wrapper = styled.div`
     0px 2px 4px 0px rgba(27, 32, 44, 0.03),
     0px 6px 16px 0px rgba(27, 32, 44, 0.05);
 `;
-
-const identityTimelineTab = "Identity Timeline";
-const registrarTimelineTab = "Registrar Timeline";
 
 export default function useAccountIdentity(account) {
   const queryParams = useQueryParams();
@@ -43,23 +41,23 @@ export default function useAccountIdentity(account) {
   if (hasIdentityTimeline) {
     tabs.push({
       icon: <IdentityIcon width={20} height={20} />,
-      name: identityTimelineTab,
+      name: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
     });
   }
 
   if (hasRegistrarTimeline) {
     tabs.push({
       icon: <RegistrarIcon width={20} height={20} />,
-      name: registrarTimelineTab,
+      name: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
     });
   }
 
   let selectedTab = queryParams.sub;
   if (!selectedTab) {
     if (hasIdentityTimeline) {
-      selectedTab = identityTimelineTab;
+      selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE;
     } else if (hasRegistrarTimeline) {
-      selectedTab = registrarTimelineTab;
+      selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE;
     }
   }
 
@@ -71,9 +69,9 @@ export default function useAccountIdentity(account) {
   );
 
   let timeline = null;
-  if (selectedTab === identityTimelineTab) {
+  if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE) {
     timeline = identityTimeline;
-  } else if (selectedTab === registrarTimelineTab) {
+  } else if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE) {
     timeline = registrarTimeline;
   }
 

@@ -19,6 +19,7 @@ import {
   nftTransfersHead,
   Transfers,
   transfersHead,
+  ACCOUNT_IDENTITY_TAB_NAME,
 } from "../utils/constants";
 import DetailTable from "../components/detail/table";
 import {
@@ -117,7 +118,7 @@ function Account() {
     },
     chainSetting.modules?.identity &&
       hasIdentity && {
-        name: "Identity",
+        name: ACCOUNT_IDENTITY_TAB_NAME,
         children: accountIdentity,
       },
     chainSetting.modules?.uniques && {
