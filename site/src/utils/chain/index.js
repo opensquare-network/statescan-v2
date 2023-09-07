@@ -20,3 +20,8 @@ export function getChainModules() {
   const settings = getChainSettings();
   return settings.modules || {};
 }
+
+export function getIsUseOnChainBlockData() {
+  const settings = getChainSettings();
+  return settings.useOnChainBlockData;
+}
