@@ -4,8 +4,8 @@ const { queryIdentityInfo, querySuperOf } = require("../query");
 const isEmpty = require("lodash.isempty");
 const { getVerificationType } = require("../utils/verification");
 
-async function queryIdentityAsSub(account, indexer) {
-  const rawSuperOf = await querySuperOf(account, indexer);
+async function queryIdentityAsSub(account, indexer, supersMap = {}) {
+  const rawSuperOf = supersMap[account];
   if (!rawSuperOf || !rawSuperOf.isSome) {
     return null;
   }

@@ -54,6 +54,7 @@ async function updateAllIdentities(indexer) {
     const identityOf = identityMap[address];
     if (identityOf && identityOf.isSome) {
       const normalizedInfo = normalizeIdentity(identityOf);
+      // Deprecated use
       const normalizedSubsInfo = normalizeSubsInfo(subsOfMap[address]);
       // bulk insert this info
       bulkUpsert(bulk, address, { ...normalizedInfo, ...normalizedSubsInfo });
