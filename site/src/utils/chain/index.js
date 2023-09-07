@@ -11,6 +11,11 @@ export function getChainSettings() {
   return setting;
 }
 
+export function getChainNodes() {
+  const settings = getChainSettings();
+  return settings.nodes || [];
+}
+
 export function getChainModules() {
   const settings = getChainSettings();
   return settings.modules || {};

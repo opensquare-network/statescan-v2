@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import { getDelayType } from "./utils";
 import useCurrentNode from "./useCurrentNode";
 import { useDispatch, useSelector } from "react-redux";
-import { chainSelector } from "../../store/reducers/settingSlice";
 import { nodesSelector, setCurrentNode } from "../../store/reducers/nodeSlice";
 import { Inter_14_500 } from "../../styles/text";
 
@@ -53,7 +52,6 @@ const Delay = styled.span`
 
 export default function NodeList() {
   const dispatch = useDispatch();
-  const chain = useSelector(chainSelector);
   const nodes = useSelector(nodesSelector);
   const currentNode = useCurrentNode();
 
@@ -63,7 +61,6 @@ export default function NodeList() {
     }
     dispatch(
       setCurrentNode({
-        chain,
         url: node.url,
       }),
     );

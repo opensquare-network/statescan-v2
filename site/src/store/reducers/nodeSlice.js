@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { allChainNodes } from "../../services/chainApi";
+import { getChainNodes } from "../../utils/chain";
 
 const chain = process.env.REACT_APP_PUBLIC_CHAIN;
 
 function getInitNodeUrl(chain) {
   const localNodeUrl = localStorage.getItem("nodeUrl");
-  const chainNodes = allChainNodes[chain];
+  const chainNodes = getChainNodes();
   const node = (chainNodes || []).find(({ url }) => url === localNodeUrl);
   if (node) {
     return node.url;
@@ -20,7 +20,7 @@ const nodeSlice = createSlice({
   name: "node",
   initialState: {
     currentNode: getInitNodeUrl(chain),
-    nodes: allChainNodes[chain],
+    nodes: getChainNodes(),
     nodesHeight: 0,
   },
   reducers: {
