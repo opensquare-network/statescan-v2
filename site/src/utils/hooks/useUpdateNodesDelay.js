@@ -7,7 +7,6 @@ import {
   setNodesDelay,
   currentNodeSelector,
 } from "../../store/reducers/nodeSlice";
-import { chainSelector } from "../../store/reducers/settingSlice";
 
 const TIMEOUT = 10000;
 let count = 0;
@@ -35,13 +34,12 @@ const testNet = async (api) => {
 
 const useUpdateNodesDelay = () => {
   const nodes = useSelector(nodesSelector);
-  const chain = useSelector(chainSelector);
   const currentNode = useSelector(currentNodeSelector);
   const dispatch = useDispatch();
   useEffect(() => {
     const updateNodeDelay = async (url) => {
       try {
-        const api = await getChainApi(chain, url);
+        const api = await getChainApi(url);
         const delay = await testNet(api);
         return delay;
       } catch {
@@ -55,12 +53,12 @@ const useUpdateNodesDelay = () => {
       if (updateNodes && updateNodes.length > 0) {
         const updateNode = updateNodes[count % updateNodes.length];
         const delay = await updateNodeDelay(updateNode.url);
-        dispatch(setNodesDelay([{ chain, url: updateNode.url, delay }]));
+        dispatch(setNodesDelay([{ url: updateNode.url, delay }]));
       }
       count++;
     }, 5000);
     return () => clearInterval(intervalId);
-  }, [dispatch, nodes, chain, currentNode]);
+  }, [dispatch, nodes, currentNode]);
 };
 
 export default useUpdateNodesDelay;
