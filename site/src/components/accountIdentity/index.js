@@ -17,8 +17,8 @@ const Wrapper = styled.div`
     0px 6px 16px 0px rgba(27, 32, 44, 0.05);
 `;
 
-const identityTab = "identity";
-const registrarTab = "registrar";
+const identityTimelineTab = "Identity Timeline";
+const registrarTimelineTab = "Registrar Timeline";
 
 export default function useAccountIdentity(account) {
   const queryParams = useQueryParams();
@@ -43,23 +43,23 @@ export default function useAccountIdentity(account) {
   if (hasIdentityTimeline) {
     tabs.push({
       icon: <IdentityIcon width={20} height={20} />,
-      name: identityTab,
+      name: identityTimelineTab,
     });
   }
 
   if (hasRegistrarTimeline) {
     tabs.push({
       icon: <RegistrarIcon width={20} height={20} />,
-      name: registrarTab,
+      name: registrarTimelineTab,
     });
   }
 
   let selectedTab = queryParams.sub;
   if (!selectedTab) {
     if (hasIdentityTimeline) {
-      selectedTab = identityTab;
+      selectedTab = identityTimelineTab;
     } else if (hasRegistrarTimeline) {
-      selectedTab = registrarTab;
+      selectedTab = registrarTimelineTab;
     }
   }
 
@@ -71,9 +71,9 @@ export default function useAccountIdentity(account) {
   );
 
   let timeline = null;
-  if (selectedTab === identityTab) {
+  if (selectedTab === identityTimelineTab) {
     timeline = identityTimeline;
-  } else if (selectedTab === registrarTab) {
+  } else if (selectedTab === registrarTimelineTab) {
     timeline = registrarTimeline;
   }
 
