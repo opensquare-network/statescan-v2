@@ -8,7 +8,11 @@ async function queryMultipleSuperOf(accounts = [], indexer) {
   }
 
   const blockApi = await findBlockApi(indexer.blockHash);
-  return await blockApi.query.identity.superOf.multi(accounts);
+  if (blockApi.query.identity.superOf) {
+    return await blockApi.query.identity.superOf.multi(accounts);
+  }
+
+  return [];
 }
 
 async function queryMultipleSuperOfAsMap(accounts = [], indexer) {

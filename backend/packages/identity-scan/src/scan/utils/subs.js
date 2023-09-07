@@ -14,7 +14,7 @@ function normalizeSubsInfo(onchainSubs, supersMap = {}) {
   const subAddresses = onchainSubs[1].toJSON();
   const subs = subAddresses.map((account) => {
     const superOf = supersMap[account];
-    if (!superOf.isSome) {
+    if (!superOf?.isSome) {
       return { account, name: null };
     }
 
