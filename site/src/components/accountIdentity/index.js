@@ -8,6 +8,9 @@ import useIdentityTimeline from "./identityTimeline";
 import useQueryParamsUpdater from "../../hooks/useQueryParamsUpdater";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { ACCOUNT_IDENTITY_TAB_SUBTAB } from "../../utils/constants";
+import { gql, useQuery } from "@apollo/client";
+import AccountIdentityInfo from "./info";
+import AccountSubIdentities from "./subIdentities";
 
 const Wrapper = styled.div`
   border-radius: 8px;
@@ -18,9 +21,45 @@ const Wrapper = styled.div`
     0px 6px 16px 0px rgba(27, 32, 44, 0.05);
 `;
 
+const GET_IDENTITY_INFO = gql`
+  query GetIdentityInfo($account: String!) {
+    identity(account: $account) {
+      display
+      info {
+        additional
+        display
+        email
+        image
+        legal
+        web
+        twitter
+        riot
+        pgpFingerprint
+      }
+      isSub
+    }
+  }
+`;
+
 export default function useAccountIdentity(account) {
   const queryParams = useQueryParams();
   const updateQueryParam = useQueryParamsUpdater();
+
+  const { data, loading } = useQuery(GET_IDENTITY_INFO, {
+    variables: {
+      account,
+    },
+  });
+  const isSub = data?.identity?.isSub === true;
+
+  const identityInfo = (
+    <AccountIdentityInfo
+      display={data?.identity?.display}
+      info={data?.identity?.info}
+    />
+  );
+
+  const subIdentities = !isSub && <AccountSubIdentities account={account} />;
 
   const {
     data: registrarTimelineData,
@@ -36,7 +75,19 @@ export default function useAccountIdentity(account) {
   const hasIdentityTimeline = identityTimelineData?.length > 0;
   const hasRegistrarTimeline = registrarTimelineData?.length > 0;
 
-  const tabs = [];
+  const tabs = [
+    {
+      icon: <IdentityIcon width={20} height={20} />,
+      name: ACCOUNT_IDENTITY_TAB_SUBTAB.INFO,
+    },
+  ];
+
+  if (!isSub) {
+    tabs.push({
+      icon: <RegistrarIcon width={20} height={20} />,
+      name: ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITIES,
+    });
+  }
 
   if (hasIdentityTimeline) {
     tabs.push({
@@ -54,11 +105,12 @@ export default function useAccountIdentity(account) {
 
   let selectedTab = queryParams.sub;
   if (!selectedTab) {
-    if (hasIdentityTimeline) {
+    selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.INFO;
+    /* if (hasIdentityTimeline) {
       selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE;
     } else if (hasRegistrarTimeline) {
       selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE;
-    }
+    } */
   }
 
   const setSelectedTab = useCallback(
@@ -69,7 +121,11 @@ export default function useAccountIdentity(account) {
   );
 
   let timeline = null;
-  if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE) {
+  if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.INFO) {
+    timeline = identityInfo;
+  } else if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITIES) {
+    timeline = subIdentities;
+  } else if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE) {
     timeline = identityTimeline;
   } else if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE) {
     timeline = registrarTimeline;
@@ -87,7 +143,7 @@ export default function useAccountIdentity(account) {
   );
 
   return {
-    loading: isIdentityTimelineLoading || isRegistrarTimelineLoading,
+    loading: loading || isIdentityTimelineLoading || isRegistrarTimelineLoading,
     hasIdentity: hasIdentityTimeline || hasRegistrarTimeline,
     component,
   };
