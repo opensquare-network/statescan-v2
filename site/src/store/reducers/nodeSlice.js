@@ -21,7 +21,6 @@ const nodeSlice = createSlice({
   initialState: {
     currentNode: getInitNodeUrl(chain),
     nodes: getChainNodes(),
-    nodesHeight: 0,
   },
   reducers: {
     setCurrentNode(state, { payload }) {

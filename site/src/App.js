@@ -3,6 +3,7 @@ import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
 import Home from "./pages";
 import Block from "./pages/block";
+import OnChainBlock from "./pages/onChainBlock";
 import Events from "./pages/events";
 import Extrinsic from "./pages/extrinsic";
 import Transfers from "./pages/transfers";
@@ -15,7 +16,7 @@ import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
 import { Fragment } from "react";
 import Asset from "./pages/asset";
-import { getChainModules } from "./utils/chain";
+import { getChainModules, getIsUseOnChainBlockData } from "./utils/chain";
 import Nfts from "./pages/nfts";
 import DestroyedAssets from "./pages/destroyed/assets";
 import NftClass from "./pages/nftClass";
@@ -24,9 +25,12 @@ import DestroyedNfts from "./pages/destroyed/nfts";
 import IdentitiesPage from "./pages/identities";
 import RegistrarsPage from "./pages/registrars";
 import RequestsPage from "./pages/requests";
+import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
 
 function App() {
   const { assets, uniques, identity } = getChainModules();
+  const isUseOnchainBlockData = getIsUseOnChainBlockData();
+  useSubFinalizedHeight();
 
   return (
     <HashRouter>
@@ -52,7 +56,10 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/blocks" element={<Blocks />} />
-        <Route path="/blocks/:id" element={<Block />} />
+        <Route
+          path="/blocks/:id"
+          element={isUseOnchainBlockData ? <OnChainBlock /> : <Block />}
+        />
         <Route path="/extrinsics" element={<Extrinsics />} />
         <Route path="/extrinsics/:id" element={<Extrinsic />} />
         <Route path="/events" element={<Events />} />
