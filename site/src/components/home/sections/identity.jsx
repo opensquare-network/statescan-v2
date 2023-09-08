@@ -128,7 +128,9 @@ export default function IdentitySection() {
           label="Total registrars"
           value={
             <Tooltip tip="Total registrars">
-              <Link to={"/registrars"}>{currencify(registrars)}</Link>
+              <Link to={"/identities/registrars"}>
+                {currencify(registrars)}
+              </Link>
             </Tooltip>
           }
         />
