@@ -1,4 +1,7 @@
-const { insertIdentityTimeline } = require("../../../mongo");
+const {
+  insertIdentityTimeline,
+  markAllPendingRequestsRemoved,
+} = require("../../../mongo");
 const { addBlockAccount } = require("../../../../store/account");
 
 async function handleIdentityCleared(event, indexer) {
@@ -11,6 +14,8 @@ async function handleIdentityCleared(event, indexer) {
     name: event.method,
     args: {},
   });
+
+  await markAllPendingRequestsRemoved(account, indexer);
 }
 
 module.exports = {
