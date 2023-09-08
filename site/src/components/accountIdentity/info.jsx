@@ -28,37 +28,12 @@ export default function AccountIdentityInfo({ info = {}, display = "" }) {
   const fields = [
     ["Display", <Text>{display}</Text>],
     ["Legal", <Text>{info?.legal || "null"}</Text>],
-    [
-      "Web",
-      <Text>
-        {info?.web ? (
-          <ExternalLink href={info?.web}>{info?.web}</ExternalLink>
-        ) : (
-          "null"
-        )}
-      </Text>,
-    ],
-    ["Riot", <Text>{info?.riot ? info?.riot : "null"}</Text>],
-    [
-      "Email",
-      <Text>
-        {info?.email ? (
-          <a href={`mailto:${info?.email}`}>{info?.email}</a>
-        ) : (
-          "null"
-        )}
-      </Text>,
-    ],
+    ["Web", <Text>{info?.web || "null"}</Text>],
+    ["Riot", <Text>{info?.riot || "null"}</Text>],
+    ["Email", <Text>{info?.email || "null"}</Text>],
     ["Image", <Text>{info?.image || "null"}</Text>],
     ["PGP Fingerpint", <Text>{info?.pgpFingerprint || "null"}</Text>],
-    [
-      "Twitter",
-      <Text>
-        <ExternalLink href={`https://twitter.com/${info?.twitter}`}>
-          {info?.twitter}
-        </ExternalLink>
-      </Text>,
-    ],
+    ["Twitter", <Text>{info?.twitter || "null"}</Text>],
     ["Additional"],
   ];
 
