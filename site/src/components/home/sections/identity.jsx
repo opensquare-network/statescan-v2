@@ -13,6 +13,8 @@ import { GET_REGISTRARS } from "../../../services/gqls";
 import { Inter_12_500 } from "../../../styles/text";
 import IdentityIcon from "../../address/identityIcon";
 import { IDENTITY_ID_TYPE, IDENTITY_TYPE } from "../../../utils/constants";
+import capitalize from "lodash.capitalize";
+import startCase from "lodash.startcase";
 
 const Link = styled(LinkOrigin)`
   &:hover {
@@ -26,10 +28,10 @@ const IdentityStatusWrapper = styled.div`
   align-items: center;
   gap: 12px;
   margin-top: 8px;
-  color: var(--fontSecondary);
-  ${Inter_12_500};
 `;
-const IdentityStatus = styled.span`
+const IdentityStatusLink = styled(Link)`
+  ${Inter_12_500};
+  color: var(--fontSecondary);
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -72,18 +74,38 @@ export default function IdentitySection() {
                 <Link to={"/identities"}>{currencify(totalIdentities)}</Link>
               </Tooltip>
               <IdentityStatusWrapper>
-                <IdentityStatus>
-                  <IdentityIcon status={IDENTITY_ID_TYPE.VERIFIED} />
-                  {verifiedCount}
-                </IdentityStatus>
-                <IdentityStatus>
-                  <IdentityIcon status={IDENTITY_ID_TYPE.NOT_VERIFIED} />
-                  {unverifiedCount}
-                </IdentityStatus>
-                <IdentityStatus>
-                  <IdentityIcon status={IDENTITY_ID_TYPE.ERRONEOUS} />
-                  {erroneousCount}
-                </IdentityStatus>
+                <Tooltip
+                  tip={`${capitalize(IDENTITY_ID_TYPE.VERIFIED)} identities`}
+                >
+                  <IdentityStatusLink
+                    to={`/identities?verificationStatus=${IDENTITY_ID_TYPE.VERIFIED}`}
+                  >
+                    <IdentityIcon status={IDENTITY_ID_TYPE.VERIFIED} />
+                    {currencify(verifiedCount)}
+                  </IdentityStatusLink>
+                </Tooltip>
+                <Tooltip
+                  tip={`${capitalize(
+                    startCase(IDENTITY_ID_TYPE.NOT_VERIFIED),
+                  )} identities`}
+                >
+                  <IdentityStatusLink
+                    to={`/identities?verificationStatus=${IDENTITY_ID_TYPE.NOT_VERIFIED}`}
+                  >
+                    <IdentityIcon status={IDENTITY_ID_TYPE.NOT_VERIFIED} />
+                    {currencify(unverifiedCount)}
+                  </IdentityStatusLink>
+                </Tooltip>
+                <Tooltip
+                  tip={`${capitalize(IDENTITY_ID_TYPE.ERRONEOUS)} identities`}
+                >
+                  <IdentityStatusLink
+                    to={`/identities?verificationStatus=${IDENTITY_ID_TYPE.ERRONEOUS}`}
+                  >
+                    <IdentityIcon status={IDENTITY_ID_TYPE.ERRONEOUS} />
+                    {currencify(erroneousCount)}
+                  </IdentityStatusLink>
+                </Tooltip>
               </IdentityStatusWrapper>
             </div>
           }
