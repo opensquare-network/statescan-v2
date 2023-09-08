@@ -40,13 +40,12 @@ function OnChainBlock() {
   const blockData = useOnChainBlockData(id);
   const blockInfo = extractBlockInfo(blockData);
   const finalizedHeight = useSelector(finalizedHeightSelector);
-  const isFinalized = blockInfo?.height <= finalizedHeight;
 
   let block = null;
   if (blockInfo && finalizedHeight) {
     block = {
       ...blockInfo,
-      isFinalized,
+      isFinalized: blockInfo.height <= finalizedHeight,
     };
   }
 
