@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useChainApi } from "../utils/hooks/chain/useChainApi";
 
-export default function useBlockData(blockHeightOrHash) {
+export default function useOnChainBlockData(blockHeightOrHash) {
   const api = useChainApi();
   const [blockData, setBlockData] = useState(null);
 

@@ -31,13 +31,13 @@ import {
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
-import useBlockData from "../hooks/useBlockData";
+import useOnChainBlockData from "../hooks/useOnChainBlockData";
 import { extractBlockInfo } from "../services/blockInfo";
 import useFinalizedHeight from "../hooks/useFinalizedHeight";
 
 function OnChainBlock() {
   const { id } = useParams();
-  const blockData = useBlockData(id);
+  const blockData = useOnChainBlockData(id);
   const blockInfo = extractBlockInfo(blockData);
   const finalizedHeight = useFinalizedHeight();
   const isFinalized = blockInfo?.height <= finalizedHeight;
