@@ -91,10 +91,16 @@ export default function useAccountIdentity(account) {
     });
   }
 
-  if (hasIdentityTimeline) {
+  if (!isSub && hasIdentityTimeline) {
     tabs.push({
       icon: <IdentityIcon width={20} height={20} />,
       name: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
+    });
+  }
+  if (isSub && hasIdentityTimeline) {
+    tabs.push({
+      icon: <SubIdentityIcon width={20} height={20} />,
+      name: ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITY_TIMELINE,
     });
   }
 
@@ -122,7 +128,10 @@ export default function useAccountIdentity(account) {
     timeline = identityInfo;
   } else if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITIES) {
     timeline = subIdentities;
-  } else if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE) {
+  } else if (
+    selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE ||
+    selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITY_TIMELINE
+  ) {
     timeline = identityTimeline;
   } else if (selectedTab === ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE) {
     timeline = registrarTimeline;
