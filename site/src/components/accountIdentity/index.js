@@ -52,7 +52,7 @@ export default function useAccountIdentity(account) {
       account,
     },
   });
-  const isSub = data?.identity?.isSub === true;
+  const isSub = data?.identity?.isSub;
 
   const identityInfo = (
     <AccountIdentityInfo
