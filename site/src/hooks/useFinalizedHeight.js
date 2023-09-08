@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useChainApi } from "../utils/hooks/chain/useChainApi";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  finalizedHeightSelector,
+  setFinalizedHeight,
+} from "../store/reducers/chainSlice";
 
-export default function useFinalizedHeight() {
+export default function useSubFinalizedHeight() {
+  const dispatch = useDispatch();
   const api = useChainApi();
-  const [finalizedHeight, setFinalizedHeight] = useState(null);
+  const finalizedHeight = useSelector(finalizedHeightSelector);
 
   useEffect(() => {
     if (!api) {
@@ -13,7 +19,7 @@ export default function useFinalizedHeight() {
     let unsub = null;
     api.rpc.chain
       .subscribeFinalizedHeads(async (header) => {
-        setFinalizedHeight(header.number.toNumber());
+        dispatch(setFinalizedHeight(header.number.toNumber()));
       })
       .then((result) => (unsub = result));
 
@@ -22,7 +28,7 @@ export default function useFinalizedHeight() {
         unsub();
       }
     };
-  }, [api]);
+  }, [api, dispatch]);
 
   return finalizedHeight;
 }

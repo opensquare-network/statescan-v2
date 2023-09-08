@@ -19,6 +19,7 @@ import nftReducer from "./nftSlice";
 import nftClassReducer from "./nftClassSlice";
 import nftInstanceReducer from "./nftInstanceSlice";
 import nodeReducer from "./nodeSlice";
+import chainReducer from "./chainSlice";
 
 export default combineReducers({
   setting: settingReducer,
@@ -40,4 +41,5 @@ export default combineReducers({
   nftClass: nftClassReducer,
   nftInstance: nftInstanceReducer,
   node: nodeReducer,
+  chain: chainReducer,
 });

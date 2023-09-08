@@ -22,10 +22,12 @@ import DestroyedAssets from "./pages/destroyed/assets";
 import NftClass from "./pages/nftClass";
 import NftInstance from "./pages/nftInstance";
 import DestroyedNfts from "./pages/destroyed/nfts";
+import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
 
 function App() {
   const { assets, uniques } = getChainModules();
   const isUseOnchainBlockData = getIsUseOnChainBlockData();
+  useSubFinalizedHeight();
 
   return (
     <HashRouter>

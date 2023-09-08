@@ -12,7 +12,7 @@ import {
 } from "../utils/constants";
 import LogsTable from "../components/block/tabTables/logsTable";
 import { currencify } from "../utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DetailLayout from "../components/layout/detailLayout";
 import { isHash } from "../utils/viewFuncs/text";
 import {
@@ -33,13 +33,13 @@ import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
 import useOnChainBlockData from "../hooks/useOnChainBlockData";
 import { extractBlockInfo } from "../services/blockInfo";
-import useFinalizedHeight from "../hooks/useFinalizedHeight";
+import { finalizedHeightSelector } from "../store/reducers/chainSlice";
 
 function OnChainBlock() {
   const { id } = useParams();
   const blockData = useOnChainBlockData(id);
   const blockInfo = extractBlockInfo(blockData);
-  const finalizedHeight = useFinalizedHeight();
+  const finalizedHeight = useSelector(finalizedHeightSelector);
   const isFinalized = blockInfo?.height <= finalizedHeight;
 
   let block = null;
