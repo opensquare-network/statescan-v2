@@ -1,5 +1,6 @@
 import startCase from "lodash.startcase";
 import styled, { css } from "styled-components";
+import { no_scroll_bar } from "../../styles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,6 +9,8 @@ const Wrapper = styled.div`
   padding: 24px;
 
   border-bottom: 1px solid var(--strokeBase);
+  overflow-y: auto;
+  ${no_scroll_bar};
 `;
 
 const TabButton = styled.div`
@@ -59,7 +62,7 @@ export default function TabBar({ tabs = [], selectedTab, setSelectedTab }) {
           onClick={() => setSelectedTab(name)}
         >
           <TabIcon active={name === selectedTab}>{icon}</TabIcon>
-          <span>{startCase(name)}</span>
+          <span style={{ whiteSpace: "nowrap" }}>{startCase(name)}</span>
         </TabButton>
       ))}
     </Wrapper>
