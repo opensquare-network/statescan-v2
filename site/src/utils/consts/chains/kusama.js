@@ -31,6 +31,7 @@ const kusama = {
     { name: "RadiumBlock", url: "wss://kusama.public.curie.radiumblock.co/ws" },
     { name: "Stakeworld", url: "wss://ksm-rpc.stakeworld.io" },
   ],
+  useOnChainBlockData: true,
 };
 
 export default kusama;
