@@ -2,6 +2,8 @@ import styled from "styled-components";
 import TabBar from "./tabBar";
 import { useCallback } from "react";
 import { ReactComponent as IdentityIcon } from "./identity.svg";
+import { ReactComponent as SubIdentityIcon } from "./sub-identity.svg";
+import { ReactComponent as InfoIcon } from "./info.svg";
 import { ReactComponent as RegistrarIcon } from "./registrar.svg";
 import useRegistrarTimeline from "./registrarTimeline";
 import useIdentityTimeline from "./identityTimeline";
@@ -77,14 +79,14 @@ export default function useAccountIdentity(account) {
 
   const tabs = [
     {
-      icon: <IdentityIcon width={20} height={20} />,
+      icon: <InfoIcon width={20} height={20} />,
       name: ACCOUNT_IDENTITY_TAB_SUBTAB.INFO,
     },
   ];
 
   if (!isSub) {
     tabs.push({
-      icon: <RegistrarIcon width={20} height={20} />,
+      icon: <SubIdentityIcon width={20} height={20} />,
       name: ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITIES,
     });
   }
@@ -106,11 +108,6 @@ export default function useAccountIdentity(account) {
   let selectedTab = queryParams.sub;
   if (!selectedTab) {
     selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.INFO;
-    /* if (hasIdentityTimeline) {
-      selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE;
-    } else if (hasRegistrarTimeline) {
-      selectedTab = ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE;
-    } */
   }
 
   const setSelectedTab = useCallback(

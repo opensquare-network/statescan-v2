@@ -27,13 +27,13 @@ const AdditionalTableWrapper = styled.div`
 export default function AccountIdentityInfo({ info = {}, display = "" }) {
   const fields = [
     ["Display", <Text>{display}</Text>],
-    ["Legal", <Text>{info?.legal || "null"}</Text>],
-    ["Web", <Text>{info?.web || "null"}</Text>],
-    ["Riot", <Text>{info?.riot || "null"}</Text>],
-    ["Email", <Text>{info?.email || "null"}</Text>],
-    ["Image", <Text>{info?.image || "null"}</Text>],
-    ["PGP Fingerpint", <Text>{info?.pgpFingerprint || "null"}</Text>],
-    ["Twitter", <Text>{info?.twitter || "null"}</Text>],
+    ["Legal", <Text>{info?.legal || "-"}</Text>],
+    ["Web", <Text>{info?.web || "-"}</Text>],
+    ["Riot", <Text>{info?.riot || "-"}</Text>],
+    ["Email", <Text>{info?.email || "-"}</Text>],
+    ["Image", <Text>{info?.image || "-"}</Text>],
+    ["PGP Fingerpint", <Text>{info?.pgpFingerprint || "-"}</Text>],
+    ["Twitter", <Text>{info?.twitter || "-"}</Text>],
     ["Additional"],
   ];
 
@@ -42,7 +42,7 @@ export default function AccountIdentityInfo({ info = {}, display = "" }) {
       <TimelineItemFields fields={fields} />
       <AdditionalWrapper>
         <AdditionalTableWrapper>
-          <InnerTable data={info?.additional} />
+          <InnerTable data={info?.additional ?? {}} />
         </AdditionalTableWrapper>
       </AdditionalWrapper>
     </Wrapper>
