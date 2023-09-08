@@ -16,38 +16,38 @@ import { useDispatch, useSelector } from "react-redux";
 import DetailLayout from "../components/layout/detailLayout";
 import { isHash } from "../utils/viewFuncs/text";
 import {
-  handleApiError,
-  clearHttpError,
-} from "../utils/viewFuncs/errorHandles";
-import DetailTable from "../components/detail/table";
-import {
   toEventTabTableItem,
   toExtrinsicsTabTableItem,
 } from "../utils/viewFuncs/toTableItem";
-import {
-  blockFetchDetail,
-  clearBlockDetail,
-} from "../store/reducers/blockSlice";
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
 import useOnChainBlockData from "../hooks/useOnChainBlockData";
-import { extractBlockInfo } from "../services/blockInfo";
+import useBlockInfo from "../hooks/useBlockInfo";
 import { finalizedHeightSelector } from "../store/reducers/chainSlice";
+import PagingTable from "../components/detail/pagingTable";
+import isNil from "lodash.isnil";
 
 function OnChainBlock() {
   const { id } = useParams();
   const blockData = useOnChainBlockData(id);
-  const blockInfo = extractBlockInfo(blockData);
+  const blockInfo = useBlockInfo(blockData);
   const finalizedHeight = useSelector(finalizedHeightSelector);
 
-  let block = null;
+  let isFinalized = null;
   if (blockInfo && finalizedHeight) {
-    block = {
-      ...blockInfo,
-      isFinalized: blockInfo.height <= finalizedHeight,
-    };
+    isFinalized = blockInfo?.height <= finalizedHeight;
   }
+
+  const block = useMemo(() => {
+    if (!blockInfo || isNil(isFinalized)) {
+      return null;
+    }
+    return {
+      ...blockInfo,
+      isFinalized,
+    };
+  }, [blockInfo, isFinalized]);
 
   const height = block?.height ?? (!isHash(id) ? parseInt(id) : 0);
   const dispatch = useDispatch();
@@ -56,17 +56,6 @@ function OnChainBlock() {
     () => (block ? toBlockDetailItem(block) : {}),
     [block],
   );
-
-  useEffect(() => {
-    if (id) {
-      clearHttpError(dispatch);
-      dispatch(blockFetchDetail(id)).catch((e) => handleApiError(e, dispatch));
-    }
-
-    return () => {
-      dispatch(clearBlockDetail());
-    };
-  }, [id, dispatch]);
 
   const breadCrumb = (
     <BreadCrumb
@@ -82,10 +71,11 @@ function OnChainBlock() {
       name: Extrinsics,
       count: block?.extrinsicsCount,
       children: (
-        <DetailTable
-          url={`/blocks/${block?.height}/${Extrinsics}`}
+        <PagingTable
           heads={extrinsicsHead}
           transformData={toExtrinsicsTabTableItem}
+          data={blockInfo?.extrinsics || []}
+          isLoading={isNil(blockInfo?.extrinsics)}
         />
       ),
     },
@@ -93,10 +83,11 @@ function OnChainBlock() {
       name: Events,
       count: block?.eventsCount,
       children: (
-        <DetailTable
-          url={`/blocks/${block?.height}/${Events}`}
+        <PagingTable
           heads={blockEventsHead}
           transformData={toEventTabTableItem}
+          data={blockInfo?.events || []}
+          isLoading={isNil(blockInfo?.events)}
         />
       ),
     },
