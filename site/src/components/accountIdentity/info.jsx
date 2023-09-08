@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import TimelineItemFieldsOrigin from "../timeline/itemFields";
-import ExternalLink from "../externalLink";
 import InnerTable from "../table/nestedTable/innerTable";
 import { Text } from "../timeline/styled";
 
