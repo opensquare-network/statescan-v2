@@ -66,7 +66,10 @@ export default function RegistrarsPage() {
     return [
       <Flex gap={24}>
         <Index>#{item.index}</Index>
-        <AddressOrIdentity address={item.account} linkToTimelineRegistrarPage />
+        <AddressOrIdentity
+          address={item.account}
+          linkToIdentityRegistrarTimeline
+        />
       </Flex>,
       item.statistics.request,
       item.statistics.given,

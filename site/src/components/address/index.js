@@ -80,23 +80,30 @@ function AddressOrIdentity({
   maxWidth = "100%",
   ellipsis = true,
   className,
-  linkToTimelineRegistrarPage,
-  linkToTimelineIdentityPage,
+  linkToIdentityRegistrarTimeline,
+  linkToIdentityIdentityTimeline,
+  linkToIdentitySubIdentityTimeline,
 }) {
   const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
 
   let linkAccountPage = `/accounts/${address}`;
-  if (linkToTimelineRegistrarPage) {
+  if (linkToIdentityRegistrarTimeline) {
     linkAccountPage = `${linkAccountPage}?${queryString.stringify({
       tab: ACCOUNT_IDENTITY_TAB_NAME,
       sub: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
     })}`;
   }
-  if (linkToTimelineIdentityPage) {
+  if (linkToIdentityIdentityTimeline) {
     linkAccountPage = `${linkAccountPage}?${queryString.stringify({
       tab: ACCOUNT_IDENTITY_TAB_NAME,
       sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
+    })}`;
+  }
+  if (linkToIdentitySubIdentityTimeline) {
+    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
+      tab: ACCOUNT_IDENTITY_TAB_NAME,
+      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITY_TIMELINE,
     })}`;
   }
 

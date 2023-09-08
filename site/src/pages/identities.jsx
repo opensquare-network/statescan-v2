@@ -45,6 +45,7 @@ const GET_IDENTITIES = gql`
       identities {
         subsCount
         account
+        isSub
         lastUpdate {
           blockTime
         }
@@ -83,7 +84,11 @@ export default function IdentitiesPage() {
 
   const tableData = data?.identities?.identities?.map?.((item) => {
     return [
-      <AddressOrIdentity address={item.account} linkToTimelineIdentityPage />,
+      <AddressOrIdentity
+        address={item.account}
+        linkToIdentityIdentityTimeline={!item.isSub}
+        linkToIdentitySubIdentityTimeline={item.isSub}
+      />,
       <Tooltip tip={item.account}>
         <Address address={item.account} />
       </Tooltip>,
