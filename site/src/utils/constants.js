@@ -227,6 +227,11 @@ export const accountAssetsHead = [
   { name: "Frozen", width: 160, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
 ];
+export const accountSubIdentitiesHead = [
+  { name: "Identity", width: 320 },
+  { name: "Name", width: 240 },
+  { name: "Address", minWidth: 300, width: 712 },
+];
 
 export const nftsHead = [
   { name: "ID", width: 120 },
@@ -428,6 +433,9 @@ export const IDENTITY_TYPE = {
 
 export const ACCOUNT_IDENTITY_TAB_NAME = "identity";
 export const ACCOUNT_IDENTITY_TAB_SUBTAB = {
+  INFO: "info",
+  SUB_IDENTITIES: "sub_identities",
   IDENTITY_TIMELINE: "identity_timeline",
+  SUB_IDENTITY_TIMELINE: "sub_identity_timeline",
   REGISTRAR_TIMELINE: "registrar_timeline",
 };

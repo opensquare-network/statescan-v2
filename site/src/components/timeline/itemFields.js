@@ -35,9 +35,9 @@ const Body = styled.div`
   }
 `;
 
-export default function TimelineItemFields({ fields }) {
+export default function TimelineItemFields({ fields, className = "" }) {
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       {fields.map((field, index) => (
         <Field key={index}>
           <Title>{field[0]}</Title>
