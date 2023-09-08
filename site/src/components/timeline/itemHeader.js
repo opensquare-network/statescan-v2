@@ -5,10 +5,15 @@ import BlockTime from "./blockTime";
 import BlockHeight from "./blockHeight";
 import Link from "./link";
 import isNil from "lodash.isnil";
+import { MOBILE_SIZE } from "@osn/constants";
 
 const Wrapper = styled(FlexColumn)`
   padding: 8px 48px 24px 0;
   min-width: 280px;
+  @media screen and (max-width: ${MOBILE_SIZE}px) {
+    padding: 8px 0 24px 0;
+    min-width: auto;
+  }
 
   > :nth-child(1) {
     margin-bottom: 8px;
