@@ -67,18 +67,20 @@ export default function IdentitySection() {
       <OverviewItemsWrapper>
         <OverviewItem
           icon={<DataIdentityIcon />}
-          label="Total identities"
+          label="Direct identities"
           value={
             <div>
-              <Tooltip tip="Total identities">
-                <Link to={"/identities"}>{currencify(totalIdentities)}</Link>
+              <Tooltip tip="Direct identities">
+                <Link to={`/identities?identityType=${IDENTITY_TYPE.DIRECT}`}>
+                  {currencify(totalIdentities)}
+                </Link>
               </Tooltip>
               <IdentityStatusWrapper>
                 <Tooltip
                   tip={`${capitalize(IDENTITY_ID_TYPE.VERIFIED)} identities`}
                 >
                   <IdentityStatusLink
-                    to={`/identities?verificationStatus=${IDENTITY_ID_TYPE.VERIFIED}`}
+                    to={`/identities?identityType=${IDENTITY_TYPE.DIRECT}&verificationStatus=${IDENTITY_ID_TYPE.VERIFIED}`}
                   >
                     <IdentityIcon status={IDENTITY_ID_TYPE.VERIFIED} />
                     {currencify(verifiedCount)}
@@ -90,7 +92,7 @@ export default function IdentitySection() {
                   )} identities`}
                 >
                   <IdentityStatusLink
-                    to={`/identities?verificationStatus=${IDENTITY_ID_TYPE.NOT_VERIFIED}`}
+                    to={`/identities?identityType=${IDENTITY_TYPE.DIRECT}&verificationStatus=${IDENTITY_ID_TYPE.NOT_VERIFIED}`}
                   >
                     <IdentityIcon status={IDENTITY_ID_TYPE.NOT_VERIFIED} />
                     {currencify(unverifiedCount)}
@@ -100,7 +102,7 @@ export default function IdentitySection() {
                   tip={`${capitalize(IDENTITY_ID_TYPE.ERRONEOUS)} identities`}
                 >
                   <IdentityStatusLink
-                    to={`/identities?verificationStatus=${IDENTITY_ID_TYPE.ERRONEOUS}`}
+                    to={`/identities?identityType=${IDENTITY_TYPE.DIRECT}&verificationStatus=${IDENTITY_ID_TYPE.ERRONEOUS}`}
                   >
                     <IdentityIcon status={IDENTITY_ID_TYPE.ERRONEOUS} />
                     {currencify(erroneousCount)}
@@ -112,9 +114,9 @@ export default function IdentitySection() {
         />
         <OverviewItem
           icon={<DataSubIdentityIcon />}
-          label="Total sub identities"
+          label="Sub identities"
           value={
-            <Tooltip tip="Total sub identities">
+            <Tooltip tip="Sub identities">
               <Link to={`/identities?identityType=${IDENTITY_TYPE.SUB}`}>
                 {currencify(data?.statistics?.subIdentity || 0)}
               </Link>
