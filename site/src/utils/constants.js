@@ -227,6 +227,11 @@ export const accountAssetsHead = [
   { name: "Frozen", width: 160, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
 ];
+export const accountSubIdentitiesHead = [
+  { name: "Identity", width: 320 },
+  { name: "Name", width: 240 },
+  { name: "Address", minWidth: 300, width: 712 },
+];
 
 export const nftsHead = [
   { name: "ID", width: 120 },
