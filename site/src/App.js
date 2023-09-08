@@ -22,10 +22,13 @@ import DestroyedAssets from "./pages/destroyed/assets";
 import NftClass from "./pages/nftClass";
 import NftInstance from "./pages/nftInstance";
 import DestroyedNfts from "./pages/destroyed/nfts";
+import IdentitiesPage from "./pages/identities";
+import RegistrarsPage from "./pages/registrars";
+import RequestsPage from "./pages/requests";
 import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
 
 function App() {
-  const { assets, uniques } = getChainModules();
+  const { assets, uniques, identity } = getChainModules();
   const isUseOnchainBlockData = getIsUseOnChainBlockData();
   useSubFinalizedHeight();
 
@@ -66,6 +69,13 @@ function App() {
         <Route path="/accounts/:id" element={<Account />} />
         <Route path="/calls" element={<Calls />} />
         <Route path="/calls/:id" element={<Call />} />
+        {identity && (
+          <>
+            <Route path="/identities" element={<IdentitiesPage />} />
+            <Route path="/identities/judgements" element={<RequestsPage />} />
+            <Route path="/identities/registrars" element={<RegistrarsPage />} />
+          </>
+        )}
       </Routes>
     </HashRouter>
   );

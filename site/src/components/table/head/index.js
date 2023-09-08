@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { smcss } from "../../../styles/responsive";
 import { w, w_full } from "../../../styles/tailwindcss";
 import last from "lodash.last";
+import SortableHead from "./sortableHead";
+import { useState } from "react";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -23,7 +25,13 @@ const Th = styled.th`
   color: ${(p) => p.theme.fontTertiary};
   text-transform: uppercase;
   text-align: ${(p) => p.align};
-  ${(p) => w(p.width)};
+  ${(p) => p.width && w(p.width)};
+  ${(p) =>
+    p.minWidth &&
+    p.width &&
+    css`
+      width: clamp(${p.minWidth}px, calc(100vw - ${p.width}px), ${p.width}px);
+    `}
 
   ${(p) =>
     p.shouldFlexWidth &&
@@ -37,6 +45,7 @@ export default function TableHead({ heads }) {
   const dispatch = useDispatch();
   const timeType = useSelector(timeTypeSelector);
   const isDataTableTypeLast = last(heads)?.type === "data";
+  const [activeSortQueryValue, setActiveSortQueryValue] = useState("");
 
   useEffect(() => {
     const timeType = localStorage.getItem("timeType");
@@ -52,7 +61,9 @@ export default function TableHead({ heads }) {
   return (
     <thead>
       <Tr>
-        {heads.map(({ name, align = "left", type, width }, index) => {
+        {heads.map((head, index) => {
+          let { name, align = "left", type, width, minWidth } = head ?? {};
+
           const isSecondToLast = heads.length - 2 === index;
           const shouldFlexWidthSecondToLast =
             isDataTableTypeLast && isSecondToLast;
@@ -63,6 +74,19 @@ export default function TableHead({ heads }) {
               <TimeHead timeType={timeType} setTimeType={doSetTimeType} />
             );
           }
+
+          if (type === "sortable") {
+            content = (
+              <SortableHead
+                activeSortQueryValue={activeSortQueryValue}
+                setActiveSortQueryValue={setActiveSortQueryValue}
+                head={head}
+              >
+                {name}
+              </SortableHead>
+            );
+          }
+
           if (type === "data") {
             width = width ?? 76;
             content = "";
@@ -76,6 +100,7 @@ export default function TableHead({ heads }) {
             <Th
               key={index}
               width={width}
+              minWidth={minWidth}
               align={align}
               shouldFlexWidth={shouldFlexWidthSecondToLast}
             >

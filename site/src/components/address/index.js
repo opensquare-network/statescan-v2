@@ -1,15 +1,17 @@
 import styled from "styled-components";
 import Identity from "./identity";
-import { addressEllipsis, fetchIdentity } from "@osn/common";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { chainSettingSelector } from "../../store/reducers/settingSlice";
-import { useIsMounted } from "@osn/common";
+import { addressEllipsis } from "@osn/common";
 import Link, { ColoredMonoLink } from "../styled/link";
 import { withCopy } from "../../HOC/withCopy";
+import * as queryString from "query-string";
+import { useIdentity } from "../../hooks/useIdentity";
+import {
+  ACCOUNT_IDENTITY_TAB_SUBTAB,
+  ACCOUNT_IDENTITY_TAB_NAME,
+} from "../../utils/constants";
 
 const Wrapper = styled.div`
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   a {
     width: 100%;
@@ -40,25 +42,20 @@ const AddressLink = styled(ColoredMonoLink)`
 
 const AddressLinkWithCopy = withCopy(AddressLink);
 
+export function Address({ address, ellipsis = true }) {
+  const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  return (
+    <AddressLink to={`/accounts/${address}`}>{displayAddress}</AddressLink>
+  );
+}
+
 export function AddressAndIdentity({
   address,
   maxWidth = "100%",
   ellipsis = true,
 }) {
-  const [identity, setIdentity] = useState(null);
-  const chainSetting = useSelector(chainSettingSelector);
-  const identityChain = chainSetting.identity;
-  const isMounted = useIsMounted();
+  const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
-
-  useEffect(() => {
-    setIdentity(null);
-    fetchIdentity(identityChain, address).then((identity) => {
-      if (isMounted) {
-        setIdentity(identity);
-      }
-    });
-  }, [address, identityChain, isMounted]);
 
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
@@ -83,32 +80,41 @@ function AddressOrIdentity({
   maxWidth = "100%",
   ellipsis = true,
   className,
+  linkToIdentityRegistrarTimeline,
+  linkToIdentityIdentityTimeline,
+  linkToIdentitySubIdentityTimeline,
 }) {
-  const [identity, setIdentity] = useState(null);
-  const chainSetting = useSelector(chainSettingSelector);
-  const identityChain = chainSetting.identity;
-  const isMounted = useIsMounted();
+  const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
 
-  useEffect(() => {
-    setIdentity(null);
-    fetchIdentity(identityChain, address).then((identity) => {
-      if (isMounted) {
-        setIdentity(identity);
-      }
-    });
-  }, [address, identityChain, isMounted]);
+  let linkAccountPage = `/accounts/${address}`;
+  if (linkToIdentityRegistrarTimeline) {
+    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
+      tab: ACCOUNT_IDENTITY_TAB_NAME,
+      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
+    })}`;
+  }
+  if (linkToIdentityIdentityTimeline) {
+    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
+      tab: ACCOUNT_IDENTITY_TAB_NAME,
+      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
+    })}`;
+  }
+  if (linkToIdentitySubIdentityTimeline) {
+    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
+      tab: ACCOUNT_IDENTITY_TAB_NAME,
+      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITY_TIMELINE,
+    })}`;
+  }
 
   if (!identity || identity?.info?.status === "NO_ID") {
     const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
-    return (
-      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
-    );
+    return <AddressTag to={linkAccountPage}>{displayAddress}</AddressTag>;
   }
 
   return (
     <Wrapper className={className} maxWidth={maxWidth}>
-      <Link to={`/accounts/${address}`}>
+      <Link to={linkAccountPage}>
         <Identity maxWidth={maxWidth} identity={identity} />
       </Link>
     </Wrapper>

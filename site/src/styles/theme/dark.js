@@ -31,6 +31,7 @@ const dark = {
   fillActiveBlue: "#3765dc",
   fillPositive: "#52CC8A",
   fillNegative: "#ee4444",
+  fillPending: "#FFBB37",
   theme500: chainSetting.color,
   theme100: chainSetting.colorSecondary,
 };

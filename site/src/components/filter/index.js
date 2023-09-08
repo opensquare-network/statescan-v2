@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Dropdown from "../dropdown";
 import { Panel } from "../styled/panel";
-import { Inter_12_600, Inter_14_600 } from "../../styles/text";
+import { Inter_12_600, Inter_14_500, Inter_14_600 } from "../../styles/text";
 import { Flex, FlexBetween } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
@@ -17,6 +17,14 @@ import {
   w_full,
 } from "../../styles/tailwindcss";
 import { Button } from "../styled/buttons";
+import Input from "../input";
+import Checkbox from "../checkbox";
+import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
+import { useUpdateEffect } from "usehooks-ts";
+import { useQueryParams } from "../../hooks/useQueryParams";
+import noop from "lodash.noop";
+import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
+import isNil from "lodash.isnil";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -53,6 +61,20 @@ const HeadWrapper = styled(FlexBetween)`
   flex-basis: 100%;
 `;
 
+const InputWrapper = styled(Flex)`
+  color: var(--fontPrimary);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: right;
+  row-gap: 8px;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
 const DropdownWrapper = styled(Flex)`
   color: ${(p) => p.theme.fontPrimary};
   flex-direction: column;
@@ -66,6 +88,12 @@ const DropdownWrapper = styled(Flex)`
     flex-direction: column;
     align-items: stretch;
   }
+`;
+
+const CheckboxWrapper = styled(Flex)`
+  color: var(--fontPrimary);
+  padding: 4px 0;
+  ${Inter_14_500};
 `;
 
 const FilterButton = styled(Button)`
@@ -105,12 +133,19 @@ const FilterWrapper = styled(Flex)`
   }
 `;
 
-export default function Filter({ title, data }) {
+export default function Filter({
+  title,
+  data,
+  showFilterButton = true,
+  filterOnDataChange,
+  onDataChange = noop,
+}) {
   const navigate = useNavigate();
   const [selectData, setDropdownData] = useState(data);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const { width } = useWindowSize();
   const isDark = useIsDark();
+  const params = useQueryParams();
 
   useEffect(() => {
     setDropdownData(data);
@@ -137,21 +172,45 @@ export default function Filter({ title, data }) {
   const getCurrentFilter = () => {
     const filter = {};
     (selectData || []).forEach((item) => {
-      if (item.query && item.value) {
+      if (item.query && !isNil(item.value) && item.value !== "") {
         Object.assign(filter, { [item.query]: item.value });
       }
     });
     return filter;
   };
 
+  function handleFilter() {
+    const value = getCurrentFilter();
+    if (params[TABLE_SORT_QUERY_KEY])
+      value[TABLE_SORT_QUERY_KEY] = params[TABLE_SORT_QUERY_KEY];
+
+    // exclude all filter with persist === false
+    data?.forEach?.((item) => {
+      if (item.persist === false) {
+        delete value[item.query];
+      }
+    });
+
+    const search = serialize(value);
+    navigate({ search: `?${search}${search ? "&" : ""}page=1` });
+  }
+
+  const debouncedSelectData = useFilterDebounce(selectData);
+
+  useEffect(() => {
+    const filterData = getCurrentFilter();
+    onDataChange(filterData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectData, onDataChange]);
+
+  useUpdateEffect(() => {
+    if (filterOnDataChange) {
+      handleFilter();
+    }
+  }, [debouncedSelectData, filterOnDataChange]);
+
   const filter_button = (
-    <FilterButton
-      dark={isDark}
-      onClick={() => {
-        const search = serialize(getCurrentFilter());
-        navigate({ search: `?${search}${search ? "&" : ""}page=1` });
-      }}
-    >
+    <FilterButton dark={isDark} onClick={handleFilter}>
       Filter
     </FilterButton>
   );
@@ -174,10 +233,38 @@ export default function Filter({ title, data }) {
           {(selectData || []).map((item, index) =>
             item.type === "divider" ? (
               <FilterDivider key={index} />
+            ) : item.type === "input" ? (
+              <InputWrapper key={index}>
+                <div>{item.name}</div>
+                <Input
+                  mini
+                  value={item.value}
+                  {...(item.inputProps || {})}
+                  onChange={(event) => {
+                    onDropdown(item.name, event.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleFilter();
+                    }
+                  }}
+                />
+              </InputWrapper>
+            ) : item.type === "checkbox" ? (
+              <CheckboxWrapper key={index}>
+                <Checkbox
+                  defaultChecked={item.value}
+                  label={item.name}
+                  onCheckedChange={(checked) => {
+                    onDropdown(item.name, checked);
+                  }}
+                />
+              </CheckboxWrapper>
             ) : (
               <DropdownWrapper key={index}>
                 <span>{item.name}</span>
                 <Dropdown
+                  width={item.width}
                   isSearch={!!item?.isSearch}
                   value={item.value}
                   name={item.name}
@@ -190,7 +277,7 @@ export default function Filter({ title, data }) {
               </DropdownWrapper>
             ),
           )}
-          {filter_button}
+          {showFilterButton && filter_button}
         </FilterWrapper>
       )}
     </Wrapper>

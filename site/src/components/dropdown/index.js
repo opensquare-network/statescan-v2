@@ -21,7 +21,7 @@ const Wrapper = styled(Flex)`
 const SelectWrapper = styled(FlexBetween)`
   flex-grow: 1;
   padding: 0 6px 0 12px;
-  width: 140px;
+  width: ${(p) => p.width || 140}px;
   height: 26px;
   background: ${(p) => p.theme.fillPopup};
   border-radius: 6px;
@@ -63,6 +63,7 @@ export default function Dropdown({
   onSelect,
   isSearch = false,
   defaultDisplay = "",
+  width,
 }) {
   const ref = useRef();
   useOnClickOutside(ref, () => setIsActive(false));
@@ -71,12 +72,17 @@ export default function Dropdown({
 
   return (
     <Wrapper ref={ref}>
-      <SelectWrapper onClick={() => setIsActive(!isActive)} isActive={isActive}>
+      <SelectWrapper
+        width={width}
+        onClick={() => setIsActive(!isActive)}
+        isActive={isActive}
+      >
         <span>{showText ?? defaultDisplay}</span>
         <CaretIcon />
       </SelectWrapper>
       {isActive && (
         <Options
+          width={width}
           setIsActive={setIsActive}
           value={value}
           isSearch={isSearch}

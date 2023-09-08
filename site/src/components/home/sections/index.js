@@ -35,6 +35,7 @@ import { nftListLoadingSelector } from "../../../store/reducers/nftSlice";
 import ExternalLink from "../../externalLink";
 import TreasurySection from "./treasury";
 import GovernanceSection from "./governance";
+import IdentitySection from "./identity";
 
 const Title = styled.h2`
   ${Inter_18_700};
@@ -173,6 +174,15 @@ export default function Sections() {
                 <ExternalLink href={treasuryWebsite}>doTreasury</ExternalLink>
               </div>
             </AnchorWrapper>
+          </StyledPanelTableWrapper>
+        </Section>
+      )}
+
+      {modules?.identity && (
+        <Section>
+          <Title>Identity</Title>
+          <StyledPanelTableWrapper>
+            <IdentitySection />
           </StyledPanelTableWrapper>
         </Section>
       )}

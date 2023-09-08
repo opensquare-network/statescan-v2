@@ -77,6 +77,24 @@ export const menusAssets = [
   },
 ];
 
+export const menusIdentity = [
+  {
+    name: "Identities",
+    value: "identities",
+  },
+  {
+    type: "divider",
+  },
+  {
+    name: "Judgements",
+    value: "identities/judgements",
+  },
+  {
+    name: "Registrars",
+    value: "identities/registrars",
+  },
+];
+
 export const blocksHead = [
   { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
@@ -209,6 +227,11 @@ export const accountAssetsHead = [
   { name: "Frozen", width: 160, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
 ];
+export const accountSubIdentitiesHead = [
+  { name: "Identity", width: 320 },
+  { name: "Name", width: 240 },
+  { name: "Address", minWidth: 300, width: 712 },
+];
 
 export const nftsHead = [
   { name: "ID", width: 120 },
@@ -246,6 +269,79 @@ export const destroyedNftsHead = [
   { name: "Destroyed Time", width: 200 },
   { name: "Owner", width: 152 },
   { name: "Instance", width: 120, align: "right" },
+];
+
+export const identitiesHead = [
+  { name: "Identity Name", minWidth: 300, width: 712 },
+  { name: "Address", width: 240 },
+  { name: "Sub Identity", width: 160, align: "right" },
+  { name: "Update at", width: 200 },
+];
+
+export const requestsHead = [
+  { name: "Requester", width: 240 },
+  { name: "Registrar", minWidth: 300, width: 472 },
+  {
+    name: "Start at",
+    width: 200,
+    type: "sortable",
+    sortAscendingQueryValue: "REQUEST_HEIGHT_ASC",
+    sortDescendingQueryValue: "REQUEST_HEIGHT_DESC",
+    sortDefaultQueryValue: "REQUEST_HEIGHT_DESC",
+  },
+  { name: "End at", width: 200 },
+  { name: "Status", width: 200 },
+];
+
+export const registrarsHead = [
+  {
+    name: "Registrar",
+    width: 512,
+    type: "sortable",
+    sortAscendingQueryValue: "REGISTRAR_INDEX_ASC",
+    sortDescendingQueryValue: "REGISTRAR_INDEX_DESC",
+    sortDefaultQueryValue: "REGISTRAR_INDEX_ASC",
+  },
+  {
+    name: "Received Req.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortAscendingQueryValue: "REGISTRAR_RECEIVED_REQ_ASC",
+    sortDescendingQueryValue: "REGISTRAR_RECEIVED_REQ_DESC",
+  },
+  {
+    name: "Total Given.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortAscendingQueryValue: "REGISTRAR_TOTAL_GIVEN_ASC",
+    sortDescendingQueryValue: "REGISTRAR_TOTAL_GIVEN_DESC",
+  },
+  {
+    name: "Pending Req.",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortAscendingQueryValue: "REGISTRAR_PENDING_REQ_ASC",
+    sortDescendingQueryValue: "REGISTRAR_PENDING_REQ_DESC",
+  },
+  {
+    name: "Fee",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortAscendingQueryValue: "REGISTRAR_FEE_ASC",
+    sortDescendingQueryValue: "REGISTRAR_FEE_DESC",
+  },
+  {
+    name: "Total earn",
+    width: 160,
+    align: "right",
+    type: "sortable",
+    sortAscendingQueryValue: "REGISTRAR_TOTAL_EARN_ASC",
+    sortDescendingQueryValue: "REGISTRAR_TOTAL_EARN_DESC",
+  },
 ];
 
 export const timeTypes = {
@@ -302,3 +398,44 @@ export const ASSET_ANALYTICS_RANGE_ITEMS = Object.values(ASSET_ANALYTICS_RANGE);
 
 export const TREASURY_ACCOUNT =
   "F3opxRbN5ZbjJNU511Kj2TLuzFcDq9BGduA9TgiECafpg29";
+
+export const REQUEST_STATUS = {
+  PENDING: "pending",
+  CANCELLED: "cancelled",
+  GIVEN: "given",
+  REMOVED: "removed",
+};
+
+export const TABLE_SORT_QUERY_KEY = "sort";
+
+export const IDENTITY_ID_TYPE = {
+  NO_ID: "NO_ID",
+  NOT_VERIFIED: "NOT_VERIFIED",
+  VERIFIED: "VERIFIED",
+  ERRONEOUS: "ERRONEOUS",
+  VERIFIED_LINKED: "VERIFIED_LINKED",
+  NOT_VERIFIED_LINKED: "LINKED",
+  ERRONEOUS_LINKED: "ERRONEOUS_LINKED",
+};
+
+export const IDENTITY_JUDGEMENT = {
+  Reasonable: "Reasonable",
+  KnownGood: "KnownGood",
+  OutOfDate: "OutOfDate",
+  LowQuality: "LowQuality",
+  Erroneous: "Erroneous",
+};
+
+export const IDENTITY_TYPE = {
+  DIRECT: "DIRECT",
+  SUB: "SUB",
+};
+
+export const ACCOUNT_IDENTITY_TAB_NAME = "identity";
+export const ACCOUNT_IDENTITY_TAB_SUBTAB = {
+  INFO: "info",
+  SUB_IDENTITIES: "sub_identities",
+  IDENTITY_TIMELINE: "identity_timeline",
+  SUB_IDENTITY_TIMELINE: "sub_identity_timeline",
+  REGISTRAR_TIMELINE: "registrar_timeline",
+};

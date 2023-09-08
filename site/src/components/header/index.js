@@ -15,7 +15,11 @@ import {
 } from "../../store/reducers/mobileMenuSlice";
 import { mdcss, mobilecss } from "../../styles/responsive";
 import { useEffect } from "react";
-import { menusAssets, menusBlockchain } from "../../utils/constants";
+import {
+  menusAssets,
+  menusBlockchain,
+  menusIdentity,
+} from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
@@ -106,7 +110,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const location = useLocation();
   const shouldShowPCExplore = location.pathname !== "/";
-  const { assets } = getChainModules();
+  const { assets, identity } = getChainModules();
 
   const { width } = useWindowSize();
 
@@ -139,6 +143,9 @@ export default function Header() {
               </Link>
               <SubMenu category="BlockChain" menus={menusBlockchain} />
               {assets && <SubMenu category="Assets" menus={menusAssets} />}
+              {identity && (
+                <SubMenu category="Identity" menus={menusIdentity} />
+              )}
             </MenuWrapper>
 
             <Flex>
