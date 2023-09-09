@@ -436,6 +436,5 @@ export const ACCOUNT_IDENTITY_TAB_SUBTAB = {
   INFO: "info",
   SUB_IDENTITIES: "sub_identities",
   IDENTITY_TIMELINE: "identity_timeline",
-  SUB_IDENTITY_TIMELINE: "sub_identity_timeline",
   REGISTRAR_TIMELINE: "registrar_timeline",
 };
