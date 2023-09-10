@@ -48,7 +48,7 @@ const GET_REQUESTS = gql`
     $limit: Int!
     $offset: Int!
     $registrarIndex: Int
-    $account: String
+    $search: String
     $status: RequestStatusValue
     $sort: RequestSort
   ) {
@@ -56,7 +56,7 @@ const GET_REQUESTS = gql`
       limit: $limit
       offset: $offset
       registrarIndex: $registrarIndex
-      account: $account
+      search: $search
       status: $status
       sort: $sort
     ) {
@@ -86,7 +86,7 @@ const GET_REQUESTS = gql`
 
 export default function RequestsPage() {
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { page = 1, account, registrarIndex, status, sort } = useQueryParams();
+  const { page = 1, search, registrarIndex, status, sort } = useQueryParams();
   const filter = useRequestsFilter();
   const [data, setData] = useState(null);
 
@@ -95,7 +95,7 @@ export default function RequestsPage() {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
-      account,
+      search,
       status: status ? toUpper(status) : null,
       sort,
     },
@@ -106,7 +106,7 @@ export default function RequestsPage() {
 
   const tableData = data?.requests.requests.map((item) => {
     return [
-      <AddressOrIdentity address={item.account} />,
+      <AddressOrIdentity address={item.account} linkToIdentityTimeline />,
       <Flex gap={24}>
         <Index>#{item.registrarIndex}</Index>
         <AddressOrIdentity address={item.registrar} />
@@ -125,7 +125,7 @@ export default function RequestsPage() {
     <Layout>
       <BreadCrumb data={[{ name: "Judgement Requests" }]} />
 
-      <Filter data={filter} />
+      <Filter data={filter} filterOnDataChange />
 
       <StyledPanelTableWrapper
         footer={

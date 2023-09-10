@@ -84,11 +84,7 @@ export default function IdentitiesPage() {
 
   const tableData = data?.identities?.identities?.map?.((item) => {
     return [
-      <AddressOrIdentity
-        address={item.account}
-        linkToIdentityIdentityTimeline={!item.isSub}
-        linkToIdentitySubIdentityTimeline={item.isSub}
-      />,
+      <AddressOrIdentity address={item.account} linkToIdentityTimeline />,
       <Tooltip tip={item.account}>
         <Address address={item.account} />
       </Tooltip>,

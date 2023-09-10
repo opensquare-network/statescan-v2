@@ -6,8 +6,8 @@ import { withCopy } from "../../HOC/withCopy";
 import * as queryString from "query-string";
 import { useIdentity } from "../../hooks/useIdentity";
 import {
-  ACCOUNT_IDENTITY_TAB_SUBTAB,
   ACCOUNT_IDENTITY_TAB_NAME,
+  ACCOUNT_IDENTITY_TAB_SUBTAB,
 } from "../../utils/constants";
 
 const Wrapper = styled.div`
@@ -81,8 +81,7 @@ function AddressOrIdentity({
   ellipsis = true,
   className,
   linkToIdentityRegistrarTimeline,
-  linkToIdentityIdentityTimeline,
-  linkToIdentitySubIdentityTimeline,
+  linkToIdentityTimeline,
 }) {
   const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
@@ -94,16 +93,10 @@ function AddressOrIdentity({
       sub: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
     })}`;
   }
-  if (linkToIdentityIdentityTimeline) {
+  if (linkToIdentityTimeline) {
     linkAccountPage = `${linkAccountPage}?${queryString.stringify({
       tab: ACCOUNT_IDENTITY_TAB_NAME,
       sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
-    })}`;
-  }
-  if (linkToIdentitySubIdentityTimeline) {
-    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
-      tab: ACCOUNT_IDENTITY_TAB_NAME,
-      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.SUB_IDENTITY_TIMELINE,
     })}`;
   }
 

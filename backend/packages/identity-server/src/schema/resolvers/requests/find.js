@@ -4,14 +4,15 @@ const {
 const isNil = require("lodash.isnil");
 const trim = require("lodash.trim");
 
-async function requests(_, _args) {
-  const { offset, limit, registrarIndex, account, sort, status } = _args;
+async function findRequests(_args) {
+  const { offset, limit, registrarIndex, search, sort, status } = _args;
+
   let q = {};
   if (!isNil(registrarIndex)) {
     q.registrarIndex = registrarIndex;
   }
 
-  const trimmedAccount = trim(account);
+  const trimmedAccount = trim(search); // has been checked by upper logic
   if (trimmedAccount) {
     q.account = trimmedAccount;
   }
@@ -47,5 +48,5 @@ async function requests(_, _args) {
 }
 
 module.exports = {
-  requests,
+  findRequests,
 };
