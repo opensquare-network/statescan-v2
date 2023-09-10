@@ -25,8 +25,8 @@ const queries = /* GraphQL */ `
     requests(
       offset: Int!
       limit: Int!
+      search: String
       registrarIndex: Int
-      account: String
       sort: RequestSort
       status: RequestStatusValue
     ): PagedRequests!
