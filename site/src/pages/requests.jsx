@@ -90,8 +90,6 @@ export default function RequestsPage() {
   const filter = useRequestsFilter();
   const [data, setData] = useState(null);
 
-  console.log("pageSize", pageSize, "page", page);
-
   const { loading } = useQuery(GET_REQUESTS, {
     variables: {
       limit: pageSize,
@@ -127,7 +125,7 @@ export default function RequestsPage() {
     <Layout>
       <BreadCrumb data={[{ name: "Judgement Requests" }]} />
 
-      <Filter data={filter} />
+      <Filter data={filter} filterOnDataChange />
 
       <StyledPanelTableWrapper
         footer={

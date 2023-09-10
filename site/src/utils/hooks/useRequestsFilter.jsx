@@ -42,13 +42,13 @@ const GET_REGISTRARS_OPTIONS = gql`
 
 export function useRequestsFilter() {
   const [filter, setFilter] = useState([]);
-  const { account = "", registrarIndex = "", status = "" } = useQueryParams();
+  const { search = "", registrarIndex = "", status = "" } = useQueryParams();
 
   const { data: registrarsIndexData } = useQuery(GET_REGISTRARS_OPTIONS);
 
   useEffect(() => {
     const searchFilter = {
-      value: account,
+      value: search,
       type: "input",
       name: "Search",
       query: "search",
@@ -105,7 +105,7 @@ export function useRequestsFilter() {
       registrarsFilter,
       statusFilter,
     ]);
-  }, [account, registrarIndex, registrarsIndexData, status]);
+  }, [search, registrarIndex, registrarsIndexData, status]);
 
   return filter;
 }
