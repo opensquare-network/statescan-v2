@@ -48,7 +48,7 @@ const GET_REQUESTS = gql`
     $limit: Int!
     $offset: Int!
     $registrarIndex: Int
-    $account: String
+    $search: String
     $status: RequestStatusValue
     $sort: RequestSort
   ) {
@@ -56,7 +56,7 @@ const GET_REQUESTS = gql`
       limit: $limit
       offset: $offset
       registrarIndex: $registrarIndex
-      account: $account
+      search: $search
       status: $status
       sort: $sort
     ) {
@@ -86,16 +86,18 @@ const GET_REQUESTS = gql`
 
 export default function RequestsPage() {
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { page = 1, account, registrarIndex, status, sort } = useQueryParams();
+  const { page = 1, search, registrarIndex, status, sort } = useQueryParams();
   const filter = useRequestsFilter();
   const [data, setData] = useState(null);
+
+  console.log("pageSize", pageSize, "page", page);
 
   const { loading } = useQuery(GET_REQUESTS, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       registrarIndex: parseInt(registrarIndex),
-      account,
+      search,
       status: status ? toUpper(status) : null,
       sort,
     },
