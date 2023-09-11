@@ -26,6 +26,7 @@ import IdentitiesPage from "./pages/identities";
 import RegistrarsPage from "./pages/registrars";
 import RequestsPage from "./pages/requests";
 import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
+import OnChainAccount from "./pages/onChainAccount";
 
 function App() {
   const { assets, uniques, identity } = getChainModules();
@@ -66,7 +67,10 @@ function App() {
         <Route path="/events/:id" element={<Event />} />
         <Route path="/transfers" element={<Transfers />} />
         <Route path="/accounts" element={<Accounts />} />
-        <Route path="/accounts/:id" element={<Account />} />
+        <Route
+          path="/accounts/:id"
+          element={isUseOnchainBlockData ? <OnChainAccount /> : <Account />}
+        />
         <Route path="/calls" element={<Calls />} />
         <Route path="/calls/:id" element={<Call />} />
         {identity && (

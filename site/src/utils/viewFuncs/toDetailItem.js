@@ -31,6 +31,8 @@ import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
 import AchainableLabels from "../../components/achainableLabels/index";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
+import CircledInfoIcon from "../../components/icons/circledInfoIcon";
+import { Flex, FlexCenter, FlexColumn } from "../../components/styled/flex";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -123,6 +125,181 @@ export const toAccountDetailItem = (
       </Tooltip>
     ),
     Nonce: <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>,
+  };
+
+  if (achainableProfile) {
+    data["Labels"] = <AchainableLabels achainableProfile={achainableProfile} />;
+  }
+
+  return data;
+};
+
+function createLockedBreakdown(lockedBreakdown, chainSetting) {
+  if (!(lockedBreakdown?.length > 0)) {
+    return null;
+  }
+
+  const lookup = {
+    democrac: "via Democracy/Vote",
+    phrelect: "via Council/Vote",
+    pyconvot: "via Referenda/Vote",
+    "staking ": "via Staking/Bond",
+    "vesting ": "via Vesting",
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      {lockedBreakdown?.map((item, index) => {
+        const { amount, id, reasons } = item;
+        return (
+          <FlexColumn key={index} style={{ alignItems: "center" }}>
+            <ValueDisplay
+              value={toPrecision(amount || 0, chainSetting.decimals)}
+              symbol={chainSetting.symbol}
+              abbreviate={false}
+            />
+            <TextSecondary>{lookup[id]}</TextSecondary>
+            <TextSecondary>{reasons}</TextSecondary>
+          </FlexColumn>
+        );
+      })}
+    </div>
+  );
+}
+
+export const toOnChainAccountDetailItem = (
+  id,
+  account,
+  chainSetting,
+  achainableProfile,
+) => {
+  const lockedBreakdown = createLockedBreakdown(
+    account?.data?.lockedBreakdown,
+    chainSetting,
+  );
+
+  const data = {
+    Address: <AddressAndIdentity address={id} ellipsis={false} />,
+    "Total Balance": (
+      <Tooltip
+        tip={`${toPrecision(
+          account?.data?.total || 0,
+          chainSetting.decimals,
+        )} ${chainSetting.symbol}`}
+      >
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(
+              account?.data?.total || 0,
+              chainSetting.decimals,
+            )}
+            symbol={chainSetting.symbol}
+            abbreviate={false}
+          />
+        </TextSecondary>
+      </Tooltip>
+    ),
+    Free: (
+      <Tooltip
+        tip={`${toPrecision(account?.data?.free || 0, chainSetting.decimals)} ${
+          chainSetting.symbol
+        }`}
+      >
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(account?.data?.free || 0, chainSetting.decimals)}
+            symbol={chainSetting.symbol}
+            abbreviate={false}
+          />
+        </TextSecondary>
+      </Tooltip>
+    ),
+    Reserved: (
+      <Tooltip
+        tip={`${toPrecision(
+          account?.data?.reserved || 0,
+          chainSetting.decimals,
+        )} ${chainSetting.symbol}`}
+      >
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(
+              account?.data?.reserved || 0,
+              chainSetting.decimals,
+            )}
+            symbol={chainSetting.symbol}
+            abbreviate={false}
+          />
+        </TextSecondary>
+      </Tooltip>
+    ),
+    Nonce: <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>,
+    Transferrable: (
+      <Tooltip
+        tip={`${toPrecision(
+          account?.data?.transferrable || 0,
+          chainSetting.decimals,
+        )} ${chainSetting.symbol}`}
+      >
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(
+              account?.data?.transferrable || 0,
+              chainSetting.decimals,
+            )}
+            symbol={chainSetting.symbol}
+            abbreviate={false}
+          />
+        </TextSecondary>
+      </Tooltip>
+    ),
+    Locked: (
+      <Flex gap={4}>
+        <Tooltip
+          tip={`${toPrecision(
+            account?.data?.lockedBalance || 0,
+            chainSetting.decimals,
+          )} ${chainSetting.symbol}`}
+        >
+          <TextSecondary>
+            <ValueDisplay
+              value={toPrecision(
+                account?.data?.lockedBalance || 0,
+                chainSetting.decimals,
+              )}
+              symbol={chainSetting.symbol}
+              abbreviate={false}
+            />
+          </TextSecondary>
+        </Tooltip>
+        {lockedBreakdown && (
+          <Tooltip tip={lockedBreakdown}>
+            <FlexCenter>
+              <CircledInfoIcon />
+            </FlexCenter>
+          </Tooltip>
+        )}
+      </Flex>
+    ),
+    Bonded: (
+      <Tooltip
+        tip={`${toPrecision(
+          account?.data?.bonded || 0,
+          chainSetting.decimals,
+        )} ${chainSetting.symbol}`}
+      >
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(
+              account?.data?.bonded || 0,
+              chainSetting.decimals,
+            )}
+            symbol={chainSetting.symbol}
+            abbreviate={false}
+          />
+        </TextSecondary>
+      </Tooltip>
+    ),
   };
 
   if (achainableProfile) {

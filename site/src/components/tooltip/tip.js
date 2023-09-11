@@ -1,10 +1,5 @@
 import styled from "styled-components";
 import { Overpass_Mono_12_500 } from "../../styles/text";
-import { useSelector } from "react-redux";
-import {
-  tooltipPositionSelector,
-  tooltipShowSelector,
-} from "../../store/reducers/tooltipSlice";
 import { useEffect, useRef, useState } from "react";
 
 const Wrapper = styled.div`
@@ -36,10 +31,8 @@ const Triangle = styled.div`
   transform: translateX(-50%);
 `;
 
-export default function Tip({ children }) {
+export default function Tip({ show, position, children }) {
   const ref = useRef();
-  const show = useSelector(tooltipShowSelector);
-  const position = useSelector(tooltipPositionSelector);
   const [rect, setRect] = useState({ width: 0 });
   const [ready, setReady] = useState(false);
 
