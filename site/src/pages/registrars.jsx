@@ -39,7 +39,6 @@ export default function RegistrarsPage() {
       REGISTRAR_INDEX: "index",
       REGISTRAR_RECEIVED_REQ: "statistics.request",
       REGISTRAR_TOTAL_GIVEN: "statistics.given",
-      REGISTRAR_PENDING_REQ: "", // TODO: registrars pending request
       REGISTRAR_FEE: "fee",
       REGISTRAR_TOTAL_EARN: "statistics.totalFee",
     };
@@ -73,7 +72,6 @@ export default function RegistrarsPage() {
       </Flex>,
       item.statistics.request,
       item.statistics.given,
-      "", // TODO: registrars pending request
       <ValueDisplay
         value={toPrecision(item.fee, chainSetting.decimals)}
         symbol={chainSetting.symbol}

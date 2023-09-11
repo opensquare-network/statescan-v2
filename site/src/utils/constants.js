@@ -318,14 +318,6 @@ export const registrarsHead = [
     sortDescendingQueryValue: "REGISTRAR_TOTAL_GIVEN_DESC",
   },
   {
-    name: "Pending Req.",
-    width: 160,
-    align: "right",
-    type: "sortable",
-    sortAscendingQueryValue: "REGISTRAR_PENDING_REQ_ASC",
-    sortDescendingQueryValue: "REGISTRAR_PENDING_REQ_DESC",
-  },
-  {
     name: "Fee",
     width: 160,
     align: "right",
