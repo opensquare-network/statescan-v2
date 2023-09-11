@@ -30,5 +30,9 @@ export default function useOnChainAccountData(address) {
     });
   }, [api, address]);
 
+  if (!account || !balanceAll || !stakingInfo) {
+    return null;
+  }
+
   return { account, balanceAll, stakingInfo };
 }

@@ -30,7 +30,10 @@ function extractAccountInfo(accountData) {
         amount: item.amount.toBigInt().toString(),
         id: item.id.toHuman(),
       })),
-      reservedBreakdown: allReserves?.map((item) => item.toJSON()),
+      reservedBreakdown: allReserves?.map((item) => ({
+        amount: item.amount.toBigInt().toString(),
+        id: item.id.toHuman(),
+      })),
       bonded: stakingLedger?.active?.toBigInt().toString(),
       redeemable: redeemable?.toBigInt().toString(),
     },
