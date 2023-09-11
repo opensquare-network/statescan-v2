@@ -24,7 +24,7 @@ export function connect() {
     socket.emit("unsubscribe", latestBlocksRoom);
     socket.emit("unsubscribe", latestSignedTransfersRoom);
     socket.emit("unsubscribe", overviewRoom);
-    socket.disconnect();
+    disconnect();
   }
 
   socket = io(new URL(`/`, getEnvEndpoint()).href);
@@ -49,6 +49,12 @@ export function connect() {
       store.dispatch(setOverview(overviewData));
     });
   });
+}
+
+export function disconnect() {
+  if (socket) {
+    socket.disconnect();
+  }
 }
 
 export function unSubscribeHomepageInfo() {
