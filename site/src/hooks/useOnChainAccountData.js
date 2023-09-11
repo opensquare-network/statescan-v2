@@ -30,7 +30,7 @@ export default function useOnChainAccountData(address) {
     });
   }, [api, address]);
 
-  if (!account || !balanceAll || !stakingInfo) {
+  if (!account) {
     return null;
   }
 
