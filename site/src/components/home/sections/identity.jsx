@@ -15,6 +15,8 @@ import IdentityIcon from "../../address/identityIcon";
 import { IDENTITY_ID_TYPE, IDENTITY_TYPE } from "../../../utils/constants";
 import capitalize from "lodash.capitalize";
 import startCase from "lodash.startcase";
+import Loading from "../../loadings/loading";
+import { withLoading } from "../../../HOC/withLoading";
 
 const Link = styled(LinkOrigin)`
   &:hover {
@@ -52,8 +54,16 @@ const GET_STATISTICS = gql`
   }
 `;
 
-export default function IdentitySection() {
-  const { data } = useQuery(GET_STATISTICS);
+const mapLoadingState = (props) => {
+  const { data } = props ?? {};
+
+  return {
+    loadingStates: [!data],
+    loadingComponent: <Loading />,
+  };
+};
+
+function IdentityOverview({ data }) {
   const { data: registrarsData } = useQuery(GET_REGISTRARS);
   const registrars = registrarsData?.registrars?.length || 0;
 
@@ -170,4 +180,13 @@ export default function IdentitySection() {
       </OverviewItemsWrapper>
     </OverviewPanel>
   );
+}
+
+const IdentityOverviewWithLoading =
+  withLoading(mapLoadingState)(IdentityOverview);
+
+export default function IdentitySection() {
+  const { data } = useQuery(GET_STATISTICS);
+
+  return <IdentityOverviewWithLoading data={data} />;
 }
