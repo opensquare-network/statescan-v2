@@ -68,6 +68,7 @@ export default function SortableHead({
     sortAscendingQueryValue,
     sortDefaultQueryValue,
     sortDescendingQueryValue,
+    setActiveSortQueryValue,
   ]);
   useUpdateEffect(() => {
     setActive(
