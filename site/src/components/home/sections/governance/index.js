@@ -59,15 +59,15 @@ function withChildKeys(childs = []) {
 }
 
 const mapLoadingState = (props) => {
-  const { summary } = props ?? {};
+  const { summary = {} } = props ?? {};
 
   return {
-    loadingStates: [!summary],
+    loadingStates: [!Object.keys(summary)?.length],
     loadingComponent: <Loading />,
   };
 };
 
-function GovernanceOverview({ summary }) {
+function GovernanceOverview({ summary = {} }) {
   const { subSquareWebsite, modules } = useChainSettings();
   const chainApi = useChainApi();
 
@@ -345,7 +345,7 @@ const GovernanceOverviewWithLoading =
 export default function GovernanceSection() {
   const chain = useChain();
 
-  const [summary, setSummary] = useState();
+  const [summary, setSummary] = useState({});
 
   useEffect(() => {
     api.fetch(subSquareSummaryApi(chain)).then(({ result }) => {
