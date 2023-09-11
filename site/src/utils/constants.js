@@ -287,7 +287,6 @@ export const requestsHead = [
     type: "sortable",
     sortAscendingQueryValue: "REQUEST_HEIGHT_ASC",
     sortDescendingQueryValue: "REQUEST_HEIGHT_DESC",
-    sortDefaultQueryValue: "REQUEST_HEIGHT_DESC",
   },
   { name: "End at", width: 200 },
   { name: "Status", width: 200 },

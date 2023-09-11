@@ -48,22 +48,23 @@ export default function SortableHead({
   } = head ?? {};
 
   const navigate = useNavigate();
-  const params = useQueryParams();
+  const queryParams = useQueryParams();
 
   const [active, setActive] = useState();
   useEffect(() => {
-    if (params[TABLE_SORT_QUERY_KEY]) {
+    if (queryParams[TABLE_SORT_QUERY_KEY]) {
       if (
-        params[TABLE_SORT_QUERY_KEY] === sortAscendingQueryValue ||
-        params[TABLE_SORT_QUERY_KEY] === sortDescendingQueryValue
+        queryParams[TABLE_SORT_QUERY_KEY] === sortAscendingQueryValue ||
+        queryParams[TABLE_SORT_QUERY_KEY] === sortDescendingQueryValue
       ) {
         setActive(true);
       }
     } else if (sortDefaultQueryValue) {
       setActive(true);
+      setActiveSortQueryValue(sortDefaultQueryValue);
     }
   }, [
-    params,
+    queryParams,
     sortAscendingQueryValue,
     sortDefaultQueryValue,
     sortDescendingQueryValue,
@@ -78,11 +79,11 @@ export default function SortableHead({
   const [descending, setDescending] = useState(true);
   useEffectOnce(() => {
     if (
-      params[TABLE_SORT_QUERY_KEY] === sortAscendingQueryValue ||
+      queryParams[TABLE_SORT_QUERY_KEY] === sortAscendingQueryValue ||
       sortDefaultQueryValue === sortAscendingQueryValue
     ) {
       setDescending(false);
-    } else if (params[TABLE_SORT_QUERY_KEY] === sortDescendingQueryValue) {
+    } else if (queryParams[TABLE_SORT_QUERY_KEY] === sortDescendingQueryValue) {
       setDescending(true);
     } else {
       setDescending(true);
@@ -90,23 +91,23 @@ export default function SortableHead({
   });
 
   function handleSort() {
-    const newParams = omit(params, [TABLE_SORT_QUERY_KEY]);
+    const newQueryParams = omit(queryParams, [TABLE_SORT_QUERY_KEY]);
 
     if (!active) {
       setDescending(true);
-      newParams[TABLE_SORT_QUERY_KEY] = sortDescendingQueryValue;
       setActiveSortQueryValue(sortDescendingQueryValue);
+      newQueryParams[TABLE_SORT_QUERY_KEY] = sortDescendingQueryValue;
     } else {
-      const val = !descending;
-      const direction = val
+      const newDirection = !descending;
+      const sortQueryValue = newDirection
         ? sortDescendingQueryValue
         : sortAscendingQueryValue;
-      setDescending(val);
-      newParams[TABLE_SORT_QUERY_KEY] = direction;
-      setActiveSortQueryValue(direction);
+      setDescending(newDirection);
+      setActiveSortQueryValue(sortQueryValue);
+      newQueryParams[TABLE_SORT_QUERY_KEY] = sortQueryValue;
     }
 
-    const search = serialize(newParams);
+    const search = serialize(newQueryParams);
     navigate({ search });
   }
 
@@ -114,7 +115,7 @@ export default function SortableHead({
     <Wrapper active={active} reverse={align === "right"} onClick={handleSort}>
       {children}
 
-      {descending ? <SortDescend /> : <SortAscend />}
+      {active && (descending ? <SortDescend /> : <SortAscend />)}
     </Wrapper>
   );
 }
