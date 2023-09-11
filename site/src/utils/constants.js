@@ -287,7 +287,6 @@ export const requestsHead = [
     type: "sortable",
     sortAscendingQueryValue: "REQUEST_HEIGHT_ASC",
     sortDescendingQueryValue: "REQUEST_HEIGHT_DESC",
-    sortDefaultQueryValue: "REQUEST_HEIGHT_DESC",
   },
   { name: "End at", width: 200 },
   { name: "Status", width: 200 },
@@ -317,14 +316,6 @@ export const registrarsHead = [
     type: "sortable",
     sortAscendingQueryValue: "REGISTRAR_TOTAL_GIVEN_ASC",
     sortDescendingQueryValue: "REGISTRAR_TOTAL_GIVEN_DESC",
-  },
-  {
-    name: "Pending Req.",
-    width: 160,
-    align: "right",
-    type: "sortable",
-    sortAscendingQueryValue: "REGISTRAR_PENDING_REQ_ASC",
-    sortDescendingQueryValue: "REGISTRAR_PENDING_REQ_DESC",
   },
   {
     name: "Fee",
