@@ -3,6 +3,8 @@ import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 import { ColoredLink } from "../styled/link";
 import Table from "../table";
 import { Tag } from "../tag";
+import ExtrinsicLink from "../extrinsic/link";
+import React from "react";
 
 /**
  * @description page call table
@@ -18,12 +20,7 @@ export default function CallsTable(props) {
       >
         {item?.indexer?.blockHeight.toLocaleString()}-{item?.indexer?.callIndex}
       </ColoredLink>,
-      <ColoredLink
-        to={`/extrinsics/${item?.indexer?.blockHeight}-${item?.indexer?.extrinsicIndex}`}
-      >
-        {item?.indexer?.blockHeight.toLocaleString()}-
-        {item?.indexer?.extrinsicIndex}
-      </ColoredLink>,
+      <ExtrinsicLink indexer={item?.indexer} />,
       <ColoredLink to={`/blocks/${item?.indexer?.blockHeight}`}>
         {item?.indexer?.blockHeight.toLocaleString()}
       </ColoredLink>,

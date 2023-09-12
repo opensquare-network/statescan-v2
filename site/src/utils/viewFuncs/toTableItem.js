@@ -61,13 +61,7 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
           {transfer?.indexer?.blockHeight.toLocaleString()}-
           {transfer?.indexer?.eventIndex}
         </ColoredLink>,
-        <ColoredLink
-          key={`${index}-2`}
-          to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
-        >
-          {transfer?.indexer?.blockHeight.toLocaleString()}-
-          {transfer?.indexer?.extrinsicIndex}
-        </ColoredLink>,
+        <ExtrinsicLink indexer={transfer?.indexer} />,
         transfer?.indexer?.blockTime,
         <Tooltip tip={transfer?.from}>
           <AddressOrIdentity address={transfer?.from} />
@@ -99,13 +93,7 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
   return (
     extrinsics?.map((extrinsic, index) => {
       return [
-        <ColoredLink
-          key={`${index}-1`}
-          to={`/extrinsics/${extrinsic?.indexer?.blockHeight}-${extrinsic?.indexer?.extrinsicIndex}`}
-        >
-          {extrinsic?.indexer?.blockHeight.toLocaleString()}-
-          {extrinsic?.indexer?.extrinsicIndex}
-        </ColoredLink>,
+        <ExtrinsicLink indexer={extrinsic?.indexer} />,
         <ColoredLink
           key={`${index}-2`}
           to={`/blocks/${extrinsic?.indexer?.blockHeight}`}
@@ -219,12 +207,7 @@ export const toNftInstanceTransferTabTableItem = (
   const resource = parsedMetadata?.resource;
 
   return [
-    <ColoredLink
-      to={`/extrinsics/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.extrinsicIndex}`}
-    >
-      {transfer?.indexer?.blockHeight.toLocaleString()}-
-      {transfer?.indexer?.extrinsicIndex}
-    </ColoredLink>,
+    <ExtrinsicLink indexer={transfer?.indexer} />,
     <ColoredLink to={link}>
       {nftInstance?.classId}-{nftInstance?.instanceId}
     </ColoredLink>,
