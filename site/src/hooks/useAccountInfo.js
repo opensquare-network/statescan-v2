@@ -11,10 +11,7 @@ function extractAccountInfo(accountData) {
     accountData.balanceAll || {};
   const { stakingLedger } = accountData.stakingInfo || {};
 
-  const allReserves = (namedReserves || []).reduce(
-    (t, r) => t.concat(...r),
-    [],
-  );
+  const allReserves = namedReserves?.reduce((t, r) => t.concat(...r), []);
 
   return {
     data: {
