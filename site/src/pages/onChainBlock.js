@@ -27,12 +27,23 @@ import useBlockInfo from "../hooks/useBlockInfo";
 import { finalizedHeightSelector } from "../store/reducers/chainSlice";
 import PagingTable from "../components/detail/pagingTable";
 import isNil from "lodash.isnil";
+import { clearHttpError } from "../utils/viewFuncs/errorHandles";
+import { setErrorCode } from "../store/reducers/httpErrorSlice";
 
 function OnChainBlock() {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const blockData = useOnChainBlockData(id);
   const blockInfo = useBlockInfo(blockData);
   const finalizedHeight = useSelector(finalizedHeightSelector);
+
+  useEffect(() => {
+    clearHttpError(dispatch);
+    if (blockData === null) {
+      // Handle failed to load block data
+      dispatch(setErrorCode(404));
+    }
+  }, [dispatch, blockData]);
 
   let isFinalized = null;
   if (blockInfo && finalizedHeight) {
@@ -50,7 +61,6 @@ function OnChainBlock() {
   }, [blockInfo, isFinalized]);
 
   const height = block?.height ?? (!isHash(id) ? parseInt(id) : 0);
-  const dispatch = useDispatch();
 
   const listData = useMemo(
     () => (block ? toBlockDetailItem(block) : {}),

@@ -3,10 +3,10 @@ import { useChainApi } from "../utils/hooks/chain/useChainApi";
 
 export default function useOnChainBlockData(blockHeightOrHash) {
   const api = useChainApi();
-  const [blockData, setBlockData] = useState(null);
+  const [blockData, setBlockData] = useState();
 
   const fetchBlockData = useCallback(async () => {
-    if (!api) {
+    if (!api || !blockHeightOrHash) {
       return;
     }
 
@@ -23,7 +23,9 @@ export default function useOnChainBlockData(blockHeightOrHash) {
     const [block, events, validators] = await Promise.all([
       api.rpc.chain.getBlock(blockHash),
       api.query.system.events.at(blockHash),
-      api.query.session.validators.at(blockHash),
+      api.query.session?.validators
+        ? api.query.session.validators.at(blockHash).catch(() => null)
+        : null,
     ]);
 
     setBlockData({
@@ -34,7 +36,7 @@ export default function useOnChainBlockData(blockHeightOrHash) {
   }, [api, blockHeightOrHash]);
 
   useEffect(() => {
-    fetchBlockData();
+    fetchBlockData().catch(() => setBlockData(null));
   }, [fetchBlockData]);
 
   return blockData;
