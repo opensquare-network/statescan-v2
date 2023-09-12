@@ -25,6 +25,8 @@ import { OverviewItemsWrapper, OverviewPanel } from "../../overview/styled";
 import { Tertiary } from "./styled";
 import OverviewItemValueWithAll from "../../overview/valueWithAll";
 import BountiesSquareIcon from "../../../icons/bountiesSquareIcon";
+import Loading from "../../../loadings/loading";
+import { withLoading } from "../../../../HOC/withLoading";
 
 const CategoryWrapper = styled.div`
   ${flex};
@@ -56,22 +58,21 @@ function withChildKeys(childs = []) {
   return childs.map((child, idx) => <Fragment key={idx}>{child}</Fragment>);
 }
 
-export default function GovernanceSection() {
+const mapLoadingState = (props) => {
+  const { summary = {} } = props ?? {};
+
+  return {
+    loadingStates: [!Object.keys(summary)?.length],
+    loadingComponent: <Loading />,
+  };
+};
+
+function GovernanceOverview({ summary = {} }) {
   const { subSquareWebsite, modules } = useChainSettings();
-  const chain = useChain();
   const chainApi = useChainApi();
 
-  const [summary, setSummary] = useState({});
   const [councilMembers, setCouncilMembers] = useState([]);
   const [techCommMembers, setTechCommMembers] = useState([]);
-
-  useEffect(() => {
-    api.fetch(subSquareSummaryApi(chain)).then(({ result }) => {
-      if (result) {
-        setSummary(result);
-      }
-    });
-  }, [chain]);
 
   useEffect(() => {
     if (!chainApi) {
@@ -336,4 +337,23 @@ export default function GovernanceSection() {
       </OverviewItemsWrapper>
     </OverviewPanel>
   );
+}
+
+const GovernanceOverviewWithLoading =
+  withLoading(mapLoadingState)(GovernanceOverview);
+
+export default function GovernanceSection() {
+  const chain = useChain();
+
+  const [summary, setSummary] = useState({});
+
+  useEffect(() => {
+    api.fetch(subSquareSummaryApi(chain)).then(({ result }) => {
+      if (result) {
+        setSummary(result);
+      }
+    });
+  }, [chain]);
+
+  return <GovernanceOverviewWithLoading summary={summary} />;
 }

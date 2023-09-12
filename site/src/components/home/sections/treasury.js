@@ -34,6 +34,8 @@ import {
   OverviewItemsWrapper as OverviewItemsWrapperOrigin,
 } from "../overview/styled";
 import OverviewItemValueWithAll from "../overview/valueWithAll";
+import Loading from "../../loadings/loading";
+import { withLoading } from "../../../HOC/withLoading";
 
 const OverviewItemsWrapper = styled(OverviewItemsWrapperOrigin)`
   ${breakpoint(1294, grid_cols(3))};
@@ -60,12 +62,19 @@ const SpendPeriodSmall = styled.small`
   ${Inter_12_700};
 `;
 
-export default function TreasurySection() {
-  const [treasuryOverview, setTreasuryOverview] = useState({});
+const mapLoadingState = (props) => {
+  const { treasuryOverview } = props ?? {};
+
+  return {
+    loadingStates: [!treasuryOverview],
+    loadingComponent: <Loading />,
+  };
+};
+
+function TreasuryOverview({ treasuryOverview }) {
   const [treasuryBurnt, setTreasuryBurnt] = useState();
   const [treasurySpendPeriod, setTreasurySpendPeriod] = useState();
 
-  const chain = useChain();
   const chainApi = useChainApi();
   const { decimals: precision, symbol, treasuryWebsite } = useChainSettings();
 
@@ -75,12 +84,6 @@ export default function TreasurySection() {
   const toBeAwardedValue = BigNumber(
     toPrecision(toBeAwarded, precision),
   ).toNumber();
-
-  useEffect(() => {
-    api.fetch(dotreasuryOverviewApi(chain)).then(({ result }) => {
-      setTreasuryOverview(result);
-    });
-  }, [chain]);
 
   useEffect(() => {
     if (!chainApi) {
@@ -233,4 +236,20 @@ export default function TreasurySection() {
       </OverviewItemsWrapper>
     </OverviewPanel>
   );
+}
+
+const TreasuryOverviewWithLoading =
+  withLoading(mapLoadingState)(TreasuryOverview);
+
+export default function TreasurySection() {
+  const chain = useChain();
+  const [treasuryOverview, setTreasuryOverview] = useState();
+
+  useEffect(() => {
+    api.fetch(dotreasuryOverviewApi(chain)).then(({ result }) => {
+      setTreasuryOverview(result);
+    });
+  }, [chain]);
+
+  return <TreasuryOverviewWithLoading treasuryOverview={treasuryOverview} />;
 }

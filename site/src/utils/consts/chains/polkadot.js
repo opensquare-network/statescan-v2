@@ -37,6 +37,7 @@ const polkadot = {
     },
     { name: "Stakeworld", url: "wss://dot-rpc.stakeworld.io" },
   ],
+  useOnChainBlockData: true,
 };
 
 export default polkadot;
