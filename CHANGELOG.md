@@ -2,9 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.1.0
+# 1.1..1
 
 date: 2023-09-12
+
+- Support on-chain data querying for account details.
+- Turn on on-chain data query for more chains.
+- Show 404 for invalid block and account.
+
+# 1.1.0
+
+date: 2023-09-11
 
 - [Big] Support identity business.
 - Introduce RPC nodes and support querying block data from selected node.
