@@ -34,7 +34,6 @@ export default function useOnChainAccountData(address) {
     });
   }, [api, address]);
 
-  // Data is loading
   useEffect(() => {
     fetchAccountData().catch(() => setAccountData(null));
   }, [fetchAccountData]);
