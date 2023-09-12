@@ -34,6 +34,7 @@ const statemine = {
     },
     { name: "Stakeworld", url: "wss://ksm-rpc.stakeworld.io/assethub" },
   ],
+  useOnChainBlockData: true,
 };
 
 export default statemine;

@@ -34,6 +34,7 @@ const statemint = {
     },
     { name: "Stakeworld", url: "wss://dot-rpc.stakeworld.io/assethub" },
   ],
+  useOnChainBlockData: true,
 };
 
 export default statemint;

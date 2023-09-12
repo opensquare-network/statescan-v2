@@ -23,6 +23,7 @@ const westendCollectives = {
       url: "wss://sys.dotters.network/collectives-westend",
     },
   ],
+  useOnChainBlockData: true,
 };
 
 export default westendCollectives;

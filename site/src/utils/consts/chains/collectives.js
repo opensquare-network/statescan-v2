@@ -36,6 +36,7 @@ const collectives = {
     },
     { name: "Stakeworld", url: "wss://dot-rpc.stakeworld.io/collectives" },
   ],
+  useOnChainBlockData: true,
 };
 
 export default collectives;

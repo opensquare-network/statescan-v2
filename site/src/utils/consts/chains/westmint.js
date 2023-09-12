@@ -28,6 +28,7 @@ const westmint = {
     { name: "OnFinality", url: "wss://westmint.api.onfinality.io/public-ws" },
     { name: "Stakeworld", url: "wss://wnd-rpc.stakeworld.io/assethub" },
   ],
+  useOnChainBlockData: true,
 };
 
 export default westmint;
