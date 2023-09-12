@@ -9,7 +9,7 @@ function extractAccountInfo(accountData) {
     accountData.account || {};
   const { lockedBalance, lockedBreakdown, availableBalance, namedReserves } =
     accountData.balanceAll || {};
-  const { stakingLedger, redeemable } = accountData.stakingInfo || {};
+  const { stakingLedger } = accountData.stakingInfo || {};
 
   const allReserves = (namedReserves || []).reduce(
     (t, r) => t.concat(...r),
@@ -35,7 +35,6 @@ function extractAccountInfo(accountData) {
         id: item.id.toHuman(),
       })),
       bonded: stakingLedger?.active?.toBigInt().toString(),
-      redeemable: redeemable?.toBigInt().toString(),
     },
     detail: accountData.account?.toJSON(),
   };

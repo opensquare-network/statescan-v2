@@ -21,16 +21,28 @@ export default function useOnChainAccountData(address) {
       setAccount(accountInfo);
     });
 
-    api.derive.balances?.all(address).then((data) => {
-      setBalanceAll(data);
-    });
+    if (api.derive.balances?.all) {
+      api.derive.balances?.all(address).then((data) => {
+        setBalanceAll(data);
+      });
+    } else {
+      setBalanceAll(null);
+    }
 
-    api.derive.staking?.account(address).then((data) => {
-      setStakingInfo(data);
-    });
+    if (api.derive.staking?.account) {
+      api.derive.staking?.account(address).then((data) => {
+        setStakingInfo(data);
+      });
+    } else {
+      setStakingInfo(null);
+    }
   }, [api, address]);
 
-  if (!account) {
+  if (
+    account === undefined ||
+    balanceAll === undefined ||
+    stakingInfo === undefined
+  ) {
     return null;
   }
 

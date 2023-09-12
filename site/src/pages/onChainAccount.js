@@ -4,8 +4,6 @@ import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
 import { addressEllipsis } from "@osn/common";
-import { useSelector } from "react-redux";
-import { chainSettingSelector } from "../store/reducers/settingSlice";
 import DetailLayout from "../components/layout/detailLayout";
 import useAchainableProfile from "../hooks/useAchainableProfile";
 import useOnChainAccountData from "../hooks/useOnChainAccountData";
@@ -15,7 +13,6 @@ import AccountDetailCommon from "../components/account/detailCommon";
 
 function OnChainAccount() {
   const { id } = useParams();
-  const chainSetting = useSelector(chainSettingSelector);
   const achainableProfile = useAchainableProfile(id);
 
   const accountData = useOnChainAccountData(id);
@@ -35,13 +32,8 @@ function OnChainAccount() {
     if (!detail) {
       return {};
     }
-    return toOnChainAccountDetailItem(
-      id,
-      detail,
-      chainSetting,
-      achainableProfile,
-    );
-  }, [id, detail, chainSetting, achainableProfile]);
+    return toOnChainAccountDetailItem(id, detail, achainableProfile);
+  }, [id, detail, achainableProfile]);
 
   const breadCrumb = (
     <BreadCrumb
