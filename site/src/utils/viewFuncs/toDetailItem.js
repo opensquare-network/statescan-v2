@@ -31,6 +31,11 @@ import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
 import AchainableLabels from "../../components/achainableLabels/index";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
+import CircledInfoIcon from "../../components/icons/circledInfoIcon";
+import { Flex, FlexCenter, FlexColumn } from "../../components/styled/flex";
+import isNil from "lodash.isnil";
+import { useSelector } from "react-redux";
+import { chainSettingSelector } from "../../store/reducers/settingSlice";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -124,6 +129,146 @@ export const toAccountDetailItem = (
     ),
     Nonce: <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>,
   };
+
+  if (achainableProfile) {
+    data["Labels"] = <AchainableLabels achainableProfile={achainableProfile} />;
+  }
+
+  return data;
+};
+
+const lookupLock = {
+  democrac: "via Democracy/Vote",
+  phrelect: "via Council/Vote",
+  pyconvot: "via Referenda/Vote",
+  "staking ": "via Staking/Bond",
+  "vesting ": "via Vesting",
+};
+
+function LockedBreakdown({ lockedBreakdown }) {
+  const chainSetting = useSelector(chainSettingSelector);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      {lockedBreakdown?.map((item, index) => {
+        const { amount, id, reasons } = item;
+        return (
+          <FlexColumn key={index} style={{ alignItems: "center" }}>
+            <ValueDisplay
+              value={toPrecision(amount || 0, chainSetting.decimals)}
+              symbol={chainSetting.symbol}
+              abbreviate={false}
+            />
+            <TextSecondary>{lookupLock[id]}</TextSecondary>
+            <TextSecondary>{reasons}</TextSecondary>
+          </FlexColumn>
+        );
+      })}
+    </div>
+  );
+}
+
+function ReservedBreakdown({ reservedBreakdown }) {
+  const chainSetting = useSelector(chainSettingSelector);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      {reservedBreakdown?.map((item, index) => {
+        const { amount, id } = item;
+        return (
+          <FlexColumn key={index} style={{ alignItems: "center" }}>
+            <ValueDisplay
+              value={toPrecision(amount || 0, chainSetting.decimals)}
+              symbol={chainSetting.symbol}
+              abbreviate={false}
+            />
+            <TextSecondary>{lookupLock[id]}</TextSecondary>
+          </FlexColumn>
+        );
+      })}
+    </div>
+  );
+}
+
+function ValueDisplayWithTooltip({ value }) {
+  const chainSetting = useSelector(chainSettingSelector);
+  return (
+    <Tooltip
+      tip={`${toPrecision(value || 0, chainSetting.decimals)} ${
+        chainSetting.symbol
+      }`}
+    >
+      <TextSecondary>
+        <ValueDisplay
+          value={toPrecision(value || 0, chainSetting.decimals)}
+          symbol={chainSetting.symbol}
+          abbreviate={false}
+        />
+      </TextSecondary>
+    </Tooltip>
+  );
+}
+
+export const toOnChainAccountDetailItem = (id, account, achainableProfile) => {
+  const lockedBreakdown = account?.data?.lockedBreakdown?.length > 0 && (
+    <LockedBreakdown lockedBreakdown={account?.data?.lockedBreakdown} />
+  );
+
+  const reservedBreakdown = account?.data?.reservedBreakdown?.length > 0 && (
+    <ReservedBreakdown reservedBreakdown={account?.data?.reservedBreakdown} />
+  );
+
+  const data = {};
+
+  data["Address"] = <AddressAndIdentity address={id} ellipsis={false} />;
+
+  data["Total Balance"] = (
+    <ValueDisplayWithTooltip value={account?.data?.total} />
+  );
+
+  if (!isNil(account?.data?.transferrable)) {
+    data["Transferrable"] = (
+      <ValueDisplayWithTooltip value={account?.data?.transferrable} />
+    );
+  }
+
+  data["Free"] = <ValueDisplayWithTooltip value={account?.data?.free} />;
+
+  if (!isNil(account?.data?.lockedBalance)) {
+    data["Locked"] = (
+      <Flex gap={4}>
+        <ValueDisplayWithTooltip value={account?.data?.lockedBalance} />
+        {lockedBreakdown && (
+          <Tooltip tip={lockedBreakdown}>
+            <FlexCenter>
+              <CircledInfoIcon />
+            </FlexCenter>
+          </Tooltip>
+        )}
+      </Flex>
+    );
+  }
+
+  data["Reserved"] = (
+    <Flex gap={4}>
+      <ValueDisplayWithTooltip value={account?.data?.reserved} />
+      {reservedBreakdown && (
+        <Tooltip tip={reservedBreakdown}>
+          <FlexCenter>
+            <CircledInfoIcon />
+          </FlexCenter>
+        </Tooltip>
+      )}
+    </Flex>
+  );
+
+  if (!isNil(account?.data?.bonded)) {
+    data["Bonded"] = <ValueDisplayWithTooltip value={account?.data?.bonded} />;
+  }
+
+  data["Transactions"] = (
+    <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>
+  );
 
   if (achainableProfile) {
     data["Labels"] = <AchainableLabels achainableProfile={achainableProfile} />;

@@ -1,11 +1,11 @@
-import {
-  setPosition,
-  setText,
-  toggleTooltip,
-} from "../../store/reducers/tooltipSlice";
 import { useCallback, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
+import {
+  TooltipProvider,
+  useSetShowTip,
+  useSetTipContent,
+  useSetTipPosition,
+} from "./context";
 
 const Wrapper = styled.div`
   position: relative;
@@ -30,32 +30,32 @@ export default function Tooltip({
   ...restProps
 }) {
   const ref = useRef();
-  const dispatch = useDispatch();
+  const setShowTip = useSetShowTip();
+  const setTipContent = useSetTipContent();
+  const setTipPosition = useSetTipPosition();
 
   useEffect(() => {
     return () => {
-      dispatch(toggleTooltip(false));
+      setShowTip(false);
     };
-  }, [dispatch]);
+  }, [setShowTip]);
 
   const showTip = useCallback(() => {
     if (!tip || disabled) {
       return;
     }
     const position = ref.current.getBoundingClientRect();
-    dispatch(toggleTooltip(true));
-    dispatch(setText(tip));
-    dispatch(
-      setPosition({
-        left: position.left + position.width / 2,
-        bottom: window.innerHeight - position.top + 12,
-      }),
-    );
-  }, [dispatch, ref, tip, disabled]);
+    setShowTip(true);
+    setTipContent(tip);
+    setTipPosition({
+      left: position.left + position.width / 2,
+      bottom: window.innerHeight - position.top + 12,
+    });
+  }, [setShowTip, setTipContent, setTipPosition, ref, tip, disabled]);
 
   const hideTip = useCallback(() => {
-    dispatch(toggleTooltip(false));
-  }, [dispatch]);
+    setShowTip(false);
+  }, [setShowTip]);
 
   useEffect(() => {
     const element = ref.current;
@@ -77,3 +77,5 @@ export default function Tooltip({
     </Wrapper>
   );
 }
+
+export { TooltipProvider };

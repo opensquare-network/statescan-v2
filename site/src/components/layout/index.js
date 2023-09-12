@@ -1,14 +1,12 @@
 import styled from "styled-components";
 import Container from "./container";
 import Header from "../header";
-import { useSelector } from "react-redux";
 import Background from "../background";
 import Footer from "../footer";
-import Tip from "../tooltip/tip";
-import { tooltipContentSelector } from "../../store/reducers/tooltipSlice";
 import ScrollToTop from "../scrollToTop";
 import { getChainSettings } from "../../utils/chain";
 import { useEffect } from "react";
+import { TooltipProvider } from "../tooltip";
 
 const Main = styled.main`
   flex-grow: 1;
@@ -16,7 +14,6 @@ const Main = styled.main`
 `;
 
 export default function Layout({ children, className }) {
-  const tooltipContent = useSelector(tooltipContentSelector);
   const { name } = getChainSettings();
 
   useEffect(() => {
@@ -28,13 +25,13 @@ export default function Layout({ children, className }) {
       <Background />
 
       <Container className={className}>
-        <Header />
+        <TooltipProvider>
+          <Header />
 
-        <Main>{children}</Main>
+          <Main>{children}</Main>
 
-        <Footer />
-
-        <Tip>{tooltipContent}</Tip>
+          <Footer />
+        </TooltipProvider>
       </Container>
 
       <ScrollToTop />
