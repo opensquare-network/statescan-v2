@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+# 1.1.0
+
+date: 2023-09-12
+
+- [Big] Support identity business.
+- Introduce RPC nodes and support querying block data from selected node.
+- Add vesting-scan package.
+- Upgrade dependencies and fix styles.
+
 ## 1.0.1
 
 date: 02/14/2023
