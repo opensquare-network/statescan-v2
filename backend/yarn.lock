@@ -2007,6 +2007,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@statescan/multisig-scan@workspace:packages/multisig-scan":
+  version: 0.0.0-use.local
+  resolution: "@statescan/multisig-scan@workspace:packages/multisig-scan"
+  dependencies:
+    "@osn/scan-common": 0.5.5
+    "@statescan/common": 1.0.0
+    "@statescan/mongo": 1.0.0
+    dotenv: ^16.0.1
+    eslint-plugin-jest: ^27.2.1
+    jest: ^28.1.3
+    lodash.isempty: ^4.4.0
+  languageName: unknown
+  linkType: soft
+
 "@statescan/runtime-scan@workspace:packages/runtime-scan":
   version: 0.0.0-use.local
   resolution: "@statescan/runtime-scan@workspace:packages/runtime-scan"

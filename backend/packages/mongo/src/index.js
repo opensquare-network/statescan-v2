@@ -5,6 +5,7 @@ const asset = require("./asset");
 const uniques = require("./uniques");
 const identity = require("./identity");
 const vesting = require("./vesting");
+const multisig = require("./multisig");
 
 module.exports = {
   account,
@@ -14,4 +15,5 @@ module.exports = {
   uniques,
   identity,
   vesting,
+  multisig,
 };
