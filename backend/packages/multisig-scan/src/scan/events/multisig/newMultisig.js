@@ -1,6 +1,6 @@
 const { queryMultisig } = require("../../query/multisig");
 const {
-  multisig: { insertMultisig, insertMultisigTimelineItem },
+  multisig: { insertMultisig, insertMultisigTimelineItem, upsertMultiAccount },
 } = require("@statescan/mongo");
 const {
   busLogger: logger,
@@ -35,6 +35,8 @@ async function handleNewMultisig(event, indexer, extrinsic) {
       `Can not get all signatories for new multisig at ${indexer.blockHeight}`,
     );
   }
+
+  await upsertMultiAccount(multisigAddress, threshold, allSignatories);
 
   const meta = rawMultisig.toJSON();
   await insertMultisig({
