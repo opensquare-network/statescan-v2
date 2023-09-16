@@ -7,10 +7,12 @@ const {
   multisig: { initMultisigScanDb },
 } = require("@statescan/mongo");
 const { handleBlock } = require("./scan/block");
+const { deleteFrom } = require("./scan/delete");
 
 async function main() {
   await initMultisigScanDb();
-  let blockHeights = [2713627];
+  let blockHeights = [2713627, 2713759];
+  await deleteFrom(blockHeights[0]);
 
   const api = await getApi();
 

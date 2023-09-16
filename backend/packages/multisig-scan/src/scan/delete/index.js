@@ -1,5 +1,5 @@
 const {
-  multisig: {},
+  multisig: { getMultisigCol, getTimelineCol },
 } = require("@statescan/mongo");
 
 async function deleteFrom(height) {
@@ -7,7 +7,11 @@ async function deleteFrom(height) {
     throw new Error("No height given when deleting unFinalized transfers");
   }
 
-  // todo: delete business happened above the given height
+  const multisigCol = await getMultisigCol();
+  await multisigCol.deleteMany({ "when.height": { $gte: height } });
+
+  const timelineCol = await getTimelineCol();
+  await timelineCol.deleteMany({ "indexer.blockHeight": { $gte: height } });
 }
 
 module.exports = {
