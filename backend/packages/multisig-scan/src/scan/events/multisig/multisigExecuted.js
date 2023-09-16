@@ -6,20 +6,20 @@ const {
     getUnFinalMultisigById,
   },
 } = require("@statescan/mongo");
-const { busLogger: logger } = require("@statescan/common");
+const {
+  busLogger: logger,
+  consts: { MultisigStateType },
+} = require("@statescan/common");
 const { extractCall } = require("./common/extractCall");
-
-function sortApprovals(approvals = []) {
-  const arr = [...new Set(approvals)];
-  return arr.sort((a, b) => (a > b ? 1 : -1));
-}
+const { sortApprovals } = require("./common/sortApprovals");
+const { normalizeDispatchResult } = require("./common/normalizeDispatchResult");
 
 async function handleMultisigExecuted(event, indexer, extrinsic) {
   const approving = event.data[0].toString();
   const when = event.data[1].toJSON();
   const multisigAccount = event.data[2].toString();
   const callHash = event.data[3].toString();
-  const result = event.data[4].toJSON();
+  const result = normalizeDispatchResult(event.data[4]);
 
   const multisigId = generateMultisigId(multisigAccount, callHash, when);
   const multisigInDb = await getUnFinalMultisigById(multisigId);
@@ -35,7 +35,12 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
     {
       approvals: sortApprovals([...multisigInDb.approvals, approving]),
       ...extractCall(extrinsic, callHash),
-      result,
+      state: {
+        name: MultisigStateType.Executed,
+        args: {
+          result,
+        },
+      },
       isFinal: true,
     },
     indexer,
