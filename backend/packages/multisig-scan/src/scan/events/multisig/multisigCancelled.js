@@ -1,5 +1,9 @@
 const { generateMultisigId } = require("../../common/multisig");
 const {
+  busLogger: logger,
+  consts: { MultisigStateType },
+} = require("@statescan/common");
+const {
   multisig: {
     updateMultisig,
     insertMultisigTimelineItem,
@@ -7,22 +11,14 @@ const {
   },
 } = require("@statescan/mongo");
 const {
-  busLogger: logger,
-  consts: { MultisigStateType },
-} = require("@statescan/common");
-const { extractCall } = require("./common/extractCall");
-const { sortApprovals } = require("./common/sortApprovals");
-const { normalizeDispatchResult } = require("./common/normalizeDispatchResult");
-const {
   consts: { TimelineItemTypes },
 } = require("@osn/scan-common");
 
-async function handleMultisigExecuted(event, indexer, extrinsic) {
-  const approving = event.data[0].toString();
+async function handleMultisigCancelled(event, indexer) {
+  const cancelling = event.data[0].toString();
   const when = event.data[1].toJSON();
   const multisigAccount = event.data[2].toString();
   const callHash = event.data[3].toString();
-  const result = normalizeDispatchResult(event.data[4]);
 
   const multisigId = generateMultisigId(multisigAccount, callHash, when);
   const multisigInDb = await getUnFinalMultisigById(multisigId);
@@ -36,12 +32,10 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
   await updateMultisig(
     multisigId,
     {
-      approvals: sortApprovals([...multisigInDb.approvals, approving]),
-      ...extractCall(extrinsic, callHash),
       state: {
-        name: MultisigStateType.Executed,
+        name: MultisigStateType.Cancelled,
         args: {
-          result,
+          cancelling,
         },
       },
       isFinal: true,
@@ -59,13 +53,12 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
     type: TimelineItemTypes.event,
     name: event.method,
     args: {
-      approving: event.data[0].toString(),
-      result,
+      cancelling,
     },
     indexer,
   });
 }
 
 module.exports = {
-  handleMultisigExecuted,
+  handleMultisigCancelled,
 };

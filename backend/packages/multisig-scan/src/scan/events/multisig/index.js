@@ -1,6 +1,7 @@
 const { handleNewMultisig } = require("./newMultisig");
 const { handleMultisigApproval } = require("./multisigApproval");
 const { handleMultisigExecuted } = require("./multisigExecuted");
+const { handleMultisigCancelled } = require("./multisigCancelled");
 
 async function handleMultisigEvents(event, indexer, extrinsic) {
   const { section, method } = event;
@@ -15,6 +16,7 @@ async function handleMultisigEvents(event, indexer, extrinsic) {
   } else if ("MultisigExecuted" === method) {
     await handleMultisigExecuted(event, indexer, extrinsic);
   } else if ("MultisigCancelled" === method) {
+    await handleMultisigCancelled(event, indexer, extrinsic);
   }
 }
 

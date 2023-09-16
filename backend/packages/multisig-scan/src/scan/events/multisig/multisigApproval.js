@@ -9,6 +9,9 @@ const {
   logger,
 } = require("@statescan/common");
 const { extractSignatories } = require("./common/extractThreshold");
+const {
+  consts: { TimelineItemTypes },
+} = require("@osn/scan-common");
 
 async function handleMultisigApproval(event, indexer, extrinsic) {
   const who = event.data[0].toString();
@@ -54,6 +57,7 @@ async function handleMultisigApproval(event, indexer, extrinsic) {
       callHash,
       ...when,
     },
+    type: TimelineItemTypes.event,
     name: event.method,
     args: {
       approving: event.data[0].toString(),

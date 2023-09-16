@@ -9,6 +9,9 @@ const {
 const { generateMultisigId } = require("../../common/multisig");
 const { extractCall } = require("./common/extractCall");
 const { extractSignatories } = require("./common/extractThreshold");
+const {
+  consts: { TimelineItemTypes },
+} = require("@osn/scan-common");
 
 async function handleNewMultisig(event, indexer, extrinsic) {
   const who = event.data[0].toString();
@@ -66,6 +69,7 @@ async function handleNewMultisig(event, indexer, extrinsic) {
       callHash,
       ...when,
     },
+    type: TimelineItemTypes.event,
     name: event.method,
     args: {
       approving: event.data[0].toString(),
