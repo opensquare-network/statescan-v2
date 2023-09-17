@@ -31,25 +31,6 @@ async function handleMultisigApproval(event, indexer, extrinsic) {
   }
 
   const multisigId = generateMultisigId(multisigAccount, callHash, when);
-  const rawMultisig = await queryMultisig(multisigAccount, callHash, indexer);
-  const meta = rawMultisig.toJSON();
-  await updateMultisig(
-    multisigId,
-    {
-      ...meta,
-      ...extractCall(extrinsic, callHash),
-      state: {
-        name: MultisigStateType.Executed,
-        args: {
-          approving: meta.approvals?.length,
-          threshold,
-          allSignatories: allSignatories?.length,
-        },
-      },
-    },
-    indexer,
-  );
-
   await insertMultisigTimelineItem({
     multisigId,
     multisig: {
@@ -64,6 +45,25 @@ async function handleMultisigApproval(event, indexer, extrinsic) {
     },
     indexer,
   });
+
+  const rawMultisig = await queryMultisig(multisigAccount, callHash, indexer);
+  const meta = rawMultisig.toJSON();
+  await updateMultisig(
+    multisigId,
+    {
+      ...meta,
+      ...extractCall(extrinsic, callHash),
+      state: {
+        name: MultisigStateType.Approving,
+        args: {
+          approving: meta.approvals?.length,
+          threshold,
+          allSignatories: allSignatories?.length,
+        },
+      },
+    },
+    indexer,
+  );
 }
 
 module.exports = {

@@ -33,22 +33,6 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
     return;
   }
 
-  await updateMultisig(
-    multisigId,
-    {
-      approvals: sortApprovals([...multisigInDb.approvals, approving]),
-      ...extractCall(extrinsic, callHash),
-      state: {
-        name: MultisigStateType.Executed,
-        args: {
-          result,
-        },
-      },
-      isFinal: true,
-    },
-    indexer,
-  );
-
   await insertMultisigTimelineItem({
     multisigId,
     multisig: {
@@ -64,6 +48,22 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
     },
     indexer,
   });
+
+  await updateMultisig(
+    multisigId,
+    {
+      approvals: sortApprovals([...multisigInDb.approvals, approving]),
+      ...extractCall(extrinsic, callHash),
+      state: {
+        name: MultisigStateType.Executed,
+        args: {
+          result,
+        },
+      },
+      isFinal: true,
+    },
+    indexer,
+  );
 }
 
 module.exports = {
