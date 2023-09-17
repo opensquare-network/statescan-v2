@@ -12,11 +12,20 @@ const { extractSignatories } = require("./common/extractThreshold");
 const {
   consts: { TimelineItemTypes },
 } = require("@osn/scan-common");
+const {
+  getCallHashFromExtrinsic,
+} = require("./common/getCallHashFromExtrinsic");
 
 async function handleNewMultisig(event, indexer, extrinsic) {
   const who = event.data[0].toString();
   const multisigAddress = event.data[1].toString();
-  const callHash = event.data[2].toString();
+  let callHash;
+  if (event.data.length < 3) {
+    // For kusama spec 1055, `NewMultisig` event has no callHash argument
+    callHash = await getCallHashFromExtrinsic(extrinsic, indexer); // it's a workaround, not perfect.
+  } else {
+    callHash = event.data[2].toString();
+  }
 
   const rawMultisig = await queryMultisig(multisigAddress, callHash, indexer);
   if (!rawMultisig.isSome) {
