@@ -3,6 +3,8 @@ const {
   consts: { Modules, MultisigMethods },
 } = require("@osn/scan-common");
 const { sortApprovals } = require("./sortApprovals");
+const { blake2AsU8a } = require("@polkadot/util-crypto");
+const { u8aToHex } = require("@polkadot/util");
 
 function extractSignatories(extrinsic, callHash, who) {
   if (!extrinsic) {
@@ -12,7 +14,13 @@ function extractSignatories(extrinsic, callHash, who) {
   const targetCall = findTargetCall(extrinsic.method, (call) => {
     const { section, method, args } = call;
     if (Modules.Multisig === section && MultisigMethods.asMulti === method) {
-      return args[3].hash.toString() === callHash;
+      const callArg = args[3];
+      if (callArg.section) {
+        return args[3].hash.toString() === callHash;
+      } else {
+        // to adapt legacy code, type OpaqueCall of arg is `OpaqueCall`.
+        return u8aToHex(blake2AsU8a(args[3], 256)) === callHash;
+      }
     } else if (Modules.Multisig === section && "approveAsMulti" === method) {
       return args[3].toString() === callHash;
     } else {
