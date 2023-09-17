@@ -5,7 +5,7 @@ const { handleMultisigCancelled } = require("./multisigCancelled");
 
 async function handleMultisigEvents(event, indexer, extrinsic) {
   const { section, method } = event;
-  if ("multisig" !== section) {
+  if (!["multisig", "utility"].includes(section)) {
     return;
   }
 
