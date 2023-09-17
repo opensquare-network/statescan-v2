@@ -2,7 +2,6 @@ const {
   chain: { getBlockIndexer },
 } = require("@osn/scan-common");
 const {
-  identity: { getIdentityDb },
   multisig: { getMultisigDb },
 } = require("@statescan/mongo");
 const { handleEvents } = require("./events");
