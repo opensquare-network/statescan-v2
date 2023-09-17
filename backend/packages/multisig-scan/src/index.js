@@ -5,9 +5,9 @@ const {
   env: { isUseMetaDb },
 } = require("@osn/scan-common");
 const {
-  identity: { initIdentityScanDb },
   multisig: { initMultisigScanDb },
 } = require("@statescan/mongo");
+const { scan } = require("./scan");
 
 async function main() {
   await initMultisigScanDb();
@@ -16,6 +16,8 @@ async function main() {
     await updateSpecs();
     checkSpecs();
   }
+
+  await scan();
 }
 
 main()
