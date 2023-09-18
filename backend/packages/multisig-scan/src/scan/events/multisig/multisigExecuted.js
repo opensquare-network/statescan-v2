@@ -33,10 +33,9 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
   const multisigId = generateMultisigId(multisigAccount, callHash, when);
   const multisigInDb = await getMultisigById(multisigId);
   if (!multisigInDb) {
-    logger.error(
+    throw new Error(
       `Can not find multisig from DB when executed at ${indexer.blockHeight}`,
     );
-    return;
   }
 
   await insertMultisigTimelineItem({

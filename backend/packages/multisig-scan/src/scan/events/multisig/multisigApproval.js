@@ -1,17 +1,18 @@
 const { queryMultisig } = require("../../query/multisig");
 const { generateMultisigId } = require("../../common/multisig");
 const {
-  multisig: { updateMultisig, insertMultisigTimelineItem },
+  multisig: { updateMultisig, insertMultisigTimelineItem, getMultisigById },
 } = require("@statescan/mongo");
 const { extractCall } = require("./common/extractCall");
 const {
   consts: { MultisigStateType },
-  logger,
 } = require("@statescan/common");
 const { extractSignatories } = require("./common/extractThreshold");
 const {
   consts: { TimelineItemTypes },
+  busLogger: logger,
 } = require("@osn/scan-common");
+const { sortApprovals } = require("./common/sortApprovals");
 
 async function handleMultisigApproval(event, indexer, extrinsic) {
   const who = event.data[0].toString();
@@ -47,16 +48,30 @@ async function handleMultisigApproval(event, indexer, extrinsic) {
   });
 
   const rawMultisig = await queryMultisig(multisigAccount, callHash, indexer);
-  const meta = rawMultisig.toJSON();
+  let metaUpdates = {};
+  if (rawMultisig.isSome) {
+    metaUpdates = rawMultisig.toJSON();
+  } else {
+    const multisigInDb = await getMultisigById(multisigId);
+    if (!multisigInDb) {
+      throw new Error(
+        `Can not find multisig from DB when executed at ${indexer.blockHeight}`,
+      );
+    } else {
+      metaUpdates = {
+        approvals: sortApprovals([...multisigInDb.approvals, who]),
+      };
+    }
+  }
   await updateMultisig(
     multisigId,
     {
-      ...meta,
+      ...metaUpdates,
       ...(await extractCall(extrinsic, callHash, indexer)),
       state: {
         name: MultisigStateType.Approving,
         args: {
-          approving: meta.approvals?.length,
+          approving: metaUpdates.approvals?.length,
           threshold,
           allSignatories: allSignatories?.length,
         },
