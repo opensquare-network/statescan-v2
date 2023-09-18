@@ -3,7 +3,6 @@ const {
   multisig: { insertMultisig, insertMultisigTimelineItem, upsertMultiAccount },
 } = require("@statescan/mongo");
 const {
-  busLogger: logger,
   consts: { MultisigStateType },
 } = require("@statescan/common");
 const { generateMultisigId } = require("../../common/multisig");
@@ -11,6 +10,7 @@ const { extractCall } = require("./common/extractCall");
 const { extractSignatories } = require("./common/extractThreshold");
 const {
   consts: { TimelineItemTypes },
+  busLogger: logger,
 } = require("@osn/scan-common");
 const {
   getCallHashFromExtrinsic,

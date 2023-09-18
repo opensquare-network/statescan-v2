@@ -7,6 +7,11 @@ async function getUnFinalMultisigById(id) {
   return await col.findOne({ id, isFinal: false });
 }
 
+async function getMultisigById(id) {
+  const col = await getMultisigCol();
+  return await col.findOne({ id });
+}
+
 async function insertMultisig(multisig) {
   const col = await getMultisigCol();
   await col.insertOne(multisig);
@@ -33,4 +38,5 @@ module.exports = {
   insertMultisig,
   updateMultisig,
   getUnFinalMultisigById,
+  getMultisigById,
 };

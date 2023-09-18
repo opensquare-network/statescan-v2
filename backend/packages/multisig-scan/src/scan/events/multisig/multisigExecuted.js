@@ -1,13 +1,8 @@
 const { generateMultisigId } = require("../../common/multisig");
 const {
-  multisig: {
-    updateMultisig,
-    insertMultisigTimelineItem,
-    getUnFinalMultisigById,
-  },
+  multisig: { updateMultisig, insertMultisigTimelineItem, getMultisigById },
 } = require("@statescan/mongo");
 const {
-  busLogger: logger,
   consts: { MultisigStateType },
 } = require("@statescan/common");
 const { extractCall } = require("./common/extractCall");
@@ -15,6 +10,7 @@ const { sortApprovals } = require("./common/sortApprovals");
 const { normalizeDispatchResult } = require("./common/normalizeDispatchResult");
 const {
   consts: { TimelineItemTypes },
+  busLogger: logger,
 } = require("@osn/scan-common");
 const {
   getCallHashFromExtrinsic,
@@ -35,7 +31,7 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
   }
 
   const multisigId = generateMultisigId(multisigAccount, callHash, when);
-  const multisigInDb = await getUnFinalMultisigById(multisigId);
+  const multisigInDb = await getMultisigById(multisigId);
   if (!multisigInDb) {
     logger.error(
       `Can not find multisig from DB when executed at ${indexer.blockHeight}`,
