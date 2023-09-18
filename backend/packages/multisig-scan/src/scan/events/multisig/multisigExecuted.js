@@ -16,13 +16,23 @@ const { normalizeDispatchResult } = require("./common/normalizeDispatchResult");
 const {
   consts: { TimelineItemTypes },
 } = require("@osn/scan-common");
+const {
+  getCallHashFromExtrinsic,
+} = require("./common/getCallHashFromExtrinsic");
 
 async function handleMultisigExecuted(event, indexer, extrinsic) {
   const approving = event.data[0].toString();
   const when = event.data[1].toJSON();
   const multisigAccount = event.data[2].toString();
-  const callHash = event.data[3].toString();
-  const result = normalizeDispatchResult(event.data[4]);
+  let callHash, result;
+  if (event.data.length <= 4) {
+    // For kusama spec 1055, `NewMultisig` event has no callHash argument
+    callHash = await getCallHashFromExtrinsic(extrinsic, indexer); // it's a workaround, not perfect.
+    result = normalizeDispatchResult(event.data[3], indexer);
+  } else {
+    callHash = event.data[3].toString();
+    result = normalizeDispatchResult(event.data[4], indexer);
+  }
 
   const multisigId = generateMultisigId(multisigAccount, callHash, when);
   const multisigInDb = await getUnFinalMultisigById(multisigId);

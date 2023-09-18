@@ -11,7 +11,7 @@ const { deleteFrom } = require("./scan/delete");
 
 async function main() {
   await initMultisigScanDb();
-  let blockHeights = [333627, 333924];
+  let blockHeights = [2016479, 2016525];
   // let blockHeights = [333924];
   await deleteFrom(blockHeights[0]);
 
