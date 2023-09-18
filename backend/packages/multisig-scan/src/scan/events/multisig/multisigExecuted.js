@@ -53,7 +53,7 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
     multisigId,
     {
       approvals: sortApprovals([...multisigInDb.approvals, approving]),
-      ...extractCall(extrinsic, callHash),
+      ...(await extractCall(extrinsic, callHash, indexer)),
       state: {
         name: MultisigStateType.Executed,
         args: {

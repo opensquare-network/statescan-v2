@@ -1,11 +1,28 @@
 const {
   call: { findTargetCall, normalizeCall },
   consts: { Modules, MultisigMethods },
+  chain: { findBlockApi },
+  busLogger,
 } = require("@osn/scan-common");
 const { blake2AsU8a } = require("@polkadot/util-crypto");
 const { u8aToHex } = require("@polkadot/util");
 
-function extractCall(extrinsic, callHash) {
+async function tryNormalizeCall(innerCall, indexer) {
+  if (innerCall.section) {
+    return normalizeCall(innerCall);
+  }
+
+  const blockApi = await findBlockApi(indexer.blockHash);
+  try {
+    const call = blockApi.registry.createType("GenericCall", innerCall);
+    return normalizeCall(call);
+  } catch (e) {
+    busLogger.error(`Can not decode call at ${indexer.blockHeight}`);
+    return null;
+  }
+}
+
+async function extractCall(extrinsic, callHash, indexer) {
   if (!extrinsic) {
     return {};
   }
@@ -34,7 +51,7 @@ function extractCall(extrinsic, callHash) {
 
   const innerCall = targetAsMultiCall.args[3];
   return {
-    call: normalizeCall(innerCall),
+    call: await tryNormalizeCall(innerCall, indexer),
     callHex: innerCall.toHex(),
   };
 }

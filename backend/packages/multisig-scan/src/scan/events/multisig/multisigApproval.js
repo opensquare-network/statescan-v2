@@ -52,7 +52,7 @@ async function handleMultisigApproval(event, indexer, extrinsic) {
     multisigId,
     {
       ...meta,
-      ...extractCall(extrinsic, callHash),
+      ...(await extractCall(extrinsic, callHash, indexer)),
       state: {
         name: MultisigStateType.Approving,
         args: {

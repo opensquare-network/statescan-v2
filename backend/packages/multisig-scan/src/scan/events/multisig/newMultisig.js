@@ -58,7 +58,7 @@ async function handleNewMultisig(event, indexer, extrinsic) {
     threshold,
     ...meta,
     callHash,
-    ...extractCall(extrinsic, callHash),
+    ...(await extractCall(extrinsic, callHash, indexer)),
     state: {
       name: MultisigStateType.Approving,
       args: {
