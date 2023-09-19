@@ -23,6 +23,7 @@ import {
   TagThemed,
 } from "../../components/tag";
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
+import { ReactComponent as CrossIcon } from "../../components/icons/cross.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
 import IpfsItem from "../../components/nft/detail/ipfsItem";
 import { bigNumberToLocaleString } from ".";
@@ -491,7 +492,15 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
     {
       label: "Result",
-      value: extrinsic?.isFinalized ? <CheckIcon /> : <TimerIcon />,
+      value: extrinsic?.isFinalized ? (
+        extrinsic?.isSuccess ? (
+          <CheckIcon />
+        ) : (
+          <CrossIcon />
+        )
+      ) : (
+        <TimerIcon />
+      ),
     },
   ].filter(Boolean);
 };
