@@ -1,4 +1,3 @@
-// import { findBlockApi } from "../chain";
 import { WrappedEvents } from "./type/wrappedEvents";
 import { isSudoOk, getSudoInnerCallEvents } from "./utils/sudo";
 import { getBatchInnerCallEvents } from "./utils/batch";
@@ -7,7 +6,6 @@ import {
   isMultisigExecutedOk,
   getMultisigInnerCallEvents,
 } from "./utils/multisig";
-// import { logger } from "../logger";
 import { calcMultisigAddress } from "./utils/multisig";
 import { getProxyInnerCallEvents } from "./utils/getProxyCallEvents";
 import { isProxyExecutedOk } from "./utils/isProxyExecutedOk";
