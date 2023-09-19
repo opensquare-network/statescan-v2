@@ -1,5 +1,5 @@
 const { getMultisigCol } = require("../db");
-const { busLogger: logger } = require("@statescan/common");
+const { busLogger: logger } = require("@osn/scan-common");
 const isEmpty = require("lodash.isempty");
 
 async function getUnFinalMultisigById(id) {
@@ -19,7 +19,7 @@ async function insertMultisig(multisig) {
 
 async function updateMultisig(id, updates = {}, indexer) {
   const col = await getMultisigCol();
-  const maybeMultisig = await col.findOne({ id, isFinal: false });
+  const maybeMultisig = await col.findOne({ id });
   if (!maybeMultisig) {
     logger.error(
       `Can not find multisig when update it at ${indexer.blockHeight}`,
