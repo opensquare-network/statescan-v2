@@ -48,7 +48,7 @@ async function handleNewMultisig(event, indexer, extrinsic) {
     );
   }
 
-  await upsertMultiAccount(multisigAddress, threshold, allSignatories);
+  await upsertMultiAccount(multisigAddress, threshold, allSignatories, indexer);
 
   const meta = rawMultisig.toJSON();
   await insertMultisig({

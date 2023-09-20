@@ -28,7 +28,12 @@ async function handleAsMultiThreshold1(call, signer, extrinsicIndexer) {
     blockApi.registry.chainSS58,
   );
 
-  await upsertMultiAccount(multisigAddress, 1, allSignatories);
+  await upsertMultiAccount(
+    multisigAddress,
+    1,
+    allSignatories,
+    extrinsicIndexer,
+  );
 
   const callHash = call.args[1].hash.toString();
   const when = {

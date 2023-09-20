@@ -1,19 +1,24 @@
 const { getAddressCol } = require("../db");
 
-async function upsertMultiAccount(address, threshold, allSignatories = []) {
+async function upsertMultiAccount(
+  address,
+  threshold,
+  allSignatories = [],
+  indexer,
+) {
   const col = await getAddressCol();
-  await col.updateOne(
-    { address },
-    {
-      $set: {
-        threshold,
-        allSignatories,
-        allSignatoriesCount: allSignatories.length,
-      },
-      $inc: { "statistics.multisig": 1 },
-    },
-    { upsert: true },
-  );
+  const maybeInDb = await col.findOne({ address });
+  if (maybeInDb) {
+    return;
+  }
+
+  await col.insertOne({
+    address,
+    threshold,
+    allSignatories,
+    allSignatoriesCount: allSignatories.length,
+    debutAt: indexer,
+  });
 }
 
 module.exports = {
