@@ -3,6 +3,8 @@ const multisigAddress = /* GraphQL */ `
     address: String!
     signatories: [String]!
     threshold: Int!
+    debutAt: Indexer!
+    latestMultisigAt: Indexer!
   }
 `;
 
