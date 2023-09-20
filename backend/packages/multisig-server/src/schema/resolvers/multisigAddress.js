@@ -1,5 +1,5 @@
 const {
-  multisig: { getMultisigCol, getAddressCol },
+  multisig: { getAddressCol },
 } = require("@statescan/mongo");
 const {
   utils: { isValidAddress },
