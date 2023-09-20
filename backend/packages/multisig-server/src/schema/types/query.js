@@ -5,8 +5,20 @@ const queries = /* GraphQL */ `
     CANCELLED
   }
 
+  enum MultisigAddressSort {
+    DEBUT_AT_HEIGHT_DESC
+    DEBUT_AT_HEIGHT_ASC
+    LATEST_MULTISIG_AT_HEIGHT_DESC
+    LATEST_MULTISIG_AT_HEIGHT_ASC
+  }
+
   type Query {
     multisigAddress(account: String!): MultisigAddress
+    multisigAddresses(
+      offset: Int!
+      limit: Int!
+      sort: MultisigAddressSort
+    ): PagedMultisigAddresses!
     multisig(
       account: String!
       whenHeight: Int!

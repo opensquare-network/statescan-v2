@@ -6,6 +6,13 @@ const multisigAddress = /* GraphQL */ `
     debutAt: Indexer!
     latestMultisigAt: Indexer!
   }
+
+  type PagedMultisigAddresses {
+    multisigAddresses: [MultisigAddress]!
+    offset: Int!
+    limit: Int!
+    total: Int!
+  }
 `;
 
 module.exports = {
