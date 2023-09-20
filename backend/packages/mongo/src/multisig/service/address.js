@@ -1,5 +1,6 @@
 const { getAddressCol } = require("../db");
 
+// called when a new multisig is detected
 async function upsertMultiAccount(
   address,
   threshold,
@@ -9,6 +10,7 @@ async function upsertMultiAccount(
   const col = await getAddressCol();
   const maybeInDb = await col.findOne({ address });
   if (maybeInDb) {
+    await col.updateOne({ address }, { $set: { latestMultisigAt: indexer } });
     return;
   }
 
@@ -18,6 +20,7 @@ async function upsertMultiAccount(
     allSignatories,
     allSignatoriesCount: allSignatories.length,
     debutAt: indexer,
+    latestMultisigAt: indexer,
   });
 }
 
