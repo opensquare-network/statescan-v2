@@ -76,6 +76,7 @@ async function handleMultisigApproval(event, indexer, extrinsic) {
           allSignatories: allSignatories?.length,
         },
       },
+      updateAt: indexer,
     },
     indexer,
   );

@@ -65,6 +65,7 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
           result,
         },
       },
+      updateAt: indexer,
       isFinal: true,
     },
     indexer,

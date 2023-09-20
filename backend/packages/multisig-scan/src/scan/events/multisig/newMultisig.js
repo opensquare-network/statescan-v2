@@ -68,6 +68,7 @@ async function handleNewMultisig(event, indexer, extrinsic) {
       },
     },
     indexer,
+    updateAt: indexer,
     isFinal: false,
   });
 
