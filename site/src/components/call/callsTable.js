@@ -6,14 +6,8 @@ import { Tag } from "../tag";
 import ExtrinsicLink from "../extrinsic/link";
 import React from "react";
 
-/**
- * @description page call table
- * @property data
- */
-export default function CallsTable(props) {
-  const { data = [], loading } = props ?? {};
-
-  const tableData = data?.map((item) => {
+export const toCallTableItem = (calls) => {
+  return calls?.map((item) => {
     return [
       <ColoredLink
         to={`/calls/${item?.indexer?.blockHeight}-${item?.indexer?.extrinsicIndex}-${item?.indexer?.callIndex}`}
@@ -30,6 +24,16 @@ export default function CallsTable(props) {
       <ExtrinsicParametersDisplay extrinsic={{ call: item }} />,
     ];
   });
+};
 
-  return <Table heads={callsHead} data={tableData} loading={loading} />;
+/**
+ * @description page call table
+ * @property data
+ */
+export default function CallsTable(props) {
+  const { data = [], loading } = props ?? {};
+
+  return (
+    <Table heads={callsHead} data={toCallTableItem(data)} loading={loading} />
+  );
 }

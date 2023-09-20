@@ -16,33 +16,11 @@ import useOnChainExtrinsicData from "../hooks/useOnChainExtrinsicData";
 import useExtrinsicInfo from "../hooks/useExtrinsicInfo";
 import PagingTable from "../components/detail/pagingTable";
 import isNil from "lodash.isnil";
-import { ColoredLink } from "../components/styled/link";
-import ExtrinsicLink from "../components/extrinsic/link";
-import { Tag } from "../components/tag";
 import { useDispatch, useSelector } from "react-redux";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import { finalizedHeightSelector } from "../store/reducers/chainSlice";
-
-function toCallTableItem(calls) {
-  return calls?.map((item) => {
-    return [
-      <ColoredLink
-        to={`/calls/${item?.indexer?.blockHeight}-${item?.indexer?.extrinsicIndex}-${item?.indexer?.callIndex}`}
-      >
-        {item?.indexer?.blockHeight.toLocaleString()}-{item?.indexer?.callIndex}
-      </ColoredLink>,
-      <ExtrinsicLink indexer={item?.indexer} />,
-      <ColoredLink to={`/blocks/${item?.indexer?.blockHeight}`}>
-        {item?.indexer?.blockHeight.toLocaleString()}
-      </ColoredLink>,
-      item?.indexer?.blockTime,
-      <Tag>{item?.method}</Tag>,
-      `${item?.section}(${item?.method})`,
-      <ExtrinsicParametersDisplay extrinsic={{ call: item }} />,
-    ];
-  });
-}
+import { toCallTableItem } from "../components/call/callsTable";
 
 function parseExtrinsicId(id) {
   if (!id.includes("-")) {

@@ -3,7 +3,6 @@ import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
 import Home from "./pages";
 import Block from "./pages/block";
-import OnChainBlock from "./pages/onChainBlock";
 import Events from "./pages/events";
 import Extrinsic from "./pages/extrinsic";
 import Transfers from "./pages/transfers";
@@ -26,8 +25,10 @@ import IdentitiesPage from "./pages/identities";
 import RegistrarsPage from "./pages/registrars";
 import RequestsPage from "./pages/requests";
 import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
+import OnChainBlock from "./pages/onChainBlock";
 import OnChainAccount from "./pages/onChainAccount";
 import OnChainExtrinsic from "./pages/onChainExtrinsic";
+import OnChainEvent from "./pages/onChainEvent";
 
 function App() {
   const { assets, uniques, identity } = getChainModules();
@@ -68,7 +69,10 @@ function App() {
           element={isUseOnChainBlockData ? <OnChainExtrinsic /> : <Extrinsic />}
         />
         <Route path="/events" element={<Events />} />
-        <Route path="/events/:id" element={<Event />} />
+        <Route
+          path="/events/:id"
+          element={isUseOnChainBlockData ? <OnChainEvent /> : <Event />}
+        />
         <Route path="/transfers" element={<Transfers />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route
