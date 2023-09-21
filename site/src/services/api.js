@@ -51,6 +51,6 @@ class Api {
   };
 }
 
-export default new Api(
-  new URL(process.env.REACT_APP_PUBLIC_API_END_POINT).href,
-);
+const api = new Api(new URL(process.env.REACT_APP_PUBLIC_API_END_POINT).href);
+
+export default api;
