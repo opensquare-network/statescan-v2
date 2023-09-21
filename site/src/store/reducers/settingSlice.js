@@ -3,7 +3,7 @@ import { CACHE_KEY } from "../../utils/constants";
 import { getEnvChain } from "../../utils/env";
 import chains from "../../utils/consts/chains";
 
-const mode = Object.freeze({
+export const mode = Object.freeze({
   light: "light",
   dark: "dark",
 });
