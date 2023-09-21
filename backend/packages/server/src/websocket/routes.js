@@ -25,15 +25,15 @@ async function setSocketSubscriptions(io, socket) {
 
     if (latestBlocksRoom === room) {
       const latestBlocks = getLatestBlocks();
-      io.to(room).emit(latestBlocksKey, latestBlocks);
+      socket.emit(latestBlocksKey, latestBlocks);
     } else if (firstPageBlocksRoom === room) {
       const firstPageBlocks = getFirstPageBlocks();
-      io.to(room).emit(firstPageBlocksKey, firstPageBlocks);
+      socket.emit(firstPageBlocksKey, firstPageBlocks);
     } else if (latestSignedTransfersRoom === room) {
       const transfers = getLatestSignedTransfers();
-      io.to(room).emit(latestSignedTransfersKey, transfers);
+      socket.emit(latestSignedTransfersKey, transfers);
     } else if (overviewRoom === room) {
-      io.to(room).emit(overviewKey, getOverview());
+      socket.emit(overviewKey, getOverview());
     }
   });
 
