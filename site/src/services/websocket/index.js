@@ -18,6 +18,9 @@ import {
 } from "../../store/reducers/socketSlice";
 
 let socket = null;
+let blocksLastUpdate = 0;
+let transfersLastUpdate = 0;
+let overviewLastUpdate = 0;
 
 export function connect() {
   if (socket) {
@@ -38,15 +41,27 @@ export function connect() {
     socket.emit("subscribe", overviewRoom);
 
     socket.on(latestBlocksKey, (data) => {
-      store.dispatch(setLatestBlocks(data));
-      store.dispatch(setLatestBlocksLoading(false));
+      const now = new Date().getTime();
+      if (now - blocksLastUpdate > 3000) {
+        store.dispatch(setLatestBlocks(data));
+        store.dispatch(setLatestBlocksLoading(false));
+        blocksLastUpdate = now;
+      }
     });
     socket.on(latestSignedTransfersKey, (transferData) => {
-      store.dispatch(setLatestSignedTransfers(transferData));
-      store.dispatch(setLatestSignedTransfersLoading(false));
+      const now = new Date().getTime();
+      if (now - transfersLastUpdate > 3000) {
+        store.dispatch(setLatestSignedTransfers(transferData));
+        store.dispatch(setLatestSignedTransfersLoading(false));
+        transfersLastUpdate = now;
+      }
     });
     socket.on(overviewKey, (overviewData) => {
-      store.dispatch(setOverview(overviewData));
+      const now = new Date().getTime();
+      if (now - overviewLastUpdate > 3000) {
+        store.dispatch(setOverview(overviewData));
+        overviewLastUpdate = now;
+      }
     });
   });
 }
