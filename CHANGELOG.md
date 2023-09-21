@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.1..1
+# 1.1.2
+
+date: 2023-09-21
+
+- [Big] Add `multisig-scan` package to support multisig pallet business scan.
+- Support query extrinsic/event data from RPC node.
+- Add USDC asset info on statemint.
+- Fix the issue that home page subscribed info is updated too frequently.
+
+# 1.1.1
 
 date: 2023-09-12
 
