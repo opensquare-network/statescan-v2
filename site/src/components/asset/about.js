@@ -7,6 +7,8 @@ import { Flex, FlexColumn } from "../styled/flex";
 import Governance from "./governance";
 import { useAssetInfoDataDetail } from "../../utils/hooks/useAssetInfoData";
 import LinkLinksIcon from "../icons/linkLinksIcon";
+import { useSelector } from "react-redux";
+import { mode, modeSelector } from "../../store/reducers/settingSlice";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -64,6 +66,8 @@ const GovernanceWrapper = styled.div`
 
 export default function About() {
   const data = useAssetInfoDataDetail();
+  const themeMode = useSelector(modeSelector);
+  console.log("themeMode", themeMode);
 
   return (
     <Wrapper>
@@ -85,7 +89,13 @@ export default function About() {
         {(data?.links || []).map((item, index) => (
           <Tooltip key={index} tip={item.url}>
             <a href={item.url}>
-              {item.icon ? <LinkIcon src={item.icon} /> : <LinkLinksIcon />}
+              {item.darkIcon && themeMode === mode.dark ? (
+                <LinkIcon src={item.darkIcon} />
+              ) : item.icon ? (
+                <LinkIcon src={item.icon} />
+              ) : (
+                <LinkLinksIcon />
+              )}
             </a>
           </Tooltip>
         ))}

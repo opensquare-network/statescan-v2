@@ -19,11 +19,13 @@ export const USDC = {
         name: "Medium",
         url: "https://medium.com/centre-blog",
         icon: "/imgs/icons/link-medium.svg",
+        darkIcon: "/imgs/icons/link-medium-dark.svg",
       },
       {
         name: "Github",
         url: "https://github.com/circlefin",
         icon: "/imgs/icons/link-github.svg",
+        darkIcon: "/imgs/icons/link-github-dark.svg",
       },
     ],
   },
