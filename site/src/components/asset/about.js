@@ -67,7 +67,6 @@ const GovernanceWrapper = styled.div`
 export default function About() {
   const data = useAssetInfoDataDetail();
   const themeMode = useSelector(modeSelector);
-  console.log("themeMode", themeMode);
 
   return (
     <Wrapper>
