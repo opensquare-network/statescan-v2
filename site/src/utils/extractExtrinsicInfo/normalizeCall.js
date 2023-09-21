@@ -54,7 +54,7 @@ function normalizeArgValue(argMeta, name, value) {
   return value.toJSON();
 }
 
-export default function normalizeCall(call) {
+function normalizeCall(call) {
   const { section, method } = call;
   const callIndex = u8aToHex(call.callIndex);
 
@@ -97,3 +97,5 @@ export default function normalizeCall(call) {
     args,
   };
 }
+
+export { normalizeCall };

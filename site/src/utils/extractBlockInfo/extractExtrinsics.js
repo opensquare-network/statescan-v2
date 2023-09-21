@@ -1,55 +1,6 @@
-import normalizeCall from "./normalizeCall";
+import { normalizeExtrinsic } from "../extractExtrinsicInfo/normalizeExtrinsic";
 
-function getLifetime(extrinsic, indexer) {
-  if (!extrinsic.era.isMortalEra) {
-    return null;
-  }
-
-  const mortal = extrinsic.era.asMortalEra;
-  return [mortal.birth(indexer.blockHeight), mortal.death(indexer.blockHeight)];
-}
-
-function isExtrinsicSuccess(events) {
-  return events.some((e) => e.event.method === "ExtrinsicSuccess");
-}
-
-function normalizeExtrinsic(extrinsic, events, indexer) {
-  const hash = extrinsic.hash.toHex();
-  const version = extrinsic.version;
-  const isSuccess = isExtrinsicSuccess(events);
-  const call = normalizeCall(extrinsic.method);
-
-  const isSigned = extrinsic.isSigned;
-  let obj = {
-    indexer,
-    version,
-    hash,
-    isSuccess,
-    call,
-    isSigned,
-  };
-
-  if (isSigned) {
-    const tip = extrinsic.tip ? extrinsic.tip.toBigInt().toString() : "0";
-    const nonce = extrinsic.nonce.toNumber();
-    const signer = extrinsic.signer.toString();
-    const signature = extrinsic.signature.toString();
-    const lifetime = getLifetime(extrinsic, indexer);
-
-    obj = {
-      ...obj,
-      nonce,
-      signer,
-      signature,
-      tip,
-      lifetime,
-    };
-  }
-
-  return obj;
-}
-
-function extractExtrinsicEvents(events, extrinsicIndex) {
+export function extractExtrinsicEvents(events, extrinsicIndex) {
   return events.filter((event) => {
     const { phase } = event;
     return !phase.isNone && phase.value.toNumber() === extrinsicIndex;
