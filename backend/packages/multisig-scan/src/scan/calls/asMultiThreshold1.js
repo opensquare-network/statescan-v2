@@ -2,7 +2,7 @@ const {
   chain: { findBlockApi },
   utils: { calcMultisigAddress },
   call: { normalizeCall },
-  consts: { TimelineItemTypes },
+  consts: { TimelineItemTypes, Modules },
 } = require("@osn/scan-common");
 const {
   multisig: { insertMultisig, insertMultisigTimelineItem, upsertMultiAccount },
@@ -15,7 +15,10 @@ const { generateMultisigId } = require("../common/multisig");
 async function handleAsMultiThreshold1(call, signer, extrinsicIndexer) {
   const { section, method } = call;
   const targetMethodName = "asMultiThreshold1";
-  if ("multisig" !== section || targetMethodName !== method) {
+  if (
+    ![Modules.Multisig, Modules.Utility].includes(section) ||
+    targetMethodName !== method
+  ) {
     return;
   }
 
