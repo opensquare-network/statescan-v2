@@ -63,6 +63,12 @@ function Options({
 }) {
   const [searchText, setSearchText] = useState("");
 
+  const displayOptions = isSearch
+    ? options.filter((item) =>
+        item.text?.toLowerCase?.().includes(searchText.toLowerCase()),
+      ) ?? []
+    : options;
+
   return (
     <OptionWrapper width={width}>
       <SearchBox
@@ -72,7 +78,7 @@ function Options({
         name={name}
       />
       <OptionItemsWrapper>
-        {options.map((option, index) =>
+        {displayOptions.map((option, index) =>
           option?.type === "divider" ? (
             <Divider key={index} />
           ) : (
@@ -90,7 +96,7 @@ function Options({
             </OptionItem>
           ),
         )}
-        {options.length === 0 && <NoOption>No result found</NoOption>}
+        {displayOptions.length === 0 && <NoOption>No result found</NoOption>}
       </OptionItemsWrapper>
     </OptionWrapper>
   );
