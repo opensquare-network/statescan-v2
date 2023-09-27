@@ -1,0 +1,69 @@
+name: site ci
+
+on:
+  push:
+    branches:
+      - main
+      - "release-*"
+    paths:
+      - "site/**"
+  pull_request:
+    branches:
+      - main
+      - "release-*"
+    paths:
+      - "site/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup node LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: yarn
+          cache-dependency-path: |
+            site/yarn.lock
+
+      - name: install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: site
+
+      - name: lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
+          dir: site
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup node LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: yarn
+          cache-dependency-path: |
+            site/yarn.lock
+
+      - name: install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: site
+
+      - name: build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+          dir: site
