@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import {
   menusAssets,
   menusBlockchain,
-  menusIdentity,
+  menusBusiness,
 } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
@@ -144,7 +144,7 @@ export default function Header() {
               <SubMenu category="BlockChain" menus={menusBlockchain} />
               {assets && <SubMenu category="Assets" menus={menusAssets} />}
               {identity && (
-                <SubMenu category="Identity" menus={menusIdentity} />
+                <SubMenu category="Business" menus={menusBusiness} />
               )}
             </MenuWrapper>
 

@@ -77,21 +77,41 @@ export const menusAssets = [
   },
 ];
 
-export const menusIdentity = [
+export const menusBusiness = [
   {
-    name: "Identities",
-    value: "identities",
+    type: "group",
+    title: "Identity",
+    menus: [
+      {
+        name: "Identities",
+        value: "identities",
+      },
+      {
+        name: "Judgements",
+        value: "identities/judgements",
+      },
+      {
+        name: "Registrars",
+        value: "identities/registrars",
+      },
+    ],
   },
   {
     type: "divider",
   },
   {
-    name: "Judgements",
-    value: "identities/judgements",
-  },
-  {
-    name: "Registrars",
-    value: "identities/registrars",
+    type: "group",
+    title: "MultiSig",
+    menus: [
+      {
+        name: "Accounts",
+        value: "multisigs/accounts",
+      },
+      {
+        name: "Multisigs",
+        value: "multisigs",
+      },
+    ],
   },
 ];
 
