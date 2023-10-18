@@ -3,7 +3,7 @@ const {
 } = require("@statescan/mongo");
 
 async function multisigAddresses(_, _args) {
-  const { offset, limit, sort } = _args;
+  const { offset, limit, sort, signatory } = _args;
 
   const querySort = { "debutAt.blockHeight": -1 };
   if (sort === "DEBUT_AT_HEIGHT_DESC") {
@@ -16,14 +16,19 @@ async function multisigAddresses(_, _args) {
     Object.assign(querySort, { "debutAt.blockHeight": 1 });
   }
 
+  let q = {};
+  if (signatory) {
+    q = { allSignatories: signatory };
+  }
+
   const col = await getAddressCol();
   const addresses = await col
-    .find({}, { projection: { _id: 0 } })
+    .find(q, { projection: { _id: 0 } })
     .sort(querySort)
     .skip(offset)
     .limit(limit)
     .toArray();
-  const total = await col.estimatedDocumentCount();
+  const total = await col.countDocuments(q);
 
   return {
     multisigAddresses: addresses.map((address) => ({

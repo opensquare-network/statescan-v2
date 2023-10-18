@@ -55,6 +55,7 @@ async function handleNewMultisig(event, indexer, extrinsic) {
     id: multisigId,
     multisigAddress,
     allSignatories: allSignatories?.length,
+    signatories: allSignatories,
     threshold,
     ...meta,
     callHash,
