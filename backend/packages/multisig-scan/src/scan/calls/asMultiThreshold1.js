@@ -59,6 +59,7 @@ async function handleAsMultiThreshold1(call, signer, extrinsicIndexer) {
     multisigAddress,
     threshold: 1,
     allSignatories: allSignatories?.length,
+    signatories: allSignatories,
     ...meta,
     callHash,
     call: normalizeCall(call.args[1]),
