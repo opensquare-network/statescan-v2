@@ -103,9 +103,15 @@ export default function MultisigsPage() {
       </ApprovingText>,
       <ApprovingText>{multisig.signatoriesCount}</ApprovingText>,
       "--",
-      multisig?.call
-        ? `${multisig.call.section}(${multisig.call.method})`
-        : "--",
+      <span
+        style={{
+          wordBreak: "break-word",
+        }}
+      >
+        {multisig?.call
+          ? `${multisig.call.section}(${multisig.call.method})`
+          : "--"}
+      </span>,
       <Status color={STATUS_COLORS[multisig?.state?.name?.toUpperCase?.()]}>
         {multisig?.state?.name}
       </Status>,
