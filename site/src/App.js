@@ -29,6 +29,8 @@ import OnChainBlock from "./pages/onChainBlock";
 import OnChainAccount from "./pages/onChainAccount";
 import OnChainExtrinsic from "./pages/onChainExtrinsic";
 import OnChainEvent from "./pages/onChainEvent";
+import MultisigsPage from "./pages/multisigs";
+import MultisigAccountsPage from "./pages/multisigAccounts";
 
 function App() {
   const { assets, uniques, identity } = getChainModules();
@@ -86,6 +88,11 @@ function App() {
             <Route path="/identities" element={<IdentitiesPage />} />
             <Route path="/identities/judgements" element={<RequestsPage />} />
             <Route path="/identities/registrars" element={<RegistrarsPage />} />
+            <Route path="/multisigs" element={<MultisigsPage />} />
+            <Route
+              path="/multisig/accounts"
+              element={<MultisigAccountsPage />}
+            />
           </>
         )}
       </Routes>

@@ -105,7 +105,7 @@ export const menusBusiness = [
     menus: [
       {
         name: "Accounts",
-        value: "multisigs/accounts",
+        value: "multisig/accounts",
       },
       {
         name: "Multisigs",
