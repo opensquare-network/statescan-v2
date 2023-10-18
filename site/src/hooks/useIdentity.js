@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import { fetchIdentity } from "@osn/common";
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { IDENTITY_ID_TYPE, IDENTITY_JUDGEMENT } from "../utils/constants";
+import { useIdentityLazyQuery } from "./useApollo";
 
 export function useIdentity(address = "") {
   const chainSettings = useChainSettings();
@@ -53,7 +54,7 @@ function useGqlFetcher(address = "") {
     }
   `;
 
-  const [fetcher] = useLazyQuery(GET_IDENTITY, {
+  const [fetcher] = useIdentityLazyQuery(GET_IDENTITY, {
     variables: { account: address },
   });
 

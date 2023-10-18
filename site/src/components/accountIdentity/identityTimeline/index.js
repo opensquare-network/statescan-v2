@@ -1,8 +1,9 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import Timeline from "../../timeline";
 import IdentityTimelineItemFields from "./itemFields";
 import IdentityTimelineItemIcon from "./itemIcon";
 import { useState } from "react";
+import { useIdentityQuery } from "../../../hooks/useApollo";
 
 export default function useIdentityTimeline(account) {
   const [data, setData] = useState(null);
@@ -23,7 +24,7 @@ export default function useIdentityTimeline(account) {
     }
   `;
 
-  const { loading } = useQuery(GET_IDENTITY_TIMELINE, {
+  const { loading } = useIdentityQuery(GET_IDENTITY_TIMELINE, {
     variables: {
       account,
     },

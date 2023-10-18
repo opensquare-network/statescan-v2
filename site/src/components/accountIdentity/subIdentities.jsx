@@ -1,10 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import Table from "../table";
 import { accountSubIdentitiesHead } from "../../utils/constants";
 import AddressOrIdentity from "../address";
 import styled from "styled-components";
 import { Inter_14_500, Overpass_Mono_14_500 } from "../../styles/text";
 import { StyledPanelTableWrapper } from "../styled/panel";
+import { useIdentityQuery } from "../../hooks/useApollo";
 
 const TableWrapper = styled(StyledPanelTableWrapper)`
   border-radius: 0;
@@ -34,7 +35,7 @@ const GET_SUB_IDENTITIES = gql`
 `;
 
 export default function AccountSubIdentities({ account = "" }) {
-  const { data, loading } = useQuery(GET_SUB_IDENTITIES, {
+  const { data, loading } = useIdentityQuery(GET_SUB_IDENTITIES, {
     variables: { account },
   });
 

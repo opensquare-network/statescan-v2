@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { useState } from "react";
 import styled from "styled-components";
 import AddressOrIdentity, { Address } from "../components/address";
@@ -18,6 +18,7 @@ import {
 } from "../utils/constants";
 import { useIdentitiesFilter } from "../utils/hooks/useIdentitiesFilter";
 import { time } from "../utils/viewFuncs/time";
+import { useIdentityQuery } from "../hooks/useApollo";
 
 const Time = styled.div`
   ${Inter_14_500};
@@ -66,7 +67,7 @@ export default function IdentitiesPage() {
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const verificationStatusValue = verificationStatus?.toUpperCase?.();
 
-  const { loading } = useQuery(GET_IDENTITIES, {
+  const { loading } = useIdentityQuery(GET_IDENTITIES, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,

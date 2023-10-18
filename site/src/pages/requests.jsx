@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { parseInt } from "lodash";
 import { useState } from "react";
 import styled from "styled-components";
@@ -20,6 +20,7 @@ import {
 import { useRequestsFilter } from "../utils/hooks/useRequestsFilter";
 import { time } from "../utils/viewFuncs/time";
 import toUpper from "lodash.toupper";
+import { useIdentityQuery } from "../hooks/useApollo";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
@@ -90,7 +91,7 @@ export default function RequestsPage() {
   const filter = useRequestsFilter();
   const [data, setData] = useState(null);
 
-  const { loading } = useQuery(GET_REQUESTS, {
+  const { loading } = useIdentityQuery(GET_REQUESTS, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
