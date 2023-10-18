@@ -12,6 +12,7 @@ const multisig = /* GraphQL */ `
 
   type Multisig {
     address: String!
+    signatories: [String]!
     signatoriesCount: Int!
     threshold: Int!
     when: When!
