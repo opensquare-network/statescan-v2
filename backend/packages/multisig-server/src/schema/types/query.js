@@ -17,6 +17,7 @@ const queries = /* GraphQL */ `
     multisigAddresses(
       offset: Int!
       limit: Int!
+      signatory: String
       sort: MultisigAddressSort
     ): PagedMultisigAddresses!
     multisig(
