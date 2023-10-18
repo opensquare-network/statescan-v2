@@ -355,6 +355,37 @@ export const registrarsHead = [
   },
 ];
 
+export const multisigsHead = [
+  {
+    name: "Extrinsic ID",
+    width: 112,
+  },
+  {
+    name: "Address",
+    width: 184,
+  },
+  {
+    name: "Approving",
+    width: 112,
+  },
+  {
+    name: "Signatories",
+    width: 112,
+  },
+  {
+    name: "Call ID",
+    width: 112,
+  },
+  {
+    name: "Call",
+    width: 192,
+  },
+  {
+    name: "Status",
+    width: 152,
+  },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
@@ -415,6 +446,12 @@ export const REQUEST_STATUS = {
   CANCELLED: "cancelled",
   GIVEN: "given",
   REMOVED: "removed",
+};
+
+export const MULTISIG_STATUS = {
+  APPROVING: "APPROVING",
+  EXECUTED: "EXECUTED",
+  CANCELLED: "CANCELLED",
 };
 
 export const TABLE_SORT_QUERY_KEY = "sort";
