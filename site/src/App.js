@@ -31,6 +31,8 @@ import OnChainExtrinsic from "./pages/onChainExtrinsic";
 import OnChainEvent from "./pages/onChainEvent";
 import MultisigsPage from "./pages/multisigs";
 import MultisigAccountsPage from "./pages/multisigAccounts";
+import MultisigProvider from "./context/multisigProvider";
+import IdentityProvider from "./context/identityProvider";
 
 function App() {
   const { assets, uniques, identity } = getChainModules();
@@ -85,13 +87,46 @@ function App() {
         <Route path="/calls/:id" element={<Call />} />
         {identity && (
           <>
-            <Route path="/identities" element={<IdentitiesPage />} />
-            <Route path="/identities/judgements" element={<RequestsPage />} />
-            <Route path="/identities/registrars" element={<RegistrarsPage />} />
-            <Route path="/multisigs" element={<MultisigsPage />} />
+            <Route
+              path="/identities"
+              element={
+                <IdentityProvider>
+                  <IdentitiesPage />
+                </IdentityProvider>
+              }
+            />
+            <Route
+              path="/identities/judgements"
+              element={
+                <IdentityProvider>
+                  <RequestsPage />
+                </IdentityProvider>
+              }
+            />
+            <Route
+              path="/identities/registrars"
+              element={
+                <IdentityProvider>
+                  <RegistrarsPage />
+                </IdentityProvider>
+              }
+            />
+
+            <Route
+              path="/multisigs"
+              element={
+                <MultisigProvider>
+                  <MultisigsPage />
+                </MultisigProvider>
+              }
+            />
             <Route
               path="/multisig/accounts"
-              element={<MultisigAccountsPage />}
+              element={
+                <MultisigProvider>
+                  <MultisigAccountsPage />
+                </MultisigProvider>
+              }
             />
           </>
         )}
