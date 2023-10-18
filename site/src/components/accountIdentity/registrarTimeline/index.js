@@ -3,7 +3,7 @@ import Timeline from "../../timeline";
 import IdentityTimelineItemFields from "./itemFields";
 import RegistrarTimelineItemIcon from "./itemIcon";
 import { useState } from "react";
-import { useIdentityQuery } from "../../../hooks/useApollo";
+import { useIdentityQuery } from "../../../hooks/apollo";
 
 export default function useRegistrarTimeline(account) {
   const [data, setData] = useState(null);

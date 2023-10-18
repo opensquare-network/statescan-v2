@@ -3,7 +3,7 @@ import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import { fetchIdentity } from "@osn/common";
 import { gql } from "@apollo/client";
 import { IDENTITY_ID_TYPE, IDENTITY_JUDGEMENT } from "../utils/constants";
-import { useIdentityLazyQuery } from "./useApollo";
+import { useIdentityLazyQuery } from "./apollo";
 
 export function useIdentity(address = "") {
   const chainSettings = useChainSettings();

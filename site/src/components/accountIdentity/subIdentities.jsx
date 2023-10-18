@@ -5,7 +5,7 @@ import AddressOrIdentity from "../address";
 import styled from "styled-components";
 import { Inter_14_500, Overpass_Mono_14_500 } from "../../styles/text";
 import { StyledPanelTableWrapper } from "../styled/panel";
-import { useIdentityQuery } from "../../hooks/useApollo";
+import { useIdentityQuery } from "../../hooks/apollo";
 
 const TableWrapper = styled(StyledPanelTableWrapper)`
   border-radius: 0;

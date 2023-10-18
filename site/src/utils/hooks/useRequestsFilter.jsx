@@ -10,7 +10,7 @@ import { Flex } from "../../components/styled/flex";
 import styled from "styled-components";
 import { Overpass_Mono_14_500 } from "../../styles/text";
 import toUpper from "lodash.toupper";
-import { useIdentityQuery } from "../../hooks/useApollo";
+import { useIdentityQuery } from "../../hooks/apollo";
 
 const AddressOrIdentity = styled(AddressOrIdentityOrigin)`
   overflow: hidden;

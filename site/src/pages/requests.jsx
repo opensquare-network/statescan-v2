@@ -20,7 +20,7 @@ import {
 import { useRequestsFilter } from "../utils/hooks/useRequestsFilter";
 import { time } from "../utils/viewFuncs/time";
 import toUpper from "lodash.toupper";
-import { useIdentityQuery } from "../hooks/useApollo";
+import { useIdentityQuery } from "../hooks/apollo";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};

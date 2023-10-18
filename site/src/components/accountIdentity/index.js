@@ -13,7 +13,7 @@ import { ACCOUNT_IDENTITY_TAB_SUBTAB } from "../../utils/constants";
 import { gql } from "@apollo/client";
 import AccountIdentityInfo from "./info";
 import AccountSubIdentities from "./subIdentities";
-import { useIdentityQuery } from "../../hooks/useApollo";
+import { useIdentityQuery } from "../../hooks/apollo";
 
 const Wrapper = styled.div`
   border-radius: 8px;

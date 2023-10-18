@@ -17,7 +17,7 @@ import capitalize from "lodash.capitalize";
 import startCase from "lodash.startcase";
 import Loading from "../../loadings/loading";
 import { withLoading } from "../../../HOC/withLoading";
-import { useIdentityQuery } from "../../../hooks/useApollo";
+import { useIdentityQuery } from "../../../hooks/apollo";
 
 const Link = styled(LinkOrigin)`
   &:hover {

@@ -18,7 +18,7 @@ import {
 } from "../utils/constants";
 import { useIdentitiesFilter } from "../utils/hooks/useIdentitiesFilter";
 import { time } from "../utils/viewFuncs/time";
-import { useIdentityQuery } from "../hooks/useApollo";
+import { useIdentityQuery } from "../hooks/apollo";
 
 const Time = styled.div`
   ${Inter_14_500};

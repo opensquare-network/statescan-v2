@@ -16,7 +16,7 @@ import { chainSettingSelector } from "../store/reducers/settingSlice";
 import { Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, registrarsHead } from "../utils/constants";
 import { GET_REGISTRARS } from "../services/gqls";
-import { useIdentityQuery } from "../hooks/useApollo";
+import { useIdentityQuery } from "../hooks/apollo";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
