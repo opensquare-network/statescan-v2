@@ -16,6 +16,8 @@ import AddressOrIdentity from "../components/address";
 import { useMultisigQuery } from "../hooks/useApollo";
 import { Flex } from "../components/styled/flex";
 import ExtrinsicLink from "../components/extrinsic/link";
+import { useMultisigsFilter } from "../hooks/filter/useMultisigsFilter";
+import Filter from "../components/filter";
 
 const ApprovingText = styled.div`
   ${Inter_14_500};
@@ -75,14 +77,15 @@ const GET_MULTISIGS = gql`
 `;
 
 export default function MultisigsPage() {
-  const { page = 1, account = "", multisigState } = useQueryParams();
+  const { page = 1, account = "", status } = useQueryParams();
+  const filter = useMultisigsFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const { data, loading } = useMultisigQuery(GET_MULTISIGS, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       account,
-      multisigState: multisigState ? multisigState.toUpperCase() : null,
+      multisigState: status ? status.toUpperCase() : null,
     },
   });
 
@@ -112,6 +115,8 @@ export default function MultisigsPage() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Multisigs" }]} />
+
+      <Filter data={filter} filterOnDataChange />
 
       <StyledPanelTableWrapper
         footer={
