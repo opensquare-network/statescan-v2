@@ -32,6 +32,11 @@ const queries = /* GraphQL */ `
       signatory: String
       multisigState: MultisigState
     ): PagedMultisigs!
+    multisigTimeline(
+      account: String!
+      whenHeight: Int!
+      whenExtrinsicIndex: Int!
+    ): [MultisigTimelineItem]
     scanHeight: Int
   }
 `;
