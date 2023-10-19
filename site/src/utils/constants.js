@@ -358,31 +358,71 @@ export const registrarsHead = [
 export const multisigsHead = [
   {
     name: "Extrinsic ID",
-    width: 112,
+    width: 160,
   },
   {
     name: "Address",
-    width: 184,
+    width: 232,
   },
   {
     name: "Approving",
-    width: 112,
+    width: 160,
   },
   {
     name: "Signatories",
-    width: 112,
+    width: 160,
   },
   {
     name: "Call ID",
-    width: 112,
+    width: 160,
   },
   {
     name: "Call",
-    width: 192,
+    width: 240,
   },
   {
     name: "Status",
-    width: 152,
+    width: 200,
+  },
+];
+
+export const MULTISIG_ACCOUNT_SORT = {
+  DEBUT_AT_HEIGHT_DESC: "DEBUT_AT_HEIGHT_DESC",
+  DEBUT_AT_HEIGHT_ASC: "DEBUT_AT_HEIGHT_ASC",
+  LATEST_MULTISIG_AT_HEIGHT_DESC: "LATEST_MULTISIG_AT_HEIGHT_DESC",
+  LATEST_MULTISIG_AT_HEIGHT_ASC: "LATEST_MULTISIG_AT_HEIGHT_ASC",
+};
+
+export const multisigAccountsHead = [
+  {
+    name: "Multisig Address",
+    minWidth: 300,
+    width: 592,
+  },
+  {
+    name: "Threshold",
+    width: 160,
+  },
+  {
+    name: "Signatories",
+    width: 160,
+  },
+  {
+    name: "Debut At",
+    width: 200,
+    type: "sortable",
+    sortAscendingQueryValue: MULTISIG_ACCOUNT_SORT.DEBUT_AT_HEIGHT_ASC,
+    sortDescendingQueryValue: MULTISIG_ACCOUNT_SORT.DEBUT_AT_HEIGHT_DESC,
+    sortDefaultQueryValue: MULTISIG_ACCOUNT_SORT.DEBUT_AT_HEIGHT_DESC,
+  },
+  {
+    name: "Latest Multisig At",
+    width: 200,
+    type: "sortable",
+    sortAscendingQueryValue:
+      MULTISIG_ACCOUNT_SORT.LATEST_MULTISIG_AT_HEIGHT_ASC,
+    sortDescendingQueryValue:
+      MULTISIG_ACCOUNT_SORT.LATEST_MULTISIG_AT_HEIGHT_DESC,
   },
 ];
 
