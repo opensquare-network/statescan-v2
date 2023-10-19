@@ -5,8 +5,6 @@ import {
   useLazyQuery,
 } from "@apollo/client";
 
-const cache = new InMemoryCache();
-
 const identityClient = new ApolloClient({
   uri: process.env.REACT_APP_PUBLIC_IDENTITY_API_END_POINT + "graphql",
   cache: new InMemoryCache(),
@@ -14,7 +12,7 @@ const identityClient = new ApolloClient({
 
 const multisigClient = new ApolloClient({
   uri: process.env.REACT_APP_PUBLIC_MULTISIG_API_END_POINT + "graphql",
-  cache,
+  cache: new InMemoryCache(),
 });
 
 /**
