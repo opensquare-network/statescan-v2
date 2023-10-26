@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useRef, useState } from "react";
 import { useOnClickOutside } from "@osn/common";
 import NodeList from "./nodeList";
@@ -20,7 +20,13 @@ const Wrapper = styled.div`
   }
 
   background: var(--fillPanel);
-  box-shadow: 0px 0px 0px 2px rgba(55, 101, 220, 0.1);
+
+  ${(p) =>
+    p.active &&
+    css`
+      box-shadow: 0px 0px 0px 2px var(--theme100);
+      border: 1px solid var(--theme500);
+    `}
 `;
 
 export default function NodeSwitch() {
@@ -34,7 +40,11 @@ export default function NodeSwitch() {
   const signalIcon = useSignalIcon(currentNode?.delay);
 
   return (
-    <Wrapper ref={ref} onClick={() => setShowDropDown(!showDropDown)}>
+    <Wrapper
+      ref={ref}
+      active={showDropDown}
+      onClick={() => setShowDropDown(!showDropDown)}
+    >
       {signalIcon}
       {showDropDown && (
         <DropDownContentWrapper>
