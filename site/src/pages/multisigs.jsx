@@ -15,7 +15,6 @@ import { Inter_14_500 } from "../styles/text";
 import AddressOrIdentity from "../components/address";
 import { useMultisigQuery } from "../hooks/apollo";
 import { Flex } from "../components/styled/flex";
-import ExtrinsicLink from "../components/extrinsic/link";
 import { useMultisigsFilter } from "../hooks/filter/useMultisigsFilter";
 import Filter from "../components/filter";
 import MultisigLink from "../components/multisig/link";
