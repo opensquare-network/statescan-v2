@@ -20,7 +20,7 @@ function getMultisigStateValue(stateEnumValue) {
 }
 
 async function multisigs(_, _args) {
-  const { offset, limit, account, multisigState } = _args;
+  const { offset, limit, account, signatory, multisigState } = _args;
 
   const col = await getMultisigCol();
   if (account && !isValidAddress(account)) {
@@ -38,6 +38,9 @@ async function multisigs(_, _args) {
   }
   if (multisigState) {
     Object.assign(q, { "state.name": getMultisigStateValue(multisigState) });
+  }
+  if (signatory) {
+    Object.assign(q, { signatories: signatory });
   }
 
   const multisigs = await col

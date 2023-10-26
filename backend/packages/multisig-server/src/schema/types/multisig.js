@@ -11,7 +11,9 @@ const multisig = /* GraphQL */ `
   scalar JSONObject
 
   type Multisig {
+    id: String!
     address: String!
+    signatories: [String]!
     signatoriesCount: Int!
     threshold: Int!
     when: When!
@@ -34,6 +36,20 @@ const multisig = /* GraphQL */ `
   }
 `;
 
+const timeline = /* GraphQL */ `
+  type MultisigTimelineItem {
+    multisigId: String
+    multisigAddress: String!
+    callHash: String!
+    whenHeight: Int!
+    whenExtrinsicIndex: Int!
+    type: String!
+    name: String!
+    args: JSONObject
+    indexer: Indexer!
+  }
+`;
+
 module.exports = {
-  multisigTypeDefs: [when, multisig],
+  multisigTypeDefs: [when, multisig, timeline],
 };

@@ -4,7 +4,7 @@ const {
 } = require("@osn/scan-common");
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 
-const statemineEndpoint = "wss://statemine.api.onfinality.io/public-ws";
+const statemineEndpoint = "wss://kusama-asset-hub-rpc.polkadot.io/";
 
 async function setStatemine() {
   jest.setTimeout(3000000);
