@@ -18,6 +18,7 @@ import { Flex } from "../components/styled/flex";
 import ExtrinsicLink from "../components/extrinsic/link";
 import { useMultisigsFilter } from "../hooks/filter/useMultisigsFilter";
 import Filter from "../components/filter";
+import MultisigLink from "../components/multisig/link";
 
 const ApprovingText = styled.div`
   ${Inter_14_500};
@@ -91,8 +92,7 @@ export default function MultisigsPage() {
 
   const tableData = data?.multisigs?.multisigs?.map?.((multisig) => {
     return [
-      // FIXME: link to multisig detail page
-      <ExtrinsicLink indexer={multisig?.indexer} />,
+      <MultisigLink indexer={multisig?.indexer} />,
       <Flex>
         <AddressOrIdentity address={multisig.address} />
       </Flex>,
