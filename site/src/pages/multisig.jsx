@@ -20,6 +20,14 @@ import DetailTabs from "../components/detail/tabs";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 import { useMultisigData } from "../hooks/multisig/useMultisigData";
 import MultisigTimeline from "../components/multisig/timeline";
+import styled from "styled-components";
+
+const TabWrapper = styled.div`
+  border-radius: 8px;
+  border: 1px solid var(--strokeBase);
+  background: var(--fillPanel);
+  box-shadow: var(--shadowPanel);
+`;
 
 export default function MultisigPage() {
   const { id } = useParams();
@@ -31,7 +39,11 @@ export default function MultisigPage() {
   const tabs = [
     {
       name: "timeline",
-      children: <MultisigTimeline />,
+      children: (
+        <TabWrapper>
+          <MultisigTimeline />
+        </TabWrapper>
+      ),
     },
   ];
 
