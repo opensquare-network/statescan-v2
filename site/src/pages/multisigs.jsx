@@ -91,7 +91,7 @@ export default function MultisigsPage() {
 
   const tableData = data?.multisigs?.multisigs?.map?.((multisig) => {
     return [
-      <MultisigLink indexer={multisig?.indexer} />,
+      <MultisigLink indexer={multisig?.indexer} address={multisig?.address} />,
       <Flex>
         <AddressOrIdentity address={multisig.address} />
       </Flex>,
