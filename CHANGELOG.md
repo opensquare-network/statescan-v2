@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# 1.1.3
+
+date: 2023-10-27
+
+- Fix dropdown components filter on extrinsic/events list page.
+- Fix NFT small logo style.
+- Save multisig signatories info when scan multisigs.
+- Fix statemine endpoint.
+- Fix styles.
+
 # 1.1.2
 
 date: 2023-09-21
