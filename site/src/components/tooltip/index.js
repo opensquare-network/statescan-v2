@@ -1,25 +1,52 @@
-import { useCallback, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import { useRef } from "react";
+import styled from "styled-components";
 import {
-  TooltipProvider,
-  useSetShowTip,
-  useSetTipContent,
-  useSetTipPosition,
-} from "./context";
+  useFloating,
+  flip,
+  shift,
+  arrow,
+  offset,
+  autoUpdate,
+} from "@floating-ui/react";
+import { useState } from "react";
+import { Overpass_Mono_12_500 } from "../../styles/text";
+
+const arrowWidth = 6;
 
 const Wrapper = styled.div`
   position: relative;
   width: fit-content;
   max-width: 100%;
   margin: auto;
-  ${(p) =>
-    p.pullRight
-      ? css`
-          margin-right: 0;
-        `
-      : css`
-          margin-left: 0;
-        `}
+`;
+
+const TipArrow = styled.div`
+  position: absolute;
+  border: ${arrowWidth}px solid transparent;
+  border-top-color: var(--fillTooltip);
+  left: ${(p) => p.x ?? 0}px;
+`;
+const TipWrapper = styled.div`
+  padding: 8px 12px;
+  background-color: var(--fillTooltip);
+  color: var(--fontPrimaryInverse);
+  border-radius: 4px;
+  ${Overpass_Mono_12_500};
+
+  display: none;
+
+  &[data-show="true"] {
+    display: block;
+  }
+
+  &[data-placement^="top"] > ${TipArrow} {
+    bottom: -${arrowWidth * 2}px;
+  }
+
+  &[data-placement^="bottom"] > ${TipArrow} {
+    top: -${arrowWidth * 2}px;
+    transform: rotate(180deg);
+  }
 `;
 
 export default function Tooltip({
@@ -29,53 +56,54 @@ export default function Tooltip({
   disabled = false,
   ...restProps
 }) {
-  const ref = useRef();
-  const setShowTip = useSetShowTip();
-  const setTipContent = useSetTipContent();
-  const setTipPosition = useSetTipPosition();
+  const [open, setOpen] = useState(false);
+  const arrowRef = useRef(null);
 
-  useEffect(() => {
-    return () => {
-      setShowTip(false);
-    };
-  }, [setShowTip]);
+  const { middlewareData, placement, refs, floatingStyles } = useFloating({
+    open,
+    onOpenChange: setOpen,
+    placement: "top",
+    middleware: [offset(12), flip(), shift(), arrow({ element: arrowRef })],
+    whileElementsMounted: autoUpdate,
+  });
 
-  const showTip = useCallback(() => {
-    if (!tip || disabled) {
-      return;
-    }
-    const position = ref.current.getBoundingClientRect();
-    setShowTip(true);
-    setTipContent(tip);
-    setTipPosition({
-      left: position.left + position.width / 2,
-      bottom: window.innerHeight - position.top + 12,
-    });
-  }, [setShowTip, setTipContent, setTipPosition, ref, tip, disabled]);
+  function show() {
+    setOpen(true);
+  }
 
-  const hideTip = useCallback(() => {
-    setShowTip(false);
-  }, [setShowTip]);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (element) {
-      element.addEventListener("mouseover", showTip);
-      element.addEventListener("mouseout", hideTip);
-    }
-    return () => {
-      if (element) {
-        element.removeEventListener("mouseover", showTip);
-        element.removeEventListener("mouseout", hideTip);
-      }
-    };
-  }, [ref, showTip, hideTip]);
+  function hide() {
+    setOpen(false);
+  }
 
   return (
-    <Wrapper ref={ref} pullRight={pullRight} {...restProps}>
-      {children}
-    </Wrapper>
+    <div>
+      <Wrapper
+        ref={refs.setReference}
+        pullRight={pullRight}
+        {...restProps}
+        onMouseEnter={show}
+        onFocus={show}
+        onMouseLeave={hide}
+        onBlur={hide}
+        style={{
+          marginLeft: !pullRight ? 0 : undefined,
+          marginRight: pullRight ? 0 : undefined,
+          ...restProps.style,
+        }}
+      >
+        {children}
+      </Wrapper>
+      {open && tip && (
+        <TipWrapper
+          ref={refs.setFloating}
+          data-show={open}
+          data-placement={placement}
+          style={floatingStyles}
+        >
+          {tip}
+          <TipArrow x={middlewareData?.arrow?.x} ref={arrowRef} />
+        </TipWrapper>
+      )}
+    </div>
   );
 }
-
-export { TooltipProvider };
