@@ -30,6 +30,8 @@ const Time = styled.div`
 `;
 
 const SignatoriesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   * {
     color: var(--textPrimary);
     white-space: nowrap;
@@ -87,9 +89,11 @@ export default function MultisigAccountsPage() {
           tip={
             <SignatoriesWrapper>
               {multisigAddress.signatories?.map?.((signatory) => (
-                <div key={signatory}>
-                  <AddressOrIdentity ellipsis={false} address={signatory} />
-                </div>
+                <AddressOrIdentity
+                  key={signatory}
+                  ellipsis={false}
+                  address={signatory}
+                />
               ))}
             </SignatoriesWrapper>
           }
