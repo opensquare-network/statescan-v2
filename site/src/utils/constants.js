@@ -494,6 +494,13 @@ export const MULTISIG_STATUS = {
   CANCELLED: "CANCELLED",
 };
 
+export const MULTISIG_NAME = {
+  NewMultisig: "NewMultisig",
+  MultisigApproval: "MultisigApproval",
+  MultisigExecuted: "MultisigExecuted",
+  MultisigCancelled: "MultisigCancelled",
+};
+
 export const TABLE_SORT_QUERY_KEY = "sort";
 
 export const IDENTITY_ID_TYPE = {

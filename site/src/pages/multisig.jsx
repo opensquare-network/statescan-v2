@@ -67,7 +67,9 @@ export default function MultisigPage() {
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
-        <ExtrinsicParametersDisplay extrinsic={multisig} title="Parameters" />
+        {multisig?.call && (
+          <ExtrinsicParametersDisplay extrinsic={multisig} title="Parameters" />
+        )}
       </Panel>
 
       <DetailTabs tabs={tabs} />
