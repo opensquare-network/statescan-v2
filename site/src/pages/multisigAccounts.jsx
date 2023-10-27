@@ -17,6 +17,7 @@ import styled from "styled-components";
 import { Inter_14_500 } from "../styles/text";
 import { time } from "../utils/viewFuncs/time";
 import { useState } from "react";
+import Tooltip from "../components/tooltip";
 
 const Text = styled.div`
   ${Inter_14_500};
@@ -26,6 +27,13 @@ const Text = styled.div`
 const Time = styled.div`
   ${Inter_14_500};
   color: var(--fontTertiary);
+`;
+
+const SignatoriesWrapper = styled.div`
+  * {
+    color: var(--textPrimary);
+    white-space: nowrap;
+  }
 `;
 
 const GET_MULTISIG_ADDRESSES = gql`
@@ -75,7 +83,19 @@ export default function MultisigAccountsPage() {
           <AddressOrIdentity address={multisigAddress.address} />
         </Flex>,
         <Text>{multisigAddress.threshold}</Text>,
-        <Text>{multisigAddress.signatories?.length}</Text>,
+        <Tooltip
+          tip={
+            <SignatoriesWrapper>
+              {multisigAddress.signatories?.map?.((signatory) => (
+                <div key={signatory}>
+                  <AddressOrIdentity ellipsis={false} address={signatory} />
+                </div>
+              ))}
+            </SignatoriesWrapper>
+          }
+        >
+          <Text>{multisigAddress.signatories?.length}</Text>
+        </Tooltip>,
         <Time>{time(multisigAddress.debutAt.blockTime)}</Time>,
         <Time>{time(multisigAddress.latestMultisigAt.blockTime)}</Time>,
       ];
