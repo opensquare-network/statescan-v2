@@ -19,6 +19,7 @@ import {
 import DetailTabs from "../components/detail/tabs";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 import { useMultisigData } from "../hooks/multisig/useMultisigData";
+import MultisigTimeline from "../components/multisig/timeline";
 
 export default function MultisigPage() {
   const { id } = useParams();
@@ -30,7 +31,7 @@ export default function MultisigPage() {
   const tabs = [
     {
       name: "timeline",
-      children: <div>timeline</div>,
+      children: <MultisigTimeline />,
     },
   ];
 

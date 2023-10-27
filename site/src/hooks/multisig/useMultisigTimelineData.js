@@ -13,6 +13,17 @@ const GET_MULTISIG_TIMELINE = gql`
       whenHeight: $whenHeight
       account: $account
     ) {
+      args
+      multisigAddress
+      multisigId
+      name
+      type
+      indexer {
+        blockTime
+        blockHeight
+        extrinsicIndex
+        eventIndex
+      }
     }
   }
 `;
