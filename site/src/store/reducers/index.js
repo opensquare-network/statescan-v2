@@ -19,7 +19,6 @@ import nftClassReducer from "./nftClassSlice";
 import nftInstanceReducer from "./nftInstanceSlice";
 import nodeReducer from "./nodeSlice";
 import chainReducer from "./chainSlice";
-import multisigReducer from "./multisigSlice";
 
 export default combineReducers({
   setting: settingReducer,
@@ -41,5 +40,4 @@ export default combineReducers({
   nftInstance: nftInstanceReducer,
   node: nodeReducer,
   chain: chainReducer,
-  multisig: multisigReducer,
 });
