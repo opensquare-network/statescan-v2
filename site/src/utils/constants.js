@@ -373,7 +373,7 @@ export const multisigsHead = [
     width: 160,
   },
   {
-    name: "Call ID",
+    name: "Call Hash",
     width: 160,
   },
   {

@@ -18,6 +18,9 @@ import { Flex } from "../components/styled/flex";
 import { useMultisigsFilter } from "../hooks/filter/useMultisigsFilter";
 import Filter from "../components/filter";
 import MultisigLink from "../components/multisig/link";
+import Tooltip from "../components/tooltip";
+import { ColoredMonoLink } from "../components/styled/link";
+import { hashEllipsis } from "../utils/viewFuncs/text";
 
 const ApprovingText = styled.div`
   ${Inter_14_500};
@@ -61,6 +64,7 @@ const GET_MULTISIGS = gql`
         address
         approvals
         call
+        callHash
         indexer {
           blockTime
           blockHeight
@@ -101,7 +105,13 @@ export default function MultisigsPage() {
         <ApprovingCountText>{multisig.threshold}</ApprovingCountText>
       </ApprovingText>,
       <ApprovingText>{multisig.signatoriesCount}</ApprovingText>,
-      "--",
+      <Tooltip tip={multisig.callHash}>
+        <ColoredMonoLink
+          to={`/multisigs/${multisig?.indexer?.blockHeight}-${multisig?.indexer?.extrinsicIndex}-${multisig?.address}`}
+        >
+          {hashEllipsis(multisig.callHash, 2, 4)}
+        </ColoredMonoLink>
+      </Tooltip>,
       <span
         style={{
           wordBreak: "break-word",
