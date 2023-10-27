@@ -6,41 +6,30 @@ import List from "../components/list";
 import { useMemo } from "react";
 import { currencify } from "../utils";
 import DetailLayout from "../components/layout/detailLayout";
-import { toExtrinsicDetailItem } from "../utils/viewFuncs/toDetailItem";
-import { useDispatch, useSelector } from "react-redux";
+import { toMultisigDetailItem } from "../utils/viewFuncs/toDetailItem";
+import { useDispatch } from "react-redux";
 import {
   clearHttpError,
   handleApiError,
 } from "../utils/viewFuncs/errorHandles";
 import {
-  multisigDetailSelector,
   multisigFetchDetail,
   clearMultisigDetail,
 } from "../store/reducers/multisigSlice";
 import DetailTabs from "../components/detail/tabs";
-import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
+import { useMultisigData } from "../hooks/multisig/useMultisigData";
 
 export default function MultisigPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const multisig = useSelector(multisigDetailSelector);
-  const { modules } = useChainSettings();
+  const { data: { multisig } = {} } = useMultisigData();
 
-  const listData = useMemo(
-    () =>
-      multisig
-        ? toExtrinsicDetailItem(multisig, {
-            modules,
-          })
-        : {},
-    [multisig, modules],
-  );
+  const listData = useMemo(() => toMultisigDetailItem(multisig), [multisig]);
 
   const tabs = [
     {
       name: "timeline",
-      count: multisig?.eventsCount,
       children: <div>timeline</div>,
     },
   ];
@@ -65,7 +54,7 @@ export default function MultisigPage() {
         {
           name: multisig
             ? `${currencify(multisig?.indexer?.blockHeight)}-${
-                multisig?.indexer?.multisigIndex ?? ""
+                multisig?.indexer?.extrinsicIndex ?? ""
               }`
             : "...",
         },

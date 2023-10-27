@@ -504,3 +504,28 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
   ].filter(Boolean);
 };
+
+export const toMultisigDetailItem = (multisig) => {
+  if (!multisig) {
+    return [];
+  }
+
+  return [
+    {
+      label: "Extrinsic Time",
+      value: <DetailedTime ts={multisig?.indexer?.blockTime} />,
+    },
+    {
+      label: "Block",
+      value: <DetailedBlock blockHeight={multisig?.indexer?.blockHeight} />,
+    },
+    {
+      label: "Module",
+      value: <TagHighContrast>{multisig?.call?.section}</TagHighContrast>,
+    },
+    {
+      label: "Call",
+      value: <TagThemed>{multisig?.call?.method}</TagThemed>,
+    },
+  ];
+};
