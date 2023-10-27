@@ -5,14 +5,14 @@ import { gql } from "@apollo/client";
 import { IDENTITY_ID_TYPE, IDENTITY_JUDGEMENT } from "../utils/constants";
 import { useIdentityLazyQuery } from "./apollo";
 
-const identityMap = {};
+const identityCacheMap = {};
 
 export function useIdentity(address = "") {
   const chainSettings = useChainSettings();
   const { modules } = chainSettings;
   const hasIdentity = modules?.identity;
 
-  const [identity, setIdentity] = useState(identityMap[address]);
+  const [identity, setIdentity] = useState(identityCacheMap[address]);
   const fetcher = useGqlFetcher(address);
 
   useEffect(() => {
@@ -27,13 +27,13 @@ export function useIdentity(address = "") {
         if (data.identity) {
           const value = normalizeIdentity(data.identity);
           setIdentity(value);
-          identityMap[address] = value;
+          identityCacheMap[address] = value;
         }
       });
     } else {
       fetchIdentity(chainSettings.identity, address).then((identity) => {
         setIdentity(identity);
-        identityMap[address] = identity;
+        identityCacheMap[address] = identity;
       });
     }
   }, [identity, address, hasIdentity, chainSettings.identity, fetcher]);
