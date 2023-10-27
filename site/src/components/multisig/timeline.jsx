@@ -1,6 +1,13 @@
 import { useMultisigTimelineData } from "../../hooks/multisig/useMultisigTimelineData";
 import Timeline from "../timeline";
 
+const iconsSrcs = {
+  NewMultisig: "/imgs/icons/timeline-new-multisig.svg",
+  MultisigApproval: "/imgs/icons/timeline-multisig-approval.svg",
+  MultisigExecuted: "/imgs/icons/timeline-multisig-executed.svg",
+  MultisigCancelled: "/imgs/icons/timeline-multisig-cancelled.svg",
+};
+
 export default function MultisigTimeline() {
   const { data: { multisigTimeline } = {}, loading } =
     useMultisigTimelineData();
@@ -16,16 +23,9 @@ export default function MultisigTimeline() {
 }
 
 function Icon({ name }) {
-  const icons = {
-    NewMultisig: "/imgs/icons/timeline-new-multisig.svg",
-    MultisigApproval: "/imgs/icons/timeline-multisig-approval.svg",
-    MultisigExecuted: "/imgs/icons/timeline-multisig-executed.svg",
-    MultisigCancelled: "/imgs/icons/timeline-multisig-cancelled.svg",
-  };
-
   return (
     <img
-      src={icons[name]}
+      src={iconsSrcs[name]}
       alt={name}
       style={{
         width: 24,
