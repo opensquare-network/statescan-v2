@@ -54,6 +54,7 @@ export default function Tooltip({
   tip = "",
   pullRight = false,
   disabled = false,
+  tipOffset = 12,
   ...restProps
 }) {
   const [open, setOpen] = useState(false);
@@ -63,7 +64,12 @@ export default function Tooltip({
     open,
     onOpenChange: setOpen,
     placement: "top",
-    middleware: [offset(12), flip(), shift(), arrow({ element: arrowRef })],
+    middleware: [
+      offset(tipOffset),
+      flip(),
+      shift(),
+      arrow({ element: arrowRef }),
+    ],
     whileElementsMounted: autoUpdate,
   });
 
