@@ -519,13 +519,13 @@ export const toMultisigDetailItem = (multisig) => {
       label: "Block",
       value: <DetailedBlock blockHeight={multisig?.indexer?.blockHeight} />,
     },
-    {
+    multisig?.call?.section && {
       label: "Module",
       value: <TagHighContrast>{multisig?.call?.section}</TagHighContrast>,
     },
-    {
+    multisig?.call?.methods && {
       label: "Call",
       value: <TagThemed>{multisig?.call?.method}</TagThemed>,
     },
-  ];
+  ].filter(Boolean);
 };
