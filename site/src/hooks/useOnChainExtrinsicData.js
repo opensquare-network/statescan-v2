@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useOnChainBlockData from "./useOnChainBlockData";
-import { extractExtrinsicEvents } from "../utils/extractBlockInfo/extractExtrinsics";
 import extractBlockHeader from "../utils/extractBlockInfo/extractBlockHeader";
 import extractBlockTime from "../utils/extractBlockInfo/extractBlockTime";
 
@@ -26,8 +25,6 @@ export default function useOnChainExtrinsicData(blockHeight, extrinsicIndex) {
       return;
     }
 
-    const events = extractExtrinsicEvents(blockData?.events, extrinsicIndex);
-
     const headerInfo = extractBlockHeader(
       blockData.block.block.header,
       blockData.validators,
@@ -43,7 +40,7 @@ export default function useOnChainExtrinsicData(blockHeight, extrinsicIndex) {
 
     setExtrinsicData({
       extrinsic,
-      events,
+      allBlockEvents: blockData?.events,
       indexer,
     });
   }, [blockData, extrinsicIndex]);
