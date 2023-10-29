@@ -68,6 +68,7 @@ async function handleMultisig(
 
   const innerCallEvents = getMultisigInnerCallEvents(wrappedEvents);
   await handleWrappedCall(
+    api,
     innerCall,
     multisigAddr,
     extrinsicIndexer,
