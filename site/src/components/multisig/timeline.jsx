@@ -1,6 +1,7 @@
 import { useMultisigTimelineData } from "../../hooks/multisig/useMultisigTimelineData";
 import { MULTISIG_NAME } from "../../utils/constants";
 import AddressOrIdentity from "../address";
+import ExtrinsicLink from "../extrinsic/link";
 import Timeline from "../timeline";
 import TimelineItemFields from "../timeline/itemFields";
 
@@ -59,6 +60,7 @@ function Fields({ item }) {
       "Multisig Member",
       <AddressOrIdentity address={item.args.cancelling} />,
     ],
+    ["Extrinsic ID", <ExtrinsicLink indexer={item.indexer} />],
   ].filter(Boolean);
 
   return <TimelineItemFields fields={fields} />;
