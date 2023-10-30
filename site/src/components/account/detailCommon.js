@@ -147,7 +147,7 @@ function AccountDetailCommon() {
       ),
     },
     multisigAddressData && {
-      name: "Multisig",
+      name: "multisig",
       children: <AccountTabMultisig />,
     },
   ].filter(Boolean);

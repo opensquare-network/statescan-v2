@@ -19,7 +19,7 @@ export default function AccountTabMultisig() {
   const tabs = [
     {
       icon: <IconMultisigAccount width={20} height={20} />,
-      name: "Signatories",
+      name: "signatories",
       children: (
         <AccountTabMultisigSignatories
           signatories={multisigAddressData?.multisigAddress?.signatories}
@@ -28,7 +28,7 @@ export default function AccountTabMultisig() {
     },
     {
       icon: <IconMultisig width={20} height={20} />,
-      name: "Multisigs",
+      name: "multisigs",
       children: <AccountTabMultisigMultisigs />,
     },
   ];
