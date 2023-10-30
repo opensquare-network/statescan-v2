@@ -523,7 +523,7 @@ export const toMultisigDetailItem = (multisig) => {
       label: "Module",
       value: <TagHighContrast>{multisig?.call?.section}</TagHighContrast>,
     },
-    multisig?.call?.methods && {
+    multisig?.call?.method && {
       label: "Call",
       value: <TagThemed>{multisig?.call?.method}</TagThemed>,
     },
