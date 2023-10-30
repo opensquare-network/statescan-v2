@@ -87,7 +87,7 @@ const tableHeads = [
 
 export default function AccountTabMultisigMultisigs() {
   const { id } = useParams();
-  const { page = 1, status } = useQueryParams();
+  const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   const { data, loading } = useMultisigQuery(GET_ACCOUNT_TAB_MULTISIGS, {
@@ -95,7 +95,6 @@ export default function AccountTabMultisigMultisigs() {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       account: id,
-      multisigState: status ? status.toUpperCase() : null,
     },
   });
 
