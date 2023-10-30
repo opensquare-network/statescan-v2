@@ -25,10 +25,6 @@ const Status = styled.div`
   ${Inter_14_500};
   color: ${(p) => p.color};
 `;
-const Time = styled.div`
-  ${Inter_14_500};
-  color: var(--fontTertiary);
-`;
 
 const STATUS_COLORS = {
   [MULTISIG_STATUS.APPROVING]: "var(--theme500)",
