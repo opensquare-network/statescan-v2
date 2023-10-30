@@ -4,15 +4,16 @@ import AddressOrIdentity from "../address";
 import ExtrinsicLink from "../extrinsic/link";
 import Timeline from "../timeline";
 import TimelineItemFields from "../timeline/itemFields";
+import { ReactComponent as IconTimelineNewMultisig } from "../icons/timeline-new-multisig.svg";
+import { ReactComponent as IconTimelineMultisigApproval } from "../icons/timeline-multisig-approval.svg";
+import { ReactComponent as IconTimelineMultisigExecuted } from "../icons/timeline-multisig-executed.svg";
+import { ReactComponent as IconTimelineMultisigCancelled } from "../icons/timeline-multisig-cancelled.svg";
 
-const iconsSrcs = {
-  [MULTISIG_NAME.NewMultisig]: "/imgs/icons/timeline-new-multisig.svg",
-  [MULTISIG_NAME.MultisigApproval]:
-    "/imgs/icons/timeline-multisig-approval.svg",
-  [MULTISIG_NAME.MultisigExecuted]:
-    "/imgs/icons/timeline-multisig-executed.svg",
-  [MULTISIG_NAME.MultisigCancelled]:
-    "/imgs/icons/timeline-multisig-cancelled.svg",
+const iconsMap = {
+  [MULTISIG_NAME.NewMultisig]: IconTimelineNewMultisig,
+  [MULTISIG_NAME.MultisigApproval]: IconTimelineMultisigApproval,
+  [MULTISIG_NAME.MultisigExecuted]: IconTimelineMultisigExecuted,
+  [MULTISIG_NAME.MultisigCancelled]: IconTimelineMultisigCancelled,
 };
 
 export default function MultisigTimeline() {
@@ -30,16 +31,8 @@ export default function MultisigTimeline() {
 }
 
 function Icon({ name }) {
-  return (
-    <img
-      src={iconsSrcs[name]}
-      alt={name}
-      style={{
-        width: 24,
-        height: 24,
-      }}
-    />
-  );
+  const IconComp = iconsMap[name];
+  return <IconComp width={24} height={24} />;
 }
 
 function Fields({ item }) {
