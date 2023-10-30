@@ -43,22 +43,17 @@ function Icon({ name }) {
 }
 
 function Fields({ item }) {
+  const memberAddressMap = {
+    [MULTISIG_NAME.NewMultisig]: item.args.approving,
+    [MULTISIG_NAME.MultisigApproval]: item.args.approving,
+    [MULTISIG_NAME.MultisigExecuted]: item.args.approving,
+    [MULTISIG_NAME.MultisigCancelled]: item.args.cancelling,
+  };
+
   const fields = [
-    item.name === MULTISIG_NAME.NewMultisig && [
+    [
       "Multisig Member",
-      <AddressOrIdentity address={item.args.approving} />,
-    ],
-    item.name === MULTISIG_NAME.MultisigApproval && [
-      "Multisig Member",
-      <AddressOrIdentity address={item.args.approving} />,
-    ],
-    item.name === MULTISIG_NAME.MultisigExecuted && [
-      "Multisig Member",
-      <AddressOrIdentity address={item.args.approving} />,
-    ],
-    item.name === MULTISIG_NAME.MultisigCancelled && [
-      "Multisig Member",
-      <AddressOrIdentity address={item.args.cancelling} />,
+      <AddressOrIdentity address={memberAddressMap[item.name]} />,
     ],
     ["Extrinsic ID", <ExtrinsicLink indexer={item.indexer} />],
   ].filter(Boolean);
