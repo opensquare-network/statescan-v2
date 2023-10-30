@@ -13,6 +13,9 @@ import AccountDetailCommon from "../components/account/detailCommon";
 import { useDispatch } from "react-redux";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
+import { useMultisigAddressData } from "../hooks/multisig/useMultisigAddressData";
+import { TextSecondary } from "../components/styled/text";
+import Divider from "../components/styled/divider";
 
 function OnChainAccount() {
   const { id } = useParams();
@@ -21,6 +24,8 @@ function OnChainAccount() {
 
   const accountData = useOnChainAccountData(id);
   const accountInfo = useAccountInfo(accountData);
+
+  const { data: multisigAddressData } = useMultisigAddressData(id);
 
   useEffect(() => {
     clearHttpError(dispatch);
@@ -60,6 +65,28 @@ function OnChainAccount() {
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
+
+        {multisigAddressData && (
+          <div>
+            <Divider />
+
+            <List
+              data={{
+                Threshold: (
+                  <TextSecondary>
+                    {multisigAddressData.multisigAddress?.threshold || 0}
+                  </TextSecondary>
+                ),
+                Signatories: (
+                  <TextSecondary>
+                    {multisigAddressData.multisigAddress?.signatories?.length ||
+                      0}
+                  </TextSecondary>
+                ),
+              }}
+            />
+          </div>
+        )}
       </Panel>
 
       <AccountDetailCommon />
