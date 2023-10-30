@@ -47,6 +47,7 @@ const Label = styled.span`
 `;
 
 const Value = styled(Flex)`
+  color: var(--fontPrimary);
   flex-grow: 1;
   min-height: 44px;
   min-height: ${(p) => (p.compact ? "36px" : "44px")};
