@@ -221,7 +221,9 @@ export const toOnChainAccountDetailItem = (id, account, achainableProfile) => {
 
   const data = {};
 
-  data["Address"] = <AddressAndIdentity address={id} ellipsis={false} />;
+  data["Address"] = (
+    <AddressAndIdentity address={id} ellipsis={false} checkMultisig />
+  );
 
   data["Total Balance"] = (
     <ValueDisplayWithTooltip value={account?.data?.total} />

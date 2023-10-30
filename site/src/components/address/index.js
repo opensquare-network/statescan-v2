@@ -9,6 +9,9 @@ import {
   ACCOUNT_IDENTITY_TAB_NAME,
   ACCOUNT_IDENTITY_TAB_SUBTAB,
 } from "../../utils/constants";
+import { useMultisigAddressLazyData } from "../../hooks/multisig/useMultisigAddressData";
+import { Tag } from "../tag";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -53,16 +56,30 @@ export function AddressAndIdentity({
   address,
   maxWidth = "100%",
   ellipsis = true,
+  checkMultisig = false,
 }) {
   const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  const [fetchMultisigAddressData, { data: multisigAddressData }] =
+    useMultisigAddressLazyData(address);
+
+  useEffect(() => {
+    if (checkMultisig) {
+      fetchMultisigAddressData();
+    }
+  }, [checkMultisig, fetchMultisigAddressData]);
 
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
+  const addressContent = (
+    <AddressTag to={`/accounts/${address}`}>
+      {displayAddress}
+      {multisigAddressData && <Tag style={{ marginLeft: 8 }}>Multisig</Tag>}
+    </AddressTag>
+  );
+
   if (!identity || identity?.info?.status === "NO_ID") {
-    return (
-      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
-    );
+    return addressContent;
   }
 
   return (
@@ -70,7 +87,7 @@ export function AddressAndIdentity({
       <Link to={`/accounts/${address}`}>
         <Identity identity={identity} />
       </Link>
-      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
+      {addressContent}
     </CombinationWrapper>
   );
 }
