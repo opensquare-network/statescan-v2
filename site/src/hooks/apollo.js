@@ -37,3 +37,11 @@ export function useMultisigQuery(query, options = {}, ...args) {
   options.client = options.client || multisigClient;
   return useQuery(query, options, ...args);
 }
+
+/**
+ * @type {typeof useQuery}
+ */
+export function useMultisigLazyQuery(query, options = {}, ...args) {
+  options.client = options.client || multisigClient;
+  return useLazyQuery(query, options, ...args);
+}
