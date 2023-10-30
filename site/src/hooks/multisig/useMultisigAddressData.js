@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { useMultisigLazyQuery } from "../apollo";
+import { useMultisigLazyQuery, useMultisigQuery } from "../apollo";
 
 const GET_MULTISIG_ADDRESS = gql`
   query GetMultisigAddress($account: String!) {
@@ -9,6 +9,14 @@ const GET_MULTISIG_ADDRESS = gql`
     }
   }
 `;
+
+export function useMultisigAddressData(address) {
+  return useMultisigQuery(GET_MULTISIG_ADDRESS, {
+    variables: {
+      account: address,
+    },
+  });
+}
 
 export function useMultisigAddressLazyData(address) {
   return useMultisigLazyQuery(GET_MULTISIG_ADDRESS, {
