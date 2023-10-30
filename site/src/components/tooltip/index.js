@@ -32,6 +32,7 @@ const TipWrapper = styled.div`
   color: var(--fontPrimaryInverse);
   border-radius: 4px;
   ${Overpass_Mono_12_500};
+  z-index: 100000;
 
   display: none;
 
