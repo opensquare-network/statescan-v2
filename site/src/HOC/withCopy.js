@@ -37,12 +37,17 @@ function defaultRender(children) {
 export const withCopy = (Component) => {
   return ({ children, render = defaultRender, ...restProps }) => {
     const [copied, setCopied] = React.useState(false);
+
+    const copyContent = React.Children.toArray(children).filter(
+      (item) => typeof item === "string",
+    );
+
     return (
       <Wrapper>
         <Component {...restProps}>{render(children)}</Component>
         <CopyButton
           onClick={() => {
-            copy(children);
+            copy(copyContent);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
           }}
