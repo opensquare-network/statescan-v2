@@ -12,6 +12,7 @@ import {
   rounded_full,
   text_theme,
 } from "../../styles/tailwindcss";
+import Divider from "../styled/divider";
 
 const Wrapper = styled.div`
   margin-top: 16px;
@@ -98,15 +99,19 @@ function List({ data, header, compact = false }) {
     <Wrapper>
       {header}
 
-      {items.map((item, idx) => (
-        <Row key={idx}>
-          <Label compact={compact}>
-            {item.label}
-            {!!item.count && <Count>{item.count}</Count>}
-          </Label>
-          <Value compact={compact}>{item.value}</Value>
-        </Row>
-      ))}
+      {items.map((item, idx) =>
+        item.type === "divider" ? (
+          <Divider key={idx} />
+        ) : (
+          <Row key={idx}>
+            <Label compact={compact}>
+              {item.label}
+              {!!item.count && <Count>{item.count}</Count>}
+            </Label>
+            <Value compact={compact}>{item.value}</Value>
+          </Row>
+        ),
+      )}
     </Wrapper>
   );
 }

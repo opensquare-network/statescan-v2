@@ -14,8 +14,6 @@ import { useDispatch } from "react-redux";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import { useMultisigAddressData } from "../hooks/multisig/useMultisigAddressData";
-import { TextSecondary } from "../components/styled/text";
-import Divider from "../components/styled/divider";
 
 function OnChainAccount() {
   const { id } = useParams();
@@ -49,8 +47,13 @@ function OnChainAccount() {
     if (!detail) {
       return {};
     }
-    return toOnChainAccountDetailItem(id, detail, achainableProfile);
-  }, [id, detail, achainableProfile]);
+    return toOnChainAccountDetailItem(
+      id,
+      detail,
+      achainableProfile,
+      multisigAddressData,
+    );
+  }, [id, detail, achainableProfile, multisigAddressData]);
 
   const breadCrumb = (
     <BreadCrumb
@@ -65,28 +68,6 @@ function OnChainAccount() {
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
         <List data={listData} />
-
-        {multisigAddressData && (
-          <div>
-            <Divider />
-
-            <List
-              data={{
-                Threshold: (
-                  <TextSecondary>
-                    {multisigAddressData.multisigAddress?.threshold || 0}
-                  </TextSecondary>
-                ),
-                Signatories: (
-                  <TextSecondary>
-                    {multisigAddressData.multisigAddress?.signatories?.length ||
-                      0}
-                  </TextSecondary>
-                ),
-              }}
-            />
-          </div>
-        )}
       </Panel>
 
       <AccountDetailCommon />
