@@ -2,12 +2,14 @@ function isExemptedEvent(wrappedEvent) {
   const { event } = wrappedEvent;
   const { section, method } = event;
 
-  return (
+  const isExtrinsicResult =
     "system" === section &&
-    ["ExtrinsicSuccess", "ExtrinsicFailed"].includes(method)
-  );
-
+    ["ExtrinsicSuccess", "ExtrinsicFailed"].includes(method);
+  const isParaInclusion =
+    "paraInclusion" === section && "CandidateIncluded" === method;
   // todo: exempt other events
+
+  return isExtrinsicResult || isParaInclusion;
 }
 
 module.exports = {
