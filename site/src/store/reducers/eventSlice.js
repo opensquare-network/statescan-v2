@@ -35,7 +35,11 @@ export const eventFetchList =
     dispatch(setListLoading(true));
 
     return api
-      .fetch(eventListApi, { page, pageSize, ...params }, fetchOptions)
+      .fetch(
+        eventListApi,
+        { page, pageSize, no_extrinsic_result: true, ...params },
+        fetchOptions,
+      )
       .then(({ result }) => {
         if (result) {
           dispatch(setList(result));

@@ -12,7 +12,7 @@ import {
   sortByName,
   makeOptionWithEmptyDescendant,
 } from "../filterCommon";
-import { extrinsicOnlyFilter, noExtrinsicResultFilter } from "../constants";
+import { extrinsicOnlyFilter } from "../constants";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -64,11 +64,6 @@ export function useEventFilter() {
   const specFilters = useSelector(filtersSelector);
   const [filters, setFilters] = useState([]);
   const isExtrinsicOnly = getFromQuery(location, "is_extrinsic", "true");
-  const noExtrinsicResult = getFromQuery(
-    location,
-    "no_extrinsic_result",
-    "true",
-  );
 
   useEffect(() => {
     if (!specFilters) {
@@ -155,9 +150,5 @@ export function useEventFilter() {
     }
   }, [specFilters, location]);
 
-  return [
-    ...filters,
-    { ...extrinsicOnlyFilter, value: isExtrinsicOnly },
-    { ...noExtrinsicResultFilter, value: noExtrinsicResult },
-  ];
+  return [...filters, { ...extrinsicOnlyFilter, value: isExtrinsicOnly }];
 }
