@@ -45,7 +45,7 @@ function getSectionDescendant(section) {
     query: "method",
     isSearch: true,
     options: [AllOption].concat(
-      section.events
+      omitSectionEvents(section.events)
         .map((method) => {
           return {
             name: method,
@@ -56,6 +56,19 @@ function getSectionDescendant(section) {
         .sort(sortByName),
     ),
   };
+}
+
+function omitSectionEvents(events = []) {
+  const shouldOmitEvents = [
+    // system
+    "ExtrinsicSuccess",
+    "ExtrinsicFailed",
+    // paraInclusion
+    "CandidateIncluded",
+    "CandidateBacked",
+  ];
+
+  return events.filter((event) => !shouldOmitEvents.includes(event));
 }
 
 export function useEventFilter() {
@@ -91,13 +104,15 @@ export function useEventFilter() {
         })
         .sort(sortByName);
 
-      const methodOptions = (
-        sectionOptions.find(
-          (section) =>
-            stringLowerFirst(section.name) ===
-            getFromQuery(location, "section"),
-        ) ?? { events: [] }
-      ).events;
+      const methodOptions = omitSectionEvents(
+        (
+          sectionOptions.find(
+            (section) =>
+              stringLowerFirst(section.name) ===
+              getFromQuery(location, "section"),
+          ) ?? { events: [] }
+        ).events,
+      );
 
       // generate dropdown data
       const specs = {
