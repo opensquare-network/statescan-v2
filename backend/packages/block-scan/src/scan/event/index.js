@@ -53,7 +53,7 @@ function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
 function normalizeEvents(events = [], blockIndexer) {
   let index = 0;
   let normalizedEvents = [];
-  const filteredEvents = events.filter(isExemptedEvent);
+  const filteredEvents = events.filter((e) => !isExemptedEvent(e));
   for (const event of filteredEvents) {
     const normalizedEvent = normalizeEvent(event, blockIndexer, index);
     normalizedEvents.push(normalizedEvent);
