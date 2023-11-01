@@ -12,7 +12,7 @@ import {
   getFromQuery,
   sortByName,
   makeOptionWithEmptyDescendant,
-  omitExemptedMethods,
+  omitExemptedCalls,
 } from "../filterCommon";
 
 function getSpecVersionDescendant(specVersion) {
@@ -46,7 +46,7 @@ function getSectionDescendant(section) {
     query: "method",
     isSearch: true,
     options: [AllOption].concat(
-      omitExemptedMethods(section.name, section.calls)
+      omitExemptedCalls(section.name, section.calls)
         .map((method) => {
           return {
             name: method,
@@ -93,7 +93,7 @@ export function useCallsFilter() {
         })
         .sort(sortByName);
 
-      const methodOptions = omitExemptedMethods(
+      const methodOptions = omitExemptedCalls(
         sectionQueryValue,
         (
           sectionOptions.find(
