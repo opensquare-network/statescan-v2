@@ -20,10 +20,6 @@ function normalizeInSimpleMode(extrinsic, events, indexer) {
   if (isSigned) {
     const signer = extrinsic.signer.toString();
     Object.assign(obj, { signer });
-    obj = {
-      ...obj,
-      signer,
-    };
   }
 
   return obj;
