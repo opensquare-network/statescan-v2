@@ -12,7 +12,8 @@ export const toCallTableItem = (calls) => {
       <ColoredLink
         to={`/calls/${item?.indexer?.blockHeight}-${item?.indexer?.extrinsicIndex}-${item?.indexer?.callIndex}`}
       >
-        {item?.indexer?.blockHeight.toLocaleString()}-{item?.indexer?.callIndex}
+        {item?.indexer?.blockHeight.toLocaleString()}-
+        {item?.indexer?.extrinsicIndex}-{item?.indexer?.callIndex}
       </ColoredLink>,
       <ExtrinsicLink indexer={item?.indexer} />,
       <ColoredLink to={`/blocks/${item?.indexer?.blockHeight}`}>

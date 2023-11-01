@@ -1,13 +1,13 @@
 import { currencify } from "../../utils";
 import { ColoredInterLinkWithCopy } from "../styled/link";
 
-export default function DetailedCallId({ blockHeight, id }) {
+export default function DetailedCallId({ blockHeight, extrinsicIndex, id }) {
   return (
     <ColoredInterLinkWithCopy
-      to={`/calls/${id}`}
-      render={() => `${currencify(blockHeight)}-${id}`}
+      to={`/calls/${blockHeight}-${extrinsicIndex}-${id}`}
+      render={() => `${currencify(blockHeight)}-${extrinsicIndex}-${id}`}
     >
-      {`${blockHeight}-${id}`}
+      {`${blockHeight}-${extrinsicIndex}-${id}`}
     </ColoredInterLinkWithCopy>
   );
 }

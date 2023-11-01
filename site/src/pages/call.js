@@ -51,8 +51,8 @@ function Call() {
         {
           name: call
             ? `${call?.indexer?.blockHeight.toLocaleString()}-${
-                call?.indexer?.callIndex
-              }`
+                call?.indexer?.extrinsicIndex
+              }-${call?.indexer?.callIndex}`
             : "...",
         },
       ]}

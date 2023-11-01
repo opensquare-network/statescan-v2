@@ -12,7 +12,7 @@ import {
   sortByName,
   makeOptionWithEmptyDescendant,
 } from "../filterCommon";
-import { extrinsicOnlyFilter, noExtrinsicResultFilter } from "../constants";
+import { extrinsicOnlyFilter } from "../constants";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -45,7 +45,7 @@ function getSectionDescendant(section) {
     query: "method",
     isSearch: true,
     options: [AllOption].concat(
-      section.events
+      omitSectionEvents(section.events)
         .map((method) => {
           return {
             name: method,
@@ -58,17 +58,25 @@ function getSectionDescendant(section) {
   };
 }
 
+function omitSectionEvents(events = []) {
+  const shouldOmitEvents = [
+    // system
+    "ExtrinsicSuccess",
+    "ExtrinsicFailed",
+    // paraInclusion
+    "CandidateIncluded",
+    "CandidateBacked",
+  ];
+
+  return events.filter((event) => !shouldOmitEvents.includes(event));
+}
+
 export function useEventFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
   const [filters, setFilters] = useState([]);
   const isExtrinsicOnly = getFromQuery(location, "is_extrinsic", "true");
-  const noExtrinsicResult = getFromQuery(
-    location,
-    "no_extrinsic_result",
-    "true",
-  );
 
   useEffect(() => {
     if (!specFilters) {
@@ -96,13 +104,15 @@ export function useEventFilter() {
         })
         .sort(sortByName);
 
-      const methodOptions = (
-        sectionOptions.find(
-          (section) =>
-            stringLowerFirst(section.name) ===
-            getFromQuery(location, "section"),
-        ) ?? { events: [] }
-      ).events;
+      const methodOptions = omitSectionEvents(
+        (
+          sectionOptions.find(
+            (section) =>
+              stringLowerFirst(section.name) ===
+              getFromQuery(location, "section"),
+          ) ?? { events: [] }
+        ).events,
+      );
 
       // generate dropdown data
       const specs = {
@@ -155,9 +165,5 @@ export function useEventFilter() {
     }
   }, [specFilters, location]);
 
-  return [
-    ...filters,
-    { ...extrinsicOnlyFilter, value: isExtrinsicOnly },
-    { ...noExtrinsicResultFilter, value: noExtrinsicResult },
-  ];
+  return [...filters, { ...extrinsicOnlyFilter, value: isExtrinsicOnly }];
 }

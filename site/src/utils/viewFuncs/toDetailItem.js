@@ -424,6 +424,7 @@ export const toCallDetailItem = (indexer, section, method) => {
     "Call ID": (
       <DetailedCallId
         blockHeight={indexer?.blockHeight}
+        extrinsicIndex={indexer?.extrinsicIndex}
         id={indexer?.callIndex}
       />
     ),

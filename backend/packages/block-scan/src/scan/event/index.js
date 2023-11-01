@@ -1,3 +1,5 @@
+const { isExemptedEvent } = require("./exemption");
+
 function checkIsExtrinsicResult(section, method) {
   return (
     "system" === section &&
@@ -51,7 +53,8 @@ function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
 function normalizeEvents(events = [], blockIndexer) {
   let index = 0;
   let normalizedEvents = [];
-  for (const event of events) {
+  const filteredEvents = events.filter((e) => !isExemptedEvent(e));
+  for (const event of filteredEvents) {
     const normalizedEvent = normalizeEvent(event, blockIndexer, index);
     normalizedEvents.push(normalizedEvent);
     index++;

@@ -457,19 +457,6 @@ export const extrinsicOnlyFilter = {
   ],
 };
 
-export const noExtrinsicResultFilter = {
-  value: "true",
-  name: "Result",
-  query: "no_extrinsic_result",
-  options: [
-    { text: "All", value: "false" },
-    {
-      text: "No extrinsic result",
-      value: "true",
-    },
-  ],
-};
-
 export const ASSET_ANALYTICS_RANGE = {
   ONE_MONTH: "1m",
   ONE_YEAR: "1y",
