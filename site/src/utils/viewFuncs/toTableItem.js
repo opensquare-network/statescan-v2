@@ -116,6 +116,25 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
   );
 };
 
+export const toExtrinsicsTabTableItemSimpleMode = (extrinsics) => {
+  return (
+    extrinsics?.map((extrinsic, index) => {
+      return [
+        <ExtrinsicLink indexer={extrinsic?.indexer} />,
+        <ColoredLink
+          key={`${index}-2`}
+          to={`/blocks/${extrinsic?.indexer?.blockHeight}`}
+        >
+          {extrinsic?.indexer?.blockHeight.toLocaleString()}
+        </ColoredLink>,
+        extrinsic?.indexer?.blockTime,
+        extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
+        `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
+      ];
+    }) ?? null
+  );
+};
+
 export const toHoldersTabTableItem = (holders, asset) => {
   if (!holders || !asset) {
     return null;

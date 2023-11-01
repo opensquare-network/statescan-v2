@@ -1,7 +1,11 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect } from "react";
-import { eventsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
+import {
+  eventsHead,
+  eventsHeadSimpleMode,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../utils/constants";
 import { ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -21,6 +25,7 @@ import {
 import EventAttributeDisplay from "../components/eventAttributeDisplay";
 import omit from "lodash.omit";
 import ExtrinsicLink from "../components/extrinsic/link";
+import { getIsSimpleMode } from "../utils/env";
 
 const filter = [
   {
@@ -54,12 +59,64 @@ const defaultFilterQuery = {
   [filter[1].query]: filter[1].value,
 };
 
+const toEventTabTableItem = (events) => {
+  return (
+    events?.map((event, index) => {
+      return [
+        <ColoredLink
+          key={`${index}-1`}
+          to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
+        >
+          {event?.indexer?.blockHeight.toLocaleString()}-
+          {event?.indexer?.eventIndex}
+        </ColoredLink>,
+        <ColoredLink
+          key={`${index}-2`}
+          to={`/blocks/${event?.indexer?.blockHeight}`}
+        >
+          {event?.indexer?.blockHeight.toLocaleString()}
+        </ColoredLink>,
+        event?.indexer?.blockTime,
+        <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
+        `${event?.section}(${event?.method})`,
+        <EventAttributeDisplay event={event} />,
+      ];
+    }) ?? null
+  );
+};
+
+const toEventTabTableItemSimpleMode = (events) => {
+  return (
+    events?.map((event, index) => {
+      return [
+        <ColoredLink
+          key={`${index}-1`}
+          to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
+        >
+          {event?.indexer?.blockHeight.toLocaleString()}-
+          {event?.indexer?.eventIndex}
+        </ColoredLink>,
+        <ColoredLink
+          key={`${index}-2`}
+          to={`/blocks/${event?.indexer?.blockHeight}`}
+        >
+          {event?.indexer?.blockHeight.toLocaleString()}
+        </ColoredLink>,
+        event?.indexer?.blockTime,
+        <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
+        `${event?.section}(${event?.method})`,
+      ];
+    }) ?? null
+  );
+};
+
 function Events() {
   const location = useLocation();
   const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const filters = useEventFilter();
+  const isSimpleMode = getIsSimpleMode();
 
   const list = useSelector(eventListSelector);
   const loading = useSelector(eventListLoadingSelector);
@@ -88,28 +145,15 @@ function Events() {
     };
   }, [dispatch]);
 
-  const data =
-    list?.items?.map((event, index) => {
-      return [
-        <ColoredLink
-          key={`${index}-1`}
-          to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}-
-          {event?.indexer?.eventIndex}
-        </ColoredLink>,
-        <ColoredLink
-          key={`${index}-2`}
-          to={`/blocks/${event?.indexer?.blockHeight}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}
-        </ColoredLink>,
-        event?.indexer?.blockTime,
-        <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
-        `${event?.section}(${event?.method})`,
-        <EventAttributeDisplay event={event} />,
-      ];
-    }) ?? null;
+  let data = [];
+  let head = [];
+  if (isSimpleMode) {
+    data = toEventTabTableItemSimpleMode(list?.items);
+    head = eventsHeadSimpleMode;
+  } else {
+    data = toEventTabTableItem(list?.items);
+    head = eventsHead;
+  }
 
   return (
     <Layout>
@@ -126,7 +170,7 @@ function Events() {
           />
         }
       >
-        <Table heads={eventsHead} data={data} loading={loading} />
+        <Table heads={head} data={data} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );
