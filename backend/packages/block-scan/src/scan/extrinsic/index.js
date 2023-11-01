@@ -13,10 +13,12 @@ async function normalizeExtrinsics(
   let index = 0;
   let normalizedExtrinsics = [];
   let normalizedCalls = [];
-  const filteredExtrinsics = extrinsics.filter((e) => !isExemptedExtrinsic(e));
-  for (const extrinsic of filteredExtrinsics) {
+  for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(blockEvents, index);
     const extrinsicIndexer = { ...blockIndexer, extrinsicIndex: index++ };
+    if (isExemptedExtrinsic(extrinsic)) {
+      continue;
+    }
 
     const normalized = normalizeExtrinsic(extrinsic, events, extrinsicIndexer);
     const calls = await extractCallsFromExtrinsic(
