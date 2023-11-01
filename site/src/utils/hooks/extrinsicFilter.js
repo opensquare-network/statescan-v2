@@ -151,7 +151,7 @@ export function useExtrinsicFilter() {
       };
       setFilters([specs, section, method]);
     }
-  }, [specFilters, location]);
+  }, [specFilters, location, sectionQueryValue]);
 
   return [
     ...filters,

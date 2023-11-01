@@ -151,7 +151,7 @@ export function useEventFilter() {
       };
       setFilters([specs, section, method]);
     }
-  }, [specFilters, location]);
+  }, [specFilters, location, sectionQueryValue]);
 
   return [...filters, { ...extrinsicOnlyFilter, value: isExtrinsicOnly }];
 }
