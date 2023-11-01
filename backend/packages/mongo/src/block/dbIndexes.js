@@ -1,3 +1,5 @@
+const { isSimpleMode } = require("../env");
+
 async function createBlockColIndexes(col) {
   await col.createIndex({ hash: 1 });
   await col.createIndex({ height: 1 }, { unique: true });
@@ -10,20 +12,27 @@ async function createExtrinsicColIndexes(col) {
     "indexer.blockHeight": -1,
     "indexer.extrinsicIndex": 1,
   });
-  await col.createIndex({
-    "call.section": 1,
-    "indexer.blockHeight": -1,
-    "indexer.extrinsicIndex": 1,
-  });
-  await col.createIndex({
-    "call.section": 1,
-    "call.method": 1,
-    "indexer.blockHeight": -1,
-    "indexer.extrinsicIndex": 1,
-  });
+
+  if (isSimpleMode()) {
+    await col.createIndex({ section: 1 });
+    await col.createIndex({ method: 1 });
+  } else {
+    await col.createIndex({
+      "call.section": 1,
+      "indexer.blockHeight": -1,
+      "indexer.extrinsicIndex": 1,
+    });
+    await col.createIndex({
+      "call.section": 1,
+      "call.method": 1,
+      "indexer.blockHeight": -1,
+      "indexer.extrinsicIndex": 1,
+    });
+    await col.createIndex({ hash: 1 });
+  }
+
   await col.createIndex({ isSigned: 1 });
   await col.createIndex({ signer: 1 });
-  await col.createIndex({ hash: 1 });
 }
 
 async function createEventColIndexes(col) {
