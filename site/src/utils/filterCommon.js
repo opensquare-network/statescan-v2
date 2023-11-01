@@ -1,4 +1,5 @@
 import * as queryString from "query-string";
+import { stringLowerFirst } from "@polkadot/util";
 
 export const AllOption = {
   value: "",
@@ -25,3 +26,20 @@ export const makeOptionWithEmptyDescendant = (option, descendantName) => {
     },
   };
 };
+
+export function omitExemptedMethods(section = "", methods = []) {
+  const omitMethodsMap = {
+    System: ["ExtrinsicSuccess", "ExtrinsicFailed"],
+    ParaInclusion: ["CandidateIncluded", "CandidateBacked"],
+    Timestamp: ["set"],
+  };
+
+  // compat lower first
+  Object.entries(omitMethodsMap).forEach(([key, value]) => {
+    omitMethodsMap[stringLowerFirst(key)] = value;
+  });
+
+  const shouldOmitMethods = omitMethodsMap[section] ?? [];
+
+  return methods.filter((method) => !shouldOmitMethods.includes(method));
+}
