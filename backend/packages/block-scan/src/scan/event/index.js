@@ -1,4 +1,6 @@
 const { isExemptedEvent } = require("./exemption");
+const { isSimpleMode } = require("../../env");
+const { normalizeEventInSimpleMode } = require("./simpleNormalize");
 
 function checkIsExtrinsicResult(section, method) {
   return (
@@ -59,7 +61,12 @@ function normalizeEvents(events = [], blockIndexer) {
       continue;
     }
 
-    const normalizedEvent = normalizeEvent(event, blockIndexer, index);
+    let normalizedEvent;
+    if (isSimpleMode()) {
+      normalizedEvent = normalizeEventInSimpleMode(event, blockIndexer, index);
+    } else {
+      normalizedEvent = normalizeEvent(event, blockIndexer, index);
+    }
     normalizedEvents.push(normalizedEvent);
     index++;
   }
