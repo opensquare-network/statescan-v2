@@ -27,7 +27,7 @@ export const makeOptionWithEmptyDescendant = (option, descendantName) => {
   };
 };
 
-export function omitExemptedEvents(section = "", events = []) {
+export function omitExemptedEventMethods(section = "", events = []) {
   const omitEventsMap = {
     System: ["ExtrinsicSuccess", "ExtrinsicFailed"],
     ParaInclusion: ["CandidateIncluded", "CandidateBacked"],
@@ -42,7 +42,7 @@ export function omitExemptedEvents(section = "", events = []) {
   return events.filter((event) => !shouldOmitMethods.includes(event));
 }
 
-export function omitExemptedCalls(section = "", calls = []) {
+export function omitExemptedCallMethods(section = "", calls = []) {
   const omitCallsMap = {
     Timestamp: ["set"],
   };

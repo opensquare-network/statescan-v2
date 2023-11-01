@@ -11,7 +11,7 @@ import {
   getFromQuery,
   sortByName,
   makeOptionWithEmptyDescendant,
-  omitExemptedEvents,
+  omitExemptedEventMethods,
 } from "../filterCommon";
 import { extrinsicOnlyFilter } from "../constants";
 
@@ -46,7 +46,7 @@ function getSectionDescendant(section) {
     query: "method",
     isSearch: true,
     options: [AllOption].concat(
-      omitExemptedEvents(section.name, section.events)
+      omitExemptedEventMethods(section.name, section.events)
         .map((method) => {
           return {
             name: method,
@@ -93,7 +93,7 @@ export function useEventFilter() {
         })
         .sort(sortByName);
 
-      const methodOptions = omitExemptedEvents(
+      const methodOptions = omitExemptedEventMethods(
         sectionQueryValue,
         (
           sectionOptions.find(
