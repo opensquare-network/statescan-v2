@@ -27,19 +27,31 @@ export const makeOptionWithEmptyDescendant = (option, descendantName) => {
   };
 };
 
-export function omitExemptedMethods(section = "", methods = []) {
-  const omitMethodsMap = {
+export function omitExemptedEvents(section = "", events = []) {
+  const omitEventsMap = {
     System: ["ExtrinsicSuccess", "ExtrinsicFailed"],
     ParaInclusion: ["CandidateIncluded", "CandidateBacked"],
+  };
+
+  Object.entries(omitEventsMap).forEach(([key, value]) => {
+    omitEventsMap[stringLowerFirst(key)] = value;
+  });
+
+  const shouldOmitMethods = omitEventsMap[section] ?? [];
+
+  return events.filter((event) => !shouldOmitMethods.includes(event));
+}
+
+export function omitExemptedCalls(section = "", calls = []) {
+  const omitCallsMap = {
     Timestamp: ["set"],
   };
 
-  // compat lower first
-  Object.entries(omitMethodsMap).forEach(([key, value]) => {
-    omitMethodsMap[stringLowerFirst(key)] = value;
+  Object.entries(omitCallsMap).forEach(([key, value]) => {
+    omitCallsMap[stringLowerFirst(key)] = value;
   });
 
-  const shouldOmitMethods = omitMethodsMap[section] ?? [];
+  const shouldOmitMethods = omitCallsMap[section] ?? [];
 
-  return methods.filter((method) => !shouldOmitMethods.includes(method));
+  return calls.filter((call) => !shouldOmitMethods.includes(call));
 }
