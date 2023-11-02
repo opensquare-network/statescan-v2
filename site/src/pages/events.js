@@ -114,7 +114,7 @@ function Events() {
         page - 1,
         pageSize,
         {
-          ...defaultFilterQuery,
+          ...(isSimpleMode ? {} : defaultFilterQuery),
           ...omit(queryString.parse(location.search), ["page", "spec"]),
         },
         { signal: controller.signal },
@@ -122,7 +122,7 @@ function Events() {
     );
 
     return () => controller.abort();
-  }, [dispatch, location, page, pageSize]);
+  }, [dispatch, location, page, pageSize, isSimpleMode]);
 
   useEffect(() => {
     return () => {
