@@ -13,6 +13,7 @@ function normalizeInSimpleMode(extrinsic, events, indexer) {
     isSuccess,
     section: call?.section,
     method: call?.method,
+    args: call?.args,
     eventsCount: events.length,
     isSigned,
   };
