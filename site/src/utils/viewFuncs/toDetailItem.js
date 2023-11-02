@@ -37,6 +37,8 @@ import { Flex, FlexCenter, FlexColumn } from "../../components/styled/flex";
 import isNil from "lodash.isnil";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
+import dark from "../../styles/theme/dark";
+import styled from "styled-components";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -146,6 +148,10 @@ const lookupLock = {
   "vesting ": "via Vesting",
 };
 
+const TooltipTextSecondary = styled(TextSecondary)`
+  color: ${dark.fontSecondary};
+`;
+
 function LockedBreakdown({ lockedBreakdown }) {
   const chainSetting = useSelector(chainSettingSelector);
 
@@ -160,8 +166,8 @@ function LockedBreakdown({ lockedBreakdown }) {
               symbol={chainSetting.symbol}
               abbreviate={false}
             />
-            <TextSecondary>{lookupLock[id]}</TextSecondary>
-            <TextSecondary>{reasons}</TextSecondary>
+            <TooltipTextSecondary>{lookupLock[id]}</TooltipTextSecondary>
+            <TooltipTextSecondary>{reasons}</TooltipTextSecondary>
           </FlexColumn>
         );
       })}
@@ -183,7 +189,7 @@ function ReservedBreakdown({ reservedBreakdown }) {
               symbol={chainSetting.symbol}
               abbreviate={false}
             />
-            <TextSecondary>{lookupLock[id]}</TextSecondary>
+            <TooltipTextSecondary>{lookupLock[id]}</TooltipTextSecondary>
           </FlexColumn>
         );
       })}
