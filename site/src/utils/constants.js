@@ -176,17 +176,13 @@ export const eventsHead = [
   },
 ];
 
-export const callsHeadSimpleMode = [
+export const callsHead = [
   { name: "Call ID", width: 160 },
   { name: "Extrinsic ID", width: 160 },
   { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Method", width: 200 },
   { name: "Call", type: "call" },
-];
-
-export const callsHead = [
-  ...callsHeadSimpleMode,
   {
     name: "Data",
     type: "data",
