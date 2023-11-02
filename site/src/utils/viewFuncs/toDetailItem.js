@@ -447,11 +447,11 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
       label: "Life Time",
       value: (
         <>
-          <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[0]}`}>
+          <ColoredInterLink to={`/blocks/${extrinsic?.lifetime?.[0]}`}>
             {extrinsic?.lifetime?.[0].toLocaleString()}
           </ColoredInterLink>
           <TextSecondary>{" ~ "}</TextSecondary>
-          <ColoredInterLink to={` / block /${extrinsic?.lifetime?.[1]}`}>
+          <ColoredInterLink to={`/blocks/${extrinsic?.lifetime?.[1]}`}>
             {extrinsic?.lifetime?.[1].toLocaleString()}
           </ColoredInterLink>
         </>
