@@ -22,6 +22,7 @@ const GET_MULTISIG = gql`
         extrinsicIndex
       }
       call
+      signatories
     }
   }
 `;

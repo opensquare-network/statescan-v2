@@ -11,6 +11,8 @@ import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay
 import { useMultisigData } from "../hooks/multisig/useMultisigData";
 import MultisigTimeline from "../components/multisig/timeline";
 import styled from "styled-components";
+import Divider from "../components/styled/divider";
+import MultisigApprovalList from "../components/multisig/approvalList";
 
 const TabWrapper = styled.div`
   border-radius: 8px;
@@ -29,6 +31,8 @@ export default function MultisigPage() {
       name: "timeline",
       children: (
         <TabWrapper>
+          <MultisigApprovalList />
+          <Divider />
           <MultisigTimeline />
         </TabWrapper>
       ),
