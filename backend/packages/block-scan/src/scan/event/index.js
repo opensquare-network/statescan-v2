@@ -1,6 +1,7 @@
 const { isExemptedEvent } = require("./exemption");
 const { isSimpleMode } = require("../../env");
 const { normalizeEventInSimpleMode } = require("./simpleNormalize");
+const { extractEventArgs } = require("./args");
 
 function checkIsExtrinsicResult(section, method) {
   return (
@@ -26,21 +27,7 @@ function normalizeEvent(wrappedEvent, blockIndexer, eventIndex) {
   const isExtrinsicResult = checkIsExtrinsicResult(section, method);
   const docs = event.meta.docs.map((d) => d.toString());
 
-  const args = [];
-  let dataIndex = 0;
-  for (const item of event.data) {
-    const name = event.meta.fields[dataIndex].name.toString();
-    const typeName = event.meta.fields[dataIndex].typeName.toString();
-
-    args.push({
-      name,
-      typeName,
-      value: item.toJSON(),
-    });
-
-    dataIndex++;
-  }
-
+  const args = extractEventArgs(event);
   return {
     indexer,
     isExtrinsic,
