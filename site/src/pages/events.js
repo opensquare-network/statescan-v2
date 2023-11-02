@@ -59,26 +59,32 @@ const defaultFilterQuery = {
   [filter[1].query]: filter[1].value,
 };
 
+const toEventFields = (event, index) => {
+  return [
+    <ColoredLink
+      key={`${index}-1`}
+      to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
+    >
+      {event?.indexer?.blockHeight.toLocaleString()}-
+      {event?.indexer?.eventIndex}
+    </ColoredLink>,
+    <ColoredLink
+      key={`${index}-2`}
+      to={`/blocks/${event?.indexer?.blockHeight}`}
+    >
+      {event?.indexer?.blockHeight.toLocaleString()}
+    </ColoredLink>,
+    event?.indexer?.blockTime,
+    <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
+    `${event?.section}(${event?.method})`,
+  ];
+};
+
 const toEventTabTableItem = (events) => {
   return (
     events?.map((event, index) => {
       return [
-        <ColoredLink
-          key={`${index}-1`}
-          to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}-
-          {event?.indexer?.eventIndex}
-        </ColoredLink>,
-        <ColoredLink
-          key={`${index}-2`}
-          to={`/blocks/${event?.indexer?.blockHeight}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}
-        </ColoredLink>,
-        event?.indexer?.blockTime,
-        <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
-        `${event?.section}(${event?.method})`,
+        ...toEventFields(event, index),
         <EventAttributeDisplay event={event} />,
       ];
     }) ?? null
@@ -86,28 +92,7 @@ const toEventTabTableItem = (events) => {
 };
 
 const toEventTabTableItemSimpleMode = (events) => {
-  return (
-    events?.map((event, index) => {
-      return [
-        <ColoredLink
-          key={`${index}-1`}
-          to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}-
-          {event?.indexer?.eventIndex}
-        </ColoredLink>,
-        <ColoredLink
-          key={`${index}-2`}
-          to={`/blocks/${event?.indexer?.blockHeight}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}
-        </ColoredLink>,
-        event?.indexer?.blockTime,
-        <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
-        `${event?.section}(${event?.method})`,
-      ];
-    }) ?? null
-  );
+  return events?.map((event, index) => toEventFields(event, index)) ?? null;
 };
 
 function Events() {

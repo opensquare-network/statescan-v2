@@ -36,10 +36,7 @@ function Calls() {
       callFetchList(
         page - 1,
         pageSize,
-        {
-          signed_only: "true",
-          ...omit(queryString.parse(location.search), ["page", "spec"]),
-        },
+        omit(queryString.parse(location.search), ["page", "spec"]),
         { signal: controller.signal },
       ),
     );
