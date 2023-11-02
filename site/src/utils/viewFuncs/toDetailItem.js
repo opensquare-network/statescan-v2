@@ -489,7 +489,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
     extrinsic?.tip > 0 && {
       label: "Tip",
-      value: extrinsic?.tip,
+      value: <TextSecondary>{extrinsic?.tip}</TextSecondary>,
     },
     {
       label: "Result",
