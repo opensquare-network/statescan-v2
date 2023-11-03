@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  currentFilterValueSelector,
   fetchSpecsFilter,
   filtersSelector,
+  setCurrentFilterValue,
 } from "../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -14,6 +16,7 @@ import {
   omitExemptedEventMethods,
 } from "../filterCommon";
 import { extrinsicOnlyFilter } from "../constants";
+import { useFilterTimeDimensionitems } from "./useFilterTimeDimensionItems";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -63,9 +66,9 @@ export function useEventFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
+  const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
-  const isExtrinsicOnly = getFromQuery(location, "is_extrinsic", "true");
-  const sectionQueryValue = getFromQuery(location, "section");
+  const timeDimensionItems = useFilterTimeDimensionitems();
 
   useEffect(() => {
     if (!specFilters) {
@@ -74,17 +77,29 @@ export function useEventFilter() {
   }, [dispatch, specFilters]);
 
   useEffect(() => {
+    return () => {
+      dispatch(setCurrentFilterValue({}));
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (specFilters) {
-      // load from URL query
-      const version = getFromQuery(
-        location,
-        "spec",
-        specFilters?.[0]?.specVersion,
-      );
+      const specValue =
+        currentFilterValue.spec ??
+        getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
+      const isExtrinsicValue =
+        currentFilterValue.is_extrinsic ??
+        getFromQuery(location, "is_extrinsic", "true");
+      const methodValue =
+        currentFilterValue.method ?? getFromQuery(location, "method");
+      const sectionValue =
+        currentFilterValue.section ?? getFromQuery(location, "section");
 
       const sectionOptions = (
         (
-          specFilters.find((spec) => spec.specVersion === version) ??
+          specFilters.find((spec) => spec.specVersion === specValue) ??
           specFilters[0]
         )?.pallets ?? []
       )
@@ -94,17 +109,17 @@ export function useEventFilter() {
         .sort(sortByName);
 
       const methodOptions = omitExemptedEventMethods(
-        sectionQueryValue,
+        sectionValue,
         (
           sectionOptions.find(
-            (section) => stringLowerFirst(section.name) === sectionQueryValue,
+            (section) => stringLowerFirst(section.name) === sectionValue,
           ) ?? { events: [] }
         ).events,
       );
 
       // generate dropdown data
       const specs = {
-        value: version,
+        value: specValue,
         name: "Spec",
         query: "spec",
         options: specFilters.map((item) => {
@@ -114,11 +129,11 @@ export function useEventFilter() {
             descendant: getSpecVersionDescendant(item),
           };
         }),
-        defaultDisplay: version,
+        defaultDisplay: specValue,
       };
 
       const section = {
-        value: sectionQueryValue,
+        value: sectionValue,
         name: "Section",
         query: "section",
         isSearch: true,
@@ -131,11 +146,11 @@ export function useEventFilter() {
             };
           }),
         ),
-        defaultDisplay: sectionQueryValue,
+        defaultDisplay: sectionValue,
       };
 
       const method = {
-        value: getFromQuery(location, "method"),
+        value: methodValue,
         name: "Method",
         isSearch: true,
         query: "method",
@@ -147,11 +162,19 @@ export function useEventFilter() {
             };
           }),
         ),
-        defaultDisplay: getFromQuery(location, "method"),
+        defaultDisplay: methodValue,
       };
-      setFilters([specs, section, method]);
+      setFilters([
+        specs,
+        section,
+        method,
+        { ...extrinsicOnlyFilter, value: isExtrinsicValue },
+        { type: "newline" },
+        ...timeDimensionItems,
+      ]);
     }
-  }, [specFilters, location, sectionQueryValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [specFilters, location, currentFilterValue]);
 
-  return [...filters, { ...extrinsicOnlyFilter, value: isExtrinsicOnly }];
+  return filters;
 }
