@@ -37,7 +37,6 @@ const Wrapper = styled(Panel)`
   margin-bottom: 16px;
   padding: 24px;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
   gap: 16px;
   overflow: visible;
@@ -112,7 +111,6 @@ const FilterDivider = styled.div`
   display: flex;
   width: 1px;
   height: 28px;
-  margin: 0 24px;
   background: ${(p) => p.theme.strokeBase};
   @media screen and (max-width: 900px) {
     width: 100%;
@@ -123,14 +121,29 @@ const FilterDivider = styled.div`
 `;
 
 const FilterWrapper = styled(Flex)`
+  width: 100%;
+  justify-content: space-between;
+  column-gap: 24px;
+`;
+
+const FilterForm = styled(Flex)`
   flex-grow: 1;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 24px;
+  column-gap: 24px;
+  row-gap: 16px;
   @media screen and (max-width: 900px) {
     flex-direction: column;
     gap: 16px;
   }
+`;
+
+const FilterActions = styled(Flex)`
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: end;
+  column-gap: 10px;
 `;
 
 export default function Filter({
@@ -230,54 +243,61 @@ export default function Filter({
       </ForSmallScreen>
       {(showFilterPanel || width > 900) && selectData?.length > 0 && (
         <FilterWrapper>
-          {(selectData || []).map((item, index) =>
-            item.type === "divider" ? (
-              <FilterDivider key={index} />
-            ) : item.type === "input" ? (
-              <InputWrapper key={index}>
-                <div>{item.name}</div>
-                <Input
-                  mini
-                  value={item.value}
-                  {...(item.inputProps || {})}
-                  onChange={(event) => {
-                    onDropdown(item.name, event.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleFilter();
-                    }
-                  }}
-                />
-              </InputWrapper>
-            ) : item.type === "checkbox" ? (
-              <CheckboxWrapper key={index}>
-                <Checkbox
-                  defaultChecked={item.value}
-                  label={item.name}
-                  onCheckedChange={(checked) => {
-                    onDropdown(item.name, checked);
-                  }}
-                />
-              </CheckboxWrapper>
-            ) : (
-              <DropdownWrapper key={index}>
-                <span>{item.name}</span>
-                <Dropdown
-                  width={item.width}
-                  isSearch={!!item?.isSearch}
-                  value={item.value}
-                  name={item.name}
-                  options={item.options}
-                  query={item.query}
-                  subQuery={item.subQuery}
-                  onSelect={onDropdown}
-                  defaultDisplay={item.defaultDisplay}
-                />
-              </DropdownWrapper>
-            ),
-          )}
-          {showFilterButton && filter_button}
+          <FilterForm>
+            {(selectData || []).map((item, index) =>
+              item.type === "placeholder" ? (
+                <div key={index} style={{ width: "100%" }} />
+              ) : item.type === "divider" ? (
+                <FilterDivider key={index} />
+              ) : item.type === "input" ? (
+                <InputWrapper key={index}>
+                  <div>{item.name}</div>
+                  <Input
+                    mini
+                    value={item.value}
+                    {...(item.inputProps || {})}
+                    onChange={(event) => {
+                      onDropdown(item.name, event.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleFilter();
+                      }
+                    }}
+                  />
+                </InputWrapper>
+              ) : item.type === "checkbox" ? (
+                <CheckboxWrapper key={index}>
+                  <Checkbox
+                    defaultChecked={item.value}
+                    label={item.name}
+                    onCheckedChange={(checked) => {
+                      onDropdown(item.name, checked);
+                    }}
+                  />
+                </CheckboxWrapper>
+              ) : (
+                <DropdownWrapper key={index}>
+                  <span>{item.name}</span>
+                  <Dropdown
+                    width={item.width}
+                    isSearch={!!item?.isSearch}
+                    value={item.value}
+                    name={item.name}
+                    options={item.options}
+                    query={item.query}
+                    subQuery={item.subQuery}
+                    onSelect={onDropdown}
+                    defaultDisplay={item.defaultDisplay}
+                  />
+                </DropdownWrapper>
+              ),
+            )}
+          </FilterForm>
+          <FilterActions>
+            <FilterButton>Reset</FilterButton>
+            {showFilterButton && filter_button}
+          </FilterActions>
         </FilterWrapper>
       )}
     </Wrapper>
