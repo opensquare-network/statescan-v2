@@ -264,7 +264,7 @@ export default function Filter({
               ) : item.type === "divider" ? (
                 <FilterDivider key={index} />
               ) : item.type === "input" ? (
-                <InputWrapper key={index}>
+                <InputWrapper key={index} style={{ width: item.width }}>
                   <div>{item.name}</div>
                   <Input
                     mini
