@@ -16,6 +16,7 @@ import {
   makeOptionWithEmptyDescendant,
   omitExemptedCallMethods,
 } from "../filterCommon";
+import { useFilterTimeDimensionitems } from "./useFilterTimeDimensionItems";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -67,6 +68,7 @@ export function useExtrinsicFilter() {
   const specFilters = useSelector(filtersSelector);
   const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
+  const timeDimensionItems = useFilterTimeDimensionitems();
 
   useEffect(() => {
     if (!specFilters) {
@@ -94,13 +96,6 @@ export function useExtrinsicFilter() {
         currentFilterValue.section ?? getFromQuery(location, "section");
       const methodValue =
         currentFilterValue.method ?? getFromQuery(location, "method");
-      const timeDimensionValue =
-        currentFilterValue.time_dimension ??
-        getFromQuery(location, "time_dimension", "block");
-      const blockStartValue =
-        currentFilterValue.blockStart ?? getFromQuery(location, "blockStart");
-      const blockEndValue =
-        currentFilterValue.blockEnd ?? getFromQuery(location, "blockEnd");
 
       const sectionOptions = (
         (
@@ -170,54 +165,17 @@ export function useExtrinsicFilter() {
         defaultDisplay: methodValue,
       };
 
-      const timeDimension = {
-        value: timeDimensionValue,
-        name: "Time Dimension",
-        query: "time_dimension",
-        // TODO: filter, maybe not persist
-        // persist: false,
-        options: [
-          {
-            text: "Block",
-            value: "block",
-          },
-          {
-            text: "Date",
-            value: "date",
-          },
-        ],
-      };
-
-      const blockStart = {
-        type: "input",
-        value: blockStartValue,
-        name: "Start",
-        query: "start",
-        width: 160,
-        inputProps: {
-          placeholder: "Blocks",
-        },
-      };
-      const blockEnd = {
-        ...blockStart,
-        value: blockEndValue,
-        name: "End",
-        query: "end",
-      };
-
-      setFilters(
-        [
-          specs,
-          section,
-          method,
-          { type: "divider" },
-          { ...signedOnlyFilter, value: signedOnlyValue },
-          { type: "newline" },
-          timeDimension,
-          ...(timeDimensionValue === "block" ? [blockStart, blockEnd] : []),
-        ].filter(Boolean),
-      );
+      setFilters([
+        specs,
+        section,
+        method,
+        { type: "divider" },
+        { ...signedOnlyFilter, value: signedOnlyValue },
+        { type: "newline" },
+        ...timeDimensionItems,
+      ]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [specFilters, location, currentFilterValue]);
 
   return filters;
