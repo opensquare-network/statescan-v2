@@ -25,6 +25,8 @@ import { useQueryParams } from "../../hooks/useQueryParams";
 import noop from "lodash.noop";
 import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import isNil from "lodash.isnil";
+import { useDispatch } from "react-redux";
+import { setCurrentFilterValue } from "../../store/reducers/filterSlice";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -173,6 +175,7 @@ export default function Filter({
   const { width } = useWindowSize();
   const isDark = useIsDark();
   const params = useQueryParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setDropdownData(data);
@@ -194,6 +197,16 @@ export default function Filter({
         return item.name === name ? { ...item, value } : item;
       }),
     );
+
+    const filterItem = selectData.find((filter) => filter.name === name);
+    if (filterItem.type !== "input") {
+      dispatch(
+        setCurrentFilterValue({
+          ...getCurrentFilter(),
+          [filterItem.query]: value,
+        }),
+      );
+    }
   };
 
   const getCurrentFilter = () => {

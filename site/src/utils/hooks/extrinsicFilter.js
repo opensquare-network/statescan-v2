@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  currentFilterValueSelector,
   fetchSpecsFilter,
   filtersSelector,
+  setCurrentFilterValue,
 } from "../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { signedOnlyFilter } from "../constants";
@@ -63,9 +65,8 @@ export function useExtrinsicFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
+  const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
-  const signedOnly = getFromQuery(location, "signed_only", "true");
-  const sectionQueryValue = getFromQuery(location, "section");
 
   useEffect(() => {
     if (!specFilters) {
@@ -74,17 +75,36 @@ export function useExtrinsicFilter() {
   }, [dispatch, specFilters]);
 
   useEffect(() => {
+    return () => {
+      dispatch(setCurrentFilterValue({}));
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (specFilters) {
-      // load from URL query
-      const version = getFromQuery(
-        location,
-        "spec",
-        specFilters?.[0]?.specVersion,
-      );
+      const specValue =
+        currentFilterValue.spec ??
+        getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
+      const signedOnlyValue =
+        currentFilterValue.signed_only ??
+        getFromQuery(location, "signed_only", "true");
+      const sectionValue =
+        currentFilterValue.section ?? getFromQuery(location, "section");
+      const methodValue =
+        currentFilterValue.method ?? getFromQuery(location, "method");
+      const timeDimensionValue =
+        currentFilterValue.time_dimension ??
+        getFromQuery(location, "time_dimension", "block");
+      const blockStartValue =
+        currentFilterValue.blockStart ?? getFromQuery(location, "blockStart");
+      const blockEndValue =
+        currentFilterValue.blockEnd ?? getFromQuery(location, "blockEnd");
 
       const sectionOptions = (
         (
-          specFilters.find((spec) => spec.specVersion === version) ??
+          specFilters.find((spec) => spec.specVersion === specValue) ??
           specFilters[0]
         )?.pallets ?? []
       )
@@ -94,17 +114,17 @@ export function useExtrinsicFilter() {
         .sort(sortByName);
 
       const methodOptions = omitExemptedCallMethods(
-        sectionQueryValue,
+        sectionValue,
         (
           sectionOptions.find(
-            (section) => stringLowerFirst(section.name) === sectionQueryValue,
+            (section) => stringLowerFirst(section.name) === sectionValue,
           ) ?? { calls: [] }
         ).calls,
       );
 
       // generate dropdown data
       const specs = {
-        value: version,
+        value: specValue,
         name: "Spec",
         query: "spec",
         options: specFilters.map((item) => {
@@ -114,11 +134,11 @@ export function useExtrinsicFilter() {
             descendant: getSpecVersionDescendant(item),
           };
         }),
-        defaultDisplay: version,
+        defaultDisplay: specValue,
       };
 
       const section = {
-        value: sectionQueryValue,
+        value: sectionValue,
         name: "Section",
         query: "section",
         isSearch: true,
@@ -131,11 +151,11 @@ export function useExtrinsicFilter() {
             };
           }),
         ),
-        defaultDisplay: sectionQueryValue,
+        defaultDisplay: sectionValue,
       };
 
       const method = {
-        value: getFromQuery(location, "method"),
+        value: methodValue,
         name: "Method",
         isSearch: true,
         query: "method",
@@ -147,15 +167,58 @@ export function useExtrinsicFilter() {
             };
           }),
         ),
-        defaultDisplay: getFromQuery(location, "method"),
+        defaultDisplay: methodValue,
       };
-      setFilters([specs, section, method]);
-    }
-  }, [specFilters, location, sectionQueryValue]);
 
-  return [
-    ...filters,
-    { type: "divider" },
-    { ...signedOnlyFilter, value: signedOnly },
-  ];
+      const timeDimension = {
+        value: timeDimensionValue,
+        name: "Time Dimension",
+        query: "time_dimension",
+        // TODO: filter, maybe not persist
+        // persist: false,
+        options: [
+          {
+            text: "Block",
+            value: "block",
+          },
+          {
+            text: "Date",
+            value: "date",
+          },
+        ],
+      };
+
+      const blockStart = {
+        type: "input",
+        value: blockStartValue,
+        name: "Start",
+        query: "start",
+        width: 160,
+        inputProps: {
+          placeholder: "Blocks",
+        },
+      };
+      const blockEnd = {
+        ...blockStart,
+        value: blockEndValue,
+        name: "End",
+        query: "end",
+      };
+
+      setFilters(
+        [
+          specs,
+          section,
+          method,
+          { type: "divider" },
+          { ...signedOnlyFilter, value: signedOnlyValue },
+          { type: "newline" },
+          timeDimension,
+          ...(timeDimensionValue === "block" ? [blockStart, blockEnd] : []),
+        ].filter(Boolean),
+      );
+    }
+  }, [specFilters, location, currentFilterValue]);
+
+  return filters;
 }
