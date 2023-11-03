@@ -17,7 +17,7 @@ export default function ExtrinsicParametersDisplay({
     if (!extrinsic) {
       return;
     }
-    const { section, method, args } = extrinsic.call;
+    const { section, method, args } = extrinsic.call || extrinsic;
     setTableData(convertArgsForTableView(args, section, method));
     setJsonData(convertArgsForJsonView(args, section, method));
   }, [extrinsic]);

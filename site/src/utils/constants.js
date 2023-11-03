@@ -141,6 +141,12 @@ export const extrinsicsHeadSimpleMode = [
   { name: "Time", type: "time", width: 200 },
   { name: "Result", width: 160, align: "center" },
   { name: "Call", type: "call" },
+  {
+    name: "Data",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
 ];
 
 export const extrinsicsHead = [
@@ -158,16 +164,12 @@ export const extrinsicsHead = [
   },
 ];
 
-export const eventsHeadSimpleMode = [
+export const eventsHead = [
   { name: "Event ID", width: 160 },
   { name: "Block", width: 160 },
   { name: "Time", type: "time", width: 200 },
   { name: "Extrinsic ID", width: 160 },
   { name: "Action", type: "call" },
-];
-
-export const eventsHead = [
-  ...eventsHeadSimpleMode,
   {
     name: "Data",
     type: "data",

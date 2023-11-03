@@ -1,11 +1,7 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect } from "react";
-import {
-  eventsHead,
-  eventsHeadSimpleMode,
-  LIST_DEFAULT_PAGE_SIZE,
-} from "../utils/constants";
+import { eventsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import { ColoredLink } from "../components/styled/link";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -91,10 +87,6 @@ const toEventTabTableItem = (events) => {
   );
 };
 
-const toEventTabTableItemSimpleMode = (events) => {
-  return events?.map((event, index) => toEventFields(event, index)) ?? null;
-};
-
 function Events() {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -130,16 +122,6 @@ function Events() {
     };
   }, [dispatch]);
 
-  let data = [];
-  let head = [];
-  if (isSimpleMode) {
-    data = toEventTabTableItemSimpleMode(list?.items);
-    head = eventsHeadSimpleMode;
-  } else {
-    data = toEventTabTableItem(list?.items);
-    head = eventsHead;
-  }
-
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Events" }]} />
@@ -155,7 +137,11 @@ function Events() {
           />
         }
       >
-        <Table heads={head} data={data} loading={loading} />
+        <Table
+          heads={eventsHead}
+          data={toEventTabTableItem(list?.items)}
+          loading={loading}
+        />
       </StyledPanelTableWrapper>
     </Layout>
   );
