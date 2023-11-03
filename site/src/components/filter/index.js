@@ -141,7 +141,6 @@ const FilterForm = styled(Flex)`
   flex-wrap: wrap;
   align-items: flex-end;
   column-gap: 24px;
-  row-gap: 16px;
   @media screen and (max-width: 900px) {
     flex-direction: column;
     gap: 16px;
@@ -154,6 +153,11 @@ const FilterActions = styled(Flex)`
   align-items: flex-end;
   justify-content: end;
   column-gap: 10px;
+`;
+
+const NewLine = styled.div`
+  width: 100%;
+  margin: 8px 0;
 `;
 
 export default function Filter({
@@ -178,7 +182,7 @@ export default function Filter({
     let descendant = item?.descendant ?? null;
     setDropdownData(
       (selectData || []).map((item) => {
-        if (item?.type === "divider") {
+        if (["divider", "newline"].includes(item?.type)) {
           return item;
         }
 
@@ -255,8 +259,8 @@ export default function Filter({
         <FilterWrapper>
           <FilterForm>
             {(selectData || []).map((item, index) =>
-              item.type === "placeholder" ? (
-                <div key={index} style={{ width: "100%" }} />
+              item.type === "newline" ? (
+                <NewLine key={index} />
               ) : item.type === "divider" ? (
                 <FilterDivider key={index} />
               ) : item.type === "input" ? (
@@ -305,7 +309,13 @@ export default function Filter({
             )}
           </FilterForm>
           <FilterActions>
-            <ResetButton>Reset</ResetButton>
+            <ResetButton
+              onClick={() => {
+                navigate("");
+              }}
+            >
+              Reset
+            </ResetButton>
             {showFilterButton && filter_button}
           </FilterActions>
         </FilterWrapper>
