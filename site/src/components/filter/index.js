@@ -16,7 +16,7 @@ import {
   rounded_4,
   w_full,
 } from "../../styles/tailwindcss";
-import { Button } from "../styled/buttons";
+import { Button, PanelButton } from "../styled/buttons";
 import Input from "../input";
 import Checkbox from "../checkbox";
 import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
@@ -104,6 +104,16 @@ const FilterButton = styled(Button)`
   @media screen and (max-width: 900px) {
     ${w_full};
     ${p_x(0)};
+  }
+`;
+const ResetButton = styled(PanelButton)`
+  padding: 3px 11px;
+  border-radius: 4px;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
 
@@ -295,7 +305,7 @@ export default function Filter({
             )}
           </FilterForm>
           <FilterActions>
-            <FilterButton>Reset</FilterButton>
+            <ResetButton>Reset</ResetButton>
             {showFilterButton && filter_button}
           </FilterActions>
         </FilterWrapper>
