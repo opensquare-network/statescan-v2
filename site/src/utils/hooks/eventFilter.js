@@ -13,7 +13,6 @@ import {
   makeOptionWithEmptyDescendant,
   omitExemptedEventMethods,
 } from "../filterCommon";
-import { extrinsicOnlyFilter } from "../constants";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -64,7 +63,6 @@ export function useEventFilter() {
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
   const [filters, setFilters] = useState([]);
-  const isExtrinsicOnly = getFromQuery(location, "is_extrinsic", "true");
   const sectionQueryValue = getFromQuery(location, "section");
 
   useEffect(() => {
@@ -153,5 +151,5 @@ export function useEventFilter() {
     }
   }, [specFilters, location, sectionQueryValue]);
 
-  return [...filters, { ...extrinsicOnlyFilter, value: isExtrinsicOnly }];
+  return filters;
 }

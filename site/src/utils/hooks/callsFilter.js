@@ -5,7 +5,6 @@ import {
   fetchSpecsFilter,
   filtersSelector,
 } from "../../store/reducers/filterSlice";
-import { signedOnlyFilter } from "../constants";
 import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
 import {
   AllOption,
@@ -64,7 +63,6 @@ export function useCallsFilter() {
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
   const [filters, setFilters] = useState([]);
-  const signedOnly = getFromQuery(location, "signed_only", "true");
   const sectionQueryValue = getFromQuery(location, "section");
 
   useEffect(() => {
@@ -153,9 +151,5 @@ export function useCallsFilter() {
     }
   }, [specFilters, location, sectionQueryValue]);
 
-  return [
-    ...filters,
-    { type: "divider" },
-    { ...signedOnlyFilter, value: signedOnly },
-  ];
+  return filters;
 }

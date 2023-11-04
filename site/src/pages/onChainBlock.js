@@ -29,6 +29,7 @@ import PagingTable from "../components/detail/pagingTable";
 import isNil from "lodash.isnil";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
+import { getIsSimpleMode } from "../utils/env";
 
 function OnChainBlock() {
   const { id } = useParams();
@@ -36,6 +37,7 @@ function OnChainBlock() {
   const blockData = useOnChainBlockData(id);
   const blockInfo = useBlockInfo(blockData);
   const finalizedHeight = useSelector(finalizedHeightSelector);
+  const isSimpleMode = getIsSimpleMode();
 
   useEffect(() => {
     clearHttpError(dispatch);
@@ -70,7 +72,7 @@ function OnChainBlock() {
   const breadCrumb = (
     <BreadCrumb
       data={[
-        { name: "Blocks", path: "/blocks" },
+        isSimpleMode ? { name: "Block" } : { name: "Blocks", path: "/blocks" },
         { name: currencify(height) ?? "..." },
       ]}
     />
