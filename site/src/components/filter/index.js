@@ -181,6 +181,37 @@ export default function Filter({
     setDropdownData(data);
   }, [data]);
 
+  function reset() {
+    const newData = selectData.map((item) => {
+      if (!item.value) {
+        return item;
+      }
+
+      const defaultValue = item.defaultValue;
+      if (defaultValue) {
+        item.value = defaultValue;
+      } else {
+        if (item.type === "input") {
+          item.value = "";
+        }
+
+        if (item.options?.length > 0) {
+          const first = item.options[0];
+          item.value = first.value;
+        }
+
+        if (item.type === "checkbox") {
+          item.value = false;
+        }
+      }
+
+      return item;
+    });
+
+    setDropdownData(newData);
+    navigate("");
+  }
+
   const onDropdown = (name, value, item) => {
     let descendant = item?.descendant ?? null;
     setDropdownData(
@@ -322,13 +353,7 @@ export default function Filter({
             )}
           </FilterForm>
           <FilterActions>
-            <ResetButton
-              onClick={() => {
-                navigate("");
-              }}
-            >
-              Reset
-            </ResetButton>
+            <ResetButton onClick={reset}>Reset</ResetButton>
             {showFilterButton && filter_button}
           </FilterActions>
         </FilterWrapper>
