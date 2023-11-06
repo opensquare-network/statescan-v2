@@ -165,7 +165,6 @@ export function useExtrinsicFilter() {
         specs,
         section,
         method,
-        { type: "divider" },
         { type: "newline" },
         ...timeDimensionFilterItems,
       ]);
