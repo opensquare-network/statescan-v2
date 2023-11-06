@@ -88,9 +88,6 @@ export function useEventFilter() {
       const specValue =
         currentFilterValue.spec ??
         getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
-      const isExtrinsicValue =
-        currentFilterValue.is_extrinsic ??
-        getFromQuery(location, "is_extrinsic", "true");
       const methodValue =
         currentFilterValue.method ?? getFromQuery(location, "method");
       const sectionValue =
