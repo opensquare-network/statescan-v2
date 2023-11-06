@@ -11,9 +11,9 @@ export function useTimeDimensionFilterItems() {
     currentFilterValue.time_dimension ??
     getFromQuery(location, "time_dimension", "block");
   const blockStartValue =
-    currentFilterValue.blockStart ?? getFromQuery(location, "block_start");
+    currentFilterValue.block_start ?? getFromQuery(location, "block_start");
   const blockEndValue =
-    currentFilterValue.blockEnd ?? getFromQuery(location, "block_end");
+    currentFilterValue.block_end ?? getFromQuery(location, "block_end");
 
   const timeDimension = {
     value: timeDimensionValue,
