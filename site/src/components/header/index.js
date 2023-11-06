@@ -20,7 +20,6 @@ import {
   menusBlockchain,
   menusBusiness,
   menusBlockchainSimpleMode,
-  menusIdentity,
 } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
