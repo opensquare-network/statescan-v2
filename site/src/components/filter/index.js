@@ -191,17 +191,13 @@ export default function Filter({
       if (defaultValue) {
         item.value = defaultValue;
       } else {
-        if (item.type === "input") {
-          item.value = "";
-        }
-
         if (item.options?.length > 0) {
           const first = item.options[0];
           item.value = first.value;
-        }
-
-        if (item.type === "checkbox") {
+        } else if (item.type === "checkbox") {
           item.value = false;
+        } else {
+          item.value = "";
         }
       }
 
