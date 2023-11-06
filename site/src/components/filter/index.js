@@ -207,6 +207,7 @@ export default function Filter({
     });
 
     setDropdownData(newData);
+    dispatch(setCurrentFilterValue({}));
     navigate("");
   }
 
