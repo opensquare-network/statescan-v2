@@ -65,6 +65,7 @@ export const Title = styled.h2`
 
 export const AnchorWrapper = styled(FlexEnd)`
   padding-right: 24px;
+  padding-left: 24px;
   height: 52px;
   border-top: 1px solid;
   ${border_theme("strokeBase")};

@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import {
   menusAssets,
   menusBlockchain,
+  menusBlockchainSimpleMode,
   menusIdentity,
 } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
@@ -30,6 +31,7 @@ import { HeaderMenuItem } from "./styled";
 import NodeSwitch from "../nodeSwitch";
 import MobileNodeSwitch from "./mobileNodeSwitch";
 import useUpdateNodesDelay from "../../utils/hooks/useUpdateNodesDelay";
+import { getIsSimpleMode } from "../../utils/env";
 
 const headerHeight = 68;
 
@@ -111,6 +113,7 @@ export default function Header() {
   const location = useLocation();
   const shouldShowPCExplore = location.pathname !== "/";
   const { assets, identity } = getChainModules();
+  const isSimpleMode = getIsSimpleMode();
 
   const { width } = useWindowSize();
 
@@ -141,7 +144,12 @@ export default function Header() {
               <Link to={`/`}>
                 <MenuItem>Home</MenuItem>
               </Link>
-              <SubMenu category="BlockChain" menus={menusBlockchain} />
+              <SubMenu
+                category="BlockChain"
+                menus={
+                  isSimpleMode ? menusBlockchainSimpleMode : menusBlockchain
+                }
+              />
               {assets && <SubMenu category="Assets" menus={menusAssets} />}
               {identity && (
                 <SubMenu category="Identity" menus={menusIdentity} />

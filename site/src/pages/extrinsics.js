@@ -1,7 +1,11 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useEffect } from "react";
-import { extrinsicsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
+import {
+  extrinsicsHead,
+  extrinsicsHeadSimpleMode,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../utils/constants";
 import Layout from "../components/layout";
 import Table from "../components/table";
 import Pagination from "../components/pagination";
@@ -18,7 +22,11 @@ import {
   extrinsicListSelector,
 } from "../store/reducers/extrinsicSlice";
 import omit from "lodash.omit";
-import { toExtrinsicsTabTableItem } from "../utils/viewFuncs/toTableItem";
+import {
+  toExtrinsicsTabTableItem,
+  toExtrinsicsTabTableItemSimpleMode,
+} from "../utils/viewFuncs/toTableItem";
+import { getIsSimpleMode } from "../utils/env";
 
 function Extrinsics() {
   const location = useLocation();
@@ -26,6 +34,7 @@ function Extrinsics() {
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const filters = useExtrinsicFilter();
+  const isSimpleMode = getIsSimpleMode();
 
   const list = useSelector(extrinsicListSelector);
   const loading = useSelector(extrinsicListLoadingSelector);
@@ -37,10 +46,7 @@ function Extrinsics() {
       extrinsicFetchList(
         page - 1,
         pageSize,
-        {
-          signed_only: "true",
-          ...omit(queryString.parse(location.search), ["page", "spec"]),
-        },
+        omit(queryString.parse(location.search), ["page", "spec"]),
         { signal: controller.signal },
       ),
     );
@@ -54,7 +60,15 @@ function Extrinsics() {
     };
   }, [dispatch]);
 
-  const data = toExtrinsicsTabTableItem(list?.items);
+  let data = [];
+  let head = [];
+  if (isSimpleMode) {
+    data = toExtrinsicsTabTableItemSimpleMode(list?.items);
+    head = extrinsicsHeadSimpleMode;
+  } else {
+    data = toExtrinsicsTabTableItem(list?.items);
+    head = extrinsicsHead;
+  }
 
   return (
     <Layout>
@@ -69,7 +83,7 @@ function Extrinsics() {
           />
         }
       >
-        <Table heads={extrinsicsHead} data={data} loading={loading} />
+        <Table heads={head} data={data} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );

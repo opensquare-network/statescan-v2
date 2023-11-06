@@ -6,7 +6,6 @@ import {
   setCurrentFilterValue,
 } from "../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
-import { signedOnlyFilter } from "../constants";
 import { useLocation } from "react-router-dom";
 import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
 import {
@@ -89,9 +88,6 @@ export function useExtrinsicFilter() {
       const specValue =
         currentFilterValue.spec ??
         getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
-      const signedOnlyValue =
-        currentFilterValue.signed_only ??
-        getFromQuery(location, "signed_only", "true");
       const sectionValue =
         currentFilterValue.section ?? getFromQuery(location, "section");
       const methodValue =
@@ -170,7 +166,6 @@ export function useExtrinsicFilter() {
         section,
         method,
         { type: "divider" },
-        { ...signedOnlyFilter, value: signedOnlyValue },
         { type: "newline" },
         ...timeDimensionFilterItems,
       ]);

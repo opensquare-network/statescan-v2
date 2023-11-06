@@ -10,7 +10,6 @@ function cleanTemplateArgs(typeName) {
 }
 
 export function makeEventArgs(event) {
-  const docs = ["Docs", event?.docs?.join("").trim() || ""];
   const fields = event?.args?.map((item) => {
     const fieldType = cleanTemplateArgs(item.typeName).split("::").pop();
     if (fieldType === "AccountId") {
@@ -23,8 +22,12 @@ export function makeEventArgs(event) {
     return [item.name, item.value];
   });
 
+  if (event?.docs) {
+    fields.unshift(["Docs", event?.docs?.join("").trim() || ""]);
+  }
+
   return {
     object_type: "table_pairs",
-    object_data: [docs, ...fields],
+    object_data: fields,
   };
 }

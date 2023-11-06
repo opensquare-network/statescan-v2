@@ -21,6 +21,7 @@ import {
 import EventAttributeDisplay from "../components/eventAttributeDisplay";
 import omit from "lodash.omit";
 import ExtrinsicLink from "../components/extrinsic/link";
+import { getIsSimpleMode } from "../utils/env";
 
 const filter = [
   {
@@ -54,12 +55,45 @@ const defaultFilterQuery = {
   [filter[1].query]: filter[1].value,
 };
 
+const toEventFields = (event, index) => {
+  return [
+    <ColoredLink
+      key={`${index}-1`}
+      to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
+    >
+      {event?.indexer?.blockHeight.toLocaleString()}-
+      {event?.indexer?.eventIndex}
+    </ColoredLink>,
+    <ColoredLink
+      key={`${index}-2`}
+      to={`/blocks/${event?.indexer?.blockHeight}`}
+    >
+      {event?.indexer?.blockHeight.toLocaleString()}
+    </ColoredLink>,
+    event?.indexer?.blockTime,
+    <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
+    `${event?.section}(${event?.method})`,
+  ];
+};
+
+const toEventTabTableItem = (events) => {
+  return (
+    events?.map((event, index) => {
+      return [
+        ...toEventFields(event, index),
+        <EventAttributeDisplay event={event} />,
+      ];
+    }) ?? null
+  );
+};
+
 function Events() {
   const location = useLocation();
   const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const filters = useEventFilter();
+  const isSimpleMode = getIsSimpleMode();
 
   const list = useSelector(eventListSelector);
   const loading = useSelector(eventListLoadingSelector);
@@ -72,7 +106,7 @@ function Events() {
         page - 1,
         pageSize,
         {
-          ...defaultFilterQuery,
+          ...(isSimpleMode ? {} : defaultFilterQuery),
           ...omit(queryString.parse(location.search), ["page", "spec"]),
         },
         { signal: controller.signal },
@@ -80,36 +114,13 @@ function Events() {
     );
 
     return () => controller.abort();
-  }, [dispatch, location, page, pageSize]);
+  }, [dispatch, location, page, pageSize, isSimpleMode]);
 
   useEffect(() => {
     return () => {
       dispatch(clearEventList());
     };
   }, [dispatch]);
-
-  const data =
-    list?.items?.map((event, index) => {
-      return [
-        <ColoredLink
-          key={`${index}-1`}
-          to={`/events/${event?.indexer?.blockHeight}-${event?.indexer?.eventIndex}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}-
-          {event?.indexer?.eventIndex}
-        </ColoredLink>,
-        <ColoredLink
-          key={`${index}-2`}
-          to={`/blocks/${event?.indexer?.blockHeight}`}
-        >
-          {event?.indexer?.blockHeight.toLocaleString()}
-        </ColoredLink>,
-        event?.indexer?.blockTime,
-        <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
-        `${event?.section}(${event?.method})`,
-        <EventAttributeDisplay event={event} />,
-      ];
-    }) ?? null;
 
   return (
     <Layout>
@@ -126,7 +137,11 @@ function Events() {
           />
         }
       >
-        <Table heads={eventsHead} data={data} loading={loading} />
+        <Table
+          heads={eventsHead}
+          data={toEventTabTableItem(list?.items)}
+          loading={loading}
+        />
       </StyledPanelTableWrapper>
     </Layout>
   );

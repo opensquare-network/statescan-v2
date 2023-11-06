@@ -1,11 +1,12 @@
 require("dotenv").config();
 
 const {
-  chain: { getApi, setSpecHeights },
+  chain: { getApi, setSpecHeights, subscribeFinalizedHeight },
 } = require("@osn/scan-common");
 const { handleBlock } = require("./scan");
 
 async function main() {
+  await subscribeFinalizedHeight();
   const blockHeights = [1233641];
 
   const api = await getApi();
