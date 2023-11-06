@@ -63,6 +63,7 @@ export default function FilterDatePicker({
           placeholderText="Date"
           customInput={<CustomInput />}
           dateFormat={"yyyy-MM-dd"}
+          formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
           showPopperArrow={false}
           popperModifiers={[
             {
