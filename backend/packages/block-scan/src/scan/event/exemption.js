@@ -6,7 +6,8 @@ function isExemptedEvent(wrappedEvent) {
     "system" === section &&
     ["ExtrinsicSuccess", "ExtrinsicFailed"].includes(method);
   const isParaInclusion =
-    "paraInclusion" === section && "CandidateIncluded" === method;
+    "paraInclusion" === section &&
+    ["CandidateIncluded", "CandidateBacked"].includes(method);
   // todo: exempt other events
 
   return isExtrinsicResult || isParaInclusion;

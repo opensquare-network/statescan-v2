@@ -4,6 +4,8 @@ const {
   utils: { extractExtrinsicEvents },
 } = require("@osn/scan-common");
 const { isExemptedExtrinsic } = require("./exemption");
+const { isSimpleMode } = require("../../env");
+const { normalizeInSimpleMode } = require("./simpleNormalize");
 
 async function normalizeExtrinsics(
   extrinsics = [],
@@ -13,12 +15,20 @@ async function normalizeExtrinsics(
   let index = 0;
   let normalizedExtrinsics = [];
   let normalizedCalls = [];
-  const filteredExtrinsics = extrinsics.filter((e) => !isExemptedExtrinsic(e));
-  for (const extrinsic of filteredExtrinsics) {
+  for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(blockEvents, index);
     const extrinsicIndexer = { ...blockIndexer, extrinsicIndex: index++ };
+    if (isExemptedExtrinsic(extrinsic) || !extrinsic.isSigned) {
+      continue;
+    }
 
-    const normalized = normalizeExtrinsic(extrinsic, events, extrinsicIndexer);
+    let normalized;
+    if (isSimpleMode()) {
+      normalized = normalizeInSimpleMode(extrinsic, events, extrinsicIndexer);
+    } else {
+      normalized = normalizeExtrinsic(extrinsic, events, extrinsicIndexer);
+    }
+
     const calls = await extractCallsFromExtrinsic(
       extrinsic,
       events,

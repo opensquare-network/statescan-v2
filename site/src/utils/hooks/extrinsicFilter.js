@@ -4,7 +4,6 @@ import {
   filtersSelector,
 } from "../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
-import { signedOnlyFilter } from "../constants";
 import { useLocation } from "react-router-dom";
 import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
 import {
@@ -12,6 +11,7 @@ import {
   getFromQuery,
   sortByName,
   makeOptionWithEmptyDescendant,
+  omitExemptedCallMethods,
 } from "../filterCommon";
 
 function getSpecVersionDescendant(specVersion) {
@@ -45,7 +45,7 @@ function getSectionDescendant(section) {
     query: "method",
     isSearch: true,
     options: [AllOption].concat(
-      section.calls
+      omitExemptedCallMethods(section.name, section.calls)
         .map((method) => {
           return {
             name: method,
@@ -63,7 +63,7 @@ export function useExtrinsicFilter() {
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
   const [filters, setFilters] = useState([]);
-  const signedOnly = getFromQuery(location, "signed_only", "true");
+  const sectionQueryValue = getFromQuery(location, "section");
 
   useEffect(() => {
     if (!specFilters) {
@@ -91,13 +91,14 @@ export function useExtrinsicFilter() {
         })
         .sort(sortByName);
 
-      const methodOptions = (
-        sectionOptions.find(
-          (section) =>
-            stringLowerFirst(section.name) ===
-            getFromQuery(location, "section"),
-        ) ?? { calls: [] }
-      ).calls;
+      const methodOptions = omitExemptedCallMethods(
+        sectionQueryValue,
+        (
+          sectionOptions.find(
+            (section) => stringLowerFirst(section.name) === sectionQueryValue,
+          ) ?? { calls: [] }
+        ).calls,
+      );
 
       // generate dropdown data
       const specs = {
@@ -115,7 +116,7 @@ export function useExtrinsicFilter() {
       };
 
       const section = {
-        value: getFromQuery(location, "section"),
+        value: sectionQueryValue,
         name: "Section",
         query: "section",
         isSearch: true,
@@ -128,7 +129,7 @@ export function useExtrinsicFilter() {
             };
           }),
         ),
-        defaultDisplay: getFromQuery(location, "section"),
+        defaultDisplay: sectionQueryValue,
       };
 
       const method = {
@@ -148,11 +149,7 @@ export function useExtrinsicFilter() {
       };
       setFilters([specs, section, method]);
     }
-  }, [specFilters, location]);
+  }, [specFilters, location, sectionQueryValue]);
 
-  return [
-    ...filters,
-    { type: "divider" },
-    { ...signedOnlyFilter, value: signedOnly },
-  ];
+  return filters;
 }

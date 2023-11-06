@@ -11,8 +11,8 @@ import {
   getFromQuery,
   sortByName,
   makeOptionWithEmptyDescendant,
+  omitExemptedEventMethods,
 } from "../filterCommon";
-import { extrinsicOnlyFilter } from "../constants";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -45,7 +45,7 @@ function getSectionDescendant(section) {
     query: "method",
     isSearch: true,
     options: [AllOption].concat(
-      omitSectionEvents(section.events)
+      omitExemptedEventMethods(section.name, section.events)
         .map((method) => {
           return {
             name: method,
@@ -58,25 +58,12 @@ function getSectionDescendant(section) {
   };
 }
 
-function omitSectionEvents(events = []) {
-  const shouldOmitEvents = [
-    // system
-    "ExtrinsicSuccess",
-    "ExtrinsicFailed",
-    // paraInclusion
-    "CandidateIncluded",
-    "CandidateBacked",
-  ];
-
-  return events.filter((event) => !shouldOmitEvents.includes(event));
-}
-
 export function useEventFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
   const [filters, setFilters] = useState([]);
-  const isExtrinsicOnly = getFromQuery(location, "is_extrinsic", "true");
+  const sectionQueryValue = getFromQuery(location, "section");
 
   useEffect(() => {
     if (!specFilters) {
@@ -104,12 +91,11 @@ export function useEventFilter() {
         })
         .sort(sortByName);
 
-      const methodOptions = omitSectionEvents(
+      const methodOptions = omitExemptedEventMethods(
+        sectionQueryValue,
         (
           sectionOptions.find(
-            (section) =>
-              stringLowerFirst(section.name) ===
-              getFromQuery(location, "section"),
+            (section) => stringLowerFirst(section.name) === sectionQueryValue,
           ) ?? { events: [] }
         ).events,
       );
@@ -130,7 +116,7 @@ export function useEventFilter() {
       };
 
       const section = {
-        value: getFromQuery(location, "section"),
+        value: sectionQueryValue,
         name: "Section",
         query: "section",
         isSearch: true,
@@ -143,7 +129,7 @@ export function useEventFilter() {
             };
           }),
         ),
-        defaultDisplay: getFromQuery(location, "section"),
+        defaultDisplay: sectionQueryValue,
       };
 
       const method = {
@@ -163,7 +149,7 @@ export function useEventFilter() {
       };
       setFilters([specs, section, method]);
     }
-  }, [specFilters, location]);
+  }, [specFilters, location, sectionQueryValue]);
 
-  return [...filters, { ...extrinsicOnlyFilter, value: isExtrinsicOnly }];
+  return filters;
 }

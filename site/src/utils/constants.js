@@ -17,11 +17,7 @@ export const Attributes = "attributes";
 export const Nft = "NFT";
 export const NftTransfer = "NFT Transfer";
 
-export const menusBlockchain = [
-  {
-    name: "Blocks",
-    value: "blocks",
-  },
+export const menusBlockchainSimpleMode = [
   {
     name: "Extrinsics",
     value: "extrinsics",
@@ -45,6 +41,14 @@ export const menusBlockchain = [
     name: "Accounts",
     value: "accounts",
   },
+];
+
+export const menusBlockchain = [
+  {
+    name: "Blocks",
+    value: "blocks",
+  },
+  ...menusBlockchainSimpleMode,
 ];
 
 export const menusAssetsDestroyed = [
@@ -143,6 +147,20 @@ export const blockLogsHead = [
   { name: "Log Index", width: 160 },
   { name: "Block", width: 200 },
   { name: "Type", width: 200 },
+  {
+    name: "Data",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
+];
+
+export const extrinsicsHeadSimpleMode = [
+  { name: "ID", width: 160 },
+  { name: "Height", width: 160 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "Result", width: 160, align: "center" },
+  { name: "Call", type: "call" },
   {
     name: "Data",
     type: "data",

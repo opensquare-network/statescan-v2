@@ -18,3 +18,9 @@ export function getEnvEndpoint() {
 
   return endpoint;
 }
+
+export function getIsSimpleMode() {
+  return ["true", "TRUE", "1"].includes(
+    process.env.REACT_APP_PUBLIC_SIMPLE_MODE,
+  );
+}

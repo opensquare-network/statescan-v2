@@ -17,6 +17,7 @@ const {
 const {
   block: { getBlockDb },
 } = require("@statescan/mongo");
+const { isSimpleMode } = require("../env");
 
 async function handleBlock({ block, author, events, height }) {
   const blockIndexer = getBlockIndexer(block);
@@ -29,7 +30,10 @@ async function handleBlock({ block, author, events, height }) {
     blockIndexer,
   );
 
-  await insertBlock(normalizedBlock);
+  const finalizedHeight = getLatestFinalizedHeight();
+  if (!isSimpleMode() || height >= finalizedHeight - 100) {
+    await insertBlock(normalizedBlock);
+  }
   await batchInsertExtrinsics(normalizedExtrinsics);
   await batchInsertEvents(normalizedEvents);
   await batchInsertCalls(normalizedCalls);
@@ -37,7 +41,6 @@ async function handleBlock({ block, author, events, height }) {
   const db = getBlockDb();
   await db.updateScanHeight(height);
 
-  const finalizedHeight = getLatestFinalizedHeight();
   if (height >= finalizedHeight) {
     await updateUnFinalized(finalizedHeight);
   }
