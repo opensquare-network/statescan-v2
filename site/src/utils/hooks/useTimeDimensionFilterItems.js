@@ -9,11 +9,15 @@ export function useTimeDimensionFilterItems() {
 
   const timeDimensionValue =
     currentFilterValue.time_dimension ??
-    getFromQuery(location, "time_dimension", "block");
+    getFromQuery(location, "time_dimension", "date");
   const blockStartValue =
     currentFilterValue.block_start ?? getFromQuery(location, "block_start");
   const blockEndValue =
     currentFilterValue.block_end ?? getFromQuery(location, "block_end");
+  const dateStartValue =
+    currentFilterValue.date_start ?? getFromQuery(location, "date_start");
+  const dateEndValue =
+    currentFilterValue.date_end ?? getFromQuery(location, "date_end");
 
   const timeDimension = {
     value: timeDimensionValue,
@@ -50,8 +54,27 @@ export function useTimeDimensionFilterItems() {
     query: "block_end",
   };
 
+  const dateStart = {
+    type: "date",
+    value: dateStartValue,
+    name: "Start",
+    query: "date_start",
+    width: 160,
+  };
+
+  const dateEnd = {
+    ...dateStart,
+    value: dateEndValue,
+    name: "End",
+    query: "date_end",
+    datepickerProps: {
+      minDate: dateStartValue,
+    },
+  };
+
   return [
     timeDimension,
     ...(timeDimensionValue === "block" ? [blockStart, blockEnd] : []),
+    ...(timeDimensionValue === "date" ? [dateStart, dateEnd] : []),
   ].filter(Boolean);
 }

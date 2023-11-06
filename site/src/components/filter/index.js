@@ -27,6 +27,8 @@ import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import isNil from "lodash.isnil";
 import { useDispatch } from "react-redux";
 import { setCurrentFilterValue } from "../../store/reducers/filterSlice";
+import FilterDatePicker from "./datepicker";
+import moment from "moment";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -303,6 +305,15 @@ export default function Filter({
                 <NewLine key={index} />
               ) : item.type === "divider" ? (
                 <FilterDivider key={index} />
+              ) : item.type === "date" ? (
+                <FilterDatePicker
+                  key={index}
+                  {...item}
+                  onChange={(date) => {
+                    const timestamp = moment(date).valueOf();
+                    onDropdown(item.name, timestamp);
+                  }}
+                />
               ) : item.type === "input" ? (
                 <InputWrapper key={index} style={{ width: item.width }}>
                   <div>{item.name}</div>
