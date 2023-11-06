@@ -3,7 +3,7 @@ import { currentFilterValueSelector } from "../../store/reducers/filterSlice";
 import { useLocation } from "react-router-dom";
 import { getFromQuery } from "../filterCommon";
 
-export function useFilterTimeDimensionitems() {
+export function useTimeDimensionFilterItems() {
   const currentFilterValue = useSelector(currentFilterValueSelector);
   const location = useLocation();
 

@@ -16,7 +16,7 @@ import {
   omitExemptedEventMethods,
 } from "../filterCommon";
 import { extrinsicOnlyFilter } from "../constants";
-import { useFilterTimeDimensionitems } from "./useFilterTimeDimensionItems";
+import { useTimeDimensionFilterItems } from "./useTimeDimensionFilterItems";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -68,7 +68,7 @@ export function useEventFilter() {
   const specFilters = useSelector(filtersSelector);
   const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
-  const timeDimensionItems = useFilterTimeDimensionitems();
+  const timeDimensionItems = useTimeDimensionFilterItems();
 
   useEffect(() => {
     if (!specFilters) {

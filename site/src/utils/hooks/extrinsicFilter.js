@@ -16,7 +16,7 @@ import {
   makeOptionWithEmptyDescendant,
   omitExemptedCallMethods,
 } from "../filterCommon";
-import { useFilterTimeDimensionitems } from "./useFilterTimeDimensionItems";
+import { useTimeDimensionFilterItems } from "./useTimeDimensionFilterItems";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -68,7 +68,7 @@ export function useExtrinsicFilter() {
   const specFilters = useSelector(filtersSelector);
   const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
-  const timeDimensionItems = useFilterTimeDimensionitems();
+  const timeDimensionFilterItems = useTimeDimensionFilterItems();
 
   useEffect(() => {
     if (!specFilters) {
@@ -172,7 +172,7 @@ export function useExtrinsicFilter() {
         { type: "divider" },
         { ...signedOnlyFilter, value: signedOnlyValue },
         { type: "newline" },
-        ...timeDimensionItems,
+        ...timeDimensionFilterItems,
       ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
