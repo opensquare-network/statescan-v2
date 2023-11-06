@@ -15,7 +15,6 @@ import {
   makeOptionWithEmptyDescendant,
   omitExemptedEventMethods,
 } from "../filterCommon";
-import { extrinsicOnlyFilter } from "../constants";
 import { useTimeDimensionFilterItems } from "./useTimeDimensionFilterItems";
 
 function getSpecVersionDescendant(specVersion) {
@@ -168,7 +167,6 @@ export function useEventFilter() {
         specs,
         section,
         method,
-        { ...extrinsicOnlyFilter, value: isExtrinsicValue },
         { type: "newline" },
         ...timeDimensionItems,
       ]);
