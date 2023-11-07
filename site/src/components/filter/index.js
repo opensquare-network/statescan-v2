@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Dropdown from "../dropdown";
 import { Panel } from "../styled/panel";
 import { Inter_12_600, Inter_14_500, Inter_14_600 } from "../../styles/text";
-import { Flex, FlexBetween } from "../styled/flex";
+import { Flex, FlexBetween, FlexCenter } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
 import FilterIcon from "./filterIcon";
@@ -29,6 +29,7 @@ import { useDispatch } from "react-redux";
 import { setCurrentFilterValue } from "../../store/reducers/filterSlice";
 import FilterDatePicker from "./datepicker";
 import moment from "moment";
+import Loading from "../loadings/loading";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -39,7 +40,7 @@ const ForSmallScreen = styled.div`
 
 const Wrapper = styled(Panel)`
   margin-bottom: 16px;
-  padding: 24px;
+  padding: 28px 24px;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -284,6 +285,16 @@ export default function Filter({
       Filter
     </FilterButton>
   );
+
+  if (!data?.length) {
+    return (
+      <Wrapper style={{ height: 56 }}>
+        <FlexCenter style={{ width: "100%" }}>
+          <Loading style={{ padding: 0 }} />
+        </FlexCenter>
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>
