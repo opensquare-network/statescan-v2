@@ -23,13 +23,13 @@
     }
   },
   "dependencies": {
-    "@osn/scan-common": "0.5.10",
+    "@osn/scan-common": "0.6.1",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",
     "moment-timezone": "^0.5.38",
-    "mongodb": "5.6.0"
+    "mongodb": "6.1.0"
   },
   "devDependencies": {
     "eslint-plugin-jest": "^27.2.1",
