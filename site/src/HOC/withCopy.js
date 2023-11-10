@@ -20,7 +20,7 @@ const CopyButton = styled.button`
   margin-left: 8px;
   padding: 2px 6px;
   color: ${({ theme }) => theme.fontSecondary};
-  background: ${({ theme }) => theme.fillBub};
+  background: ${({ theme }) => theme.fillSub};
   border-radius: 4px;
   ${Inter_12_600};
   cursor: pointer;

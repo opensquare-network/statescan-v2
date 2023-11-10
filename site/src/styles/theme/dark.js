@@ -22,7 +22,6 @@ const dark = {
   fillSub: "#2D323D",
   fillBase: "#1B202C",
   fillButton: "#1B202C",
-  fillBub: "#2D323D",
   fillTooltip: "rgba(0, 0, 0, 0.85);",
   fillPanelBlanket: "rgba(34, 39, 50, 0.8)",
   fillAlpha: "rgba(255, 255, 255, 0.05)",
