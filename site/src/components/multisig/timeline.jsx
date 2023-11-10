@@ -9,8 +9,8 @@ import { ReactComponent as IconTimelineMultisigExecuted } from "../icons/timelin
 import { ReactComponent as IconTimelineMultisigCancelled } from "../icons/timeline-multisig-cancelled.svg";
 import { ReactComponent as IconTimelineMultisigAsMultiThreshold1 } from "../icons/timeline-as-multi-threshold1.svg";
 import { withCopy } from "../../HOC/withCopy";
-import { upperFirst } from "lodash";
 import styled from "styled-components";
+import { stringUpperFirst } from "@polkadot/util";
 
 const CallHashWithCopy = withCopy(styled.span`
   word-break: break-all;
@@ -64,7 +64,7 @@ function Fields({ item }) {
     (item.name === MULTISIG_NAME.MultisigExecuted ||
       item.name === MULTISIG_NAME.asMultiThreshold1) && [
       "Result",
-      upperFirst(item.args?.result?.isOk?.toString?.()),
+      stringUpperFirst(item.args?.result?.isOk?.toString?.()),
     ],
   ].filter(Boolean);
 
