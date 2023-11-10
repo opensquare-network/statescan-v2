@@ -11,7 +11,6 @@ import { ReactComponent as IconTimelineMultisigAsMultiThreshold1 } from "../icon
 import { TextSecondary } from "../styled/text";
 import { withCopy } from "../../HOC/withCopy";
 import { upperFirst } from "lodash";
-import { useMultisigData } from "../../hooks/multisig/useMultisigData";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 
@@ -43,8 +42,6 @@ export default function MultisigTimeline() {
 }
 
 function Fields({ item }) {
-  const { data: { multisig } = {} } = useMultisigData();
-
   const signatoryAddressMap = {
     [MULTISIG_NAME.NewMultisig]: item.args.approving,
     [MULTISIG_NAME.MultisigApproval]: item.args.approving,
@@ -61,10 +58,6 @@ function Fields({ item }) {
     item.name === MULTISIG_NAME.NewMultisig && [
       "Call Hash",
       <TextSecondaryWithCopy>{item.args?.callHash}</TextSecondaryWithCopy>,
-    ],
-    item.name === MULTISIG_NAME.MultisigApproval && [
-      "Approving",
-      multisig && `${multisig?.approvals?.length ?? 0}/${multisig?.threshold}`,
     ],
     (item.name === MULTISIG_NAME.MultisigExecuted ||
       item.name === MULTISIG_NAME.asMultiThreshold1) && [
