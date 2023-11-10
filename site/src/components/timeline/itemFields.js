@@ -31,7 +31,8 @@ const Body = styled.div`
   display: flex;
   align-items: center;
   padding: 8px 0 8px 24px;
-  font-size: 14px;
+  ${Inter_14_500};
+  color: var(--fontPrimary);
   @media screen and (max-width: 900px) {
     padding-left: 0px;
   }
