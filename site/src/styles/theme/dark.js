@@ -19,7 +19,7 @@ const dark = {
   fillPanel: "#222732",
   fillPopup: "#292D38",
   fillPopupHover: "#2D323C",
-  fillSub: "#262B37",
+  fillSub: "#2D323D",
   fillBase: "#1B202C",
   fillButton: "#1B202C",
   fillBub: "#2D323D",
