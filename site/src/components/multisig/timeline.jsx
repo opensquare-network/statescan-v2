@@ -8,11 +8,13 @@ import { ReactComponent as IconTimelineMultisigApproval } from "../icons/timelin
 import { ReactComponent as IconTimelineMultisigExecuted } from "../icons/timeline-multisig-executed.svg";
 import { ReactComponent as IconTimelineMultisigCancelled } from "../icons/timeline-multisig-cancelled.svg";
 import { ReactComponent as IconTimelineMultisigAsMultiThreshold1 } from "../icons/timeline-as-multi-threshold1.svg";
-import { TextSecondary } from "../styled/text";
 import { withCopy } from "../../HOC/withCopy";
 import { upperFirst } from "lodash";
+import styled from "styled-components";
 
-const TextSecondaryWithCopy = withCopy(TextSecondary);
+const CallHashWithCopy = withCopy(styled.span`
+  word-break: break-all;
+`);
 
 const iconsMap = {
   [MULTISIG_NAME.NewMultisig]: IconTimelineNewMultisig,
@@ -57,7 +59,7 @@ function Fields({ item }) {
     ],
     item.name === MULTISIG_NAME.NewMultisig && [
       "Call Hash",
-      <TextSecondaryWithCopy>{item.args?.callHash}</TextSecondaryWithCopy>,
+      <CallHashWithCopy>{item.args?.callHash}</CallHashWithCopy>,
     ],
     (item.name === MULTISIG_NAME.MultisigExecuted ||
       item.name === MULTISIG_NAME.asMultiThreshold1) && [
