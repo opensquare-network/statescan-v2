@@ -23,6 +23,7 @@ const GET_MULTISIG = gql`
       }
       call
       signatories
+      threshold
     }
   }
 `;
