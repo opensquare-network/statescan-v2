@@ -504,6 +504,7 @@ export const MULTISIG_NAME = {
   MultisigApproval: "MultisigApproval",
   MultisigExecuted: "MultisigExecuted",
   MultisigCancelled: "MultisigCancelled",
+  asMultiThreshold1: "asMultiThreshold1",
 };
 
 export const TABLE_SORT_QUERY_KEY = "sort";

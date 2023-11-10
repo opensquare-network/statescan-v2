@@ -8,13 +8,20 @@ import { ReactComponent as IconTimelineNewMultisig } from "../icons/timeline-new
 import { ReactComponent as IconTimelineMultisigApproval } from "../icons/timeline-multisig-approval.svg";
 import { ReactComponent as IconTimelineMultisigExecuted } from "../icons/timeline-multisig-executed.svg";
 import { ReactComponent as IconTimelineMultisigCancelled } from "../icons/timeline-multisig-cancelled.svg";
+import { ReactComponent as IconTimelineMultisigAsMultiThreshold1 } from "../icons/timeline-as-multi-threshold1.svg";
 
 const iconsMap = {
   [MULTISIG_NAME.NewMultisig]: IconTimelineNewMultisig,
   [MULTISIG_NAME.MultisigApproval]: IconTimelineMultisigApproval,
   [MULTISIG_NAME.MultisigExecuted]: IconTimelineMultisigExecuted,
   [MULTISIG_NAME.MultisigCancelled]: IconTimelineMultisigCancelled,
+  [MULTISIG_NAME.asMultiThreshold1]: IconTimelineMultisigAsMultiThreshold1,
 };
+
+function Icon({ name }) {
+  const IconComp = iconsMap[name];
+  return IconComp && <IconComp width={24} height={24} />;
+}
 
 export default function MultisigTimeline() {
   const { data: { multisigTimeline } = {}, loading } =
@@ -30,17 +37,13 @@ export default function MultisigTimeline() {
   );
 }
 
-function Icon({ name }) {
-  const IconComp = iconsMap[name];
-  return <IconComp width={24} height={24} />;
-}
-
 function Fields({ item }) {
   const memberAddressMap = {
     [MULTISIG_NAME.NewMultisig]: item.args.approving,
     [MULTISIG_NAME.MultisigApproval]: item.args.approving,
     [MULTISIG_NAME.MultisigExecuted]: item.args.approving,
     [MULTISIG_NAME.MultisigCancelled]: item.args.cancelling,
+    [MULTISIG_NAME.asMultiThreshold1]: item.args.approving,
   };
 
   const fields = [
