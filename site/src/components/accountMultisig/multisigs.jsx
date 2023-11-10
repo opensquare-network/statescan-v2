@@ -67,7 +67,7 @@ const GET_ACCOUNT_TAB_MULTISIGS = gql`
 
 const tableHeads = [
   {
-    name: "Extrinsic ID",
+    name: "Multisig ID",
     minWidth: 160,
     width: 712,
   },
