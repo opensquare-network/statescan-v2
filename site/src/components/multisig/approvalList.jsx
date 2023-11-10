@@ -13,7 +13,7 @@ const Wrapper = styled.ul`
 
 const Item = styled.li`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
   padding: 16px 0;
 `;
