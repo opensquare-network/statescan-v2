@@ -2,7 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.1.3
+## 1.1.4
+
+date: 2023-11-06
+
+- Support simple mode in which we don't save block data and unnecessary extrinsic and event data to database.
+- Remove extrinsic result and para chain inclusion event from event list page.
+
+## 1.1.3
 
 date: 2023-10-27
 
@@ -12,7 +19,7 @@ date: 2023-10-27
 - Fix statemine endpoint.
 - Fix styles.
 
-# 1.1.2
+## 1.1.2
 
 date: 2023-09-21
 
@@ -21,7 +28,7 @@ date: 2023-09-21
 - Add USDC asset info on statemint.
 - Fix the issue that home page subscribed info is updated too frequently.
 
-# 1.1.1
+## 1.1.1
 
 date: 2023-09-12
 
@@ -29,7 +36,7 @@ date: 2023-09-12
 - Turn on on-chain data query for more chains.
 - Show 404 for invalid block and account.
 
-# 1.1.0
+## 1.1.0
 
 date: 2023-09-11
 

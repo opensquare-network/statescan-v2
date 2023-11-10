@@ -13,6 +13,8 @@ const {
   chain: { getBlockIndexer, getLatestFinalizedHeight, wrapBlockHandler },
   scan: { oneStepScan },
   utils: { sleep },
+  env: { currentChain },
+  logger,
 } = require("@osn/scan-common");
 const {
   block: { getBlockDb },
@@ -46,6 +48,19 @@ async function handleBlock({ block, author, events, height }) {
   }
 }
 
+async function ignoreErrorForChains(arg) {
+  if (["westmint"].includes(currentChain())) {
+    await handleBlock(arg);
+    return;
+  }
+
+  try {
+    await handleBlock(arg);
+  } catch (e) {
+    logger.error(`${arg?.height} scan error, but ignore`, e);
+  }
+}
+
 async function scan() {
   const db = getBlockDb();
   let toScanHeight = await db.getNextScanHeight();
@@ -61,7 +76,7 @@ async function scan() {
   while (true) {
     toScanHeight = await oneStepScan(
       toScanHeight,
-      wrapBlockHandler(handleBlock),
+      wrapBlockHandler(ignoreErrorForChains),
       true,
     );
     await sleep(1);
