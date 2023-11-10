@@ -5,22 +5,18 @@ import { useParams } from "react-router-dom";
 import List from "../../components/list";
 import { useMemo } from "react";
 import { currencify } from "../../utils";
-import { callsHead, extrinsicEventsHead } from "../../utils/constants";
-import { toEventTabTableItem } from "../../utils/viewFuncs/toTableItem";
 import DetailLayout from "../../components/layout/detailLayout";
 import { toExtrinsicDetailItem } from "../../utils/viewFuncs/toDetailItem";
 import ExtrinsicParametersDisplay from "../../components/extrinsicParametersDisplay";
-import DetailTabs from "../../components/detail/tabs";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import useOnChainExtrinsicData from "../../hooks/useOnChainExtrinsicData";
 import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
-import PagingTable from "../../components/detail/pagingTable";
 import isNil from "lodash.isnil";
 import { useDispatch, useSelector } from "react-redux";
 import { clearHttpError } from "../../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../../store/reducers/httpErrorSlice";
 import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
-import { toCallTableItem } from "../../components/call/callsTable";
+import ExtrinsicDetailTabs from "./detailTabs";
 
 function parseExtrinsicId(id) {
   if (!id.includes("-")) {
@@ -76,33 +72,6 @@ function OnChainExtrinsic() {
     [extrinsic, modules],
   );
 
-  const tabs = [
-    {
-      name: "events",
-      count: extrinsic?.eventsCount,
-      children: (
-        <PagingTable
-          heads={extrinsicEventsHead}
-          transformData={toEventTabTableItem}
-          data={extrinsic?.events || []}
-          isLoading={isNil(extrinsic?.events)}
-        />
-      ),
-    },
-    {
-      name: "calls",
-      count: extrinsic?.callsCount,
-      children: (
-        <PagingTable
-          heads={callsHead}
-          transformData={toCallTableItem}
-          data={extrinsic?.calls || []}
-          isLoading={isNil(extrinsic?.calls)}
-        />
-      ),
-    },
-  ];
-
   const breadCrumb = (
     <BreadCrumb
       data={[
@@ -125,7 +94,7 @@ function OnChainExtrinsic() {
         <ExtrinsicParametersDisplay extrinsic={extrinsic} title="Parameters" />
       </Panel>
 
-      <DetailTabs tabs={tabs} />
+      <ExtrinsicDetailTabs extrinsic={extrinsic} />
     </DetailLayout>
   );
 }
