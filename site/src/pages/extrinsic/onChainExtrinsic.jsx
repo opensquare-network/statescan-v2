@@ -1,26 +1,26 @@
-import { Panel } from "../components/styled/panel";
-import BreadCrumb from "../components/breadCrumb";
+import { Panel } from "../../components/styled/panel";
+import BreadCrumb from "../../components/breadCrumb";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import List from "../components/list";
+import List from "../../components/list";
 import { useMemo } from "react";
-import { currencify } from "../utils";
-import { callsHead, extrinsicEventsHead } from "../utils/constants";
-import { toEventTabTableItem } from "../utils/viewFuncs/toTableItem";
-import DetailLayout from "../components/layout/detailLayout";
-import { toExtrinsicDetailItem } from "../utils/viewFuncs/toDetailItem";
-import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
-import DetailTabs from "../components/detail/tabs";
-import useChainSettings from "../utils/hooks/chain/useChainSettings";
-import useOnChainExtrinsicData from "../hooks/useOnChainExtrinsicData";
-import useExtrinsicInfo from "../hooks/useExtrinsicInfo";
-import PagingTable from "../components/detail/pagingTable";
+import { currencify } from "../../utils";
+import { callsHead, extrinsicEventsHead } from "../../utils/constants";
+import { toEventTabTableItem } from "../../utils/viewFuncs/toTableItem";
+import DetailLayout from "../../components/layout/detailLayout";
+import { toExtrinsicDetailItem } from "../../utils/viewFuncs/toDetailItem";
+import ExtrinsicParametersDisplay from "../../components/extrinsicParametersDisplay";
+import DetailTabs from "../../components/detail/tabs";
+import useChainSettings from "../../utils/hooks/chain/useChainSettings";
+import useOnChainExtrinsicData from "../../hooks/useOnChainExtrinsicData";
+import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
+import PagingTable from "../../components/detail/pagingTable";
 import isNil from "lodash.isnil";
 import { useDispatch, useSelector } from "react-redux";
-import { clearHttpError } from "../utils/viewFuncs/errorHandles";
-import { setErrorCode } from "../store/reducers/httpErrorSlice";
-import { finalizedHeightSelector } from "../store/reducers/chainSlice";
-import { toCallTableItem } from "../components/call/callsTable";
+import { clearHttpError } from "../../utils/viewFuncs/errorHandles";
+import { setErrorCode } from "../../store/reducers/httpErrorSlice";
+import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
+import { toCallTableItem } from "../../components/call/callsTable";
 
 function parseExtrinsicId(id) {
   if (!id.includes("-")) {

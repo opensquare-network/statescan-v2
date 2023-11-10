@@ -1,35 +1,35 @@
-import { Panel } from "../components/styled/panel";
-import BreadCrumb from "../components/breadCrumb";
+import { Panel } from "../../components/styled/panel";
+import BreadCrumb from "../../components/breadCrumb";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import List from "../components/list";
+import List from "../../components/list";
 import { useMemo } from "react";
-import { currencify } from "../utils";
-import { extrinsicEventsHead } from "../utils/constants";
-import { toEventTabTableItem } from "../utils/viewFuncs/toTableItem";
-import CallsTable from "../components/call/callsTable";
-import DetailTable from "../components/detail/table";
-import DetailLayout from "../components/layout/detailLayout";
-import { toExtrinsicDetailItem } from "../utils/viewFuncs/toDetailItem";
+import { currencify } from "../../utils";
+import { extrinsicEventsHead } from "../../utils/constants";
+import { toEventTabTableItem } from "../../utils/viewFuncs/toTableItem";
+import CallsTable from "../../components/call/callsTable";
+import DetailTable from "../../components/detail/table";
+import DetailLayout from "../../components/layout/detailLayout";
+import { toExtrinsicDetailItem } from "../../utils/viewFuncs/toDetailItem";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearHttpError,
   handleApiError,
-} from "../utils/viewFuncs/errorHandles";
+} from "../../utils/viewFuncs/errorHandles";
 import {
   extrinsicDetailSelector,
   extrinsicFetchDetail,
   clearExtrinsicDetail,
-} from "../store/reducers/extrinsicSlice";
-import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
-import { clearDetailTables } from "../store/reducers/detailTablesSlice";
-import DetailTabs from "../components/detail/tabs";
-import useChainSettings from "../utils/hooks/chain/useChainSettings";
-import api from "../services/api";
+} from "../../store/reducers/extrinsicSlice";
+import ExtrinsicParametersDisplay from "../../components/extrinsicParametersDisplay";
+import { clearDetailTables } from "../../store/reducers/detailTablesSlice";
+import DetailTabs from "../../components/detail/tabs";
+import useChainSettings from "../../utils/hooks/chain/useChainSettings";
+import api from "../../services/api";
 import {
   extrinsicTransfersApi,
   extrinsicUniqueTransfersApi,
-} from "../services/urls";
+} from "../../services/urls";
 
 function Extrinsic() {
   const { id } = useParams();
