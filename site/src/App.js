@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, BrowserRouter, Route, Routes } from "react-router-dom";
 import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
 import Home from "./pages";
@@ -30,13 +30,15 @@ import OnChainAccount from "./pages/onChainAccount";
 import OnChainExtrinsic from "./pages/onChainExtrinsic";
 import OnChainEvent from "./pages/onChainEvent";
 
+const Router = process.env.REACT_APP_BROWSER_ROUTER ? BrowserRouter : HashRouter
+
 function App() {
   const { assets, uniques, identity } = getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useSubFinalizedHeight();
 
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         {assets && (
           <Fragment>
@@ -89,7 +91,7 @@ function App() {
           </>
         )}
       </Routes>
-    </HashRouter>
+    </Router>
   );
 }
 
