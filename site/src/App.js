@@ -27,7 +27,6 @@ import RequestsPage from "./pages/requests";
 import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
 import OnChainBlock from "./pages/onChainBlock";
 import OnChainAccount from "./pages/onChainAccount";
-import OnChainExtrinsic from "./pages/onChainExtrinsic";
 import OnChainEvent from "./pages/onChainEvent";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER ? BrowserRouter : HashRouter
@@ -66,10 +65,7 @@ function App() {
           element={isUseOnChainBlockData ? <OnChainBlock /> : <Block />}
         />
         <Route path="/extrinsics" element={<Extrinsics />} />
-        <Route
-          path="/extrinsics/:id"
-          element={isUseOnChainBlockData ? <OnChainExtrinsic /> : <Extrinsic />}
-        />
+        <Route path="/extrinsics/:id" element={<Extrinsic />} />
         <Route path="/events" element={<Events />} />
         <Route
           path="/events/:id"

@@ -23,7 +23,7 @@ export function makeExploreDropdownItemRouteLink(type, value) {
     return `/accounts/${value}`;
   }
 
-  if (type === 'extrinsic') {
+  if (type === "extrinsic") {
     return `/extrinsics/${value}`;
   }
 
