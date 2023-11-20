@@ -74,7 +74,9 @@ export function AddressAndIdentity({
   const addressContent = (
     <AddressTag to={`/accounts/${address}`}>
       {displayAddress}
-      {multisigAddressData && <Tag style={{ marginLeft: 8 }}>Multisig</Tag>}
+      {multisigAddressData?.multisigAddress && (
+        <Tag style={{ marginLeft: 8 }}>Multisig</Tag>
+      )}
     </AddressTag>
   );
 

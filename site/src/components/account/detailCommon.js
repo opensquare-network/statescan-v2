@@ -33,6 +33,7 @@ import { NftInstancePreview } from "../nft/preview/index";
 import useAccountIdentity from "../accountIdentity";
 import { useMultisigAddressData } from "../../hooks/multisig/useMultisigAddressData";
 import AccountTabMultisig from "../accountMultisig";
+import { getChainModules } from "../../utils/chain";
 
 function AccountDetailCommon() {
   const { id } = useParams();
@@ -41,6 +42,7 @@ function AccountDetailCommon() {
   const [previewNft, setPreviewNft] = useState();
   const [isPreview, setIsPreview] = useState(false);
   const { data: multisigAddressData } = useMultisigAddressData(id);
+  const { multisig: hasMultisig } = getChainModules();
 
   const showPreview = useCallback((nft) => {
     setPreviewNft(nft);
@@ -146,10 +148,11 @@ function AccountDetailCommon() {
         />
       ),
     },
-    multisigAddressData && {
-      name: "multisig",
-      children: <AccountTabMultisig />,
-    },
+    hasMultisig &&
+      multisigAddressData?.multisigAddress && {
+        name: "multisig",
+        children: <AccountTabMultisig />,
+      },
   ].filter(Boolean);
 
   useEffect(() => {
