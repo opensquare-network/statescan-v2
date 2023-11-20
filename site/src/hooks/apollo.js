@@ -28,7 +28,7 @@ export function useIdentityQuery(query, options = {}, ...args) {
     if (modules.identity) {
       fetcher();
     }
-  }, [query, options, args, modules.identity, fetcher]);
+  }, [modules.identity, fetcher]);
 
   return lazyQueryResult;
 }
@@ -65,7 +65,7 @@ export function useMultisigQuery(query, options = {}, ...args) {
     if (modules.multisig) {
       fetcher();
     }
-  }, [query, options, args, modules.multisig, fetcher]);
+  }, [fetcher, modules.multisig]);
 
   return lazyQueryResult;
 }
