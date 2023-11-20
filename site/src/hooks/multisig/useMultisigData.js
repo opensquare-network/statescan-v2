@@ -21,6 +21,7 @@ const GET_MULTISIG = gql`
         blockHeight
         extrinsicIndex
       }
+      callHash
       call
       signatories
     }

@@ -40,7 +40,7 @@ import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import dark from "../../styles/theme/dark";
 import styled from "styled-components";
 
-const TextSecondaryWithCopy = withCopy(TextSecondary);
+export const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
 const CallText = TextSecondary;
@@ -566,6 +566,22 @@ export const toMultisigDetailItem = (multisig) => {
   }
 
   return [
+    {
+      label: "Multisig Address",
+      value: (
+        <AddressAndIdentity
+          address={multisig.address}
+          ellipsis={false}
+          checkMultisig
+        />
+      ),
+    },
+    {
+      label: "Call Hash",
+      value: (
+        <TextSecondaryWithCopy>{multisig?.callHash}</TextSecondaryWithCopy>
+      ),
+    },
     {
       label: "Extrinsic Time",
       value: <DetailedTime ts={multisig?.indexer?.blockTime} />,
