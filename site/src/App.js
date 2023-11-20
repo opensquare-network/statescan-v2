@@ -32,10 +32,12 @@ import MultisigsPage from "./pages/multisigs";
 import MultisigAccountsPage from "./pages/multisigAccounts";
 import MultisigPage from "./pages/multisig";
 
-const Router = process.env.REACT_APP_BROWSER_ROUTER ? BrowserRouter : HashRouter
+const Router = process.env.REACT_APP_BROWSER_ROUTER
+  ? BrowserRouter
+  : HashRouter;
 
 function App() {
-  const { assets, uniques, identity } = getChainModules();
+  const { assets, uniques, identity, multisig } = getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useSubFinalizedHeight();
 
@@ -87,7 +89,10 @@ function App() {
             <Route path="/identities" element={<IdentitiesPage />} />
             <Route path="/identities/judgements" element={<RequestsPage />} />
             <Route path="/identities/registrars" element={<RegistrarsPage />} />
-
+          </>
+        )}
+        {multisig && (
+          <>
             <Route path="/multisigs" element={<MultisigsPage />} />
             <Route path="/multisigs/:id" element={<MultisigPage />} />
             <Route

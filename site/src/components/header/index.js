@@ -18,7 +18,6 @@ import { useEffect } from "react";
 import {
   menusAssets,
   menusBlockchain,
-  menusBusiness,
   menusBlockchainSimpleMode,
 } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
@@ -32,6 +31,7 @@ import NodeSwitch from "../nodeSwitch";
 import MobileNodeSwitch from "./mobileNodeSwitch";
 import useUpdateNodesDelay from "../../utils/hooks/useUpdateNodesDelay";
 import { getIsSimpleMode } from "../../utils/env";
+import getBusinessMenus from "../../utils/consts/menu";
 
 const headerHeight = 68;
 
@@ -112,7 +112,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const location = useLocation();
   const shouldShowPCExplore = location.pathname !== "/";
-  const { assets, identity } = getChainModules();
+  const { assets, identity, multisig } = getChainModules();
   const isSimpleMode = getIsSimpleMode();
 
   const { width } = useWindowSize();
@@ -151,8 +151,8 @@ export default function Header() {
                 }
               />
               {assets && <SubMenu category="Assets" menus={menusAssets} />}
-              {identity && (
-                <SubMenu category="Business" menus={menusBusiness} />
+              {(identity || multisig) && (
+                <SubMenu category="Business" menus={getBusinessMenus()} />
               )}
             </MenuWrapper>
 

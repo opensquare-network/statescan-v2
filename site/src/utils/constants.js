@@ -81,44 +81,6 @@ export const menusAssets = [
   },
 ];
 
-export const menusBusiness = [
-  {
-    type: "group",
-    title: "Identity",
-    menus: [
-      {
-        name: "Identities",
-        value: "identities",
-      },
-      {
-        name: "Judgements",
-        value: "identities/judgements",
-      },
-      {
-        name: "Registrars",
-        value: "identities/registrars",
-      },
-    ],
-  },
-  {
-    type: "divider",
-  },
-  {
-    type: "group",
-    title: "MultiSig",
-    menus: [
-      {
-        name: "Accounts",
-        value: "multisig/accounts",
-      },
-      {
-        name: "Multisigs",
-        value: "multisigs",
-      },
-    ],
-  },
-];
-
 export const blocksHead = [
   { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
