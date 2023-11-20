@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, BrowserRouter, Route, Routes } from "react-router-dom";
 import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
 import Home from "./pages";
@@ -27,11 +27,12 @@ import RequestsPage from "./pages/requests";
 import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
 import OnChainBlock from "./pages/onChainBlock";
 import OnChainAccount from "./pages/onChainAccount";
-import OnChainExtrinsic from "./pages/onChainExtrinsic";
 import OnChainEvent from "./pages/onChainEvent";
 import MultisigsPage from "./pages/multisigs";
 import MultisigAccountsPage from "./pages/multisigAccounts";
 import MultisigPage from "./pages/multisig";
+
+const Router = process.env.REACT_APP_BROWSER_ROUTER ? BrowserRouter : HashRouter
 
 function App() {
   const { assets, uniques, identity } = getChainModules();
@@ -39,7 +40,7 @@ function App() {
   useSubFinalizedHeight();
 
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         {assets && (
           <Fragment>
@@ -67,10 +68,7 @@ function App() {
           element={isUseOnChainBlockData ? <OnChainBlock /> : <Block />}
         />
         <Route path="/extrinsics" element={<Extrinsics />} />
-        <Route
-          path="/extrinsics/:id"
-          element={isUseOnChainBlockData ? <OnChainExtrinsic /> : <Extrinsic />}
-        />
+        <Route path="/extrinsics/:id" element={<Extrinsic />} />
         <Route path="/events" element={<Events />} />
         <Route
           path="/events/:id"
@@ -99,7 +97,7 @@ function App() {
           </>
         )}
       </Routes>
-    </HashRouter>
+    </Router>
   );
 }
 
