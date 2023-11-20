@@ -306,7 +306,7 @@ export const toOnChainAccountDetailItem = (
     });
   }
 
-  if (multisigAddressData) {
+  if (multisigAddressData?.multisigAddress) {
     data.push({
       type: "divider",
     });
