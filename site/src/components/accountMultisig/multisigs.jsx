@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { Inter_14_500 } from "../../styles/text";
 import { StyledPanelTableWrapperNoBordered } from "../styled/panel";
 import Pagination from "../pagination";
+import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 
 const ApprovingText = styled.div`
   ${Inter_14_500};
@@ -83,6 +84,12 @@ const tableHeads = [
     name: "Status",
     width: 200,
   },
+  {
+    name: "Data",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
 ];
 
 export default function AccountTabMultisigMultisigs() {
@@ -118,6 +125,7 @@ export default function AccountTabMultisigMultisigs() {
       <Status color={STATUS_COLORS[multisig?.state?.name?.toUpperCase?.()]}>
         {multisig?.state?.name}
       </Status>,
+      <ExtrinsicParametersDisplay extrinsic={multisig} />,
     ];
   });
 
