@@ -53,6 +53,7 @@ const GET_ACCOUNT_TAB_MULTISIGS = gql`
         address
         approvals
         call
+        callHash
         indexer {
           blockHeight
           extrinsicIndex
@@ -107,7 +108,11 @@ export default function AccountTabMultisigMultisigs() {
 
   const tableData = data?.multisigs?.multisigs?.map?.((multisig) => {
     return [
-      <MultisigLink indexer={multisig?.indexer} address={multisig?.address} />,
+      <MultisigLink
+        indexer={multisig?.indexer}
+        address={multisig?.address}
+        callHash={multisig?.callHash}
+      />,
       <ApprovingText>
         {multisig.approvals?.length}
         <ApprovingSlashText>/</ApprovingSlashText>

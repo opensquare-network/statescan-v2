@@ -337,7 +337,7 @@ export const registrarsHead = [
 
 export const multisigsHead = [
   {
-    name: "Extrinsic ID",
+    name: "Multisig ID",
     width: 160,
   },
   {

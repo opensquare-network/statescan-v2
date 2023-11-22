@@ -5,11 +5,13 @@ import { useMultisigQuery } from "../apollo";
 const GET_MULTISIG = gql`
   query GetMultisig(
     $account: String!
+    $callHash: String!
     $whenExtrinsicIndex: Int!
     $whenHeight: Int!
   ) {
     multisig(
       whenExtrinsicIndex: $whenExtrinsicIndex
+      callHash: $callHash
       whenHeight: $whenHeight
       account: $account
     ) {
@@ -29,11 +31,13 @@ const GET_MULTISIG = gql`
 `;
 
 export function useMultisigData() {
-  const { blockHeight, extrinsicIndex, address } = useMultisigUrlParams();
+  const { blockHeight, extrinsicIndex, address, callHash } =
+    useMultisigUrlParams();
 
   return useMultisigQuery(GET_MULTISIG, {
     variables: {
       account: address,
+      callHash,
       whenExtrinsicIndex: extrinsicIndex,
       whenHeight: blockHeight,
     },
