@@ -83,7 +83,7 @@ export default function Tooltip({
   }
 
   return (
-    <div>
+    <>
       <Wrapper
         ref={refs.setReference}
         pullRight={pullRight}
@@ -100,6 +100,7 @@ export default function Tooltip({
       >
         {children}
       </Wrapper>
+
       {open && tip && (
         <TipWrapper
           ref={refs.setFloating}
@@ -111,6 +112,6 @@ export default function Tooltip({
           <TipArrow x={middlewareData?.arrow?.x} ref={arrowRef} />
         </TipWrapper>
       )}
-    </div>
+    </>
   );
 }
