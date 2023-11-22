@@ -7,7 +7,7 @@ const {
 const { normalizeMultisig } = require("./common/normalizeMulgisig");
 
 async function multisig(_, _args) {
-  const { account, whenHeight, whenExtrinsicIndex } = _args;
+  const { account, callHash, whenHeight, whenExtrinsicIndex } = _args;
   if (!isValidAddress(account)) {
     return null;
   }
@@ -16,6 +16,7 @@ async function multisig(_, _args) {
   const multisig = await col.findOne(
     {
       multisigAddress: account,
+      callHash,
       "when.height": whenHeight,
       "when.index": whenExtrinsicIndex,
     },
