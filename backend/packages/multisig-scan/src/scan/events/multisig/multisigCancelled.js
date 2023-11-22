@@ -30,6 +30,7 @@ async function handleMultisigCancelled(event, indexer) {
     {
       state: {
         name: MultisigStateType.Cancelled,
+        sortValue: 2,
         args: {
           cancelling,
         },

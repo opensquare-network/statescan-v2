@@ -61,6 +61,7 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
       ...(await extractCall(extrinsic, callHash, indexer)),
       state: {
         name: MultisigStateType.Executed,
+        sortValue: 2,
         args: {
           result,
         },
