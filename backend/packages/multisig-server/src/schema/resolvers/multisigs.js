@@ -45,7 +45,10 @@ async function multisigs(_, _args) {
 
   const multisigs = await col
     .find(q, { projection: { _id: 0 } })
-    .sort({ "indexer.blockHeight": -1 })
+    .sort({
+      "state.sortValue": 1,
+      "indexer.blockHeight": -1,
+    })
     .skip(offset)
     .limit(limit)
     .toArray();
