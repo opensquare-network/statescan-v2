@@ -65,6 +65,7 @@ async function handleAsMultiThreshold1(call, signer, extrinsicIndexer) {
     call: normalizeCall(call.args[1]),
     state: {
       name: MultisigStateType.Executed,
+      sortValue: 2,
       args: { result },
     },
     indexer: extrinsicIndexer,

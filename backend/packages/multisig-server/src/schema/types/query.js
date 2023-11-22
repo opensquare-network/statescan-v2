@@ -22,6 +22,7 @@ const queries = /* GraphQL */ `
     ): PagedMultisigAddresses!
     multisig(
       account: String!
+      callHash: String!
       whenHeight: Int!
       whenExtrinsicIndex: Int!
     ): Multisig
@@ -34,6 +35,7 @@ const queries = /* GraphQL */ `
     ): PagedMultisigs!
     multisigTimeline(
       account: String!
+      callHash: String!
       whenHeight: Int!
       whenExtrinsicIndex: Int!
     ): [MultisigTimelineItem]

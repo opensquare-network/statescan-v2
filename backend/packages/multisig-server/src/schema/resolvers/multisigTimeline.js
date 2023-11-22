@@ -6,7 +6,7 @@ const {
 } = require("@statescan/mongo");
 
 async function multisigTimeline(_, _args) {
-  const { account, whenHeight, whenExtrinsicIndex } = _args;
+  const { account, callHash, whenHeight, whenExtrinsicIndex } = _args;
   if (!isValidAddress(account)) {
     return [];
   }
@@ -16,6 +16,7 @@ async function multisigTimeline(_, _args) {
     .find(
       {
         "multisig.id": account,
+        "multisig.callHash": callHash,
         "multisig.height": whenHeight,
         "multisig.index": whenExtrinsicIndex,
       },
