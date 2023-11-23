@@ -1,6 +1,6 @@
 import { Panel } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React from "react";
+import React, { useEffect } from "react";
 import List from "../components/list";
 import { useMemo } from "react";
 import { currencify } from "../utils";
@@ -13,6 +13,9 @@ import MultisigTimeline from "../components/multisig/timeline";
 import styled from "styled-components";
 import Divider from "../components/styled/divider";
 import MultisigApprovalList from "../components/multisig/approvalList";
+import { useDispatch } from "react-redux";
+import { setErrorCode } from "../store/reducers/httpErrorSlice";
+import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 
 const TabWrapper = styled.div`
   border-radius: 8px;
@@ -23,6 +26,16 @@ const TabWrapper = styled.div`
 
 export default function MultisigPage() {
   const { data: { multisig } = {} } = useMultisigData();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (multisig === null) {
+      dispatch(setErrorCode(404));
+    }
+
+    return () => {
+      clearHttpError(dispatch);
+    };
+  }, [dispatch, multisig]);
 
   const listData = useMemo(() => toMultisigDetailItem(multisig), [multisig]);
 
