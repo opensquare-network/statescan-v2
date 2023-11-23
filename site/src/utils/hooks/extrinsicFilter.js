@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  currentFilterValueSelector,
   fetchSpecsFilter,
   filtersSelector,
+  setCurrentFilterValue,
 } from "../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -13,6 +15,7 @@ import {
   makeOptionWithEmptyDescendant,
   omitExemptedCallMethods,
 } from "../filterCommon";
+import { useTimeDimensionFilterItems } from "./useTimeDimensionFilterItems";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -62,8 +65,9 @@ export function useExtrinsicFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
+  const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
-  const sectionQueryValue = getFromQuery(location, "section");
+  const timeDimensionFilterItems = useTimeDimensionFilterItems();
 
   useEffect(() => {
     if (!specFilters) {
@@ -72,17 +76,26 @@ export function useExtrinsicFilter() {
   }, [dispatch, specFilters]);
 
   useEffect(() => {
+    return () => {
+      dispatch(setCurrentFilterValue({}));
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (specFilters) {
-      // load from URL query
-      const version = getFromQuery(
-        location,
-        "spec",
-        specFilters?.[0]?.specVersion,
-      );
+      const specValue =
+        currentFilterValue.spec ??
+        getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
+      const sectionValue =
+        currentFilterValue.section ?? getFromQuery(location, "section");
+      const methodValue =
+        currentFilterValue.method ?? getFromQuery(location, "method");
 
       const sectionOptions = (
         (
-          specFilters.find((spec) => spec.specVersion === version) ??
+          specFilters.find((spec) => spec.specVersion === specValue) ??
           specFilters[0]
         )?.pallets ?? []
       )
@@ -92,17 +105,17 @@ export function useExtrinsicFilter() {
         .sort(sortByName);
 
       const methodOptions = omitExemptedCallMethods(
-        sectionQueryValue,
+        sectionValue,
         (
           sectionOptions.find(
-            (section) => stringLowerFirst(section.name) === sectionQueryValue,
+            (section) => stringLowerFirst(section.name) === sectionValue,
           ) ?? { calls: [] }
         ).calls,
       );
 
       // generate dropdown data
       const specs = {
-        value: version,
+        value: specValue,
         name: "Spec",
         query: "spec",
         options: specFilters.map((item) => {
@@ -112,11 +125,11 @@ export function useExtrinsicFilter() {
             descendant: getSpecVersionDescendant(item),
           };
         }),
-        defaultDisplay: version,
+        defaultDisplay: specValue,
       };
 
       const section = {
-        value: sectionQueryValue,
+        value: sectionValue,
         name: "Section",
         query: "section",
         isSearch: true,
@@ -129,11 +142,11 @@ export function useExtrinsicFilter() {
             };
           }),
         ),
-        defaultDisplay: sectionQueryValue,
+        defaultDisplay: sectionValue,
       };
 
       const method = {
-        value: getFromQuery(location, "method"),
+        value: methodValue,
         name: "Method",
         isSearch: true,
         query: "method",
@@ -145,11 +158,19 @@ export function useExtrinsicFilter() {
             };
           }),
         ),
-        defaultDisplay: getFromQuery(location, "method"),
+        defaultDisplay: methodValue,
       };
-      setFilters([specs, section, method]);
+
+      setFilters([
+        specs,
+        section,
+        method,
+        { type: "newline" },
+        ...timeDimensionFilterItems,
+      ]);
     }
-  }, [specFilters, location, sectionQueryValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [specFilters, location, currentFilterValue]);
 
   return filters;
 }

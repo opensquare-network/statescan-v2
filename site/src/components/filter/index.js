@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Dropdown from "../dropdown";
 import { Panel } from "../styled/panel";
 import { Inter_12_600, Inter_14_500, Inter_14_600 } from "../../styles/text";
-import { Flex, FlexBetween } from "../styled/flex";
+import { Flex, FlexBetween, FlexCenter } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
 import FilterIcon from "./filterIcon";
@@ -16,7 +16,7 @@ import {
   rounded_4,
   w_full,
 } from "../../styles/tailwindcss";
-import { Button } from "../styled/buttons";
+import { Button, PanelButton } from "../styled/buttons";
 import Input from "../input";
 import Checkbox from "../checkbox";
 import { useFilterDebounce } from "../../hooks/filter/useFilterDebounce";
@@ -25,6 +25,11 @@ import { useQueryParams } from "../../hooks/useQueryParams";
 import noop from "lodash.noop";
 import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import isNil from "lodash.isnil";
+import { useDispatch } from "react-redux";
+import { setCurrentFilterValue } from "../../store/reducers/filterSlice";
+import FilterDatePicker from "./datepicker";
+import moment from "moment";
+import Loading from "../loadings/loading";
 
 const ForSmallScreen = styled.div`
   display: none;
@@ -35,9 +40,8 @@ const ForSmallScreen = styled.div`
 
 const Wrapper = styled(Panel)`
   margin-bottom: 16px;
-  padding: 24px;
+  padding: 28px 24px;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
   gap: 16px;
   overflow: visible;
@@ -107,12 +111,21 @@ const FilterButton = styled(Button)`
     ${p_x(0)};
   }
 `;
+const ResetButton = styled(PanelButton)`
+  padding: 3px 11px;
+  border-radius: 4px;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+`;
 
 const FilterDivider = styled.div`
   display: flex;
   width: 1px;
   height: 28px;
-  margin: 0 24px;
   background: ${(p) => p.theme.strokeBase};
   @media screen and (max-width: 900px) {
     width: 100%;
@@ -123,14 +136,33 @@ const FilterDivider = styled.div`
 `;
 
 const FilterWrapper = styled(Flex)`
+  width: 100%;
+  justify-content: space-between;
+  column-gap: 24px;
+`;
+
+const FilterForm = styled(Flex)`
   flex-grow: 1;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 24px;
+  column-gap: 24px;
   @media screen and (max-width: 900px) {
     flex-direction: column;
     gap: 16px;
   }
+`;
+
+const FilterActions = styled(Flex)`
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: end;
+  column-gap: 10px;
+`;
+
+const NewLine = styled.div`
+  width: 100%;
+  margin: 8px 0;
 `;
 
 export default function Filter({
@@ -146,16 +178,45 @@ export default function Filter({
   const { width } = useWindowSize();
   const isDark = useIsDark();
   const params = useQueryParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setDropdownData(data);
   }, [data]);
 
+  function reset() {
+    const newData = selectData.map((item) => {
+      if (!item.value) {
+        return item;
+      }
+
+      const defaultValue = item.defaultValue;
+      if (defaultValue) {
+        item.value = defaultValue;
+      } else {
+        if (item.options?.length > 0) {
+          const first = item.options[0];
+          item.value = first.value;
+        } else if (item.type === "checkbox") {
+          item.value = false;
+        } else {
+          item.value = "";
+        }
+      }
+
+      return item;
+    });
+
+    setDropdownData(newData);
+    dispatch(setCurrentFilterValue({}));
+    navigate("");
+  }
+
   const onDropdown = (name, value, item) => {
     let descendant = item?.descendant ?? null;
     setDropdownData(
       (selectData || []).map((item) => {
-        if (item?.type === "divider") {
+        if (["divider", "newline"].includes(item?.type)) {
           return item;
         }
 
@@ -167,6 +228,16 @@ export default function Filter({
         return item.name === name ? { ...item, value } : item;
       }),
     );
+
+    const filterItem = selectData.find((filter) => filter.name === name);
+    if (filterItem.type !== "input") {
+      dispatch(
+        setCurrentFilterValue({
+          ...getCurrentFilter(),
+          [filterItem.query]: value,
+        }),
+      );
+    }
   };
 
   const getCurrentFilter = () => {
@@ -215,6 +286,16 @@ export default function Filter({
     </FilterButton>
   );
 
+  if (!data?.length) {
+    return (
+      <Wrapper style={{ height: 56 }}>
+        <FlexCenter style={{ width: "100%" }}>
+          <Loading style={{ padding: 0 }} />
+        </FlexCenter>
+      </Wrapper>
+    );
+  }
+
   return (
     <Wrapper>
       {title && (
@@ -230,54 +311,70 @@ export default function Filter({
       </ForSmallScreen>
       {(showFilterPanel || width > 900) && selectData?.length > 0 && (
         <FilterWrapper>
-          {(selectData || []).map((item, index) =>
-            item.type === "divider" ? (
-              <FilterDivider key={index} />
-            ) : item.type === "input" ? (
-              <InputWrapper key={index}>
-                <div>{item.name}</div>
-                <Input
-                  mini
-                  value={item.value}
-                  {...(item.inputProps || {})}
-                  onChange={(event) => {
-                    onDropdown(item.name, event.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleFilter();
-                    }
+          <FilterForm>
+            {(selectData || []).map((item, index) =>
+              item.type === "newline" ? (
+                <NewLine key={index} />
+              ) : item.type === "divider" ? (
+                <FilterDivider key={index} />
+              ) : item.type === "date" ? (
+                <FilterDatePicker
+                  key={index}
+                  {...item}
+                  onChange={(date) => {
+                    const timestamp = moment(date).valueOf();
+                    onDropdown(item.name, timestamp);
                   }}
                 />
-              </InputWrapper>
-            ) : item.type === "checkbox" ? (
-              <CheckboxWrapper key={index}>
-                <Checkbox
-                  defaultChecked={item.value}
-                  label={item.name}
-                  onCheckedChange={(checked) => {
-                    onDropdown(item.name, checked);
-                  }}
-                />
-              </CheckboxWrapper>
-            ) : (
-              <DropdownWrapper key={index}>
-                <span>{item.name}</span>
-                <Dropdown
-                  width={item.width}
-                  isSearch={!!item?.isSearch}
-                  value={item.value}
-                  name={item.name}
-                  options={item.options}
-                  query={item.query}
-                  subQuery={item.subQuery}
-                  onSelect={onDropdown}
-                  defaultDisplay={item.defaultDisplay}
-                />
-              </DropdownWrapper>
-            ),
-          )}
-          {showFilterButton && filter_button}
+              ) : item.type === "input" ? (
+                <InputWrapper key={index} style={{ width: item.width }}>
+                  <div>{item.name}</div>
+                  <Input
+                    mini
+                    value={item.value}
+                    {...(item.inputProps || {})}
+                    onChange={(event) => {
+                      onDropdown(item.name, event.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleFilter();
+                      }
+                    }}
+                  />
+                </InputWrapper>
+              ) : item.type === "checkbox" ? (
+                <CheckboxWrapper key={index}>
+                  <Checkbox
+                    defaultChecked={item.value}
+                    label={item.name}
+                    onCheckedChange={(checked) => {
+                      onDropdown(item.name, checked);
+                    }}
+                  />
+                </CheckboxWrapper>
+              ) : (
+                <DropdownWrapper key={index}>
+                  <span>{item.name}</span>
+                  <Dropdown
+                    width={item.width}
+                    isSearch={!!item?.isSearch}
+                    value={item.value}
+                    name={item.name}
+                    options={item.options}
+                    query={item.query}
+                    subQuery={item.subQuery}
+                    onSelect={onDropdown}
+                    defaultDisplay={item.defaultDisplay}
+                  />
+                </DropdownWrapper>
+              ),
+            )}
+          </FilterForm>
+          <FilterActions>
+            <ResetButton onClick={reset}>Reset</ResetButton>
+            {showFilterButton && filter_button}
+          </FilterActions>
         </FilterWrapper>
       )}
     </Wrapper>

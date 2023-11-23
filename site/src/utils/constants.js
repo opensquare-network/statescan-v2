@@ -360,6 +360,7 @@ export const timeTypes = {
 
 export const signedOnlyFilter = {
   value: "true",
+  defaultValue: "true",
   name: "Sign",
   query: "signed_only",
   options: [
