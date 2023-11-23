@@ -82,7 +82,10 @@ export default function MultisigAccountsPage() {
     (multisigAddress) => {
       return [
         <Flex>
-          <AddressOrIdentity address={multisigAddress.address} />
+          <AddressOrIdentity
+            key={multisigAddress.address}
+            address={multisigAddress.address}
+          />
         </Flex>,
         <Text>{multisigAddress.threshold}</Text>,
         <Tooltip
