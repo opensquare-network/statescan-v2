@@ -35,6 +35,7 @@ async function handleMultisigCancelled(event, indexer) {
           cancelling,
         },
       },
+      updateAt: indexer,
       isFinal: true,
     },
     indexer,
