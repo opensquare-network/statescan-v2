@@ -364,6 +364,12 @@ export const multisigsHead = [
     name: "Status",
     width: 200,
   },
+  {
+    name: "Data",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
 ];
 
 export const MULTISIG_ACCOUNT_SORT = {

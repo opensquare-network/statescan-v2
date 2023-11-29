@@ -21,6 +21,7 @@ import MultisigLink from "../components/multisig/link";
 import Tooltip from "../components/tooltip";
 import { ColoredMonoLink } from "../components/styled/link";
 import { hashEllipsis } from "../utils/viewFuncs/text";
+import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
 
 const ApprovingText = styled.div`
   ${Inter_14_500};
@@ -128,6 +129,7 @@ export default function MultisigsPage() {
       <Status color={STATUS_COLORS[multisig?.state?.name?.toUpperCase?.()]}>
         {multisig?.state?.name}
       </Status>,
+      <ExtrinsicParametersDisplay extrinsic={multisig} />,
     ];
   });
 
