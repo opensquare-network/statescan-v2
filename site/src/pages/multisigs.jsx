@@ -22,6 +22,8 @@ import Tooltip from "../components/tooltip";
 import { ColoredMonoLink } from "../components/styled/link";
 import { hashEllipsis } from "../utils/viewFuncs/text";
 import ExtrinsicParametersDisplay from "../components/extrinsicParametersDisplay";
+import Dot from "../components/dot";
+import { TextSecondary } from "../components/styled/text";
 
 const ApprovingText = styled.div`
   ${Inter_14_500};
@@ -33,6 +35,20 @@ const ApprovingSlashText = styled.span`
 `;
 const ApprovingCountText = styled.span`
   color: var(--fontSecondary);
+`;
+
+const ApprovingCell = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SignatoriesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  * {
+    color: var(--textPrimary);
+    white-space: nowrap;
+  }
 `;
 
 const STATUS_COLORS = {
@@ -74,6 +90,7 @@ const GET_MULTISIGS = gql`
         state {
           name
         }
+        signatories
         signatoriesCount
         threshold
       }
@@ -104,28 +121,48 @@ export default function MultisigsPage() {
       <Flex>
         <AddressOrIdentity address={multisig.address} />
       </Flex>,
-      <ApprovingText>
-        {multisig.approvals?.length}
-        <ApprovingSlashText>/</ApprovingSlashText>
-        <ApprovingCountText>{multisig.threshold}</ApprovingCountText>
-      </ApprovingText>,
-      <ApprovingText>{multisig.signatoriesCount}</ApprovingText>,
-      <Tooltip tip={multisig.callHash}>
-        <ColoredMonoLink
-          to={`/multisigs/${multisig?.indexer?.blockHeight}-${multisig?.indexer?.extrinsicIndex}-${multisig?.address}`}
+      <ApprovingCell>
+        <ApprovingText>
+          {multisig.approvals?.length}
+          <ApprovingSlashText>/</ApprovingSlashText>
+          <ApprovingCountText>{multisig.threshold}</ApprovingCountText>
+        </ApprovingText>
+        <Dot style={{ margin: "0 2px" }} />
+        <Tooltip
+          tip={
+            <SignatoriesWrapper>
+              {multisig.signatories.map((address) => (
+                <AddressOrIdentity
+                  key={address}
+                  ellipsis={false}
+                  address={address}
+                />
+              ))}
+            </SignatoriesWrapper>
+          }
         >
-          {hashEllipsis(multisig.callHash, 2, 4)}
-        </ColoredMonoLink>
-      </Tooltip>,
-      <span
-        style={{
-          wordBreak: "break-word",
-        }}
-      >
-        {multisig?.call
-          ? `${multisig.call.section}(${multisig.call.method})`
-          : "--"}
-      </span>,
+          <TextSecondary>{multisig.signatoriesCount}</TextSecondary>
+        </Tooltip>
+      </ApprovingCell>,
+      <div>
+        <div
+          style={{
+            wordBreak: "break-word",
+          }}
+        >
+          {multisig?.call
+            ? `${multisig.call.section}(${multisig.call.method})`
+            : "--"}
+        </div>
+        <Tooltip tip={multisig.callHash}>
+          <ColoredMonoLink
+            to={`/multisigs/${multisig?.indexer?.blockHeight}-${multisig?.indexer?.extrinsicIndex}-${multisig?.address}`}
+          >
+            {hashEllipsis(multisig.callHash, 2, 4)}
+          </ColoredMonoLink>
+        </Tooltip>
+      </div>,
+      "time",
       <Status color={STATUS_COLORS[multisig?.state?.name?.toUpperCase?.()]}>
         {multisig?.state?.name}
       </Status>,
