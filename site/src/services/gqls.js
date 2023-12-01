@@ -38,6 +38,7 @@ export const GET_MULTISIGS = gql`
         callHash
         indexer {
           blockHeight
+          blockTime
           extrinsicIndex
         }
         state {

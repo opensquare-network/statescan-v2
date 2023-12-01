@@ -7,10 +7,11 @@ import MultisigLink from "./link";
 import { Inter_14_500 } from "../../styles/text";
 import Dot from "../dot";
 import Tooltip from "../tooltip";
-import { TextSecondary } from "../styled/text";
+import { TextSecondary, TextTertiary } from "../styled/text";
 import { ColoredMonoLink } from "../styled/link";
 import { hashEllipsis } from "../../utils/viewFuncs/text";
 import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
+import { time } from "../../utils/viewFuncs/time";
 
 const ApprovingText = styled.div`
   ${Inter_14_500};
@@ -104,7 +105,7 @@ export default function MultisigTable({
           </ColoredMonoLink>
         </Tooltip>
       </div>,
-      "time",
+      <TextTertiary>{time(multisig?.indexer?.blockTime)}</TextTertiary>,
       <Status color={STATUS_COLORS[multisig?.state?.name?.toUpperCase?.()]}>
         {multisig?.state?.name}
       </Status>,
