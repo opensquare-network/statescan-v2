@@ -89,13 +89,7 @@ export default function MultisigTable({
         </Tooltip>
       </ApprovingCell>,
       <div>
-        <div
-          style={{
-            wordBreak: "break-word",
-          }}
-        >
-          {multisig?.call ? <CallCell call={multisig.call} /> : "--"}
-        </div>
+        <CallCell call={multisig.call} />
         <Tooltip tip={multisig.callHash}>
           <ColoredMonoLink
             to={`/multisigs/${multisig?.indexer?.blockHeight}-${multisig?.indexer?.extrinsicIndex}-${multisig?.address}`}

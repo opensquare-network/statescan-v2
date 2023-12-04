@@ -30,6 +30,7 @@ import NftName from "../../components/nft/name";
 import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
 import ExtrinsicLink from "../../components/extrinsic/link";
+import CallCell from "../../components/table/callCell";
 
 export const toEventTabTableItem = (events = []) => {
   return (
@@ -43,7 +44,7 @@ export const toEventTabTableItem = (events = []) => {
           {event?.indexer?.eventIndex}
         </ColoredLink>,
         <ExtrinsicLink key={`${index}-1`} indexer={event?.indexer} />,
-        `${event?.section}(${event?.method})`,
+        <CallCell call={event} />,
         <EventAttributeDisplay event={event} />,
       ];
     }) ?? null
@@ -109,7 +110,7 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
           </ColoredMonoLink>
         </Tooltip>,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
-        `${extrinsic?.call?.section}(${extrinsic?.call?.method})`,
+        <CallCell call={extrinsic?.call} />,
         <ExtrinsicParametersDisplay extrinsic={extrinsic} />,
       ];
     }) ?? null
@@ -129,7 +130,7 @@ export const toExtrinsicsTabTableItemSimpleMode = (extrinsics) => {
         </ColoredLink>,
         extrinsic?.indexer?.blockTime,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
-        `${extrinsic?.section}(${extrinsic?.method})`,
+        <CallCell call={extrinsic} />,
         <ExtrinsicParametersDisplay extrinsic={extrinsic} />,
       ];
     }) ?? null
