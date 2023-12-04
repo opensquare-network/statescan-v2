@@ -24,9 +24,8 @@ const polkadot = {
   treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",
   nodes: [
-    { name: "Parity", url: "wss://rpc.polkadot.io" },
-    { name: "Automata 1RPC", url: "wss://1rpc.io/dot" },
     { name: "Dwellir", url: "wss://polkadot-rpc.dwellir.com" },
+    { name: "Automata 1RPC", url: "wss://1rpc.io/dot" },
     { name: "Dwellir Tunisia", url: "wss://polkadot-rpc-tn.dwellir.com" },
     { name: "IBP-GeoDNS1", url: "wss://rpc.ibp.network/polkadot" },
     { name: "IBP-GeoDNS2", url: "wss://rpc.dotters.network/polkadot" },

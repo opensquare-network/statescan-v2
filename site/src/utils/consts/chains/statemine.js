@@ -21,7 +21,6 @@ const statemine = {
     id: "1000",
   },
   nodes: [
-    { name: "Parity", url: "wss://kusama-asset-hub-rpc.polkadot.io" },
     { name: "Dwellir", url: "wss://statemine-rpc.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://statemine-rpc-tn.dwellir.com" },
     { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/statemine" },

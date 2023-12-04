@@ -16,7 +16,6 @@ const collectives = {
     id: "1001",
   },
   nodes: [
-    { name: "Parity", url: "wss://polkadot-collectives-rpc.polkadot.io" },
     { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/collectives-polkadot" },
     {
       name: "IBP-GeoDNS2",

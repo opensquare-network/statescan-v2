@@ -22,9 +22,8 @@ const kusama = {
   treasuryWebsite: "https://kusama.dotreasury.com",
   subSquareWebsite: "https://kusama.subsquare.io",
   nodes: [
-    { name: "Parity", url: "wss://kusama-rpc.polkadot.io" },
-    { name: "Automata 1RPC", url: "wss://1rpc.io/ksm" },
     { name: "Dwellir", url: "wss://kusama-rpc.dwellir.com" },
+    { name: "Automata 1RPC", url: "wss://1rpc.io/ksm" },
     { name: "Dwellir Tunisia", url: "wss://kusama-rpc-tn.dwellir.com" },
     { name: "IBP-GeoDNS1", url: "wss://rpc.ibp.network/kusama" },
     { name: "IBP-GeoDNS2", url: "wss://rpc.dotters.network/kusama" },
