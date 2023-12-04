@@ -18,6 +18,11 @@ export default function AccountTabMultisig() {
 
   const tabs = [
     {
+      icon: <IconMultisig width={20} height={20} />,
+      name: "multisigs",
+      children: <AccountTabMultisigMultisigs />,
+    },
+    {
       icon: <IconMultisigAccount width={20} height={20} />,
       name: "signatories",
       children: (
@@ -26,11 +31,7 @@ export default function AccountTabMultisig() {
         />
       ),
     },
-    {
-      icon: <IconMultisig width={20} height={20} />,
-      name: "multisigs",
-      children: <AccountTabMultisigMultisigs />,
-    },
+    ,
   ];
   let selectedTab = sub;
   if (!selectedTab) {
