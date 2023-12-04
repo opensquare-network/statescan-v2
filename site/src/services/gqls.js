@@ -14,3 +14,40 @@ export const GET_REGISTRARS = gql`
     }
   }
 `;
+
+export const GET_MULTISIGS = gql`
+  query GetAccountTabMultisigs(
+    $limit: Int!
+    $offset: Int!
+    $multisigState: MultisigState
+    $account: String
+  ) {
+    multisigs(
+      limit: $limit
+      offset: $offset
+      multisigState: $multisigState
+      account: $account
+    ) {
+      limit
+      offset
+      total
+      multisigs {
+        address
+        approvals
+        call
+        callHash
+        indexer {
+          blockHeight
+          blockTime
+          extrinsicIndex
+        }
+        state {
+          name
+        }
+        signatories
+        signatoriesCount
+        threshold
+      }
+    }
+  }
+`;

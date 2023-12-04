@@ -6,7 +6,6 @@ import Footer from "../footer";
 import ScrollToTop from "../scrollToTop";
 import { getChainSettings } from "../../utils/chain";
 import { useEffect } from "react";
-import { TooltipProvider } from "../tooltip";
 
 const Main = styled.main`
   flex-grow: 1;
@@ -25,13 +24,11 @@ export default function Layout({ children, className }) {
       <Background />
 
       <Container className={className}>
-        <TooltipProvider>
-          <Header />
+        <Header />
 
-          <Main>{children}</Main>
+        <Main>{children}</Main>
 
-          <Footer />
-        </TooltipProvider>
+        <Footer />
       </Container>
 
       <ScrollToTop />

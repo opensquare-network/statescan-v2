@@ -5,7 +5,7 @@ export const Tag = styled.span`
   padding: 2px 6px;
   ${Inter_12_600};
   color: ${(p) => p.theme.fontSecondary};
-  background-color: ${(p) => p.theme.fillBase};
+  background-color: ${(p) => p.theme.fillSub};
   border-radius: 4px;
 `;
 

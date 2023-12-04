@@ -10,6 +10,12 @@ export const Panel = styled.div`
   overflow: hidden;
 `;
 
+const PanelNoBordered = styled(Panel)`
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+`;
+
 const PanelTableScrollArea = styled.div`
   overflow-x: scroll;
   ${no_scroll_bar};
@@ -26,5 +32,19 @@ export function StyledPanelTableWrapper({
       <PanelTableScrollArea>{children}</PanelTableScrollArea>
       {footer && <FlexEnd>{footer}</FlexEnd>}
     </Panel>
+  );
+}
+
+export function StyledPanelTableWrapperNoBordered({
+  footer,
+  children,
+  className,
+  ...props
+}) {
+  return (
+    <PanelNoBordered {...props} className={className}>
+      <PanelTableScrollArea>{children}</PanelTableScrollArea>
+      {footer && <FlexEnd>{footer}</FlexEnd>}
+    </PanelNoBordered>
   );
 }

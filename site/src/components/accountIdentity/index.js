@@ -10,9 +10,10 @@ import useIdentityTimeline from "./identityTimeline";
 import useQueryParamsUpdater from "../../hooks/useQueryParamsUpdater";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { ACCOUNT_IDENTITY_TAB_SUBTAB } from "../../utils/constants";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import AccountIdentityInfo from "./info";
 import AccountSubIdentities from "./subIdentities";
+import { useIdentityQuery } from "../../hooks/apollo";
 
 const Wrapper = styled.div`
   border-radius: 8px;
@@ -47,7 +48,7 @@ export default function useAccountIdentity(account) {
   const queryParams = useQueryParams();
   const updateQueryParam = useQueryParamsUpdater();
 
-  const { data, loading } = useQuery(GET_IDENTITY_INFO, {
+  const { data, loading } = useIdentityQuery(GET_IDENTITY_INFO, {
     variables: {
       account,
     },

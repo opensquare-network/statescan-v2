@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useQueryParams } from "../../hooks/useQueryParams";
@@ -10,6 +10,7 @@ import { Flex } from "../../components/styled/flex";
 import styled from "styled-components";
 import { Overpass_Mono_14_500 } from "../../styles/text";
 import toUpper from "lodash.toupper";
+import { useIdentityQuery } from "../../hooks/apollo";
 
 const AddressOrIdentity = styled(AddressOrIdentityOrigin)`
   overflow: hidden;
@@ -44,7 +45,9 @@ export function useRequestsFilter() {
   const [filter, setFilter] = useState([]);
   const { search = "", registrarIndex = "", status = "" } = useQueryParams();
 
-  const { data: registrarsIndexData } = useQuery(GET_REGISTRARS_OPTIONS);
+  const { data: registrarsIndexData } = useIdentityQuery(
+    GET_REGISTRARS_OPTIONS,
+  );
 
   useEffect(() => {
     const searchFilter = {

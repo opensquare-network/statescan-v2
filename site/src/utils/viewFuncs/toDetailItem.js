@@ -40,7 +40,7 @@ import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import dark from "../../styles/theme/dark";
 import styled from "styled-components";
 
-const TextSecondaryWithCopy = withCopy(TextSecondary);
+export const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
 const CallText = TextSecondary;
@@ -216,7 +216,12 @@ function ValueDisplayWithTooltip({ value }) {
   );
 }
 
-export const toOnChainAccountDetailItem = (id, account, achainableProfile) => {
+export const toOnChainAccountDetailItem = (
+  id,
+  account,
+  achainableProfile,
+  multisigAddressData,
+) => {
   const lockedBreakdown = account?.data?.lockedBreakdown?.length > 0 && (
     <LockedBreakdown lockedBreakdown={account?.data?.lockedBreakdown} />
   );
@@ -225,60 +230,103 @@ export const toOnChainAccountDetailItem = (id, account, achainableProfile) => {
     <ReservedBreakdown reservedBreakdown={account?.data?.reservedBreakdown} />
   );
 
-  const data = {};
-
-  data["Address"] = <AddressAndIdentity address={id} ellipsis={false} />;
-
-  data["Total Balance"] = (
-    <ValueDisplayWithTooltip value={account?.data?.total} />
-  );
+  const data = [
+    {
+      label: "Address",
+      value: <AddressAndIdentity address={id} ellipsis={false} checkMultisig />,
+    },
+    {
+      label: "Total Balance",
+      value: <ValueDisplayWithTooltip value={account?.data?.total} />,
+    },
+  ];
 
   if (!isNil(account?.data?.transferrable)) {
-    data["Transferrable"] = (
-      <ValueDisplayWithTooltip value={account?.data?.transferrable} />
-    );
+    data.push({
+      label: "Transferrable",
+      value: <ValueDisplayWithTooltip value={account?.data?.transferrable} />,
+    });
   }
 
-  data["Free"] = <ValueDisplayWithTooltip value={account?.data?.free} />;
+  data.push({
+    label: "Free",
+    value: <ValueDisplayWithTooltip value={account?.data?.free} />,
+  });
 
   if (!isNil(account?.data?.lockedBalance)) {
-    data["Locked"] = (
+    data.push({
+      label: "Locked",
+      value: (
+        <Flex gap={4}>
+          <ValueDisplayWithTooltip value={account?.data?.lockedBalance} />
+          {lockedBreakdown && (
+            <Tooltip tip={lockedBreakdown}>
+              <FlexCenter>
+                <CircledInfoIcon />
+              </FlexCenter>
+            </Tooltip>
+          )}
+        </Flex>
+      ),
+    });
+  }
+
+  data.push({
+    label: "Reserved",
+    value: (
       <Flex gap={4}>
-        <ValueDisplayWithTooltip value={account?.data?.lockedBalance} />
-        {lockedBreakdown && (
-          <Tooltip tip={lockedBreakdown}>
+        <ValueDisplayWithTooltip value={account?.data?.reserved} />
+        {reservedBreakdown && (
+          <Tooltip tip={reservedBreakdown}>
             <FlexCenter>
               <CircledInfoIcon />
             </FlexCenter>
           </Tooltip>
         )}
       </Flex>
-    );
-  }
-
-  data["Reserved"] = (
-    <Flex gap={4}>
-      <ValueDisplayWithTooltip value={account?.data?.reserved} />
-      {reservedBreakdown && (
-        <Tooltip tip={reservedBreakdown}>
-          <FlexCenter>
-            <CircledInfoIcon />
-          </FlexCenter>
-        </Tooltip>
-      )}
-    </Flex>
-  );
+    ),
+  });
 
   if (!isNil(account?.data?.bonded)) {
-    data["Bonded"] = <ValueDisplayWithTooltip value={account?.data?.bonded} />;
+    data.push({
+      label: "Bonded",
+      value: <ValueDisplayWithTooltip value={account?.data?.bonded} />,
+    });
   }
 
-  data["Transactions"] = (
-    <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>
-  );
+  data.push({
+    label: "Transactions",
+    value: <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>,
+  });
 
   if (achainableProfile) {
-    data["Labels"] = <AchainableLabels achainableProfile={achainableProfile} />;
+    data.push({
+      label: "Labels",
+      value: <AchainableLabels achainableProfile={achainableProfile} />,
+    });
+  }
+
+  if (multisigAddressData?.multisigAddress) {
+    data.push({
+      type: "divider",
+    });
+
+    data.push({
+      label: "Threshold",
+      value: (
+        <TextSecondary>
+          {multisigAddressData?.multisigAddress?.threshold || 0}
+        </TextSecondary>
+      ),
+    });
+    data.push({
+      label: "Signatories",
+      value: (
+        <TextSecondary>
+          {multisigAddressData?.multisigAddress?.signatories?.length || 0}
+        </TextSecondary>
+      ),
+    });
   }
 
   return data;
@@ -508,6 +556,47 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
       ) : (
         <TimerIcon />
       ),
+    },
+  ].filter(Boolean);
+};
+
+export const toMultisigDetailItem = (multisig) => {
+  if (!multisig) {
+    return [];
+  }
+
+  return [
+    {
+      label: "Multisig Address",
+      value: (
+        <AddressAndIdentity
+          address={multisig.address}
+          ellipsis={false}
+          checkMultisig
+        />
+      ),
+    },
+    {
+      label: "Call Hash",
+      value: (
+        <TextSecondaryWithCopy>{multisig?.callHash}</TextSecondaryWithCopy>
+      ),
+    },
+    {
+      label: "Extrinsic Time",
+      value: <DetailedTime ts={multisig?.indexer?.blockTime} />,
+    },
+    {
+      label: "Block",
+      value: <DetailedBlock blockHeight={multisig?.indexer?.blockHeight} />,
+    },
+    multisig?.call?.section && {
+      label: "Module",
+      value: <TagHighContrast>{multisig?.call?.section}</TagHighContrast>,
+    },
+    multisig?.call?.method && {
+      label: "Call",
+      value: <TagThemed>{multisig?.call?.method}</TagThemed>,
     },
   ].filter(Boolean);
 };

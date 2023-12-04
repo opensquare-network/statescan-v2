@@ -17,6 +17,7 @@ const kusama = {
     ...treasuryModules,
     ...governanceModules,
     identity: true,
+    multisig: true,
   },
   treasuryWebsite: "https://kusama.dotreasury.com",
   subSquareWebsite: "https://kusama.subsquare.io",
