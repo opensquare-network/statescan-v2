@@ -69,6 +69,7 @@ async function handleAsMultiThreshold1(call, signer, extrinsicIndexer) {
       args: { result },
     },
     indexer: extrinsicIndexer,
+    updateAt: extrinsicIndexer,
     isFinal: true,
   });
 
