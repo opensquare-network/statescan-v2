@@ -12,6 +12,7 @@ import { ColoredMonoLink } from "../styled/link";
 import { hashEllipsis } from "../../utils/viewFuncs/text";
 import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 import { time } from "../../utils/viewFuncs/time";
+import CallCell from "../table/callCell";
 
 const ApprovingText = styled.div`
   ${Inter_14_500};
@@ -93,9 +94,7 @@ export default function MultisigTable({
             wordBreak: "break-word",
           }}
         >
-          {multisig?.call
-            ? `${multisig.call.section}(${multisig.call.method})`
-            : "--"}
+          {multisig?.call ? <CallCell call={multisig.call} /> : "--"}
         </div>
         <Tooltip tip={multisig.callHash}>
           <ColoredMonoLink
