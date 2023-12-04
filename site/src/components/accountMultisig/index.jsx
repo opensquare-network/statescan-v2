@@ -31,7 +31,6 @@ export default function AccountTabMultisig() {
         />
       ),
     },
-    ,
   ];
   let selectedTab = sub;
   if (!selectedTab) {
