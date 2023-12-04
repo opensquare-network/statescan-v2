@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.0
+
+date: 2023-12-04
+
+- [Big]Support multisig.
+- Correct dotreasury api and site url.
+- Update dependencies.
+
 ## 1.1.4
 
 date: 2023-11-06
