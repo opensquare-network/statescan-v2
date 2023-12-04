@@ -20,7 +20,7 @@ const polkadot = {
     ...governanceModules,
     identity: true,
   },
-  treasuryWebsite: "https://www.dotreasury.com/dot",
+  treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",
   nodes: [
     { name: "Parity", url: "wss://rpc.polkadot.io" },

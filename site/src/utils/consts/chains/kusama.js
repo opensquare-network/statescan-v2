@@ -18,7 +18,7 @@ const kusama = {
     ...governanceModules,
     identity: true,
   },
-  treasuryWebsite: "https://www.dotreasury.com/ksm",
+  treasuryWebsite: "https://kusama.dotreasury.com",
   subSquareWebsite: "https://kusama.subsquare.io",
   nodes: [
     { name: "Parity", url: "wss://kusama-rpc.polkadot.io" },
