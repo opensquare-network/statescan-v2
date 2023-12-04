@@ -18,6 +18,7 @@ import startCase from "lodash.startcase";
 import Loading from "../../loadings/loading";
 import { withLoading } from "../../../HOC/withLoading";
 import { useIdentityQuery } from "../../../hooks/apollo";
+import Dot from "../../dot";
 
 const Link = styled(LinkOrigin)`
   &:hover {
@@ -158,15 +159,7 @@ function IdentityOverview({ data }) {
                   {currencify(data?.statistics?.request || 0)}
                 </Link>
               </Tooltip>
-              <div
-                style={{
-                  color: "var(--fontTertiary)",
-                  margin: "0 8px",
-                  display: "inline-block",
-                }}
-              >
-                •
-              </div>
+              <Dot style={{ margin: "0 8px" }} />
               <Tooltip
                 tip="Total judgements given"
                 style={{ display: "inline-block" }}

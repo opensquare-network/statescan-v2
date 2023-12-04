@@ -349,16 +349,12 @@ export const multisigsHead = [
     width: 160,
   },
   {
-    name: "Signatories",
-    width: 160,
-  },
-  {
-    name: "Call Hash",
-    width: 160,
-  },
-  {
     name: "Call",
-    width: 240,
+    width: 320,
+  },
+  {
+    name: "Start Time",
+    width: 200,
   },
   {
     name: "Status",

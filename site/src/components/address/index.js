@@ -101,9 +101,21 @@ function AddressOrIdentity({
   className,
   linkToIdentityRegistrarTimeline,
   linkToIdentityTimeline,
+  noLink = false,
 }) {
   const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  const hasIdentityInfo = identity && identity?.info?.status !== "NO_ID";
+
+  if (noLink) {
+    return hasIdentityInfo ? (
+      <Wrapper className={className} maxWidth={maxWidth}>
+        <Identity maxWidth={maxWidth} identity={identity} />
+      </Wrapper>
+    ) : (
+      displayAddress
+    );
+  }
 
   let linkAccountPage = `/accounts/${address}`;
   if (linkToIdentityRegistrarTimeline) {
@@ -119,7 +131,7 @@ function AddressOrIdentity({
     })}`;
   }
 
-  if (!identity || identity?.info?.status === "NO_ID") {
+  if (!hasIdentityInfo) {
     const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
     return <AddressTag to={linkAccountPage}>{displayAddress}</AddressTag>;
   }
