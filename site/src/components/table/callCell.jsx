@@ -7,7 +7,11 @@ const Wrapper = styled.div`
   text-overflow: ellipsis;
 `;
 
-export default function CallCell({ call = {} }) {
+export default function CallCell({ call }) {
+  if (!call) {
+    return "--";
+  }
+
   const text = `${call.section}(${call.method})`;
 
   return (
