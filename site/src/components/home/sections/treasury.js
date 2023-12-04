@@ -193,7 +193,7 @@ function TreasuryOverview({ treasuryOverview }) {
               active={treasuryOverview?.count?.referenda?.unFinished}
               label="OpenGov"
               all={treasuryOverview?.count?.referenda?.all}
-              link={`${treasuryWebsite}/referenda`}
+              link={`${treasuryWebsite}/#/referenda`}
             />
           }
         />
@@ -205,7 +205,7 @@ function TreasuryOverview({ treasuryOverview }) {
               active={treasuryOverview?.count?.proposal?.unFinished}
               label="Proposals"
               all={treasuryOverview?.count?.proposal?.all}
-              link={`${treasuryWebsite}/proposals`}
+              link={`${treasuryWebsite}/#/proposals`}
             />
           }
         />
@@ -217,7 +217,7 @@ function TreasuryOverview({ treasuryOverview }) {
               active={treasuryOverview?.count?.tip?.unFinished}
               label="Tips"
               all={treasuryOverview?.count?.tip?.all}
-              link={`${treasuryWebsite}/tips`}
+              link={`${treasuryWebsite}/#/tips`}
             />
           }
         />
@@ -229,7 +229,7 @@ function TreasuryOverview({ treasuryOverview }) {
               active={treasuryOverview?.count?.bounty?.unFinished}
               label="Bounties"
               all={treasuryOverview?.count?.bounty?.all}
-              link={`${treasuryWebsite}/bounties`}
+              link={`${treasuryWebsite}/#/bounties`}
             />
           }
         />
