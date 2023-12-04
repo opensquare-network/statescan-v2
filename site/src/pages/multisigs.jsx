@@ -9,18 +9,22 @@ import { useMultisigsFilter } from "../hooks/filter/useMultisigsFilter";
 import Filter from "../components/filter";
 import MultisigTable from "../components/multisig/table";
 import { GET_MULTISIGS } from "../services/gqls";
+import { useState } from "react";
 
 export default function MultisigsPage() {
   const { page = 1, account = "", status } = useQueryParams();
   const filter = useMultisigsFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { data, loading } = useMultisigQuery(GET_MULTISIGS, {
+  const [data, setData] = useState(null);
+
+  const { loading } = useMultisigQuery(GET_MULTISIGS, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       account,
       multisigState: status ? status.toUpperCase() : null,
     },
+    onCompleted: setData,
   });
 
   return (
