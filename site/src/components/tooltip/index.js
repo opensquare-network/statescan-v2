@@ -7,6 +7,7 @@ import {
   arrow,
   offset,
   autoUpdate,
+  FloatingPortal,
 } from "@floating-ui/react";
 import { useState } from "react";
 import { Overpass_Mono_12_500 } from "../../styles/text";
@@ -102,15 +103,17 @@ export default function Tooltip({
       </Wrapper>
 
       {open && tip && (
-        <TipWrapper
-          ref={refs.setFloating}
-          data-show={open}
-          data-placement={placement}
-          style={floatingStyles}
-        >
-          {tip}
-          <TipArrow x={middlewareData?.arrow?.x} ref={arrowRef} />
-        </TipWrapper>
+        <FloatingPortal>
+          <TipWrapper
+            ref={refs.setFloating}
+            data-show={open}
+            data-placement={placement}
+            style={floatingStyles}
+          >
+            {tip}
+            <TipArrow x={middlewareData?.arrow?.x} ref={arrowRef} />
+          </TipWrapper>
+        </FloatingPortal>
       )}
     </>
   );
