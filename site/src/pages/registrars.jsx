@@ -66,6 +66,7 @@ export default function RegistrarsPage() {
       <Flex gap={24}>
         <Index>#{item.index}</Index>
         <AddressOrIdentity
+          key={item.account}
           address={item.account}
           linkToIdentityRegistrarTimeline
         />
