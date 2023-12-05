@@ -63,7 +63,11 @@ export default function MultisigTable({
         callHash={multisig?.callHash}
       />,
       <Flex>
-        <AddressOrIdentity noLink={addressNoLink} address={multisig.address} />
+        <AddressOrIdentity
+          key={multisig.address}
+          noLink={addressNoLink}
+          address={multisig.address}
+        />
       </Flex>,
       <ApprovingCell>
         <ApprovingText>

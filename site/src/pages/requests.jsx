@@ -107,7 +107,11 @@ export default function RequestsPage() {
 
   const tableData = data?.requests.requests.map((item) => {
     return [
-      <AddressOrIdentity address={item.account} linkToIdentityTimeline />,
+      <AddressOrIdentity
+        key={item.account}
+        address={item.account}
+        linkToIdentityTimeline
+      />,
       <Flex gap={24}>
         <Index>#{item.registrarIndex}</Index>
         <AddressOrIdentity address={item.registrar} />
