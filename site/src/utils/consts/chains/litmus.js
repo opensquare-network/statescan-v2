@@ -26,6 +26,7 @@ const litmus = {
         bounties: true,
       },
     },
+    multisig: true,
   },
   subSquareWebsite: "https://litmus.subsquare.io",
   nodes: [{ name: "Litentry", url: "wss://rpc.litmus-parachain.litentry.io" }],
