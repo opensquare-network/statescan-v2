@@ -26,6 +26,7 @@ const litentry = {
         bounties: true,
       },
     },
+    multisig: true,
   },
   subSquareWebsite: "https://litentry.subsquare.io",
   nodes: [
