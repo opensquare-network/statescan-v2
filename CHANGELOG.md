@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.1
+
+date: 2023-12-05
+
+- Enable multisig for litentry and litmus.
+
 ## 1.2.0
 
 date: 2023-12-04
