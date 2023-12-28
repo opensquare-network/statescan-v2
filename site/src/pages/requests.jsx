@@ -114,7 +114,7 @@ export default function RequestsPage() {
       />,
       <Flex gap={24}>
         <Index>#{item.registrarIndex}</Index>
-        <AddressOrIdentity address={item.registrar} />
+        <AddressOrIdentity key={item.registrar} address={item.registrar} />
       </Flex>,
       <Time>{time(Number(item.indexer.blockTime))}</Time>,
       <Time>
