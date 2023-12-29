@@ -3,48 +3,43 @@ import { getChainNodes } from "../utils/chain";
 
 const apiInstanceMap = new Map();
 
-function createPromise(url) {
-  let instance = null
-  return async function () {
-    if (instance) {
-      return instance
-    }
-    const http = url.replace('wss://', 'https://').replace('ws://', 'http://')
-    const [blockHashResp, specResp] = await Promise.all([
-      fetch(http, { method: 'POST', body: '{"id":1,"jsonrpc":"2.0","method":"chain_getBlockHash","params":[0]}', headers: { 'content-type': 'application/json' } }).then(resp => resp.json()),
-      fetch(http, { method: 'POST', body: '{"id":2,"jsonrpc":"2.0","method":"state_getRuntimeVersion","params":[]}', headers: { 'content-type': 'application/json' } }).then(resp => resp.json()),
-    ])
-    const id = `${blockHashResp.result}-${specResp.result.specVersion}`
-    let metadata = localStorage.getItem(id)
-    if (!metadata) {
-      const metadataResp = await fetch(
-        http,
-        {
-          method: 'POST',
-          body: '{"id":3,"jsonrpc":"2.0","method":"state_getMetadata","params":[]}',
-          headers: { 'content-type': 'application/json' }
-        }
-      ).then(resp => resp.json())
-      metadata = metadataResp.result
-      localStorage.setItem(id, metadata)
-    }
-    instance = await ApiPromise.create({
-      provider: new WsProvider(url),
-      noInitWarn: true,
-      metadata: { [id]: metadata },
-    })
-    return instance
-  }()
+async function getMetadata(provider) {
+  await provider.isReady;
+  const [genesisHash, runtimeVersion] = await Promise.all([
+    provider.send("chain_getBlockHash", [0]),
+    provider.send("state_getRuntimeVersion", []),
+  ]);
+
+  const id = `${genesisHash}-${runtimeVersion.specVersion}`;
+  let metadata = localStorage.getItem(id);
+  if (!metadata) {
+    metadata = provider.send("state_getMetadata", []);
+    localStorage.setItem(id, metadata);
+  }
+
+  return {
+    id,
+    metadata,
+  };
 }
 
-export function getChainApi(queryUrl) {
+async function createPromise(url) {
+  const provider = new WsProvider(url);
+  await provider.isReady;
+  const { id, metadata } = await getMetadata(provider);
+  return await ApiPromise.create({
+    provider,
+    noInitWarn: true,
+    metadata: { [id]: metadata },
+  });
+}
+
+export async function getChainApi(queryUrl) {
   const nodes = getChainNodes();
   const url = queryUrl || nodes[0]?.url;
   if (!apiInstanceMap.has(url)) {
-    apiInstanceMap.set(
-      url,
-      createPromise(url)
-    );
+    const promiseApi = await createPromise(url);
+    apiInstanceMap.set(url, promiseApi);
   }
   return apiInstanceMap.get(url);
 }
