@@ -34,7 +34,6 @@ async function getNodeDelay(api) {
   try {
     return await testNet(api);
   } catch (e) {
-    console.error("we have a error to test network", e);
     return "timeout";
   }
 }
