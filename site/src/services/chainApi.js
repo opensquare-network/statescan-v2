@@ -1,55 +1,45 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { getChainNodes } from "../utils/chain";
+import getMetadata from "./metadata";
+import allOptions from "@osn/provider-options";
+import Chains from "../utils/consts/chains";
 
-const apiInstanceMap = new Map();
+const apiMap = new Map();
 
-function createPromise(url) {
-  let instance = null
-  return async function () {
-    if (instance) {
-      return instance
-    }
-    const http = url.replace('wss://', 'https://').replace('ws://', 'http://')
-    const [blockHashResp, specResp] = await Promise.all([
-      fetch(http, { method: 'POST', body: '{"id":1,"jsonrpc":"2.0","method":"chain_getBlockHash","params":[0]}', headers: { 'content-type': 'application/json' } }).then(resp => resp.json()),
-      fetch(http, { method: 'POST', body: '{"id":2,"jsonrpc":"2.0","method":"state_getRuntimeVersion","params":[]}', headers: { 'content-type': 'application/json' } }).then(resp => resp.json()),
-    ])
-    const id = `${blockHashResp.result}-${specResp.result.specVersion}`
-    let metadata = localStorage.getItem(id)
-    if (!metadata) {
-      const metadataResp = await fetch(
-        http,
-        {
-          method: 'POST',
-          body: '{"id":3,"jsonrpc":"2.0","method":"state_getMetadata","params":[]}',
-          headers: { 'content-type': 'application/json' }
-        }
-      ).then(resp => resp.json())
-      metadata = metadataResp.result
-      localStorage.setItem(id, metadata)
-    }
-    instance = await ApiPromise.create({
-      provider: new WsProvider(url),
-      noInitWarn: true,
-      metadata: { [id]: metadata },
-    })
-    return instance
-  }()
+async function getOptions(chain, endpoint) {
+  const provider = new WsProvider(endpoint, 1000);
+  let options = { provider };
+
+  const customizedOptions = allOptions[chain] || {};
+  const { id, metadata } = await getMetadata(provider);
+  return {
+    ...customizedOptions,
+    ...options,
+    metadata: { [id]: metadata },
+  };
 }
 
-export function getChainApi(queryUrl) {
-  const nodes = getChainNodes();
-  const url = queryUrl || nodes[0]?.url;
-  if (!apiInstanceMap.has(url)) {
-    apiInstanceMap.set(
-      url,
-      createPromise(url)
-    );
+async function newApiPromise(chain, endpoint) {
+  const options = await getOptions(chain, endpoint);
+  return new ApiPromise(options);
+}
+
+export default async function newApi(chain, endpoint) {
+  if (!Object.keys(Chains).includes(chain)) {
+    throw new Error(`Invalid chain: ${chain} to construct api`);
   }
-  return apiInstanceMap.get(url);
+
+  if (!apiMap.has(endpoint)) {
+    apiMap.set(endpoint, newApiPromise(chain, endpoint));
+  }
+
+  return await apiMap.get(endpoint);
 }
 
 export const estimateBlocksTime = async (api, blocks) => {
   const nsPerBlock = api.consts.babe.expectedBlockTime.toNumber();
   return nsPerBlock * blocks;
 };
+
+export function getApiMap() {
+  return apiMap;
+}
