@@ -29,7 +29,6 @@ import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
 import NodeSwitch from "../nodeSwitch";
 import MobileNodeSwitch from "./mobileNodeSwitch";
-import useUpdateNodesDelay from "../../utils/hooks/useUpdateNodesDelay";
 import { getIsSimpleMode } from "../../utils/env";
 import getBusinessMenus from "../../utils/consts/menu";
 
@@ -106,8 +105,6 @@ const ExploreInput = styled(ExploreInputOrigin)`
 `;
 
 export default function Header() {
-  useUpdateNodesDelay();
-
   const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
   const dispatch = useDispatch();
   const location = useLocation();

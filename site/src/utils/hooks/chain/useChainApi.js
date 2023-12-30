@@ -1,15 +1,44 @@
 import { useEffect, useState } from "react";
-import { getChainApi } from "../../../services/chainApi";
-import { useSelector } from "react-redux";
-import { currentNodeSelector } from "../../../store/reducers/nodeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  currentNodeSelector,
+  removeCurrentNode,
+  setCurrentNode,
+} from "../../../store/reducers/nodeSlice";
+import { getEnvChain } from "../../env";
+import { getChainNodes } from "../../chain";
+import useCandidateNodes from "./apis/useCandidateNodes";
+import getApiInSeconds, { getApi } from "./apis/getApi";
 
 export function useChainApi() {
-  const currentNode = useSelector(currentNodeSelector);
-  const [chainApi, setChainApi] = useState();
+  const chain = getEnvChain();
+  const currentEndpoint = useSelector(currentNodeSelector);
+  const [api, setApi] = useState();
+  const chainNodes = getChainNodes();
+  const dispatch = useDispatch();
+  const candidateNodes = useCandidateNodes();
 
   useEffect(() => {
-    getChainApi(currentNode).then(setChainApi);
-  }, [currentNode]);
+    if (currentEndpoint) {
+      getApiInSeconds(chain, currentEndpoint)
+        .then((api) => {
+          setApi(api);
+        })
+        .catch(() => {
+          if (chainNodes.length > 1) {
+            dispatch(removeCurrentNode()); // remove current node to trigger the best node selection
+          }
+        });
+    } else {
+      Promise.any(
+        candidateNodes.map((endpoint) => getApi(chain, endpoint)),
+      ).then((api) => {
+        setApi(api);
+        const endpoint = api._options.provider.endpoint;
+        dispatch(setCurrentNode({ url: endpoint, saveLocalStorage: false }));
+      });
+    }
+  }, [currentEndpoint, chain, dispatch, chainNodes, candidateNodes]);
 
-  return chainApi;
+  return api;
 }

@@ -31,6 +31,8 @@ import OnChainEvent from "./pages/onChainEvent";
 import MultisigsPage from "./pages/multisigs";
 import MultisigAccountsPage from "./pages/multisigAccounts";
 import MultisigPage from "./pages/multisig";
+import useConnectApis from "./utils/hooks/chain/apis/useConnectApis";
+import useUpdateNodesDelay from "./utils/hooks/useUpdateNodesDelay";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
@@ -40,6 +42,8 @@ function App() {
   const { assets, uniques, identity, multisig } = getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useSubFinalizedHeight();
+  useConnectApis();
+  useUpdateNodesDelay();
 
   return (
     <Router>

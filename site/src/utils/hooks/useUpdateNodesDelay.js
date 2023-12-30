@@ -1,12 +1,10 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { getChainApi } from "../../services/chainApi";
-import {
-  nodesSelector,
-  setNodesDelay,
-  currentNodeSelector,
-} from "../../store/reducers/nodeSlice";
+import { getApiMap } from "../../services/chainApi";
+import { setNodesDelay } from "../../store/reducers/nodeSlice";
+import { getEnvChain } from "../env";
+import useCandidateNodes from "./chain/apis/useCandidateNodes";
 
 const TIMEOUT = 10000;
 let count = 0;
@@ -32,34 +30,42 @@ const testNet = async (api) => {
   return await Promise.race([fetchApiTime(api), timeout(TIMEOUT)]);
 };
 
-const useUpdateNodesDelay = () => {
-  const nodes = useSelector(nodesSelector);
-  const currentNode = useSelector(currentNodeSelector);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const updateNodeDelay = async (url) => {
-      try {
-        const api = await getChainApi(url);
-        const delay = await testNet(api);
-        return delay;
-      } catch {
-        return "";
-      }
-    };
-    const intervalId = setInterval(async () => {
-      const updateNodes = (nodes || []).filter(
-        (item) => item.url === currentNode || item.update,
-      );
+async function getNodeDelay(api) {
+  try {
+    return await testNet(api);
+  } catch (e) {
+    console.error("we have a error to test network", e);
+    return "timeout";
+  }
+}
 
-      if (updateNodes && updateNodes.length > 0) {
-        const updateNode = updateNodes[count % updateNodes.length];
-        const delay = await updateNodeDelay(updateNode.url);
-        dispatch(setNodesDelay({ url: updateNode.url, delay }));
+async function updateUrlDelay(url, dispatch) {
+  const apiMap = getApiMap();
+  const api = await apiMap.get(url);
+  const delay = await getNodeDelay(api);
+  dispatch(setNodesDelay({ url, delay }));
+}
+
+function useUpdateNodesDelay() {
+  const chain = getEnvChain();
+  const dispatch = useDispatch();
+  const candidateNodes = useCandidateNodes();
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      if (count++ === 0) {
+        // update delay for all endpoints at the first time
+        await Promise.all(
+          candidateNodes.map((url) => updateUrlDelay(url, dispatch)),
+        );
+      } else if (candidateNodes && candidateNodes.length > 0) {
+        const url = candidateNodes[count % candidateNodes.length];
+        await updateUrlDelay(url, dispatch);
       }
-      count++;
     }, 5000);
+
     return () => clearInterval(intervalId);
-  }, [dispatch, nodes, currentNode]);
-};
+  }, [dispatch, chain, candidateNodes]);
+}
 
 export default useUpdateNodesDelay;

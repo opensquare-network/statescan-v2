@@ -25,7 +25,7 @@ const Item = styled.div`
   ${(p) =>
     p.active &&
     css`
-      color: var(--theme500);
+      background: var(--fillPopupHover);
     `}
 
   ${Inter_14_500}
@@ -73,7 +73,7 @@ export default function NodeList() {
         return (
           <Item
             key={node.url}
-            active={node === currentNode}
+            active={node.url === currentNode.url}
             onClick={() => onSelectNode(node)}
           >
             <span>Hosted by {node.name}</span>
