@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.2
+
+date: 2023-12-30
+
+- Improve chain RPC connections. Best node is selected, and fault tolerance is Enhanced.
+- Correct icon for multisig unsign.
+
 ## 1.2.1
 
 date: 2023-12-05
