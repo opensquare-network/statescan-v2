@@ -38,7 +38,7 @@ export function useIdentityQuery(query, options = {}, ...args) {
 export function useIdentityLazyQuery(query, options = {}, ...args) {
   options.client = options.client || identityClient;
 
-  const { modules } = useChainSettings();
+  const { modules = {} } = useChainSettings();
   let [fetcher, lazyQueryResult] = useLazyQuery(query, options, ...args);
 
   if (!modules.identity) {
