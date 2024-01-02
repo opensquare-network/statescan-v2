@@ -4,7 +4,7 @@ function normalizeData({ total, free, reserved, miscFrozen, feeFrozen }) {
     free: free.toString(),
     reserved: reserved.toString(),
     miscFrozen: miscFrozen.toString(),
-    feeFrozen: feeFrozen.toString(),
+    feeFrozen: feeFrozen?.toString() || 0,
   };
 }
 
