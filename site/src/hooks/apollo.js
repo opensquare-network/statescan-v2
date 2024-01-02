@@ -25,10 +25,10 @@ export function useIdentityQuery(query, options = {}, ...args) {
   );
 
   useEffect(() => {
-    if (modules.identity) {
+    if (modules?.identity) {
       fetcher();
     }
-  }, [modules.identity, fetcher]);
+  }, [modules?.identity, fetcher]);
 
   return lazyQueryResult;
 }
@@ -41,7 +41,7 @@ export function useIdentityLazyQuery(query, options = {}, ...args) {
   const { modules = {} } = useChainSettings();
   let [fetcher, lazyQueryResult] = useLazyQuery(query, options, ...args);
 
-  if (!modules.identity) {
+  if (!modules?.identity) {
     fetcher = noop;
   }
 
@@ -62,10 +62,10 @@ export function useMultisigQuery(query, options = {}, ...args) {
   );
 
   useEffect(() => {
-    if (modules.multisig) {
+    if (modules?.multisig) {
       fetcher();
     }
-  }, [fetcher, modules.multisig]);
+  }, [fetcher, modules?.multisig]);
 
   return lazyQueryResult;
 }
@@ -79,7 +79,7 @@ export function useMultisigLazyQuery(query, options = {}, ...args) {
   const { modules } = useChainSettings();
   let [fetcher, lazyQueryResult] = useLazyQuery(query, options, ...args);
 
-  if (!modules.multisig) {
+  if (!modules?.multisig) {
     fetcher = noop;
   }
 
