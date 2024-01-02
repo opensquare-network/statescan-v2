@@ -14,6 +14,7 @@ import {
   Transfers,
   transfersHead,
   ACCOUNT_IDENTITY_TAB_NAME,
+  extrinsicsHeadSimpleMode,
 } from "../../utils/constants";
 import DetailTable from "../detail/table";
 import {
@@ -22,6 +23,7 @@ import {
   toNftInstanceTransferTabTableItem,
   toTransferTabTableItem,
   toInstancesTabTableItem,
+  toExtrinsicsTabTableItemSimpleMode,
 } from "../../utils/viewFuncs/toTableItem";
 import { clearDetailTables } from "../../store/reducers/detailTablesSlice";
 import {
@@ -34,6 +36,7 @@ import useAccountIdentity from "../accountIdentity";
 import { useMultisigAddressData } from "../../hooks/multisig/useMultisigAddressData";
 import AccountTabMultisig from "../accountMultisig";
 import { getChainModules } from "../../utils/chain";
+import { getIsSimpleMode } from "../../utils/env";
 
 function AccountDetailCommon() {
   const { id } = useParams();
@@ -43,6 +46,7 @@ function AccountDetailCommon() {
   const [isPreview, setIsPreview] = useState(false);
   const { data: multisigAddressData } = useMultisigAddressData(id);
   const { multisig: hasMultisig } = getChainModules();
+  const isSimpleMode = getIsSimpleMode();
 
   const showPreview = useCallback((nft) => {
     setPreviewNft(nft);
@@ -94,8 +98,12 @@ function AccountDetailCommon() {
       children: (
         <DetailTable
           url={extrinsicsApiKey}
-          heads={extrinsicsHead}
-          transformData={toExtrinsicsTabTableItem}
+          heads={isSimpleMode ? extrinsicsHeadSimpleMode : extrinsicsHead}
+          transformData={
+            isSimpleMode
+              ? toExtrinsicsTabTableItemSimpleMode
+              : toExtrinsicsTabTableItem
+          }
         />
       ),
     },
