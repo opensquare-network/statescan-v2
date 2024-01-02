@@ -4,7 +4,7 @@ const {
 } = require("@osn/scan-common");
 
 function normalizeData(accountData) {
-  const { free, reserved, miscFrozen, feeFrozen } = accountData;
+  const { free, reserved, miscFrozen = 0, feeFrozen } = accountData;
   const total = bigAdd(free, reserved);
 
   return {
