@@ -98,6 +98,7 @@ const kusamaChains = Object.values(chains).filter((i) => i.chain === "kusama");
 const westendChains = Object.values(chains).filter(
   (i) => i.chain === "westend",
 );
+const testnetOrSoloChains = Object.values(chains).filter((i) => !i.chain);
 
 export default function ChainSwitch() {
   const currentNode = useSelector(chainSettingSelector);
@@ -117,6 +118,10 @@ export default function ChainSwitch() {
     {
       title: "Westend & Parachain",
       chains: westendChains,
+    },
+    {
+      title: "Solo chains & Testnet",
+      chains: testnetOrSoloChains,
     },
   ];
 

@@ -1,5 +1,6 @@
 import Statemint from "../../../components/icons/statemintIcon";
 import { assetChainModules } from "./assetChain";
+import { polkadotColor } from "./common";
 
 const statemint = {
   name: "Statemint",
@@ -11,8 +12,7 @@ const statemint = {
   symbol: "DOT",
   decimals: 10,
   chainIcon: "polkadot",
-  color: "#E6007A",
-  colorSecondary: "rgba(230, 0, 122, 0.1)",
+  ...polkadotColor,
   buttonColor: "#E6007A",
   hidden: false,
   modules: assetChainModules,
