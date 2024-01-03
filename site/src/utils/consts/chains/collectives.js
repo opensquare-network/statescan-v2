@@ -1,5 +1,10 @@
 import PolkadotCollectivesIcon from "../../../components/icons/polkadotCollectivesIcon";
 
+export const collectivesModules = {
+  identity: false,
+  multisig: false,
+};
+
 const collectives = {
   name: "Collectives",
   icon: <PolkadotCollectivesIcon />,
@@ -11,6 +16,7 @@ const collectives = {
   color: "#E6777A",
   colorSecondary: "rgba(230, 119, 122, 0.1)",
   buttonColor: "#E6777A",
+  modules: collectivesModules,
   para: {
     relay: "Polkadot",
     id: "1001",

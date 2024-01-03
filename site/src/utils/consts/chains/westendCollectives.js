@@ -1,4 +1,5 @@
 import WestendCollectivesIcon from "../../../components/icons/westendCollectivesIcon";
+import { collectivesModules } from "./collectives";
 
 const westendCollectives = {
   name: "Collectives",
@@ -11,6 +12,7 @@ const westendCollectives = {
   color: "#E6777A",
   colorSecondary: "rgba(230, 119, 122, 0.1)",
   buttonColor: "#E6777A",
+  modules: collectivesModules,
   para: {
     relay: "Westend",
     id: "1001",
