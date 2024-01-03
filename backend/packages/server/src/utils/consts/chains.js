@@ -8,6 +8,7 @@ const chains = Object.freeze({
   litmus: "litmus",
   "westend-collectives": "westend-collectives",
   collectives: "collectives",
+  "hydradx-testnet": "hydradx-testnet",
 });
 
 const ss58Format = Object.freeze({
@@ -20,6 +21,7 @@ const ss58Format = Object.freeze({
   [chains.litmus]: 131,
   [chains.collectives]: 0,
   [chains["westend-collectives"]]: 0,
+  [chains["hydradx-testnet"]]: 63,
 });
 
 function getSs58Format(chain) {
