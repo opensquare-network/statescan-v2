@@ -119,11 +119,11 @@ export default function ChainSwitch() {
       title: "Westend & Parachain",
       chains: westendChains,
     },
-    {
+    testnetOrSoloChains.length > 0 && {
       title: "Solo chains & Testnet",
       chains: testnetOrSoloChains,
     },
-  ];
+  ].filter(Boolean);
 
   return (
     <Wrapper ref={ref} onClick={() => setShow((state) => !state)}>
