@@ -7,7 +7,6 @@ import westendCollectives from "./westendCollectives";
 import collectives from "./collectives";
 import kusama from "./kusama";
 import polkadot from "./polkadot";
-import hydradxTestnet from "./hydradxTestnet";
 
 const chains = {
   kusama,
@@ -19,7 +18,7 @@ const chains = {
   westmint,
   "westend-collectives": westendCollectives,
   collectives,
-  "hydradx-testnet": hydradxTestnet,
+  // "hydradx-testnet": hydradxTestnet,
 };
 
 export default chains;
