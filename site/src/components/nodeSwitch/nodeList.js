@@ -73,7 +73,7 @@ export default function NodeList() {
         return (
           <Item
             key={node.url}
-            active={node.url === currentNode.url}
+            active={node.url === currentNode?.url}
             onClick={() => onSelectNode(node)}
           >
             <span>Hosted by {node.name}</span>
