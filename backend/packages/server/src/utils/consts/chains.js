@@ -9,6 +9,7 @@ const chains = Object.freeze({
   "westend-collectives": "westend-collectives",
   collectives: "collectives",
   "hydradx-testnet": "hydradx-testnet",
+  polimec: "polimec",
 });
 
 const ss58Format = Object.freeze({
@@ -22,6 +23,7 @@ const ss58Format = Object.freeze({
   [chains.collectives]: 0,
   [chains["westend-collectives"]]: 0,
   [chains["hydradx-testnet"]]: 63,
+  [chains.polimec]: 41,
 });
 
 function getSs58Format(chain) {
