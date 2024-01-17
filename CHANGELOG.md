@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.3
+
+date: 2024-01-17
+
+- Support hydradx testnet and polimec.
+- Fix account field normalization in scan.
+
 ## 1.2.2
 
 date: 2023-12-30
