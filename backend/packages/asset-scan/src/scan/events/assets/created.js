@@ -12,7 +12,7 @@ const {
  * @param event
  * @param indexer
  * @param extrinsic
- * @param isForced: for `ForceCreated` handling
+ * @param isForced for `ForceCreated` handling
  * @returns {Promise<void>}
  */
 async function handleCreated(event, indexer, extrinsic, isForced = false) {
