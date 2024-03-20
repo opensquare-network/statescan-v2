@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.2.5
+
+date: 2024-03-20
+
+- Support crust shadow.
+- Support gargantua.
+
 ## 1.2.4
 
 date: 2024-02-25
