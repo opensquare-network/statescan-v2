@@ -20,7 +20,6 @@ const gargantua = {
   colorSecondary: "rgba(225,61,144, 0.1)",
   modules: collectivesModules,
   nodes,
-  useOnChainBlockData: true,
 };
 
 export default gargantua;
