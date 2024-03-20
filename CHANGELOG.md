@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.4
+
+date: 2024-02-25
+
+- Fix extrinsics query in simple scan mode.
+- Remove polimec from chain menu.
+
 ## 1.2.3
 
 date: 2024-01-17
