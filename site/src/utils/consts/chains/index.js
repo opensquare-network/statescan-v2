@@ -8,6 +8,7 @@ import collectives from "./collectives";
 import kusama from "./kusama";
 import polkadot from "./polkadot";
 import shadow from "./shadow";
+import gargantua from "./gargantua";
 
 const chains = {
   kusama,
@@ -22,6 +23,7 @@ const chains = {
   // "hydradx-testnet": hydradxTestnet,
   // polimec,
   shadow,
+  gargantua,
 };
 
 export default chains;
