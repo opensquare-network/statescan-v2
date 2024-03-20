@@ -18,7 +18,10 @@ async function normalizeExtrinsics(
   for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(blockEvents, index);
     const extrinsicIndexer = { ...blockIndexer, extrinsicIndex: index++ };
-    if (isExemptedExtrinsic(extrinsic) || !extrinsic.isSigned) {
+    if (
+      isSimpleMode() &&
+      (isExemptedExtrinsic(extrinsic) || !extrinsic.isSigned)
+    ) {
       continue;
     }
 
