@@ -11,6 +11,7 @@ const chains = Object.freeze({
   "hydradx-testnet": "hydradx-testnet",
   polimec: "polimec",
   shadow: "shadow",
+  gargantua: "gargantua",
 });
 
 const ss58Format = Object.freeze({
@@ -26,6 +27,7 @@ const ss58Format = Object.freeze({
   [chains["hydradx-testnet"]]: 63,
   [chains.polimec]: 41,
   [chains.shadow]: 66,
+  [chains.gargantua]: 42,
 });
 
 function getSs58Format(chain) {
