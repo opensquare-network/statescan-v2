@@ -21,7 +21,7 @@ const { currentChain } = require("@osn/scan-common/src/env");
 async function handleAssetsEvent(event, indexer, extrinsic) {
   const { section, method } = event;
 
-  if (["shadow"].includes(currentChain())) {
+  if (["shadow", "polkadot-crust-parachain"].includes(currentChain())) {
     return;
   }
 
