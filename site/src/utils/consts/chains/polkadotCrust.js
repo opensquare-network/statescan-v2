@@ -20,7 +20,7 @@ const polkadotCrust = {
   colorSecondary: "rgba(250,140,22, 0.1)",
   modules: collectivesModules,
   nodes,
-  useOnChainBlockData: true,
+  useOnChainBlockData: false,
 };
 
 export default polkadotCrust;
