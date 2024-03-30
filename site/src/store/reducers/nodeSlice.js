@@ -3,6 +3,12 @@ import { getChainNodes } from "../../utils/chain";
 import getEndpointFromLocalStorage from "../../utils/hooks/chain/apis/endpointLocalStorage";
 
 const chain = process.env.REACT_APP_PUBLIC_CHAIN;
+function getSubDomain(chain) {
+  if ("polkadot-crust-parachain" === chain) {
+    return "crust-parachain";
+  }
+  return chain;
+}
 
 const nodeSlice = createSlice({
   name: "node",
@@ -29,7 +35,7 @@ const nodeSlice = createSlice({
       }
 
       if (refresh) {
-        window.location.href = `https://${chain}.statescan.io`;
+        window.location.href = `https://${getSubDomain(chain)}.statescan.io`;
       }
     },
     removeCurrentNode(state) {
