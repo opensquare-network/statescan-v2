@@ -12,6 +12,7 @@ const chains = Object.freeze({
   polimec: "polimec",
   shadow: "shadow",
   gargantua: "gargantua",
+  "polkadot-crust-parachain": "polkadot-crust-parachain",
 });
 
 const ss58Format = Object.freeze({
@@ -28,6 +29,7 @@ const ss58Format = Object.freeze({
   [chains.polimec]: 41,
   [chains.shadow]: 66,
   [chains.gargantua]: 42,
+  [chains["polkadot-crust-parachain"]]: 88,
 });
 
 function getSs58Format(chain) {
