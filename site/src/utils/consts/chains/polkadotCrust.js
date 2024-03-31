@@ -1,5 +1,4 @@
 import CrustIcon from "../../../components/icons/crustIcon";
-import { collectivesModules } from "./collectives";
 
 const nodes = [
   {
@@ -18,7 +17,10 @@ const polkadotCrust = {
   decimals: 12,
   color: "#FA8C16",
   colorSecondary: "rgba(250,140,22, 0.1)",
-  modules: collectivesModules,
+  modules: {
+    identity: true,
+    multisig: false,
+  },
   nodes,
   useOnChainBlockData: false,
 };
