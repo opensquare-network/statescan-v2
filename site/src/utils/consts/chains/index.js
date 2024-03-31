@@ -9,6 +9,7 @@ import kusama from "./kusama";
 import polkadot from "./polkadot";
 import shadow from "./shadow";
 import gargantua from "./gargantua";
+import polkadotCrustParachain from "./polkadotCrust";
 
 const chains = {
   kusama,
@@ -24,6 +25,7 @@ const chains = {
   // polimec,
   shadow,
   gargantua,
+  "polkadot-crust-parachain": polkadotCrustParachain,
 };
 
 export default chains;
