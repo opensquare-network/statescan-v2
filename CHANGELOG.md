@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.2.6
+
+date: 2024-03-31
+
+- Support polkadot crust parachain.
+
 ### 1.2.5
 
 date: 2024-03-20
