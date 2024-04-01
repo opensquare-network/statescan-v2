@@ -12,6 +12,15 @@ const defaultGeneral = {
   request: 0,
 };
 
+function enrichIdentity(identityObj = {}) {
+  const result = { ...identityObj };
+  result.verified = result.verified || 0;
+  result.unverified = result.unverified || 0;
+  result.erroneous = result.erroneous || 0;
+
+  return result;
+}
+
 async function statistics() {
   const col = await getStatisticsCol();
   const records = await col.find({}).toArray();
@@ -24,7 +33,7 @@ async function statistics() {
   );
 
   return {
-    identity: generalRecord.identity,
+    identity: enrichIdentity(generalRecord.identity),
     subIdentity: generalRecord.subIdentity,
     request: generalRecord.request,
     judgementGiven: totalGiven?.value || 0,
