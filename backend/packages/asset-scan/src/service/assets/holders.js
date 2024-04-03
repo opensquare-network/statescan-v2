@@ -36,7 +36,8 @@ async function updateAssetAccounts(assetId, addresses, indexer) {
     indexer.blockHash,
   );
   for (const assetAccount of assetAccounts) {
-    const { address, info: { balance = 0 } = {} } = assetAccount;
+    const { address } = assetAccount;
+    const balance = assetAccount?.info?.balance || 0;
     if (!gt(balance, 0)) {
       bulk.find({ assetId, assetHeight, address }).delete();
       continue;
