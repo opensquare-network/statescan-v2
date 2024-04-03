@@ -4,8 +4,9 @@ const { deleteFrom } = require("./delete");
 const { handleEvents } = require("./events");
 const {
   chain: { getBlockIndexer, getLatestFinalizedHeight, wrapBlockHandler },
-  scan: { oneStepScan },
+  scan: { oneStepScan, scanKnownHeights },
   utils: { sleep },
+  env: { firstScanKnowHeights },
 } = require("@osn/scan-common");
 const {
   asset: { getAssetDb },
@@ -42,6 +43,15 @@ async function scan() {
   const db = getAssetDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
+
+  if (firstScanKnowHeights()) {
+    await scanKnownHeights(
+      toScanHeight,
+      undefined,
+      wrapBlockHandler(handleBlock),
+    );
+    toScanHeight = await db.getNextScanHeight();
+  }
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
