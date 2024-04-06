@@ -24,6 +24,7 @@ const {
     fetchBlocks,
   },
 } = require("@osn/scan-common");
+const chunk = require("lodash.chunk");
 
 async function handleUnFinalizedBlock({ block, author, events }) {
   const blockIndexer = getBlockIndexer(block);
@@ -42,6 +43,14 @@ async function handleUnFinalizedBlock({ block, author, events }) {
   await batchUnFinalizedUpsertCalls(normalizedCalls);
 }
 
+async function handleBlocks(heights) {
+  const blocks = await fetchBlocks(heights, true);
+  for (const block of blocks) {
+    await handleUnFinalizedBlock(block);
+    console.log(`${block.height} unFinalized block saved`);
+  }
+}
+
 async function updateUnFinalized(newFinalizedHeight) {
   await deleteUnFinalizedLte(newFinalizedHeight);
   const finalizedHeight = getLatestFinalizedHeight();
@@ -56,9 +65,9 @@ async function updateUnFinalized(newFinalizedHeight) {
     heights.push(i);
   }
 
-  const blocks = await fetchBlocks(heights, true);
-  for (const block of blocks) {
-    await handleUnFinalizedBlock(block);
+  const heightChunks = chunk(heights, 10);
+  for (const chunkHeights of heightChunks) {
+    await handleBlocks(chunkHeights);
   }
 }
 
