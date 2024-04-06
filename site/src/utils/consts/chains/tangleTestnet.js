@@ -19,7 +19,7 @@ const tangleTestnet = {
     identity: true,
   },
   nodes,
-  useOnChainBlockData: false,
+  useOnChainBlockData: true,
 };
 
 export default tangleTestnet;
