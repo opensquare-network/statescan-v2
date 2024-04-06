@@ -47,7 +47,6 @@ async function handleBlocks(heights) {
   const blocks = await fetchBlocks(heights, true);
   for (const block of blocks) {
     await handleUnFinalizedBlock(block);
-    console.log(`${block.height} unFinalized block saved`);
   }
 }
 
