@@ -10,6 +10,7 @@ import polkadot from "./polkadot";
 import shadow from "./shadow";
 import gargantua from "./gargantua";
 import polkadotCrustParachain from "./polkadotCrust";
+import tangleTestnet from "./tangleTestnet";
 
 const chains = {
   kusama,
@@ -26,6 +27,7 @@ const chains = {
   shadow,
   gargantua,
   "polkadot-crust-parachain": polkadotCrustParachain,
+  "tangle-testnet": tangleTestnet,
 };
 
 export default chains;

@@ -2,7 +2,12 @@ require("dotenv").config();
 
 const { scan } = require("./scan");
 const {
-  chain: { subscribeFinalizedHeight, updateSpecs, checkSpecs },
+  chain: {
+    subscribeLatestHeight,
+    subscribeFinalizedHeight,
+    updateSpecs,
+    checkSpecs,
+  },
   env: { isUseMetaDb },
 } = require("@osn/scan-common");
 const {
@@ -13,6 +18,7 @@ const {
 async function main() {
   await initBlockDb();
   await initAssetScanDb();
+  await subscribeLatestHeight();
   await subscribeFinalizedHeight();
   if (isUseMetaDb()) {
     await updateSpecs();
