@@ -26,6 +26,7 @@
     "@osn/scan-common": "0.6.4",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
+    "lodash.chunk": "^4.2.0",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",
     "moment-timezone": "^0.5.38",

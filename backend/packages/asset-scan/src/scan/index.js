@@ -12,6 +12,7 @@ const {
   asset: { getAssetDb },
   block: { getBlockDb },
 } = require("@statescan/mongo");
+const { deleteAllUnFinalizedData } = require("./unFinalized/db");
 
 async function handleBlock({ block, events, height }) {
   const blockIndexer = getBlockIndexer(block);
@@ -24,7 +25,7 @@ async function handleBlock({ block, events, height }) {
   await db.updateScanHeight(height);
 
   const finalizedHeight = getLatestFinalizedHeight();
-  if (height >= finalizedHeight) {
+  if (height >= finalizedHeight - 100) {
     await updateUnFinalized(finalizedHeight);
   }
 }
@@ -51,6 +52,13 @@ async function scan() {
       wrapBlockHandler(handleBlock),
     );
     toScanHeight = await db.getNextScanHeight();
+  }
+
+  const finalizedHeight = getLatestFinalizedHeight();
+  if (toScanHeight < finalizedHeight - 100) {
+    await deleteAllUnFinalizedData();
+  } else if (toScanHeight >= finalizedHeight) {
+    await updateUnFinalized(finalizedHeight);
   }
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
