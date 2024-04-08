@@ -14,6 +14,8 @@ const chains = Object.freeze({
   gargantua: "gargantua",
   "polkadot-crust-parachain": "polkadot-crust-parachain",
   "tangle-testnet": "tangle-testnet",
+  heiko: "heiko",
+  parallel: "parallel",
 });
 
 const ss58Format = Object.freeze({
@@ -32,6 +34,8 @@ const ss58Format = Object.freeze({
   [chains.gargantua]: 42,
   [chains["polkadot-crust-parachain"]]: 88,
   [chains["tangle-testnet"]]: 42,
+  [chains.heiko]: 110,
+  [chains.parallel]: 172,
 });
 
 function getSs58Format(chain) {
