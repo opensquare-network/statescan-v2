@@ -23,7 +23,7 @@ async function batchInsertAssetsTransfers(indexer) {
     const asset = assets.find((asset) => asset.assetId === transfer.assetId);
     if (!asset) {
       throw new Error(
-        `Can not find asset: ${transfer.assetId} when insert transfer`,
+        `Can not find asset: ${transfer.assetId} when insert transfer at ${indexer.blockHeight}`,
       );
     }
     bulk.insert({
