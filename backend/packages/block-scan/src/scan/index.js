@@ -20,9 +20,11 @@ const {
   block: { getBlockDb },
 } = require("@statescan/mongo");
 const { isSimpleMode } = require("../env");
+const { getFixedBlockIndexer } = require("./utils/hash");
 
 async function handleBlock({ block, author, events, height }) {
-  const blockIndexer = getBlockIndexer(block);
+  let blockIndexer = getBlockIndexer(block);
+  blockIndexer = getFixedBlockIndexer(blockIndexer, block);
 
   const normalizedBlock = normalizeBlock(block, author, events, blockIndexer);
   const normalizedEvents = normalizeEvents(events, blockIndexer);

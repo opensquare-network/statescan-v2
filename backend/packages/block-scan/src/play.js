@@ -7,7 +7,7 @@ const { handleBlock } = require("./scan");
 
 async function main() {
   await subscribeFinalizedHeight();
-  const blockHeights = [5753828];
+  const blockHeights = [206081];
 
   const api = await getApi();
   for (const height of blockHeights) {

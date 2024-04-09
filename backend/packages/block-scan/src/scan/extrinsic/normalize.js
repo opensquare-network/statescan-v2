@@ -2,6 +2,7 @@ const {
   utils: { isExtrinsicSuccess },
   call: { normalizeCall },
 } = require("@osn/scan-common");
+const { getExtrinsicHash } = require("../utils/hash");
 
 function ignoreInExtrinsicList(call) {
   const { section, method } = call;
@@ -21,7 +22,7 @@ function getLifetime(extrinsic, indexer) {
 }
 
 function normalizeExtrinsic(extrinsic, events, indexer) {
-  const hash = extrinsic.hash.toHex();
+  const hash = getExtrinsicHash(extrinsic);
   const version = extrinsic.version;
   const isSuccess = isExtrinsicSuccess(events);
   const call = normalizeCall(extrinsic.method);
