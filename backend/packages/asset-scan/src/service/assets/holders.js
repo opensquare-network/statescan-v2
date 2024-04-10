@@ -8,6 +8,7 @@ const {
 } = require("../../scan/query/assets/account/assetsAccount");
 const {
   getActiveAssetOrThrow,
+  getActiveAsset,
 } = require("../../scan/mongo/assets/getActiveAsset");
 const {
   asset: { getAssetHolderCol },
@@ -26,7 +27,11 @@ async function deleteAssetHolders(assetId, blockHeight) {
 }
 
 async function updateAssetAccounts(assetId, addresses, indexer) {
-  const asset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
+  const asset = await getActiveAsset(assetId, indexer.blockHeight);
+  if (!asset) {
+    return;
+  }
+
   const assetHeight = asset.assetHeight;
   const col = await getAssetHolderCol();
   const bulk = col.initializeUnorderedBulkOp();
@@ -54,7 +59,9 @@ async function updateAssetAccounts(assetId, addresses, indexer) {
       });
   }
 
-  await bulk.execute();
+  if (bulk.length > 0) {
+    await bulk.execute();
+  }
 }
 
 async function updateAssetsAccounts(indexer) {
