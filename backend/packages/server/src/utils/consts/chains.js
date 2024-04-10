@@ -13,6 +13,7 @@ const chains = Object.freeze({
   shadow: "shadow",
   gargantua: "gargantua",
   "polkadot-crust-parachain": "polkadot-crust-parachain",
+  tangle: "tangle",
   "tangle-testnet": "tangle-testnet",
   heiko: "heiko",
   parallel: "parallel",
@@ -33,6 +34,7 @@ const ss58Format = Object.freeze({
   [chains.shadow]: 66,
   [chains.gargantua]: 42,
   [chains["polkadot-crust-parachain"]]: 88,
+  [chains.tangle]: 5845,
   [chains["tangle-testnet"]]: 42,
   [chains.heiko]: 110,
   [chains.parallel]: 172,
@@ -46,6 +48,7 @@ const assetsModuleChains = [
   chains.statemint,
   chains.statemine,
   chains.westmint,
+  chains.parallel,
 ];
 
 const uniquesModuleChains = [...assetsModuleChains];
