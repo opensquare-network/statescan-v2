@@ -21,6 +21,7 @@ const parallel = {
   useOnChainBlockData: true,
   modules: {
     identity: true,
+    assets: true,
   },
 };
 
