@@ -11,6 +11,7 @@ import shadow from "./shadow";
 import gargantua from "./gargantua";
 import polkadotCrustParachain from "./polkadotCrust";
 import tangleTestnet from "./tangleTestnet";
+import tangle from "./tangle";
 import parallel from "./parallel";
 import heiko from "./heiko";
 
@@ -29,6 +30,7 @@ const chains = {
   shadow,
   gargantua,
   "polkadot-crust-parachain": polkadotCrustParachain,
+  tangle,
   "tangle-testnet": tangleTestnet,
   parallel,
   heiko,
