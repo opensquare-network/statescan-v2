@@ -49,6 +49,7 @@ const assetsModuleChains = [
   chains.statemine,
   chains.westmint,
   chains.parallel,
+  chains.heiko,
 ];
 
 const uniquesModuleChains = [...assetsModuleChains];
