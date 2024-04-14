@@ -17,6 +17,7 @@ const chains = Object.freeze({
   "tangle-testnet": "tangle-testnet",
   heiko: "heiko",
   parallel: "parallel",
+  crust: "crust",
 });
 
 const ss58Format = Object.freeze({
@@ -38,6 +39,7 @@ const ss58Format = Object.freeze({
   [chains["tangle-testnet"]]: 42,
   [chains.heiko]: 110,
   [chains.parallel]: 172,
+  [chains.crust]: 66,
 });
 
 function getSs58Format(chain) {
