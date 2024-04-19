@@ -19,7 +19,8 @@ function extractAdditional(additional) {
 }
 
 function extractIdentityInfo(rawIdentity) {
-  const { info } = rawIdentity.unwrap();
+  const unwrapped = rawIdentity.unwrap();
+  const info = Array.isArray(unwrapped) ? unwrapped[0].info : unwrapped.info;
 
   return {
     display: dataAsString(info.display),
