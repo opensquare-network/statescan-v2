@@ -13,7 +13,7 @@ export const assetDanger = {
       {
         name: "Twitter",
         url: "https://twitter.com/Dangerous_NFT",
-        icon: "/imgs/icons/link-twitter.svg",
+        icon: "/imgs/icons/link-x.svg",
       },
       {
         name: "Singular",

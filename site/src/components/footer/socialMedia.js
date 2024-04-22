@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { ReactComponent as Github } from "./github.svg";
-import { ReactComponent as Twitter } from "./twitter.svg";
+import { ReactComponent as X } from "./x.svg";
 import { ReactComponent as Element } from "./element.svg";
 import { gap_x } from "../../styles/tailwindcss";
 
@@ -46,7 +46,7 @@ export default function SocialMedia() {
         target="_blank"
         referrerPolicy="no-referrer"
       >
-        <Twitter width={20} height={20} />
+        <X width={20} height={20} />
       </Link>
       <Link
         href="https://app.element.io/#/room/#opensquare:matrix.org"

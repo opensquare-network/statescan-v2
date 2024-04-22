@@ -9,7 +9,7 @@ export const assetBfkk = {
       {
         name: "Twitter: @sheenhuxin",
         url: "https://twitter.com/sheenhuxin",
-        icon: "/imgs/icons/link-twitter.svg",
+        icon: "/imgs/icons/link-x.svg",
       },
     ],
   },
