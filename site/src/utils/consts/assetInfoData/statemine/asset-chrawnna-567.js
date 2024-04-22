@@ -9,7 +9,7 @@ export const assetChrawnna = {
       {
         name: "Twitter",
         url: "https://twitter.com/thatMediaWag",
-        icon: "/imgs/icons/link-twitter.svg",
+        icon: "/imgs/icons/link-x.svg",
       },
     ],
     governances: [

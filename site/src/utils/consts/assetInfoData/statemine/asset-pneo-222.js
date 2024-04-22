@@ -13,7 +13,7 @@ export const assetPNEO = {
       {
         name: "Twitter: @planetneo_com",
         url: "https://twitter.com/planetneo_com",
-        icon: "/imgs/icons/link-twitter.svg",
+        icon: "/imgs/icons/link-x.svg",
       },
       {
         name: "Discord",

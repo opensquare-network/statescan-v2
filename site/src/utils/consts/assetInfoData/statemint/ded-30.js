@@ -12,7 +12,7 @@ export const Ded = {
       {
         name: "Twitter: @dotisded",
         url: "https://twitter.com/dotisded",
-        icon: "/imgs/icons/link-twitter.svg",
+        icon: "/imgs/icons/link-x.svg",
       },
       {
         name: "Telegram: dedbird",
