@@ -72,7 +72,7 @@ async function scan() {
   if (toScanHeight < finalizedHeight - 100) {
     await deleteAllUnFinalizedData();
   } else if (toScanHeight >= finalizedHeight) {
-    await updateUnFinalized(finalizedHeight);
+    await updateUnFinalized(toScanHeight);
   }
   startJobs();
 
