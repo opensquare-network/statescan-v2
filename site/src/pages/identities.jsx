@@ -25,7 +25,7 @@ const Time = styled.div`
   color: var(--fontTertiary);
 `;
 
-const GET_IDENTITIES = gql`
+export const GET_IDENTITIES = gql`
   query GetIdentities(
     $limit: Int!
     $offset: Int!

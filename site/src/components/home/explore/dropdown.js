@@ -24,6 +24,12 @@ import {
 import { first } from "lodash";
 import { useEffectOnce } from "../../../utils/hooks/useEffectOnce";
 import { flex_1, p_x, p_y, truncate } from "../../../styles/tailwindcss";
+import AddressOrIdentity from "../../address";
+import * as queryString from "query-string";
+import {
+  ACCOUNT_IDENTITY_TAB_NAME,
+  ACCOUNT_IDENTITY_TAB_SUBTAB,
+} from "../../../utils/constants";
 
 const padding = 16;
 
@@ -89,6 +95,24 @@ const DropdownItemContentValue = styled.div`
   ${Inter_14_500};
   ${truncate};
   ${flex_1};
+`;
+
+const IdentitysWrapper = styled.div`
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const IdentitysRowWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 8px 0 8px 16px;
+  gap: 8px;
+  cursor: pointer;
+  :hover {
+    background: ${(p) => p.theme.fillPopupHover};
+  }
 `;
 
 function renderItem(type, value) {
@@ -217,7 +241,10 @@ function ExploreDropdownItem({
   });
 }
 
-function ExploreDropdown({ hints, visible, setSelectedItem = noop }, ref) {
+function ExploreDropdown(
+  { hints, identitys, visible, setSelectedItem = noop },
+  ref,
+) {
   useImperativeHandle(ref, () => ({ handleArrowNavigate }));
 
   const [selected, setSelected] = useState("");
@@ -253,6 +280,15 @@ function ExploreDropdown({ hints, visible, setSelectedItem = noop }, ref) {
     return null;
   }
 
+  const linkAccountPage = (address) => {
+    let link = `/accounts/${address}`;
+    link = `${link}?${queryString.stringify({
+      tab: ACCOUNT_IDENTITY_TAB_NAME,
+      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
+    })}`;
+    return link;
+  };
+
   return (
     <DropdownFlexColumn gap={8} className="explore-dropdown">
       {hints.map((hint) => (
@@ -268,6 +304,25 @@ function ExploreDropdown({ hints, visible, setSelectedItem = noop }, ref) {
           />
         </DropdownGroup>
       ))}
+      {identitys.length ? (
+        <DropdownGroup key="identity">
+          <DropdownGroupTitle>{lowerCase("identity")}</DropdownGroupTitle>
+          <IdentitysWrapper>
+            {identitys.map((identity) => (
+              <Link to={linkAccountPage(identity.account)}>
+                <IdentitysRowWrapper>
+                  <AccountIcon />
+                  <AddressOrIdentity
+                    key={identity.account}
+                    address={identity.account}
+                    linkToIdentityTimeline
+                  />
+                </IdentitysRowWrapper>
+              </Link>
+            ))}
+          </IdentitysWrapper>
+        </DropdownGroup>
+      ) : null}
     </DropdownFlexColumn>
   );
 }

@@ -18,6 +18,9 @@ import { makeExploreDropdownItemRouteLink } from "./utils";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { closeMobileMenu } from "../../../store/reducers/mobileMenuSlice";
+import { useIdentityQuery } from "../../../hooks/apollo";
+import { GET_IDENTITIES } from "../../../pages/identities";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 
 function compatExploreDropdownHints(hints) {
   return Object.entries(hints).map((hint) => {
@@ -41,9 +44,21 @@ function ExploreInput(props, ref) {
   const dropdownRef = useRef();
 
   const hints = useMemo(() => hintsCache[term] ?? [], [term, hintsCache]);
-
+  const [identitys, setIdentitys] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { modules } = useChainSettings();
+  useIdentityQuery(GET_IDENTITIES, {
+    variables: {
+      limit: 5,
+      offset: 0,
+      search: term,
+      isNoFetchOnSearchEmpty: true,
+    },
+    onCompleted(data) {
+      term && setIdentitys(data?.identities?.identities || []);
+    },
+  });
 
   async function fetchHints(term) {
     setLoadingHints(true);
@@ -70,25 +85,25 @@ function ExploreInput(props, ref) {
 
   useEffect(() => {
     if (!term) {
+      setIdentitys([]);
       setDropdownVisible(false);
       return;
     }
-
     if (!hintsCache[term]) {
       debouncedFetchHints(term);
     }
   }, [term, debouncedFetchHints, hintsCache]);
 
   useEffect(() => {
-    setDropdownVisible(!!hints?.length);
-  }, [hints]);
+    setDropdownVisible(!!hints?.length || !!identitys?.length);
+  }, [hints, identitys]);
 
   function onInput(e) {
     setTerm(e.target.value);
   }
 
   function onFocus() {
-    if (hints.length) {
+    if (hints.length || identitys?.length) {
       setDropdownVisible(true);
     }
   }
@@ -123,11 +138,28 @@ function ExploreInput(props, ref) {
       dropdownRef.current.handleArrowNavigate(code);
     }
   }
+  const placeholder = useMemo(() => {
+    let msg = "Block / Address";
+    if (!process.env.REACT_APP_PUBLIC_SIMPLE_MODE) {
+      msg += " / Extrinsic";
+    }
+    if (modules?.identity) {
+      msg += " / Identity";
+    }
+    if (modules?.assets) {
+      msg += " / Asset";
+    }
+    if (modules?.uniques) {
+      msg += " / NFT";
+    }
+    msg += " /...";
+    return msg;
+  }, [modules]);
 
   return (
     <>
       <Input
-        placeholder={"Block / Address / Extrinsic / Asset / NFT /..."}
+        placeholder={placeholder}
         {...props}
         onChange={onInput}
         onFocus={onFocus}
@@ -140,6 +172,7 @@ function ExploreInput(props, ref) {
       <ExploreDropdown
         ref={dropdownRef}
         hints={hints}
+        identitys={identitys}
         visible={dropdownVisible}
         setSelectedItem={setSelectedItem}
         onInputKeyDown={onInputKeyDown}

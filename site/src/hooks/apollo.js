@@ -18,9 +18,17 @@ const multisigClient = new ApolloClient({
  */
 export function useIdentityQuery(query, options = {}, ...args) {
   const { modules } = useChainSettings();
+
+  let searchOptions = {
+    ...options,
+    variables: {
+      ...options.variables,
+      search: options.variables?.search + "",
+    },
+  };
   const [fetcher, lazyQueryResult] = useIdentityLazyQuery(
     query,
-    options,
+    searchOptions,
     ...args,
   );
 
