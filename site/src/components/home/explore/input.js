@@ -139,7 +139,13 @@ function ExploreInput(props, ref) {
     }
   }
   const placeholder = useMemo(() => {
-    let msg = "Block / Address / Extrinsic";
+    let msg = "Block / Address";
+    if (!process.env.REACT_APP_PUBLIC_SIMPLE_MODE) {
+      msg += " / Extrinsic";
+    }
+    if (modules?.identity) {
+      msg += " / Identity";
+    }
     if (modules?.assets) {
       msg += " / Asset";
     }
