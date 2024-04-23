@@ -52,15 +52,12 @@ async function handleBlocks(heights) {
   }
 }
 
-async function updateUnFinalized(newFinalizedHeight) {
-  await deleteUnFinalizedLte(newFinalizedHeight);
+async function updateUnFinalized(scannedHeight) {
+  await deleteUnFinalizedLte(scannedHeight);
   const finalizedHeight = getLatestFinalizedHeight();
   const unFinalizedHeight = getLatestUnFinalizedHeight();
 
-  if (
-    newFinalizedHeight > finalizedHeight ||
-    newFinalizedHeight > unFinalizedHeight
-  ) {
+  if (scannedHeight > finalizedHeight || scannedHeight > unFinalizedHeight) {
     return;
   }
 

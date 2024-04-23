@@ -46,7 +46,7 @@ async function handleBlock({ block, author, events, height }) {
   await db.updateScanHeight(height);
 
   if (height >= finalizedHeight - 100) {
-    await updateUnFinalized(finalizedHeight);
+    await updateUnFinalized(height);
   }
 }
 
