@@ -20,11 +20,19 @@ function normalizeBlock(block, isFinalized = true) {
 
 async function feedLatestBlocks(io) {
   try {
-    const oldData = await getLatestBlocks();
+    const oldData = getLatestBlocks();
     const unFinalizedBlocks = await queryUnFinalizedBlocks();
     const finalizedBlocks = await queryFinalizedBlocks(0, 5);
+    const latestFinalized = finalizedBlocks[0]?.height;
+    const filteredUnFinalizedBlocks = unFinalizedBlocks.filter((b) => {
+      if (latestFinalized) {
+        return b.height > latestFinalized;
+      }
+      return false;
+    });
+
     const blocks = [
-      ...unFinalizedBlocks.map((item) => normalizeBlock(item, false)),
+      ...filteredUnFinalizedBlocks.map((item) => normalizeBlock(item, false)),
       ...finalizedBlocks.map((item) => normalizeBlock(item, true)),
     ].slice(0, 5);
 
