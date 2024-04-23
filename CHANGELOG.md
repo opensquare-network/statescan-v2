@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.3.0
+
+- Support new chains: parallel, heiko, tangle mainnet and testnet.
+- Fix assets pallet account data query.
+- Support known heights scan for assets pallet.
+- Add resources for asset DED.
+- Fix block/extrinsic hash for gargantua.
+- Fix bug introduced by new identity pallet code.
+- Support identity search on home page.
+- Update dependencies.
+
 ### 1.2.6
 
 date: 2024-03-31
