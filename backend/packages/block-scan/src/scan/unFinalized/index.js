@@ -57,6 +57,13 @@ async function updateUnFinalized(newFinalizedHeight) {
   const finalizedHeight = getLatestFinalizedHeight();
   const unFinalizedHeight = getLatestUnFinalizedHeight();
 
+  if (
+    newFinalizedHeight > finalizedHeight ||
+    newFinalizedHeight > unFinalizedHeight
+  ) {
+    return;
+  }
+
   if (finalizedHeight >= unFinalizedHeight) {
     await deleteUnFinalizedLte(finalizedHeight);
     return;
