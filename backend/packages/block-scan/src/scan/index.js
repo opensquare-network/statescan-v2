@@ -74,7 +74,7 @@ async function scan() {
   } else if (toScanHeight >= finalizedHeight) {
     await updateUnFinalized(finalizedHeight);
   }
-  await startJobs();
+  startJobs();
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
