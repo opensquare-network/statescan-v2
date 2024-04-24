@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 - Fix bug introduced by new identity pallet code.
 - Support identity search on home page.
 - Update dependencies.
+- Improve unfinalized blocks handling.
+- Introduce cron for scan jobs.
 
 ### 1.2.6
 
