@@ -101,7 +101,6 @@ const IdentitysWrapper = styled.div`
   margin-top: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 `;
 
 const IdentitysRowWrapper = styled.div`
@@ -309,7 +308,11 @@ function ExploreDropdown(
           <DropdownGroupTitle>{lowerCase("identity")}</DropdownGroupTitle>
           <IdentitysWrapper>
             {identitys.map((identity) => (
-              <Link to={linkAccountPage(identity.account)}>
+              <Link
+                key={identity.account}
+                to={linkAccountPage(identity.account)}
+                style={{ textDecoration: "none" }}
+              >
                 <IdentitysRowWrapper>
                   <AccountIcon />
                   <AddressOrIdentity
