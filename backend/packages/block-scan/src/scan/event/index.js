@@ -43,7 +43,7 @@ function normalizeEvents(events = [], blockIndexer) {
   let index = 0;
   let normalizedEvents = [];
   for (const event of events) {
-    if (isSimpleMode() && isExemptedEvent(event)) {
+    if (isExemptedEvent(event)) {
       index++;
       continue;
     }

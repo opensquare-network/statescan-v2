@@ -8,9 +8,10 @@ function isExemptedEvent(wrappedEvent) {
   const isParaInclusion =
     "paraInclusion" === section &&
     ["CandidateIncluded", "CandidateBacked"].includes(method);
+  const isImOnline = section === "imOnline";
   // todo: exempt other events
 
-  return isExtrinsicResult || isParaInclusion;
+  return isExtrinsicResult || isParaInclusion || isImOnline;
 }
 
 module.exports = {
