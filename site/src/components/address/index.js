@@ -43,6 +43,20 @@ const AddressLink = styled(ColoredMonoLink)`
   margin: 0;
 `;
 
+export function linkAddressToIdentityTimeline(address) {
+  return `/accounts/${address}?${queryString.stringify({
+    tab: ACCOUNT_IDENTITY_TAB_NAME,
+    sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
+  })}`;
+}
+
+export function linkAddressToIdentityRegistrarTimeline(address) {
+  return `/accounts/${address}?${queryString.stringify({
+    tab: ACCOUNT_IDENTITY_TAB_NAME,
+    sub: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
+  })}`;
+}
+
 const AddressLinkWithCopy = withCopy(AddressLink);
 
 export function Address({ address, ellipsis = true }) {
@@ -119,16 +133,10 @@ function AddressOrIdentity({
 
   let linkAccountPage = `/accounts/${address}`;
   if (linkToIdentityRegistrarTimeline) {
-    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
-      tab: ACCOUNT_IDENTITY_TAB_NAME,
-      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
-    })}`;
+    linkAccountPage = linkAddressToIdentityRegistrarTimeline(address);
   }
   if (linkToIdentityTimeline) {
-    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
-      tab: ACCOUNT_IDENTITY_TAB_NAME,
-      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
-    })}`;
+    linkAccountPage = linkAddressToIdentityTimeline(address);
   }
 
   if (!hasIdentityInfo) {
