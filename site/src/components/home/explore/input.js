@@ -1,4 +1,5 @@
 import Input from "../../input";
+import { first, castArray } from "lodash";
 import debounce from "lodash.debounce";
 import {
   forwardRef,
@@ -18,9 +19,10 @@ import { makeExploreDropdownItemRouteLink } from "./utils";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { closeMobileMenu } from "../../../store/reducers/mobileMenuSlice";
-import { useIdentityQuery } from "../../../hooks/apollo";
+import { useIdentityLazyQuery } from "../../../hooks/apollo";
 import { GET_IDENTITIES } from "../../../pages/identities";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import { useShallowCompareEffect } from "react-use";
 
 function compatExploreDropdownHints(hints) {
   return Object.entries(hints).map((hint) => {
@@ -39,39 +41,73 @@ function ExploreInput(props, ref) {
   const [hintsCache, setHintsCache] = useState({});
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [loadingHints, setLoadingHints] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedHintItem, setSelectedHintItem] = useState(null);
 
   const dropdownRef = useRef();
 
   const hints = useMemo(() => hintsCache[term] ?? [], [term, hintsCache]);
-  const [identitys, setIdentitys] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { modules } = useChainSettings();
-  useIdentityQuery(GET_IDENTITIES, {
+  const [fetchIdentities] = useIdentityLazyQuery(GET_IDENTITIES, {
     variables: {
       limit: 5,
       offset: 0,
       search: term,
       isNoFetchOnSearchEmpty: true,
     },
-    onCompleted(data) {
-      term && setIdentitys(data?.identities?.identities || []);
-    },
   });
+
+  const [selectedHintKey, setSelectedHintKey] = useState();
+  const hintsKeyValueMap = useMemo(() => {
+    const result = {};
+
+    hints.forEach((hint) => {
+      const itemArray = castArray(hint.value);
+      itemArray.forEach((_, idx) => {
+        result[`${hint.type}-${idx}`] = hint;
+      });
+    });
+
+    return result;
+  }, [hints]);
+  const hintsKeys = Object.keys(hintsKeyValueMap);
+  useShallowCompareEffect(() => {
+    setSelectedHintKey(first(hintsKeys));
+  }, [hintsKeys]);
 
   async function fetchHints(term) {
     setLoadingHints(true);
-    return api
-      .fetch(homeSearchHints, { term })
-      .then(({ result }) => {
-        const data = compatExploreDropdownHints(result);
 
-        if (data.length) {
-          hintsCache[term] = data;
+    return Promise.all([
+      api.fetch(homeSearchHints, { term }),
+      fetchIdentities(),
+    ])
+      .then(([hintsResp, identitiesResp]) => {
+        const hintsResult = hintsResp?.result;
+        const identitiesResult = identitiesResp?.data?.identities?.identities;
+
+        let hintsData = [];
+
+        if (hintsResult) {
+          hintsData = [
+            ...hintsData,
+            ...compatExploreDropdownHints(hintsResult),
+          ];
+        }
+
+        if (identitiesResult) {
+          hintsData = [
+            ...hintsData,
+            { type: "identities", value: identitiesResult },
+          ];
+        }
+
+        if (hintsData.length) {
+          hintsCache[term] = hintsData;
           setHintsCache({
             ...hintsCache,
-            [term]: data,
+            [term]: hintsData,
           });
         }
       })
@@ -85,7 +121,6 @@ function ExploreInput(props, ref) {
 
   useEffect(() => {
     if (!term) {
-      setIdentitys([]);
       setDropdownVisible(false);
       return;
     }
@@ -95,15 +130,15 @@ function ExploreInput(props, ref) {
   }, [term, debouncedFetchHints, hintsCache]);
 
   useEffect(() => {
-    setDropdownVisible(!!hints?.length || !!identitys?.length);
-  }, [hints, identitys]);
+    setDropdownVisible(!!hints?.length);
+  }, [hints]);
 
   function onInput(e) {
     setTerm(e.target.value);
   }
 
   function onFocus() {
-    if (hints.length || identitys?.length) {
+    if (hints.length) {
       setDropdownVisible(true);
     }
   }
@@ -115,11 +150,11 @@ function ExploreInput(props, ref) {
   }
 
   function handleExplore() {
-    if (!selectedItem) {
+    if (!selectedHintItem) {
       return;
     }
 
-    const { type, value } = selectedItem;
+    const { type, value } = selectedHintItem;
     navigate(makeExploreDropdownItemRouteLink(type, value));
     dispatch(closeMobileMenu());
   }
@@ -172,10 +207,13 @@ function ExploreInput(props, ref) {
       <ExploreDropdown
         ref={dropdownRef}
         hints={hints}
-        identitys={identitys}
         visible={dropdownVisible}
-        setSelectedItem={setSelectedItem}
         onInputKeyDown={onInputKeyDown}
+        hintsKeyValueMap={hintsKeyValueMap}
+        hintsKeys={hintsKeys}
+        selectedHintKey={selectedHintKey}
+        setSelectedHintKey={setSelectedHintKey}
+        setSelectedHintItem={setSelectedHintItem}
       />
     </>
   );
