@@ -55,10 +55,6 @@ const DropdownLinkItem = styled(Link)`
   height: 44px;
   ${p_x(padding)};
 
-  &:hover {
-    background-color: ${(p) => p.theme.fillPopupHover};
-  }
-
   ${(p) =>
     p.selected &&
     css`
