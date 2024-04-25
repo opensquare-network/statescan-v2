@@ -185,6 +185,7 @@ function ExploreDropdownGroup({
       <DropdownGroupTitle>{lowerCase(hint.type)}</DropdownGroupTitle>
       {items.map((item, idx) => (
         <ExploreDropdownItem
+          key={`${hint.type}-${idx}`}
           type={hint.type}
           item={item}
           idx={idx}
