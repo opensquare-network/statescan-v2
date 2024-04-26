@@ -4,4 +4,5 @@ module.exports = {
   ...db,
   ...require("./getAsset"),
   ...require("./insertAssetTimeline"),
+  ...require("./updateAsset"),
 };
