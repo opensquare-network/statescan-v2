@@ -1,4 +1,5 @@
 const { handleAssetsEvent } = require("./assets");
+const { flushAssetsData } = require("./flush");
 
 async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
@@ -24,6 +25,8 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
 
     await handleAssetsEvent(event, indexer, extrinsic);
   }
+
+  await flushAssetsData(blockIndexer);
 }
 
 module.exports = {

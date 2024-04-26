@@ -13,6 +13,7 @@ const {
   handleThawed,
   handleAssetFrozen,
   handleAssetThawed,
+  handleTransferred,
 } = require("./events");
 const {
   store: { setKnownHeightMark },
@@ -56,6 +57,8 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleAssetFrozen(event, indexer);
   } else if (method === "AssetThawed") {
     await handleAssetThawed(event, indexer);
+  } else if (method === "Transferred") {
+    await handleTransferred(event, indexer);
   }
 }
 

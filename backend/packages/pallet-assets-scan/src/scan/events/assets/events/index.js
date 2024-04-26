@@ -10,4 +10,5 @@ module.exports = {
   ...require("./thawed"),
   ...require("./assetFrozen"),
   ...require("./assetThawed"),
+  ...require("./transferred"),
 };
