@@ -8,6 +8,11 @@ const {
   handleOwnerChanged,
   handleIssued,
   handleBurned,
+  handleTeamChanged,
+  handleFrozen,
+  handleThawed,
+  handleAssetFrozen,
+  handleAssetThawed,
 } = require("./events");
 const {
   store: { setKnownHeightMark },
@@ -35,12 +40,22 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleForceCreated(event, indexer);
   } else if (method === "MetadataSet") {
     await handleMetadataSet(event, indexer);
-  } else if (method === "OwnerChanged") {
-    await handleOwnerChanged(event, indexer);
   } else if (method === "Issued") {
     await handleIssued(event, indexer);
   } else if (method === "Burned") {
     await handleBurned(event, indexer);
+  } else if (method === "TeamChanged") {
+    await handleTeamChanged(event, indexer);
+  } else if (method === "OwnerChanged") {
+    await handleOwnerChanged(event, indexer);
+  } else if (method === "Frozen") {
+    await handleFrozen(event, indexer);
+  } else if (method === "Thawed") {
+    await handleThawed(event, indexer);
+  } else if (method === "AssetFrozen") {
+    await handleAssetFrozen(event, indexer);
+  } else if (method === "AssetThawed") {
+    await handleAssetThawed(event, indexer);
   }
 }
 

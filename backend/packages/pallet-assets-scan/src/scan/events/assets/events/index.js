@@ -5,4 +5,9 @@ module.exports = {
   ...require("./ownerChanged"),
   ...require("./issued"),
   ...require("./burned"),
+  ...require("./teamChanged"),
+  ...require("./fronzen"),
+  ...require("./thawed"),
+  ...require("./assetFrozen"),
+  ...require("./assetThawed"),
 };
