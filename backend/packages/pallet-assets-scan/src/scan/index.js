@@ -3,23 +3,18 @@ const {
 } = require("@statescan/mongo");
 const { deleteFrom } = require("@statescan/asset-scan/src/scan/delete");
 const {
-  chain: { getBlockIndexer, getLatestFinalizedHeight, wrapBlockHandler },
+  chain: { getBlockIndexer, wrapBlockHandler },
   scan: { oneStepScan },
   utils: { sleep },
 } = require("@osn/scan-common");
 const { handleEvents } = require("./events");
+const { doJobsAfterBlock } = require("./jobs");
 
-async function handleBlock({ block, events, height }) {
+async function handleBlock({ block, events }) {
   const blockIndexer = getBlockIndexer(block);
 
   await handleEvents(events, blockIndexer, block.extrinsics);
-
-  const db = getAssetDb();
-  await db.updateScanHeight(height);
-  const finalizedHeight = getLatestFinalizedHeight();
-  if (height >= finalizedHeight - 100) {
-    // todo: handle un finalized
-  }
+  await doJobsAfterBlock(blockIndexer);
 }
 
 async function scan() {

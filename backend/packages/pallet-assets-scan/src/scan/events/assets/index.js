@@ -2,6 +2,9 @@ const {
   env: { currentChain },
 } = require("@osn/scan-common");
 const { handleCreated } = require("./events");
+const {
+  store: { setKnownHeightMark },
+} = require("@statescan/common");
 
 const chainSections = {
   statemint: "assets",
@@ -17,7 +20,8 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     return;
   }
 
-  // todo: mark known height
+  setKnownHeightMark(indexer.blockHeight);
+
   if (method === "Created") {
     await handleCreated(event, indexer);
   } else if (method === "ForceCreated") {
