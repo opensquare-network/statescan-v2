@@ -4,4 +4,5 @@ module.exports = {
   ...require("./metadataSet"),
   ...require("./ownerChanged"),
   ...require("./issued"),
+  ...require("./burned"),
 };

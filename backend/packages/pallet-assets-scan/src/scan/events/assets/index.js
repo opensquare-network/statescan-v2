@@ -7,6 +7,7 @@ const {
   handleMetadataSet,
   handleOwnerChanged,
   handleIssued,
+  handleBurned,
 } = require("./events");
 const {
   store: { setKnownHeightMark },
@@ -38,6 +39,8 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleOwnerChanged(event, indexer);
   } else if (method === "Issued") {
     await handleIssued(event, indexer);
+  } else if (method === "Burned") {
+    await handleBurned(event, indexer);
   }
 }
 

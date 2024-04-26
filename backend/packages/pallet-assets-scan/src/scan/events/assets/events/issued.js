@@ -6,7 +6,7 @@ async function handleIssued(event, indexer) {
   const beneficiary = data[1].toString();
   await updateAsset(event, indexer, {
     beneficiary,
-    amount: data[2].toString(),
+    amount: data[2].toBigInt().toString(),
   });
 
   addAssetAddresses(indexer.blockHash, data[0].toNumber(), [beneficiary]);
