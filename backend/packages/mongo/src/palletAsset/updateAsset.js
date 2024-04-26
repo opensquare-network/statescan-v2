@@ -3,7 +3,7 @@ const { getAssetCol } = require("./db");
 const { getActiveAsset } = require("./getAsset");
 const { logger } = require("@osn/scan-common");
 
-async function updateActiveAsset(assetId, updates = {}, indexer) {
+async function updateActiveAsset(assetId, updates = {}) {
   if (isEmpty(updates)) {
     return;
   }
