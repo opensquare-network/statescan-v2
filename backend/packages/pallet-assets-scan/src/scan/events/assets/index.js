@@ -14,6 +14,9 @@ const {
   handleAssetFrozen,
   handleAssetThawed,
   handleTransferred,
+  handleMetadataCleared,
+  handleAssetStatusChanged,
+  handleAssetMinBalanceChanged,
 } = require("./events");
 const {
   store: { setKnownHeightMark },
@@ -59,6 +62,12 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleAssetThawed(event, indexer);
   } else if (method === "Transferred") {
     await handleTransferred(event, indexer);
+  } else if (method === "MetadataCleared") {
+    await handleMetadataCleared(event, indexer);
+  } else if (method === "AssetStatusChanged") {
+    await handleAssetStatusChanged(event, indexer);
+  } else if (method === "AssetMinBalanceChanged") {
+    await handleAssetMinBalanceChanged(event, indexer);
   }
 }
 

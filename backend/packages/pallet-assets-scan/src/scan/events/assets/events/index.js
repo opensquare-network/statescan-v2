@@ -11,4 +11,7 @@ module.exports = {
   ...require("./assetFrozen"),
   ...require("./assetThawed"),
   ...require("./transferred"),
+  ...require("./metadataCleared"),
+  ...require("./assetStatusChanged"),
+  ...require("./assetMinBalanceChanged"),
 };
