@@ -3,4 +3,5 @@ module.exports = {
   ...require("./forceCreated"),
   ...require("./metadataSet"),
   ...require("./ownerChanged"),
+  ...require("./issued"),
 };
