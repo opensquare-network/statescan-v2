@@ -18,7 +18,7 @@ async function initPalletAssetScanDb() {
   assetCol = await db.createCol("asset");
   assetTimelineCol = await db.createCol("assetTimeline");
 
-  _createIndexes().then(() => console.log("DB indexes created!"));
+  _createIndexes().then(() => console.log("asset scan DB indexes created!"));
 }
 
 async function _createIndexes() {

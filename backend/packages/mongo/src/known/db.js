@@ -13,7 +13,7 @@ async function initKnownHeightDb() {
   );
   await db.init();
 
-  heightCol = db.collection("height");
+  heightCol = await db.createCol("height");
   _createIndexes().then(() => console.log("known height DB indexes created!"));
 }
 
@@ -75,6 +75,7 @@ async function getNextKnownHeights(beginHeight) {
 }
 
 module.exports = {
+  initKnownHeightDb,
   getHeightCol,
   getKnownHeightDb,
   getNextKnownHeights,

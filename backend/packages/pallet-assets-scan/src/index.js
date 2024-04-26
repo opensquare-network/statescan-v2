@@ -7,10 +7,12 @@ const {
 } = require("@osn/scan-common");
 const {
   palletAsset: { initPalletAssetScanDb },
+  knownHeight: { initKnownHeightDb },
 } = require("@statescan/mongo");
 
 async function main() {
   await initPalletAssetScanDb();
+  await initKnownHeightDb();
   await subscribeFinalizedHeight();
   if (isUseMetaDb()) {
     await updateSpecs();
