@@ -3,21 +3,16 @@ const {
 } = require("@statescan/mongo");
 const { insertAsset } = require("./common/insertAsset");
 
-async function handleCreated(event, indexer) {
+async function handleForceCreated(event, indexer) {
   const { method, data } = event;
   const assetId = data[0].toNumber();
   await insertAsset(assetId, indexer);
 
-  const creator = data[1].toString();
-  const owner = data[2].toString();
-  const args = {
-    assetId,
-    creator,
-    owner,
-  };
+  const owner = data[1].toString();
+  const args = { assetId, owner };
   await insertPalletAssetTimeline(assetId, method, args, indexer);
 }
 
 module.exports = {
-  handleCreated,
+  handleForceCreated,
 };

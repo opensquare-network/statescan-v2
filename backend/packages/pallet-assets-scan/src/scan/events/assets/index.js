@@ -1,7 +1,7 @@
 const {
   env: { currentChain },
 } = require("@osn/scan-common");
-const { handleCreated } = require("./events");
+const { handleCreated, handleForceCreated } = require("./events");
 const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
@@ -25,6 +25,7 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
   if (method === "Created") {
     await handleCreated(event, indexer);
   } else if (method === "ForceCreated") {
+    await handleForceCreated(event, indexer);
   }
 }
 
