@@ -5,7 +5,6 @@ const {
   emptySubs,
 } = require("../../utils");
 const {
-  queryMultipleIdentity,
   queryMultipleSubsOf,
   queryMultipleIdentityAsMap,
   queryMultipleSubsAsMap,
