@@ -23,7 +23,10 @@ async function normalizeExtrinsics(
     if (isExemptedExtrinsic(extrinsic)) {
       continue;
     }
-    if (!extrinsic.isSigned && !["tangle", "tangle-testnet"].includes(chain)) {
+    if (
+      !extrinsic.isSigned &&
+      !["tangle", "tangle-testnet", "gargantua"].includes(chain)
+    ) {
       continue;
     }
 
