@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.3.1
+
+date: 2024-04-28
+
+- Update dependencies.
+- Add script to update all identities.
+- Change gargantua nodes config.
+
 ### 1.3.0
 
 - Support new chains: parallel, heiko, tangle mainnet and testnet.

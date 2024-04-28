@@ -3,8 +3,8 @@ import { collectivesModules } from "./collectives";
 
 const nodes = [
   {
-    name: "Gargantua",
-    url: "wss://hyperbridge-gargantua-rpc.blockops.network/",
+    name: "Paseo",
+    url: "wss://hyperbridge-paseo-rpc.blockops.network/",
   },
 ];
 
@@ -14,7 +14,7 @@ const gargantua = {
   identity: "rococo",
   chain: "rococo",
   value: "gargantua",
-  symbol: "TNAND",
+  symbol: "tNAND",
   decimals: 12,
   color: "#E13D90",
   colorSecondary: "rgba(225,61,144, 0.1)",

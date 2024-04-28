@@ -44,7 +44,10 @@ function normalizeIdentity(onchainIdentity) {
     return null;
   }
 
-  const { judgements, deposit } = onchainIdentity.unwrap();
+  const unwrapped = onchainIdentity.unwrap();
+  const { judgements, deposit } = Array.isArray(unwrapped)
+    ? unwrapped[0]
+    : unwrapped;
   const info = extractIdentityInfo(onchainIdentity);
   const normalizedJudgements = normalizeIdentityJudgements(judgements);
   return {
