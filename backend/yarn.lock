@@ -2078,7 +2078,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/mongo@workspace:packages/mongo"
   dependencies:
-    "@osn/scan-common": 0.6.6
+    "@osn/scan-common": 0.6.7
     mongodb: 6.1.0
   languageName: unknown
   linkType: soft
@@ -2120,7 +2120,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/pallet-assets-scan@workspace:packages/pallet-assets-scan"
   dependencies:
-    "@osn/scan-common": 0.6.6
+    "@osn/scan-common": 0.6.7
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
