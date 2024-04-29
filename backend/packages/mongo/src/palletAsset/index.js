@@ -5,4 +5,6 @@ module.exports = {
   ...require("./getAsset"),
   ...require("./insertAssetTimeline"),
   ...require("./updateAsset"),
+  ...require("./holders"),
+  ...require("./approval"),
 };

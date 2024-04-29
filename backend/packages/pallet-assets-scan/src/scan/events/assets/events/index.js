@@ -15,4 +15,6 @@ module.exports = {
   ...require("./assetStatusChanged"),
   ...require("./assetMinBalanceChanged"),
   ...require("./approval"),
+  ...require("./account"),
+  ...require("./destruction"),
 };

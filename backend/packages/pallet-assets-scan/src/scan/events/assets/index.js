@@ -20,6 +20,12 @@ const {
   handleApprovedTransfer,
   handleApprovalCancelled,
   handleTransferredApproved,
+  handleTouched,
+  handleBlocked,
+  handleDestroyed,
+  handleAccountsDestroyed,
+  handleDestructionStarted,
+  handleApprovalsDestroyed,
 } = require("./events");
 const {
   store: { setKnownHeightMark },
@@ -77,6 +83,18 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleApprovalCancelled(event, indexer);
   } else if (method === "TransferredApproved") {
     await handleTransferredApproved(event, indexer);
+  } else if (method === "Touched") {
+    await handleTouched(event, indexer);
+  } else if (method === "Blocked") {
+    await handleBlocked(event, indexer);
+  } else if (method === "Destroyed") {
+    await handleDestroyed(event, indexer);
+  } else if (method === "DestructionStarted") {
+    await handleDestructionStarted(event, indexer);
+  } else if (method === "AccountsDestroyed") {
+    await handleAccountsDestroyed(event, indexer);
+  } else if (method === "ApprovalsDestroyed") {
+    await handleApprovalsDestroyed(event, indexer);
   }
 }
 
