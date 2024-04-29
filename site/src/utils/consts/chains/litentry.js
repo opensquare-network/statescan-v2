@@ -32,7 +32,6 @@ const litentry = {
   nodes: [
     { name: "Litentry", url: "wss://rpc.litentry-parachain.litentry.io" },
     { name: "Dwellir", url: "wss://litentry-rpc.dwellir.com" },
-    { name: "OnFinality", url: "wss://litentry.api.onfinality.io/public-ws" },
   ],
   useOnChainBlockData: true,
 };

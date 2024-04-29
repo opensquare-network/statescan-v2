@@ -23,6 +23,7 @@
     "graphql": "^16.7.1",
     "is-ipfs": "^8.0.1",
     "is-utf8": "^0.2.1",
+    "localforage": "^1.10.0",
     "lodash.capitalize": "^4.2.1",
     "lodash.debounce": "^4.0.8",
     "lodash.isnil": "^4.0.0",

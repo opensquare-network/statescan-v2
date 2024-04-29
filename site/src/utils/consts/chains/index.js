@@ -14,6 +14,7 @@ import tangleTestnet from "./tangleTestnet";
 import tangle from "./tangle";
 import parallel from "./parallel";
 import heiko from "./heiko";
+import crust from "./crust";
 
 const chains = {
   kusama,
@@ -30,6 +31,7 @@ const chains = {
   shadow,
   gargantua,
   "polkadot-crust-parachain": polkadotCrustParachain,
+  crust,
   tangle,
   "tangle-testnet": tangleTestnet,
   parallel,
