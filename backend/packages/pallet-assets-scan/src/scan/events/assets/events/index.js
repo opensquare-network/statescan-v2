@@ -14,4 +14,5 @@ module.exports = {
   ...require("./metadataCleared"),
   ...require("./assetStatusChanged"),
   ...require("./assetMinBalanceChanged"),
+  ...require("./approval"),
 };
