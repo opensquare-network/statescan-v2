@@ -4,16 +4,16 @@ const { handleSetFeeCall } = require("./calls/setFee");
 const { handleRenameSub } = require("./calls/renameSub");
 const { handleSetSubs } = require("./calls/setSubs");
 const {
-  handleCallsInExtrinsic,
   utils: { isExtrinsicSuccess, extractExtrinsicEvents },
+  extrinsic: { handlePureNestedCalls },
 } = require("@osn/scan-common");
 
-async function handleCalls(call, author, extrinsicIndexer, wrappedEvents) {
-  await handleSetSubs(call, author, extrinsicIndexer, wrappedEvents);
-  await handleRenameSub(call, author, extrinsicIndexer, wrappedEvents);
-  await handleSetFeeCall(call, author, extrinsicIndexer, wrappedEvents);
-  await handleSetAccountIdCall(call, author, extrinsicIndexer, wrappedEvents);
-  await handleSetFieldsCall(call, author, extrinsicIndexer, wrappedEvents);
+async function handleCalls(call, author, extrinsicIndexer) {
+  await handleSetSubs(call, author, extrinsicIndexer);
+  await handleRenameSub(call, author, extrinsicIndexer);
+  await handleSetFeeCall(call, author, extrinsicIndexer);
+  await handleSetAccountIdCall(call, author, extrinsicIndexer);
+  await handleSetFieldsCall(call, author, extrinsicIndexer);
 }
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
@@ -26,12 +26,7 @@ async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
     }
 
     const extrinsicIndexer = { ...indexer, extrinsicIndex: index++ };
-    await handleCallsInExtrinsic(
-      extrinsic,
-      events,
-      extrinsicIndexer,
-      handleCalls,
-    );
+    await handlePureNestedCalls(extrinsic, extrinsicIndexer, handleCalls);
   }
 }
 
