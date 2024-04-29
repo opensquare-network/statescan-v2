@@ -53,7 +53,11 @@ const assetsModuleChains = [
   chains.parallel,
 ];
 
-const uniquesModuleChains = [...assetsModuleChains];
+const uniquesModuleChains = [
+  chains.statemint,
+  chains.statemine,
+  chains.westmint,
+];
 
 module.exports = {
   chains,
