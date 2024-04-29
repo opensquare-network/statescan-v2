@@ -1,9 +1,11 @@
 const { flushAssetsData } = require("../../../flush");
 const {
-  palletAsset: { insertPalletAssetTimeline, deleteHolders, deleteApprovals },
-} = require("@statescan/mongo");
-const {
-  palletAsset: { updateActiveAsset },
+  palletAsset: {
+    insertPalletAssetTimeline,
+    deleteHolders,
+    deleteApprovals,
+    updateActiveAsset,
+  },
 } = require("@statescan/mongo");
 
 async function handleDestroyed(event, indexer) {
