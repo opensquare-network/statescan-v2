@@ -19,7 +19,7 @@ export default async function getMetadata(provider) {
     try {
       await localForage.setItem(id, metadata);
     } catch (e) {
-      console.error(e);
+      console.error(e); // eslint-disable-line no-console
     }
   }
 
