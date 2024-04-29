@@ -1,9 +1,9 @@
 const { getActiveAssetOrThrow } = require("./getAsset");
-const { getAssetHolderCol } = require("../asset");
+const { getHolderCol } = require("./db");
 
 async function deleteHolders(assetId, blockHeight) {
   const asset = await getActiveAssetOrThrow(assetId, blockHeight);
-  const col = await getAssetHolderCol();
+  const col = await getHolderCol();
   await col.deleteMany({
     assetId,
     assetHeight: asset.assetHeight,
