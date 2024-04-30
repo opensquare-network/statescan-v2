@@ -12,7 +12,7 @@ const polkadotCrust = {
   icon: <CrustIcon />,
   identity: "crust",
   chain: "polkadot",
-  value: "polkadot-crust-parachain",
+  value: "crust-parachain",
   symbol: "CRU",
   decimals: 12,
   color: "#FA8C16",
