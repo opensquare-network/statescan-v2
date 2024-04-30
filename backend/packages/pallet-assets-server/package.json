@@ -1,5 +1,5 @@
 {
-  "name": "@statescan/multisig-server",
+  "name": "@statescan/pallet-assets-server",
   "packageManager": "yarn@3.6.0",
   "main": "src/index.js",
   "version": "1.0.0",
