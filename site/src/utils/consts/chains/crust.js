@@ -17,7 +17,7 @@ const crust = {
   color: "#FA8C16",
   colorSecondary: "rgba(250,140,22, 0.1)",
   modules: {
-    identity: false,
+    identity: true,
     multisig: false,
   },
   nodes,
