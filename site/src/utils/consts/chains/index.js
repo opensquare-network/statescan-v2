@@ -16,6 +16,7 @@ import parallel from "./parallel";
 import heiko from "./heiko";
 import crust from "./crust";
 import invarch from "./invarch";
+import tinkernet from "./tinkernet";
 
 const chains = {
   kusama,
@@ -33,11 +34,12 @@ const chains = {
   gargantua,
   "polkadot-crust-parachain": polkadotCrustParachain,
   crust,
-  tangle,
   "tangle-testnet": tangleTestnet,
   invarch,
   parallel,
   heiko,
+  tangle,
+  tinkernet,
 };
 
 export default chains;
