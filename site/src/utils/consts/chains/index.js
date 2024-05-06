@@ -15,6 +15,7 @@ import tangle from "./tangle";
 import parallel from "./parallel";
 import heiko from "./heiko";
 import crust from "./crust";
+import invarch from "./invarch";
 
 const chains = {
   kusama,
@@ -34,6 +35,7 @@ const chains = {
   crust,
   tangle,
   "tangle-testnet": tangleTestnet,
+  invarch,
   parallel,
   heiko,
 };
