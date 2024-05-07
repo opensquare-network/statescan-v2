@@ -1,6 +1,7 @@
 const {
   palletAsset: { getAssetCol },
 } = require("@statescan/mongo");
+const isEmpty = require("lodash.isempty");
 
 function extractSort(sort) {
   if ("HOLDERS_DESC" === sort) {
@@ -25,7 +26,12 @@ async function assets(_, _args) {
     .skip(offset)
     .limit(limit)
     .toArray();
-  const total = await col.estimatedDocumentCount();
+  let total;
+  if (isEmpty(q)) {
+    total = await col.estimatedDocumentCount();
+  } else {
+    total = await col.countDocuments(q);
+  }
 
   return {
     assets,
