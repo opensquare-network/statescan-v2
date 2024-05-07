@@ -1,4 +1,4 @@
-import { ReactComponent as Tinkernet } from "../../../components/icons/invarch.svg";
+import { ReactComponent as Tinkernet } from "../../../components/icons/tinkernet.svg";
 
 const nodes = [
   {
