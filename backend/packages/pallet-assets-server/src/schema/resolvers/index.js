@@ -4,4 +4,5 @@ module.exports = {
   ...require("./scanHeight"),
   ...require("./transfers"),
   ...require("./holders"),
+  ...require("./timeline"),
 };

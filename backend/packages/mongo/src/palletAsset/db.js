@@ -40,6 +40,7 @@ async function _createIndexes() {
     assetId: 1,
     assetHeight: 1,
     "indexer.blockHeight": -1,
+    "indexer.eventIndex": -1,
   });
 
   await transferCol.createIndex({ assetId: 1, assetHeight: 1 });

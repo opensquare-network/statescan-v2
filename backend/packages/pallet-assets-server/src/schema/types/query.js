@@ -22,6 +22,12 @@ const queries = /* GraphQL */ `
       assetId: Int!
       assetHeight: Int
     ): PagedHolder!
+    timeline(
+      offset: Int!
+      limit: Int!
+      assetId: Int!
+      assetHeight: Int
+    ): PagedHolder!
     scanHeight: Int
   }
 `;
