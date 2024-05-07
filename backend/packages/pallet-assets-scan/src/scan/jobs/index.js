@@ -8,7 +8,7 @@ const {
 
 async function doJobsAfterBlock(indexer) {
   const height = indexer.blockHeight;
-  const db = getAssetDb();
+  const db = await getAssetDb();
   await db.updateScanHeight(height);
 
   await saveKnownHeight(indexer);

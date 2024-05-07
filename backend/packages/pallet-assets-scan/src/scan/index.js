@@ -12,7 +12,7 @@ const { scanKnownHeights } = require("./known");
 const { deleteFrom } = require("./delete");
 
 async function scan() {
-  const db = getAssetDb();
+  const db = await getAssetDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
 
