@@ -6,6 +6,7 @@ const queries = /* GraphQL */ `
       sort: AssetSort
       destroyed: Boolean
     ): PagedAsset!
+    asset(id: Int!, height: Int): Asset
     scanHeight: Int
   }
 `;
