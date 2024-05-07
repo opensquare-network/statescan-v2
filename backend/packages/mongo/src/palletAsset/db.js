@@ -68,7 +68,11 @@ async function _createIndexes() {
   });
 }
 
-function getAssetDb() {
+async function getAssetDb() {
+  if (!db) {
+    await initPalletAssetScanDb();
+  }
+
   return db;
 }
 
