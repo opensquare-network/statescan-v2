@@ -39,6 +39,11 @@ const asset = /* GraphQL */ `
     limit: Int!
     total: Int!
   }
+
+  enum AssetSort {
+    HOLDERS_DESC
+    ASSET_ID_ASC
+  }
 `;
 
 module.exports = {
