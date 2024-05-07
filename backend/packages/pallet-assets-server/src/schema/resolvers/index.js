@@ -3,4 +3,5 @@ module.exports = {
   ...require("./asset"),
   ...require("./scanHeight"),
   ...require("./transfers"),
+  ...require("./holders"),
 };

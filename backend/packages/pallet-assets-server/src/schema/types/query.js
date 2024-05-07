@@ -16,6 +16,12 @@ const queries = /* GraphQL */ `
       to: String
       address: String
     ): PagedTransfer!
+    holders(
+      offset: Int!
+      limit: Int!
+      assetId: Int!
+      assetHeight: Int
+    ): PagedHolder!
     scanHeight: Int
   }
 `;
