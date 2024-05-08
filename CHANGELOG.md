@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.3.2
+
+date: 2024-05-06
+
+- Index part of unsigned extrinsic for gargantua.
+- Support crust, invarch, tinkernet.
+- Upgrade dependencies.
+
 ### 1.3.1
 
 date: 2024-04-28

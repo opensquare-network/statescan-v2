@@ -18,6 +18,8 @@ const chains = Object.freeze({
   heiko: "heiko",
   parallel: "parallel",
   crust: "crust",
+  invarch: "invarch",
+  tinkernet: "tinkernet",
 });
 
 const ss58Format = Object.freeze({
@@ -40,6 +42,8 @@ const ss58Format = Object.freeze({
   [chains.heiko]: 110,
   [chains.parallel]: 172,
   [chains.crust]: 66,
+  [chains.invarch]: 117,
+  [chains.tinkernet]: 117,
 });
 
 function getSs58Format(chain) {
