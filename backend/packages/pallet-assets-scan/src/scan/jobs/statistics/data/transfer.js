@@ -28,7 +28,7 @@ async function getAssetDayTransferData(assetId, assetHeight, timestamp) {
 
   const amount = (transfers || []).reduce(
     (result, { balance }) => bigIntAdd(result, balance),
-    0,
+    "0",
   );
   return { count: transfers.length, amount };
 }

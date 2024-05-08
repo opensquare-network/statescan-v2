@@ -28,6 +28,13 @@ const queries = /* GraphQL */ `
       assetId: Int!
       assetHeight: Int
     ): PagedHolder!
+    statistic(assetId: Int!, assetHeight: Int): Statistics!
+    historyStatistics(
+      assetId: Int!
+      assetHeight: Int
+      from: Int
+      to: Int
+    ): [StatisticsWithIndexer]!
     scanHeight: Int
   }
 `;

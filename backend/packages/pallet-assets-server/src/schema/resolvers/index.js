@@ -5,4 +5,6 @@ module.exports = {
   ...require("./transfers"),
   ...require("./holders"),
   ...require("./timeline"),
+  ...require("./statistic"),
+  ...require("./historyStatistics"),
 };
