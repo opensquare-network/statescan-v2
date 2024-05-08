@@ -6,7 +6,6 @@ const { createServer } = require("http");
 const {
   palletAsset: { initPalletAssetScanDb },
 } = require("@statescan/mongo");
-const { assertWrappingType } = require("graphql/type");
 
 const port = parseInt(process.env.PORT) || 5100;
 
