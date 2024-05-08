@@ -51,6 +51,7 @@ async function _createIndexes() {
     "indexer.eventIndex": 1,
   });
 
+  await holderCol.createIndex({ address: 1 });
   await holderCol.createIndex({ assetId: 1, assetHeight: 1 });
   await holderCol.createIndex(
     { assetId: 1, assetHeight: 1, address: 1 },

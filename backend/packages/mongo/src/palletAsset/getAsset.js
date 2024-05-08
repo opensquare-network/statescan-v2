@@ -19,7 +19,17 @@ async function getActiveAssetOrThrow(assetId, blockHeight) {
   return asset;
 }
 
+async function getActiveAssets() {
+  const col = await getAssetCol();
+  const q = { destroyed: false };
+  return await col
+    .find(q, { projection: { _id: 0 } })
+    .sort({ assetId: 1 })
+    .toArray();
+}
+
 module.exports = {
   getActiveAsset,
   getActiveAssetOrThrow,
+  getActiveAssets,
 };

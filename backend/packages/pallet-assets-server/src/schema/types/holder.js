@@ -3,6 +3,7 @@ const holder = /* GraphQL */ `
     address: String
     assetId: Int!
     assetHeight: Int!
+    asset: Asset
     balance: String
     isFrozen: Boolean
     reason: JSONObject

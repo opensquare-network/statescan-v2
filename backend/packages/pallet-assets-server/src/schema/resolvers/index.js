@@ -7,4 +7,5 @@ module.exports = {
   ...require("./timeline"),
   ...require("./statistic"),
   ...require("./historyStatistics"),
+  ...require("./accountAssets"),
 };

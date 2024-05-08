@@ -2,6 +2,7 @@ const {
   palletAsset: { getHolderCol, getActiveAsset },
 } = require("@statescan/mongo");
 const isNil = require("lodash.isnil");
+const { getHoldersWithAssets } = require("./common/holderAssets");
 
 async function holders(_, _args) {
   const { offset, limit, assetId, assetHeight: assetHeightArg } = _args;
@@ -30,7 +31,7 @@ async function holders(_, _args) {
   const total = await col.countDocuments(q);
 
   return {
-    holders,
+    holders: await getHoldersWithAssets(holders),
     offset,
     limit,
     total,

@@ -22,6 +22,7 @@ const queries = /* GraphQL */ `
       assetId: Int!
       assetHeight: Int
     ): PagedHolder!
+    accountAssets(offset: Int!, limit: Int!, address: String!): PagedHolder!
     timeline(
       offset: Int!
       limit: Int!
