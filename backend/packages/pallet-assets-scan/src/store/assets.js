@@ -7,7 +7,6 @@ function addAssetId(blockHash, assetId) {
     blockAssetMap[blockHash] = [
       ...new Set([...blockAssetMap[blockHash], assetId]),
     ];
-    blockAssetMap[blockHash].push(assetId);
   }
 }
 
