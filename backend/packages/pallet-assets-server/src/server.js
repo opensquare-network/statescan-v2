@@ -1,27 +1,23 @@
 require("dotenv").config();
 
-const { schema } = require("./schema");
+const { resolvers } = require("./schema");
 const { createYoga } = require("graphql-yoga");
 const { createServer } = require("http");
 const {
-  vesting: { initVestingScanDb },
   palletAsset: { initPalletAssetScanDb },
 } = require("@statescan/mongo");
-const { hasVesting, hasAssets } = require("./env");
+const { makeExecutableSchema } = require("@graphql-tools/schema");
+const { typeDefs } = require("./schema/types");
 
-const port = parseInt(process.env.PORT) || 7100;
+const port = parseInt(process.env.PORT) || 5100;
 
-async function initDbs() {
-  if (hasVesting()) {
-    await initVestingScanDb();
-  }
-  if (hasAssets()) {
-    await initPalletAssetScanDb();
-  }
-}
+const schema = makeExecutableSchema({
+  resolvers: [resolvers],
+  typeDefs,
+});
 
 function main() {
-  initDbs().then(() => console.log("DB initialized"));
+  initPalletAssetScanDb().then(() => console.log("asset db initialized"));
   const yoga = createYoga({ schema });
   const server = createServer(yoga);
   server.listen(port, () => {

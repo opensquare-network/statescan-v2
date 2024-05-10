@@ -2073,6 +2073,7 @@ __metadata:
     "@osn/scan-common": 0.6.8
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
+    "@statescan/pallet-assets-server": 1.0.0
     dotenv: ^16.0.1
     eslint-plugin-jest: ^27.2.1
     graphql: ^16.7.1
@@ -2176,7 +2177,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@statescan/pallet-assets-server@workspace:packages/pallet-assets-server":
+"@statescan/pallet-assets-server@1.0.0, @statescan/pallet-assets-server@workspace:packages/pallet-assets-server":
   version: 0.0.0-use.local
   resolution: "@statescan/pallet-assets-server@workspace:packages/pallet-assets-server"
   dependencies:

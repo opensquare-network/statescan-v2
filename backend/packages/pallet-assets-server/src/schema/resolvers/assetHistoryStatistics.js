@@ -48,7 +48,7 @@ function getQuery(assetId, assetHeight, from, to) {
   return { assetId, assetHeight };
 }
 
-async function historyStatistics(_, _args) {
+async function assetHistoryStatistics(_, _args) {
   const { assetId, assetHeight: assetHeightArg, from, to } = _args;
 
   let assetHeight = assetHeightArg;
@@ -66,5 +66,5 @@ async function historyStatistics(_, _args) {
 }
 
 module.exports = {
-  historyStatistics,
+  assetHistoryStatistics,
 };

@@ -4,7 +4,7 @@ const {
 const isNil = require("lodash.isnil");
 const { getHoldersWithAssets } = require("./common/holderAssets");
 
-async function holders(_, _args) {
+async function assetHolders(_, _args) {
   const { offset, limit, assetId, assetHeight: assetHeightArg } = _args;
   if (parseInt(limit) > 100) {
     throw new Error("Over max page size 100");
@@ -39,5 +39,5 @@ async function holders(_, _args) {
 }
 
 module.exports = {
-  holders,
+  assetHolders,
 };

@@ -8,11 +8,7 @@ const resolvers = {
   },
 };
 
-const schema = makeExecutableSchema({
-  resolvers: [resolvers],
-  typeDefs,
-});
-
 module.exports = {
-  schema,
+  resolvers,
+  typeDefs,
 };

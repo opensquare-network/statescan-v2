@@ -7,7 +7,7 @@ const queries = /* GraphQL */ `
       destroyed: Boolean
     ): PagedAsset!
     asset(id: Int!, height: Int): Asset
-    transfers(
+    assetTransfers(
       offset: Int!
       limit: Int!
       assetId: Int
@@ -16,27 +16,27 @@ const queries = /* GraphQL */ `
       to: String
       address: String
     ): PagedTransfer!
-    holders(
+    assetHolders(
       offset: Int!
       limit: Int!
       assetId: Int!
       assetHeight: Int
     ): PagedHolder!
     accountAssets(offset: Int!, limit: Int!, address: String!): PagedHolder!
-    timeline(
+    assetTimeline(
       offset: Int!
       limit: Int!
       assetId: Int!
       assetHeight: Int
     ): PagedHolder!
-    statistic(assetId: Int!, assetHeight: Int): Statistics!
-    historyStatistics(
+    assetStatistic(assetId: Int!, assetHeight: Int): Statistics!
+    assetHistoryStatistics(
       assetId: Int!
       assetHeight: Int
       from: Int
       to: Int
     ): [StatisticsWithIndexer]!
-    scanHeight: Int
+    assetsPalletScanHeight: Int
   }
 `;
 

@@ -2,11 +2,11 @@ const {
   palletAsset: { getAssetDb },
 } = require("@statescan/mongo");
 
-async function scanHeight() {
+async function assetsPalletScanHeight() {
   const db = await getAssetDb();
   return await db.getScanHeight();
 }
 
 module.exports = {
-  scanHeight,
+  assetsPalletScanHeight,
 };

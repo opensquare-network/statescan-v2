@@ -23,6 +23,7 @@
     "@osn/scan-common": "0.6.8",
     "@statescan/common": "1.0.0",
     "@statescan/mongo": "1.0.0",
+    "@statescan/pallet-assets-server": "1.0.0",
     "dotenv": "^16.0.1",
     "graphql": "^16.7.1",
     "graphql-type-json": "^0.3.2",

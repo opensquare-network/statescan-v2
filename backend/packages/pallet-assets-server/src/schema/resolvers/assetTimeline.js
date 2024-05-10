@@ -3,7 +3,7 @@ const {
 } = require("@statescan/mongo");
 const isNil = require("lodash.isnil");
 
-async function timeline(_, _args) {
+async function assetTimeline(_, _args) {
   const { offset, limit, assetId, assetHeight: assetHeightArg } = _args;
   if (parseInt(limit) > 100) {
     throw new Error("Over max page size 100");
@@ -37,5 +37,5 @@ async function timeline(_, _args) {
 }
 
 module.exports = {
-  timeline,
+  assetTimeline,
 };
