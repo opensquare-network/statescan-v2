@@ -11,7 +11,11 @@ const {
   resolvers: multisigResolvers,
   typeDefs: multisigTypeDefs,
 } = require("@statescan/multisig-server");
-const { hasAssets, hasMultisig } = require("../env");
+const {
+  commonResolvers: identityResolvers,
+  commonTypeDefs: identityTypeDefs,
+} = require("@statescan/identity-server");
+const { hasAssets, hasMultisig, hasIdentity } = require("../env");
 
 let resolvers = [vestingResolvers];
 let typeDefs = [...vestingTypeDefs];
@@ -23,6 +27,10 @@ if (hasAssets()) {
 if (hasMultisig()) {
   resolvers = [...resolvers, multisigResolvers];
   typeDefs = [...typeDefs, ...multisigTypeDefs];
+}
+if (hasIdentity()) {
+  resolvers = [...resolvers, identityResolvers];
+  typeDefs = [...typeDefs, ...identityTypeDefs];
 }
 
 const schema = makeExecutableSchema({

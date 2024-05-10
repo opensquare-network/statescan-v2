@@ -6,8 +6,8 @@ const identityStatistics = /* GraphQL */ `
   }
 `;
 
-const statistics = /* GraphQL */ `
-  type Statistics {
+const allStatistics = /* GraphQL */ `
+  type AllStatistics {
     identity: IdentityStatistics!
     subIdentity: Int!
     request: Int!
@@ -16,5 +16,5 @@ const statistics = /* GraphQL */ `
 `;
 
 module.exports = {
-  statistics: [identityStatistics, statistics],
+  statistics: [identityStatistics, allStatistics],
 };

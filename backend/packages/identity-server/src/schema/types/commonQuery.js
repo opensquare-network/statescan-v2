@@ -1,4 +1,5 @@
-const queries = /* GraphQL */ `
+// used for common graphql server
+const commonQueries = /* GraphQL */ `
   enum IdentitySubType {
     DIRECT
     SUB
@@ -20,9 +21,9 @@ const queries = /* GraphQL */ `
       verificationStatus: VerificationStatus
     ): PagedIdentities!
     identityTimeline(account: String!): [TimelineItem]!
-    registrars: [Registrar]!
-    registrarTimeline(account: String!): [TimelineItem]!
-    requests(
+    identityRegistrars: [Registrar]!
+    identityRegistrarTimeline(account: String!): [TimelineItem]!
+    identityRequests(
       offset: Int!
       limit: Int!
       search: String
@@ -30,11 +31,11 @@ const queries = /* GraphQL */ `
       sort: RequestSort
       status: RequestStatusValue
     ): PagedRequests!
-    scanHeight: Int
-    statistics: AllStatistics!
+    identityScanHeight: Int
+    identityStatistics: AllStatistics!
   }
 `;
 
 module.exports = {
-  queries,
+  commonQueries,
 };
