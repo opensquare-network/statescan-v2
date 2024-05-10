@@ -1,18 +1,14 @@
 const { handleBlock } = require("./block");
-const { deleteFrom } = require("./delete");
 const {
-  vesting: { getVestingDb },
-} = require("@statescan/mongo");
-const {
-  chain: { wrapBlockHandler },
+  chain: { wrapBlockHandler, getLatestFinalizedHeight },
   scan: { oneStepScan },
   utils: { sleep },
 } = require("@osn/scan-common");
+const { updateAllVesting } = require("./jobs/all");
 
 async function scan() {
-  const db = await getVestingDb();
-  let toScanHeight = await db.getNextScanHeight();
-  await deleteFrom(toScanHeight);
+  let toScanHeight = getLatestFinalizedHeight();
+  await updateAllVesting();
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
