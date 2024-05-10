@@ -10,8 +10,13 @@ function hasMultisig() {
   return !!process.env.MONGO_MULTISIG_SCAN_NAME;
 }
 
+function hasIdentity() {
+  return !!process.env.MONGO_IDENTITY_SCAN_NAME;
+}
+
 module.exports = {
   hasAssets,
   hasVesting,
   hasMultisig,
+  hasIdentity,
 };

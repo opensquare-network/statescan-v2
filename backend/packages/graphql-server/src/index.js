@@ -6,8 +6,10 @@ const { createServer } = require("http");
 const {
   vesting: { initVestingScanDb },
   palletAsset: { initPalletAssetScanDb },
+  multisig: { initMultisigScanDb },
+  identity: { initIdentityScanDb },
 } = require("@statescan/mongo");
-const { hasVesting, hasAssets } = require("./env");
+const { hasVesting, hasAssets, hasMultisig, hasIdentity } = require("./env");
 
 const port = parseInt(process.env.PORT) || 7100;
 
@@ -17,6 +19,12 @@ async function initDbs() {
   }
   if (hasAssets()) {
     await initPalletAssetScanDb();
+  }
+  if (hasMultisig()) {
+    await initMultisigScanDb();
+  }
+  if (hasIdentity()) {
+    await initIdentityScanDb();
   }
 }
 

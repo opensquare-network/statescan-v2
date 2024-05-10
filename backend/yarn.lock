@@ -2072,6 +2072,7 @@ __metadata:
     "@graphql-tools/schema": ^10.0.0
     "@osn/scan-common": 0.6.8
     "@statescan/common": 1.0.0
+    "@statescan/identity-server": 1.0.0
     "@statescan/mongo": 1.0.0
     "@statescan/multisig-server": 1.0.0
     "@statescan/pallet-assets-server": 1.0.0
@@ -2102,7 +2103,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@statescan/identity-server@workspace:packages/identity-server":
+"@statescan/identity-server@1.0.0, @statescan/identity-server@workspace:packages/identity-server":
   version: 0.0.0-use.local
   resolution: "@statescan/identity-server@workspace:packages/identity-server"
   dependencies:
