@@ -18,7 +18,7 @@ async function assets(_, _args) {
   }
 
   const sortObj = extractSort(sort);
-  const q = { destroyed: destroyed };
+  const q = { destroyed: destroyed || false };
   const col = await getAssetCol();
   const assets = await col
     .find(q, { projection: { _id: 0 } })

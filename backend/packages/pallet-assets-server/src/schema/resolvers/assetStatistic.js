@@ -8,7 +8,7 @@ const {
 } = require("@statescan/mongo");
 const isNil = require("lodash.isnil");
 
-async function statistic(_, _args) {
+async function assetStatistic(_, _args) {
   const { assetId, assetHeight: assetHeightArg } = _args;
 
   let assetHeight = assetHeightArg;
@@ -45,5 +45,5 @@ async function statistic(_, _args) {
 }
 
 module.exports = {
-  statistic,
+  assetStatistic,
 };
