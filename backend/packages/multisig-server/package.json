@@ -1,7 +1,7 @@
 {
   "name": "@statescan/multisig-server",
   "packageManager": "yarn@3.6.0",
-  "main": "src/index.js",
+  "main": "src/schema",
   "version": "1.0.0",
   "license": "Apache-2.0",
   "engines": {

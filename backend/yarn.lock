@@ -2073,6 +2073,7 @@ __metadata:
     "@osn/scan-common": 0.6.8
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
+    "@statescan/multisig-server": 1.0.0
     "@statescan/pallet-assets-server": 1.0.0
     dotenv: ^16.0.1
     eslint-plugin-jest: ^27.2.1
@@ -2143,7 +2144,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@statescan/multisig-server@workspace:packages/multisig-server":
+"@statescan/multisig-server@1.0.0, @statescan/multisig-server@workspace:packages/multisig-server":
   version: 0.0.0-use.local
   resolution: "@statescan/multisig-server@workspace:packages/multisig-server"
   dependencies:

@@ -1,5 +1,5 @@
 module.exports = {
-  ...require("./scanHeight"),
+  ...require("./multisigScanHeight"),
   ...require("./multisigAddress"),
   ...require("./multisigAddresses"),
   ...require("./multisig"),

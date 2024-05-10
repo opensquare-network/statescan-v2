@@ -7,13 +7,22 @@ const {
   resolvers: assetsPalletResolvers,
   typeDefs: assetsPalletTypeDefs,
 } = require("@statescan/pallet-assets-server");
+const {
+  resolvers: multisigResolvers,
+  typeDefs: multisigTypeDefs,
+} = require("@statescan/multisig-server");
+const { hasAssets, hasMultisig } = require("../env");
 
 let resolvers = [vestingResolvers];
 let typeDefs = [...vestingTypeDefs];
 
-if (process.env.MONGO_PALLET_ASSET_SCAN_NAME) {
+if (hasAssets()) {
   resolvers = [...resolvers, assetsPalletResolvers];
   typeDefs = [...typeDefs, ...assetsPalletTypeDefs];
+}
+if (hasMultisig()) {
+  resolvers = [...resolvers, multisigResolvers];
+  typeDefs = [...typeDefs, ...multisigTypeDefs];
 }
 
 const schema = makeExecutableSchema({

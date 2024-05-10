@@ -39,7 +39,7 @@ const queries = /* GraphQL */ `
       whenHeight: Int!
       whenExtrinsicIndex: Int!
     ): [MultisigTimelineItem]
-    scanHeight: Int
+    multisigScanHeight: Int
   }
 `;
 
