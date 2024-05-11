@@ -47,8 +47,6 @@ function normalizeArgValue(argMeta, name, value) {
 
   if (value.isSome) {
     return value.value.toJSON();
-  } else if (value.isNone) {
-    return null;
   }
 
   return value.toJSON();
