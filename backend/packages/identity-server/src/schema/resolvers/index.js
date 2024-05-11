@@ -20,6 +20,11 @@ const resolvers = {
   requests,
   scanHeight,
   statistics,
+  identityRegistrars: registrars,
+  identityRegistrarTimeline: registrarTimeline,
+  identityRequests: requests,
+  identityScanHeight: scanHeight,
+  identityStatistics: statistics,
 };
 
 const commonResolvers = {
