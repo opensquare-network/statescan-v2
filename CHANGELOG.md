@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.4.0
+
+date: 2024-05-11
+
+- [Big] Extract assets pallet scan and create new graphql server.
+- Refactor vesting scan.
+- Add a common graphql server and serve many packages data.
+- update dependencies.
+
 ### 1.3.2
 
 date: 2024-05-06
