@@ -43,7 +43,7 @@ const IdentityStatusLink = styled(Link)`
 
 const GET_STATISTICS = gql`
   query GetStatistics {
-    statistics {
+    identityStatistics {
       identity {
         erroneous
         unverified
@@ -69,9 +69,9 @@ function IdentityOverview({ data }) {
   const { data: registrarsData } = useIdentityQuery(GET_REGISTRARS);
   const registrars = registrarsData?.registrars?.length || 0;
 
-  const verifiedCount = data?.statistics?.identity?.verified || 0;
-  const unverifiedCount = data?.statistics?.identity?.unverified || 0;
-  const erroneousCount = data?.statistics?.identity?.erroneous || 0;
+  const verifiedCount = data?.identityStatistics?.identity?.verified || 0;
+  const unverifiedCount = data?.identityStatistics?.identity?.unverified || 0;
+  const erroneousCount = data?.identityStatistics?.identity?.erroneous || 0;
   const totalIdentities = verifiedCount + unverifiedCount + erroneousCount;
 
   return (
@@ -130,7 +130,7 @@ function IdentityOverview({ data }) {
           value={
             <Tooltip tip="Sub identities">
               <Link to={`/identities?identityType=${IDENTITY_TYPE.SUB}`}>
-                {currencify(data?.statistics?.subIdentity || 0)}
+                {currencify(data?.identityStatistics?.subIdentity || 0)}
               </Link>
             </Tooltip>
           }
@@ -156,7 +156,7 @@ function IdentityOverview({ data }) {
                 style={{ display: "inline-block" }}
               >
                 <Link to={"/identities/judgements"}>
-                  {currencify(data?.statistics?.request || 0)}
+                  {currencify(data?.identityStatistics?.request || 0)}
                 </Link>
               </Tooltip>
               <Dot style={{ margin: "0 8px" }} />
@@ -165,7 +165,7 @@ function IdentityOverview({ data }) {
                 style={{ display: "inline-block" }}
               >
                 <Link to={"/identities/judgements?status=GIVEN"}>
-                  {currencify(data?.statistics?.judgementGiven || 0)}
+                  {currencify(data?.identityStatistics?.judgementGiven || 0)}
                 </Link>
               </Tooltip>
             </div>

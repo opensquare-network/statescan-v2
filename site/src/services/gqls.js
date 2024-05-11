@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_REGISTRARS = gql`
   query GetRegistrars {
-    registrars {
+    identityRegistrars {
       fee
       statistics {
         given

@@ -23,7 +23,7 @@ export function useIdentityQuery(query, options = {}, ...args) {
     ...options,
     variables: {
       ...options.variables,
-      search: options.variables?.search + "",
+      search: options.variables?.search,
     },
   };
   const [fetcher, lazyQueryResult] = useIdentityLazyQuery(

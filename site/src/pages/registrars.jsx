@@ -43,7 +43,7 @@ export default function RegistrarsPage() {
       REGISTRAR_TOTAL_EARN: "statistics.totalFee",
     };
 
-    const registrars = clone(data?.registrars);
+    const registrars = clone(data?.identityRegistrars);
     if (!registrars) return data;
 
     const sortedData = (registrars || []).sort((a, b) => {
@@ -61,7 +61,7 @@ export default function RegistrarsPage() {
     };
   }, [sort, data]);
 
-  const tableData = sortedData?.registrars.map((item) => {
+  const tableData = sortedData?.identityRegistrars.map((item) => {
     return [
       <Flex gap={24}>
         <Index>#{item.index}</Index>

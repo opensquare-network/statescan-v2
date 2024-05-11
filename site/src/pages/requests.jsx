@@ -53,7 +53,7 @@ const GET_REQUESTS = gql`
     $status: RequestStatusValue
     $sort: RequestSort
   ) {
-    requests(
+    identityRequests(
       limit: $limit
       offset: $offset
       registrarIndex: $registrarIndex
@@ -105,7 +105,7 @@ export default function RequestsPage() {
     },
   });
 
-  const tableData = data?.requests.requests.map((item) => {
+  const tableData = data?.identityRequests.requests.map((item) => {
     return [
       <AddressOrIdentity
         key={item.account}
@@ -137,7 +137,7 @@ export default function RequestsPage() {
           <Pagination
             page={parseInt(page)}
             pageSize={pageSize}
-            total={data?.requests.total}
+            total={data?.identityRequests.total}
           />
         }
       >

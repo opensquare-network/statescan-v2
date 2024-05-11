@@ -34,7 +34,7 @@ const OptionDisplay = styled(Flex)`
 
 const GET_REGISTRARS_OPTIONS = gql`
   query GetRegistrarsOptions {
-    registrars {
+    identityRegistrars {
       index
       account
     }
@@ -69,7 +69,7 @@ export function useRequestsFilter() {
       options: [
         { text: "All", value: "" },
         { type: "divider" },
-        ...(registrarsIndexData?.registrars ?? []).map(
+        ...(registrarsIndexData?.identityRegistrars ?? []).map(
           ({ index, account }) => ({
             text: (
               <OptionDisplay>

@@ -10,7 +10,7 @@ export default function useRegistrarTimeline(account) {
 
   const GET_REGISTRAR_TIMELINE = gql`
     query GetRegistrarTimeline($account: String!) {
-      registrarTimeline(account: $account) {
+      identityRegistrarTimeline(account: $account) {
         name
         args
         indexer {
@@ -33,7 +33,7 @@ export default function useRegistrarTimeline(account) {
     },
   });
 
-  const timelineData = data?.registrarTimeline || [];
+  const timelineData = data?.identityRegistrarTimeline || [];
 
   const component = (
     <Timeline
