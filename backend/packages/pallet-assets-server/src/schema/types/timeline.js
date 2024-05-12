@@ -7,7 +7,7 @@ const timeline = /* GraphQL */ `
     indexer: Indexer!
   }
 
-  type PagedHolder {
+  type PagedTimeline {
     items: [Timeline]!
     offset: Int!
     limit: Int!
