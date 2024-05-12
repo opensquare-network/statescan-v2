@@ -28,7 +28,7 @@ const queries = /* GraphQL */ `
       limit: Int!
       assetId: Int!
       assetHeight: Int
-    ): PagedHolder!
+    ): PagedTimeline!
     assetStatistic(assetId: Int!, assetHeight: Int): Statistics!
     assetHistoryStatistics(
       assetId: Int!
