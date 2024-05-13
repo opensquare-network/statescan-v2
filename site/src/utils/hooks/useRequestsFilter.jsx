@@ -74,7 +74,7 @@ export function useRequestsFilter() {
             text: (
               <OptionDisplay>
                 <Index>#{index}</Index>
-                <AddressOrIdentity address={account} />
+                <AddressOrIdentity key={account} address={account} />
               </OptionDisplay>
             ),
             value: index,
