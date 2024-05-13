@@ -37,7 +37,7 @@ export function VestingsPage() {
           <Pagination
             page={page}
             pageSize={pageSize}
-            total={data?.multisigs?.total}
+            total={data?.vestings?.total}
           />
         }
       >
