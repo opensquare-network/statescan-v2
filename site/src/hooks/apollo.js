@@ -135,8 +135,3 @@ export function useVestingsLazyQuery(query, options = {}, ...args) {
 
   return [fetcher, lazyQueryResult];
 }
-
-/**
- * @type {typeof import("@apollo/client").useQuery}
- */
-function useGraphQLQuery() {}
