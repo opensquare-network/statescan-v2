@@ -368,6 +368,28 @@ export const multisigsHead = [
   },
 ];
 
+export const vestingsHead = [
+  {
+    name: "Address",
+    minWidth: 300,
+    width: 704,
+  },
+  {
+    name: "Starting Block",
+    width: 160,
+  },
+  {
+    name: "Per Block",
+    width: 200,
+    align: "right",
+  },
+  {
+    name: "Locked",
+    width: 200,
+    align: "right",
+  },
+];
+
 export const MULTISIG_ACCOUNT_SORT = {
   DEBUT_AT_HEIGHT_DESC: "DEBUT_AT_HEIGHT_DESC",
   DEBUT_AT_HEIGHT_ASC: "DEBUT_AT_HEIGHT_ASC",
