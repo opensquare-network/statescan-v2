@@ -13,6 +13,11 @@ const multisigClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_PUBLIC_GRAPHQL_API_END_POINT + "graphql",
+  cache: new InMemoryCache(),
+});
+
 /**
  * @type {typeof useQuery}
  */
@@ -88,6 +93,43 @@ export function useMultisigLazyQuery(query, options = {}, ...args) {
   let [fetcher, lazyQueryResult] = useLazyQuery(query, options, ...args);
 
   if (!modules?.multisig) {
+    fetcher = noop;
+  }
+
+  return [fetcher, lazyQueryResult];
+}
+
+/**
+ * @type {typeof useQuery}
+ */
+export function useVestingsQuery(query, options = {}, ...args) {
+  const { modules } = useChainSettings();
+
+  const [fetcher, lazyQueryResult] = useVestingsLazyQuery(
+    query,
+    options,
+    ...args,
+  );
+
+  useEffect(() => {
+    if (modules?.vestings) {
+      fetcher();
+    }
+  }, [modules?.vestings, fetcher]);
+
+  return lazyQueryResult;
+}
+
+/**
+ * @type {typeof useLazyQuery}
+ */
+export function useVestingsLazyQuery(query, options = {}, ...args) {
+  options.client = options.client || client;
+
+  const { modules } = useChainSettings();
+  let [fetcher, lazyQueryResult] = useLazyQuery(query, options, ...args);
+
+  if (!modules?.vestings) {
     fetcher = noop;
   }
 

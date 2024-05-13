@@ -20,6 +20,7 @@ const polkadot = {
     ...governanceModules,
     identity: true,
     multisig: true,
+    vestings: true,
   },
   treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",
