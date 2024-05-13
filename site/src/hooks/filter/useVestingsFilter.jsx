@@ -11,7 +11,7 @@ export function useVestingsFilter() {
       value: account,
       type: "input",
       name: "Search",
-      query: "account",
+      query: "address",
       inputProps: {
         placeholder: "Address",
         prefix: <SearchIcon style={{ width: 16, height: 16 }} />,
