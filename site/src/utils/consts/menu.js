@@ -38,8 +38,13 @@ const multisigMenus = {
   ],
 };
 
+const vestingMenu = {
+  name: "Vestings",
+  value: "vestings",
+};
+
 export default function getBusinessMenus() {
-  const { identity, multisig } = getChainModules();
+  const { identity, multisig, vestings } = getChainModules();
   const hasDivider = identity && multisig;
 
   const menus = [];
@@ -54,6 +59,11 @@ export default function getBusinessMenus() {
 
   if (multisig) {
     menus.push(multisigMenus);
+  }
+
+  if (vestings) {
+    menus.push(divider);
+    menus.push(vestingMenu);
   }
 
   return menus;

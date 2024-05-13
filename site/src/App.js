@@ -33,13 +33,14 @@ import MultisigAccountsPage from "./pages/multisigAccounts";
 import MultisigPage from "./pages/multisig";
 import useConnectApis from "./utils/hooks/chain/apis/useConnectApis";
 import useUpdateNodesDelay from "./utils/hooks/useUpdateNodesDelay";
+import { VestingsPage } from "./pages/vestings";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
   : HashRouter;
 
 function App() {
-  const { assets, uniques, identity, multisig } = getChainModules();
+  const { assets, uniques, identity, multisig, vestings } = getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useSubFinalizedHeight();
   useConnectApis();
@@ -103,6 +104,11 @@ function App() {
               path="/multisig/accounts"
               element={<MultisigAccountsPage />}
             />
+          </>
+        )}
+        {vestings && (
+          <>
+            <Route path="/vestings" element={<VestingsPage />} />
           </>
         )}
       </Routes>
