@@ -1,137 +1,64 @@
-import { ApolloClient, InMemoryCache, useLazyQuery } from "@apollo/client";
-import noop from "lodash.noop";
-import { useEffect } from "react";
+import { useLazyQuery } from "@apollo/client";
+import { useCallback, useEffect } from "react";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 
-const identityClient = new ApolloClient({
-  uri: process.env.REACT_APP_PUBLIC_IDENTITY_API_END_POINT + "graphql",
-  cache: new InMemoryCache(),
-});
+export const useIdentityQuery = createModuleQuery("identity");
 
-const multisigClient = new ApolloClient({
-  uri: process.env.REACT_APP_PUBLIC_MULTISIG_API_END_POINT + "graphql",
-  cache: new InMemoryCache(),
-});
+export const useIdentityLazyQuery = createModuleLazyQuery("identity");
 
-const client = new ApolloClient({
-  uri: process.env.REACT_APP_PUBLIC_GRAPHQL_API_END_POINT + "graphql",
-  cache: new InMemoryCache(),
-});
+export const useMultisigQuery = createModuleQuery("multisig");
+
+export const useMultisigLazyQuery = createModuleLazyQuery("multisig");
+
+export const useVestingsQuery = createModuleQuery("vestings");
 
 /**
- * @type {typeof useQuery}
+ * @param {string} module
+ * @description useLazyQuery
  */
-export function useIdentityQuery(query, options = {}, ...args) {
-  const { modules } = useChainSettings();
+function createModuleLazyQuery(module) {
+  /**
+   * @type {typeof useLazyQuery}
+   */
+  return function useModuleLazyQuery(...args) {
+    const { modules = {} } = useChainSettings();
+    const [fn, lazyQueryResult] = useLazyQuery(...args);
+    const mod = modules?.[module];
 
-  let searchOptions = {
-    ...options,
-    variables: {
-      ...options.variables,
-      search: options.variables?.search,
-    },
+    /**
+     * @type {typeof fn} options
+     */
+    const fetcher = useCallback(
+      async (options) => {
+        if (mod) {
+          return fn(options);
+        }
+      },
+      [fn, mod],
+    );
+
+    return [fetcher, lazyQueryResult];
   };
-  const [fetcher, lazyQueryResult] = useIdentityLazyQuery(
-    query,
-    searchOptions,
-    ...args,
-  );
+}
 
-  useEffect(() => {
-    if (modules?.identity) {
+/**
+ * @param {string} module
+ * @description useQuery
+ */
+function createModuleQuery(module) {
+  const useModuleLazyQuery = createModuleLazyQuery(module);
+
+  /**
+   * @type {typeof useQuery}
+   */
+  return function useModuleQuery(...args) {
+    const [fetcher, result] = useModuleLazyQuery(...args);
+    const { modules } = useChainSettings();
+
+    useEffect(() => {
       fetcher();
-    }
-  }, [modules?.identity, fetcher]);
+    }, [fetcher, modules?.[module]]);
 
-  return lazyQueryResult;
-}
-/**
- * @type {typeof useLazyQuery}
- */
-export function useIdentityLazyQuery(query, options = {}, ...args) {
-  options.client = options.client || identityClient;
-
-  const { modules = {} } = useChainSettings();
-  let [fetcher, lazyQueryResult] = useLazyQuery(query, options, ...args);
-
-  if (!modules?.identity) {
-    fetcher = noop;
-  }
-
-  return [fetcher, lazyQueryResult];
-}
-
-/**
- * @type {typeof useQuery}
- */
-export function useMultisigQuery(query, options = {}, ...args) {
-  options.client = options.client || multisigClient;
-
-  const { modules } = useChainSettings();
-  const [fetcher, lazyQueryResult] = useMultisigLazyQuery(
-    query,
-    options,
-    ...args,
-  );
-
-  useEffect(() => {
-    if (modules?.multisig) {
-      fetcher();
-    }
-  }, [fetcher, modules?.multisig]);
-
-  return lazyQueryResult;
-}
-
-/**
- * @type {typeof useLazyQuery}
- */
-export function useMultisigLazyQuery(query, options = {}, ...args) {
-  options.client = options.client || multisigClient;
-
-  const { modules } = useChainSettings();
-  let [fetcher, lazyQueryResult] = useLazyQuery(query, options, ...args);
-
-  if (!modules?.multisig) {
-    fetcher = noop;
-  }
-
-  return [fetcher, lazyQueryResult];
-}
-
-/**
- * @type {typeof useQuery}
- */
-export function useVestingsQuery(query, options = {}, ...args) {
-  const { modules } = useChainSettings();
-
-  const [fetcher, lazyQueryResult] = useVestingsLazyQuery(
-    query,
-    options,
-    ...args,
-  );
-
-  useEffect(() => {
-    if (modules?.vestings) {
-      fetcher();
-    }
-  }, [modules?.vestings, fetcher]);
-
-  return lazyQueryResult;
-}
-
-/**
- * @type {typeof useLazyQuery}
- */
-export function useVestingsLazyQuery(query, options = {}, ...args) {
-  options.client = options.client || client;
-
-  const { modules } = useChainSettings();
-  let [fetcher, lazyQueryResult] = useLazyQuery(query, options, ...args);
-
-  if (!modules?.vestings) {
-    fetcher = noop;
-  }
-
-  return [fetcher, lazyQueryResult];
+    return result;
+  };
 }
