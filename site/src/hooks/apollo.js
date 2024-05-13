@@ -102,10 +102,14 @@ export function useMultisigLazyQuery(query, options = {}, ...args) {
 /**
  * @type {typeof useQuery}
  */
-export function useVestingsQuery() {
+export function useVestingsQuery(query, options = {}, ...args) {
   const { modules } = useChainSettings();
 
-  const [fetcher, lazyQueryResult] = useVestingsLazyQuery();
+  const [fetcher, lazyQueryResult] = useVestingsLazyQuery(
+    query,
+    options,
+    ...args,
+  );
 
   useEffect(() => {
     if (modules?.vestings) {
