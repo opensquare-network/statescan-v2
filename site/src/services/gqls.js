@@ -51,3 +51,19 @@ export const GET_MULTISIGS = gql`
     }
   }
 `;
+
+export const GET_VESTINGS = gql`
+  query MyQuery($limit: Int!, $offset: Int!, $address: String) {
+    vestings(limit: 10, offset: 0, address: "") {
+      limit
+      offset
+      total
+      vestings {
+        startingBlock
+        perBlock
+        locked
+        address
+      }
+    }
+  }
+`;
