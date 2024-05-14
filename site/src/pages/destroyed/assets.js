@@ -1,56 +1,29 @@
+import { useQuery } from "@apollo/client";
 import { parseInt } from "lodash";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import BreadCrumb from "../../components/breadCrumb";
 import Layout from "../../components/layout";
 import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import Table from "../../components/table";
-import {
-  assetFetchList,
-  assetListLoadingSelector,
-  assetListSelector,
-  clearAssetList,
-} from "../../store/reducers/assetSlice";
+import { useQueryParams } from "../../hooks/useQueryParams";
+import { ASSETS_LIST } from "../../services/gql/assets";
 import {
   destroyedAssetsHead,
   LIST_DEFAULT_PAGE_SIZE,
 } from "../../utils/constants";
 import { useDestroyedAssetsTableData } from "../../utils/hooks/useAssetsTableData";
-import { getPageFromQuery } from "../../utils/viewFuncs";
 
 export default function DestroyedAssets() {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const page = getPageFromQuery(location);
+  const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-
-  const list = useSelector(assetListSelector);
-  const loading = useSelector(assetListLoadingSelector);
-  const data = useDestroyedAssetsTableData();
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    dispatch(
-      assetFetchList(
-        page - 1,
-        pageSize,
-        {
-          destroyed: true,
-        },
-        {
-          signal: controller.signal,
-        },
-      ),
-    );
-
-    return () => {
-      controller.abort();
-      dispatch(clearAssetList());
-    };
-  }, [dispatch, page, pageSize]);
+  const { data, loading } = useQuery(ASSETS_LIST, {
+    variables: {
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+      destroyed: true,
+    },
+  });
+  const tableData = useDestroyedAssetsTableData(data?.assets?.assets);
 
   return (
     <Layout>
@@ -60,11 +33,11 @@ export default function DestroyedAssets() {
           <Pagination
             page={parseInt(page)}
             pageSize={pageSize}
-            total={list?.total}
+            total={data?.assets?.total}
           />
         }
       >
-        <Table heads={destroyedAssetsHead} data={data} loading={loading} />
+        <Table heads={destroyedAssetsHead} data={tableData} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );

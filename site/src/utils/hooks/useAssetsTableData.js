@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { ColoredInterLink } from "../../components/styled/link";
-import { assetListSelector } from "../../store/reducers/assetSlice";
 import { toPrecision } from "@osn/common";
 import ValueDisplay from "../../components/displayValue";
 import AddressOrIdentity from "../../components/address";
@@ -39,14 +37,12 @@ export function useAssetsTableData(assets = []) {
   });
 }
 
-export function useDestroyedAssetsTableData() {
-  const list = useSelector(assetListSelector);
-
-  if (!list?.items) {
+export function useDestroyedAssetsTableData(assets = []) {
+  if (!assets?.length) {
     return null;
   }
 
-  return list?.items?.map((asset) => {
+  return assets.map((asset) => {
     const { destroyed, destroyedAt, assetId, assetHeight, metadata, detail } =
       asset;
     const link = destroyed
