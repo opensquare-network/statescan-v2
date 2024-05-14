@@ -53,3 +53,26 @@ export const ASSET_DETAIL = gql`
     }
   }
 `;
+
+export const ASSET_TRANSFERS_LIST = gql`
+  query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
+    assetTransfers(limit: $limit, offset: $offset, assetId: $assetId) {
+      limit
+      offset
+      total
+      transfers {
+        assetHeight
+        assetId
+        balance
+        to
+        from
+        indexer {
+          eventIndex
+          extrinsicIndex
+          blockHeight
+          blockTime
+        }
+      }
+    }
+  }
+`;

@@ -11,19 +11,16 @@ import {
   holdersHead,
   Timeline,
   Transfers,
-  transfersHead,
 } from "../utils/constants";
 import DetailTable from "../components/detail/table";
-import {
-  toHoldersTabTableItem,
-  toTransferTabTableItem,
-} from "../utils/viewFuncs/toTableItem";
+import { toHoldersTabTableItem } from "../utils/viewFuncs/toTableItem";
 import AssetTimeline from "../components/asset/timeline";
 import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
 import { useQuery } from "@apollo/client";
 import { ASSET_DETAIL } from "../services/gql/assets";
+import AssetTransfers from "../components/asset/transfers";
 
 function Asset() {
   const { assetId } = useParams();
@@ -39,8 +36,6 @@ function Asset() {
     [assetId, detail],
   );
 
-  const transfersApiKey =
-    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/transfers`;
   const holdersApiKey =
     detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/holders`;
   const timelineApiKey =
@@ -60,11 +55,7 @@ function Asset() {
       name: Transfers,
       count: detail?.transfersCount,
       children: (
-        <DetailTable
-          url={transfersApiKey}
-          heads={transfersHead}
-          transformData={toTransferTabTableItem}
-        />
+        <AssetTransfers assetId={assetId} metadata={detail?.metadata} />
       ),
     },
     {
