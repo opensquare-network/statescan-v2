@@ -525,3 +525,8 @@ export const ACCOUNT_IDENTITY_TAB_SUBTAB = {
   IDENTITY_TIMELINE: "identity_timeline",
   REGISTRAR_TIMELINE: "registrar_timeline",
 };
+
+export const ASSETS_SORT = {
+  HOLDERS_DESC: "HOLDERS_DESC",
+  ASSET_ID_ASC: "ASSET_ID_ASC",
+};

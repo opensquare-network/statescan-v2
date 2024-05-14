@@ -1,37 +1,22 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  assetFetchList,
-  assetListLoadingSelector,
-} from "../../../store/reducers/assetSlice";
-import { assetsHead } from "../../../utils/constants";
+import { useQuery } from "@apollo/client";
+import { ASSETS_LIST } from "../../../services/gql/assets";
+import { assetsHead, ASSETS_SORT } from "../../../utils/constants";
 import { useAssetsTableData } from "../../../utils/hooks/useAssetsTableData";
 import Table from "../../table";
 
-const page = 0;
+const page = 1;
 const pageSize = 5;
 
 export default function Assets() {
-  const dispatch = useDispatch();
-  const loading = useSelector(assetListLoadingSelector);
-  const data = useAssetsTableData();
+  const { data, loading } = useQuery(ASSETS_LIST, {
+    variables: {
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+      sort: ASSETS_SORT.HOLDERS_DESC,
+    },
+  });
 
-  useEffect(() => {
-    const controller = new AbortController();
+  const tableData = useAssetsTableData(data?.assets?.assets);
 
-    dispatch(
-      assetFetchList(
-        page,
-        pageSize,
-        { sort: "holders" },
-        {
-          signal: controller.signal,
-        },
-      ),
-    );
-
-    return () => controller.abort();
-  }, [dispatch]);
-
-  return <Table heads={assetsHead} data={data} loading={loading} />;
+  return <Table heads={assetsHead} data={tableData} loading={loading} />;
 }

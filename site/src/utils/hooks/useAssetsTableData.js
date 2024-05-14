@@ -13,14 +13,8 @@ import TimeBody from "../../components/table/body/time";
 import { timeTypes } from "../constants";
 import { Flex } from "../../components/styled/flex";
 
-export function useAssetsTableData() {
-  const list = useSelector(assetListSelector);
-
-  if (!list?.items) {
-    return null;
-  }
-
-  return list?.items?.map((asset) => {
+export function useAssetsTableData(assets = []) {
+  return assets?.map?.((asset) => {
     const { destroyed, assetId, assetHeight, metadata, detail } = asset;
     const link = destroyed
       ? `/assets/${assetId}_${assetHeight}`
