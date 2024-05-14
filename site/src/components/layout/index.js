@@ -6,6 +6,18 @@ import Footer from "../footer";
 import ScrollToTop from "../scrollToTop";
 import { getChainSettings } from "../../utils/chain";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  connect,
+  disconnect,
+  unSubscribeHomepageInfo,
+} from "../../services/websocket";
+import {
+  setLatestBlocks,
+  setLatestSignedTransfers,
+} from "../../store/reducers/socketSlice";
+import { clearNftList } from "../../store/reducers/nftSlice";
+import { clearAssetList } from "../../store/reducers/assetSlice";
 
 const Main = styled.main`
   flex-grow: 1;
@@ -14,6 +26,20 @@ const Main = styled.main`
 
 export default function Layout({ children, className }) {
   const { name } = getChainSettings();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    connect();
+
+    return () => {
+      unSubscribeHomepageInfo();
+      disconnect();
+      dispatch(setLatestSignedTransfers([]));
+      dispatch(setLatestBlocks([]));
+      dispatch(clearNftList());
+      dispatch(clearAssetList());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     document.title = `${name} Blockchain Explorer`;
