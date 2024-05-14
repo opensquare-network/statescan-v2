@@ -1,15 +1,8 @@
 import BreadCrumb from "../components/breadCrumb";
-import React, { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { Panel } from "../components/styled/panel";
 import List from "../components/list";
-import {
-  assetDetailSelector,
-  assetFetchDetail,
-  clearAssetAnalytics,
-  clearAssetDetail,
-} from "../store/reducers/assetSlice";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
 import {
@@ -20,7 +13,6 @@ import {
   Transfers,
   transfersHead,
 } from "../utils/constants";
-import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTable from "../components/detail/table";
 import {
   toHoldersTabTableItem,
@@ -30,12 +22,17 @@ import AssetTimeline from "../components/asset/timeline";
 import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
+import { useQuery } from "@apollo/client";
+import { ASSET_DETAIL } from "../services/gql/assets";
 
 function Asset() {
   const { assetId } = useParams();
-  const dispatch = useDispatch();
-
-  const detail = useSelector(assetDetailSelector);
+  const { data } = useQuery(ASSET_DETAIL, {
+    variables: {
+      id: parseInt(assetId),
+    },
+  });
+  const detail = data?.asset;
 
   const listData = useMemo(
     () => (detail ? toAssetDetailItem(assetId, detail) : {}),
@@ -94,23 +91,6 @@ function Asset() {
     },
   ];
 
-  useEffect(() => {
-    if (assetId) {
-      dispatch(assetFetchDetail(assetId));
-    }
-
-    return () => {
-      dispatch(clearAssetDetail());
-    };
-  }, [dispatch, assetId]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearDetailTables());
-      dispatch(clearAssetAnalytics());
-    };
-  }, [dispatch]);
-
   const assetIdWithoutHeight = assetId.split("_").shift();
 
   let breadCrumb = [
@@ -131,6 +111,7 @@ function Asset() {
         <List
           header={
             <AssetInfo
+              detail={detail}
               symbol={detail?.metadata?.symbol}
               name={detail?.metadata?.name}
             />

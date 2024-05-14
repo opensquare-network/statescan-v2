@@ -30,3 +30,26 @@ export const ASSETS_LIST = gql`
     }
   }
 `;
+
+export const ASSET_DETAIL = gql`
+  query MyQuery($height: Int, $id: Int!) {
+    asset(id: $id, height: $height) {
+      detail {
+        accounts
+        admin
+        owner
+        issuer
+        freezer
+        supply
+      }
+      destroyed
+      metadata {
+        name
+        symbol
+        decimals
+      }
+      assetId
+      assetHeight
+    }
+  }
+`;
