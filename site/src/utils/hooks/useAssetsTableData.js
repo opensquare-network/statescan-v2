@@ -63,7 +63,7 @@ export function useDestroyedAssetsTableData(assets = []) {
         )}
       </Flex>,
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
-      <TimeBody timeType={timeTypes.date} ts={destroyedAt?.blockTime} />,
+      // <TimeBody timeType={timeTypes.date} ts={destroyedAt?.blockTime} />,
       <Tooltip tip={detail?.owner}>
         <AddressOrIdentity address={detail?.owner} />
       </Tooltip>,
