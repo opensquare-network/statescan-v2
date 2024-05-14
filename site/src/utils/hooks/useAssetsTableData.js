@@ -1,4 +1,3 @@
-import React from "react";
 import { ColoredInterLink } from "../../components/styled/link";
 import { toPrecision } from "@osn/common";
 import ValueDisplay from "../../components/displayValue";
@@ -7,8 +6,6 @@ import Tooltip from "../../components/tooltip";
 import SymbolName from "../../components/symbol/name";
 import Symbol from "../../components/symbol";
 import { bigNumberToLocaleString } from "../viewFuncs";
-import TimeBody from "../../components/table/body/time";
-import { timeTypes } from "../constants";
 import { Flex } from "../../components/styled/flex";
 
 export function useAssetsTableData(assets = []) {
