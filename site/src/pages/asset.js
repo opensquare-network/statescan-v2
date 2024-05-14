@@ -108,16 +108,7 @@ function Asset() {
   return (
     <DetailLayout breadCrumb={<BreadCrumb data={breadCrumb} />}>
       <Panel>
-        <List
-          header={
-            <AssetInfo
-              detail={detail}
-              symbol={detail?.metadata?.symbol}
-              name={detail?.metadata?.name}
-            />
-          }
-          data={listData}
-        />
+        <List header={<AssetInfo detail={detail} />} data={listData} />
       </Panel>
 
       <DetailTabs tabs={tabs} />
