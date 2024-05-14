@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.4.1
+
+date: 2024-05-14
+
+- Add vesting page to show on-chain vestings.
+- Take place of identity/multisig graphql server with the common graphql server.
+- Fix paged asset timeline data type in graphql server.
+
 ### 1.4.0
 
 date: 2024-05-11
