@@ -8,6 +8,9 @@ export const ASSETS_LIST = gql`
     $destroyed: Boolean
   ) {
     assets(limit: $limit, offset: $offset, sort: $sort, destroyed: $destroyed) {
+      limit
+      offset
+      total
       assets {
         assetId
         metadata {
