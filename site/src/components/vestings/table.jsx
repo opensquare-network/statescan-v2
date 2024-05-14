@@ -8,14 +8,18 @@ import Table from "../table";
 import { useSelector } from "react-redux";
 import { overviewSelector } from "../../store/reducers/socketSlice";
 import Tooltip from "../tooltip";
+import isNil from "lodash.isnil";
 
 function StartingBlockCell({ data }) {
   const overview = useSelector(overviewSelector);
   const startingBlock = data?.startingBlock;
+  const latestHeight = overview?.latestHeight;
 
   const content = startingBlock.toLocaleString();
 
-  if (startingBlock > overview?.latestHeight) {
+  const notStarted = isNil(latestHeight) || startingBlock > latestHeight;
+
+  if (notStarted) {
     return <Tooltip tip="Not started">{content}</Tooltip>;
   }
 
