@@ -40,8 +40,7 @@ export function useDestroyedAssetsTableData(assets = []) {
   }
 
   return assets.map((asset) => {
-    const { destroyed, destroyedAt, assetId, assetHeight, metadata, detail } =
-      asset;
+    const { destroyed, assetId, assetHeight, metadata, detail } = asset;
     const link = destroyed
       ? `/assets/${assetId}_${assetHeight}`
       : `/assets/${assetId}`;
