@@ -28,15 +28,21 @@ function getFields(timelineItem, asset) {
       const { creator, owner } = timelineItem.args;
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Creator: <AddressOrIdentity ellipsis={false} address={creator} />,
-        Owner: <AddressOrIdentity ellipsis={false} address={owner} />,
+        Creator: (
+          <AddressOrIdentity key={creator} ellipsis={false} address={creator} />
+        ),
+        Owner: (
+          <AddressOrIdentity key={owner} ellipsis={false} address={owner} />
+        ),
       };
     }
     case "ForceCreated": {
       const { owner } = timelineItem.args;
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Owner: <AddressOrIdentity ellipsis={false} address={owner} />,
+        Owner: (
+          <AddressOrIdentity key={owner} ellipsis={false} address={owner} />
+        ),
       };
     }
     case "MetadataSet": {
@@ -65,10 +71,18 @@ function getFields(timelineItem, asset) {
       } = timelineItem.args;
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Admin: <AddressOrIdentity ellipsis={false} address={admin} />,
-        Owner: <AddressOrIdentity ellipsis={false} address={owner} />,
-        Issuer: <AddressOrIdentity ellipsis={false} address={issuer} />,
-        Freezer: <AddressOrIdentity ellipsis={false} address={freezer} />,
+        Admin: (
+          <AddressOrIdentity key={admin} ellipsis={false} address={admin} />
+        ),
+        Owner: (
+          <AddressOrIdentity key={owner} ellipsis={false} address={owner} />
+        ),
+        Issuer: (
+          <AddressOrIdentity key={issuer} ellipsis={false} address={issuer} />
+        ),
+        Freezer: (
+          <AddressOrIdentity key={freezer} ellipsis={false} address={freezer} />
+        ),
         "Min Balance": formatBalance(minBalance, asset),
         Sufficient: <BoldText>{isSufficient}</BoldText>,
         Frozen: <BoldText>{isFrozen}</BoldText>,
@@ -78,16 +92,24 @@ function getFields(timelineItem, asset) {
       const { issuer, admin, freezer } = timelineItem.args;
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Admin: <AddressOrIdentity ellipsis={false} address={admin} />,
-        Issuer: <AddressOrIdentity ellipsis={false} address={issuer} />,
-        Freezer: <AddressOrIdentity ellipsis={false} address={freezer} />,
+        Admin: (
+          <AddressOrIdentity key={admin} ellipsis={false} address={admin} />
+        ),
+        Issuer: (
+          <AddressOrIdentity key={issuer} ellipsis={false} address={issuer} />
+        ),
+        Freezer: (
+          <AddressOrIdentity key={freezer} ellipsis={false} address={freezer} />
+        ),
       };
     }
     case "OwnerChanged": {
       const { owner } = timelineItem.args;
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Admin: <AddressOrIdentity ellipsis={false} address={owner} />,
+        Admin: (
+          <AddressOrIdentity key={owner} ellipsis={false} address={owner} />
+        ),
       };
     }
     case "AssetFrozen": {
@@ -110,7 +132,11 @@ function getFields(timelineItem, asset) {
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
         Beneficiary: (
-          <AddressOrIdentity ellipsis={false} address={beneficiary} />
+          <AddressOrIdentity
+            key={beneficiary}
+            ellipsis={false}
+            address={beneficiary}
+          />
         ),
         Amount: formatBalance(amount, asset),
       };
@@ -119,7 +145,7 @@ function getFields(timelineItem, asset) {
       const { owner, balance } = timelineItem.args;
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Who: <AddressOrIdentity ellipsis={false} address={owner} />,
+        Who: <AddressOrIdentity key={owner} ellipsis={false} address={owner} />,
         Amount: formatBalance(balance, asset),
       };
     }
