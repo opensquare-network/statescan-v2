@@ -23,10 +23,10 @@ export function useAssetsTableData(assets = []) {
       <Flex>{metadata?.symbol ? <Symbol asset={asset} /> : "--"}</Flex>,
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
       <Tooltip tip={detail?.owner}>
-        <AddressOrIdentity address={detail?.owner} />
+        <AddressOrIdentity key={detail?.owner} address={detail?.owner} />
       </Tooltip>,
       <Tooltip tip={detail?.issuer}>
-        <AddressOrIdentity address={detail?.issuer} />
+        <AddressOrIdentity key={detail?.issuer} address={detail?.issuer} />
       </Tooltip>,
       detail?.accounts,
       <Tooltip pullRight={true} tip={bigNumberToLocaleString(supply)}>
@@ -64,7 +64,7 @@ export function useDestroyedAssetsTableData(assets = []) {
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
       <TimeBody timeType={timeTypes.date} ts={destroyedAt?.blockTime} />,
       <Tooltip tip={detail?.owner}>
-        <AddressOrIdentity address={detail?.owner} />
+        <AddressOrIdentity key={detail?.owner} address={detail?.owner} />
       </Tooltip>,
       <Tooltip pullRight={true} tip={bigNumberToLocaleString(destroy)}>
         <ValueDisplay value={destroy} />
