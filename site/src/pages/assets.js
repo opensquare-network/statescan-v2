@@ -8,13 +8,13 @@ import Pagination from "../components/pagination";
 import { useAssetsTableData } from "../utils/hooks/useAssetsTableData";
 import { useQueryParams } from "../hooks/useQueryParams";
 import { useQuery } from "@apollo/client";
-import { ASSETS_LIST } from "../services/gql/assets";
+import { GET_ASSETS_LIST } from "../services/gql/assets";
 
 function Assets() {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
-  const { data, loading } = useQuery(ASSETS_LIST, {
+  const { data, loading } = useQuery(GET_ASSETS_LIST, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,

@@ -6,7 +6,7 @@ import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import Table from "../../components/table";
 import { useQueryParams } from "../../hooks/useQueryParams";
-import { ASSETS_LIST } from "../../services/gql/assets";
+import { GET_ASSETS_LIST } from "../../services/gql/assets";
 import {
   destroyedAssetsHead,
   LIST_DEFAULT_PAGE_SIZE,
@@ -16,7 +16,7 @@ import { useDestroyedAssetsTableData } from "../../utils/hooks/useAssetsTableDat
 export default function DestroyedAssets() {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { data, loading } = useQuery(ASSETS_LIST, {
+  const { data, loading } = useQuery(GET_ASSETS_LIST, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,

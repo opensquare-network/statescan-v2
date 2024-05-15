@@ -11,13 +11,13 @@ import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
 import { useQuery } from "@apollo/client";
-import { ASSET_DETAIL } from "../services/gql/assets";
+import { GET_ASSET_DETAIL } from "../services/gql/assets";
 import AssetTransfers from "../components/asset/transfers";
 import AssetHolders from "../components/asset/holders";
 
 function Asset() {
   const { assetId } = useParams();
-  const { data } = useQuery(ASSET_DETAIL, {
+  const { data } = useQuery(GET_ASSET_DETAIL, {
     variables: {
       id: parseInt(assetId),
     },

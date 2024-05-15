@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const ASSETS_LIST = gql`
+export const GET_ASSETS_LIST = gql`
   query MyQuery(
     $limit: Int!
     $offset: Int!
@@ -31,7 +31,7 @@ export const ASSETS_LIST = gql`
   }
 `;
 
-export const ASSET_DETAIL = gql`
+export const GET_ASSET_DETAIL = gql`
   query MyQuery($height: Int, $id: Int!) {
     asset(id: $id, height: $height) {
       detail {
@@ -54,7 +54,7 @@ export const ASSET_DETAIL = gql`
   }
 `;
 
-export const ASSET_TRANSFERS_LIST = gql`
+export const GET_ASSET_TRANSFERS_LIST = gql`
   query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
     assetTransfers(limit: $limit, offset: $offset, assetId: $assetId) {
       limit
@@ -77,7 +77,7 @@ export const ASSET_TRANSFERS_LIST = gql`
   }
 `;
 
-export const ASSET_HOLDERS_LIST = gql`
+export const GET_ASSET_HOLDERS_LIST = gql`
   query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
     assetHolders(limit: $limit, offset: $offset, assetId: $assetId) {
       holders {
@@ -98,7 +98,7 @@ export const ASSET_HOLDERS_LIST = gql`
   }
 `;
 
-export const ASSET_TIMELINE_LIST = gql`
+export const GET_ASSET_TIMELINE_LIST = gql`
   query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
     assetTimeline(limit: $limit, offset: $offset, assetId: $assetId) {
       limit
@@ -120,7 +120,7 @@ export const ASSET_TIMELINE_LIST = gql`
   }
 `;
 
-export const ASSET_ANALYTICS = gql`
+export const GET_ASSET_ANALYTICS = gql`
   query MyQuery($assetId: Int!) {
     assetHistoryStatistics(assetId: $assetId) {
       transferAmount

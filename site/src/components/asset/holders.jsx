@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { ASSET_HOLDERS_LIST } from "../../services/gql/assets";
+import { GET_ASSET_HOLDERS_LIST } from "../../services/gql/assets";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { LIST_DEFAULT_PAGE_SIZE, holdersHead } from "../../utils/constants";
 import { StyledPanelTableWrapper } from "../styled/panel";
@@ -14,7 +14,7 @@ export default function AssetHolders({ assetId }) {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
-  const { data, loading } = useQuery(ASSET_HOLDERS_LIST, {
+  const { data, loading } = useQuery(GET_ASSET_HOLDERS_LIST, {
     variables: {
       assetId: parseInt(assetId),
       limit: pageSize,

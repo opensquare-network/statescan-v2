@@ -7,7 +7,7 @@ import AssetAnalyticsChartBody from "./body";
 import AssetAnalyticsChartFooter from "./footer";
 import AssetAnalyticsChartHeader from "./header";
 import { useQuery } from "@apollo/client";
-import { ASSET_ANALYTICS } from "../../../services/gql/assets";
+import { GET_ASSET_ANALYTICS } from "../../../services/gql/assets";
 
 const Wrapper = styled(Panel)`
   padding: 8px 24px;
@@ -19,7 +19,7 @@ export default function AssetAnalyticsChart({ assetId, asset }) {
   const [countHidden, setCountHidden] = useState(false);
   const [holdersHidden, setHoldersHidden] = useState(false);
 
-  const { data } = useQuery(ASSET_ANALYTICS, {
+  const { data } = useQuery(GET_ASSET_ANALYTICS, {
     variables: {
       assetId: parseInt(assetId),
     },

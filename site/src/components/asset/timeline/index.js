@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import Timeline from "../../timeline";
 import AssetTimelineItemFields from "./itemFields";
 import AssetTimelineItemIcon from "./itemIcon";
-import { ASSET_TIMELINE_LIST } from "../../../services/gql/assets";
+import { GET_ASSET_TIMELINE_LIST } from "../../../services/gql/assets";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import Pagination from "../../pagination";
 import { useQueryParams } from "../../../hooks/useQueryParams";
@@ -11,7 +11,7 @@ import { LIST_DEFAULT_PAGE_SIZE } from "../../../utils/constants";
 export default function AssetTimeline({ assetId, asset }) {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { data, loading } = useQuery(ASSET_TIMELINE_LIST, {
+  const { data, loading } = useQuery(GET_ASSET_TIMELINE_LIST, {
     variables: {
       assetId: parseInt(assetId),
       limit: pageSize,

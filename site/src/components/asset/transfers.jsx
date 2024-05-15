@@ -10,7 +10,7 @@ export default function AssetTransfers({ assetId, metadata }) {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
-  const { data, loading } = useQuery(ASSET_TRANSFERS_LIST, {
+  const { data, loading } = useQuery(GET_ASSET_TRANSFERS_LIST, {
     variables: {
       assetId: parseInt(assetId),
       limit: pageSize,
