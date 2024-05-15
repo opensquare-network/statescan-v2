@@ -69,7 +69,6 @@
     ]
   },
   "devDependencies": {
-    "@osn/eslint-config": "^1.0.2",
     "eslint": "^8.43.0",
     "typescript": "4.8.4"
   },
