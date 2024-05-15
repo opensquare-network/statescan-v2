@@ -76,3 +76,24 @@ export const ASSET_TRANSFERS_LIST = gql`
     }
   }
 `;
+
+export const ASSET_HOLDERS_LIST = gql`
+  query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
+    assetHolders(limit: $limit, offset: $offset, assetId: $assetId) {
+      holders {
+        address
+        assetId
+        balance
+        status
+        asset {
+          metadata {
+            decimals
+          }
+        }
+      }
+      total
+      limit
+      offset
+    }
+  }
+`;

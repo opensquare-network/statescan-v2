@@ -21,6 +21,7 @@ import DetailTabs from "../components/detail/tabs";
 import { useQuery } from "@apollo/client";
 import { ASSET_DETAIL } from "../services/gql/assets";
 import AssetTransfers from "../components/asset/transfers";
+import AssetHolders from "../components/asset/holders";
 
 function Asset() {
   const { assetId } = useParams();
@@ -68,6 +69,7 @@ function Asset() {
           transformData={(data) => toHoldersTabTableItem(data, detail)}
         />
       ),
+      children: <AssetHolders assetId={assetId} />,
     },
     {
       name: Timeline,
