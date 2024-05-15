@@ -6,7 +6,6 @@ import List from "../components/list";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
 import { Analytics, Holders, Timeline, Transfers } from "../utils/constants";
-import DetailTable from "../components/detail/table";
 import AssetTimeline from "../components/asset/timeline";
 import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
@@ -30,17 +29,8 @@ function Asset() {
     [assetId, detail],
   );
 
-  const timelineApiKey =
-    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/timeline`;
   const analyticsApiKey =
     detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/statistic`;
-
-  const MyAssetTimeline = useCallback(
-    ({ data, loading }) => (
-      <AssetTimeline asset={detail} timeline={data} loading={loading} />
-    ),
-    [detail],
-  );
 
   const tabs = [
     {
@@ -58,9 +48,7 @@ function Asset() {
     {
       name: Timeline,
       count: detail?.timelineCount,
-      children: (
-        <DetailTable url={timelineApiKey} TableComponent={MyAssetTimeline} />
-      ),
+      children: <AssetTimeline assetId={assetId} asset={detail} />,
     },
     {
       name: Analytics,

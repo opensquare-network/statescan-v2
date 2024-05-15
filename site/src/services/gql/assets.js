@@ -97,3 +97,25 @@ export const ASSET_HOLDERS_LIST = gql`
     }
   }
 `;
+
+export const ASSET_TIMELINE_LIST = gql`
+  query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
+    assetTimeline(limit: $limit, offset: $offset, assetId: $assetId) {
+      limit
+      offset
+      total
+      items {
+        args
+        assetHeight
+        name
+        assetId
+        indexer {
+          blockTime
+          eventIndex
+          extrinsicIndex
+          blockHeight
+        }
+      }
+    }
+  }
+`;
