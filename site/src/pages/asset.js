@@ -1,5 +1,5 @@
 import BreadCrumb from "../components/breadCrumb";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Panel } from "../components/styled/panel";
 import List from "../components/list";
