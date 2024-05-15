@@ -48,15 +48,8 @@ export default function AssetTransfers({ assetId, asset }) {
         <AddressOrIdentity key={transfer?.to} address={transfer?.to} />
       </Tooltip>,
       <ValueDisplay
-        value={toPrecision(
-          transfer?.balance,
-          getTransferDecimals(transfer, asset?.metadata?.decimals),
-        )}
-        symbol={
-          <SymbolLink assetId={transfer.assetId}>
-            {getTransferSymbol(transfer, asset?.metadata?.decimals)}
-          </SymbolLink>
-        }
+        value={toPrecision(transfer?.balance, asset?.metadata?.decimals)}
+        symbol={asset?.metadata?.symbol}
         showNotEqualTooltip
       />,
     ];

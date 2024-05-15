@@ -39,9 +39,7 @@ function Asset() {
     {
       name: Transfers,
       count: assetTransfers?.total,
-      children: (
-        <AssetTransfers assetId={assetId} metadata={detail?.metadata} />
-      ),
+      children: <AssetTransfers assetId={assetId} asset={detail} />,
     },
     {
       name: Holders,
