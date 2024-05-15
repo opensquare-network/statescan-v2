@@ -26,10 +26,10 @@ export default function TransfersTable({ data, loading }) {
       <ExtrinsicLink key={`${key}-1`} indexer={transfer.indexer} />,
       transfer?.indexer?.blockTime,
       <Tooltip tip={transfer?.from}>
-        <AddressOrIdentity address={transfer?.from} />
+        <AddressOrIdentity key={transfer?.from} address={transfer?.from} />
       </Tooltip>,
       <Tooltip tip={transfer?.to}>
-        <AddressOrIdentity address={transfer?.to} />
+        <AddressOrIdentity key={transfer?.to} address={transfer?.to} />
       </Tooltip>,
       <ValueDisplay
         value={toPrecision(
