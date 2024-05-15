@@ -1,5 +1,4 @@
 import { useQuery } from "@apollo/client";
-import TransfersTable from "../transfer/table";
 import { StyledPanelTableWrapper } from "../styled/panel";
 import Pagination from "../pagination";
 import { GET_ASSET_TRANSFERS_LIST } from "../../services/gql/assets";
@@ -7,16 +6,12 @@ import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { toPrecision } from "@osn/common";
 import { transfersHead } from "../../utils/constants";
-import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import AddressOrIdentity from "../address";
 import ValueDisplay from "../displayValue";
 import ExtrinsicLink from "../extrinsic/link";
 import { ColoredLink } from "../styled/link";
 import Table from "../table";
 import Tooltip from "../tooltip";
-import getTransferDecimals from "../../utils/viewFuncs/transferDecimals";
-import SymbolLink from "../symbol/symbolLink";
-import getTransferSymbol from "../../utils/viewFuncs/transferSymbol";
 
 export default function AssetTransfers({ assetId, asset }) {
   const { page = 1 } = useQueryParams();
