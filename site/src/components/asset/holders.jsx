@@ -22,7 +22,7 @@ export default function AssetHolders({ assetId }) {
     },
   });
 
-  const tableData = data?.assetHolders?.holders?.map((holder, index) => {
+  const tableData = data?.assetHolders?.holders?.map?.((holder, index) => {
     return [
       index + 1,
       <Tooltip tip={holder?.address}>
