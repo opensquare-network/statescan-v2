@@ -13,7 +13,7 @@ export function getEnvChain() {
 export function getEnvEndpoint() {
   const endpoint = process.env.REACT_APP_PUBLIC_API_END_POINT;
   if (!endpoint) {
-    throw new Error(`No REACT_APP_PUBLIC_API_END_POINT is set`);
+    throw new Error("No REACT_APP_PUBLIC_API_END_POINT is set");
   }
 
   return endpoint;

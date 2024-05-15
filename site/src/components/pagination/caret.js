@@ -20,7 +20,7 @@ const LinkInnerWrapper = styled.div`
 
 export default function PageCaret({ children, page, onPageChange = null }) {
   const location = useLocation();
-  const [to, setTo] = React.useState(``);
+  const [to, setTo] = React.useState("");
 
   useEffect(() => {
     setTo(

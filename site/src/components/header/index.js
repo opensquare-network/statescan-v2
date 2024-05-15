@@ -127,7 +127,7 @@ export default function Header() {
     <Wrapper>
       <FlexBetween style={{ flex: 1 }}>
         <Link
-          to={`/`}
+          to={"/"}
           onClick={() => {
             dispatch(closeMobileMenu());
           }}
@@ -138,7 +138,7 @@ export default function Header() {
         <PC>
           <FlexBetween style={{ flex: 1 }}>
             <MenuWrapper>
-              <Link to={`/`}>
+              <Link to={"/"}>
                 <MenuItem>Home</MenuItem>
               </Link>
               <SubMenu

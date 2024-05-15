@@ -66,7 +66,7 @@ export default function Navi() {
 
   return (
     <MenuWrapper>
-      <Link to={`/`} onClick={closeMobileMenu}>
+      <Link to={"/"} onClick={closeMobileMenu}>
         <MenuItem>Home</MenuItem>
       </Link>
 

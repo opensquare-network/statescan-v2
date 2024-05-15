@@ -74,7 +74,7 @@ export default function LineChart({
               position="time*price"
               color={color}
             />
-            <Tooltip custom={true} containerTpl={`<i></i>`} />
+            <Tooltip custom={true} containerTpl={"<i></i>"} />
           </Chart>
         ) : (
           <NoData>
