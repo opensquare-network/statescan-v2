@@ -137,24 +137,6 @@ export const toExtrinsicsTabTableItemSimpleMode = (extrinsics) => {
   );
 };
 
-export const toHoldersTabTableItem = (holders, asset) => {
-  if (!holders || !asset) {
-    return null;
-  }
-
-  return holders.map((holder, index) => {
-    return [
-      index + 1,
-      <Tooltip tip={holder?.address}>
-        <AddressOrIdentity address={holder?.address} ellipsis={false} />
-      </Tooltip>,
-      bigNumberToLocaleString(
-        toPrecision(holder?.balance, asset?.metadata?.decimals),
-      ),
-    ];
-  });
-};
-
 export const toAssetsTabItem = (assets) => {
   return assets?.map((asset) => {
     const {

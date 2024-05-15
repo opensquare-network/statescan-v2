@@ -5,15 +5,8 @@ import { Panel } from "../components/styled/panel";
 import List from "../components/list";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
-import {
-  Analytics,
-  Holders,
-  holdersHead,
-  Timeline,
-  Transfers,
-} from "../utils/constants";
+import { Analytics, Holders, Timeline, Transfers } from "../utils/constants";
 import DetailTable from "../components/detail/table";
-import { toHoldersTabTableItem } from "../utils/viewFuncs/toTableItem";
 import AssetTimeline from "../components/asset/timeline";
 import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
@@ -37,8 +30,6 @@ function Asset() {
     [assetId, detail],
   );
 
-  const holdersApiKey =
-    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/holders`;
   const timelineApiKey =
     detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/timeline`;
   const analyticsApiKey =
@@ -62,13 +53,6 @@ function Asset() {
     {
       name: Holders,
       count: detail?.holdersCount,
-      children: (
-        <DetailTable
-          url={holdersApiKey}
-          heads={holdersHead}
-          transformData={(data) => toHoldersTabTableItem(data, detail)}
-        />
-      ),
       children: <AssetHolders assetId={assetId} />,
     },
     {
