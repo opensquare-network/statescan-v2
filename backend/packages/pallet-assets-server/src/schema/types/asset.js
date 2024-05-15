@@ -31,6 +31,7 @@ const asset = /* GraphQL */ `
     detail: AssetDetail
     metadata: AssetMetadata
     destroyed: Boolean!
+    destroyedAt: Indexer
   }
 
   type PagedAsset {
