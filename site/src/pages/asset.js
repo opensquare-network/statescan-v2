@@ -11,7 +11,7 @@ import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
 import { useQuery } from "@apollo/client";
-import { GET_ASSET_DETAIL } from "../services/gql/assets";
+import { GET_ASSET_COUNTS, GET_ASSET_DETAIL } from "../services/gql/assets";
 import AssetTransfers from "../components/asset/transfers";
 import AssetHolders from "../components/asset/holders";
 
@@ -22,6 +22,12 @@ function Asset() {
       id: parseInt(assetId),
     },
   });
+  const { data: { assetTransfers, assetHolders, assetTimeline } = {} } =
+    useQuery(GET_ASSET_COUNTS, {
+      variables: {
+        assetId: parseInt(assetId),
+      },
+    });
   const detail = data?.asset;
 
   const listData = useMemo(
@@ -32,19 +38,19 @@ function Asset() {
   const tabs = [
     {
       name: Transfers,
-      count: detail?.transfersCount,
+      count: assetTransfers?.total,
       children: (
         <AssetTransfers assetId={assetId} metadata={detail?.metadata} />
       ),
     },
     {
       name: Holders,
-      count: detail?.holdersCount,
+      count: assetHolders?.total,
       children: <AssetHolders assetId={assetId} />,
     },
     {
       name: Timeline,
-      count: detail?.timelineCount,
+      count: assetTimeline?.total,
       children: <AssetTimeline assetId={assetId} asset={detail} />,
     },
     {

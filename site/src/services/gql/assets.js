@@ -133,3 +133,17 @@ export const GET_ASSET_ANALYTICS = gql`
     }
   }
 `;
+
+export const GET_ASSET_COUNTS = gql`
+  query MyQuery($assetId: Int!) {
+    assetHolders(assetId: $assetId, limit: 10, offset: 0) {
+      total
+    }
+    assetTimeline(assetId: $assetId, limit: 10, offset: 0) {
+      total
+    }
+    assetTransfers(assetId: $assetId, limit: 10, offset: 0) {
+      total
+    }
+  }
+`;

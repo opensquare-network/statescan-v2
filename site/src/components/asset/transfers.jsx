@@ -2,11 +2,23 @@ import { useQuery } from "@apollo/client";
 import TransfersTable from "../transfer/table";
 import { StyledPanelTableWrapper } from "../styled/panel";
 import Pagination from "../pagination";
-import { ASSET_TRANSFERS_LIST } from "../../services/gql/assets";
+import { GET_ASSET_TRANSFERS_LIST } from "../../services/gql/assets";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { useQueryParams } from "../../hooks/useQueryParams";
+import { toPrecision } from "@osn/common";
+import { transfersHead } from "../../utils/constants";
+import useChainSettings from "../../utils/hooks/chain/useChainSettings";
+import AddressOrIdentity from "../address";
+import ValueDisplay from "../displayValue";
+import ExtrinsicLink from "../extrinsic/link";
+import { ColoredLink } from "../styled/link";
+import Table from "../table";
+import Tooltip from "../tooltip";
+import getTransferDecimals from "../../utils/viewFuncs/transferDecimals";
+import SymbolLink from "../symbol/symbolLink";
+import getTransferSymbol from "../../utils/viewFuncs/transferSymbol";
 
-export default function AssetTransfers({ assetId, metadata }) {
+export default function AssetTransfers({ assetId, asset }) {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
@@ -16,6 +28,38 @@ export default function AssetTransfers({ assetId, metadata }) {
       limit: pageSize,
       offset: (page - 1) * pageSize,
     },
+  });
+
+  const tableData = data?.assetTransfers?.transfers?.map?.((transfer, key) => {
+    return [
+      <ColoredLink
+        key={`${key}-1`}
+        to={`/events/${transfer?.indexer?.blockHeight}-${transfer?.indexer?.eventIndex}`}
+      >
+        {transfer?.indexer?.blockHeight.toLocaleString()}-
+        {transfer?.indexer?.eventIndex}
+      </ColoredLink>,
+      <ExtrinsicLink key={`${key}-1`} indexer={transfer.indexer} />,
+      transfer?.indexer?.blockTime,
+      <Tooltip tip={transfer?.from}>
+        <AddressOrIdentity key={transfer?.from} address={transfer?.from} />
+      </Tooltip>,
+      <Tooltip tip={transfer?.to}>
+        <AddressOrIdentity key={transfer?.to} address={transfer?.to} />
+      </Tooltip>,
+      <ValueDisplay
+        value={toPrecision(
+          transfer?.balance,
+          getTransferDecimals(transfer, asset?.metadata?.decimals),
+        )}
+        symbol={
+          <SymbolLink assetId={transfer.assetId}>
+            {getTransferSymbol(transfer, asset?.metadata?.decimals)}
+          </SymbolLink>
+        }
+        showNotEqualTooltip
+      />,
+    ];
   });
 
   return (
@@ -28,12 +72,7 @@ export default function AssetTransfers({ assetId, metadata }) {
         />
       }
     >
-      <TransfersTable
-        data={data?.assetTransfers?.transfers}
-        loading={loading}
-        decimals={metadata?.decimals}
-        symbol={metadata?.symbol}
-      />
+      <Table heads={transfersHead} data={tableData} loading={loading} />
     </StyledPanelTableWrapper>
   );
 }
