@@ -9,17 +9,20 @@ import Tooltip from "../tooltip";
 import AddressOrIdentity from "../address";
 import { bigNumberToLocaleString } from "../../utils/viewFuncs";
 import { toPrecision } from "@osn/common";
+import { useState } from "react";
 
 export default function AssetHolders({ assetId }) {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const [data, setData] = useState();
 
-  const { data, loading } = useQuery(GET_ASSET_HOLDERS_LIST, {
+  const { loading } = useQuery(GET_ASSET_HOLDERS_LIST, {
     variables: {
       assetId: parseInt(assetId),
       limit: pageSize,
       offset: (page - 1) * pageSize,
     },
+    onCompleted: setData,
   });
 
   const tableData = data?.assetHolders?.holders?.map?.((holder, index) => {

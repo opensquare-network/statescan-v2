@@ -1,6 +1,6 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React from "react";
+import React, { useState } from "react";
 import { assetsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import Layout from "../components/layout";
 import Table from "../components/table";
@@ -13,12 +13,14 @@ import { GET_ASSETS_LIST } from "../services/gql/assets";
 function Assets() {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const [data, setData] = useState();
 
-  const { data, loading } = useQuery(GET_ASSETS_LIST, {
+  const { loading } = useQuery(GET_ASSETS_LIST, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
     },
+    onCompleted: setData,
   });
   const tableData = useAssetsTableData(data?.assets?.assets);
 

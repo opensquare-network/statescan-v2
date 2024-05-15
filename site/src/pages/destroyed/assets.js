@@ -12,16 +12,20 @@ import {
   LIST_DEFAULT_PAGE_SIZE,
 } from "../../utils/constants";
 import { useDestroyedAssetsTableData } from "../../utils/hooks/useAssetsTableData";
+import { useState } from "react";
 
 export default function DestroyedAssets() {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { data, loading } = useQuery(GET_ASSETS_LIST, {
+  const [data, setData] = useState();
+
+  const { loading } = useQuery(GET_ASSETS_LIST, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       destroyed: true,
     },
+    onCompleted: setData,
   });
   const tableData = useDestroyedAssetsTableData(data?.assets?.assets);
 

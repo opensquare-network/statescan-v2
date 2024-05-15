@@ -7,16 +7,20 @@ import { StyledPanelTableWrapper } from "../../styled/panel";
 import Pagination from "../../pagination";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../../utils/constants";
+import { useState } from "react";
 
 export default function AssetTimeline({ assetId, asset }) {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { data, loading } = useQuery(GET_ASSET_TIMELINE_LIST, {
+  const [data, setData] = useState();
+
+  const { loading } = useQuery(GET_ASSET_TIMELINE_LIST, {
     variables: {
       assetId: parseInt(assetId),
       limit: pageSize,
       offset: (page - 1) * pageSize,
     },
+    onCompleted: setData,
   });
 
   return (

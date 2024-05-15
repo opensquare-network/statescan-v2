@@ -12,17 +12,20 @@ import ExtrinsicLink from "../extrinsic/link";
 import { ColoredLink } from "../styled/link";
 import Table from "../table";
 import Tooltip from "../tooltip";
+import { useState } from "react";
 
 export default function AssetTransfers({ assetId, asset }) {
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const [data, setData] = useState();
 
-  const { data, loading } = useQuery(GET_ASSET_TRANSFERS_LIST, {
+  const { loading } = useQuery(GET_ASSET_TRANSFERS_LIST, {
     variables: {
       assetId: parseInt(assetId),
       limit: pageSize,
       offset: (page - 1) * pageSize,
     },
+    onCompleted: setData,
   });
 
   const tableData = data?.assetTransfers?.transfers?.map?.((transfer, key) => {
