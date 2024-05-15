@@ -119,3 +119,17 @@ export const ASSET_TIMELINE_LIST = gql`
     }
   }
 `;
+
+export const ASSET_ANALYTICS = gql`
+  query MyQuery($assetId: Int!) {
+    assetHistoryStatistics(assetId: $assetId) {
+      transferAmount
+      transferCount
+      holderCount
+      indexer {
+        blockHeight
+        blockTime
+      }
+    }
+  }
+`;

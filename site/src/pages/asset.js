@@ -29,9 +29,6 @@ function Asset() {
     [assetId, detail],
   );
 
-  const analyticsApiKey =
-    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/statistic`;
-
   const tabs = [
     {
       name: Transfers,
@@ -52,7 +49,7 @@ function Asset() {
     },
     {
       name: Analytics,
-      children: <AssetAnalyticsChart url={analyticsApiKey} />,
+      children: <AssetAnalyticsChart assetId={assetId} asset={detail} />,
     },
   ];
 

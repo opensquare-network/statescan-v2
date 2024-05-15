@@ -1,31 +1,29 @@
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useMemo, useState } from "react";
 import styled from "styled-components";
-import api from "../../../services/api";
-import {
-  assetAnalyticsSelector,
-  assetDetailSelector,
-  setAnalytics,
-} from "../../../store/reducers/assetSlice";
 import { ASSET_ANALYTICS_RANGE } from "../../../utils/constants";
 import { Panel } from "../../styled/panel";
 import AssetAnalyticsChartBody from "./body";
 import AssetAnalyticsChartFooter from "./footer";
 import AssetAnalyticsChartHeader from "./header";
+import { useQuery } from "@apollo/client";
+import { ASSET_ANALYTICS } from "../../../services/gql/assets";
 
 const Wrapper = styled(Panel)`
   padding: 8px 24px;
 `;
 
-export default function AssetAnalyticsChart({ url }) {
-  const dispatch = useDispatch();
+export default function AssetAnalyticsChart({ assetId, asset }) {
   const [range, setRange] = useState(ASSET_ANALYTICS_RANGE.ALL);
-  const detail = useSelector(assetDetailSelector);
-  const analytics = useSelector(assetAnalyticsSelector);
   const [amountHidden, setAmountHidden] = useState(false);
   const [countHidden, setCountHidden] = useState(false);
   const [holdersHidden, setHoldersHidden] = useState(false);
+
+  const { data } = useQuery(ASSET_ANALYTICS, {
+    variables: {
+      assetId: parseInt(assetId),
+    },
+  });
 
   const rangeData = useMemo(() => {
     const rangeDateMap = {
@@ -34,38 +32,28 @@ export default function AssetAnalyticsChart({ url }) {
     };
 
     if (range === ASSET_ANALYTICS_RANGE.ALL) {
-      return analytics;
+      return data?.assetHistoryStatistics;
     } else {
       const ts = moment().subtract(1, rangeDateMap[range]).valueOf();
-      return analytics.filter((item) => item?.indexer?.blockTime > ts);
+      return data?.assetHistoryStatistics.filter(
+        (item) => item?.indexer?.blockTime > ts,
+      );
     }
-  }, [range, analytics]);
-
-  useEffect(() => {
-    if (!url || analytics?.length) {
-      return;
-    }
-
-    api.fetch(url).then(({ result }) => {
-      if (result) {
-        dispatch(setAnalytics(result));
-      }
-    });
-  }, [dispatch, url, analytics?.length]);
+  }, [range, data?.assetHistoryStatistics]);
 
   return (
     <Wrapper>
       <AssetAnalyticsChartHeader
-        assetId={detail?.assetId}
-        assetHeight={detail?.assetHeight}
-        symbol={detail?.metadata?.symbol}
+        assetId={asset?.assetId}
+        assetHeight={asset?.assetHeight}
+        symbol={asset?.metadata?.symbol}
         range={range}
         setRange={setRange}
       />
 
       <AssetAnalyticsChartBody
         data={rangeData}
-        decimals={detail?.metadata?.decimals}
+        decimals={asset?.metadata?.decimals}
         amountHidden={amountHidden}
         countHidden={countHidden}
         holdersHidden={holdersHidden}
