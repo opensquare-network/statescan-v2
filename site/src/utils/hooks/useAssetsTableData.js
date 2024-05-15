@@ -7,6 +7,8 @@ import SymbolName from "../../components/symbol/name";
 import Symbol from "../../components/symbol";
 import { bigNumberToLocaleString } from "../viewFuncs";
 import { Flex } from "../../components/styled/flex";
+import TimeBody from "../../components/table/body/time";
+import { timeTypes } from "../constants";
 
 export function useAssetsTableData(assets = []) {
   return assets?.map?.((asset) => {
@@ -40,7 +42,8 @@ export function useDestroyedAssetsTableData(assets = []) {
   }
 
   return assets.map((asset) => {
-    const { destroyed, assetId, assetHeight, metadata, detail } = asset;
+    const { destroyed, destroyedAt, assetId, assetHeight, metadata, detail } =
+      asset;
     const link = destroyed
       ? `/assets/${assetId}_${assetHeight}`
       : `/assets/${assetId}`;
@@ -59,7 +62,7 @@ export function useDestroyedAssetsTableData(assets = []) {
         )}
       </Flex>,
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
-      // <TimeBody timeType={timeTypes.date} ts={destroyedAt?.blockTime} />,
+      <TimeBody timeType={timeTypes.date} ts={destroyedAt?.blockTime} />,
       <Tooltip tip={detail?.owner}>
         <AddressOrIdentity address={detail?.owner} />
       </Tooltip>,

@@ -24,6 +24,9 @@ export const GET_ASSETS_LIST = gql`
           owner
           supply
         }
+        destroyedAt {
+          blockTime
+        }
         destroyed
         assetHeight
       }

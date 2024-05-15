@@ -257,7 +257,7 @@ export const destroyedAssetsHead = [
   { name: "Height", width: 160 },
   { name: "Symbol", width: 136 },
   { name: "Name", width: 232 },
-  // { name: "Destroyed Time", width: 200 },
+  { name: "Destroyed Time", width: 200 },
   { name: "Owner", width: 200 },
   { name: "Total Destroyed", width: 200, align: "right" },
 ];
