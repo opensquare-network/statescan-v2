@@ -18,7 +18,7 @@ export const filtersSelector = (state) => state.filter.filters;
 export const { setFilters } = filterSlice.actions;
 
 export const fetchSpecsFilter = () => async (dispatch) => {
-  return api.fetch(`/specs/filter`).then(({ result }) => {
+  return api.fetch("/specs/filter").then(({ result }) => {
     if (result) {
       dispatch(setFilters(result));
     }

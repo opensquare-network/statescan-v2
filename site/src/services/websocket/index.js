@@ -30,7 +30,7 @@ export function connect() {
     disconnect();
   }
 
-  socket = io(new URL(`/`, getEnvEndpoint()).href);
+  socket = io(new URL("/", getEnvEndpoint()).href);
   socket.connect();
   store.dispatch(setLatestBlocksLoading(true));
   store.dispatch(setLatestSignedTransfersLoading(true));

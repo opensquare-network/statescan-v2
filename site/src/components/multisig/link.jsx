@@ -4,7 +4,7 @@ import isNil from "lodash.isnil";
 
 const MultisigLink = ({ indexer, address, callHash }) => {
   if (isNil(indexer?.extrinsicIndex)) {
-    return `--`;
+    return "--";
   }
   return (
     <ColoredLink

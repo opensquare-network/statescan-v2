@@ -75,7 +75,7 @@ const ListItemContent = styled.div`
 
 const ListItemSubtitle = styled.div`
   min-width: max-content;
-  ${mobilecss(`min-width: 48px;`)};
+  ${mobilecss("min-width: 48px;")};
 `;
 
 const NFTName = styled.span`

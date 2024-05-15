@@ -48,7 +48,7 @@ export default function BreadCrumb({ data }) {
   return (
     <Wrapper>
       <BreadCrumbWrapper>
-        <Link to={`/`}>
+        <Link to={"/"}>
           <StyledLink>{chainSetting.name}</StyledLink>
         </Link>
         {(data || []).map((item, index) =>
