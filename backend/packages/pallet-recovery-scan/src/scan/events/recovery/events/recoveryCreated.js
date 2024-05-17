@@ -10,7 +10,7 @@ async function handleRecoveryCreated(event, indexer) {
   const recoverable = await queryRecoverable(indexer.blockHash, who);
   if (!recoverable) {
     throw new Error(
-      `Can not query recoverable when crated at ${indexer.blockHeight}`,
+      `Can not query recoverable when created at ${indexer.blockHeight}`,
     );
   }
 
