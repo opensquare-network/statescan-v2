@@ -9,6 +9,7 @@ let recoverableCol = null;
 let recoverableTimelineCol = null;
 let recoveryCol = null;
 let recoveryTimelineCol = null;
+let recoveredCall = null;
 let statisticCol = null;
 
 async function initPalletRecoveryScanDb() {
@@ -22,6 +23,7 @@ async function initPalletRecoveryScanDb() {
   recoverableTimelineCol = await db.createCol("recoverableTimeline");
   recoveryCol = await db.createCol("recovery");
   recoveryTimelineCol = await db.createCol("recoveryTimeline");
+  recoveredCall = await db.createCol("recoveredCall");
   statisticCol = await db.createCol("statistic");
 
   _createIndexes().then(() => console.log("recovery scan DB indexes created!"));
@@ -74,6 +76,11 @@ async function getRecoveryTimelineCol() {
   return recoverableTimelineCol;
 }
 
+async function getRecoveredCallCol() {
+  await makeSureInit(recoveredCall);
+  return recoveredCall;
+}
+
 async function getStatisticCol() {
   await makeSureInit(statisticCol);
   return statisticCol;
@@ -86,5 +93,6 @@ module.exports = {
   getRecoverableTimelineCol,
   getRecoveryCol,
   getRecoveryTimelineCol,
+  getRecoveredCallCol,
   getStatisticCol,
 };
