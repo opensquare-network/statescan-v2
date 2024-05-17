@@ -1,6 +1,10 @@
 const { queryRecovery } = require("../../../query");
 const {
-  palletRecovery: { updateActiveRecovery, getRecoveryTimelineCol },
+  palletRecovery: {
+    updateActiveRecovery,
+    getRecoveryTimelineCol,
+    updateActiveRecoverable,
+  },
 } = require("@statescan/mongo");
 
 async function handleAccountRecovered(event, indexer) {
@@ -19,6 +23,7 @@ async function handleAccountRecovered(event, indexer) {
     );
   }
   await updateActiveRecovery(lostAccount, rescuerAccount, recovery);
+  await updateActiveRecoverable(lostAccount, { rescuer: rescuerAccount });
 
   const timelineCol = await getRecoveryTimelineCol();
   await timelineCol.insertOne({
