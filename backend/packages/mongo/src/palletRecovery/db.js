@@ -72,8 +72,8 @@ async function getRecoveryCol() {
 }
 
 async function getRecoveryTimelineCol() {
-  await makeSureInit(recoverableTimelineCol);
-  return recoverableTimelineCol;
+  await makeSureInit(recoveryTimelineCol);
+  return recoveryTimelineCol;
 }
 
 async function getRecoveredCallCol() {
