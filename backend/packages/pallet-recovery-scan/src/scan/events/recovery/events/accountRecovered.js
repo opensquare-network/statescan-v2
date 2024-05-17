@@ -6,8 +6,11 @@ const {
     updateActiveRecoverable,
   },
 } = require("@statescan/mongo");
+const { setProxyHeightMark } = require("../../../../store/proxy");
 
 async function handleAccountRecovered(event, indexer) {
+  setProxyHeightMark(indexer.blockHeight);
+
   const { method, data } = event;
   const lostAccount = data[0].toString();
   const rescuerAccount = data[1].toString();

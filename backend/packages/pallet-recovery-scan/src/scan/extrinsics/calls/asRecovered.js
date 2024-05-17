@@ -5,12 +5,17 @@ const {
 const {
   call: { normalizeCall },
 } = require("@osn/scan-common");
+const {
+  store: { setKnownHeightMark },
+} = require("@statescan/common");
 
 async function handleAsRecovered(call, signer, extrinsicIndexer) {
   const { section, method } = call;
   if (getRecoverySection() !== section || "asRecovered" !== method) {
     return;
   }
+
+  setKnownHeightMark(extrinsicIndexer.blockHeight);
 
   const lostAccount = call.args[0].toString();
   const recoverable = await getActiveRecoverableOrThrow(

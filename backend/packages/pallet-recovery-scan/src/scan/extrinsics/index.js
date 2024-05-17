@@ -3,9 +3,11 @@ const {
   extrinsic: { handlePureNestedCalls },
 } = require("@osn/scan-common");
 const { handleAsRecovered } = require("./calls/asRecovered");
+const { handleCancelRecovered } = require("./calls/cancelRecovered");
 
 async function handleCalls(call, author, extrinsicIndexer) {
   await handleAsRecovered(call, author, extrinsicIndexer);
+  await handleCancelRecovered(call, author, extrinsicIndexer);
 }
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
