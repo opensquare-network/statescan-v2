@@ -21,6 +21,8 @@ const queries = /* GraphQL */ `
       offset: Int!
       limit: Int!
     ): PagedRecoveryTimeline!
+    proxies(offset: Int!, limit: Int!): PagedProxy!
+    recoveryStatistics: RecoveryStatistics!
     recoveryScanHeight: Int
   }
 `;
