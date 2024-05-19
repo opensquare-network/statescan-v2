@@ -1,6 +1,6 @@
 const { getRecoverySection } = require("../../common/section");
 const {
-  palletRecovery: { getActiveRecoverableOrThrow, getRecoveredCallCol },
+  palletRecovery: { getRecoveredCallCol, getLatestRecoverable },
 } = require("@statescan/mongo");
 const {
   call: { normalizeCall },
@@ -18,18 +18,14 @@ async function handleAsRecovered(call, signer, extrinsicIndexer) {
   setKnownHeightMark(extrinsicIndexer.blockHeight);
 
   const lostAccount = call.args[0].toString();
-  const recoverable = await getActiveRecoverableOrThrow(
-    lostAccount,
-    extrinsicIndexer.blockHeight,
-  );
-
+  const recoverable = await getLatestRecoverable(lostAccount);
   const recoveredCall = call.args[1];
 
   const col = await getRecoveredCallCol();
   await col.insertOne({
-    recoverableHeight: recoverable.height,
+    recoverableHeight: recoverable?.height,
     lostAccount,
-    rescuer: recoverable.rescuer,
+    rescuer: recoverable?.rescuer || signer,
     call: normalizeCall(recoveredCall),
     callHex: recoveredCall.toHex(),
     indexer: extrinsicIndexer,

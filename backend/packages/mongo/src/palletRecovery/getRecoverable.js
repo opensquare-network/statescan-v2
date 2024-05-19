@@ -6,6 +6,16 @@ async function getActiveRecoverable(who) {
   return await col.findOne(q);
 }
 
+async function getLatestRecoverable(who) {
+  const col = await getRecoverableCol();
+  const [recoverable] = await col
+    .find({ who })
+    .sort({ height: -1 })
+    .limit(1)
+    .toArray();
+  return recoverable;
+}
+
 async function getActiveRecoverableOrThrow(who, blockHeight) {
   const col = await getRecoverableCol();
   const q = { who, isActive: true };
@@ -20,4 +30,5 @@ async function getActiveRecoverableOrThrow(who, blockHeight) {
 module.exports = {
   getActiveRecoverable,
   getActiveRecoverableOrThrow,
+  getLatestRecoverable,
 };
