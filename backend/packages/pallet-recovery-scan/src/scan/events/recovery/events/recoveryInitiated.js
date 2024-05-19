@@ -1,5 +1,9 @@
 const {
-  palletRecovery: { getRecoveryCol, getRecoveryTimelineCol },
+  palletRecovery: {
+    getRecoveryCol,
+    getRecoveryTimelineCol,
+    getLatestRecoverable,
+  },
 } = require("@statescan/mongo");
 const { queryRecovery } = require("../../../query");
 
@@ -19,12 +23,21 @@ async function handleRecoveryInitiated(event, indexer) {
     );
   }
 
+  const recoverable = await getLatestRecoverable(lostAccount);
+  if (!recoverable) {
+    throw new Error(
+      `Can not get recoverable when recovery initialized at ${indexer.blockHeight}`,
+    );
+  }
+
   const col = await getRecoveryCol();
   await col.insertOne({
     lostAccount,
     rescuerAccount,
     isClosed: false,
     ...recovery,
+    allFriends: recoverable.friends,
+    threshold: recoverable.threshold,
   });
 
   const timelineCol = await getRecoveryTimelineCol();

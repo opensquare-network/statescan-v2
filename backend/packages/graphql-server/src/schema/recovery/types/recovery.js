@@ -6,6 +6,8 @@ const recovery = /* GraphQL */ `
     created: Int!
     deposit: String!
     friends: [String]!
+    allFriends: [String]!
+    threshold: Int!
   }
 
   type PagedRecovery {
