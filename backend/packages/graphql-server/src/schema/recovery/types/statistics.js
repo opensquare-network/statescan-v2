@@ -1,18 +1,18 @@
 const recoveryStatistics = /* GraphQL */ `
-  type RecoverableStatistics {
+  type RecoverableStatisticsItem {
     active: Int!
     inactive: Int!
   }
 
-  type RecoveryStatistics {
+  type RecoveryStatisticsItem {
     unClosed: Int!
     closed: Int!
   }
 
   type RecoveryStatistics {
     proxies: Int!
-    recoverable: RecoverableStatistics!
-    recovery: RecoveryStatistics!
+    recoverable: RecoverableStatisticsItem!
+    recovery: RecoveryStatisticsItem!
   }
 `;
 

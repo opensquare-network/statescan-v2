@@ -26,7 +26,10 @@ async function recoveryStatistics(_, _args) {
       active: activeRecoverables,
       inactive: inactiveRecoverables,
     },
-    recovery: {},
+    recovery: {
+      unClosed: unClosedRecovery,
+      closed: closedRecovery,
+    },
   };
 }
 
