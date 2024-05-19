@@ -14,9 +14,14 @@ function hasIdentity() {
   return !!process.env.MONGO_IDENTITY_SCAN_NAME;
 }
 
+function hasRecovery() {
+  return !!process.env.MONGO_PALLET_RECOVERY_SCAN_NAME;
+}
+
 module.exports = {
   hasAssets,
   hasVesting,
   hasMultisig,
   hasIdentity,
+  hasRecovery,
 };
