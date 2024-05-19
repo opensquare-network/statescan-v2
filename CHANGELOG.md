@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.4.2
+
+date: 2024-05-17
+
+- Use graphql API for assets fronted.
+- Add destroyedAt field to asset graphql API query.
+- remove tangle testnet from chains menu.
+
 ### 1.4.1
 
 date: 2024-05-14

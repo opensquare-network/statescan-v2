@@ -15,11 +15,15 @@ const {
   commonResolvers: identityResolvers,
   commonTypeDefs: identityTypeDefs,
 } = require("@statescan/identity-server");
-const { hasAssets, hasMultisig, hasIdentity } = require("../env");
+const { hasAssets, hasMultisig, hasIdentity, hasVesting } = require("../env");
 
-let resolvers = [vestingResolvers];
-let typeDefs = [...vestingTypeDefs];
+let resolvers = [];
+let typeDefs = [];
 
+if (hasVesting()) {
+  resolvers = [...resolvers, vestingResolvers];
+  typeDefs = [...typeDefs, ...vestingTypeDefs];
+}
 if (hasAssets()) {
   resolvers = [...resolvers, assetsPalletResolvers];
   typeDefs = [...typeDefs, ...assetsPalletTypeDefs];
