@@ -1,5 +1,7 @@
 module.exports = {
   ...require("./recoveryScanHeight"),
-  ...require("./recoverables"),
   ...require("./recoverable"),
+  ...require("./recoverables"),
+  ...require("./recoveries"),
+  ...require("./recovery"),
 };
