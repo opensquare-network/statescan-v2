@@ -4,4 +4,6 @@ module.exports = {
   ...require("./recoverables"),
   ...require("./recoveries"),
   ...require("./recovery"),
+  ...require("./recoveryTimeline"),
+  ...require("./recoverableTimeline"),
 };
