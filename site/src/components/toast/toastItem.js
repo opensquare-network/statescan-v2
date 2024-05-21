@@ -5,20 +5,26 @@ import { ReactComponent as ErrorIcon } from "./toast-error.svg";
 import { ReactComponent as SuccessIcon } from "./toast-success.svg";
 
 import { removeToast } from "../../store/reducers/toastSlice";
+import { bg_theme, border_theme, text_theme } from "../../styles/tailwindcss";
 
 const Wrapper = styled.div`
   padding: 12px 16px;
-  background: #ffffff;
+  ${bg_theme("fillPopup")};
   font-size: 14px;
   line-height: 20px;
-  color: rgba(17, 17, 17, 0.65);
+  ${text_theme("fontPrimary")};
   display: flex;
   align-items: center;
   > :not(:first-child) {
     margin-left: 8px;
   }
 
+  & > .icon {
+    display: inline-flex;
+  }
+
   border: 1px solid rgb(244, 244, 244);
+  ${border_theme("strokeBox")}
   box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.04),
     0px 1.80882px 5.94747px rgba(0, 0, 0, 0.0260636),
     0px 0.751293px 0.932578px rgba(0, 0, 0, 0.02),
@@ -38,7 +44,7 @@ const ToastItem = ({ type, message, id }) => {
   if (!message) return null;
   return (
     <Wrapper>
-      <div className="inline-flex">
+      <div className="icon">
         {type === "error" ? <ErrorIcon /> : <SuccessIcon />}
       </div>
       <div>{message}</div>
