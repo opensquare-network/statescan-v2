@@ -2,6 +2,7 @@ const { extractPage } = require("../../../utils");
 const {
   block: { getExtrinsicCollection },
 } = require("@statescan/mongo");
+const { getTimeDimension } = require("../../common");
 
 async function getExtrinsics(ctx) {
   const { page, pageSize } = extractPage(ctx);
@@ -11,7 +12,9 @@ async function getExtrinsics(ctx) {
   }
 
   const { section, method, signed_only: signedOnly } = ctx.query;
-  const q = {};
+  const q = {
+    ...getTimeDimension(ctx),
+  };
   if (section) {
     q["call.section"] = section;
   }
