@@ -1,6 +1,6 @@
 const {
   mongo: { ScanDb },
-  env: { getEnvOrThrow, getScanStep },
+  env: { getEnvOrThrow },
 } = require("@osn/scan-common");
 
 let db = null;
