@@ -2,7 +2,7 @@ const { extractPage } = require("../../../utils");
 const {
   block: { getExtrinsicCollection },
 } = require("@statescan/mongo");
-const { getTimeDimension } = require("../../common");
+const { getTimeDimension } = require("../../../common/getTimeDimension");
 const { getCallQueryParams } = require("../../../common/getCallParams");
 
 async function getExtrinsics(ctx) {
