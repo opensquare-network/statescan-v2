@@ -1,50 +1,28 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { assetsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import Layout from "../components/layout";
 import Table from "../components/table";
 import Pagination from "../components/pagination";
-import { useLocation } from "react-router-dom";
-import { getPageFromQuery } from "../utils/viewFuncs";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  assetFetchList,
-  assetListLoadingSelector,
-  assetListSelector,
-  clearAssetList,
-} from "../store/reducers/assetSlice";
 import { useAssetsTableData } from "../utils/hooks/useAssetsTableData";
+import { useQueryParams } from "../hooks/useQueryParams";
+import { useQuery } from "@apollo/client";
+import { GET_ASSETS_LIST } from "../services/gql/assets";
 
 function Assets() {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const page = getPageFromQuery(location);
+  const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const [data, setData] = useState();
 
-  const list = useSelector(assetListSelector);
-  const loading = useSelector(assetListLoadingSelector);
-  const data = useAssetsTableData();
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    dispatch(
-      assetFetchList(page - 1, pageSize, null, {
-        signal: controller.signal,
-      }),
-    );
-
-    return () => {
-      controller.abort();
-    };
-  }, [dispatch, page, pageSize]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearAssetList());
-    };
-  }, [dispatch]);
+  const { loading } = useQuery(GET_ASSETS_LIST, {
+    variables: {
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+    },
+    onCompleted: setData,
+  });
+  const tableData = useAssetsTableData(data?.assets?.assets);
 
   return (
     <Layout>
@@ -54,11 +32,11 @@ function Assets() {
           <Pagination
             page={parseInt(page)}
             pageSize={pageSize}
-            total={list?.total}
+            total={data?.assets?.total}
           />
         }
       >
-        <Table heads={assetsHead} data={data} loading={loading} />
+        <Table heads={assetsHead} data={tableData} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );

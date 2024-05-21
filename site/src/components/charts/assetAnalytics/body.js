@@ -47,7 +47,7 @@ function AssetAnalyticsChartBody({
   holdersHidden,
 }) {
   const transferAmounts = data?.map((item) =>
-    fromAssetUnit(item.transferAmount?.$numberDecimal ?? 0, decimals),
+    fromAssetUnit(item.transferAmount ?? 0, decimals),
   );
   const transferCounts = data?.map((item) => item.transferCount);
   const holderCounts = data?.map((item) => item.holderCount);

@@ -4,6 +4,10 @@ const {
 const {
   chain: { getLatestFinalizedHeight, getLatestUnFinalizedHeight, getApi },
 } = require("@osn/scan-common");
+const { CronJob } = require("cron");
+
+const timeZone = "Asia/Shanghai";
+const every6SecCron = "*/6 * * * * *";
 
 async function updateHeights() {
   const db = getBlockDb();
@@ -36,13 +40,17 @@ async function updateTotalIssuance() {
   );
 }
 
-async function startJobs() {
-  try {
-    await updateTotalIssuance();
-    await updateHeights();
-  } finally {
-    setTimeout(startJobs, 6000);
-  }
+function startJobs() {
+  new CronJob(
+    every6SecCron,
+    async () => {
+      await updateTotalIssuance();
+      await updateHeights();
+    },
+    null,
+    true,
+    timeZone,
+  );
 }
 
 module.exports = {

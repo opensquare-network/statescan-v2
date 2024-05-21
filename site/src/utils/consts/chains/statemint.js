@@ -1,5 +1,6 @@
 import Statemint from "../../../components/icons/statemintIcon";
 import { assetChainModules } from "./assetChain";
+import { polkadotColor } from "./common";
 
 const statemint = {
   name: "Statemint",
@@ -11,8 +12,7 @@ const statemint = {
   symbol: "DOT",
   decimals: 10,
   chainIcon: "polkadot",
-  color: "#E6007A",
-  colorSecondary: "rgba(230, 0, 122, 0.1)",
+  ...polkadotColor,
   buttonColor: "#E6007A",
   hidden: false,
   modules: assetChainModules,
@@ -21,7 +21,6 @@ const statemint = {
     id: "1000",
   },
   nodes: [
-    { name: "Parity", url: "wss://polkadot-asset-hub-rpc.polkadot.io" },
     { name: "Dwellir", url: "wss://statemint-rpc.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://statemint-rpc-tn.dwellir.com" },
     { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/statemint" },

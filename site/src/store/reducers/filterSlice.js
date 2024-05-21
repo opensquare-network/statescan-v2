@@ -24,7 +24,7 @@ export const currentFilterValueSelector = (state) =>
 export const { setFilters, setCurrentFilterValue } = filterSlice.actions;
 
 export const fetchSpecsFilter = () => async (dispatch) => {
-  return api.fetch(`/specs/filter`).then(({ result }) => {
+  return api.fetch("/specs/filter").then(({ result }) => {
     if (result) {
       dispatch(setFilters(result));
     }

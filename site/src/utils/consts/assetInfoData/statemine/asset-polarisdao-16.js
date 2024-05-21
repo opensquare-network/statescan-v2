@@ -9,7 +9,7 @@ export const assetPolarisDAO = {
       {
         name: "Twitter",
         url: "https://twitter.com/polaris_dao",
-        icon: "/imgs/icons/link-twitter.svg",
+        icon: "/imgs/icons/link-x.svg",
       },
       {
         name: "Medium",

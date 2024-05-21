@@ -15,6 +15,9 @@ async function getAccountTransfers(ctx) {
   const q = {
     $or: [{ from: address }, { to: address }],
   };
+  if (ctx.query.from) {
+    q["$and"] = [{ from: ctx.query.from }];
+  }
   const col = await getTransferCollection();
   const items = await col
     .find(q, { projection: { _id: 0 } })

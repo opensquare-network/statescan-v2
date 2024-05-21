@@ -36,7 +36,7 @@ export default function MobileNodeSwitch() {
     <Wrapper ref={ref} onClick={() => setShowDropDown(!showDropDown)}>
       <Dropdown active={showDropDown}>
         {signalIcon}
-        <Text>{currentNode.name}</Text>
+        <Text>{currentNode?.name}</Text>
         <ArrowDownIcon />
       </Dropdown>
 

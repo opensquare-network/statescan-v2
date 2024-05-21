@@ -29,7 +29,10 @@ async function calcFee(target, registrarIndex, indexer) {
   }
 
   const unwrapped = identity.unwrap();
-  const judgementTuple = unwrapped.judgements.find(
+  const judgements = Array.isArray(unwrapped)
+    ? unwrapped[0].judgements
+    : unwrapped.judgements;
+  const judgementTuple = judgements.find(
     ([rawIndex]) => rawIndex.toNumber() === registrarIndex,
   );
   if (!judgementTuple) {

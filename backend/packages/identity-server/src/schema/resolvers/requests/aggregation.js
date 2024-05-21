@@ -19,7 +19,7 @@ const project = { $project: { identity: 0 } };
 async function getRequestsWithAggregation(_args) {
   const { offset, limit, registrarIndex, search, sort, status } = _args;
 
-  const trimmedSearch = trim(search);
+  const trimmedSearch = trim(search || "");
   const matchFields = {
     "identity.fullDisplay": new RegExp(trimmedSearch, "i"),
   };

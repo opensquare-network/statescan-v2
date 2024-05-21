@@ -13,14 +13,18 @@ const {
   chain: { getBlockIndexer, getLatestFinalizedHeight, wrapBlockHandler },
   scan: { oneStepScan },
   utils: { sleep },
+  env: { currentChain },
+  logger,
 } = require("@osn/scan-common");
 const {
   block: { getBlockDb },
 } = require("@statescan/mongo");
 const { isSimpleMode } = require("../env");
+const { getFixedBlockIndexer } = require("./utils/hash");
 
 async function handleBlock({ block, author, events, height }) {
-  const blockIndexer = getBlockIndexer(block);
+  let blockIndexer = getBlockIndexer(block);
+  blockIndexer = getFixedBlockIndexer(blockIndexer, block);
 
   const normalizedBlock = normalizeBlock(block, author, events, blockIndexer);
   const normalizedEvents = normalizeEvents(events, blockIndexer);
@@ -41,8 +45,21 @@ async function handleBlock({ block, author, events, height }) {
   const db = getBlockDb();
   await db.updateScanHeight(height);
 
-  if (height >= finalizedHeight) {
-    await updateUnFinalized(finalizedHeight);
+  if (height >= finalizedHeight - 100) {
+    await updateUnFinalized(height);
+  }
+}
+
+async function ignoreErrorForChains(arg) {
+  if (["westmint"].includes(currentChain())) {
+    await handleBlock(arg);
+    return;
+  }
+
+  try {
+    await handleBlock(arg);
+  } catch (e) {
+    logger.error(`${arg?.height} scan error, but ignore`, e);
   }
 }
 
@@ -54,14 +71,16 @@ async function scan() {
   const finalizedHeight = getLatestFinalizedHeight();
   if (toScanHeight < finalizedHeight - 100) {
     await deleteAllUnFinalizedData();
+  } else if (toScanHeight >= finalizedHeight) {
+    await updateUnFinalized(toScanHeight);
   }
-  await startJobs();
+  startJobs();
 
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
     toScanHeight = await oneStepScan(
       toScanHeight,
-      wrapBlockHandler(handleBlock),
+      wrapBlockHandler(ignoreErrorForChains),
       true,
     );
     await sleep(1);

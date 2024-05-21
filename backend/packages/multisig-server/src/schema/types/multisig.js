@@ -5,7 +5,6 @@ const when = /* GraphQL */ `
   }
 `;
 
-// todo: Add updateAt field
 const multisig = /* GraphQL */ `
   scalar JSON
   scalar JSONObject
@@ -25,6 +24,7 @@ const multisig = /* GraphQL */ `
     call: JSONObject
     callHex: String
     indexer: Indexer!
+    updateAt: Indexer
     isFinal: Boolean!
   }
 

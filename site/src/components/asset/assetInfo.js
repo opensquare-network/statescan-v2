@@ -1,6 +1,4 @@
-import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { assetDetailSelector } from "../../store/reducers/assetSlice";
 import { Inter_14_600, Inter_20_700 } from "../../styles/text";
 import AssetLogo from "../assetLogo";
 import About from "./about";
@@ -53,8 +51,9 @@ const RightWrapper = styled.div`
   flex: 1 1 auto;
 `;
 
-export default function AssetInfo({ symbol, name }) {
-  const detail = useSelector(assetDetailSelector);
+export default function AssetInfo({ detail }) {
+  const symbol = detail?.metadata?.symbol;
+  const name = detail?.metadata?.name;
 
   return (
     <Wrapper>
@@ -70,7 +69,7 @@ export default function AssetInfo({ symbol, name }) {
         </SymbolWrapper>
       </LeftWrapper>
       <RightWrapper>
-        <About />
+        <About detail={detail} />
       </RightWrapper>
     </Wrapper>
   );

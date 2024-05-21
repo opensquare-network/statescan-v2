@@ -19,7 +19,6 @@ import {
   menusAssets,
   menusBlockchain,
   menusBlockchainSimpleMode,
-  menusIdentity,
 } from "../../utils/constants";
 import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
@@ -30,8 +29,8 @@ import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
 import NodeSwitch from "../nodeSwitch";
 import MobileNodeSwitch from "./mobileNodeSwitch";
-import useUpdateNodesDelay from "../../utils/hooks/useUpdateNodesDelay";
 import { getIsSimpleMode } from "../../utils/env";
+import getBusinessMenus from "../../utils/consts/menu";
 
 const headerHeight = 68;
 
@@ -106,13 +105,11 @@ const ExploreInput = styled(ExploreInputOrigin)`
 `;
 
 export default function Header() {
-  useUpdateNodesDelay();
-
   const showMobileMenu = !useSelector(mobileMenuFoldedSelector);
   const dispatch = useDispatch();
   const location = useLocation();
   const shouldShowPCExplore = location.pathname !== "/";
-  const { assets, identity } = getChainModules();
+  const { assets, identity, multisig } = getChainModules();
   const isSimpleMode = getIsSimpleMode();
 
   const { width } = useWindowSize();
@@ -130,7 +127,7 @@ export default function Header() {
     <Wrapper>
       <FlexBetween style={{ flex: 1 }}>
         <Link
-          to={`/`}
+          to={"/"}
           onClick={() => {
             dispatch(closeMobileMenu());
           }}
@@ -141,7 +138,7 @@ export default function Header() {
         <PC>
           <FlexBetween style={{ flex: 1 }}>
             <MenuWrapper>
-              <Link to={`/`}>
+              <Link to={"/"}>
                 <MenuItem>Home</MenuItem>
               </Link>
               <SubMenu
@@ -151,8 +148,8 @@ export default function Header() {
                 }
               />
               {assets && <SubMenu category="Assets" menus={menusAssets} />}
-              {identity && (
-                <SubMenu category="Identity" menus={menusIdentity} />
+              {(identity || multisig) && (
+                <SubMenu category="Business" menus={getBusinessMenus()} />
               )}
             </MenuWrapper>
 

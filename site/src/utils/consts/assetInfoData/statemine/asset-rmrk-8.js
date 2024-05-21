@@ -13,12 +13,12 @@ export const assetRMRK = {
       {
         name: "Twitter: @rmrkapp",
         url: "https://twitter.com/RmrkApp",
-        icon: "/imgs/icons/link-twitter.svg",
+        icon: "/imgs/icons/link-x.svg",
       },
       {
         name: "Twitter: @rmrkstatus",
         url: "https://twitter.com/rmrkstatus",
-        icon: "/imgs/icons/link-twitter.svg",
+        icon: "/imgs/icons/link-x.svg",
       },
       {
         name: "Telegram: Kanaria project",

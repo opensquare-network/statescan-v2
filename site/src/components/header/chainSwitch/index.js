@@ -98,6 +98,8 @@ const kusamaChains = Object.values(chains).filter((i) => i.chain === "kusama");
 const westendChains = Object.values(chains).filter(
   (i) => i.chain === "westend",
 );
+const rococoChains = Object.values(chains).filter((i) => i.chain === "rococo");
+const testnetOrSoloChains = Object.values(chains).filter((i) => !i.chain);
 
 export default function ChainSwitch() {
   const currentNode = useSelector(chainSettingSelector);
@@ -107,18 +109,26 @@ export default function ChainSwitch() {
 
   const chainOptions = [
     {
-      title: "Polkadot & Parachain",
+      title: "Polkadot & Parachains",
       chains: polkadotChains,
     },
     {
-      title: "Kusama & Parachain",
+      title: "Kusama & Parachains",
       chains: kusamaChains,
     },
     {
-      title: "Westend & Parachain",
+      title: "Westend Parachains",
       chains: westendChains,
     },
-  ];
+    testnetOrSoloChains.length > 0 && {
+      title: "Solo chains & Testnet",
+      chains: testnetOrSoloChains,
+    },
+    rococoChains.length > 0 && {
+      title: "Rococo Parachains",
+      chains: rococoChains,
+    },
+  ].filter(Boolean);
 
   return (
     <Wrapper ref={ref} onClick={() => setShow((state) => !state)}>

@@ -8,6 +8,18 @@ const chains = Object.freeze({
   litmus: "litmus",
   "westend-collectives": "westend-collectives",
   collectives: "collectives",
+  "hydradx-testnet": "hydradx-testnet",
+  polimec: "polimec",
+  shadow: "shadow",
+  gargantua: "gargantua",
+  "polkadot-crust-parachain": "polkadot-crust-parachain",
+  tangle: "tangle",
+  "tangle-testnet": "tangle-testnet",
+  heiko: "heiko",
+  parallel: "parallel",
+  crust: "crust",
+  invarch: "invarch",
+  tinkernet: "tinkernet",
 });
 
 const ss58Format = Object.freeze({
@@ -20,6 +32,18 @@ const ss58Format = Object.freeze({
   [chains.litmus]: 131,
   [chains.collectives]: 0,
   [chains["westend-collectives"]]: 0,
+  [chains["hydradx-testnet"]]: 63,
+  [chains.polimec]: 41,
+  [chains.shadow]: 66,
+  [chains.gargantua]: 42,
+  [chains["polkadot-crust-parachain"]]: 88,
+  [chains.tangle]: 5845,
+  [chains["tangle-testnet"]]: 42,
+  [chains.heiko]: 110,
+  [chains.parallel]: 172,
+  [chains.crust]: 66,
+  [chains.invarch]: 117,
+  [chains.tinkernet]: 117,
 });
 
 function getSs58Format(chain) {
@@ -30,9 +54,14 @@ const assetsModuleChains = [
   chains.statemint,
   chains.statemine,
   chains.westmint,
+  chains.parallel,
 ];
 
-const uniquesModuleChains = [...assetsModuleChains];
+const uniquesModuleChains = [
+  chains.statemint,
+  chains.statemine,
+  chains.westmint,
+];
 
 module.exports = {
   chains,

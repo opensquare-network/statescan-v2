@@ -5,6 +5,7 @@ import Table from "../table";
 import { Tag } from "../tag";
 import ExtrinsicLink from "../extrinsic/link";
 import React from "react";
+import CallCell from "../table/callCell";
 
 export const toCallTableItem = (calls) => {
   return calls?.map((item) => {
@@ -21,7 +22,7 @@ export const toCallTableItem = (calls) => {
       </ColoredLink>,
       item?.indexer?.blockTime,
       <Tag>{item?.method}</Tag>,
-      `${item?.section}(${item?.method})`,
+      <CallCell call={item} />,
       <ExtrinsicParametersDisplay extrinsic={{ call: item }} />,
     ];
   });

@@ -22,6 +22,7 @@ import EventAttributeDisplay from "../components/eventAttributeDisplay";
 import omit from "lodash.omit";
 import ExtrinsicLink from "../components/extrinsic/link";
 import { getIsSimpleMode } from "../utils/env";
+import CallCell from "../components/table/callCell";
 
 const filter = [
   {
@@ -72,7 +73,7 @@ const toEventFields = (event, index) => {
     </ColoredLink>,
     event?.indexer?.blockTime,
     <ExtrinsicLink key={`${index}-3`} indexer={event?.indexer} />,
-    `${event?.section}(${event?.method})`,
+    <CallCell call={event} />,
   ];
 };
 

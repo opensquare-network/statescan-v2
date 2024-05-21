@@ -5,9 +5,6 @@ const {
 
 let db = null;
 let vestingCol = null;
-let vestingTimelineCol = null;
-let accountCol = null;
-let accountTimelineCol = null;
 
 async function initVestingScanDb() {
   db = new ScanDb(
@@ -17,11 +14,6 @@ async function initVestingScanDb() {
   await db.init();
 
   vestingCol = await db.createCol("vesting");
-  vestingTimelineCol = await db.createCol("vestingTimeline");
-
-  accountCol = await db.createCol("account");
-  accountTimelineCol = await db.createCol("accountTimeline");
-
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
@@ -31,24 +23,8 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  await vestingCol.createIndex({
-    target: 1,
-    "indexer.initialBlockHeigh": 1,
-    "indexer.initialIndex": 1,
-    "indexer.currentIndex": 1,
-  });
-  await vestingTimelineCol.createIndex({
-    "event.target": 1,
-    "indexer.initialBlockHeigh": 1,
-    "indexer.initialIndex": 1,
-  });
-  await accountCol.createIndex({
-    account: 1,
-  });
-  await accountTimelineCol.createIndex({
-    account: 1,
-    "indexer.blockHeight": 1,
-  });
+  await vestingCol.createIndex({ address: 1 });
+  await vestingCol.createIndex({ startingBlock: -1, address: 1 });
 }
 
 async function makeSureInit(col) {
@@ -60,21 +36,6 @@ async function makeSureInit(col) {
 async function getVestingCol() {
   await makeSureInit(vestingCol);
   return vestingCol;
-}
-
-async function getVestingTimelineCol() {
-  await makeSureInit(vestingTimelineCol);
-  return vestingTimelineCol;
-}
-
-async function getAccountCol() {
-  await makeSureInit(accountCol);
-  return accountCol;
-}
-
-async function getAccountTimelineCol() {
-  await makeSureInit(accountTimelineCol);
-  return accountTimelineCol;
 }
 
 async function getVestingDb() {
@@ -89,7 +50,4 @@ module.exports = {
   initVestingScanDb,
   getVestingDb,
   getVestingCol,
-  getVestingTimelineCol,
-  getAccountCol,
-  getAccountTimelineCol,
 };

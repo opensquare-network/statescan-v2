@@ -4,7 +4,7 @@ import isNil from "lodash.isnil";
 
 const ExtrinsicLink = ({ indexer }) => {
   if (isNil(indexer?.extrinsicIndex)) {
-    return `--`;
+    return "--";
   }
   return (
     <ColoredLink

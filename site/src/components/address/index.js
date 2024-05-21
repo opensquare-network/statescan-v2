@@ -9,6 +9,9 @@ import {
   ACCOUNT_IDENTITY_TAB_NAME,
   ACCOUNT_IDENTITY_TAB_SUBTAB,
 } from "../../utils/constants";
+import { useMultisigAddressLazyData } from "../../hooks/multisig/useMultisigAddressData";
+import { Tag } from "../tag";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -40,6 +43,20 @@ const AddressLink = styled(ColoredMonoLink)`
   margin: 0;
 `;
 
+export function linkAddressToIdentityTimeline(address) {
+  return `/accounts/${address}?${queryString.stringify({
+    tab: ACCOUNT_IDENTITY_TAB_NAME,
+    sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
+  })}`;
+}
+
+export function linkAddressToIdentityRegistrarTimeline(address) {
+  return `/accounts/${address}?${queryString.stringify({
+    tab: ACCOUNT_IDENTITY_TAB_NAME,
+    sub: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
+  })}`;
+}
+
 const AddressLinkWithCopy = withCopy(AddressLink);
 
 export function Address({ address, ellipsis = true }) {
@@ -53,16 +70,32 @@ export function AddressAndIdentity({
   address,
   maxWidth = "100%",
   ellipsis = true,
+  checkMultisig = false,
 }) {
   const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  const [fetchMultisigAddressData, { data: multisigAddressData }] =
+    useMultisigAddressLazyData(address);
+
+  useEffect(() => {
+    if (checkMultisig) {
+      fetchMultisigAddressData();
+    }
+  }, [checkMultisig, fetchMultisigAddressData]);
 
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
+  const addressContent = (
+    <AddressTag to={`/accounts/${address}`}>
+      {displayAddress}
+      {multisigAddressData?.multisigAddress && (
+        <Tag style={{ marginLeft: 8 }}>Multisig</Tag>
+      )}
+    </AddressTag>
+  );
+
   if (!identity || identity?.info?.status === "NO_ID") {
-    return (
-      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
-    );
+    return addressContent;
   }
 
   return (
@@ -70,7 +103,7 @@ export function AddressAndIdentity({
       <Link to={`/accounts/${address}`}>
         <Identity identity={identity} />
       </Link>
-      <AddressTag to={`/accounts/${address}`}>{displayAddress}</AddressTag>
+      {addressContent}
     </CombinationWrapper>
   );
 }
@@ -82,25 +115,31 @@ function AddressOrIdentity({
   className,
   linkToIdentityRegistrarTimeline,
   linkToIdentityTimeline,
+  noLink = false,
 }) {
   const identity = useIdentity(address);
   const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  const hasIdentityInfo = identity && identity?.info?.status !== "NO_ID";
+
+  if (noLink) {
+    return hasIdentityInfo ? (
+      <Wrapper className={className} maxWidth={maxWidth}>
+        <Identity maxWidth={maxWidth} identity={identity} />
+      </Wrapper>
+    ) : (
+      displayAddress
+    );
+  }
 
   let linkAccountPage = `/accounts/${address}`;
   if (linkToIdentityRegistrarTimeline) {
-    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
-      tab: ACCOUNT_IDENTITY_TAB_NAME,
-      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.REGISTRAR_TIMELINE,
-    })}`;
+    linkAccountPage = linkAddressToIdentityRegistrarTimeline(address);
   }
   if (linkToIdentityTimeline) {
-    linkAccountPage = `${linkAccountPage}?${queryString.stringify({
-      tab: ACCOUNT_IDENTITY_TAB_NAME,
-      sub: ACCOUNT_IDENTITY_TAB_SUBTAB.IDENTITY_TIMELINE,
-    })}`;
+    linkAccountPage = linkAddressToIdentityTimeline(address);
   }
 
-  if (!identity || identity?.info?.status === "NO_ID") {
+  if (!hasIdentityInfo) {
     const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
     return <AddressTag to={linkAccountPage}>{displayAddress}</AddressTag>;
   }

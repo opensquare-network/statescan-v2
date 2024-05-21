@@ -1,7 +1,7 @@
 {
   "name": "@statescan/multisig-server",
   "packageManager": "yarn@3.6.0",
-  "main": "src/index.js",
+  "main": "src/schema",
   "version": "1.0.0",
   "license": "Apache-2.0",
   "engines": {
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@graphql-tools/schema": "^10.0.0",
-    "@osn/scan-common": "0.5.10",
+    "@osn/scan-common": "0.6.8",
     "@statescan/common": "1.0.0",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",

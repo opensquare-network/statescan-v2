@@ -1,4 +1,6 @@
-const { block: { getUnFinalizedBlockCollection } } = require("@statescan/mongo");
+const {
+  block: { getUnFinalizedBlockCollection },
+} = require("@statescan/mongo");
 
 async function upsertUnFinalizedBlock(block) {
   const col = await getUnFinalizedBlockCollection();
@@ -7,12 +9,19 @@ async function upsertUnFinalizedBlock(block) {
     {
       $set: {
         ...block,
-      }
+      },
     },
-    { upsert: true }
+    { upsert: true },
   );
+}
+
+async function getLatestUnFinalizedHeightInDb() {
+  const col = await getUnFinalizedBlockCollection();
+  const [block] = await col.find({}).sort({ height: -1 }).limit(1).toArray();
+  return block?.height || null;
 }
 
 module.exports = {
   upsertUnFinalizedBlock,
-}
+  getLatestUnFinalizedHeightInDb,
+};

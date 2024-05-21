@@ -1,8 +1,10 @@
 const { toDecimal128 } = require("./toDecimal128");
-const { utils: { bigAdd } } = require("@osn/scan-common");
+const {
+  utils: { bigAdd },
+} = require("@osn/scan-common");
 
 function normalizeData(accountData) {
-  const { free, reserved, miscFrozen, feeFrozen } = accountData;
+  const { free, reserved, miscFrozen = 0, feeFrozen } = accountData;
   const total = bigAdd(free, reserved);
 
   return {
@@ -10,10 +12,10 @@ function normalizeData(accountData) {
     free: toDecimal128(free),
     reserved: toDecimal128(reserved),
     miscFrozen: toDecimal128(miscFrozen),
-    feeFrozen: toDecimal128(feeFrozen),
+    feeFrozen,
   };
 }
 
 module.exports = {
   normalizeData,
-}
+};

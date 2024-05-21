@@ -1,30 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { getChainNodes } from "../../utils/chain";
+import getEndpointFromLocalStorage from "../../utils/hooks/chain/apis/endpointLocalStorage";
 
 const chain = process.env.REACT_APP_PUBLIC_CHAIN;
-
-function getInitNodeUrl(chain) {
-  const localNodeUrl = localStorage.getItem("nodeUrl");
-  const chainNodes = getChainNodes();
-  const node = (chainNodes || []).find(({ url }) => url === localNodeUrl);
-  if (node) {
-    return node.url;
-  } else if (chainNodes) {
-    return chainNodes[0].url;
+function getSubDomain(chain) {
+  if ("polkadot-crust-parachain" === chain) {
+    return "crust-parachain";
   }
-
-  throw new Error(`Can not find nodes for ${chain}`);
+  return chain;
 }
 
 const nodeSlice = createSlice({
   name: "node",
   initialState: {
-    currentNode: getInitNodeUrl(chain),
+    currentNode: getEndpointFromLocalStorage(),
     nodes: getChainNodes(),
   },
   reducers: {
     setCurrentNode(state, { payload }) {
-      const { url, refresh } = payload;
+      const { url, refresh, saveLocalStorage = true } = payload;
       const beforeUrl = state.currentNode;
 
       state.currentNode = url;
@@ -35,11 +29,18 @@ const nodeSlice = createSlice({
           return item;
         }
       });
-      localStorage.setItem("nodeUrl", url);
+
+      if (saveLocalStorage) {
+        localStorage.setItem("nodeUrl", url);
+      }
 
       if (refresh) {
-        window.location.href = `https://${chain}.statescan.io`;
+        window.location.href = `https://${getSubDomain(chain)}.statescan.io`;
       }
+    },
+    removeCurrentNode(state) {
+      localStorage.removeItem("nodeUrl");
+      state.currentNode = null;
     },
     setNodesDelay(state, { payload }) {
       const node = (state.nodes || []).find(
@@ -52,7 +53,11 @@ const nodeSlice = createSlice({
 
 export const currentNodeSelector = (state) => state.node?.currentNode;
 export const nodesSelector = (state) => state.node?.nodes;
+export const needUpdateNodesSelector = createSelector(nodesSelector, (nodes) =>
+  nodes.filter((node) => node.update).map((node) => node.url),
+);
 
-export const { setCurrentNode, setNodesDelay } = nodeSlice.actions;
+export const { setCurrentNode, removeCurrentNode, setNodesDelay } =
+  nodeSlice.actions;
 
 export default nodeSlice.reducer;

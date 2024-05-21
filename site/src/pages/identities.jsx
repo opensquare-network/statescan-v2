@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { useState } from "react";
 import styled from "styled-components";
 import AddressOrIdentity, { Address } from "../components/address";
@@ -18,13 +18,14 @@ import {
 } from "../utils/constants";
 import { useIdentitiesFilter } from "../utils/hooks/useIdentitiesFilter";
 import { time } from "../utils/viewFuncs/time";
+import { useIdentityQuery } from "../hooks/apollo";
 
 const Time = styled.div`
   ${Inter_14_500};
   color: var(--fontTertiary);
 `;
 
-const GET_IDENTITIES = gql`
+export const GET_IDENTITIES = gql`
   query GetIdentities(
     $limit: Int!
     $offset: Int!
@@ -66,7 +67,7 @@ export default function IdentitiesPage() {
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const verificationStatusValue = verificationStatus?.toUpperCase?.();
 
-  const { loading } = useQuery(GET_IDENTITIES, {
+  const { loading } = useIdentityQuery(GET_IDENTITIES, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
@@ -84,7 +85,11 @@ export default function IdentitiesPage() {
 
   const tableData = data?.identities?.identities?.map?.((item) => {
     return [
-      <AddressOrIdentity address={item.account} linkToIdentityTimeline />,
+      <AddressOrIdentity
+        key={item.account}
+        address={item.account}
+        linkToIdentityTimeline
+      />,
       <Tooltip tip={item.account}>
         <Address address={item.account} />
       </Tooltip>,

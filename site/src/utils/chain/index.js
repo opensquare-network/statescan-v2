@@ -16,6 +16,9 @@ export function getChainNodes() {
   return settings.nodes || [];
 }
 
+/**
+ * @returns {typeof chains.polkadot.modules}
+ */
 export function getChainModules() {
   const settings = getChainSettings();
   return settings.modules || {};

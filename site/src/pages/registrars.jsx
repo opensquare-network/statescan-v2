@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import { toPrecision } from "@osn/common";
 import { parseInt, get, clone } from "lodash";
 import { useMemo } from "react";
@@ -17,6 +16,7 @@ import { chainSettingSelector } from "../store/reducers/settingSlice";
 import { Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, registrarsHead } from "../utils/constants";
 import { GET_REGISTRARS } from "../services/gqls";
+import { useIdentityQuery } from "../hooks/apollo";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
@@ -28,7 +28,7 @@ export default function RegistrarsPage() {
   const { page = 1, sort } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
-  const { data, loading } = useQuery(GET_REGISTRARS);
+  const { data, loading } = useIdentityQuery(GET_REGISTRARS);
 
   const sortedData = useMemo(() => {
     // REGISTRAR_INDEX_ASC -> REGISTRAR_INDEX
@@ -43,7 +43,7 @@ export default function RegistrarsPage() {
       REGISTRAR_TOTAL_EARN: "statistics.totalFee",
     };
 
-    const registrars = clone(data?.registrars);
+    const registrars = clone(data?.identityRegistrars);
     if (!registrars) return data;
 
     const sortedData = (registrars || []).sort((a, b) => {
@@ -61,11 +61,12 @@ export default function RegistrarsPage() {
     };
   }, [sort, data]);
 
-  const tableData = sortedData?.registrars.map((item) => {
+  const tableData = sortedData?.identityRegistrars.map((item) => {
     return [
       <Flex gap={24}>
         <Index>#{item.index}</Index>
         <AddressOrIdentity
+          key={item.account}
           address={item.account}
           linkToIdentityRegistrarTimeline
         />

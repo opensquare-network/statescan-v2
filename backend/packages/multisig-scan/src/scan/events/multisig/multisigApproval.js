@@ -70,6 +70,7 @@ async function handleMultisigApproval(event, indexer, extrinsic) {
       ...(await extractCall(extrinsic, callHash, indexer)),
       state: {
         name: MultisigStateType.Approving,
+        sortValue: 1,
         args: {
           approving: metaUpdates.approvals?.length,
           threshold,

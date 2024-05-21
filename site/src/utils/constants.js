@@ -81,24 +81,6 @@ export const menusAssets = [
   },
 ];
 
-export const menusIdentity = [
-  {
-    name: "Identities",
-    value: "identities",
-  },
-  {
-    type: "divider",
-  },
-  {
-    name: "Judgements",
-    value: "identities/judgements",
-  },
-  {
-    name: "Registrars",
-    value: "identities/registrars",
-  },
-];
-
 export const blocksHead = [
   { name: "Height", width: 160 },
   { name: "Time", type: "time", width: 200 },
@@ -353,6 +335,101 @@ export const registrarsHead = [
   },
 ];
 
+export const multisigsHead = [
+  {
+    name: "Multisig ID",
+    width: 160,
+  },
+  {
+    name: "Address",
+    width: 232,
+  },
+  {
+    name: "Approving",
+    width: 160,
+  },
+  {
+    name: "Call",
+    width: 320,
+  },
+  {
+    name: "Start Time",
+    width: 200,
+  },
+  {
+    name: "Status",
+    width: 200,
+  },
+  {
+    name: "Data",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
+];
+
+export const vestingsHead = [
+  {
+    name: "Address",
+    minWidth: 300,
+    width: 704,
+  },
+  {
+    name: "Starting Block",
+    width: 160,
+  },
+  {
+    name: "Per Block",
+    width: 200,
+    align: "right",
+  },
+  {
+    name: "Locked",
+    width: 200,
+    align: "right",
+  },
+];
+
+export const MULTISIG_ACCOUNT_SORT = {
+  DEBUT_AT_HEIGHT_DESC: "DEBUT_AT_HEIGHT_DESC",
+  DEBUT_AT_HEIGHT_ASC: "DEBUT_AT_HEIGHT_ASC",
+  LATEST_MULTISIG_AT_HEIGHT_DESC: "LATEST_MULTISIG_AT_HEIGHT_DESC",
+  LATEST_MULTISIG_AT_HEIGHT_ASC: "LATEST_MULTISIG_AT_HEIGHT_ASC",
+};
+
+export const multisigAccountsHead = [
+  {
+    name: "Multisig Address",
+    minWidth: 300,
+    width: 592,
+  },
+  {
+    name: "Threshold",
+    width: 160,
+  },
+  {
+    name: "Signatories",
+    width: 160,
+  },
+  {
+    name: "Debut At",
+    width: 200,
+    type: "sortable",
+    sortAscendingQueryValue: MULTISIG_ACCOUNT_SORT.DEBUT_AT_HEIGHT_ASC,
+    sortDescendingQueryValue: MULTISIG_ACCOUNT_SORT.DEBUT_AT_HEIGHT_DESC,
+    sortDefaultQueryValue: MULTISIG_ACCOUNT_SORT.DEBUT_AT_HEIGHT_DESC,
+  },
+  {
+    name: "Latest Multisig At",
+    width: 200,
+    type: "sortable",
+    sortAscendingQueryValue:
+      MULTISIG_ACCOUNT_SORT.LATEST_MULTISIG_AT_HEIGHT_ASC,
+    sortDescendingQueryValue:
+      MULTISIG_ACCOUNT_SORT.LATEST_MULTISIG_AT_HEIGHT_DESC,
+  },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
@@ -403,6 +480,20 @@ export const REQUEST_STATUS = {
   REMOVED: "removed",
 };
 
+export const MULTISIG_STATUS = {
+  APPROVING: "APPROVING",
+  EXECUTED: "EXECUTED",
+  CANCELLED: "CANCELLED",
+};
+
+export const MULTISIG_NAME = {
+  NewMultisig: "NewMultisig",
+  MultisigApproval: "MultisigApproval",
+  MultisigExecuted: "MultisigExecuted",
+  MultisigCancelled: "MultisigCancelled",
+  asMultiThreshold1: "asMultiThreshold1",
+};
+
 export const TABLE_SORT_QUERY_KEY = "sort";
 
 export const IDENTITY_ID_TYPE = {
@@ -434,4 +525,9 @@ export const ACCOUNT_IDENTITY_TAB_SUBTAB = {
   SUB_IDENTITIES: "sub_identities",
   IDENTITY_TIMELINE: "identity_timeline",
   REGISTRAR_TIMELINE: "registrar_timeline",
+};
+
+export const ASSETS_SORT = {
+  HOLDERS_DESC: "HOLDERS_DESC",
+  ASSET_ID_ASC: "ASSET_ID_ASC",
 };

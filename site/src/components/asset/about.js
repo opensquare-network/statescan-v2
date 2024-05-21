@@ -64,8 +64,8 @@ const GovernanceWrapper = styled.div`
   margin-top: 12px;
 `;
 
-export default function About() {
-  const data = useAssetInfoDataDetail();
+export default function About({ detail }) {
+  const data = useAssetInfoDataDetail(detail);
   const themeMode = useSelector(modeSelector);
 
   return (

@@ -2,12 +2,18 @@ import { useEffect, useState } from "react";
 import useOnChainBlockData from "./useOnChainBlockData";
 import extractBlockHeader from "../utils/extractBlockInfo/extractBlockHeader";
 import extractBlockTime from "../utils/extractBlockInfo/extractBlockTime";
+import useChainSettings from "../utils/hooks/chain/useChainSettings";
 
 export default function useOnChainExtrinsicData(blockHeight, extrinsicIndex) {
+  const chainSettings = useChainSettings();
   const blockData = useOnChainBlockData(blockHeight);
   const [extrinsicData, setExtrinsicData] = useState();
 
   useEffect(() => {
+    if (!chainSettings.useOnChainBlockData) {
+      return;
+    }
+
     // block data is still loading
     if (blockData === undefined) {
       return;
@@ -43,7 +49,7 @@ export default function useOnChainExtrinsicData(blockHeight, extrinsicIndex) {
       allBlockEvents: blockData?.events,
       indexer,
     });
-  }, [blockData, extrinsicIndex]);
+  }, [chainSettings.useOnChainBlockData, blockData, extrinsicIndex]);
 
   return extrinsicData;
 }

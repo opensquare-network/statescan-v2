@@ -1,4 +1,7 @@
 // shared for explore/index.js and explore/dropdown.js
+
+import { linkAddressToIdentityTimeline } from "../../address";
+
 export function makeExploreDropdownItemRouteLink(type, value) {
   if (type === "assets") {
     const assetId = value.destroyed
@@ -21,6 +24,14 @@ export function makeExploreDropdownItemRouteLink(type, value) {
 
   if (type === "account") {
     return `/accounts/${value}`;
+  }
+
+  if (type === "extrinsic") {
+    return `/extrinsics/${value}`;
+  }
+
+  if (type === "identities") {
+    return linkAddressToIdentityTimeline(value.account);
   }
 
   return `/${type}/${value}`;

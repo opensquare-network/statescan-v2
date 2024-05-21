@@ -16,9 +16,14 @@ const { handleOwnerChanged } = require("./ownerChanged");
 const { handleMetadataSet } = require("./metadataSet");
 const { handleCreated } = require("./created");
 const { AssetsEvents } = require("./consts");
+const { currentChain } = require("@osn/scan-common/src/env");
 
 async function handleAssetsEvent(event, indexer, extrinsic) {
   const { section, method } = event;
+
+  if (["shadow", "polkadot-crust-parachain"].includes(currentChain())) {
+    return;
+  }
 
   if (section !== "assets") {
     // note: this module name maybe different depending on different chain spec.

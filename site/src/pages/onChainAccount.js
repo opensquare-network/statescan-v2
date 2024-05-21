@@ -13,6 +13,7 @@ import AccountDetailCommon from "../components/account/detailCommon";
 import { useDispatch } from "react-redux";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
+import { useMultisigAddressData } from "../hooks/multisig/useMultisigAddressData";
 
 function OnChainAccount() {
   const { id } = useParams();
@@ -21,6 +22,8 @@ function OnChainAccount() {
 
   const accountData = useOnChainAccountData(id);
   const accountInfo = useAccountInfo(accountData);
+
+  const { data: multisigAddressData } = useMultisigAddressData(id);
 
   useEffect(() => {
     clearHttpError(dispatch);
@@ -44,8 +47,13 @@ function OnChainAccount() {
     if (!detail) {
       return {};
     }
-    return toOnChainAccountDetailItem(id, detail, achainableProfile);
-  }, [id, detail, achainableProfile]);
+    return toOnChainAccountDetailItem(
+      id,
+      detail,
+      achainableProfile,
+      multisigAddressData,
+    );
+  }, [id, detail, achainableProfile, multisigAddressData]);
 
   const breadCrumb = (
     <BreadCrumb

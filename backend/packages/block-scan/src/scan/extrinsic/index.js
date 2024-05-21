@@ -2,6 +2,7 @@ const { extractCallsFromExtrinsic } = require("./call");
 const { normalizeExtrinsic } = require("./normalize");
 const {
   utils: { extractExtrinsicEvents },
+  env: { currentChain },
 } = require("@osn/scan-common");
 const { isExemptedExtrinsic } = require("./exemption");
 const { isSimpleMode } = require("../../env");
@@ -15,10 +16,17 @@ async function normalizeExtrinsics(
   let index = 0;
   let normalizedExtrinsics = [];
   let normalizedCalls = [];
+  const chain = currentChain();
   for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(blockEvents, index);
     const extrinsicIndexer = { ...blockIndexer, extrinsicIndex: index++ };
-    if (isExemptedExtrinsic(extrinsic) || !extrinsic.isSigned) {
+    if (isExemptedExtrinsic(extrinsic)) {
+      continue;
+    }
+    if (
+      !extrinsic.isSigned &&
+      !["tangle", "tangle-testnet", "gargantua"].includes(chain)
+    ) {
       continue;
     }
 

@@ -1,5 +1,6 @@
 const { identityTypeDefs } = require("./identity");
 const { queries } = require("./query");
+const { commonQueries } = require("./commonQuery");
 const { timelineItem } = require("./timeline");
 const { registrar } = require("./registrar");
 const { request } = require("./request");
@@ -8,16 +9,19 @@ const {
   graphql: { indexer },
 } = require("@statescan/common");
 
-const typeDefs = [
+const common = [
   indexer,
   identityTypeDefs,
   timelineItem,
   registrar,
   request,
   statistics,
-  queries,
 ];
+
+const typeDefs = [...common, queries];
+const commonTypeDefs = [...common, commonQueries];
 
 module.exports = {
   typeDefs,
+  commonTypeDefs,
 };

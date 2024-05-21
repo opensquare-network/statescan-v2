@@ -1,15 +1,16 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import Timeline from "../../timeline";
 import IdentityTimelineItemFields from "./itemFields";
 import RegistrarTimelineItemIcon from "./itemIcon";
 import { useState } from "react";
+import { useIdentityQuery } from "../../../hooks/apollo";
 
 export default function useRegistrarTimeline(account) {
   const [data, setData] = useState(null);
 
   const GET_REGISTRAR_TIMELINE = gql`
     query GetRegistrarTimeline($account: String!) {
-      registrarTimeline(account: $account) {
+      identityRegistrarTimeline(account: $account) {
         name
         args
         indexer {
@@ -23,7 +24,7 @@ export default function useRegistrarTimeline(account) {
     }
   `;
 
-  const { loading } = useQuery(GET_REGISTRAR_TIMELINE, {
+  const { loading } = useIdentityQuery(GET_REGISTRAR_TIMELINE, {
     variables: {
       account,
     },
@@ -32,7 +33,7 @@ export default function useRegistrarTimeline(account) {
     },
   });
 
-  const timelineData = data?.registrarTimeline || [];
+  const timelineData = data?.identityRegistrarTimeline || [];
 
   const component = (
     <Timeline

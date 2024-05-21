@@ -1,33 +1,42 @@
 import { useEffect, useState } from "react";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 import { fetchIdentity } from "@osn/common";
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { IDENTITY_ID_TYPE, IDENTITY_JUDGEMENT } from "../utils/constants";
+import { useIdentityLazyQuery } from "./apollo";
+
+const identityCacheMap = {};
 
 export function useIdentity(address = "") {
   const chainSettings = useChainSettings();
   const { modules } = chainSettings;
   const hasIdentity = modules?.identity;
 
-  const [identity, setIdentity] = useState(null);
+  const [identity, setIdentity] = useState(identityCacheMap[address]);
   const fetcher = useGqlFetcher(address);
 
   useEffect(() => {
-    setIdentity(null);
+    if (identity) {
+      return;
+    }
+
     if (hasIdentity) {
       fetcher().then((resp) => {
         const { data } = resp;
 
         if (data.identity) {
-          setIdentity(normalizeIdentity(data.identity));
+          const value = normalizeIdentity(data.identity);
+          setIdentity(value);
+          identityCacheMap[address] = value;
         }
       });
     } else {
       fetchIdentity(chainSettings.identity, address).then((identity) => {
         setIdentity(identity);
+        identityCacheMap[address] = identity;
       });
     }
-  }, [address, hasIdentity, chainSettings.identity, fetcher]);
+  }, [identity, address, hasIdentity, chainSettings.identity, fetcher]);
 
   return identity;
 }
@@ -53,7 +62,7 @@ function useGqlFetcher(address = "") {
     }
   `;
 
-  const [fetcher] = useLazyQuery(GET_IDENTITY, {
+  const [fetcher] = useIdentityLazyQuery(GET_IDENTITY, {
     variables: { account: address },
   });
 

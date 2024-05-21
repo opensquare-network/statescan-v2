@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import DataIdentityIcon from "../../icons/dataIdentity";
 import DataRegistrarsIcon from "../../icons/dataRegistrars";
 import DataRequestsIcon from "../../icons/dataRequests";
@@ -17,6 +17,8 @@ import capitalize from "lodash.capitalize";
 import startCase from "lodash.startcase";
 import Loading from "../../loadings/loading";
 import { withLoading } from "../../../HOC/withLoading";
+import { useIdentityQuery } from "../../../hooks/apollo";
+import Dot from "../../dot";
 
 const Link = styled(LinkOrigin)`
   &:hover {
@@ -41,7 +43,7 @@ const IdentityStatusLink = styled(Link)`
 
 const GET_STATISTICS = gql`
   query GetStatistics {
-    statistics {
+    identityStatistics {
       identity {
         erroneous
         unverified
@@ -64,12 +66,12 @@ const mapLoadingState = (props) => {
 };
 
 function IdentityOverview({ data }) {
-  const { data: registrarsData } = useQuery(GET_REGISTRARS);
+  const { data: registrarsData } = useIdentityQuery(GET_REGISTRARS);
   const registrars = registrarsData?.registrars?.length || 0;
 
-  const verifiedCount = data?.statistics?.identity?.verified || 0;
-  const unverifiedCount = data?.statistics?.identity?.unverified || 0;
-  const erroneousCount = data?.statistics?.identity?.erroneous || 0;
+  const verifiedCount = data?.identityStatistics?.identity?.verified || 0;
+  const unverifiedCount = data?.identityStatistics?.identity?.unverified || 0;
+  const erroneousCount = data?.identityStatistics?.identity?.erroneous || 0;
   const totalIdentities = verifiedCount + unverifiedCount + erroneousCount;
 
   return (
@@ -128,7 +130,7 @@ function IdentityOverview({ data }) {
           value={
             <Tooltip tip="Sub identities">
               <Link to={`/identities?identityType=${IDENTITY_TYPE.SUB}`}>
-                {currencify(data?.statistics?.subIdentity || 0)}
+                {currencify(data?.identityStatistics?.subIdentity || 0)}
               </Link>
             </Tooltip>
           }
@@ -154,24 +156,16 @@ function IdentityOverview({ data }) {
                 style={{ display: "inline-block" }}
               >
                 <Link to={"/identities/judgements"}>
-                  {currencify(data?.statistics?.request || 0)}
+                  {currencify(data?.identityStatistics?.request || 0)}
                 </Link>
               </Tooltip>
-              <div
-                style={{
-                  color: "var(--fontTertiary)",
-                  margin: "0 8px",
-                  display: "inline-block",
-                }}
-              >
-                •
-              </div>
+              <Dot style={{ margin: "0 8px" }} />
               <Tooltip
                 tip="Total judgements given"
                 style={{ display: "inline-block" }}
               >
                 <Link to={"/identities/judgements?status=GIVEN"}>
-                  {currencify(data?.statistics?.judgementGiven || 0)}
+                  {currencify(data?.identityStatistics?.judgementGiven || 0)}
                 </Link>
               </Tooltip>
             </div>
@@ -186,7 +180,7 @@ const IdentityOverviewWithLoading =
   withLoading(mapLoadingState)(IdentityOverview);
 
 export default function IdentitySection() {
-  const { data } = useQuery(GET_STATISTICS);
+  const { data } = useIdentityQuery(GET_STATISTICS);
 
   return <IdentityOverviewWithLoading data={data} />;
 }

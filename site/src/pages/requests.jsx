@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { parseInt } from "lodash";
 import { useState } from "react";
 import styled from "styled-components";
@@ -20,6 +20,7 @@ import {
 import { useRequestsFilter } from "../utils/hooks/useRequestsFilter";
 import { time } from "../utils/viewFuncs/time";
 import toUpper from "lodash.toupper";
+import { useIdentityQuery } from "../hooks/apollo";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
@@ -52,7 +53,7 @@ const GET_REQUESTS = gql`
     $status: RequestStatusValue
     $sort: RequestSort
   ) {
-    requests(
+    identityRequests(
       limit: $limit
       offset: $offset
       registrarIndex: $registrarIndex
@@ -90,7 +91,7 @@ export default function RequestsPage() {
   const filter = useRequestsFilter();
   const [data, setData] = useState(null);
 
-  const { loading } = useQuery(GET_REQUESTS, {
+  const { loading } = useIdentityQuery(GET_REQUESTS, {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
@@ -104,12 +105,16 @@ export default function RequestsPage() {
     },
   });
 
-  const tableData = data?.requests.requests.map((item) => {
+  const tableData = data?.identityRequests.requests.map((item) => {
     return [
-      <AddressOrIdentity address={item.account} linkToIdentityTimeline />,
+      <AddressOrIdentity
+        key={item.account}
+        address={item.account}
+        linkToIdentityTimeline
+      />,
       <Flex gap={24}>
         <Index>#{item.registrarIndex}</Index>
-        <AddressOrIdentity address={item.registrar} />
+        <AddressOrIdentity key={item.registrar} address={item.registrar} />
       </Flex>,
       <Time>{time(Number(item.indexer.blockTime))}</Time>,
       <Time>
@@ -132,7 +137,7 @@ export default function RequestsPage() {
           <Pagination
             page={parseInt(page)}
             pageSize={pageSize}
-            total={data?.requests.total}
+            total={data?.identityRequests.total}
           />
         }
       >

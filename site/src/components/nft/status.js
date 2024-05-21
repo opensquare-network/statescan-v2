@@ -18,15 +18,15 @@ export default function Status({ status }) {
   if (!status) {
     return null;
   }
-  let bg = `#3765DC`;
+  let bg = "#3765DC";
   switch (status) {
     case "Active":
-      bg = `#52CC8A`;
+      bg = "#52CC8A";
       break;
     case "Frozen":
       break;
     case "Destroyed":
-      bg = `#EE4444`;
+      bg = "#EE4444";
       break;
     default:
       break;

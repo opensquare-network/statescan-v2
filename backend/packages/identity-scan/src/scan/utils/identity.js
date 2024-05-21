@@ -19,7 +19,8 @@ function extractAdditional(additional) {
 }
 
 function extractIdentityInfo(rawIdentity) {
-  const { info } = rawIdentity.unwrap();
+  const unwrapped = rawIdentity.unwrap();
+  const info = Array.isArray(unwrapped) ? unwrapped[0].info : unwrapped.info;
 
   return {
     display: dataAsString(info.display),
@@ -43,7 +44,10 @@ function normalizeIdentity(onchainIdentity) {
     return null;
   }
 
-  const { judgements, deposit } = onchainIdentity.unwrap();
+  const unwrapped = onchainIdentity.unwrap();
+  const { judgements, deposit } = Array.isArray(unwrapped)
+    ? unwrapped[0]
+    : unwrapped;
   const info = extractIdentityInfo(onchainIdentity);
   const normalizedJudgements = normalizeIdentityJudgements(judgements);
   return {

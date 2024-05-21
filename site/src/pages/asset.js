@@ -1,115 +1,61 @@
 import BreadCrumb from "../components/breadCrumb";
-import React, { useCallback, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { Panel } from "../components/styled/panel";
 import List from "../components/list";
-import {
-  assetDetailSelector,
-  assetFetchDetail,
-  clearAssetAnalytics,
-  clearAssetDetail,
-} from "../store/reducers/assetSlice";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
-import {
-  Analytics,
-  Holders,
-  holdersHead,
-  Timeline,
-  Transfers,
-  transfersHead,
-} from "../utils/constants";
-import { clearDetailTables } from "../store/reducers/detailTablesSlice";
-import DetailTable from "../components/detail/table";
-import {
-  toHoldersTabTableItem,
-  toTransferTabTableItem,
-} from "../utils/viewFuncs/toTableItem";
+import { Analytics, Holders, Timeline, Transfers } from "../utils/constants";
 import AssetTimeline from "../components/asset/timeline";
 import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
+import { useQuery } from "@apollo/client";
+import { GET_ASSET_COUNTS, GET_ASSET_DETAIL } from "../services/gql/assets";
+import AssetTransfers from "../components/asset/transfers";
+import AssetHolders from "../components/asset/holders";
 
 function Asset() {
   const { assetId } = useParams();
-  const dispatch = useDispatch();
-
-  const detail = useSelector(assetDetailSelector);
+  const { data } = useQuery(GET_ASSET_DETAIL, {
+    variables: {
+      id: parseInt(assetId),
+    },
+  });
+  const { data: { assetTransfers, assetHolders, assetTimeline } = {} } =
+    useQuery(GET_ASSET_COUNTS, {
+      variables: {
+        assetId: parseInt(assetId),
+      },
+    });
+  const detail = data?.asset;
 
   const listData = useMemo(
     () => (detail ? toAssetDetailItem(assetId, detail) : {}),
     [assetId, detail],
   );
 
-  const transfersApiKey =
-    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/transfers`;
-  const holdersApiKey =
-    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/holders`;
-  const timelineApiKey =
-    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/timeline`;
-  const analyticsApiKey =
-    detail && `/assets/${detail?.assetId}_${detail?.assetHeight}/statistic`;
-
-  const MyAssetTimeline = useCallback(
-    ({ data, loading }) => (
-      <AssetTimeline asset={detail} timeline={data} loading={loading} />
-    ),
-    [detail],
-  );
-
   const tabs = [
     {
       name: Transfers,
-      count: detail?.transfersCount,
-      children: (
-        <DetailTable
-          url={transfersApiKey}
-          heads={transfersHead}
-          transformData={toTransferTabTableItem}
-        />
-      ),
+      count: assetTransfers?.total,
+      children: <AssetTransfers assetId={assetId} asset={detail} />,
     },
     {
       name: Holders,
-      count: detail?.holdersCount,
-      children: (
-        <DetailTable
-          url={holdersApiKey}
-          heads={holdersHead}
-          transformData={(data) => toHoldersTabTableItem(data, detail)}
-        />
-      ),
+      count: assetHolders?.total,
+      children: <AssetHolders assetId={assetId} />,
     },
     {
       name: Timeline,
-      count: detail?.timelineCount,
-      children: (
-        <DetailTable url={timelineApiKey} TableComponent={MyAssetTimeline} />
-      ),
+      count: assetTimeline?.total,
+      children: <AssetTimeline assetId={assetId} asset={detail} />,
     },
     {
       name: Analytics,
-      children: <AssetAnalyticsChart url={analyticsApiKey} />,
+      children: <AssetAnalyticsChart assetId={assetId} asset={detail} />,
     },
   ];
-
-  useEffect(() => {
-    if (assetId) {
-      dispatch(assetFetchDetail(assetId));
-    }
-
-    return () => {
-      dispatch(clearAssetDetail());
-    };
-  }, [dispatch, assetId]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearDetailTables());
-      dispatch(clearAssetAnalytics());
-    };
-  }, [dispatch]);
 
   const assetIdWithoutHeight = assetId.split("_").shift();
 
@@ -128,15 +74,7 @@ function Asset() {
   return (
     <DetailLayout breadCrumb={<BreadCrumb data={breadCrumb} />}>
       <Panel>
-        <List
-          header={
-            <AssetInfo
-              symbol={detail?.metadata?.symbol}
-              name={detail?.metadata?.name}
-            />
-          }
-          data={listData}
-        />
+        <List header={<AssetInfo detail={detail} />} data={listData} />
       </Panel>
 
       <DetailTabs tabs={tabs} />

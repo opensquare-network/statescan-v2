@@ -1,5 +1,6 @@
 import { ReactComponent as Polkadot } from "../../../components/icons/polkadot.svg";
 import { governanceModules, treasuryModules } from "./modules";
+import { polkadotColor } from "./common";
 
 const polkadot = {
   name: "Polkadot",
@@ -11,21 +12,21 @@ const polkadot = {
   symbol: "DOT",
   decimals: 10,
   chainIcon: "originalPolkadot",
-  color: "#E6007A",
-  colorSecondary: "rgba(230, 0, 122, 0.1)",
+  ...polkadotColor,
   buttonColor: "#E6007A",
   logo: "logo-img-2",
   modules: {
     ...treasuryModules,
     ...governanceModules,
     identity: true,
+    multisig: true,
+    vestings: true,
   },
-  treasuryWebsite: "https://www.dotreasury.com/dot",
+  treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",
   nodes: [
-    { name: "Parity", url: "wss://rpc.polkadot.io" },
-    { name: "Automata 1RPC", url: "wss://1rpc.io/dot" },
     { name: "Dwellir", url: "wss://polkadot-rpc.dwellir.com" },
+    { name: "Automata 1RPC", url: "wss://1rpc.io/dot" },
     { name: "Dwellir Tunisia", url: "wss://polkadot-rpc-tn.dwellir.com" },
     { name: "IBP-GeoDNS1", url: "wss://rpc.ibp.network/polkadot" },
     { name: "IBP-GeoDNS2", url: "wss://rpc.dotters.network/polkadot" },

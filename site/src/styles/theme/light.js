@@ -21,13 +21,12 @@ const light = {
   fillSubDark: "#262B37",
   fillBase: "#F8F8F9",
   fillButton: "#1b202c",
-  fillBub: "#EFEFF0",
   fillTooltip: "rgba(0, 0, 0, 0.85)",
   fillGradientIcon:
     "linear-gradient(135deg, rgba(27, 32, 44, 0.05) 0%, rgba(27, 32, 44, 0) 100%)",
   fillPanelBlanket: "rgba(255, 255, 255, 0.8)",
   shadowPanel:
-    "0px 6px 16px rgba(27, 32, 44, 0.05), 0px 2px 4px rgba(27, 32, 44, 0.03), 0px 0.5px 1px rgba(27, 32, 44, 0.02)",
+    "0px 0.5px 1px 0px rgba(27, 32, 44, 0.02), 0px 2px 4px 0px rgba(27, 32, 44, 0.03), 0px 6px 16px 0px rgba(27, 32, 44, 0.05);",
   fillAlpha: "rgba(27, 32, 44, 0.05)",
   fillBeta: "rgba(27, 32, 44, 0.02)",
   fillGamma: "rgba(27, 32, 44, 0)",

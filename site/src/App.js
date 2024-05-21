@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, BrowserRouter, Route, Routes } from "react-router-dom";
 import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
 import Home from "./pages";
@@ -27,16 +27,27 @@ import RequestsPage from "./pages/requests";
 import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
 import OnChainBlock from "./pages/onChainBlock";
 import OnChainAccount from "./pages/onChainAccount";
-import OnChainExtrinsic from "./pages/onChainExtrinsic";
 import OnChainEvent from "./pages/onChainEvent";
+import MultisigsPage from "./pages/multisigs";
+import MultisigAccountsPage from "./pages/multisigAccounts";
+import MultisigPage from "./pages/multisig";
+import useConnectApis from "./utils/hooks/chain/apis/useConnectApis";
+import useUpdateNodesDelay from "./utils/hooks/useUpdateNodesDelay";
+import { VestingsPage } from "./pages/vestings";
+
+const Router = process.env.REACT_APP_BROWSER_ROUTER
+  ? BrowserRouter
+  : HashRouter;
 
 function App() {
-  const { assets, uniques, identity } = getChainModules();
+  const { assets, uniques, identity, multisig, vestings } = getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useSubFinalizedHeight();
+  useConnectApis();
+  useUpdateNodesDelay();
 
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         {assets && (
           <Fragment>
@@ -64,10 +75,7 @@ function App() {
           element={isUseOnChainBlockData ? <OnChainBlock /> : <Block />}
         />
         <Route path="/extrinsics" element={<Extrinsics />} />
-        <Route
-          path="/extrinsics/:id"
-          element={isUseOnChainBlockData ? <OnChainExtrinsic /> : <Extrinsic />}
-        />
+        <Route path="/extrinsics/:id" element={<Extrinsic />} />
         <Route path="/events" element={<Events />} />
         <Route
           path="/events/:id"
@@ -88,8 +96,23 @@ function App() {
             <Route path="/identities/registrars" element={<RegistrarsPage />} />
           </>
         )}
+        {multisig && (
+          <>
+            <Route path="/multisigs" element={<MultisigsPage />} />
+            <Route path="/multisigs/:id" element={<MultisigPage />} />
+            <Route
+              path="/multisig/accounts"
+              element={<MultisigAccountsPage />}
+            />
+          </>
+        )}
+        {vestings && (
+          <>
+            <Route path="/vestings" element={<VestingsPage />} />
+          </>
+        )}
       </Routes>
-    </HashRouter>
+    </Router>
   );
 }
 

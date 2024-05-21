@@ -22,11 +22,13 @@
     }
   },
   "dependencies": {
-    "@osn/scan-common": "0.5.10",
+    "@osn/scan-common": "0.6.8",
     "@statescan/mongo": "1.0.0",
+    "cron": "^3.1.7",
     "dotenv": "^16.0.1",
+    "lodash.chunk": "^4.2.0",
     "lodash.omit": "^4.5.0",
-    "mongodb": "5.6.0"
+    "mongodb": "6.1.0"
   },
   "devDependencies": {
     "eslint-plugin-jest": "^27.2.1",

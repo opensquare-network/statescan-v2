@@ -1,7 +1,4 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import { ColoredInterLink } from "../../components/styled/link";
-import { assetListSelector } from "../../store/reducers/assetSlice";
 import { toPrecision } from "@osn/common";
 import ValueDisplay from "../../components/displayValue";
 import AddressOrIdentity from "../../components/address";
@@ -9,18 +6,12 @@ import Tooltip from "../../components/tooltip";
 import SymbolName from "../../components/symbol/name";
 import Symbol from "../../components/symbol";
 import { bigNumberToLocaleString } from "../viewFuncs";
+import { Flex } from "../../components/styled/flex";
 import TimeBody from "../../components/table/body/time";
 import { timeTypes } from "../constants";
-import { Flex } from "../../components/styled/flex";
 
-export function useAssetsTableData() {
-  const list = useSelector(assetListSelector);
-
-  if (!list?.items) {
-    return null;
-  }
-
-  return list?.items?.map((asset) => {
+export function useAssetsTableData(assets = []) {
+  return assets?.map?.((asset) => {
     const { destroyed, assetId, assetHeight, metadata, detail } = asset;
     const link = destroyed
       ? `/assets/${assetId}_${assetHeight}`
@@ -32,10 +23,10 @@ export function useAssetsTableData() {
       <Flex>{metadata?.symbol ? <Symbol asset={asset} /> : "--"}</Flex>,
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
       <Tooltip tip={detail?.owner}>
-        <AddressOrIdentity address={detail?.owner} />
+        <AddressOrIdentity key={detail?.owner} address={detail?.owner} />
       </Tooltip>,
       <Tooltip tip={detail?.issuer}>
-        <AddressOrIdentity address={detail?.issuer} />
+        <AddressOrIdentity key={detail?.issuer} address={detail?.issuer} />
       </Tooltip>,
       detail?.accounts,
       <Tooltip pullRight={true} tip={bigNumberToLocaleString(supply)}>
@@ -45,14 +36,12 @@ export function useAssetsTableData() {
   });
 }
 
-export function useDestroyedAssetsTableData() {
-  const list = useSelector(assetListSelector);
-
-  if (!list?.items) {
+export function useDestroyedAssetsTableData(assets = []) {
+  if (!assets?.length) {
     return null;
   }
 
-  return list?.items?.map((asset) => {
+  return assets.map((asset) => {
     const { destroyed, destroyedAt, assetId, assetHeight, metadata, detail } =
       asset;
     const link = destroyed
@@ -75,7 +64,7 @@ export function useDestroyedAssetsTableData() {
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
       <TimeBody timeType={timeTypes.date} ts={destroyedAt?.blockTime} />,
       <Tooltip tip={detail?.owner}>
-        <AddressOrIdentity address={detail?.owner} />
+        <AddressOrIdentity key={detail?.owner} address={detail?.owner} />
       </Tooltip>,
       <Tooltip pullRight={true} tip={bigNumberToLocaleString(destroy)}>
         <ValueDisplay value={destroy} />
