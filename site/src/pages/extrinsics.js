@@ -27,6 +27,7 @@ import {
   toExtrinsicsTabTableItemSimpleMode,
 } from "../utils/viewFuncs/toTableItem";
 import { getIsSimpleMode } from "../utils/env";
+import { addToast } from "../store/reducers/toastSlice";
 
 function Extrinsics() {
   const location = useLocation();
@@ -42,13 +43,20 @@ function Extrinsics() {
   useEffect(() => {
     const controller = new AbortController();
 
+    const params = omit(queryString.parse(location.search), ["page", "spec"]);
+    if (params.block_start && isNaN(params.block_start)) {
+      dispatch(addToast({ type: "error", message: "Invalid block start" }));
+      return;
+    }
+    if (params.block_end && isNaN(params.block_end)) {
+      dispatch(addToast({ type: "error", message: "Invalid block end" }));
+      return;
+    }
+
     dispatch(
-      extrinsicFetchList(
-        page - 1,
-        pageSize,
-        omit(queryString.parse(location.search), ["page", "spec"]),
-        { signal: controller.signal },
-      ),
+      extrinsicFetchList(page - 1, pageSize, params, {
+        signal: controller.signal,
+      }),
     );
 
     return () => controller.abort();
