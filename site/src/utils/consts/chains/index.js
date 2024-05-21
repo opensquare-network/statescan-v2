@@ -16,6 +16,7 @@ import heiko from "./heiko";
 import crust from "./crust";
 import invarch from "./invarch";
 import tinkernet from "./tinkernet";
+import hydradxTestnet from "./hydradxTestnet";
 
 const chains = {
   kusama,
@@ -27,7 +28,7 @@ const chains = {
   westmint,
   "westend-collectives": westendCollectives,
   collectives,
-  // "hydradx-testnet": hydradxTestnet,
+  "hydradx-testnet": hydradxTestnet,
   // polimec,
   shadow,
   gargantua,

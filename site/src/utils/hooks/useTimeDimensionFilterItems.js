@@ -55,7 +55,7 @@ export function useTimeDimensionFilterItems() {
   };
 
   const dateStart = {
-    type: "date",
+    type: "date_start",
     value: dateStartValue,
     name: "Start",
     query: "date_start",
@@ -63,10 +63,11 @@ export function useTimeDimensionFilterItems() {
   };
 
   const dateEnd = {
-    ...dateStart,
+    type: "date_end",
     value: dateEndValue,
     name: "End",
     query: "date_end",
+    width: 160,
     datepickerProps: {
       minDate: dateStartValue,
     },

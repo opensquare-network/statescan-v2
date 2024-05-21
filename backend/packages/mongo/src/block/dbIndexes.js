@@ -25,18 +25,9 @@ async function createExtrinsicColIndexes(col) {
     });
     await col.createIndex({
       "call.section": 1,
-      "indexer.blockTime": -1,
-    });
-    await col.createIndex({
-      "call.section": 1,
       "call.method": 1,
       "indexer.blockHeight": -1,
       "indexer.extrinsicIndex": 1,
-    });
-    await col.createIndex({
-      "call.section": 1,
-      "call.method": 1,
-      "indexer.blockTime": -1,
     });
     await col.createIndex({ hash: 1 });
   }
@@ -60,18 +51,9 @@ async function createEventColIndexes(col) {
   });
   await col.createIndex({
     section: 1,
-    "indexer.blockTime": -1,
-  });
-  await col.createIndex({
-    section: 1,
     method: 1,
     "indexer.blockHeight": -1,
     "indexer.eventIndex": 1,
-  });
-  await col.createIndex({
-    section: 1,
-    method: 1,
-    "indexer.blockTime": -1,
   });
   await col.createIndex({
     isExtrinsic: 1,

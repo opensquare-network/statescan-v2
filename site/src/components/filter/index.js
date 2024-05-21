@@ -317,12 +317,21 @@ export default function Filter({
                 <NewLine key={index} />
               ) : item.type === "divider" ? (
                 <FilterDivider key={index} />
-              ) : item.type === "date" ? (
+              ) : item.type === "date_start" ? (
                 <FilterDatePicker
                   key={index}
                   {...item}
                   onChange={(date) => {
-                    const timestamp = moment(date).valueOf();
+                    const timestamp = moment(date).startOf("day").valueOf();
+                    onDropdown(item.name, timestamp);
+                  }}
+                />
+              ) : item.type === "date_end" ? (
+                <FilterDatePicker
+                  key={index}
+                  {...item}
+                  onChange={(date) => {
+                    const timestamp = moment(date).endOf("day").valueOf();
                     onDropdown(item.name, timestamp);
                   }}
                 />
