@@ -1,3 +1,4 @@
+const { getTimeDimension } = require("../../../common/getTimeDimension");
 const { extractPage } = require("../../../utils");
 const {
   block: { getEventCollection },
@@ -16,7 +17,9 @@ async function getEvents(ctx) {
     is_extrinsic: isExtrinsic,
     no_extrinsic_result: noExtrinsicResult,
   } = ctx.query;
-  const q = {};
+  const q = {
+    ...getTimeDimension(ctx),
+  };
   if (section) {
     q.section = section;
   }
