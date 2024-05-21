@@ -58,7 +58,7 @@ export default function FilterDatePicker({
       <div style={{ width }}>
         <DatePicker
           {...datepickerProps}
-          selected={value}
+          selected={parseInt(value)}
           onChange={onChange}
           placeholderText="Date"
           customInput={<CustomInput />}
