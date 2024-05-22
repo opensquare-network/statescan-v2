@@ -98,7 +98,7 @@ export default function MultisigTable({
         <Tooltip
           tip={
             <SignatoriesWrapper>
-              <div>Total Signatories:</div>
+              <div>All Signatories:</div>
               {multisig.signatories?.map((address) => (
                 <AddressOrIdentity
                   key={address}
