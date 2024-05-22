@@ -8,4 +8,5 @@ module.exports = {
   ...require("./recoveryStatistics"),
   ...require("./recoveryProxies"),
   ...require("./recoveryScanHeight"),
+  ...require("./recoverableCalls"),
 };

@@ -8,6 +8,12 @@ const queries = /* GraphQL */ `
       offset: Int!
       limit: Int!
     ): PagedRecoverableTimeline!
+    recoverableCalls(
+      recoverableHeight: Int!
+      lostAccount: String!
+      offset: Int!
+      limit: Int!
+    ): PagedRecoveredCall!
     recoveries(offset: Int!, limit: Int!): PagedRecovery!
     recovery(
       lostAccount: String!
