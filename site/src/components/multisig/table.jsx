@@ -15,14 +15,16 @@ import { time } from "../../utils/viewFuncs/time";
 import CallCell from "../table/callCell";
 
 const ApprovingText = styled.div`
+  display: flex;
+  align-items: center;
   ${Inter_14_500};
   color: var(--fontPrimary);
 `;
-const ApprovingSlashText = styled.span`
+const ApprovingSlashText = styled.div`
   color: var(--fontTertiary);
   margin: 0 2px;
 `;
-const ApprovingCountText = styled.span`
+const ApprovingCountText = styled.div`
   color: var(--fontSecondary);
 `;
 
@@ -71,14 +73,32 @@ export default function MultisigTable({
       </Flex>,
       <ApprovingCell>
         <ApprovingText>
-          {multisig.approvals?.length}
+          <Tooltip
+            tip={
+              <SignatoriesWrapper>
+                <div>Signed:</div>
+                {multisig.approvals?.map((address) => (
+                  <AddressOrIdentity
+                    key={address}
+                    ellipsis={false}
+                    address={address}
+                  />
+                ))}
+              </SignatoriesWrapper>
+            }
+          >
+            {multisig.approvals?.length}
+          </Tooltip>
           <ApprovingSlashText>/</ApprovingSlashText>
-          <ApprovingCountText>{multisig.threshold}</ApprovingCountText>
+          <Tooltip tip="Threshold">
+            <ApprovingCountText>{multisig.threshold}</ApprovingCountText>
+          </Tooltip>
         </ApprovingText>
         <Dot style={{ margin: "0 2px" }} />
         <Tooltip
           tip={
             <SignatoriesWrapper>
+              <div>All Signatories:</div>
               {multisig.signatories?.map((address) => (
                 <AddressOrIdentity
                   key={address}

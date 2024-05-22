@@ -30,7 +30,7 @@ export function VestingsPage() {
     <Layout>
       <BreadCrumb data={[{ name: "Vestings" }]} />
 
-      <Filter data={filter} filterOnDataChange />
+      <Filter data={filter} filterOnDataChange showFilterButton={false} />
 
       <StyledPanelTableWrapper
         footer={
