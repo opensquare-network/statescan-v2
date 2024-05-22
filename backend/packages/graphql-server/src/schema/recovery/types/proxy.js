@@ -1,11 +1,11 @@
 const proxy = /* GraphQL */ `
-  type Proxy {
+  type RecoveryProxy {
     rescuer: String!
     lost: String!
   }
 
-  type PagedProxy {
-    items: [Proxy]!
+  type PagedRecoveryProxy {
+    items: [RecoveryProxy]!
     offset: Int!
     limit: Int!
     total: Int!

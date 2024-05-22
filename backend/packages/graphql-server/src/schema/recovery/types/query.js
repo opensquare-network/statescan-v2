@@ -21,7 +21,7 @@ const queries = /* GraphQL */ `
       offset: Int!
       limit: Int!
     ): PagedRecoveryTimeline!
-    proxies(offset: Int!, limit: Int!): PagedProxy!
+    recoveryProxies(offset: Int!, limit: Int!): PagedRecoveryProxy!
     recoveryStatistics: RecoveryStatistics!
     recoveryScanHeight: Int
   }

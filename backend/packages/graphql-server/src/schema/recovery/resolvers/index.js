@@ -6,6 +6,6 @@ module.exports = {
   ...require("./recoveryTimeline"),
   ...require("./recoverableTimeline"),
   ...require("./recoveryStatistics"),
-  ...require("./proxies"),
+  ...require("./recoveryProxies"),
   ...require("./recoveryScanHeight"),
 };

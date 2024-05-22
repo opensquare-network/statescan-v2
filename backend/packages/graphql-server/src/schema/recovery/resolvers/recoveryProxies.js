@@ -2,7 +2,7 @@ const {
   palletRecovery: { getProxyCol },
 } = require("@statescan/mongo");
 
-async function proxies(_, _args) {
+async function recoveryProxies(_, _args) {
   const { offset, limit } = _args;
   if (parseInt(limit) > 100) {
     throw new Error("Over max page size 100");
@@ -26,5 +26,5 @@ async function proxies(_, _args) {
 }
 
 module.exports = {
-  proxies,
+  recoveryProxies,
 };
