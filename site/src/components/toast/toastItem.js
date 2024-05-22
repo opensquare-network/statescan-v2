@@ -8,6 +8,8 @@ import { removeToast } from "../../store/reducers/toastSlice";
 import { bg_theme, border_theme, text_theme } from "../../styles/tailwindcss";
 
 const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
   padding: 12px 16px;
   ${bg_theme("fillPopup")};
   font-size: 14px;
@@ -24,7 +26,7 @@ const Wrapper = styled.div`
   }
 
   border: 1px solid rgb(244, 244, 244);
-  ${border_theme("strokeBox")}
+  ${border_theme("strokeBase")}
   box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.04),
     0px 1.80882px 5.94747px rgba(0, 0, 0, 0.0260636),
     0px 0.751293px 0.932578px rgba(0, 0, 0, 0.02),
