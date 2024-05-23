@@ -430,6 +430,40 @@ export const multisigAccountsHead = [
   },
 ];
 
+export const recoverablesHead = [
+  {
+    name: "Created At",
+    width: 160,
+  },
+  {
+    name: "Account",
+    width: 240,
+  },
+  {
+    name: "Friends",
+    width: 160,
+  },
+  {
+    name: "Delay Period",
+    width: 160,
+  },
+  {
+    name: "Deposit",
+    width: 160,
+  },
+  {
+    name: "Rescuer",
+  },
+  {
+    name: "Status",
+    width: 160,
+  },
+  {
+    name: "",
+    width: 76,
+  },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
