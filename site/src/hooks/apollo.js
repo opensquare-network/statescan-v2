@@ -51,7 +51,7 @@ function createModuleQuery(module) {
   const useModuleLazyQuery = createModuleLazyQuery(module);
 
   /**
-   * @type {typeof useQuery}
+   * @type {typeof import('@apollo/client').useQuery}
    */
   return function useModuleQuery(...args) {
     const [fetcher, result] = useModuleLazyQuery(...args);
