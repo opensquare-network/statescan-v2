@@ -15,11 +15,11 @@ async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
 
   for (const extrinsic of extrinsics) {
     const events = extractExtrinsicEvents(allEvents, index);
+    const extrinsicIndexer = { ...indexer, extrinsicIndex: index++ };
     if (!isExtrinsicSuccess(events)) {
       continue;
     }
 
-    const extrinsicIndexer = { ...indexer, extrinsicIndex: index++ };
     await handlePureNestedCalls(extrinsic, extrinsicIndexer, handleCalls);
   }
 }
