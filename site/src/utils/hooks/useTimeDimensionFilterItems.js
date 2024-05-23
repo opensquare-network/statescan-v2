@@ -42,7 +42,6 @@ export function useTimeDimensionFilterItems() {
     value: blockStartValue,
     name: "Start",
     query: "block_start",
-    width: 160,
     inputProps: {
       placeholder: "Blocks",
     },
@@ -59,7 +58,6 @@ export function useTimeDimensionFilterItems() {
     value: dateStartValue,
     name: "Start",
     query: "date_start",
-    width: 160,
   };
 
   const dateEnd = {
@@ -67,7 +65,6 @@ export function useTimeDimensionFilterItems() {
     value: dateEndValue,
     name: "End",
     query: "date_end",
-    width: 160,
     datepickerProps: {
       minDate: dateStartValue,
     },

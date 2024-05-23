@@ -21,7 +21,7 @@ const InputOrigin = styled.input`
   ${Inter_14_500};
 `;
 
-const InputWrapper = styled.span`
+const InputWrapper = styled.div`
   display: inline-flex;
   align-items: center;
   padding: 10px 16px;

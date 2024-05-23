@@ -1,7 +1,7 @@
 import DatePicker from "react-datepicker";
 import "../../styles/react-datepicker.css";
 import styled from "styled-components";
-import { Flex, FlexCenter } from "../styled/flex";
+import { FlexCenter, FlexColumn } from "../styled/flex";
 import Input from "../input";
 import { forwardRef } from "react";
 import noop from "lodash.noop";
@@ -13,11 +13,8 @@ import CaretLeftIcon from "../icons/caretLeftIcon";
 import CaretFirstIcon from "../icons/caretFirstIcon";
 import CaretLastIcon from "../icons/caretLastIcon";
 
-const Wrapper = styled(Flex)`
+const Wrapper = styled(FlexColumn)`
   color: var(--fontPrimary);
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: right;
   row-gap: 8px;
 `;
 
@@ -34,28 +31,27 @@ const HeaderNavButton = styled(PanelButton)`
 
 const CustomInput = forwardRef(({ onClick, ...restProps }, ref) => {
   return (
-    <Flex ref={ref} onClick={onClick} style={{ cursor: "pointer" }}>
+    <FlexColumn ref={ref} onClick={onClick} style={{ cursor: "pointer" }}>
       <Input
         mini
         {...restProps}
         suffix={<CaretRightIcon />}
         style={{ cursor: "inherit" }}
       />
-    </Flex>
+    </FlexColumn>
   );
 });
 
 export default function FilterDatePicker({
   name,
   value,
-  width,
   datepickerProps = {},
   onChange = noop,
 }) {
   return (
     <Wrapper>
       <div>{name}</div>
-      <div style={{ width }}>
+      <FlexColumn>
         <DatePicker
           {...datepickerProps}
           selected={parseInt(value)}
@@ -103,7 +99,7 @@ export default function FilterDatePicker({
             </Header>
           )}
         />
-      </div>
+      </FlexColumn>
     </Wrapper>
   );
 }

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Dropdown from "../dropdown";
 import { Panel } from "../styled/panel";
 import { Inter_12_600, Inter_14_500, Inter_14_600 } from "../../styles/text";
-import { Flex, FlexBetween, FlexCenter } from "../styled/flex";
+import { Flex, FlexBetween, FlexCenter, FlexColumn } from "../styled/flex";
 import { useNavigate } from "react-router-dom";
 import { serialize } from "../../utils/viewFuncs";
 import FilterIcon from "./filterIcon";
@@ -65,17 +65,16 @@ const HeadWrapper = styled(FlexBetween)`
   flex-basis: 100%;
 `;
 
-const InputWrapper = styled(Flex)`
+const InputWrapper = styled(FlexColumn)`
   color: var(--fontPrimary);
-  flex-direction: column;
-  align-items: flex-start;
   justify-content: right;
   row-gap: 8px;
 
   @media screen and (max-width: 900px) {
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
+    flex-grow: 1;
+  }
+  @media screen and (min-width: 900px) {
+    width: 160px;
   }
 `;
 
@@ -135,20 +134,30 @@ const FilterDivider = styled.div`
   }
 `;
 
-const FilterWrapper = styled(Flex)`
+const FilterWrapper = styled.div`
+  display: flex;
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+  }
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
+  }
   width: 100%;
-  justify-content: space-between;
-  column-gap: 24px;
+  gap: 24px;
 `;
 
-const FilterForm = styled(Flex)`
-  flex-grow: 1;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  column-gap: 24px;
+const FilterForm = styled.div`
+  display: flex;
   @media screen and (max-width: 900px) {
     flex-direction: column;
     gap: 16px;
+  }
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 24px;
   }
 `;
 
@@ -163,6 +172,17 @@ const FilterActions = styled(Flex)`
 const NewLine = styled.div`
   width: 100%;
   margin: 8px 0;
+`;
+
+const DatePickerWrapper = styled.div`
+  display: flex;
+  @media screen and (max-width: 900px) {
+    flex-grow: 1;
+    flex-direction: column;
+  }
+  @media screen and (min-width: 900px) {
+    width: 160px;
+  }
 `;
 
 export default function Filter({
@@ -318,25 +338,29 @@ export default function Filter({
               ) : item.type === "divider" ? (
                 <FilterDivider key={index} />
               ) : item.type === "date_start" ? (
-                <FilterDatePicker
-                  key={index}
-                  {...item}
-                  onChange={(date) => {
-                    const timestamp = moment(date).startOf("day").valueOf();
-                    onDropdown(item.name, timestamp);
-                  }}
-                />
+                <DatePickerWrapper>
+                  <FilterDatePicker
+                    key={index}
+                    {...item}
+                    onChange={(date) => {
+                      const timestamp = moment(date).startOf("day").valueOf();
+                      onDropdown(item.name, timestamp);
+                    }}
+                  />
+                </DatePickerWrapper>
               ) : item.type === "date_end" ? (
-                <FilterDatePicker
-                  key={index}
-                  {...item}
-                  onChange={(date) => {
-                    const timestamp = moment(date).endOf("day").valueOf();
-                    onDropdown(item.name, timestamp);
-                  }}
-                />
+                <DatePickerWrapper>
+                  <FilterDatePicker
+                    key={index}
+                    {...item}
+                    onChange={(date) => {
+                      const timestamp = moment(date).endOf("day").valueOf();
+                      onDropdown(item.name, timestamp);
+                    }}
+                  />
+                </DatePickerWrapper>
               ) : item.type === "input" ? (
-                <InputWrapper key={index} style={{ width: item.width }}>
+                <InputWrapper key={index}>
                   <div>{item.name}</div>
                   <Input
                     mini

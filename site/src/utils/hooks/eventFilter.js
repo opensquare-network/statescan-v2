@@ -164,7 +164,8 @@ export function useEventFilter() {
         specs,
         section,
         method,
-        { type: "newline" },
+        // { type: "newline" },
+        { type: "divider" },
         ...timeDimensionItems,
       ]);
     }
