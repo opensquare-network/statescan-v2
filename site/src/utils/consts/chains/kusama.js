@@ -19,6 +19,7 @@ const kusama = {
     identity: true,
     multisig: true,
     vestings: true,
+    recovery: true,
   },
   treasuryWebsite: "https://kusama.dotreasury.com",
   subSquareWebsite: "https://kusama.subsquare.io",

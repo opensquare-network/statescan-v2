@@ -12,6 +12,8 @@ export const useMultisigLazyQuery = createModuleLazyQuery("multisig");
 
 export const useVestingsQuery = createModuleQuery("vestings");
 
+export const useRecoveryQuery = createModuleQuery("recovery");
+
 /**
  * @param {string} module
  * @description useLazyQuery

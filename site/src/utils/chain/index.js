@@ -17,7 +17,7 @@ export function getChainNodes() {
 }
 
 /**
- * @returns {typeof chains.polkadot.modules}
+ * @returns {typeof chains.polkadot.modules & typeof chains.kusama.modules}
  */
 export function getChainModules() {
   const settings = getChainSettings();
