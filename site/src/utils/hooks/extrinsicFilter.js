@@ -162,9 +162,12 @@ export function useExtrinsicFilter() {
       };
 
       setFilters([
-        [specs, section, method],
+        specs,
+        section,
+        method,
+        // { type: "newline" },
         { type: "divider" },
-        timeDimensionFilterItems,
+        ...timeDimensionFilterItems,
       ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
