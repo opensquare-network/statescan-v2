@@ -464,6 +464,31 @@ export const recoverablesHead = [
   },
 ];
 
+export const recoverableCallsHead = [
+  {
+    name: "Block",
+    width: 160,
+  },
+  {
+    name: "Rescuer",
+    width: 240,
+  },
+  {
+    name: "Time",
+    type: "time",
+    width: 200,
+  },
+  {
+    name: "Call",
+  },
+  {
+    name: "Data",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",

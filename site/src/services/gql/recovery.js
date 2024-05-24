@@ -64,3 +64,30 @@ export const GET_RECOVERABLE_TIMELINE = gql`
     }
   }
 `;
+
+export const GET_RECOVERABLES_CALLS = gql`
+  query MyQuery(
+    $recoverableHeight: Int!
+    $lostAccount: String!
+    $limit: Int!
+    $offset: Int!
+  ) {
+    recoverableCalls(
+      recoverableHeight: $recoverableHeight
+      lostAccount: $lostAccount
+      limit: $limit
+      offset: $offset
+    ) {
+      items {
+        call
+        rescuer
+        recoverableHeight
+        lostAccount
+        indexer {
+          blockHeight
+          blockTime
+        }
+      }
+    }
+  }
+`;
