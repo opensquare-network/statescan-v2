@@ -11,9 +11,7 @@ import Table from "../components/table";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
-import Filter from "../components/filter";
 import * as queryString from "query-string";
-import { useExtrinsicFilter } from "../utils/hooks/extrinsicFilter";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearExtrinsicList,
@@ -28,13 +26,13 @@ import {
 } from "../utils/viewFuncs/toTableItem";
 import { getIsSimpleMode } from "../utils/env";
 import { addToast } from "../store/reducers/toastSlice";
+import ExtrinsicFilter from "../components/extrinsics/filter";
 
 function Extrinsics() {
   const location = useLocation();
   const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const filters = useExtrinsicFilter();
   const isSimpleMode = getIsSimpleMode();
 
   const list = useSelector(extrinsicListSelector);
@@ -81,7 +79,7 @@ function Extrinsics() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Extrinsics" }]} />
-      <Filter data={filters} />
+      <ExtrinsicFilter />
       <StyledPanelTableWrapper
         footer={
           <Pagination
