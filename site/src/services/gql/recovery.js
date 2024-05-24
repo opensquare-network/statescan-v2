@@ -36,3 +36,31 @@ export const GET_RECOVERABLE = gql`
     }
   }
 `;
+
+export const GET_RECOVERABLE_TIMELINE = gql`
+  query MyQuery(
+    $recoverableHeight: Int!
+    $lostAccount: String!
+    $limit: Int!
+    $offset: Int!
+  ) {
+    recoverableTimeline(
+      recoverableHeight: $recoverableHeight
+      lostAccount: $lostAccount
+      limit: $limit
+      offset: $offset
+    ) {
+      items {
+        name
+        recoverableHeight
+        args
+        indexer {
+          blockHeight
+          blockTime
+          extrinsicIndex
+          eventIndex
+        }
+      }
+    }
+  }
+`;

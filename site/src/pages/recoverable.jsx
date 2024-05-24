@@ -8,6 +8,7 @@ import List from "../components/list";
 import { useRecoverableDetailListData } from "../utils/hooks/recovery/useRecoverableDetailListData";
 import styled from "styled-components";
 import { Inter_14_500 } from "../styles/text";
+import RecoverableDetailTabs from "../components/recovery/recoverable/tabs";
 import { useRecoverableParams } from "../utils/hooks/recovery/useRecoverableParams";
 
 const StyledPanel = styled(Panel)`
@@ -44,6 +45,8 @@ export default function RecoverablePage() {
       <StyledPanel>
         <List data={loading ? [] : listData} />
       </StyledPanel>
+
+      <RecoverableDetailTabs />
     </DetailLayout>
   );
 }
