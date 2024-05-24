@@ -161,12 +161,9 @@ export function useEventFilter() {
         defaultDisplay: methodValue,
       };
       setFilters([
-        specs,
-        section,
-        method,
-        // { type: "newline" },
+        [specs, section, method],
         { type: "divider" },
-        ...timeDimensionItems,
+        timeDimensionItems,
       ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -161,6 +161,20 @@ const FilterForm = styled.div`
   }
 `;
 
+const FiltersWrapper = styled.div`
+  display: flex;
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+    gap: 16px;
+  }
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 24px;
+  }
+`;
+
 const FilterActions = styled(Flex)`
   height: 100%;
   display: flex;
@@ -184,6 +198,89 @@ const DatePickerWrapper = styled.div`
     width: 160px;
   }
 `;
+
+function FilterItems({ items, onDropdown, handleFilter }) {
+  return (items || []).map((item, index) =>
+    Array.isArray(item) ? (
+      <FiltersWrapper>
+        <FilterItems
+          key={index}
+          items={item}
+          onDropdown={onDropdown}
+          handleFilter={handleFilter}
+        />
+      </FiltersWrapper>
+    ) : item.type === "newline" ? (
+      <NewLine key={index} />
+    ) : item.type === "divider" ? (
+      <FilterDivider key={index} />
+    ) : item.type === "date_start" ? (
+      <DatePickerWrapper>
+        <FilterDatePicker
+          key={index}
+          {...item}
+          onChange={(date) => {
+            const timestamp = moment(date).startOf("day").valueOf();
+            onDropdown(item.name, timestamp);
+          }}
+        />
+      </DatePickerWrapper>
+    ) : item.type === "date_end" ? (
+      <DatePickerWrapper>
+        <FilterDatePicker
+          key={index}
+          {...item}
+          onChange={(date) => {
+            const timestamp = moment(date).endOf("day").valueOf();
+            onDropdown(item.name, timestamp);
+          }}
+        />
+      </DatePickerWrapper>
+    ) : item.type === "input" ? (
+      <InputWrapper key={index}>
+        <div>{item.name}</div>
+        <Input
+          mini
+          value={item.value}
+          {...(item.inputProps || {})}
+          onChange={(event) => {
+            onDropdown(item.name, event.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleFilter();
+            }
+          }}
+        />
+      </InputWrapper>
+    ) : item.type === "checkbox" ? (
+      <CheckboxWrapper key={index}>
+        <Checkbox
+          defaultChecked={item.value}
+          label={item.name}
+          onCheckedChange={(checked) => {
+            onDropdown(item.name, checked);
+          }}
+        />
+      </CheckboxWrapper>
+    ) : (
+      <DropdownWrapper key={index}>
+        <span>{item.name}</span>
+        <Dropdown
+          width={item.width}
+          isSearch={!!item?.isSearch}
+          value={item.value}
+          name={item.name}
+          options={item.options}
+          query={item.query}
+          subQuery={item.subQuery}
+          onSelect={onDropdown}
+          defaultDisplay={item.defaultDisplay}
+        />
+      </DropdownWrapper>
+    ),
+  );
+}
 
 export default function Filter({
   title,
@@ -332,77 +429,11 @@ export default function Filter({
       {(showFilterPanel || width > 900) && selectData?.length > 0 && (
         <FilterWrapper>
           <FilterForm>
-            {(selectData || []).map((item, index) =>
-              item.type === "newline" ? (
-                <NewLine key={index} />
-              ) : item.type === "divider" ? (
-                <FilterDivider key={index} />
-              ) : item.type === "date_start" ? (
-                <DatePickerWrapper>
-                  <FilterDatePicker
-                    key={index}
-                    {...item}
-                    onChange={(date) => {
-                      const timestamp = moment(date).startOf("day").valueOf();
-                      onDropdown(item.name, timestamp);
-                    }}
-                  />
-                </DatePickerWrapper>
-              ) : item.type === "date_end" ? (
-                <DatePickerWrapper>
-                  <FilterDatePicker
-                    key={index}
-                    {...item}
-                    onChange={(date) => {
-                      const timestamp = moment(date).endOf("day").valueOf();
-                      onDropdown(item.name, timestamp);
-                    }}
-                  />
-                </DatePickerWrapper>
-              ) : item.type === "input" ? (
-                <InputWrapper key={index}>
-                  <div>{item.name}</div>
-                  <Input
-                    mini
-                    value={item.value}
-                    {...(item.inputProps || {})}
-                    onChange={(event) => {
-                      onDropdown(item.name, event.target.value);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleFilter();
-                      }
-                    }}
-                  />
-                </InputWrapper>
-              ) : item.type === "checkbox" ? (
-                <CheckboxWrapper key={index}>
-                  <Checkbox
-                    defaultChecked={item.value}
-                    label={item.name}
-                    onCheckedChange={(checked) => {
-                      onDropdown(item.name, checked);
-                    }}
-                  />
-                </CheckboxWrapper>
-              ) : (
-                <DropdownWrapper key={index}>
-                  <span>{item.name}</span>
-                  <Dropdown
-                    width={item.width}
-                    isSearch={!!item?.isSearch}
-                    value={item.value}
-                    name={item.name}
-                    options={item.options}
-                    query={item.query}
-                    subQuery={item.subQuery}
-                    onSelect={onDropdown}
-                    defaultDisplay={item.defaultDisplay}
-                  />
-                </DropdownWrapper>
-              ),
-            )}
+            <FilterItems
+              items={selectData}
+              onDropdown={onDropdown}
+              handleFilter={handleFilter}
+            />
           </FilterForm>
           <FilterActions>
             <ResetButton onClick={reset}>Reset</ResetButton>
