@@ -19,3 +19,20 @@ export const GET_RECOVERABLES = gql`
     }
   }
 `;
+
+export const GET_RECOVERABLE = gql`
+  query MyQuery($height: Int!, $address: String!) {
+    recoverable(height: $height, lostAccount: $address) {
+      friends
+      threshold
+      who
+      rescuer
+      deposit
+      isActive
+      removedAt {
+        blockHeight
+      }
+      height
+    }
+  }
+`;
