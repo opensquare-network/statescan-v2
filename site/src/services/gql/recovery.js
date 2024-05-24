@@ -21,8 +21,8 @@ export const GET_RECOVERABLES = gql`
 `;
 
 export const GET_RECOVERABLE = gql`
-  query MyQuery($height: Int!, $address: String!) {
-    recoverable(height: $height, lostAccount: $address) {
+  query MyQuery($height: Int!, $lostAccount: String!) {
+    recoverable(height: $height, lostAccount: $lostAccount) {
       friends
       threshold
       who

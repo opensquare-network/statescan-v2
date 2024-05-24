@@ -20,7 +20,7 @@ export default function RecoverablePage() {
   const { data, loading } = useRecoveryQuery(GET_RECOVERABLE, {
     variables: {
       height,
-      address,
+      lostAccount: address,
     },
   });
 
