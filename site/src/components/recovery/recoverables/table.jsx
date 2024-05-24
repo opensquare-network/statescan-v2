@@ -9,6 +9,8 @@ import ValueDisplay from "../../displayValue";
 import { toPrecision } from "@osn/common";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import { TextTertiary } from "../../styled/text";
+import FoldButton from "../../table/body/row/foldButton";
+import { Link } from "react-router-dom";
 
 const FriendText = styled.div`
   display: flex;
@@ -85,6 +87,9 @@ export default function RecoverablesTable({ data = [], loading }) {
       >
         {item?.isActive ? "Active" : "Inactive"}
       </div>,
+      <Link to={`/recoverable/${item.who}-${item.height}`}>
+        <FoldButton fold />
+      </Link>,
     ];
   });
 

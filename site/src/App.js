@@ -36,6 +36,7 @@ import useUpdateNodesDelay from "./utils/hooks/useUpdateNodesDelay";
 import { VestingsPage } from "./pages/vestings";
 import RecoverablesPage from "./pages/recoverables";
 import RecoveriesPage from "./pages/recoveries";
+import RecoverablePage from "./pages/recoverable";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
@@ -118,6 +119,7 @@ function App() {
           <>
             <Route path="/recoverables" element={<RecoverablesPage />} />
             <Route path="/recoveries" element={<RecoveriesPage />} />
+            <Route path="/recoverable/:id" element={<RecoverablePage />} />
           </>
         )}
       </Routes>
