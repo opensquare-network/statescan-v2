@@ -7,6 +7,7 @@ async function createBlockColIndexes(col) {
 
 async function createExtrinsicColIndexes(col) {
   await col.createIndex({ "indexer.blockHeight": 1 });
+  await col.createIndex({ "indexer.blockTime": 1 });
   await col.createIndex({ "indexer.blockHash": 1 });
   await col.createIndex({
     "indexer.blockHeight": -1,
@@ -37,6 +38,7 @@ async function createExtrinsicColIndexes(col) {
 
 async function createEventColIndexes(col) {
   await col.createIndex({ "indexer.blockHeight": 1 });
+  await col.createIndex({ "indexer.blockTime": 1 });
   await col.createIndex({ "indexer.blockHash": 1 });
   await col.createIndex({
     "indexer.blockHeight": -1,

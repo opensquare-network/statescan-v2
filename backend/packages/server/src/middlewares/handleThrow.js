@@ -12,4 +12,4 @@ async function handleThrow(ctx, next) {
 
 module.exports = {
   handleThrow,
-}
+};

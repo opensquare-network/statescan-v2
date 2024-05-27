@@ -16,6 +16,7 @@ import heiko from "./heiko";
 import crust from "./crust";
 import invarch from "./invarch";
 import tinkernet from "./tinkernet";
+// import hydradxTestnet from "./hydradxTestnet";
 
 const chains = {
   kusama,

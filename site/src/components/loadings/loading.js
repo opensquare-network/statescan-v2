@@ -8,9 +8,9 @@ const Wrapper = styled(Flex)`
   padding: 64px;
 `;
 
-export default function Loading({ children }) {
+export default function Loading({ children, ...props }) {
   return (
-    <Wrapper className="loading">
+    <Wrapper {...props} className={`loading ${props.className}`}>
       <LoadingIcon />
       {children}
     </Wrapper>
