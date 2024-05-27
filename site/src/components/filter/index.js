@@ -25,7 +25,7 @@ export default function Filter({
   filterOnDataChange,
   onDataChange = noop,
 }) {
-  const { selectData, filterComponent, handleReset, handleFilter } = useFilter({
+  const { selectData, component, handleReset, handleFilter } = useFilter({
     data,
     filterOnDataChange,
     onDataChange,
@@ -65,7 +65,7 @@ export default function Filter({
       </ForSmallScreen>
       {(showFilterPanel || width > 900) && selectData?.length > 0 && (
         <FilterWrapper>
-          <FilterForm>{filterComponent}</FilterForm>
+          <FilterForm>{component}</FilterForm>
           <FilterActions>
             <ResetButton onClick={handleReset}>Reset</ResetButton>
             {showFilterButton && filterButton}
