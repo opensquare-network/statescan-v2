@@ -111,3 +111,26 @@ export const GET_RECOVERIES = gql`
     }
   }
 `;
+
+export const GET_RECOVERY = gql`
+  query MyQuery(
+    $created: Int!
+    $lostAccount: String!
+    $rescuerAccount: String!
+  ) {
+    recovery(
+      created: $created
+      lostAccount: $lostAccount
+      rescuerAccount: $rescuerAccount
+    ) {
+      threshold
+      rescuerAccount
+      lostAccount
+      isClosed
+      friends
+      deposit
+      created
+      allFriends
+    }
+  }
+`;

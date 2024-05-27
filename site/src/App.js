@@ -37,6 +37,7 @@ import { VestingsPage } from "./pages/vestings";
 import RecoverablesPage from "./pages/recoverables";
 import RecoveriesPage from "./pages/recoveries";
 import RecoverablePage from "./pages/recoverable";
+import RecoveryPage from "./pages/recovery";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
@@ -120,6 +121,7 @@ function App() {
             <Route path="/recoverables" element={<RecoverablesPage />} />
             <Route path="/recoverables/:id" element={<RecoverablePage />} />
             <Route path="/recoveries" element={<RecoveriesPage />} />
+            <Route path="/recoveries/:id" element={<RecoveryPage />} />
           </>
         )}
       </Routes>
