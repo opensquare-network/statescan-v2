@@ -12,10 +12,10 @@ import { useMultisigData } from "../hooks/multisig/useMultisigData";
 import MultisigTimeline from "../components/multisig/timeline";
 import styled from "styled-components";
 import Divider from "../components/styled/divider";
-import MultisigApprovalList from "../components/multisig/approvalList";
 import { useDispatch } from "react-redux";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
+import AddressesApprovalList from "../components/detail/addressesApprovalList";
 
 const TabWrapper = styled.div`
   border-radius: 8px;
@@ -44,7 +44,10 @@ export default function MultisigPage() {
       name: "timeline",
       children: (
         <TabWrapper>
-          <MultisigApprovalList />
+          <AddressesApprovalList
+            addresses={multisig?.signatories}
+            approvals={multisig?.approvals}
+          />
           <Divider />
           <MultisigTimeline />
         </TabWrapper>
