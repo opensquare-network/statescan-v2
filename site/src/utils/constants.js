@@ -489,6 +489,36 @@ export const recoverableCallsHead = [
   },
 ];
 
+export const recoveriesHead = [
+  {
+    name: "Created At",
+    width: 160,
+  },
+  {
+    name: "Account",
+    width: 240,
+  },
+  {
+    name: "Rescuer",
+  },
+  {
+    name: "Friends",
+    width: 160,
+  },
+  {
+    name: "Deposit",
+    width: 160,
+  },
+  {
+    name: "Status",
+    width: 160,
+  },
+  {
+    name: "",
+    width: 76,
+  },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",

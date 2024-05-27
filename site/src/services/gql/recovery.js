@@ -91,3 +91,23 @@ export const GET_RECOVERABLES_CALLS = gql`
     }
   }
 `;
+
+export const GET_RECOVERIES = gql`
+  query MyQuery($limit: Int!, $offset: Int!) {
+    recoveries(limit: $limit, offset: $offset) {
+      limit
+      offset
+      total
+      items {
+        allFriends
+        created
+        deposit
+        friends
+        isClosed
+        lostAccount
+        rescuerAccount
+        threshold
+      }
+    }
+  }
+`;
