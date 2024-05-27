@@ -1,7 +1,4 @@
-import { useRecoveryQuery } from "../../../../hooks/apollo";
-import { GET_RECOVERY_TIMELINE } from "../../../../services/gql/recovery";
-import { LIST_DEFAULT_PAGE_SIZE } from "../../../../utils/constants";
-import { useRecoveryParams } from "../../../../utils/hooks/recovery/useRecoveryParams";
+import { useRecoveryTimelineData } from "../../../../hooks/recovery/useRecoveryTimelineData";
 import Divider from "../../../styled/divider";
 import { Panel } from "../../../styled/panel";
 import Timeline from "../../../timeline";
@@ -10,16 +7,7 @@ import RecoveryTimleineIcon from "../../timelineIcon";
 import RecoveryVouchedList from "../vouchedList";
 
 export default function RecoveryTimelineTab() {
-  const { address, rescuer, height } = useRecoveryParams();
-  const { data, loading } = useRecoveryQuery(GET_RECOVERY_TIMELINE, {
-    variables: {
-      created: height,
-      lostAccount: address,
-      rescuerAccount: rescuer,
-      offset: 0,
-      limit: LIST_DEFAULT_PAGE_SIZE,
-    },
-  });
+  const { data, loading } = useRecoveryTimelineData();
 
   return (
     <Panel>
@@ -32,7 +20,7 @@ export default function RecoveryTimelineTab() {
       )}
 
       <Timeline
-        timeline={data?.recoveryTimeline?.items || []}
+        timeline={data?.items || []}
         loading={loading}
         IconComponent={RecoveryTimleineIcon}
         FieldsComponent={RecoveryTimelineFields}
