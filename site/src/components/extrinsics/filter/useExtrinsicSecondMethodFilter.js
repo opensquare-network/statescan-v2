@@ -82,85 +82,87 @@ export function useExtrinsicSecondMethodFilter() {
   }, []);
 
   useEffect(() => {
-    if (specFilters) {
-      const specValue =
-        currentFilterValue.spec ??
-        getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
-      const sectionValue =
-        currentFilterValue.section ?? getFromQuery(location, "section");
-      const methodValue =
-        currentFilterValue.method ?? getFromQuery(location, "method");
+    if (!specFilters) {
+      return;
+    }
 
-      const sectionOptions = (
-        (
-          specFilters.find((spec) => spec.specVersion === specValue) ??
-          specFilters[0]
-        )?.pallets ?? []
-      )
-        .filter((section) => {
-          return section?.calls?.length > 0;
-        })
-        .sort(sortByName);
+    const specValue =
+      currentFilterValue.spec ??
+      getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
+    const sectionValue =
+      currentFilterValue.section ?? getFromQuery(location, "section");
+    const methodValue =
+      currentFilterValue.method ?? getFromQuery(location, "method");
 
-      const methodOptions = omitExemptedCallMethods(
-        sectionValue,
-        (
-          sectionOptions.find(
-            (section) => stringLowerFirst(section.name) === sectionValue,
-          ) ?? { calls: [] }
-        ).calls,
-      );
+    const sectionOptions = (
+      (
+        specFilters.find((spec) => spec.specVersion === specValue) ??
+        specFilters[0]
+      )?.pallets ?? []
+    )
+      .filter((section) => {
+        return section?.calls?.length > 0;
+      })
+      .sort(sortByName);
 
-      // generate dropdown data
-      const specs = {
-        value: specValue,
-        name: "Spec",
-        query: "spec",
-        options: specFilters.map((item) => {
+    const methodOptions = omitExemptedCallMethods(
+      sectionValue,
+      (
+        sectionOptions.find(
+          (section) => stringLowerFirst(section.name) === sectionValue,
+        ) ?? { calls: [] }
+      ).calls,
+    );
+
+    // generate dropdown data
+    const specs = {
+      value: specValue,
+      name: "Spec",
+      query: "spec",
+      options: specFilters.map((item) => {
+        return {
+          text: item.specVersion.toString(),
+          value: item.specVersion.toString(),
+          descendant: getSpecVersionDescendant(item),
+        };
+      }),
+      defaultDisplay: specValue,
+    };
+
+    const section = {
+      value: sectionValue,
+      name: "Section",
+      query: "section",
+      isSearch: true,
+      options: [makeOptionWithEmptyDescendant(AllOption, "Method")].concat(
+        sectionOptions.map((section) => {
           return {
-            text: item.specVersion.toString(),
-            value: item.specVersion.toString(),
-            descendant: getSpecVersionDescendant(item),
+            text: section.name,
+            value: stringLowerFirst(section.name),
+            descendant: getSectionDescendant(section),
           };
         }),
-        defaultDisplay: specValue,
-      };
+      ),
+      defaultDisplay: sectionValue,
+    };
 
-      const section = {
-        value: sectionValue,
-        name: "Section",
-        query: "section",
-        isSearch: true,
-        options: [makeOptionWithEmptyDescendant(AllOption, "Method")].concat(
-          sectionOptions.map((section) => {
-            return {
-              text: section.name,
-              value: stringLowerFirst(section.name),
-              descendant: getSectionDescendant(section),
-            };
-          }),
-        ),
-        defaultDisplay: sectionValue,
-      };
+    const method = {
+      value: methodValue,
+      name: "Method",
+      isSearch: true,
+      query: "method",
+      options: [{ text: "All", value: "" }].concat(
+        methodOptions.map((method) => {
+          return {
+            text: method,
+            value: stringCamelCase(method),
+          };
+        }),
+      ),
+      defaultDisplay: methodValue,
+    };
 
-      const method = {
-        value: methodValue,
-        name: "Method",
-        isSearch: true,
-        query: "method",
-        options: [{ text: "All", value: "" }].concat(
-          methodOptions.map((method) => {
-            return {
-              text: method,
-              value: stringCamelCase(method),
-            };
-          }),
-        ),
-        defaultDisplay: methodValue,
-      };
-
-      setFilters([specs, section, method]);
-    }
+    setFilters([specs, section, method]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [specFilters, location, currentFilterValue]);
 
