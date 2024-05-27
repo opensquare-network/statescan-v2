@@ -118,8 +118,8 @@ function App() {
         {recovery && (
           <>
             <Route path="/recoverables" element={<RecoverablesPage />} />
+            <Route path="/recoverables/:id" element={<RecoverablePage />} />
             <Route path="/recoveries" element={<RecoveriesPage />} />
-            <Route path="/recoverable/:id" element={<RecoverablePage />} />
           </>
         )}
       </Routes>

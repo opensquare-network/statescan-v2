@@ -87,7 +87,7 @@ export default function RecoverablesTable({ data = [], loading }) {
       >
         {item?.isActive ? "Active" : "Inactive"}
       </div>,
-      <Link to={`/recoverable/${item.who}-${item.height}`}>
+      <Link to={`/recoverables/${item.who}-${item.height}`}>
         <FoldButton fold />
       </Link>,
     ];
