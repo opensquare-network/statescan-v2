@@ -1,31 +1,21 @@
 import BreadCrumb from "../components/breadCrumb";
 import DetailLayout from "../components/layout/detailLayout";
 import { addressEllipsis } from "@osn/common";
-import { useRecoveryQuery } from "../hooks/apollo";
-import { GET_RECOVERABLE } from "../services/gql/recovery";
 import { Panel } from "../components/styled/panel";
 import List from "../components/list";
 import { useRecoverableDetailListData } from "../utils/hooks/recovery/useRecoverableDetailListData";
 import styled from "styled-components";
 import { Inter_14_500 } from "../styles/text";
 import RecoverableDetailTabs from "../components/recovery/recoverable/tabs";
-import { useRecoverableParams } from "../utils/hooks/recovery/useRecoverableParams";
+import { useRecoverableData } from "../hooks/recovery/useRecoverableData";
 
 const StyledPanel = styled(Panel)`
   ${Inter_14_500}
 `;
 
 export default function RecoverablePage() {
-  const { address, height } = useRecoverableParams();
-
-  const { data, loading } = useRecoveryQuery(GET_RECOVERABLE, {
-    variables: {
-      height,
-      lostAccount: address,
-    },
-  });
-
-  const listData = useRecoverableDetailListData(data?.recoverable);
+  const { data, loading } = useRecoverableData();
+  const listData = useRecoverableDetailListData(data);
 
   return (
     <DetailLayout
@@ -34,9 +24,11 @@ export default function RecoverablePage() {
           data={[
             { name: "Recoverables", path: "/recoverables" },
             {
-              name: `${addressEllipsis(address)}-${Number(
-                height,
-              ).toLocaleString()}`,
+              name: data
+                ? `${addressEllipsis(data?.who)}-${Number(
+                    data?.height,
+                  ).toLocaleString()}`
+                : "...",
             },
           ]}
         />
