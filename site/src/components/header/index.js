@@ -109,7 +109,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const location = useLocation();
   const shouldShowPCExplore = location.pathname !== "/";
-  const { assets, identity, multisig } = getChainModules();
+  const { assets, identity, multisig, recovery, vestings } = getChainModules();
   const isSimpleMode = getIsSimpleMode();
 
   const { width } = useWindowSize();
@@ -148,7 +148,7 @@ export default function Header() {
                 }
               />
               {assets && <SubMenu category="Assets" menus={menusAssets} />}
-              {(identity || multisig) && (
+              {(identity || multisig || recovery || vestings) && (
                 <SubMenu category="Business" menus={getBusinessMenus()} />
               )}
             </MenuWrapper>
