@@ -14,16 +14,14 @@ import {
   transferListSelector,
 } from "../store/reducers/transferSlice";
 import omit from "lodash.omit";
-import { useTransfersFilter } from "../utils/hooks/transfersFilter";
-import Filter from "../components/filter";
 import TransfersTable from "../components/transfer/table";
+import TransferFilter from "../components/transfers/filter";
 
 function Transfers() {
   const location = useLocation();
   const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const filters = useTransfersFilter();
 
   const list = useSelector(transferListSelector);
   const loading = useSelector(transferListLoadingSelector);
@@ -49,7 +47,7 @@ function Transfers() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Transfers" }]} />
-      <Filter data={filters} />
+      <TransferFilter />
       <StyledPanelTableWrapper
         footer={
           <Pagination

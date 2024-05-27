@@ -3,6 +3,7 @@ const { extractPage } = require("../../../utils");
 const {
   asset: { getTransferCollection },
 } = require("@statescan/mongo");
+const { getTimeDimension } = require("../../../common/getTimeDimension");
 
 async function getTransfers(ctx) {
   const { page, pageSize } = extractPage(ctx);
@@ -12,7 +13,9 @@ async function getTransfers(ctx) {
   }
 
   const { signed_only: signOnly } = ctx.query;
-  const q = {};
+  const q = {
+    ...getTimeDimension(ctx),
+  };
   if (signOnly === "true") {
     q.isSigned = true;
   }
