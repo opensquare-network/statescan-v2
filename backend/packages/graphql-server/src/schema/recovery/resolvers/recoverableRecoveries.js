@@ -19,10 +19,11 @@ async function recoverableRecoveries(_, _args) {
     };
   }
 
-  let q = { created: { $gte: recoverableHeight } };
+  let q = { lostAccount, created: { $gte: recoverableHeight } };
   if (recoverable.removedAt) {
     q = {
       $and: [
+        { lostAccount },
         { created: { $gte: recoverableHeight } },
         { created: { $lt: recoverable.removedAt.blockHeight } },
       ],
