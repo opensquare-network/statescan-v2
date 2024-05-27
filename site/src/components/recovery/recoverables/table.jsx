@@ -27,7 +27,7 @@ const FriendsWrapper = styled.div`
   }
 `;
 
-function FriendCell({ item }) {
+function FriendsCell({ item }) {
   return (
     <FriendText>
       <div>
@@ -69,7 +69,7 @@ export default function RecoverablesTable({ data = [], loading }) {
       <div style={{ display: "flex" }}>
         <AddressOrIdentity key={item.who} address={item.who} />
       </div>,
-      <FriendCell item={item} />,
+      <FriendsCell item={item} />,
       item?.delayPeriod?.toLocaleString?.(),
       <ValueDisplay
         value={toPrecision(item.deposit, decimals)}
