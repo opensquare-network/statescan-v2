@@ -23,9 +23,13 @@ export default function RecoveryTimelineTab() {
 
   return (
     <Panel>
-      <RecoveryVouchedList />
+      {data && (
+        <>
+          <RecoveryVouchedList />
 
-      <Divider />
+          <Divider />
+        </>
+      )}
 
       <Timeline
         timeline={data?.recoveryTimeline?.items || []}
