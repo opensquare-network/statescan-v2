@@ -95,7 +95,7 @@ export const GET_RECOVERABLE_RECOVERIES = gql`
   }
 `;
 
-export const GET_RECOVERABLES_CALLS = gql`
+export const GET_RECOVERABLE_CALLS = gql`
   query MyQuery(
     $recoverableHeight: Int!
     $lostAccount: String!

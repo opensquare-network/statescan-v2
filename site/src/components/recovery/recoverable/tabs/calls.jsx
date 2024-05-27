@@ -1,5 +1,5 @@
 import { useRecoveryQuery } from "../../../../hooks/apollo";
-import { GET_RECOVERABLES_CALLS } from "../../../../services/gql/recovery";
+import { GET_RECOVERABLE_CALLS } from "../../../../services/gql/recovery";
 import {
   LIST_DEFAULT_PAGE_SIZE,
   recoverableCallsHead,
@@ -14,7 +14,7 @@ import CallCell from "../../../table/callCell";
 
 export default function RecoverableCallsTab() {
   const { address, height } = useRecoverableParams();
-  const { data, loading } = useRecoveryQuery(GET_RECOVERABLES_CALLS, {
+  const { data, loading } = useRecoveryQuery(GET_RECOVERABLE_CALLS, {
     variables: {
       recoverableHeight: height,
       lostAccount: address,
