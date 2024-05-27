@@ -13,6 +13,7 @@ import { hashEllipsis } from "../../utils/viewFuncs/text";
 import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 import { time } from "../../utils/viewFuncs/time";
 import CallCell from "../table/callCell";
+import AddressesCellText from "../table/addressesCell/text";
 
 const ApprovingText = styled.div`
   display: flex;
@@ -73,44 +74,19 @@ export default function MultisigTable({
       </Flex>,
       <ApprovingCell>
         <ApprovingText>
-          <Tooltip
-            tip={
-              <SignatoriesWrapper>
-                <div>Signed:</div>
-                {multisig.approvals?.map((address) => (
-                  <AddressOrIdentity
-                    key={address}
-                    ellipsis={false}
-                    address={address}
-                  />
-                ))}
-              </SignatoriesWrapper>
-            }
-          >
-            {multisig.approvals?.length}
-          </Tooltip>
+          <AddressesCellText addresses={multisig.approvals} title="Signed" />
           <ApprovingSlashText>/</ApprovingSlashText>
           <Tooltip tip="Threshold">
             <ApprovingCountText>{multisig.threshold}</ApprovingCountText>
           </Tooltip>
         </ApprovingText>
         <Dot style={{ margin: "0 2px" }} />
-        <Tooltip
-          tip={
-            <SignatoriesWrapper>
-              <div>All Signatories:</div>
-              {multisig.signatories?.map((address) => (
-                <AddressOrIdentity
-                  key={address}
-                  ellipsis={false}
-                  address={address}
-                />
-              ))}
-            </SignatoriesWrapper>
-          }
-        >
-          <TextSecondary>{multisig.signatoriesCount}</TextSecondary>
-        </Tooltip>
+        <TextSecondary>
+          <AddressesCellText
+            addresses={multisig.signatories}
+            title="All Signatories"
+          />
+        </TextSecondary>
       </ApprovingCell>,
       <div>
         <CallCell call={multisig.call} />
