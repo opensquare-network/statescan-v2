@@ -1,22 +1,22 @@
 import { useQuery } from "@apollo/client";
-import { GET_RECOVERABLE_RECOVERIES } from "../../services/gql/recovery";
+import { GET_RECOVERABLE_CALLS } from "../../services/gql/recovery";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { useRecoverableParams } from "../../utils/hooks/recovery/useRecoverableParams";
 
-export function useRecoverableRecoveriesData() {
+export function useRecoverableCallsData() {
   const { address, height, page = 1 } = useRecoverableParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { data, ...rest } = useQuery(GET_RECOVERABLE_RECOVERIES, {
+  const { data, ...rest } = useQuery(GET_RECOVERABLE_CALLS, {
     variables: {
-      limit: pageSize,
-      offset: (page - 1) * pageSize,
-      lostAccount: address,
       recoverableHeight: height,
+      lostAccount: address,
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
     },
   });
 
   return {
-    data: data?.recoverableRecoveries,
+    data: data?.recoverableCalls,
     ...rest,
   };
 }

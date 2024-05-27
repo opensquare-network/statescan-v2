@@ -1,10 +1,5 @@
-import { useRecoveryQuery } from "../../../../hooks/apollo";
-import { GET_RECOVERABLE_CALLS } from "../../../../services/gql/recovery";
-import {
-  LIST_DEFAULT_PAGE_SIZE,
-  recoverableCallsHead,
-} from "../../../../utils/constants";
-import { useRecoverableParams } from "../../../../utils/hooks/recovery/useRecoverableParams";
+import { useRecoverableCallsData } from "../../../../hooks/recovery/useRecoverableCallsData";
+import { recoverableCallsHead } from "../../../../utils/constants";
 import AddressOrIdentity from "../../../address";
 import DetailedBlock from "../../../detail/block";
 import ExtrinsicParametersDisplay from "../../../extrinsicParametersDisplay";
@@ -13,17 +8,9 @@ import Table from "../../../table";
 import CallCell from "../../../table/callCell";
 
 export default function RecoverableCallsTab() {
-  const { address, height } = useRecoverableParams();
-  const { data, loading } = useRecoveryQuery(GET_RECOVERABLE_CALLS, {
-    variables: {
-      recoverableHeight: height,
-      lostAccount: address,
-      offset: 0,
-      limit: LIST_DEFAULT_PAGE_SIZE,
-    },
-  });
+  const { data, loading } = useRecoverableCallsData();
 
-  const tableData = (data?.recoverableCalls?.items || []).map((call) => {
+  const tableData = (data?.items || []).map((call) => {
     return [
       <DetailedBlock blockHeight={call?.indexer?.blockHeight} />,
       <AddressOrIdentity key={call.rescuer} address={call.rescuer} />,
