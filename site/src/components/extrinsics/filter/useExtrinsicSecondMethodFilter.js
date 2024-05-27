@@ -60,7 +60,7 @@ function getSectionDescendant(section) {
   };
 }
 
-export function useMethodFilter() {
+export function useExtrinsicSecondMethodFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);

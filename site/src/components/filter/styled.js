@@ -101,3 +101,42 @@ export const FilterActions = styled(Flex)`
   justify-content: end;
   column-gap: 10px;
 `;
+
+export const FilterGroups = styled.div`
+  display: flex;
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+    gap: 16px;
+  }
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 24px;
+  }
+`;
+
+export const FilterGroup = styled.div`
+  display: flex;
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+    gap: 16px;
+  }
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
+    gap: 24px;
+  }
+`;
+
+export const FilterDivider = styled.div`
+  width: 1px;
+  height: 56px;
+  background: ${(p) => p.theme.strokeBase};
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    margin: 12px 0;
+    margin-bottom: 4px;
+    height: 1px;
+  }
+`;

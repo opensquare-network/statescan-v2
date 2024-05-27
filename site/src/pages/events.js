@@ -8,9 +8,7 @@ import Table from "../components/table";
 import Pagination from "../components/pagination";
 import { useLocation } from "react-router-dom";
 import { getPageFromQuery } from "../utils/viewFuncs";
-import Filter from "../components/filter";
 import * as queryString from "query-string";
-import { useEventFilter } from "../utils/hooks/eventFilter";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearEventList,
@@ -23,6 +21,7 @@ import omit from "lodash.omit";
 import ExtrinsicLink from "../components/extrinsic/link";
 import { getIsSimpleMode } from "../utils/env";
 import CallCell from "../components/table/callCell";
+import EventFilter from "../components/events/filter";
 
 const filter = [
   {
@@ -93,7 +92,6 @@ function Events() {
   const dispatch = useDispatch();
   const page = getPageFromQuery(location);
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const filters = useEventFilter();
   const isSimpleMode = getIsSimpleMode();
 
   const list = useSelector(eventListSelector);
@@ -127,7 +125,7 @@ function Events() {
     <Layout>
       <BreadCrumb data={[{ name: "Events" }]} />
 
-      <Filter data={filters} />
+      <EventFilter />
 
       <StyledPanelTableWrapper
         footer={

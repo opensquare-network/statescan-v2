@@ -1,9 +1,9 @@
-import { useExtrinsicSecondMethodFilter } from "./useExtrinsicSecondMethodFilter";
+import { useEventSectionMethodFilter } from "./useEventSectionMethodFilter";
 import { useTimeDimensionFilterItems } from "../../../utils/hooks/useTimeDimensionFilterItems";
 import CombinedFilter from "../../filter/combinedFilter";
 
-export default function ExtrinsicFilter() {
-  const secondMethodFilters = useExtrinsicSecondMethodFilter();
+export default function EventFilter() {
+  const secondMethodFilters = useEventSectionMethodFilter();
   const timeDimensionFilters = useTimeDimensionFilterItems();
   return (
     <CombinedFilter

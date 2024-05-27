@@ -194,7 +194,7 @@ export default function useFilter({
     }
   }, [debouncedSelectData, filterOnDataChange]);
 
-  const filterComponent = (selectData || []).map((item, index) =>
+  const component = (selectData || []).map((item, index) =>
     item.type === "newline" ? (
       <NewLine key={index} />
     ) : item.type === "divider" ? (
@@ -268,7 +268,7 @@ export default function useFilter({
 
   return {
     selectData,
-    filterComponent,
+    component,
     handleReset,
     handleFilter,
     getCurrentFilter,
