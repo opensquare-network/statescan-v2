@@ -1,9 +1,9 @@
 import { useTimeDimensionFilterItems } from "../../../utils/hooks/useTimeDimensionFilterItems";
 import CombinedFilter from "../../filter/combinedFilter";
-import { useCallsFilter } from "../../../utils/hooks/callsFilter";
+import { useCallSecondMethodFilter } from "./useCallSecondMethodFilter";
 
 export default function CallFilter() {
-  const secondMethodFilters = useCallsFilter();
+  const secondMethodFilters = useCallSecondMethodFilter();
   const timeDimensionFilters = useTimeDimensionFilterItems();
   return (
     <CombinedFilter
