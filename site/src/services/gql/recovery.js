@@ -65,6 +65,36 @@ export const GET_RECOVERABLE_TIMELINE = gql`
   }
 `;
 
+export const GET_RECOVERABLE_RECOVERIES = gql`
+  query MyQuery(
+    $limit: Int!
+    $lostAccount: String!
+    $offset: Int!
+    $recoverableHeight: Int!
+  ) {
+    recoverableRecoveries(
+      limit: $limit
+      lostAccount: $lostAccount
+      offset: $offset
+      recoverableHeight: $recoverableHeight
+    ) {
+      limit
+      offset
+      total
+      items {
+        threshold
+        rescuerAccount
+        lostAccount
+        isClosed
+        friends
+        deposit
+        created
+        allFriends
+      }
+    }
+  }
+`;
+
 export const GET_RECOVERABLES_CALLS = gql`
   query MyQuery(
     $recoverableHeight: Int!
