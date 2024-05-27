@@ -34,15 +34,6 @@ const ApprovingCell = styled.div`
   align-items: center;
 `;
 
-const SignatoriesWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  * {
-    color: var(--textPrimary);
-    white-space: nowrap;
-  }
-`;
-
 const STATUS_COLORS = {
   [MULTISIG_STATUS.APPROVING]: "var(--theme500)",
   [MULTISIG_STATUS.EXECUTED]: "var(--fontPositive)",

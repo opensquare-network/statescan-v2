@@ -22,13 +22,6 @@ const FriendText = styled.div`
   color: var(--fontPrimary);
 `;
 
-const FriendsWrapper = styled.div`
-  * {
-    color: var(--textPrimary);
-    white-space: nowrap;
-  }
-`;
-
 function FriendsCell({ item }) {
   return (
     <FriendText>
