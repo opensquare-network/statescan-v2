@@ -134,3 +134,35 @@ export const GET_RECOVERY = gql`
     }
   }
 `;
+
+export const GET_RECOVERY_TIMELINE = gql`
+  query MyQuery(
+    $created: Int!
+    $lostAccount: String!
+    $rescuerAccount: String!
+    $limit: Int!
+    $offset: Int!
+  ) {
+    recoveryTimeline(
+      created: $created
+      lostAccount: $lostAccount
+      rescuerAccount: $rescuerAccount
+      limit: $limit
+      offset: $offset
+    ) {
+      items {
+        rescuerAccount
+        name
+        lostAccount
+        args
+        indexer {
+          blockTime
+          eventIndex
+          extrinsicIndex
+          blockHeight
+        }
+        created
+      }
+    }
+  }
+`;

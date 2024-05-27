@@ -1,33 +1,40 @@
 import { useRecoveryQuery } from "../../../../hooks/apollo";
-import { GET_RECOVERABLE_TIMELINE } from "../../../../services/gql/recovery";
+import { GET_RECOVERY_TIMELINE } from "../../../../services/gql/recovery";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../../../utils/constants";
-import { useRecoverableParams } from "../../../../utils/hooks/recovery/useRecoverableParams";
+import { useRecoveryParams } from "../../../../utils/hooks/recovery/useRecoveryParams";
 import AddressOrIdentity from "../../../address";
+import Divider from "../../../styled/divider";
 import { Panel } from "../../../styled/panel";
 import Timeline from "../../../timeline";
 import TimelineItemFields from "../../../timeline/itemFields";
 import RecoveryTimleineIcon from "../../timelineIcon";
+import RecoveryVouchedList from "../vouchedList";
 
 function Fields({ item }) {
   const { args = {} } = item || {};
-  const { who } = args;
+  const { lostAccount } = args;
 
   const fields = [
-    who && [
+    lostAccount && [
       "Who",
-      <AddressOrIdentity key={who} address={who} ellipsis={false} />,
+      <AddressOrIdentity
+        key={lostAccount}
+        address={lostAccount}
+        ellipsis={false}
+      />,
     ],
   ].filter(Boolean);
 
   return <TimelineItemFields fields={fields} />;
 }
 
-export default function RecoverableTimelineTab() {
-  const { address, height } = useRecoverableParams();
-  const { data, loading } = useRecoveryQuery(GET_RECOVERABLE_TIMELINE, {
+export default function RecoveryTimelineTab() {
+  const { address, rescuer, height } = useRecoveryParams();
+  const { data, loading } = useRecoveryQuery(GET_RECOVERY_TIMELINE, {
     variables: {
-      recoverableHeight: height,
+      created: height,
       lostAccount: address,
+      rescuerAccount: rescuer,
       offset: 0,
       limit: LIST_DEFAULT_PAGE_SIZE,
     },
@@ -35,8 +42,12 @@ export default function RecoverableTimelineTab() {
 
   return (
     <Panel>
+      <RecoveryVouchedList />
+
+      <Divider />
+
       <Timeline
-        timeline={data?.recoverableTimeline?.items || []}
+        timeline={data?.recoveryTimeline?.items || []}
         loading={loading}
         IconComponent={RecoveryTimleineIcon}
         FieldsComponent={Fields}
