@@ -11,6 +11,7 @@ import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import { TextTertiary } from "../../styled/text";
 import FoldButton from "../../table/body/row/foldButton";
 import { Link } from "react-router-dom";
+import AddressesCellText from "../../table/addressesCell/text";
 
 const FriendText = styled.div`
   display: flex;
@@ -18,13 +19,6 @@ const FriendText = styled.div`
   gap: 2px;
   ${Inter_14_500};
   color: var(--fontPrimary);
-`;
-
-const FriendsWrapper = styled.div`
-  * {
-    color: var(--textPrimary);
-    white-space: nowrap;
-  }
 `;
 
 function FriendsCell({ item }) {
@@ -35,24 +29,7 @@ function FriendsCell({ item }) {
       </div>
       <div style={{ color: "var(--fontTertiary)" }}>/</div>
       <div>
-        <Tooltip
-          tip={
-            <FriendsWrapper>
-              <div>All Friends:</div>
-              {item?.friends?.map?.((address) => (
-                <div key={address}>
-                  <AddressOrIdentity
-                    key={address}
-                    address={address}
-                    ellipsis={false}
-                  />
-                </div>
-              ))}
-            </FriendsWrapper>
-          }
-        >
-          {item?.friends?.length}
-        </Tooltip>
+        <AddressesCellText title="All Friends" addresses={item?.friends} />
       </div>
     </FriendText>
   );
