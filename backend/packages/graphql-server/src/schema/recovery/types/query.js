@@ -1,6 +1,11 @@
 const queries = /* GraphQL */ `
   type Query {
-    recoverables(offset: Int!, limit: Int!): PagedRecoverable!
+    recoverables(
+      lostAccount: String
+      active: Boolean
+      offset: Int!
+      limit: Int!
+    ): PagedRecoverable!
     recoverable(height: Int!, lostAccount: String!): Recoverable
     recoverableTimeline(
       recoverableHeight: Int!
