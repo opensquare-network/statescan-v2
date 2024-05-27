@@ -2,31 +2,12 @@ import { useRecoveryQuery } from "../../../../hooks/apollo";
 import { GET_RECOVERY_TIMELINE } from "../../../../services/gql/recovery";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../../../utils/constants";
 import { useRecoveryParams } from "../../../../utils/hooks/recovery/useRecoveryParams";
-import AddressOrIdentity from "../../../address";
 import Divider from "../../../styled/divider";
 import { Panel } from "../../../styled/panel";
 import Timeline from "../../../timeline";
-import TimelineItemFields from "../../../timeline/itemFields";
+import RecoveryTimelineFields from "../../timelineFields";
 import RecoveryTimleineIcon from "../../timelineIcon";
 import RecoveryVouchedList from "../vouchedList";
-
-function Fields({ item }) {
-  const { args = {} } = item || {};
-  const { lostAccount } = args;
-
-  const fields = [
-    lostAccount && [
-      "Who",
-      <AddressOrIdentity
-        key={lostAccount}
-        address={lostAccount}
-        ellipsis={false}
-      />,
-    ],
-  ].filter(Boolean);
-
-  return <TimelineItemFields fields={fields} />;
-}
 
 export default function RecoveryTimelineTab() {
   const { address, rescuer, height } = useRecoveryParams();
@@ -50,7 +31,7 @@ export default function RecoveryTimelineTab() {
         timeline={data?.recoveryTimeline?.items || []}
         loading={loading}
         IconComponent={RecoveryTimleineIcon}
-        FieldsComponent={Fields}
+        FieldsComponent={RecoveryTimelineFields}
       />
     </Panel>
   );
