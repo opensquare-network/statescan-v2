@@ -4,24 +4,13 @@ import Layout from "../components/layout";
 import Pagination from "../components/pagination";
 import RecoverablesTable from "../components/recovery/recoverables/table";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
-import { useRecoveryQuery } from "../hooks/apollo";
 import { useRecoverablesFilter } from "../hooks/filter/useRecoverablesFilter";
+import { useRecoverablesData } from "../hooks/recovery/useRecoverablesData";
 import { useRecoverablesParams } from "../hooks/recovery/useRecoverablesParams";
-import { GET_RECOVERABLES } from "../services/gql/recovery";
-import { LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 
 export default function RecoverablesPage() {
-  const { account, status, page = 1 } = useRecoverablesParams();
-  const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { data, loading } = useRecoveryQuery(GET_RECOVERABLES, {
-    variables: {
-      limit: pageSize,
-      offset: (page - 1) * pageSize,
-      active: status,
-      lostAccount: account,
-    },
-  });
-
+  const { page = 1 } = useRecoverablesParams();
+  const { data, loading } = useRecoverablesData();
   const filter = useRecoverablesFilter();
 
   return (
@@ -37,14 +26,10 @@ export default function RecoverablesPage() {
 
       <StyledPanelTableWrapper
         footer={
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            total={data?.recoverables?.total}
-          />
+          <Pagination page={page} pageSize={data?.limit} total={data?.total} />
         }
       >
-        <RecoverablesTable data={data?.recoverables?.items} loading={loading} />
+        <RecoverablesTable data={data?.items} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );
