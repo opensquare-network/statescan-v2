@@ -13,6 +13,7 @@ import FoldButton from "../../table/body/row/foldButton";
 import { Link } from "react-router-dom";
 import AddressesCellText from "../../table/addressesCell/text";
 import Dot from "../../dot";
+import { Flex } from "../../styled/flex";
 
 const FriendText = styled.div`
   display: flex;
@@ -45,9 +46,9 @@ export default function RecoveriesTable({ data = [], loading }) {
 
   const tableData = data?.map?.((item) => {
     return [
-      <div style={{ display: "flex" }}>
+      <Flex>
         <AddressOrIdentity key={item.lostAccount} address={item.lostAccount} />
-      </div>,
+      </Flex>,
       <ColoredLink to={`/blocks/${item?.created}`}>
         {item?.created?.toLocaleString?.()}
       </ColoredLink>,

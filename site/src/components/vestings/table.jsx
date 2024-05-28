@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { overviewSelector } from "../../store/reducers/socketSlice";
 import Tooltip from "../tooltip";
 import isNil from "lodash.isnil";
+import { Flex } from "../styled/flex";
 
 function StartingBlockCell({ data }) {
   const overview = useSelector(overviewSelector);
@@ -35,9 +36,9 @@ export default function VestingsTable({ data = [], loading }) {
 
   const tableData = data?.map?.((vesting) => {
     return [
-      <div style={{ display: "flex" }}>
+      <Flex>
         <AddressOrIdentity key={vesting.address} address={vesting.address} />
-      </div>,
+      </Flex>,
       <StartingBlockCell data={vesting} />,
       <ValueDisplay
         value={toPrecision(vesting.perBlock, decimals)}

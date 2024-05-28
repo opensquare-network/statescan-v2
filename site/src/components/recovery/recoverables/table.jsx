@@ -12,6 +12,7 @@ import { TextTertiary } from "../../styled/text";
 import FoldButton from "../../table/body/row/foldButton";
 import { Link } from "react-router-dom";
 import AddressesCellText from "../../table/addressesCell/text";
+import { Flex } from "../../styled/flex";
 
 const FriendText = styled.div`
   display: flex;
@@ -40,9 +41,9 @@ export default function RecoverablesTable({ data = [], loading }) {
 
   const tableData = data?.map?.((item) => {
     return [
-      <div style={{ display: "flex" }}>
+      <Flex>
         <AddressOrIdentity key={item.who} address={item.who} />
-      </div>,
+      </Flex>,
       <ColoredLink to={`/blocks/${item?.height}`}>
         {item?.height?.toLocaleString?.()}
       </ColoredLink>,
