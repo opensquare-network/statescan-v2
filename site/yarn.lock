@@ -2043,8 +2043,8 @@ __metadata:
 
 "@icons@file:./public/imgs/icons::locator=site%40workspace%3A.":
   version: 0.0.0
-  resolution: "@icons@file:./public/imgs/icons#./public/imgs/icons::hash=9c7b2d&locator=site%40workspace%3A."
-  checksum: b4d88011174ff2ebc425b8ba24a5e7aedb625a3c74e14bf43748389edd66e036d472793f7be62d5b0ff4a10dcb04cb9de0bf8e6994e6fb27ab042721f38de3a3
+  resolution: "@icons@file:./public/imgs/icons#./public/imgs/icons::hash=6d1953&locator=site%40workspace%3A."
+  checksum: cd583fb828843c9c3aeac5e791803fd1dd86835ec10801881369a4f382d22db0cb0865339d7ecb1df424aaa12a34b97dc0997346d81404ba4893651999e7e3a7
   languageName: node
   linkType: hard
 
