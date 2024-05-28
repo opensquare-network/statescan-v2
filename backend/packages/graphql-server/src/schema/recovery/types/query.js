@@ -25,7 +25,12 @@ const queries = /* GraphQL */ `
       offset: Int!
       limit: Int!
     ): PagedRecoveredCall!
-    recoveries(offset: Int!, limit: Int!): PagedRecovery!
+    recoveries(
+      lostAccount: String
+      active: Boolean
+      offset: Int!
+      limit: Int!
+    ): PagedRecovery!
     recovery(
       lostAccount: String!
       rescuerAccount: String!
