@@ -453,6 +453,8 @@ export const recoverablesHead = [
   },
   {
     name: "Rescuer",
+    minWidth: 196,
+    width: 196,
   },
   {
     name: "Status",
@@ -500,6 +502,8 @@ export const recoveriesHead = [
   },
   {
     name: "Rescuer",
+    minWidth: 196,
+    width: 292,
   },
   {
     name: "Friends",
