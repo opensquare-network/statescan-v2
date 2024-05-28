@@ -1,8 +1,18 @@
 import { gql } from "@apollo/client";
 
 export const GET_RECOVERABLES = gql`
-  query MyQuery($limit: Int!, $offset: Int!) {
-    recoverables(limit: $limit, offset: $offset) {
+  query MyQuery(
+    $limit: Int!
+    $offset: Int!
+    $lostAccount: String
+    $active: Boolean
+  ) {
+    recoverables(
+      limit: $limit
+      offset: $offset
+      lostAccount: $lostAccount
+      active: $active
+    ) {
       limit
       offset
       total
