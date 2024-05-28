@@ -54,7 +54,9 @@ export default function RecoverablesTable({ data = [], loading }) {
         symbol={symbol}
       />,
       item.rescuer ? (
-        <AddressOrIdentity key={item.rescuer} address={item.rescuer} />
+        <Flex>
+          <AddressOrIdentity key={item.rescuer} address={item.rescuer} />
+        </Flex>
       ) : (
         <TextTertiary>-</TextTertiary>
       ),

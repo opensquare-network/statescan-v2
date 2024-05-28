@@ -53,10 +53,12 @@ export default function RecoveriesTable({ data = [], loading }) {
         {item?.created?.toLocaleString?.()}
       </ColoredLink>,
       item.rescuerAccount ? (
-        <AddressOrIdentity
-          key={item.rescuerAccount}
-          address={item.rescuerAccount}
-        />
+        <Flex>
+          <AddressOrIdentity
+            key={item.rescuerAccount}
+            address={item.rescuerAccount}
+          />
+        </Flex>
       ) : (
         <TextTertiary>-</TextTertiary>
       ),
