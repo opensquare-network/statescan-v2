@@ -13,6 +13,7 @@ import GovernanceSection from "./governance";
 import IdentitySection from "./identity";
 import { Anchor, AnchorWrapper, Section, Title } from "./styled";
 import BlockAndTransfers from "./blockAndTransfers";
+import RecoverySection from "./recovery";
 
 export default function Sections() {
   const assetsListLoading = useSelector(assetListLoadingSelector);
@@ -58,6 +59,15 @@ export default function Sections() {
           <Title>Identity</Title>
           <StyledPanelTableWrapper>
             <IdentitySection />
+          </StyledPanelTableWrapper>
+        </Section>
+      )}
+
+      {modules?.recovery && (
+        <Section>
+          <Title>Recovery</Title>
+          <StyledPanelTableWrapper>
+            <RecoverySection />
           </StyledPanelTableWrapper>
         </Section>
       )}

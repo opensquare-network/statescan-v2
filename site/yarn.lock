@@ -2041,6 +2041,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@icons@file:./public/imgs/icons::locator=site%40workspace%3A.":
+  version: 0.0.0
+  resolution: "@icons@file:./public/imgs/icons#./public/imgs/icons::hash=9c7b2d&locator=site%40workspace%3A."
+  checksum: b4d88011174ff2ebc425b8ba24a5e7aedb625a3c74e14bf43748389edd66e036d472793f7be62d5b0ff4a10dcb04cb9de0bf8e6994e6fb27ab042721f38de3a3
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -13682,6 +13689,7 @@ __metadata:
   dependencies:
     "@apollo/client": ^3.8.0
     "@floating-ui/react": ^0.26.1
+    "@icons": "file:./public/imgs/icons"
     "@osn/common": ^1.3.7
     "@osn/constants": ^1.1.2
     "@osn/provider-options": ^1.1.8

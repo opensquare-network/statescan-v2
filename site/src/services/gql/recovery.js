@@ -230,3 +230,19 @@ export const GET_RECOVERY_PROXIES = gql`
     }
   }
 `;
+
+export const GET_RECOVERY_STATISTICS = gql`
+  query MyQuery {
+    recoveryStatistics {
+      proxies
+      recoverable {
+        active
+        inactive
+      }
+      recovery {
+        closed
+        unClosed
+      }
+    }
+  }
+`;
