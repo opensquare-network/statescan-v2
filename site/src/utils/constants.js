@@ -432,12 +432,12 @@ export const multisigAccountsHead = [
 
 export const recoverablesHead = [
   {
-    name: "Created At",
-    width: 160,
-  },
-  {
     name: "Account",
     width: 240,
+  },
+  {
+    name: "Created At",
+    width: 160,
   },
   {
     name: "Friends",
@@ -491,12 +491,12 @@ export const recoverableCallsHead = [
 
 export const recoveriesHead = [
   {
-    name: "Created At",
-    width: 160,
-  },
-  {
     name: "Account",
     width: 240,
+  },
+  {
+    name: "Created At",
+    width: 160,
   },
   {
     name: "Rescuer",

@@ -45,12 +45,12 @@ export default function RecoveriesTable({ data = [], loading }) {
 
   const tableData = data?.map?.((item) => {
     return [
-      <ColoredLink to={`/blocks/${item?.created}`}>
-        {item?.created?.toLocaleString?.()}
-      </ColoredLink>,
       <div style={{ display: "flex" }}>
         <AddressOrIdentity key={item.lostAccount} address={item.lostAccount} />
       </div>,
+      <ColoredLink to={`/blocks/${item?.created}`}>
+        {item?.created?.toLocaleString?.()}
+      </ColoredLink>,
       item.rescuerAccount ? (
         <AddressOrIdentity
           key={item.rescuerAccount}

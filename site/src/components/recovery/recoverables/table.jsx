@@ -40,12 +40,12 @@ export default function RecoverablesTable({ data = [], loading }) {
 
   const tableData = data?.map?.((item) => {
     return [
-      <ColoredLink to={`/blocks/${item?.height}`}>
-        {item?.height?.toLocaleString?.()}
-      </ColoredLink>,
       <div style={{ display: "flex" }}>
         <AddressOrIdentity key={item.who} address={item.who} />
       </div>,
+      <ColoredLink to={`/blocks/${item?.height}`}>
+        {item?.height?.toLocaleString?.()}
+      </ColoredLink>,
       <FriendsCell item={item} />,
       item?.delayPeriod?.toLocaleString?.(),
       <ValueDisplay
