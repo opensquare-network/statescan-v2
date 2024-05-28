@@ -216,3 +216,17 @@ export const GET_RECOVERY_TIMELINE = gql`
     }
   }
 `;
+
+export const GET_RECOVERY_PROXIES = gql`
+  query MyQuery($limit: Int!, $offset: Int!) {
+    recoveryProxies(limit: $limit, offset: $offset) {
+      limit
+      offset
+      total
+      items {
+        lost
+        rescuer
+      }
+    }
+  }
+`;
