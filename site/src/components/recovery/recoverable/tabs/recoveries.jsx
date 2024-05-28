@@ -5,7 +5,7 @@ import { StyledPanelTableWrapper } from "../../../styled/panel";
 import RecoveriesTable from "../../recoveries/table";
 
 export default function RecoverableRecoveriesTab() {
-  const { page = 1 } = useRecoverableParams();
+  const { page } = useRecoverableParams();
   const { data, loading } = useRecoverableRecoveriesData();
 
   return (
