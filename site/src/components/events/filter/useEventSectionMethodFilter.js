@@ -1,18 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  currentFilterValueSelector,
   fetchSpecsFilter,
   filtersSelector,
-} from "../../store/reducers/filterSlice";
+  setCurrentFilterValue,
+} from "../../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
+import { stringLowerFirst } from "@polkadot/util";
 import {
   AllOption,
   getFromQuery,
   sortByName,
   makeOptionWithEmptyDescendant,
-  omitExemptedCallMethods,
-} from "../filterCommon";
+  omitExemptedEventMethods,
+} from "../../../utils/filterCommon";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -23,7 +25,7 @@ function getSpecVersionDescendant(specVersion) {
     options: [makeOptionWithEmptyDescendant(AllOption, "Method")].concat(
       specVersion.pallets
         .filter((section) => {
-          return section?.calls?.length > 0;
+          return section?.events?.length > 0;
         })
         .map((section) => {
           return {
@@ -45,12 +47,12 @@ function getSectionDescendant(section) {
     query: "method",
     isSearch: true,
     options: [AllOption].concat(
-      omitExemptedCallMethods(section.name, section.calls)
+      omitExemptedEventMethods(section.name, section.events)
         .map((method) => {
           return {
             name: method,
             text: method,
-            value: stringCamelCase(method),
+            value: method,
           };
         })
         .sort(sortByName),
@@ -58,12 +60,12 @@ function getSectionDescendant(section) {
   };
 }
 
-export function useExtrinsicFilter() {
+export function useEventSectionMethodFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
+  const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
-  const sectionQueryValue = getFromQuery(location, "section");
 
   useEffect(() => {
     if (!specFilters) {
@@ -72,37 +74,46 @@ export function useExtrinsicFilter() {
   }, [dispatch, specFilters]);
 
   useEffect(() => {
+    return () => {
+      dispatch(setCurrentFilterValue({}));
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (specFilters) {
-      // load from URL query
-      const version = getFromQuery(
-        location,
-        "spec",
-        specFilters?.[0]?.specVersion,
-      );
+      const specValue =
+        currentFilterValue.spec ??
+        getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
+      const methodValue =
+        currentFilterValue.method ?? getFromQuery(location, "method");
+      const sectionValue =
+        currentFilterValue.section ?? getFromQuery(location, "section");
 
       const sectionOptions = (
         (
-          specFilters.find((spec) => spec.specVersion === version) ??
+          specFilters.find((spec) => spec.specVersion === specValue) ??
           specFilters[0]
         )?.pallets ?? []
       )
         .filter((section) => {
-          return section?.calls?.length > 0;
+          return section?.events?.length > 0;
         })
         .sort(sortByName);
 
-      const methodOptions = omitExemptedCallMethods(
-        sectionQueryValue,
+      const methodOptions = omitExemptedEventMethods(
+        sectionValue,
         (
           sectionOptions.find(
-            (section) => stringLowerFirst(section.name) === sectionQueryValue,
-          ) ?? { calls: [] }
-        ).calls,
+            (section) => stringLowerFirst(section.name) === sectionValue,
+          ) ?? { events: [] }
+        ).events,
       );
 
       // generate dropdown data
       const specs = {
-        value: version,
+        value: specValue,
         name: "Spec",
         query: "spec",
         options: specFilters.map((item) => {
@@ -112,11 +123,11 @@ export function useExtrinsicFilter() {
             descendant: getSpecVersionDescendant(item),
           };
         }),
-        defaultDisplay: version,
+        defaultDisplay: specValue,
       };
 
       const section = {
-        value: sectionQueryValue,
+        value: sectionValue,
         name: "Section",
         query: "section",
         isSearch: true,
@@ -129,11 +140,11 @@ export function useExtrinsicFilter() {
             };
           }),
         ),
-        defaultDisplay: sectionQueryValue,
+        defaultDisplay: sectionValue,
       };
 
       const method = {
-        value: getFromQuery(location, "method"),
+        value: methodValue,
         name: "Method",
         isSearch: true,
         query: "method",
@@ -141,15 +152,16 @@ export function useExtrinsicFilter() {
           methodOptions.map((method) => {
             return {
               text: method,
-              value: stringCamelCase(method),
+              value: method,
             };
           }),
         ),
-        defaultDisplay: getFromQuery(location, "method"),
+        defaultDisplay: methodValue,
       };
       setFilters([specs, section, method]);
     }
-  }, [specFilters, location, sectionQueryValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [specFilters, location, currentFilterValue]);
 
   return filters;
 }

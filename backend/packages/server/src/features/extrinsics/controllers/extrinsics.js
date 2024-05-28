@@ -2,6 +2,7 @@ const { extractPage } = require("../../../utils");
 const {
   block: { getExtrinsicCollection },
 } = require("@statescan/mongo");
+const { getTimeDimension } = require("../../../common/getTimeDimension");
 const { getCallQueryParams } = require("../../../common/getCallParams");
 
 async function getExtrinsics(ctx) {
@@ -12,7 +13,10 @@ async function getExtrinsics(ctx) {
   }
 
   const { signed_only: signedOnly } = ctx.query;
-  const q = getCallQueryParams(ctx);
+  const q = {
+    ...getTimeDimension(ctx),
+    ...getCallQueryParams(ctx),
+  };
   if (signedOnly === "true") {
     q.isSigned = true;
   }

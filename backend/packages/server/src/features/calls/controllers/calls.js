@@ -1,7 +1,8 @@
-const { extractPage } = require("../../../utils");
 const {
   block: { getCallCollection },
 } = require("@statescan/mongo");
+const { getTimeDimension } = require("../../../common/getTimeDimension");
+const { extractPage } = require("../../../utils");
 
 async function getCalls(ctx) {
   const { page, pageSize } = extractPage(ctx);
@@ -11,7 +12,9 @@ async function getCalls(ctx) {
   }
 
   const { section, method } = ctx.query;
-  const q = {};
+  const q = {
+    ...getTimeDimension(ctx),
+  };
   if (section) {
     q.section = section;
   }

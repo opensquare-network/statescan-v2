@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.4.3
+
+date: 2024-05-27
+
+- Add block/time filter for extrinsics/events/transfers.
+- Improve multisig table hover info, so we can see approving signatories.
+- Improve styles.
+
 ### 1.4.2
 
 date: 2024-05-17

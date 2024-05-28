@@ -18,6 +18,7 @@ import {
 } from "../../store/reducers/socketSlice";
 import { clearNftList } from "../../store/reducers/nftSlice";
 import { clearAssetList } from "../../store/reducers/assetSlice";
+import Toast from "../toast";
 
 const Main = styled.main`
   flex-grow: 1;
@@ -58,6 +59,8 @@ export default function Layout({ children, className }) {
       </Container>
 
       <ScrollToTop />
+
+      <Toast />
     </>
   );
 }

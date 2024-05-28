@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import {
   fetchSpecsFilter,
   filtersSelector,
-} from "../../store/reducers/filterSlice";
+} from "../../../store/reducers/filterSlice";
 import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
 import {
   AllOption,
@@ -12,7 +12,7 @@ import {
   sortByName,
   makeOptionWithEmptyDescendant,
   omitExemptedCallMethods,
-} from "../filterCommon";
+} from "../../../utils/filterCommon";
 
 function getSpecVersionDescendant(specVersion) {
   return {
@@ -58,7 +58,7 @@ function getSectionDescendant(section) {
   };
 }
 
-export function useCallsFilter() {
+export function useCallSecondMethodFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
