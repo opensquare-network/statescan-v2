@@ -1,6 +1,6 @@
 const {
   mongo: { ScanDb },
-  env: { getEnvOrThrow, getScanStep },
+  env: { getEnvOrThrow },
 } = require("@osn/scan-common");
 
 let db = null;
@@ -60,7 +60,7 @@ async function saveKnownHeights(heights = []) {
 }
 
 async function getNextKnownHeights(beginHeight) {
-  const step = getScanStep();
+  const step = 1;
   const col = await getHeightCol();
   const records = await col
     .find({
