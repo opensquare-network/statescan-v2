@@ -491,7 +491,7 @@ export const recoverableCallsHead = [
 
 export const recoveriesHead = [
   {
-    name: "Account",
+    name: "Lost Account",
     width: 240,
   },
   {
