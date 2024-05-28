@@ -1,37 +1,35 @@
 import BreadCrumb from "../components/breadCrumb";
+import Filter from "../components/filter";
 import Layout from "../components/layout";
 import Pagination from "../components/pagination";
 import RecoveriesTable from "../components/recovery/recoveries/table";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
-import { useRecoveryQuery } from "../hooks/apollo";
-import { useQueryParams } from "../hooks/useQueryParams";
-import { GET_RECOVERIES } from "../services/gql/recovery";
-import { LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
+import { useRecoverablesFilter } from "../hooks/filter/useRecoverablesFilter";
+import { useRecoverablesParams } from "../hooks/recovery/useRecoverablesParams";
+import { useRecoveriesData } from "../hooks/recovery/useRecoveriesData";
 
 export default function RecoveriesPage() {
-  const { page = 1 } = useQueryParams();
-  const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const { data, loading } = useRecoveryQuery(GET_RECOVERIES, {
-    variables: {
-      limit: pageSize,
-      offset: (page - 1) * pageSize,
-    },
-  });
+  const { page = 1 } = useRecoverablesParams();
+  const { data, loading } = useRecoveriesData();
+  const filter = useRecoverablesFilter();
 
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Recoveries" }]} />
 
+      <Filter
+        data={filter}
+        filterOnDataChange
+        showFilterButton={false}
+        showResetButton={false}
+      />
+
       <StyledPanelTableWrapper
         footer={
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            total={data?.recoveries?.total}
-          />
+          <Pagination page={page} pageSize={data?.limit} total={data?.total} />
         }
       >
-        <RecoveriesTable data={data?.recoveries?.items} loading={loading} />
+        <RecoveriesTable data={data?.items} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );

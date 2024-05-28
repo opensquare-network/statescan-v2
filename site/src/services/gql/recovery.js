@@ -133,8 +133,18 @@ export const GET_RECOVERABLE_CALLS = gql`
 `;
 
 export const GET_RECOVERIES = gql`
-  query MyQuery($limit: Int!, $offset: Int!) {
-    recoveries(limit: $limit, offset: $offset) {
+  query MyQuery(
+    $limit: Int!
+    $offset: Int!
+    $lostAccount: String
+    $active: Boolean
+  ) {
+    recoveries(
+      limit: $limit
+      offset: $offset
+      lostAccount: $lostAccount
+      active: $active
+    ) {
       limit
       offset
       total
