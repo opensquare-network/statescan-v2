@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { recoverablesHead } from "../../../utils/constants";
+import { RECOVERABLE_STATUS, recoverablesHead } from "../../../utils/constants";
 import AddressOrIdentity from "../../address";
 import { ColoredLink } from "../../styled/link";
 import Table from "../../table";
@@ -13,6 +13,7 @@ import FoldButton from "../../table/body/row/foldButton";
 import { Link } from "react-router-dom";
 import AddressesCellText from "../../table/addressesCell/text";
 import { Flex } from "../../styled/flex";
+import capitalize from "lodash.capitalize";
 
 const FriendText = styled.div`
   display: flex;
@@ -65,7 +66,9 @@ export default function RecoverablesTable({ data = [], loading }) {
           color: item?.isActive ? "var(--fillPositive)" : "var(--fontTertiary)",
         }}
       >
-        {item?.isActive ? "Active" : "Inactive"}
+        {item?.isActive
+          ? capitalize(RECOVERABLE_STATUS.ACTIVE)
+          : capitalize(RECOVERABLE_STATUS.INACTIVE)}
       </div>,
       <Link to={`/recoverables/${item.who}-${item.height}`}>
         <FoldButton fold />

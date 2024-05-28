@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useRecoveryQuery } from "../../../hooks/apollo";
 import { GET_RECOVERY_STATISTICS } from "../../../services/gql/recovery";
 import { Inter_12_500 } from "../../../styles/text";
+import { RECOVERABLE_STATUS, RECOVERY_STATUS } from "../../../utils/constants";
 import DataRecoverableIcon from "../../icons/dataRecoverable";
 import DataRecoveryIcon from "../../icons/dataRecovery";
 import DataRecoveryProxyIcon from "../../icons/dataRecoveryProxy";
@@ -61,13 +62,17 @@ export default function RecoverySection() {
               <Link to={`/recoverables`}>{totalRecoverables}</Link>
               <Flex gap={12} style={{ marginTop: 8 }}>
                 <Tooltip tip="Active">
-                  <StatusLink to={`/recoverables?status=active`}>
+                  <StatusLink
+                    to={`/recoverables?status=${RECOVERABLE_STATUS.ACTIVE}`}
+                  >
                     <img src="/imgs/icons/status-active.svg" />
                     {activeRecoverables}
                   </StatusLink>
                 </Tooltip>
                 <Tooltip tip="Inactive">
-                  <StatusLink to={`/recoverables?status=inactive`}>
+                  <StatusLink
+                    to={`/recoverables?status=${RECOVERABLE_STATUS.INACTIVE}`}
+                  >
                     <img src="/imgs/icons/status-inactive.svg" />
                     {inactiveRecoverables}
                   </StatusLink>
@@ -85,13 +90,17 @@ export default function RecoverySection() {
               <Link to={`/recoveries`}>{totalRecoveries}</Link>
               <Flex gap={12} style={{ marginTop: 8 }}>
                 <Tooltip tip="Unclosed">
-                  <StatusLink to={`/recoveries?status=unclosed`}>
+                  <StatusLink
+                    to={`/recoveries?status=${RECOVERY_STATUS.UNCLOSED}`}
+                  >
                     <img src="/imgs/icons/status-unclosed.svg" />
                     {unClosedRecoveries}
                   </StatusLink>
                 </Tooltip>
                 <Tooltip tip="Closed">
-                  <StatusLink to={`/recoveries?status=closed`}>
+                  <StatusLink
+                    to={`/recoveries?status=${RECOVERY_STATUS.CLOSED}`}
+                  >
                     <img src="/imgs/icons/status-closed.svg" />
                     {closedRecoveries}
                   </StatusLink>

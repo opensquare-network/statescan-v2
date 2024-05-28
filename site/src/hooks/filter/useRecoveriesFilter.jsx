@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "../../components/icons/searchIcon";
 import { useRecoverablesParams } from "../recovery/useRecoverablesParams";
-import { RECOVERABLE_STATUS } from "../../utils/constants";
+import { RECOVERY_STATUS } from "../../utils/constants";
 
-export function useRecoverablesFilter() {
+export function useRecoveriesFilter() {
   const [filter, setFilter] = useState([]);
   const { account, status } = useRecoverablesParams();
 
@@ -26,8 +26,8 @@ export function useRecoverablesFilter() {
       options: [
         { text: "All Status", value: null },
         { type: "divider" },
-        { text: "Active", value: RECOVERABLE_STATUS.ACTIVE },
-        { text: "Inactive", value: RECOVERABLE_STATUS.INACTIVE },
+        { text: "Unclosed", value: RECOVERY_STATUS.UNCLOSED },
+        { text: "Closed", value: RECOVERY_STATUS.CLOSED },
       ],
     };
 

@@ -4,14 +4,14 @@ import Layout from "../components/layout";
 import Pagination from "../components/pagination";
 import RecoveriesTable from "../components/recovery/recoveries/table";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
-import { useRecoverablesFilter } from "../hooks/filter/useRecoverablesFilter";
+import { useRecoveriesFilter } from "../hooks/filter/useRecoveriesFilter";
 import { useRecoverablesParams } from "../hooks/recovery/useRecoverablesParams";
 import { useRecoveriesData } from "../hooks/recovery/useRecoveriesData";
 
 export default function RecoveriesPage() {
   const { page = 1 } = useRecoverablesParams();
   const { data, loading } = useRecoveriesData();
-  const filter = useRecoverablesFilter();
+  const filter = useRecoveriesFilter();
 
   return (
     <Layout>

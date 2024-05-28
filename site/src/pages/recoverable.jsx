@@ -7,6 +7,8 @@ import { Inter_14_500 } from "../styles/text";
 import RecoverableDetailTabs from "../components/recovery/recoverable/tabs";
 import { useRecoverableData } from "../hooks/recovery/useRecoverableData";
 import RecoveryListData from "../components/recovery/listData";
+import capitalize from "lodash.capitalize";
+import { RECOVERABLE_STATUS } from "../utils/constants";
 
 const StyledPanel = styled(Panel)`
   ${Inter_14_500}
@@ -48,7 +50,9 @@ export default function RecoverablePage() {
                   : "var(--fontTertiary)",
               }}
             >
-              {data?.isActive ? "Active" : "Completed"}
+              {data?.isActive
+                ? capitalize(RECOVERABLE_STATUS.ACTIVE)
+                : capitalize(RECOVERABLE_STATUS.INACTIVE)}
             </div>
           }
           threshold={data?.threshold}

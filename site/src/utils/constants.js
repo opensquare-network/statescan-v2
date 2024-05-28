@@ -634,3 +634,13 @@ export const ASSETS_SORT = {
   HOLDERS_DESC: "HOLDERS_DESC",
   ASSET_ID_ASC: "ASSET_ID_ASC",
 };
+
+export const RECOVERABLE_STATUS = {
+  ACTIVE: "active",
+  INACTIVE: "inactive",
+};
+
+export const RECOVERY_STATUS = {
+  UNCLOSED: "unclosed",
+  CLOSED: "closed",
+};

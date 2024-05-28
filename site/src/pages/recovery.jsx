@@ -7,6 +7,8 @@ import { Inter_14_500 } from "../styles/text";
 import RecoveryDetailTabs from "../components/recovery/recovery/tabs";
 import { useRecoveryData } from "../hooks/recovery/useRecoveryData";
 import RecoveryListData from "../components/recovery/listData";
+import { RECOVERY_STATUS } from "../utils/constants";
+import capitalize from "lodash.capitalize";
 
 const StyledPanel = styled(Panel)`
   ${Inter_14_500}
@@ -47,7 +49,9 @@ export default function RecoveryPage() {
                   : "var(--fillPositive)",
               }}
             >
-              {data?.isClosed ? "Completed" : "Active"}
+              {data?.isClosed
+                ? capitalize(RECOVERY_STATUS.CLOSED)
+                : capitalize(RECOVERY_STATUS.UNCLOSED)}
             </div>
           }
           threshold={data?.threshold}

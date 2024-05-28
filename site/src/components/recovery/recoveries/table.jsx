@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { recoveriesHead } from "../../../utils/constants";
+import { RECOVERY_STATUS, recoveriesHead } from "../../../utils/constants";
 import AddressOrIdentity from "../../address";
 import { ColoredLink } from "../../styled/link";
 import Table from "../../table";
@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import AddressesCellText from "../../table/addressesCell/text";
 import Dot from "../../dot";
 import { Flex } from "../../styled/flex";
+import capitalize from "lodash.capitalize";
 
 const FriendText = styled.div`
   display: flex;
@@ -72,7 +73,9 @@ export default function RecoveriesTable({ data = [], loading }) {
           color: item?.isClosed ? "var(--fontTertiary)" : "var(--fillPositive)",
         }}
       >
-        {item?.isClosed ? "Completed" : "Active"}
+        {item?.isClosed
+          ? capitalize(RECOVERY_STATUS.CLOSED)
+          : capitalize(RECOVERY_STATUS.UNCLOSED)}
       </div>,
       <Link
         to={`/recoveries/${item.lostAccount}-${item.rescuerAccount}-${item.created}`}
