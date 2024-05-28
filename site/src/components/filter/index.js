@@ -22,6 +22,7 @@ export default function Filter({
   title,
   data,
   showFilterButton = true,
+  showResetButton = true,
   filterOnDataChange,
   onDataChange = noop,
 }) {
@@ -34,6 +35,7 @@ export default function Filter({
   const { width } = useWindowSize();
   const isDark = useIsDark();
 
+  const resetButton = <ResetButton onClick={handleReset}>Reset</ResetButton>;
   const filterButton = (
     <FilterButton dark={isDark} onClick={handleFilter}>
       Filter
@@ -67,7 +69,7 @@ export default function Filter({
         <FilterWrapper>
           <FilterForm>{component}</FilterForm>
           <FilterActions>
-            <ResetButton onClick={handleReset}>Reset</ResetButton>
+            {showResetButton && resetButton}
             {showFilterButton && filterButton}
           </FilterActions>
         </FilterWrapper>
