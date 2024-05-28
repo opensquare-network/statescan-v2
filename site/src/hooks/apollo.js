@@ -1,5 +1,5 @@
 import { useLazyQuery } from "@apollo/client";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useChainSettings from "../utils/hooks/chain/useChainSettings";
 
 export const useIdentityQuery = createModuleQuery("identity");
@@ -23,6 +23,7 @@ function createModuleLazyQuery(module) {
    * @type {typeof useLazyQuery}
    */
   return function useModuleLazyQuery(...args) {
+    const [data, setData] = useState(null);
     const { modules = {} } = useChainSettings();
     const [fn, lazyQueryResult] = useLazyQuery(...args);
     const mod = modules?.[module];
@@ -33,11 +34,19 @@ function createModuleLazyQuery(module) {
     const fetcher = useCallback(
       async (options) => {
         if (mod) {
-          return fn(options);
+          return fn({
+            ...options,
+            onCompleted(d) {
+              setData(d);
+              options?.onCompleted?.(d);
+            },
+          });
         }
       },
       [fn, mod],
     );
+
+    lazyQueryResult.data = data;
 
     return [fetcher, lazyQueryResult];
   };
