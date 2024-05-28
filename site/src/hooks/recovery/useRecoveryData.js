@@ -1,5 +1,5 @@
 import { GET_RECOVERY } from "../../services/gql/recovery";
-import { useRecoveryParams } from "../../utils/hooks/recovery/useRecoveryParams";
+import { useRecoveryParams } from "./useRecoveryParams";
 import { useRecoveryQuery } from "../apollo";
 
 export function useRecoveryData() {

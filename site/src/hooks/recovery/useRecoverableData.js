@@ -1,5 +1,5 @@
 import { GET_RECOVERABLE } from "../../services/gql/recovery";
-import { useRecoverableParams } from "../../utils/hooks/recovery/useRecoverableParams";
+import { useRecoverableParams } from "./useRecoverableParams";
 import { useRecoveryQuery } from "../apollo";
 
 export function useRecoverableData() {

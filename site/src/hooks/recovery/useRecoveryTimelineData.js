@@ -1,6 +1,6 @@
 import { GET_RECOVERY_TIMELINE } from "../../services/gql/recovery";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
-import { useRecoveryParams } from "../../utils/hooks/recovery/useRecoveryParams";
+import { useRecoveryParams } from "./useRecoveryParams";
 import { useRecoveryQuery } from "../apollo";
 
 export function useRecoveryTimelineData() {

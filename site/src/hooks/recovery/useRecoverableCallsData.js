@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { GET_RECOVERABLE_CALLS } from "../../services/gql/recovery";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
-import { useRecoverableParams } from "../../utils/hooks/recovery/useRecoverableParams";
+import { useRecoverableParams } from "./useRecoverableParams";
 
 export function useRecoverableCallsData() {
   const { address, height, page = 1 } = useRecoverableParams();

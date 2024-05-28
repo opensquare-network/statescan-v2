@@ -1,5 +1,5 @@
 import { useRecoverableRecoveriesData } from "../../../../hooks/recovery/useRecoverableRecoveriesData";
-import { useRecoverableParams } from "../../../../utils/hooks/recovery/useRecoverableParams";
+import { useRecoverableParams } from "../../../../hooks/recovery/useRecoverableParams";
 import Pagination from "../../../pagination";
 import { StyledPanelTableWrapper } from "../../../styled/panel";
 import RecoveriesTable from "../../recoveries/table";
