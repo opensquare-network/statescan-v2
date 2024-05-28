@@ -48,16 +48,16 @@ const recoveryMenus = {
   title: "Recovery",
   menus: [
     {
+      name: "Proxies",
+      value: "proxies",
+    },
+    {
       name: "Recoverables",
       value: "recoverables",
     },
     {
       name: "Recoveries",
       value: "recoveries",
-    },
-    {
-      name: "Proxies",
-      value: "proxies",
     },
   ],
 };
