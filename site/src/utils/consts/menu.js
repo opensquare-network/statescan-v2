@@ -77,12 +77,16 @@ export default function getBusinessMenus() {
   }
 
   if (recovery) {
-    menus.push(divider);
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
     menus.push(recoveryMenus);
   }
 
   if (vestings) {
-    menus.push(divider);
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
     menus.push(vestingMenu);
   }
 
