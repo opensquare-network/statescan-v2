@@ -32,7 +32,7 @@ const chains = {
   // polimec,
   shadow,
   gargantua,
-  "polkadot-crust-parachain": polkadotCrustParachain,
+  "crust-parachain": polkadotCrustParachain,
   crust,
   invarch,
   parallel,
