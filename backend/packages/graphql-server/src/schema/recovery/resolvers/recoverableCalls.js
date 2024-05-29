@@ -9,7 +9,7 @@ async function recoverableCalls(_, _args) {
   const q = { recoverableHeight, lostAccount };
   const items = await col
     .find(q, { projection: { _id: 0 } })
-    .sort({ "indexer.blockHeight": -1 })
+    .sort({ "indexer.blockHeight": 1 })
     .skip(offset)
     .limit(limit)
     .toArray();
