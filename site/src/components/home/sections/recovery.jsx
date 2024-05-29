@@ -65,7 +65,7 @@ export default function RecoverySection() {
                   <StatusLink
                     to={`/recoverables?status=${RECOVERABLE_STATUS.ACTIVE}`}
                   >
-                    <img src="/imgs/icons/status-active.svg" />
+                    <img src="/imgs/icons/status-active.svg" alt="active" />
                     {activeRecoverables}
                   </StatusLink>
                 </Tooltip>
@@ -73,7 +73,7 @@ export default function RecoverySection() {
                   <StatusLink
                     to={`/recoverables?status=${RECOVERABLE_STATUS.INACTIVE}`}
                   >
-                    <img src="/imgs/icons/status-inactive.svg" />
+                    <img src="/imgs/icons/status-inactive.svg" alt="inactive" />
                     {inactiveRecoverables}
                   </StatusLink>
                 </Tooltip>
@@ -93,7 +93,7 @@ export default function RecoverySection() {
                   <StatusLink
                     to={`/recoveries?status=${RECOVERY_STATUS.UNCLOSED}`}
                   >
-                    <img src="/imgs/icons/status-unclosed.svg" />
+                    <img src="/imgs/icons/status-unclosed.svg" alt="unclosed" />
                     {unClosedRecoveries}
                   </StatusLink>
                 </Tooltip>
@@ -101,7 +101,7 @@ export default function RecoverySection() {
                   <StatusLink
                     to={`/recoveries?status=${RECOVERY_STATUS.CLOSED}`}
                   >
-                    <img src="/imgs/icons/status-closed.svg" />
+                    <img src="/imgs/icons/status-closed.svg" alt="closed" />
                     {closedRecoveries}
                   </StatusLink>
                 </Tooltip>
