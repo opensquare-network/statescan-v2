@@ -8,6 +8,7 @@ const vesting = require("./vesting");
 const multisig = require("./multisig");
 const palletAsset = require("./palletAsset");
 const knownHeight = require("./known/db");
+const palletRecovery = require("./palletRecovery");
 
 module.exports = {
   account,
@@ -19,5 +20,6 @@ module.exports = {
   vesting,
   multisig,
   palletAsset,
+  palletRecovery,
   knownHeight,
 };
