@@ -27,7 +27,10 @@ async function handleRecoveryClosed(event, indexer) {
       `Recovery should be nil when closed at ${indexer.blockHeight}`,
     );
   }
-  await updateActiveRecovery(lostAccount, rescuerAccount, { isClosed: true });
+  await updateActiveRecovery(lostAccount, rescuerAccount, {
+    isClosed: true,
+    closedAt: indexer,
+  });
 
   const timelineCol = await getRecoveryTimelineCol();
   await timelineCol.insertOne({
