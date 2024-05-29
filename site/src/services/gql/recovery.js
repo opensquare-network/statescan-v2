@@ -132,6 +132,27 @@ export const GET_RECOVERABLE_CALLS = gql`
   }
 `;
 
+export const GET_RECOVERABLE_COUNTS = gql`
+  query MyQuery($lostAccount: String!, $recoverableHeight: Int!) {
+    recoverableRecoveries(
+      limit: 0
+      offset: 0
+      lostAccount: $lostAccount
+      recoverableHeight: $recoverableHeight
+    ) {
+      total
+    }
+    recoverableCalls(
+      limit: 0
+      offset: 0
+      lostAccount: $lostAccount
+      recoverableHeight: $recoverableHeight
+    ) {
+      total
+    }
+  }
+`;
+
 export const GET_RECOVERIES = gql`
   query MyQuery(
     $limit: Int!
