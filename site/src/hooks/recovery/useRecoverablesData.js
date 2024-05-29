@@ -6,9 +6,11 @@ import {
   RECOVERABLE_STATUS,
 } from "../../utils/constants";
 
-export function useRecoverablesData() {
+export function useRecoverablesData({ lostAccount: lostAccountProp } = {}) {
   const { account, status, page = 1 } = useRecoverablesParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
+
+  const lostAccount = lostAccountProp || account;
 
   const active =
     status === RECOVERABLE_STATUS.ACTIVE
@@ -22,7 +24,7 @@ export function useRecoverablesData() {
       limit: pageSize,
       offset: (page - 1) * pageSize,
       active,
-      lostAccount: account,
+      lostAccount,
     },
   });
 
