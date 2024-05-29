@@ -51,7 +51,7 @@ export default function RecoveryPage() {
             >
               {data?.isClosed
                 ? capitalize(RECOVERY_STATUS.CLOSED)
-                : capitalize(RECOVERY_STATUS.UNCLOSED)}
+                : capitalize(RECOVERY_STATUS.ACTIVE)}
             </div>
           }
           threshold={data?.threshold}

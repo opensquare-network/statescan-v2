@@ -641,6 +641,6 @@ export const RECOVERABLE_STATUS = {
 };
 
 export const RECOVERY_STATUS = {
-  UNCLOSED: "unclosed",
+  ACTIVE: "active",
   CLOSED: "closed",
 };

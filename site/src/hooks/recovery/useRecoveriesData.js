@@ -8,7 +8,7 @@ export function useRecoveriesData() {
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   const active =
-    status === RECOVERY_STATUS.UNCLOSED
+    status === RECOVERY_STATUS.ACTIVE
       ? true
       : status === RECOVERY_STATUS.CLOSED
       ? false

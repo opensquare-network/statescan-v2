@@ -75,7 +75,7 @@ export default function RecoveriesTable({ data = [], loading }) {
       >
         {item?.isClosed
           ? capitalize(RECOVERY_STATUS.CLOSED)
-          : capitalize(RECOVERY_STATUS.UNCLOSED)}
+          : capitalize(RECOVERY_STATUS.ACTIVE)}
       </div>,
       <Link
         to={`/recoveries/${item.lostAccount}-${item.rescuerAccount}-${item.created}`}

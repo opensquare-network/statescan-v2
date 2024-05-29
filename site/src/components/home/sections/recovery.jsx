@@ -12,6 +12,7 @@ import LinkOrigin from "../../styled/link";
 import Tooltip from "../../tooltip";
 import OverviewItem from "../overview/item";
 import { OverviewItemsWrapper, OverviewPanel } from "../overview/styled";
+import capitalize from "lodash.capitalize";
 
 const Link = styled(LinkOrigin)`
   &:hover {
@@ -89,11 +90,14 @@ export default function RecoverySection() {
             <div>
               <Link to={`/recoveries`}>{totalRecoveries}</Link>
               <Flex gap={12} style={{ marginTop: 8 }}>
-                <Tooltip tip="Unclosed">
+                <Tooltip tip={capitalize(RECOVERY_STATUS.ACTIVE)}>
                   <StatusLink
-                    to={`/recoveries?status=${RECOVERY_STATUS.UNCLOSED}`}
+                    to={`/recoveries?status=${RECOVERY_STATUS.ACTIVE}`}
                   >
-                    <img src="/imgs/icons/status-unclosed.svg" alt="unclosed" />
+                    <img
+                      src="/imgs/icons/status-unclosed.svg"
+                      alt={RECOVERY_STATUS.ACTIVE}
+                    />
                     {unClosedRecoveries}
                   </StatusLink>
                 </Tooltip>
