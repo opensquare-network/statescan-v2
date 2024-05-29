@@ -3,6 +3,7 @@ const recovery = /* GraphQL */ `
     lostAccount: String!
     rescuerAccount: String!
     isClosed: Boolean!
+    closedAt: Indexer
     created: Int!
     deposit: String!
     friends: [String]!
