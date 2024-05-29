@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ReactComponent as DataRecoverable } from "@icons/data-recoverable.svg";
+import { ReactComponent as DataRecoverable } from "./data-recoverable.svg";
 
 const DataRecoverableIcon = styled(DataRecoverable)`
   path {

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ReactComponent as DataRecovery } from "@icons/data-recovery.svg";
+import { ReactComponent as DataRecovery } from "./data-recovery.svg";
 
 const DataRecoveryIcon = styled(DataRecovery)`
   path {
