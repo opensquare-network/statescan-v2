@@ -4,6 +4,10 @@ const {
   typeDefs: vestingTypeDefs,
 } = require("./vesting");
 const {
+  resolvers: recoveryResolvers,
+  typeDefs: recoveryTypeDefs,
+} = require("./recovery");
+const {
   resolvers: assetsPalletResolvers,
   typeDefs: assetsPalletTypeDefs,
 } = require("@statescan/pallet-assets-server");
@@ -15,14 +19,27 @@ const {
   commonResolvers: identityResolvers,
   commonTypeDefs: identityTypeDefs,
 } = require("@statescan/identity-server");
-const { hasAssets, hasMultisig, hasIdentity, hasVesting } = require("../env");
+const {
+  hasAssets,
+  hasMultisig,
+  hasIdentity,
+  hasVesting,
+  hasRecovery,
+} = require("../env");
+const {
+  graphql: { indexer, json },
+} = require("@statescan/common");
 
 let resolvers = [];
-let typeDefs = [];
+let typeDefs = [indexer, json];
 
 if (hasVesting()) {
   resolvers = [...resolvers, vestingResolvers];
   typeDefs = [...typeDefs, ...vestingTypeDefs];
+}
+if (hasRecovery()) {
+  resolvers = [...resolvers, recoveryResolvers];
+  typeDefs = [...typeDefs, ...recoveryTypeDefs];
 }
 if (hasAssets()) {
   resolvers = [...resolvers, assetsPalletResolvers];

@@ -3,6 +3,7 @@ const test = require("./test");
 const consts = require("./consts");
 const graphql = require("./graphql");
 const store = require("./store");
+const known = require("./known");
 
 module.exports = {
   utils,
@@ -10,4 +11,5 @@ module.exports = {
   consts,
   graphql,
   store,
+  known,
 };

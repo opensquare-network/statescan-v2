@@ -8,6 +8,12 @@ const indexer = /* GraphQL */ `
   }
 `;
 
+const json = /* GraphQl */ `
+  scalar JSON
+  scalar JSONObject
+`;
+
 module.exports = {
   indexer,
+  json,
 };
