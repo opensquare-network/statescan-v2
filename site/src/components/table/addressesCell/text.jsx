@@ -1,5 +1,5 @@
 // a cell that displays a list of addresses when hovering
-// used in miltisig approving cell, recoveries friends cell
+// used in multisig approving cell, recoveries friends cell
 
 import styled from "styled-components";
 import Tooltip from "../../tooltip";
