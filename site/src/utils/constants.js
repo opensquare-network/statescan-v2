@@ -530,6 +530,7 @@ export const recoveryProxiesHead = [
   },
   {
     name: "Rescuer",
+    minWidth: 240,
   },
 ];
 
@@ -548,6 +549,7 @@ export const recoveryCallsHead = [
   },
   {
     name: "Call",
+    minWidth: 196,
   },
 ];
 
