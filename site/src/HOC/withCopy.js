@@ -39,7 +39,7 @@ export const withCopy = (Component) => {
     const [copied, setCopied] = React.useState(false);
 
     const copyContent = React.Children.toArray(children).filter(
-      (item) => typeof item === "string",
+      (item) => typeof item === "string" || typeof item === "number",
     );
 
     return (
