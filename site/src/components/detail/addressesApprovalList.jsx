@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import { useMultisigData } from "../../hooks/multisig/useMultisigData";
 import AddressOrIdentity from "../address";
-import { ReactComponent as IconStatusApproval } from "../icons/status-approval.svg";
-import { ReactComponent as IconStatusUnsign } from "../icons/status-unsign.svg";
 import { Flex } from "../styled/flex";
 
 const Wrapper = styled.ul`
@@ -18,13 +15,14 @@ const Item = styled.li`
   padding: 16px 0;
 `;
 
-export default function MultisigApprovalList() {
-  const { data: { multisig } = {} } = useMultisigData();
-
-  const list = multisig?.signatories
+export default function AddressesApprovalList({
+  addresses = [],
+  approvals = [],
+}) {
+  const list = addresses
     ?.map((address) => {
       return {
-        approval: multisig?.approvals?.includes(address),
+        approval: approvals?.includes(address),
         address,
       };
     })
@@ -43,7 +41,11 @@ export default function MultisigApprovalList() {
       {list?.map((item) => (
         <Item key={item.address}>
           <Flex>
-            {item.approval ? <IconStatusApproval /> : <IconStatusUnsign />}
+            {item.approval ? (
+              <img src="/imgs/icons/status-approval.svg" alt="approved" />
+            ) : (
+              <img src="/imgs/icons/status-unsign.svg" alt="un-sign" />
+            )}
           </Flex>
           <AddressOrIdentity ellipsis={false} address={item.address} />
         </Item>

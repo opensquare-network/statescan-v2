@@ -43,8 +43,27 @@ const vestingMenu = {
   value: "vestings",
 };
 
+const recoveryMenus = {
+  type: "group",
+  title: "Recovery",
+  menus: [
+    {
+      name: "Proxies",
+      value: "proxies",
+    },
+    {
+      name: "Recoverables",
+      value: "recoverables",
+    },
+    {
+      name: "Recoveries",
+      value: "recoveries",
+    },
+  ],
+};
+
 export default function getBusinessMenus() {
-  const { identity, multisig, vestings } = getChainModules();
+  const { identity, multisig, vestings, recovery } = getChainModules();
   const hasDivider = identity && multisig;
 
   const menus = [];
@@ -61,8 +80,17 @@ export default function getBusinessMenus() {
     menus.push(multisigMenus);
   }
 
+  if (recovery) {
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
+    menus.push(recoveryMenus);
+  }
+
   if (vestings) {
-    menus.push(divider);
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
     menus.push(vestingMenu);
   }
 

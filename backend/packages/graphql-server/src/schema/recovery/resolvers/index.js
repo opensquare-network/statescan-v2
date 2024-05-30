@@ -10,4 +10,5 @@ module.exports = {
   ...require("./recoveryScanHeight"),
   ...require("./recoverableCalls"),
   ...require("./recoverableRecoveries"),
+  ...require("./recoveryCalls"),
 };

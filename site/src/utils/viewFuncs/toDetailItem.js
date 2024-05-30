@@ -440,7 +440,7 @@ export const toCallDetailItem = (indexer, section, method) => {
         id={indexer?.extrinsicIndex}
       />
     ),
-    Block: <DetailedBlock blockHeight={indexer?.blockHeight} />,
+    Block: <DetailedBlock blockHeight={indexer?.blockHeight} copy />,
     Timestamp: <DetailedTime ts={indexer?.blockTime} />,
     Method: <Tag>{method}</Tag>,
     Call: (
@@ -454,7 +454,7 @@ export const toCallDetailItem = (indexer, section, method) => {
 export const toEventDetailItem = (event) => {
   return {
     "Event Time": <DetailedTime ts={event?.indexer?.blockTime} />,
-    Block: <DetailedBlock blockHeight={event?.indexer?.blockHeight} />,
+    Block: <DetailedBlock blockHeight={event?.indexer?.blockHeight} copy />,
     "Extrinsic ID": (
       <DetailedExtrinsicId
         id={event?.indexer?.extrinsicIndex}
@@ -495,7 +495,9 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
     {
       label: "Block",
-      value: <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} />,
+      value: (
+        <DetailedBlock blockHeight={extrinsic?.indexer?.blockHeight} copy />
+      ),
     },
     extrinsic?.lifetime && {
       label: "Life Time",
@@ -588,7 +590,9 @@ export const toMultisigDetailItem = (multisig) => {
     },
     {
       label: "Block",
-      value: <DetailedBlock blockHeight={multisig?.indexer?.blockHeight} />,
+      value: (
+        <DetailedBlock blockHeight={multisig?.indexer?.blockHeight} copy />
+      ),
     },
     multisig?.call?.section && {
       label: "Module",

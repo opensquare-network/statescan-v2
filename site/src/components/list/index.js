@@ -50,12 +50,12 @@ const Label = styled.span`
 const Value = styled(Flex)`
   color: var(--fontPrimary);
   flex-grow: 1;
-  min-height: 44px;
-  min-height: ${(p) => (p.compact ? "36px" : "44px")};
+  padding-top: ${(p) => (p.compact ? "8px" : "12px")};
+  padding-bottom: ${(p) => (p.compact ? "8px" : "12px")};
   /* label width - label padding left */
   max-width: calc(100% - 240px - 24px);
   @media screen and (max-width: 900px) {
-    min-height: 20px;
+    padding: 0;
     ${max_w_full};
   }
   white-space: pre-wrap;

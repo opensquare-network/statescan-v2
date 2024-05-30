@@ -37,6 +37,8 @@ import { useMultisigAddressData } from "../../hooks/multisig/useMultisigAddressD
 import AccountTabMultisig from "../accountMultisig";
 import { getChainModules } from "../../utils/chain";
 import { getIsSimpleMode } from "../../utils/env";
+import AccountDetailRecoverablesTab from "./tabs/recoverables";
+import { useRecoverablesData } from "../../hooks/recovery/useRecoverablesData";
 
 function AccountDetailCommon() {
   const { id } = useParams();
@@ -47,6 +49,7 @@ function AccountDetailCommon() {
   const { data: multisigAddressData } = useMultisigAddressData(id);
   const { multisig: hasMultisig } = getChainModules();
   const isSimpleMode = getIsSimpleMode();
+  const { data: recoverables } = useRecoverablesData({ lostAccount: id });
 
   const showPreview = useCallback((nft) => {
     setPreviewNft(nft);
@@ -160,6 +163,12 @@ function AccountDetailCommon() {
       multisigAddressData?.multisigAddress && {
         name: "multisig",
         children: <AccountTabMultisig />,
+      },
+    chainSetting.modules?.recovery &&
+      recoverables?.total && {
+        name: "Recoverable",
+        count: recoverables?.total,
+        children: <AccountDetailRecoverablesTab />,
       },
   ].filter(Boolean);
 

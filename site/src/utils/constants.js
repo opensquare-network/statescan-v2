@@ -430,6 +430,129 @@ export const multisigAccountsHead = [
   },
 ];
 
+export const recoverablesHead = [
+  {
+    name: "Account",
+    width: 240,
+  },
+  {
+    name: "Created At",
+    width: 160,
+  },
+  {
+    name: "Friends",
+    width: 160,
+  },
+  {
+    name: "Delay Period",
+    width: 160,
+  },
+  {
+    name: "Deposit",
+    width: 160,
+  },
+  {
+    name: "Rescuer",
+    minWidth: 196,
+    width: 196,
+  },
+  {
+    name: "Status",
+    width: 160,
+  },
+  {
+    name: "",
+    width: 76,
+  },
+];
+
+export const recoverableCallsHead = [
+  {
+    name: "Block",
+    width: 160,
+  },
+  {
+    name: "Rescuer",
+    width: 240,
+  },
+  {
+    name: "Time",
+    type: "time",
+    width: 200,
+  },
+  {
+    name: "Call",
+  },
+  {
+    name: "Data",
+    type: "data",
+    align: "right",
+    display: "table",
+  },
+];
+
+export const recoveriesHead = [
+  {
+    name: "Lost Account",
+    width: 240,
+  },
+  {
+    name: "Created At",
+    width: 160,
+  },
+  {
+    name: "Rescuer",
+    minWidth: 196,
+    width: 292,
+  },
+  {
+    name: "Friends",
+    width: 160,
+  },
+  {
+    name: "Deposit",
+    width: 160,
+  },
+  {
+    name: "Status",
+    width: 160,
+  },
+  {
+    name: "",
+    width: 76,
+  },
+];
+
+export const recoveryProxiesHead = [
+  {
+    name: "Lost Account",
+    width: 240,
+  },
+  {
+    name: "Rescuer",
+    minWidth: 240,
+  },
+];
+
+export const recoveryCallsHead = [
+  {
+    name: "Lost Account",
+    width: 240,
+  },
+  {
+    name: "Created At",
+    width: 160,
+  },
+  {
+    name: "Rescuer",
+    width: 240,
+  },
+  {
+    name: "Call",
+    minWidth: 196,
+  },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
@@ -530,4 +653,14 @@ export const ACCOUNT_IDENTITY_TAB_SUBTAB = {
 export const ASSETS_SORT = {
   HOLDERS_DESC: "HOLDERS_DESC",
   ASSET_ID_ASC: "ASSET_ID_ASC",
+};
+
+export const RECOVERABLE_STATUS = {
+  ACTIVE: "active",
+  INACTIVE: "inactive",
+};
+
+export const RECOVERY_STATUS = {
+  ACTIVE: "active",
+  CLOSED: "closed",
 };
