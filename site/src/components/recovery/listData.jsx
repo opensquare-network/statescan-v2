@@ -33,12 +33,12 @@ export default function RecoveryListData({
     },
     {
       label: "Created At",
-      value: <DetailedBlock blockHeight={createdAt} />,
+      value: <DetailedBlock blockHeight={createdAt} copy />,
     },
     !isNil(removedAt) && {
       label: "Removed At",
       value: removedAt?.blockHeight ? (
-        <DetailedBlock blockHeight={removedAt?.blockHeight} />
+        <DetailedBlock blockHeight={removedAt?.blockHeight} copy />
       ) : (
         <TextTertiary>-</TextTertiary>
       ),
