@@ -25,13 +25,17 @@ const Th = styled.th`
   color: ${(p) => p.theme.fontTertiary};
   text-transform: uppercase;
   text-align: ${(p) => p.align};
-  ${(p) => p.width && w(p.width)};
   ${(p) =>
     p.minWidth &&
+    css`
+      min-width: ${p.minWidth}px;
+    `};
+  ${(p) =>
     p.width &&
     css`
-      width: clamp(${p.minWidth}px, calc(100vw - ${p.width}px), ${p.width}px);
-    `}
+      width: ${p.width}px;
+      min-width: ${p.minWidth || p.width}px;
+    `};
 
   ${(p) =>
     p.shouldFlexWidth &&
