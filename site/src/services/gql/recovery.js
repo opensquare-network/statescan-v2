@@ -238,6 +238,36 @@ export const GET_RECOVERY_TIMELINE = gql`
   }
 `;
 
+export const GET_RECOVERY_CALLS = gql`
+  query MyQuery(
+    $recoveryCreatedAt: Int!
+    $lostAccount: String!
+    $rescuerAccount: String!
+    $limit: Int!
+    $offset: Int!
+  ) {
+    recoveryCalls(
+      recoveryCreatedAt: $recoveryCreatedAt
+      lostAccount: $lostAccount
+      rescuerAccount: $rescuerAccount
+      limit: $limit
+      offset: $offset
+    ) {
+      limit
+      offset
+      total
+      items {
+        rescuer
+        call
+        lostAccount
+        indexer {
+          blockHeight
+        }
+      }
+    }
+  }
+`;
+
 export const GET_RECOVERY_PROXIES = gql`
   query MyQuery($limit: Int!, $offset: Int!) {
     recoveryProxies(limit: $limit, offset: $offset) {

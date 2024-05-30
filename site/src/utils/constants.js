@@ -533,6 +533,24 @@ export const recoveryProxiesHead = [
   },
 ];
 
+export const recoveryCallsHead = [
+  {
+    name: "Lost Account",
+    width: 240,
+  },
+  {
+    name: "Created At",
+    width: 160,
+  },
+  {
+    name: "Rescuer",
+    width: 240,
+  },
+  {
+    name: "Call",
+  },
+];
+
 export const timeTypes = {
   age: "age",
   date: "date",
