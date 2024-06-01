@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.4.4
+
+date: 2024-06-01
+
+- [Big]Support substrate recovery pallet business, including data scan, graphql server and fronted pages.
+
 ### 1.4.3
 
 date: 2024-05-27
