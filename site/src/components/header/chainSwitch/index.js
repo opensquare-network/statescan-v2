@@ -133,8 +133,10 @@ export default function ChainSwitch() {
   return (
     <Wrapper ref={ref} onClick={() => setShow((state) => !state)}>
       <Dropdown active={show}>
-        {currentNode.icon}
-        <Text>{currentNode.name}</Text>
+        <Flex>
+          {currentNode.icon}
+          <Text>{currentNode.name}</Text>
+        </Flex>
         <ArrowDownIcon />
       </Dropdown>
 

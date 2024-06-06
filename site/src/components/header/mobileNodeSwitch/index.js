@@ -7,6 +7,7 @@ import { DropDownContentWrapper } from "../../nodeSwitch/styled";
 import useSignalIcon from "../../nodeSwitch/useSignalIcon";
 import { ArrowDownIcon, Dropdown } from "../styled";
 import useCurrentNode from "../../nodeSwitch/useCurrentNode";
+import { Flex } from "../../styled/flex";
 
 const NodeDropDownContentWrapper = styled(DropDownContentWrapper)`
   width: unset;
@@ -35,8 +36,10 @@ export default function MobileNodeSwitch() {
   return (
     <Wrapper ref={ref} onClick={() => setShowDropDown(!showDropDown)}>
       <Dropdown active={showDropDown}>
-        {signalIcon}
-        <Text>{currentNode?.name}</Text>
+        <Flex>
+          {signalIcon}
+          <Text>{currentNode?.name}</Text>
+        </Flex>
         <ArrowDownIcon />
       </Dropdown>
 
