@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.4.5
+
+date: 2024-06-06
+
+- Support people kusama para chain.
+
 ### 1.4.4
 
 date: 2024-06-01
