@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 date: 2024-06-06
 
 - Support people kusama para chain.
+- Fix identity registrar statistics.
 
 ### 1.4.4
 
