@@ -19,7 +19,7 @@ export const HeaderMenuItem = styled.div`
 export const Dropdown = styled.div`
   box-sizing: border-box;
   height: 36px;
-  width: 160px;
+  width: auto;
   ${mobilecss(css`
     width: 100%;
   `)}
@@ -28,6 +28,7 @@ export const Dropdown = styled.div`
   border-radius: 8px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 8px;
   cursor: pointer;
 
@@ -49,8 +50,6 @@ export const Dropdown = styled.div`
 `;
 
 export const ArrowDownIcon = styled(CaretDownIcon)`
-  position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-  right: 6px;
+  margin-right: 0 !important;
+  margin-left: 8px;
 `;
