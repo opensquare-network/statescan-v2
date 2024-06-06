@@ -26,26 +26,28 @@ function createModuleLazyQuery(module) {
     const [data, setData] = useState(null);
     const { modules = {} } = useChainSettings();
 
-    function resolveOptions(opts = {}) {
-      return {
-        ...opts,
-        onCompleted(d) {
-          setData(d);
-          options?.onCompleted?.(d);
-        },
-      };
-    }
-
-    const [fn, lazyQueryResult] = useLazyQuery(query, resolveOptions(options));
+    const [fn, lazyQueryResult] = useLazyQuery(query, {
+      ...options,
+      onCompleted(d) {
+        setData(d);
+        options?.onCompleted?.(d);
+      },
+    });
     const mod = modules?.[module];
 
     /**
      * @type {typeof fn} options
      */
     const fetcher = useCallback(
-      async (options) => {
+      async (fetchOptions) => {
         if (mod) {
-          return fn(resolveOptions(options));
+          return fn({
+            ...fetchOptions,
+            onCompleted(d) {
+              setData(d);
+              fetchOptions?.onCompleted?.(d);
+            },
+          });
         }
       },
       [fn, mod],
