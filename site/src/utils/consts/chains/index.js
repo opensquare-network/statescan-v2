@@ -17,6 +17,7 @@ import crust from "./crust";
 import invarch from "./invarch";
 import tinkernet from "./tinkernet";
 // import hydradxTestnet from "./hydradxTestnet";
+import peopleKusama from "./people-kusama";
 
 const chains = {
   kusama,
@@ -39,6 +40,7 @@ const chains = {
   heiko,
   tangle,
   tinkernet,
+  "people-kusama": peopleKusama,
 };
 
 export default chains;

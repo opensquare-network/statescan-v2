@@ -1,3 +1,5 @@
+const isNil = require("lodash.isnil");
+
 const chains = Object.freeze({
   polkadot: "polkadot",
   kusama: "kusama",
@@ -20,6 +22,7 @@ const chains = Object.freeze({
   crust: "crust",
   invarch: "invarch",
   tinkernet: "tinkernet",
+  "people-kusama": "people-kusama",
 });
 
 const ss58Format = Object.freeze({
@@ -44,10 +47,15 @@ const ss58Format = Object.freeze({
   [chains.crust]: 66,
   [chains.invarch]: 117,
   [chains.tinkernet]: 117,
+  [chains["people-kusama"]]: 2,
 });
 
 function getSs58Format(chain) {
-  return ss58Format[chain];
+  const format = ss58Format[chain];
+  if (isNil(format)) {
+    throw new Error(`Can not find ss58 format for ${chain}`);
+  }
+  return format;
 }
 
 const assetsModuleChains = [
