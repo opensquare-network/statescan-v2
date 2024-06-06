@@ -22,10 +22,21 @@ function createModuleLazyQuery(module) {
   /**
    * @type {typeof useLazyQuery}
    */
-  return function useModuleLazyQuery(...args) {
+  return function useModuleLazyQuery(query, options) {
     const [data, setData] = useState(null);
     const { modules = {} } = useChainSettings();
-    const [fn, lazyQueryResult] = useLazyQuery(...args);
+
+    function resolveOptions(opts = {}) {
+      return {
+        ...opts,
+        onCompleted(d) {
+          setData(d);
+          options?.onCompleted?.(d);
+        },
+      };
+    }
+
+    const [fn, lazyQueryResult] = useLazyQuery(query, resolveOptions(options));
     const mod = modules?.[module];
 
     /**
@@ -34,13 +45,7 @@ function createModuleLazyQuery(module) {
     const fetcher = useCallback(
       async (options) => {
         if (mod) {
-          return fn({
-            ...options,
-            onCompleted(d) {
-              setData(d);
-              options?.onCompleted?.(d);
-            },
-          });
+          return fn(resolveOptions(options));
         }
       },
       [fn, mod],
