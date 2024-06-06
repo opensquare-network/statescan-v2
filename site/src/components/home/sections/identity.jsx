@@ -49,6 +49,7 @@ const GET_STATISTICS = gql`
         unverified
         verified
       }
+      registrars
       subIdentity
       judgementGiven
       request
@@ -67,7 +68,7 @@ const mapLoadingState = (props) => {
 
 function IdentityOverview({ data }) {
   const { data: registrarsData } = useIdentityQuery(GET_REGISTRARS);
-  const registrars = registrarsData?.registrars?.length || 0;
+  const registrars = registrarsData?.identityRegistrars?.length || 0;
 
   const verifiedCount = data?.identityStatistics?.identity?.verified || 0;
   const unverifiedCount = data?.identityStatistics?.identity?.unverified || 0;
