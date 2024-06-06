@@ -25,7 +25,6 @@ function createModuleLazyQuery(module) {
   return function useModuleLazyQuery(query, options) {
     const [data, setData] = useState(null);
     const { modules = {} } = useChainSettings();
-
     const [fn, lazyQueryResult] = useLazyQuery(query, {
       ...options,
       onCompleted(d) {
