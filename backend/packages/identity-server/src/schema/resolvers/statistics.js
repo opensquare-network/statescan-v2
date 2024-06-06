@@ -1,5 +1,5 @@
 const {
-  identity: { getStatisticsCol },
+  identity: { getStatisticsCol, getRegistrarsCol },
 } = require("@statescan/mongo");
 
 const defaultGeneral = {
@@ -32,8 +32,12 @@ async function statistics() {
     (record) => record.name === "totalJudgementGiven",
   );
 
+  const registrarCol = await getRegistrarsCol();
+  const registrars = await registrarCol.estimatedDocumentCount();
+
   return {
     identity: enrichIdentity(generalRecord.identity),
+    registrars,
     subIdentity: generalRecord.subIdentity,
     request: generalRecord.request,
     judgementGiven: totalGiven?.value || 0,

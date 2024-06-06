@@ -9,6 +9,7 @@ const identityStatistics = /* GraphQL */ `
 const allStatistics = /* GraphQL */ `
   type AllStatistics {
     identity: IdentityStatistics!
+    registrars: Int!
     subIdentity: Int!
     request: Int!
     judgementGiven: Int!
