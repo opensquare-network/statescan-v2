@@ -40,13 +40,7 @@ function createModuleLazyQuery(module) {
     const fetcher = useCallback(
       async (fetchOptions) => {
         if (mod) {
-          return fn({
-            ...fetchOptions,
-            onCompleted(d) {
-              setData(d);
-              fetchOptions?.onCompleted?.(d);
-            },
-          });
+          return fn(fetchOptions);
         }
       },
       [fn, mod],
