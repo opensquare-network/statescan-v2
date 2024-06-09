@@ -23,6 +23,9 @@ const chains = Object.freeze({
   invarch: "invarch",
   tinkernet: "tinkernet",
   "people-kusama": "people-kusama",
+  "bridgehub-polkadot": "bridgehub-polkadot",
+  "bridgehub-kusama": "bridgehub-kusama",
+  "bridgehub-westend": "bridgehub-westend",
 });
 
 const ss58Format = Object.freeze({
@@ -48,6 +51,9 @@ const ss58Format = Object.freeze({
   [chains.invarch]: 117,
   [chains.tinkernet]: 117,
   [chains["people-kusama"]]: 2,
+  [chains["bridgehub-polkadot"]]: 0,
+  [chains["bridgehub-kusama"]]: 2,
+  [chains["bridgehub-westend"]]: 42,
 });
 
 function getSs58Format(chain) {
