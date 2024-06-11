@@ -2,6 +2,10 @@ import CrustIcon from "../../../components/icons/crustIcon";
 
 const nodes = [
   {
+    name: "OnFinality",
+    url: "wss://crust.api.onfinality.io/ws?apikey=04dc9514-ec6c-4293-a739-aad78f8b26b5",
+  },
+  {
     name: "Crust",
     url: "wss://rpc2-subscan.crust.network",
   },

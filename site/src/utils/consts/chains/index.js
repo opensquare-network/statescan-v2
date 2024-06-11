@@ -18,6 +18,8 @@ import invarch from "./invarch";
 import tinkernet from "./tinkernet";
 // import hydradxTestnet from "./hydradxTestnet";
 import peopleKusama from "./people-kusama";
+import bridgehubPolkadot from "./bridgehub-polkadot";
+import bridgehubKusama from "./bridgehub-kusama";
 
 const chains = {
   kusama,
@@ -41,6 +43,8 @@ const chains = {
   tangle,
   tinkernet,
   "people-kusama": peopleKusama,
+  "bridgehub-polkadot": bridgehubPolkadot,
+  "bridgehub-kusama": bridgehubKusama,
 };
 
 export default chains;
