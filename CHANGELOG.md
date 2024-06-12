@@ -9,6 +9,7 @@ date: 2024-06-12
 - Support bridgehub of polkadot and kusama.
 - Upgrade dependencies.
 - Adjust polkadot/kusama nodes sort.
+- Fix table scroll.
 
 ### 1.4.5
 
