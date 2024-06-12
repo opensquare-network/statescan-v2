@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.4.6
+
+date: 2024-06-12
+
+- Support bridgehub of polkadot and kusama.
+- Upgrade dependencies.
+- Adjust polkadot/kusama nodes sort.
+
 ### 1.4.5
 
 date: 2024-06-06
