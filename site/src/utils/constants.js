@@ -342,7 +342,7 @@ export const multisigsHead = [
   },
   {
     name: "Address",
-    width: 232,
+    minWidth: 190,
   },
   {
     name: "Approving",
@@ -453,8 +453,7 @@ export const recoverablesHead = [
   },
   {
     name: "Rescuer",
-    minWidth: 196,
-    width: 196,
+    minWidth: 190,
   },
   {
     name: "Status",
