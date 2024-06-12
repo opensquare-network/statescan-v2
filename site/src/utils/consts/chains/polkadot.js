@@ -25,13 +25,13 @@ const polkadot = {
   treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",
   nodes: [
+    { name: "OnFinality", url: "wss://polkadot.api.onfinality.io/public-ws" },
+    { name: "IBP-GeoDNS1", url: "wss://rpc.ibp.network/polkadot" },
+    { name: "LuckyFriday", url: "wss://rpc-polkadot.luckyfriday.io" },
     { name: "Dwellir", url: "wss://polkadot-rpc.dwellir.com" },
     { name: "Automata 1RPC", url: "wss://1rpc.io/dot" },
     { name: "Dwellir Tunisia", url: "wss://polkadot-rpc-tn.dwellir.com" },
-    { name: "IBP-GeoDNS1", url: "wss://rpc.ibp.network/polkadot" },
     { name: "IBP-GeoDNS2", url: "wss://rpc.dotters.network/polkadot" },
-    { name: "LuckyFriday", url: "wss://rpc-polkadot.luckyfriday.io" },
-    { name: "OnFinality", url: "wss://polkadot.api.onfinality.io/public-ws" },
     {
       name: "RadiumBlock",
       url: "wss://polkadot.public.curie.radiumblock.co/ws",
