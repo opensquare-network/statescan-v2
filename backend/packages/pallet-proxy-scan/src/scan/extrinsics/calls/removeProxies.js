@@ -7,8 +7,8 @@ const {
 const {
   palletProxy: {
     getAllActiveProxiesOfDelegator,
-    markAllActiveProxiesAsRemoved,
     getProxyTimelineCol,
+    getProxyCol,
   },
 } = require("@statescan/mongo");
 const {
@@ -56,16 +56,33 @@ async function handleRemoveProxies(call, signer, extrinsicIndexer) {
     await getBlockHash(extrinsicIndexer.blockHeight - 1),
   );
   const proxyIdsAtPreBlock = getAllProxyIds(signer, proxies);
+  const { proxies: nowOnChainProxies } = await queryAllProxiesOf(
+    signer,
+    extrinsicIndexer.blockHash,
+  );
+  const proxyIdsAtCurBlock = getAllProxyIds(signer, nowOnChainProxies);
   const proxiesInDb = await getAllActiveProxiesOfDelegator(signer);
   const proxyIdsInDb = proxiesInDb.map((proxy) => proxy.proxyId);
   logDifference(proxyIdsAtPreBlock, proxyIdsInDb, extrinsicIndexer);
 
-  await markAllActiveProxiesAsRemoved(signer, extrinsicIndexer);
+  if (proxyIdsAtCurBlock.length > 0) {
+    // it means this call is failed
+    return;
+  }
+
+  const proxyCol = await getProxyCol();
+  const proxyBulk = proxyCol.initializeUnorderedBulkOp();
+  for (const proxyId of proxyIdsAtPreBlock) {
+    proxyBulk.find({ proxyId }).updateOne({ $set: { isRemoved: true } });
+  }
+  if (proxyBulk.length > 0) {
+    await proxyBulk.execute();
+  }
 
   const timelineCol = await getProxyTimelineCol();
-  const bulk = timelineCol.initializeUnorderedBulkOp();
-  for (const proxyId of proxyIdsInDb) {
-    bulk.insert({
+  const timelineBulk = timelineCol.initializeUnorderedBulkOp();
+  for (const proxyId of proxyIdsAtPreBlock) {
+    timelineBulk.insert({
       proxyId,
       name: "ProxyRemoved",
       args: {},
@@ -73,8 +90,8 @@ async function handleRemoveProxies(call, signer, extrinsicIndexer) {
     });
   }
 
-  if (bulk.length > 0) {
-    await bulk.execute();
+  if (timelineBulk.length > 0) {
+    await timelineBulk.execute();
   }
 }
 

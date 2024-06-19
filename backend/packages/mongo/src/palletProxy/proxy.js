@@ -31,23 +31,8 @@ async function getAllActiveProxiesOfDelegator(delegator) {
   return await col.find({ delegator, isRemoved: false }).toArray();
 }
 
-async function markAllActiveProxiesAsRemoved(delegator, indexer) {
-  if (!delegator) {
-    throw new Error(
-      `No delegator argument when mark all active proxies as removed at ${indexer.blockHeight}`,
-    );
-  }
-
-  const col = await getProxyCol();
-  await col.updateMany(
-    { delegator, isRemoved: false },
-    { $set: { isRemoved: true } },
-  );
-}
-
 module.exports = {
   upsertProxyIfNo,
   markProxyRemoved,
   getAllActiveProxiesOfDelegator,
-  markAllActiveProxiesAsRemoved,
 };
