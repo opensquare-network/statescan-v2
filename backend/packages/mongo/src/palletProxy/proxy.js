@@ -22,7 +22,32 @@ async function markProxyRemoved(proxyId, indexer) {
   );
 }
 
+async function getAllActiveProxiesOfDelegator(delegator) {
+  if (!delegator) {
+    throw new Error("No delegator argument when get all active proxies");
+  }
+
+  const col = await getProxyCol();
+  return await col.find({ delegator, isRemoved: false }).toArray();
+}
+
+async function markAllActiveProxiesAsRemoved(delegator, indexer) {
+  if (!delegator) {
+    throw new Error(
+      `No delegator argument when mark all active proxies as removed at ${indexer.blockHeight}`,
+    );
+  }
+
+  const col = await getProxyCol();
+  await col.updateMany(
+    { delegator, isRemoved: false },
+    { $set: { isRemoved: true } },
+  );
+}
+
 module.exports = {
   upsertProxyIfNo,
   markProxyRemoved,
+  getAllActiveProxiesOfDelegator,
+  markAllActiveProxiesAsRemoved,
 };
