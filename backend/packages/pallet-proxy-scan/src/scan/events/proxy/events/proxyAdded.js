@@ -17,6 +17,7 @@ async function handleProxyAdded(event, indexer) {
     type,
     delay,
     isRemoved: false,
+    isPure: false,
     indexer,
   });
 

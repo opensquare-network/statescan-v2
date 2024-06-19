@@ -2,11 +2,12 @@ const { logger } = require("@osn/scan-common");
 const { getProxySection } = require("../../common/section");
 const { handleProxyAdded } = require("./events/proxyAdded");
 const { handleProxyRemoved } = require("./events/proxyRemoved");
+const { handlePureCreated } = require("./events/pureCreated");
 const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
 
-async function handleEvent(event, indexer) {
+async function handleEvent(event, indexer, extrinsic) {
   const { section, method } = event;
   if (section !== getProxySection()) {
     return;
@@ -17,6 +18,8 @@ async function handleEvent(event, indexer) {
     await handleProxyAdded(event, indexer);
   } else if (method === "ProxyRemoved") {
     await handleProxyRemoved(event, indexer);
+  } else if (method === "PureCreated") {
+    await handlePureCreated(event, indexer, extrinsic);
   }
 }
 

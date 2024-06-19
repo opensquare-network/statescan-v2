@@ -11,7 +11,7 @@ const {
 (async () => {
   await initPalletProxyScanDb();
   await subscribeFinalizedHeight();
-  const blockHeights = [20758888, 20822326];
+  const blockHeights = [12890409];
 
   const api = await getApi();
   for (const height of blockHeights) {
