@@ -1,6 +1,6 @@
 const { generateProxyId } = require("../../../common/hash");
 const {
-  palletProxy: { markProxyRemoved },
+  palletProxy: { markProxyRemoved, getProxyTimelineCol },
 } = require("@statescan/mongo");
 
 async function handleProxyRemoved(event, indexer) {
@@ -11,7 +11,18 @@ async function handleProxyRemoved(event, indexer) {
   const proxyId = generateProxyId(delegator, delegatee, type, delay);
   await markProxyRemoved(proxyId, indexer);
 
-  // todo: insert timeline
+  const timelineCol = await getProxyTimelineCol();
+  await timelineCol.insertOne({
+    proxyId,
+    name: event.method,
+    args: {
+      delegator,
+      delegatee,
+      type,
+      delay,
+    },
+    indexer,
+  });
 }
 
 module.exports = {

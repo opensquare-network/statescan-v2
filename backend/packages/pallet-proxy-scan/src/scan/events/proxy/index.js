@@ -2,14 +2,16 @@ const { logger } = require("@osn/scan-common");
 const { getProxySection } = require("../../common/section");
 const { handleProxyAdded } = require("./events/proxyAdded");
 const { handleProxyRemoved } = require("./events/proxyRemoved");
+const {
+  store: { setKnownHeightMark },
+} = require("@statescan/common");
 
 async function handleEvent(event, indexer) {
   const { section, method } = event;
   if (section !== getProxySection()) {
     return;
   }
-
-  // todo: save known height
+  setKnownHeightMark(indexer.blockHeight);
 
   if (method === "ProxyAdded") {
     await handleProxyAdded(event, indexer);

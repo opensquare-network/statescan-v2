@@ -1,5 +1,5 @@
 const {
-  knownHeight: { getNextKnownHeights },
+  knownHeight: { getNextKnownHeights, saveKnownHeights, getKnownHeightDb },
 } = require("@statescan/mongo");
 const {
   chain: { fetchBlocks },
@@ -7,8 +7,13 @@ const {
   logger,
 } = require("@osn/scan-common");
 const last = require("lodash.last");
+const {
+  hasKnownHeightMark,
+  clearKnownHeightMark,
+} = require("./store/knownHeight");
 
 let count = 0;
+
 async function scanKnownHeights(toScanHeight, handleBlockFn = emptyFn) {
   let heights = await getNextKnownHeights(toScanHeight);
   while (heights.length > 0) {
@@ -36,6 +41,19 @@ async function scanKnownHeights(toScanHeight, handleBlockFn = emptyFn) {
   }
 }
 
+async function saveKnownHeight(indexer) {
+  const height = indexer.blockHeight;
+  if (hasKnownHeightMark(height)) {
+    await saveKnownHeights([height]);
+  }
+
+  const db = await getKnownHeightDb();
+  await db.updateScanHeight(height);
+
+  clearKnownHeightMark(height);
+}
+
 module.exports = {
   scanKnownHeights,
+  saveKnownHeight,
 };

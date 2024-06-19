@@ -6,15 +6,17 @@ const {
 let db = null;
 
 let proxyCol = null;
+let proxyTimelineCol = null;
 
 async function initPalletProxyScanDb() {
   db = new ScanDb(
-    getEnvOrThrow("MONGO_PALLET_PROXY_SCAN_URL"),
-    getEnvOrThrow("MONGO_PALLET_PROXY_SCAN_NAME"),
+    getEnvOrThrow("MONGO_PROXY_SCAN_URL"),
+    getEnvOrThrow("MONGO_PROXY_SCAN_NAME"),
   );
   await db.init();
 
   proxyCol = await db.createCol("proxy");
+  proxyTimelineCol = await db.createCol("proxyTimeline");
 
   _createIndexes().then(() => console.log("proxy scan DB indexes created!"));
 }
@@ -45,8 +47,14 @@ async function getProxyCol() {
   return proxyCol;
 }
 
+async function getProxyTimelineCol() {
+  await makeSureInit(proxyTimelineCol);
+  return proxyTimelineCol;
+}
+
 module.exports = {
   getProxyDb,
   initPalletProxyScanDb,
   getProxyCol,
+  getProxyTimelineCol,
 };

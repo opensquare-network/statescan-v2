@@ -1,3 +1,5 @@
+const { handleProxyEvent } = require("./proxy");
+
 async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
     return;
@@ -20,6 +22,10 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
       extrinsic = extrinsics[extrinsicIndex];
     }
 
-    // todo: handle proxy pallet events
+    await handleProxyEvent(event, indexer, extrinsic, events);
   }
 }
+
+module.exports = {
+  handleEvents,
+};
