@@ -19,7 +19,8 @@ async function handleAnnounced(event, indexer) {
     delegate,
     real,
     callHash,
-    isRemoved: false,
+    isFinal: false,
+    state: "Announced",
     indexer,
   });
 

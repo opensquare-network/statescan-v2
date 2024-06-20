@@ -1,20 +1,20 @@
 const { getProxySection } = require("../../common");
 const {
-  palletProxy: { getAnnouncementCol, getAnnouncementTimelineCol },
-} = require("@statescan/mongo");
-const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
 const { getRemovedAnnouncementIds } = require("./common/getRemovedIds");
+const {
+  palletProxy: { getAnnouncementCol, getAnnouncementTimelineCol },
+} = require("@statescan/mongo");
 
-async function markAnnouncementRemovedByIds(removedIds, indexer) {
+async function markAnnouncementRejectedByIds(removedIds, indexer) {
   const col = await getAnnouncementCol();
   const bulk = col.initializeUnorderedBulkOp();
   for (const announcementId of removedIds) {
     bulk
       .find({ announcementId })
       .updateOne({
-        $set: { isFinal: true, state: "Removed", removedAt: indexer },
+        $set: { isFinal: true, state: "Rejected", rejectedAt: indexer },
       });
   }
 
@@ -23,14 +23,14 @@ async function markAnnouncementRemovedByIds(removedIds, indexer) {
   }
 }
 
-async function insertTimelineByIds(who, removedIds, indexer) {
+async function insertTimelineByIds(removedIds, indexer) {
   const col = await getAnnouncementTimelineCol();
   const bulk = col.initializeUnorderedBulkOp();
   for (const announcementId of removedIds) {
     bulk.insert({
       announcementId,
-      name: "Removed",
-      args: { who },
+      name: "Rejected",
+      args: {},
       indexer,
     });
   }
@@ -40,24 +40,23 @@ async function insertTimelineByIds(who, removedIds, indexer) {
   }
 }
 
-async function handleRemoveAnnouncement(call, signer, extrinsicIndexer) {
+async function handleRejectAnnouncement(call, signer, extrinsicIndexer) {
   const { section, method } = call;
-  if (getProxySection() !== section || "removeAnnouncement" !== method) {
+  if (getProxySection() !== section || "rejectAnnouncement" !== method) {
     return;
   }
   setKnownHeightMark(extrinsicIndexer.blockHeight);
 
-  const real = call.args[0].toString();
+  const delegate = call.args[0].toString();
   const removedIds = await getRemovedAnnouncementIds(
+    delegate,
     signer,
-    real,
     extrinsicIndexer,
   );
-
-  await markAnnouncementRemovedByIds(removedIds, extrinsicIndexer);
-  await insertTimelineByIds(signer, removedIds, extrinsicIndexer);
+  await markAnnouncementRejectedByIds(removedIds, extrinsicIndexer);
+  await insertTimelineByIds(removedIds, extrinsicIndexer);
 }
 
 module.exports = {
-  handleRemoveAnnouncement,
+  handleRejectAnnouncement,
 };

@@ -5,11 +5,13 @@ const {
 const { handleRemoveProxies } = require("./calls/removeProxies");
 const { handleKillPure } = require("./calls/killPure");
 const { handleRemoveAnnouncement } = require("./calls/removeAnnouncement");
+const { handleRejectAnnouncement } = require("./calls/rejectAnnouncement");
 
 async function handleCalls(call, author, extrinsicIndexer) {
   await handleRemoveProxies(call, author, extrinsicIndexer);
   await handleKillPure(call, author, extrinsicIndexer);
   await handleRemoveAnnouncement(call, author, extrinsicIndexer);
+  await handleRejectAnnouncement(call, author, extrinsicIndexer);
 }
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
