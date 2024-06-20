@@ -7,6 +7,9 @@ const { generateProxyId } = require("../../common/hash");
 const {
   palletProxy: { markProxyRemoved, getProxyTimelineCol },
 } = require("@statescan/mongo");
+const {
+  store: { setKnownHeightMark },
+} = require("@statescan/common");
 
 async function queryPureCreatedEvent(height, extIndex) {
   const api = await getApi();
@@ -38,6 +41,7 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
   if (getProxySection() !== section || "killPure" !== method) {
     return;
   }
+  setKnownHeightMark(extrinsicIndexer.blockHeight);
 
   const spawner = call.args[0].toString();
   const proxyTypeArg = call.args[1].toString();

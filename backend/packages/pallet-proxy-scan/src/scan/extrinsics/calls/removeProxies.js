@@ -73,7 +73,9 @@ async function handleRemoveProxies(call, signer, extrinsicIndexer) {
   const proxyCol = await getProxyCol();
   const proxyBulk = proxyCol.initializeUnorderedBulkOp();
   for (const proxyId of proxyIdsAtPreBlock) {
-    proxyBulk.find({ proxyId }).updateOne({ $set: { isRemoved: true } });
+    proxyBulk
+      .find({ proxyId })
+      .updateOne({ $set: { isRemoved: true, removedAt: extrinsicIndexer } });
   }
   if (proxyBulk.length > 0) {
     await proxyBulk.execute();

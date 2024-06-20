@@ -7,6 +7,8 @@ let db = null;
 
 let proxyCol = null;
 let proxyTimelineCol = null;
+let announcementCol = null;
+let announcementTimelineCol = null;
 
 async function initPalletProxyScanDb() {
   db = new ScanDb(
@@ -17,6 +19,8 @@ async function initPalletProxyScanDb() {
 
   proxyCol = await db.createCol("proxy");
   proxyTimelineCol = await db.createCol("proxyTimeline");
+  announcementCol = await db.createCol("announcement");
+  announcementTimelineCol = await db.createCol("announcementTimeline");
 
   _createIndexes().then(() => console.log("proxy scan DB indexes created!"));
 }
@@ -52,9 +56,21 @@ async function getProxyTimelineCol() {
   return proxyTimelineCol;
 }
 
+async function getAnnouncementCol() {
+  await makeSureInit(announcementCol);
+  return announcementCol;
+}
+
+async function getAnnouncementTimelineCol() {
+  await makeSureInit(announcementTimelineCol);
+  return announcementTimelineCol;
+}
+
 module.exports = {
   getProxyDb,
   initPalletProxyScanDb,
   getProxyCol,
   getProxyTimelineCol,
+  getAnnouncementCol,
+  getAnnouncementTimelineCol,
 };

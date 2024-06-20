@@ -3,6 +3,7 @@ const { getProxySection } = require("../../common/section");
 const { handleProxyAdded } = require("./events/proxyAdded");
 const { handleProxyRemoved } = require("./events/proxyRemoved");
 const { handlePureCreated } = require("./events/pureCreated");
+const { handleAnnounced } = require("./events/announced");
 const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
@@ -20,6 +21,8 @@ async function handleEvent(event, indexer, extrinsic) {
     await handleProxyRemoved(event, indexer);
   } else if (method === "PureCreated") {
     await handlePureCreated(event, indexer, extrinsic);
+  } else if (method === "Announced") {
+    await handleAnnounced(event, indexer);
   }
 }
 
