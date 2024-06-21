@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Identity from "./identity";
+import Identity, { Display } from "./identity";
 import { addressEllipsis } from "@osn/common";
 import Link, { ColoredMonoLink } from "../styled/link";
 import { withCopy } from "../../HOC/withCopy";
@@ -12,6 +12,10 @@ import {
 import { useMultisigAddressLazyData } from "../../hooks/multisig/useMultisigAddressData";
 import { Tag } from "../tag";
 import { useEffect } from "react";
+import { KNOWN_ADDR_MATCHERS } from "./knownAddr";
+import Tooltip from "../tooltip";
+import { ReactComponent as IdentitySpecial } from "../icons/identity/identity-special.svg";
+import { FlexCenter } from "../styled/flex";
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -108,6 +112,12 @@ export function AddressAndIdentity({
   );
 }
 
+const SpecialAccountWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
 function AddressOrIdentity({
   address,
   maxWidth = "100%",
@@ -117,9 +127,26 @@ function AddressOrIdentity({
   linkToIdentityTimeline,
   noLink = false,
 }) {
+  const knownAddr = KNOWN_ADDR_MATCHERS.map((matcher) => matcher(address)).find(
+    Boolean,
+  );
+
   const identity = useIdentity(address);
-  const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  let displayAddress = ellipsis ? addressEllipsis(address) : address;
   const hasIdentityInfo = identity && identity?.info?.status !== "NO_ID";
+
+  if (knownAddr) {
+    displayAddress = (
+      <SpecialAccountWrapper>
+        <Tooltip content="Special account">
+          <FlexCenter>
+            <IdentitySpecial width={12} height={12} />
+          </FlexCenter>
+        </Tooltip>
+        <Display>{knownAddr}</Display>
+      </SpecialAccountWrapper>
+    );
+  }
 
   if (noLink) {
     return hasIdentityInfo ? (
