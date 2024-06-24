@@ -22,7 +22,7 @@ const polkadotCrust = {
     multisig: false,
   },
   nodes,
-  useOnChainBlockData: false,
+  useOnChainBlockData: true,
 };
 
 export default polkadotCrust;
