@@ -16,6 +16,18 @@ async function queryAllProxiesOf(delegator, blockHash) {
   };
 }
 
+async function findProxy(real, delegate, forceProxyType, indexer) {
+  const { proxies } = await queryAllProxiesOf(real, indexer.blockHash);
+  return proxies.find((p) => {
+    if (forceProxyType) {
+      return p.delegate === delegate && p.proxyType === forceProxyType;
+    } else {
+      return p.delegate === delegate;
+    }
+  });
+}
+
 module.exports = {
   queryAllProxiesOf,
+  findProxy,
 };
