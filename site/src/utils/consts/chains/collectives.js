@@ -22,18 +22,30 @@ const collectives = {
     id: "1001",
   },
   nodes: [
-    { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/collectives-polkadot" },
     {
-      name: "IBP-GeoDNS2",
-      url: "wss://sys.dotters.network/collectives-polkadot",
+      name: "Parity",
+      url: "wss://polkadot-collectives-rpc.polkadot.io",
     },
+    {
+      name: "OnFinality",
+      url: "wss://collectives.api.onfinality.io/public-ws",
+    },
+    { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/collectives-polkadot" },
     {
       name: "LuckyFriday",
       url: "wss://rpc-collectives-polkadot.luckyfriday.io",
     },
     {
-      name: "OnFinality",
-      url: "wss://collectives.api.onfinality.io/public-ws",
+      name: "Dwellir",
+      url: "wss://collectives-polkadot-rpc.dwellir.com",
+    },
+    {
+      name: "Dwellir Tunisia",
+      url: "wss://polkadot-collectives-rpc-tn.dwellir.com",
+    },
+    {
+      name: "IBP-GeoDNS2",
+      url: "wss://sys.dotters.network/collectives-polkadot",
     },
     {
       name: "RadiumBlock",
