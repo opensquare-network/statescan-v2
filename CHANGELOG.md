@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.4.7
+
+date: 2024-06-25
+
+- Support special account identity display.
+- Adjust endpoints for polkadot collectives.
+
 ### 1.4.6
 
 date: 2024-06-12
