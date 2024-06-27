@@ -3,7 +3,7 @@ import CrustIcon from "../../../components/icons/crustIcon";
 const nodes = [
   {
     name: "Crust",
-    url: "wss://crust-parachain.crustapps.net/",
+    url: "wss://crust-parachain.crustnetwork.xyz",
   },
 ];
 

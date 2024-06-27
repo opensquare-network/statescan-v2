@@ -4,7 +4,7 @@ import { collectivesModules } from "./collectives";
 const nodes = [
   {
     name: "Crust",
-    url: "wss://rpc-shadow.crust.network/",
+    url: "wss://rpc-sha-subscan.crustnetwork.xyz/",
   },
 ];
 
