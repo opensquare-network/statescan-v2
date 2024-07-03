@@ -20,7 +20,7 @@ async function handleEvent(event, indexer, extrinsic) {
     await handleProxyAdded(event, indexer);
   } else if (method === "ProxyRemoved") {
     await handleProxyRemoved(event, indexer);
-  } else if (method === "PureCreated") {
+  } else if (["PureCreated", "AnonymousCreated"].includes(method)) {
     await handlePureCreated(event, indexer, extrinsic);
   } else if (method === "Announced") {
     await handleAnnounced(event, indexer);
