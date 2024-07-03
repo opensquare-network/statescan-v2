@@ -1,5 +1,4 @@
 const { getProxySection } = require("../../common/section");
-const { generateProxyId } = require("../../common/hash");
 const { queryAllProxiesOf } = require("../../common/query");
 const {
   store: { setKnownHeightMark },
@@ -15,13 +14,7 @@ const {
   chain: { getBlockHash },
   logger,
 } = require("@osn/scan-common");
-
-function getAllProxyIds(delegator, proxies) {
-  return proxies.map((definition) => {
-    const { delegate, proxyType, delay } = definition;
-    return generateProxyId(delegator, delegate, proxyType, delay);
-  });
-}
+const { getAllProxyIds } = require("./common/proxyIds");
 
 function logDifference(preProxyIds, dbProxyIds, indexer) {
   const preIdSet = new Set(preProxyIds);
