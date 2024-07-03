@@ -6,6 +6,9 @@ const { generateProxyId } = require("../../common/hash");
 const {
   palletProxy: { upsertProxyIfNo, getProxyTimelineCol },
 } = require("@statescan/mongo");
+const {
+  store: { setKnownHeightMark },
+} = require("@statescan/common");
 
 const addProxyMethod = "addProxy";
 
@@ -15,6 +18,7 @@ async function handleAddProxy(call, signer, extrinsicIndexer) {
     return;
   }
 
+  setKnownHeightMark(extrinsicIndexer.blockHeight);
   const blockApi = await findBlockApi(extrinsicIndexer.blockHash);
   if (
     blockApi.events.proxy?.ProxyAdded || // handle this call only when there is no `ProxyAdded` event
