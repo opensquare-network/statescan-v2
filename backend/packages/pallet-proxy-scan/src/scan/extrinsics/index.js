@@ -6,8 +6,10 @@ const { handleRemoveProxies } = require("./calls/removeProxies");
 const { handleKillPure } = require("./calls/killPure");
 const { handleRemoveAnnouncement } = require("./calls/removeAnnouncement");
 const { handleRejectAnnouncement } = require("./calls/rejectAnnouncement");
+const { handleAddProxy } = require("./calls/addProxy");
 
 async function handleCalls(call, author, extrinsicIndexer) {
+  await handleAddProxy(call, author, extrinsicIndexer);
   await handleRemoveProxies(call, author, extrinsicIndexer);
   await handleKillPure(call, author, extrinsicIndexer);
   await handleRemoveAnnouncement(call, author, extrinsicIndexer);
