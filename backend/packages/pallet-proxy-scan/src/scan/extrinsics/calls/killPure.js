@@ -22,7 +22,10 @@ async function queryPureCreatedEvent(height, extIndex) {
     }
 
     const { section, method } = event;
-    return section === getProxySection() && method === "PureCreated";
+    return (
+      section === getProxySection() &&
+      ["PureCreated", "AnonymousCreated"].includes(method)
+    );
   });
 }
 
@@ -38,7 +41,10 @@ async function getPureProxyOn(pure, height) {
 
 async function handleKillPure(call, signer, extrinsicIndexer) {
   const { section, method } = call;
-  if (getProxySection() !== section || "killPure" !== method) {
+  if (
+    getProxySection() !== section ||
+    !["killPure", "killAnonymous"].includes(method)
+  ) {
     return;
   }
   setKnownHeightMark(extrinsicIndexer.blockHeight);
