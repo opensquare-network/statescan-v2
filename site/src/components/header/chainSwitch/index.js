@@ -27,7 +27,7 @@ const Options = styled.div`
   border: 1px solid ${({ theme }) => theme.strokeBase};
   box-shadow: ${({ theme }) => theme.shadowPanel};
   border-radius: 8px;
-  width: 320px;
+  width: 384px;
   padding: 24px;
   z-index: 999;
 

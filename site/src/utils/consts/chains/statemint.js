@@ -1,10 +1,10 @@
-import Statemint from "../../../components/icons/statemintIcon";
+import { ReactComponent as AssetHubPolkadot } from "../../../components/icons/assethub-polkadot.svg";
 import { assetChainModules } from "./assetChain";
 import { polkadotColor } from "./common";
 
 const statemint = {
   name: "Statemint",
-  icon: <Statemint />,
+  icon: <AssetHubPolkadot />,
   identity: "polkadot",
   sub: "polkadot",
   value: "statemint",

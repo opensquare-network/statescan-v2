@@ -1,9 +1,9 @@
-import Statemine from "../../../components/icons/statemineIcon";
+import { ReactComponent as AssetHubKusama } from "../../../components/icons/assethub-kusama.svg";
 import { assetChainModules } from "./assetChain";
 
 const statemine = {
   name: "Statemine",
-  icon: <Statemine />,
+  icon: <AssetHubKusama />,
   identity: "kusama",
   sub: "kusama",
   value: "statemine",
