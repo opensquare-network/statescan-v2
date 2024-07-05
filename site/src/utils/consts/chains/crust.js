@@ -7,7 +7,7 @@ const nodes = [
   },
   {
     name: "Crust",
-    url: "wss://rpc2-subscan.crust.network",
+    url: "wss://rpc.crustnetwork.xyz",
   },
 ];
 
