@@ -3,4 +3,7 @@ module.exports = {
   ...require("./proxy"),
   ...require("./proxyTimeline"),
   ...require("./proxyCalls"),
+  ...require("./announcements"),
+  ...require("./announcement"),
+  ...require("./announcementTimeline"),
 };

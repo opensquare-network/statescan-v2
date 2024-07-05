@@ -1,6 +1,7 @@
 const {
   palletProxy: { getProxyCallCol },
 } = require("@statescan/mongo");
+const { normalizeProxyCall } = require("./common");
 
 async function proxyCalls(_, _args) {
   const { proxyId, offset, limit } = _args;
@@ -15,11 +16,7 @@ async function proxyCalls(_, _args) {
   const total = await col.countDocuments(q);
 
   return {
-    items: items.map((item) => ({
-      ...item,
-      delegator: item.real,
-      delegatee: item.delegate,
-    })),
+    items: items.map(normalizeProxyCall),
     offset,
     limit,
     total,
