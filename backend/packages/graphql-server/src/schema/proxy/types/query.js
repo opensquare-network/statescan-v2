@@ -10,6 +10,7 @@ const queries = /* GraphQL */ `
     ): PagedProxy!
     proxy(proxyId: String!): Proxy
     proxyTimeline(proxyId: String!): [ProxyTimeline]!
+    proxyCalls(proxyId: String!, offset: Int!, limit: Int!): PagedProxyCall!
   }
 `;
 
