@@ -11,6 +11,13 @@ const proxy = /* GraphQL */ `
     indexer: Indexer!
   }
 
+  type ProxyTimeline {
+    proxyId: String!
+    name: String
+    args: JSONObject
+    indexer: Indexer!
+  }
+
   type PagedProxy {
     items: [Proxy]!
     offset: Int!

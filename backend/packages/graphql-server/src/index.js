@@ -9,6 +9,7 @@ const {
   multisig: { initMultisigScanDb },
   identity: { initIdentityScanDb },
   palletRecovery: { initPalletRecoveryScanDb },
+  palletProxy: { initPalletProxyScanDb },
 } = require("@statescan/mongo");
 const {
   hasVesting,
@@ -16,6 +17,7 @@ const {
   hasMultisig,
   hasIdentity,
   hasRecovery,
+  hasProxy,
 } = require("./env");
 
 const port = parseInt(process.env.PORT) || 7100;
@@ -35,6 +37,9 @@ async function initDbs() {
   }
   if (hasRecovery()) {
     await initPalletRecoveryScanDb();
+  }
+  if (hasProxy()) {
+    await initPalletProxyScanDb();
   }
 }
 
