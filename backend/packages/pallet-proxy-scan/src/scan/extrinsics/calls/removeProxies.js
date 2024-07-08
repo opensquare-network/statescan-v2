@@ -54,14 +54,14 @@ async function handleRemoveProxies(call, signer, extrinsicIndexer) {
     extrinsicIndexer.blockHash,
   );
   const proxyIdsAtCurBlock = getAllProxyIds(signer, nowOnChainProxies);
-  const proxiesInDb = await getAllActiveProxiesOfDelegator(signer);
-  const proxyIdsInDb = proxiesInDb.map((proxy) => proxy.proxyId);
-  logDifference(proxyIdsAtPreBlock, proxyIdsInDb, extrinsicIndexer);
-
   if (proxyIdsAtCurBlock.length > 0) {
     // it means this call is failed
     return;
   }
+
+  const proxiesInDb = await getAllActiveProxiesOfDelegator(signer);
+  const proxyIdsInDb = proxiesInDb.map((proxy) => proxy.proxyId);
+  logDifference(proxyIdsAtPreBlock, proxyIdsInDb, extrinsicIndexer);
 
   const proxyCol = await getProxyCol();
   const proxyBulk = proxyCol.initializeUnorderedBulkOp();
