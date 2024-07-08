@@ -45,5 +45,5 @@ async function announcements(_, _args) {
 }
 
 module.exports = {
-  announcements,
+  proxyAnnouncements: announcements,
 };

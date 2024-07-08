@@ -11,15 +11,15 @@ const queries = /* GraphQL */ `
     proxy(proxyId: String!): Proxy
     proxyTimeline(proxyId: String!): [ProxyTimeline]!
     proxyCalls(proxyId: String!, offset: Int!, limit: Int!): PagedProxyCall!
-    announcements(
+    proxyAnnouncements(
       delegator: String
       delegatee: String
       isFinal: Boolean
       offset: Int!
       limit: Int!
     ): PagedAnnouncement!
-    announcement(announcementId: String!): Announcement
-    announcementTimeline(announcementId: String!): [AnnouncementTimeline]!
+    proxyAnnouncement(announcementId: String!): Announcement
+    proxyAnnouncementTimeline(announcementId: String!): [AnnouncementTimeline]!
   }
 `;
 

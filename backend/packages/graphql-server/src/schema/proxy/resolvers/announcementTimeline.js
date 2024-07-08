@@ -12,5 +12,5 @@ async function announcementTimeline(_, _args) {
 }
 
 module.exports = {
-  announcementTimeline,
+  proxyAnnouncementTimeline: announcementTimeline,
 };
