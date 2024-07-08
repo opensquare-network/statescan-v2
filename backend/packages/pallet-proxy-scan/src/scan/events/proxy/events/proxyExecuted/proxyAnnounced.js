@@ -14,6 +14,7 @@ async function updateAnnouncementsState(
   delegate,
   announcements = [],
   normalizedCall,
+  eventData,
   indexer,
 ) {
   const col = await getAnnouncementCol();
@@ -31,6 +32,7 @@ async function updateAnnouncementsState(
         state: "Executed",
         normalizedCall,
         executedAt: indexer,
+        eventData,
       },
     });
   }
@@ -39,7 +41,12 @@ async function updateAnnouncementsState(
   }
 }
 
-async function insertTimelineItem(delegate, announcements = [], indexer) {
+async function insertTimelineItem(
+  delegate,
+  announcements = [],
+  eventData,
+  indexer,
+) {
   const col = await getAnnouncementTimelineCol();
   const bulk = col.initializeUnorderedBulkOp();
   for (const ann of announcements) {
@@ -52,7 +59,7 @@ async function insertTimelineItem(delegate, announcements = [], indexer) {
     bulk.insert({
       announcementId,
       name: "Executed",
-      args: {},
+      args: { eventData },
       indexer,
     });
   }
@@ -68,6 +75,7 @@ async function handleProxyAnnouncedCall(event, call, indexer) {
   const announcementCall = call.args[3];
   const announcementCallHash = call.args[3].hash.toHex();
   const normalizedCall = normalizeCall(announcementCall);
+  const eventData = event.data.toJSON();
 
   const announcements = await queryAnnouncements(
     delegate,
@@ -88,9 +96,10 @@ async function handleProxyAnnouncedCall(event, call, indexer) {
     delegate,
     removedAnnouncements,
     normalizedCall,
+    eventData,
     indexer,
   );
-  await insertTimelineItem(delegate, removedAnnouncements, indexer);
+  await insertTimelineItem(delegate, removedAnnouncements, eventData, indexer);
 }
 
 module.exports = {
