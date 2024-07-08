@@ -64,6 +64,7 @@ function LatestBlocks({ blocks }) {
         <>
           <Tooltip tip={block.validator} pullRight>
             <AddressOrIdentity
+              key={block?.validator}
               address={block?.validator}
               network={chainSetting.value}
             />

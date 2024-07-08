@@ -115,6 +115,7 @@ function LatestTransfers({ transfers }) {
             <PC>
               <Tooltip tip={transfer.from} pullRight style={{ marginLeft: 0 }}>
                 <AddressOrIdentity
+                  key={transfer?.from}
                   address={transfer?.from}
                   network={chainSetting.value}
                 />
@@ -130,6 +131,7 @@ function LatestTransfers({ transfers }) {
               truncate
             >
               <AddressOrIdentity
+                key={transfer?.to}
                 address={transfer?.to}
                 network={chainSetting.value}
               />
