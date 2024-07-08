@@ -6,4 +6,5 @@ module.exports = {
   ...require("./announcements"),
   ...require("./announcement"),
   ...require("./announcementTimeline"),
+  ...require("./proxyScanHeight"),
 };

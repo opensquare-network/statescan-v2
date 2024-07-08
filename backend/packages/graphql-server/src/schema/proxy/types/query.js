@@ -20,6 +20,7 @@ const queries = /* GraphQL */ `
     ): PagedAnnouncement!
     proxyAnnouncement(announcementId: String!): Announcement
     proxyAnnouncementTimeline(announcementId: String!): [AnnouncementTimeline]!
+    proxyScanHeight: Int
   }
 `;
 
