@@ -5,6 +5,10 @@ const nodes = [
     name: "Webb",
     url: "wss://rpc.tangle.tools/",
   },
+  {
+    name: "Dwellir",
+    url: "wss://tangle-mainnet-rpc.dwellir.com/",
+  },
 ];
 
 const tangle = {
