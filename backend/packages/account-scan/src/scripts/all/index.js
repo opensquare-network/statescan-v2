@@ -6,7 +6,7 @@ const { normalizeEntry } = require("./nomalize");
 const { queryEntries } = require("./entries");
 const { u8aToHex } = require("@polkadot/util");
 const {
-  chain: { getApi, disconnect },
+  chain: { disconnect },
   env: { currentChain },
 } = require("@osn/scan-common");
 const {
@@ -25,13 +25,8 @@ async function main() {
   let startKey = null;
   let entries = await queryEntries(startKey, queryCount);
 
-  const api = await getApi();
-  const ss58Format = api.registry.chainSS58;
-
   while (entries.length > 0) {
-    const normalizedAccounts = entries.map((entry) =>
-      normalizeEntry(entry, ss58Format),
-    );
+    const normalizedAccounts = entries.map((entry) => normalizeEntry(entry));
     await bulkUpdateAccounts(normalizedAccounts);
     console.log(`${entries.length} accounts saved!`);
 
