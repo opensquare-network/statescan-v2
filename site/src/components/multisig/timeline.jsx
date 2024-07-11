@@ -30,8 +30,8 @@ function Icon({ name }) {
 }
 
 export default function MultisigTimeline() {
-  const { data: { multisigTimeline } = {}, loading } =
-    useMultisigTimelineData();
+  const { data, loading } = useMultisigTimelineData();
+  const multisigTimeline = data?.multisigTimeline;
 
   return (
     <Timeline

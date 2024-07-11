@@ -25,7 +25,9 @@ const TabWrapper = styled.div`
 `;
 
 export default function MultisigPage() {
-  const { data: { multisig } = {} } = useMultisigData();
+  const { data } = useMultisigData();
+  const multisig = data?.multisig;
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (multisig === null) {
