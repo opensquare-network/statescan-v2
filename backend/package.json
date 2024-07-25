@@ -24,5 +24,5 @@
   "devDependencies": {
     "eslint": "^8.31.0"
   },
-  "packageManager": "yarn@3.6.0"
+  "packageManager": "yarn@3.6.4"
 }

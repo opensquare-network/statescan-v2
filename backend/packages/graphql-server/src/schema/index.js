@@ -8,6 +8,10 @@ const {
   typeDefs: recoveryTypeDefs,
 } = require("./recovery");
 const {
+  resolvers: proxyResolvers,
+  typeDefs: proxyTypeDefs,
+} = require("./proxy");
+const {
   resolvers: assetsPalletResolvers,
   typeDefs: assetsPalletTypeDefs,
 } = require("@statescan/pallet-assets-server");
@@ -25,6 +29,7 @@ const {
   hasIdentity,
   hasVesting,
   hasRecovery,
+  hasProxy,
 } = require("../env");
 const {
   graphql: { indexer, json },
@@ -52,6 +57,10 @@ if (hasMultisig()) {
 if (hasIdentity()) {
   resolvers = [...resolvers, identityResolvers];
   typeDefs = [...typeDefs, ...identityTypeDefs];
+}
+if (hasProxy()) {
+  resolvers = [...resolvers, proxyResolvers];
+  typeDefs = [...typeDefs, ...proxyTypeDefs];
 }
 
 const schema = makeExecutableSchema({

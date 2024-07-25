@@ -9,6 +9,7 @@ const multisig = require("./multisig");
 const palletAsset = require("./palletAsset");
 const knownHeight = require("./known/db");
 const palletRecovery = require("./palletRecovery");
+const palletProxy = require("./palletProxy");
 
 module.exports = {
   account,
@@ -21,5 +22,6 @@ module.exports = {
   multisig,
   palletAsset,
   palletRecovery,
+  palletProxy,
   knownHeight,
 };

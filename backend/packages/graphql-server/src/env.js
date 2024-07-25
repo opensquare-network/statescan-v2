@@ -18,10 +18,15 @@ function hasRecovery() {
   return !!process.env.MONGO_PALLET_RECOVERY_SCAN_NAME;
 }
 
+function hasProxy() {
+  return !!process.env.MONGO_PROXY_SCAN_NAME;
+}
+
 module.exports = {
   hasAssets,
   hasVesting,
   hasMultisig,
   hasIdentity,
   hasRecovery,
+  hasProxy,
 };
