@@ -405,6 +405,7 @@ export const proxyHead = [
   {
     name: "Delay Blocks",
     width: 160,
+    type: "delay",
   },
   {
     name: "Crated At",
@@ -585,6 +586,11 @@ export const recoveryCallsHead = [
 export const timeTypes = {
   age: "age",
   date: "date",
+};
+
+export const delayColumnType = {
+  blocks: "blocks",
+  time: "time",
 };
 
 export const signedOnlyFilter = {

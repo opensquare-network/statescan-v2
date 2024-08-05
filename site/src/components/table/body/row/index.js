@@ -1,4 +1,7 @@
-import { timeTypeSelector } from "../../../../store/reducers/preferenceSlice";
+import {
+  timeTypeSelector,
+  delayTypeSelector,
+} from "../../../../store/reducers/preferenceSlice";
 import { Inter_14_500 } from "../../../../styles/text";
 import InnerTable from "../../nestedTable/innerTable";
 import { Fragment, useState } from "react";
@@ -6,6 +9,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import FoldButton from "./foldButton";
 import TimeBody from "../time";
+import DelayBody from "../delay";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -29,6 +33,7 @@ const WrapText = styled.span`
 
 function TableRow({ heads, row = [] }) {
   const timeType = useSelector(timeTypeSelector);
+  const delayType = useSelector(delayTypeSelector);
   const [show, setShow] = useState(false);
 
   return (
@@ -44,6 +49,14 @@ function TableRow({ heads, row = [] }) {
             return (
               <Td key={index}>
                 <TimeBody timeType={timeType} ts={value} />
+              </Td>
+            );
+          }
+
+          if (type === "delay") {
+            return (
+              <Td key={index}>
+                <DelayBody delayType={delayType} blocks={value} />
               </Td>
             );
           }
