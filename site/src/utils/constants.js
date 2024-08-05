@@ -397,6 +397,7 @@ export const proxyHead = [
   },
   {
     name: "Delegatee",
+    minWidth: 240,
   },
   {
     name: "Type",

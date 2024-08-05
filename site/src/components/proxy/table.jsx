@@ -11,7 +11,11 @@ import FoldButton from "../table/body/row/foldButton";
 function DelegatorCell({ data }) {
   return (
     <Flex gap={8}>
-      <AddressOrIdentity key={data.delegator} address={data.delegator} />
+      <AddressOrIdentity
+        key={data.delegator}
+        address={data.delegator}
+        maxWidth={240}
+      />
       {data?.isPure && <TagThemed>Pure</TagThemed>}
     </Flex>
   );
