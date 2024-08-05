@@ -1,12 +1,12 @@
-import capitalize from "lodash.capitalize";
-import { PROXY_STATUS, proxyHead } from "../../utils/constants";
-import AddressOrIdentity from "../address";
-import { Flex } from "../styled/flex";
-import { ColoredLink } from "../styled/link";
-import Table from "../table";
-import { TagThemed } from "../tag";
 import { Link } from "react-router-dom";
+import { proxyHead } from "../../utils/constants";
+import AddressOrIdentity from "../address";
+import DetailedBlock from "../detail/block";
+import { Flex } from "../styled/flex";
+import Table from "../table";
 import FoldButton from "../table/body/row/foldButton";
+import { TagThemed } from "../tag";
+import ProxyStatus from "./status";
 
 function DelegatorCell({ data }) {
   // table cell has padding left(24) and right(24)
@@ -33,20 +33,8 @@ export default function ProxyTable({ data = [], loading }) {
       </Flex>,
       proxy.type,
       proxy?.delay,
-      <ColoredLink to={`/blocks/${proxy?.indexer?.blockHeight}`}>
-        {proxy?.indexer?.blockHeight?.toLocaleString?.()}
-      </ColoredLink>,
-      <div
-        style={{
-          color: proxy?.isRemoved
-            ? "var(--fillNegative)"
-            : "var(--fillPositive)",
-        }}
-      >
-        {proxy?.isRemoved
-          ? capitalize(PROXY_STATUS.REMOVED)
-          : capitalize(PROXY_STATUS.ACTIVE)}
-      </div>,
+      <DetailedBlock blockHeight={proxy?.indexer?.blockHeight} />,
+      <ProxyStatus isRemoved={proxy?.isRemoved} />,
       <Link to={`/proxy/${proxy.proxyId}`}>
         <FoldButton fold />
       </Link>,
