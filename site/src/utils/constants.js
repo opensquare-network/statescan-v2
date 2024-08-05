@@ -390,6 +390,38 @@ export const vestingsHead = [
   },
 ];
 
+export const proxyHead = [
+  {
+    name: "Delegator",
+    width: 240,
+  },
+  {
+    name: "Delegatee",
+    minWidth: 240,
+  },
+  {
+    name: "Type",
+    width: 160,
+  },
+  {
+    name: "Delay Blocks",
+    width: 160,
+    type: "delay",
+  },
+  {
+    name: "Crated At",
+    width: 160,
+  },
+  {
+    name: "Status",
+    width: 160,
+  },
+  {
+    name: "",
+    width: 76,
+  },
+];
+
 export const MULTISIG_ACCOUNT_SORT = {
   DEBUT_AT_HEIGHT_DESC: "DEBUT_AT_HEIGHT_DESC",
   DEBUT_AT_HEIGHT_ASC: "DEBUT_AT_HEIGHT_ASC",
@@ -557,6 +589,11 @@ export const timeTypes = {
   date: "date",
 };
 
+export const delayColumnType = {
+  blocks: "blocks",
+  time: "time",
+};
+
 export const signedOnlyFilter = {
   value: "true",
   defaultValue: "true",
@@ -662,4 +699,9 @@ export const RECOVERABLE_STATUS = {
 export const RECOVERY_STATUS = {
   ACTIVE: "active",
   CLOSED: "closed",
+};
+
+export const PROXY_STATUS = {
+  ACTIVE: "active",
+  REMOVED: "removed",
 };

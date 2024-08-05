@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setTimeType,
   timeTypeSelector,
+  delayTypeSelector,
+  setDelayType,
 } from "../../../store/reducers/preferenceSlice";
 import { useEffect } from "react";
 import { smcss } from "../../../styles/responsive";
@@ -12,6 +14,7 @@ import { w, w_full } from "../../../styles/tailwindcss";
 import last from "lodash.last";
 import SortableHead from "./sortableHead";
 import { useState } from "react";
+import DelayHead from "./delayHead";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -50,6 +53,7 @@ export default function TableHead({ heads }) {
   const timeType = useSelector(timeTypeSelector);
   const isDataTableTypeLast = last(heads)?.type === "data";
   const [activeSortQueryValue, setActiveSortQueryValue] = useState("");
+  const delayType = useSelector(delayTypeSelector);
 
   useEffect(() => {
     const timeType = localStorage.getItem("timeType");
@@ -58,8 +62,19 @@ export default function TableHead({ heads }) {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    const delayType = localStorage.getItem("delayType");
+    if (delayType) {
+      dispatch(setDelayType(delayType));
+    }
+  }, [dispatch]);
+
   const doSetTimeType = (timeType) => {
     dispatch(setTimeType(timeType));
+  };
+
+  const doSetDelayType = (value) => {
+    dispatch(setDelayType(value));
   };
 
   return (
@@ -76,6 +91,12 @@ export default function TableHead({ heads }) {
           if (type === "time") {
             content = (
               <TimeHead timeType={timeType} setTimeType={doSetTimeType} />
+            );
+          }
+
+          if (type === "delay") {
+            content = (
+              <DelayHead delayType={delayType} setDelayType={doSetDelayType} />
             );
           }
 

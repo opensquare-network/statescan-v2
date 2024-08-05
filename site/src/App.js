@@ -39,13 +39,15 @@ import RecoveriesPage from "./pages/recoveries";
 import RecoverablePage from "./pages/recoverable";
 import RecoveryPage from "./pages/recovery";
 import ProxiesPage from "./pages/proxies";
+import ProxyPage from "./pages/proxy";
+import ProxyDetailPage from "./pages/proxy/detail";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
   : HashRouter;
 
 function App() {
-  const { assets, uniques, identity, multisig, vestings, recovery } =
+  const { assets, uniques, identity, multisig, vestings, recovery, proxy } =
     getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useSubFinalizedHeight();
@@ -124,6 +126,12 @@ function App() {
             <Route path="/recoveries" element={<RecoveriesPage />} />
             <Route path="/recoveries/:id" element={<RecoveryPage />} />
             <Route path="/proxies" element={<ProxiesPage />} />
+          </>
+        )}
+        {proxy && (
+          <>
+            <Route path="/proxy" element={<ProxyPage />} />
+            <Route path="/proxy/:id" element={<ProxyDetailPage />} />
           </>
         )}
       </Routes>
