@@ -1,5 +1,6 @@
 import { useProxyCountsData } from "../../../hooks/proxy/useProxyCountsData";
 import DetailTabs from "../../detail/tabs";
+import ProxyCallsTab from "./calls";
 import ProxyTimelineTab from "./timeline";
 
 export default function ProxyDetailTabs({ delegatee, delegator, proxyId }) {
@@ -13,6 +14,11 @@ export default function ProxyDetailTabs({ delegatee, delegator, proxyId }) {
     {
       name: "Timeline",
       children: <ProxyTimelineTab />,
+    },
+    {
+      name: "Calls",
+      count: data.calls,
+      children: <ProxyCallsTab />,
     },
     {
       name: "Announcements",

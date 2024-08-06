@@ -422,6 +422,32 @@ export const proxyHead = [
   },
 ];
 
+export const proxyCallsHead = [
+  {
+    name: "Hash",
+    width: 240,
+  },
+  {
+    name: "Time",
+    width: 200,
+    type: "time",
+  },
+  {
+    name: "Result",
+    width: 112,
+  },
+  {
+    name: "Call",
+  },
+  {
+    name: "",
+    width: 76,
+    type: "data",
+    align: "right",
+    display: "table",
+  },
+];
+
 export const MULTISIG_ACCOUNT_SORT = {
   DEBUT_AT_HEIGHT_DESC: "DEBUT_AT_HEIGHT_DESC",
   DEBUT_AT_HEIGHT_ASC: "DEBUT_AT_HEIGHT_ASC",

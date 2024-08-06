@@ -29,6 +29,7 @@ export function useProxyCountsData({ proxyId, delegatee, delegator } = {}) {
   return {
     data: {
       announcements: data?.proxyAnnouncements?.total,
+      calls: data?.proxyCalls?.total,
     },
     ...rest,
   };
