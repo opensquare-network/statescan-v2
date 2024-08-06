@@ -1,8 +1,8 @@
 export default function ProxyTimleineIcon({ name }) {
   const iconSrcMap = {
-    ProxyExecuted: "",
+    ProxyExecuted: "/imgs/icons/timeline-proxy_proxy_executed.svg",
     PureCreated: "/imgs/icons/timeline-proxy_pure_created.svg",
-    Announced: "",
+    Announced: "/imgs/icons/timeline-annoucement_announced.svg",
     ProxyAdded: "/imgs/icons/timeline-proxy_proxy_added.svg",
     ProxyRemoved: "/imgs/icons/timeline-proxy_proxy_removed.svg",
   };
