@@ -5,6 +5,9 @@ export default function ProxyTimleineIcon({ name }) {
     Announced: "/imgs/icons/timeline-annoucement_announced.svg",
     ProxyAdded: "/imgs/icons/timeline-proxy_proxy_added.svg",
     ProxyRemoved: "/imgs/icons/timeline-proxy_proxy_removed.svg",
+    AnonymousCreated: "/imgs/icons/timeline-proxy_anonymous_created.svg",
+    Killed: "/imgs/icons/timeline-proxy_killed.svg",
+    addProxy: "/imgs/icons/timeline-proxy_add_proxy.svg",
   };
 
   return <img width={24} height={24} src={iconSrcMap[name]} alt={name} />;
