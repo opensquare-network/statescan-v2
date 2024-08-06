@@ -448,6 +448,34 @@ export const proxyCallsHead = [
   },
 ];
 
+export const proxyAnnouncementsHead = [
+  {
+    name: "Hash",
+    width: 240,
+  },
+  {
+    name: "Time",
+    width: 200,
+    type: "time",
+  },
+  {
+    name: "Call",
+  },
+  {
+    name: "Status",
+    width: 160,
+  },
+  {
+    name: "Final Block",
+    width: 200,
+    type: "time",
+  },
+  {
+    name: "",
+    width: 76,
+  },
+];
+
 export const MULTISIG_ACCOUNT_SORT = {
   DEBUT_AT_HEIGHT_DESC: "DEBUT_AT_HEIGHT_DESC",
   DEBUT_AT_HEIGHT_ASC: "DEBUT_AT_HEIGHT_ASC",
@@ -730,4 +758,12 @@ export const RECOVERY_STATUS = {
 export const PROXY_STATUS = {
   ACTIVE: "active",
   REMOVED: "removed",
+};
+
+export const PROXY_ANNOUNCEMENT_STATUS = {
+  ANNOUNCED: "Announced",
+  EXECUTED: "Executed",
+  KILLED: "Killed",
+  REJECTED: "Rejected",
+  REMOVED: "Removed",
 };
