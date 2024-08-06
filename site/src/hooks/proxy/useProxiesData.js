@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import { useQueryParams } from "../useQueryParams";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { useProxyQuery } from "../apollo";
 
@@ -26,10 +25,7 @@ const GET_PROXIES = gql`
   }
 `;
 
-export function useProxiesData() {
-  const { page = 1 } = useQueryParams();
-  const pageSize = LIST_DEFAULT_PAGE_SIZE;
-
+export function useProxiesData(page = 1, pageSize = LIST_DEFAULT_PAGE_SIZE) {
   const { data, ...rest } = useProxyQuery(GET_PROXIES, {
     variables: {
       limit: pageSize,

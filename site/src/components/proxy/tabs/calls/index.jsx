@@ -6,7 +6,7 @@ import ProxyCallsTabTable from "./table";
 
 export default function ProxyCallsTab() {
   const { id, page = 1 } = useParams();
-  const { data, loading } = useProxyCallsData(id);
+  const { data, loading } = useProxyCallsData(id, page);
 
   return (
     <StyledPanelTableWrapper

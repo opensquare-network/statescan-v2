@@ -8,8 +8,7 @@ import { useQueryParams } from "../../hooks/useQueryParams";
 
 export default function ProxyPage() {
   const { page = 1 } = useQueryParams();
-
-  const { data, loading } = useProxiesData();
+  const { data, loading } = useProxiesData(page);
 
   return (
     <Layout>
