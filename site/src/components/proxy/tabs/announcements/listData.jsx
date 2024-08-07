@@ -38,7 +38,6 @@ export default function ProxyAnnouncementListData({
   const data = [
     {
       label: "Call Hash",
-      // TODO: proxy, call hash link?
       value: <CallHash>{callHash}</CallHash>,
     },
     {
