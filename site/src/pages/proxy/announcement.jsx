@@ -6,6 +6,7 @@ import ProxyAnnouncementListData from "../../components/proxy/tabs/announcements
 import styled from "styled-components";
 import { Panel } from "../../components/styled/panel";
 import { Inter_14_500 } from "../../styles/text";
+import ProxyAnnouncementTabs from "../../components/proxy/tabs/announcements/tabs";
 
 const StyledPanel = styled(Panel)`
   ${Inter_14_500}
@@ -36,12 +37,13 @@ export default function ProxyAnnouncementDetailPage() {
           indexer={data?.indexer}
           normalizedCall={data?.normalizedCall}
           status={data?.state}
-          isFinal={data?.isFinal}
           removedAt={data?.removedAt}
           executedAt={data?.executedAt}
           rejectedAt={data?.rejectedAt}
         />
       </StyledPanel>
+
+      {!loading && <ProxyAnnouncementTabs announcementId={id} />}
     </DetailLayout>
   );
 }
