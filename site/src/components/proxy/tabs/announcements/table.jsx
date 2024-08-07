@@ -8,7 +8,7 @@ import Table from "../../../table";
 import CallCell from "../../../table/callCell";
 import FoldButton from "../../../table/body/row/foldButton";
 
-const StatusCellColor = {
+const STATUS_COLORS = {
   [PROXY_ANNOUNCEMENT_STATUS.ANNOUNCED]: "var(--fillActiveBlue)",
   [PROXY_ANNOUNCEMENT_STATUS.EXECUTED]: "var(--fillPositive)",
   [PROXY_ANNOUNCEMENT_STATUS.KILLED]: "var(--fillNegative)",
@@ -34,7 +34,7 @@ export default function ProxyAnnouncementsTable({ data, loading }) {
       hashEllipsis(item.callHash, 6, 8),
       item.indexer?.blockTime,
       <CallCell call={item.normalizedCall} />,
-      <span style={{ color: StatusCellColor[item.state] }}>{item.state}</span>,
+      <span style={{ color: STATUS_COLORS[item.state] }}>{item.state}</span>,
       finalIndexer?.blockTime,
       <Link to={`/proxy/announcements/${item.announcementId}`}>
         <FoldButton fold />
