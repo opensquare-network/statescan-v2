@@ -9,7 +9,7 @@ const litentry = {
   value: "litentry",
   chain: "polkadot",
   symbol: "LIT",
-  decimals: 12,
+  decimals: 18,
   chainIcon: "litentry",
   color: "#1CC776",
   colorSecondary: "rgba(28, 199, 118, 0.1)",
