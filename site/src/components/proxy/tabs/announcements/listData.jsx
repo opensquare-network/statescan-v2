@@ -4,7 +4,10 @@ import List from "../../../list";
 import { Overpass_Mono_14_500 } from "../../../../styles/text";
 import { PROXY_ANNOUNCEMENT_STATUS } from "../../../../utils/constants";
 import { PROXY_ANNOUNCEMENT_STATUS_COLORS } from "../../consts";
-import CallCell from "../../../table/callCell";
+import { TagThemed } from "../../../tag";
+import { TextTertiary } from "../../../styled/text";
+import { Flex } from "../../../styled/flex";
+import { time } from "../../../../utils/viewFuncs/time";
 
 const CallHash = styled.div`
   ${Overpass_Mono_14_500}
@@ -40,11 +43,20 @@ export default function ProxyAnnouncementListData({
     },
     {
       label: "Created At",
-      value: <DetailedBlock blockHeight={indexer?.blockHeight} />,
+      value: (
+        <Flex gap={8}>
+          <DetailedBlock blockHeight={indexer?.blockHeight} />
+          <TextTertiary>{time(indexer?.blockTime)}</TextTertiary>
+        </Flex>
+      ),
     },
     {
       label: "Normalized Call",
-      value: <CallCell call={normalizedCall} />,
+      value: normalizedCall?.method ? (
+        <TagThemed>{normalizedCall.method}</TagThemed>
+      ) : (
+        <TextTertiary>--</TextTertiary>
+      ),
     },
     {
       type: "divider",
@@ -59,7 +71,12 @@ export default function ProxyAnnouncementListData({
     },
     finalIndexer && {
       label: `${status} At`,
-      value: <DetailedBlock blockHeight={finalIndexer?.blockHeight} />,
+      value: (
+        <Flex gap={8}>
+          <DetailedBlock blockHeight={finalIndexer?.blockHeight} />
+          <TextTertiary>{time(finalIndexer?.blockTime)}</TextTertiary>
+        </Flex>
+      ),
     },
   ].filter(Boolean);
 
