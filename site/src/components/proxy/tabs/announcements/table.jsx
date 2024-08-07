@@ -9,7 +9,7 @@ import CallCell from "../../../table/callCell";
 import FoldButton from "../../../table/body/row/foldButton";
 
 const StatusCellColor = {
-  [PROXY_ANNOUNCEMENT_STATUS.ANNOUNCED]: "var(--fontActiveSkyBlue)",
+  [PROXY_ANNOUNCEMENT_STATUS.ANNOUNCED]: "var(--fillActiveBlue)",
   [PROXY_ANNOUNCEMENT_STATUS.EXECUTED]: "var(--fillPositive)",
   [PROXY_ANNOUNCEMENT_STATUS.KILLED]: "var(--fillNegative)",
   [PROXY_ANNOUNCEMENT_STATUS.REJECTED]: "var(--fillNegative)",
