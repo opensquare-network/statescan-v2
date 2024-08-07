@@ -2,10 +2,9 @@ import styled from "styled-components";
 import DetailedBlock from "../../../detail/block";
 import List from "../../../list";
 import { Overpass_Mono_14_500 } from "../../../../styles/text";
-import { TagThemed } from "../../../tag";
-import { TextTertiary } from "../../../styled/text";
 import { PROXY_ANNOUNCEMENT_STATUS } from "../../../../utils/constants";
 import { PROXY_ANNOUNCEMENT_STATUS_COLORS } from "../../consts";
+import CallCell from "../../../table/callCell";
 
 const CallHash = styled.div`
   ${Overpass_Mono_14_500}
@@ -45,11 +44,7 @@ export default function ProxyAnnouncementListData({
     },
     {
       label: "Normalized Call",
-      value: normalizedCall ? (
-        <TagThemed>{normalizedCall?.method}</TagThemed>
-      ) : (
-        <TextTertiary>--</TextTertiary>
-      ),
+      value: <CallCell call={normalizedCall} />,
     },
     {
       type: "divider",
