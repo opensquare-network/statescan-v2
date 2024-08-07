@@ -18,7 +18,7 @@ export function useChainBlockTime() {
     }
 
     setValue(api?.consts?.babe?.expectedBlockTime?.toNumber?.());
-  }, [api]);
+  }, [api, blockTime]);
 
   return value;
 }
