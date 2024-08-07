@@ -1,6 +1,6 @@
 import {
   timeTypeSelector,
-  delayTypeSelector,
+  tableSwitchFirstSelector,
 } from "../../../../store/reducers/preferenceSlice";
 import { Inter_14_500 } from "../../../../styles/text";
 import InnerTable from "../../nestedTable/innerTable";
@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import FoldButton from "./foldButton";
 import TimeBody from "../time";
-import DelayBody from "../delay";
+import SwitchBody from "../switch";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -33,7 +33,7 @@ const WrapText = styled.span`
 
 function TableRow({ heads, row = [] }) {
   const timeType = useSelector(timeTypeSelector);
-  const delayType = useSelector(delayTypeSelector);
+  const switchHeadFirst = useSelector(tableSwitchFirstSelector);
   const [show, setShow] = useState(false);
 
   return (
@@ -53,10 +53,10 @@ function TableRow({ heads, row = [] }) {
             );
           }
 
-          if (type === "delay") {
+          if (type === "switch") {
             return (
               <Td key={index}>
-                <DelayBody delayType={delayType} blocks={value} />
+                <SwitchBody switchHeadFirst={switchHeadFirst} value={value} />
               </Td>
             );
           }

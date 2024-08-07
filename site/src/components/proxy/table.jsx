@@ -7,6 +7,9 @@ import Table from "../table";
 import FoldButton from "../table/body/row/foldButton";
 import { TagThemed } from "../tag";
 import ProxyStatus from "./status";
+import { useChainBlockTime } from "../../utils/hooks/chain/useChainBlockTime";
+import { timeRemain } from "../../utils/viewFuncs/time";
+import { TextTertiary } from "../styled/text";
 
 function DelegatorCell({ data }) {
   // table cell has padding left(24) and right(24)
@@ -25,6 +28,8 @@ function DelegatorCell({ data }) {
 }
 
 export default function ProxyTable({ data = [], loading }) {
+  const blockTime = useChainBlockTime();
+
   const tableData = data?.map?.((proxy) => {
     return [
       <DelegatorCell key={proxy.delegator} data={proxy} />,
@@ -32,7 +37,9 @@ export default function ProxyTable({ data = [], loading }) {
         <AddressOrIdentity key={proxy.delegatee} address={proxy.delegatee} />
       </Flex>,
       proxy.type,
-      proxy?.delay,
+      proxy?.delay
+        ? [proxy?.delay, timeRemain(proxy?.delay * blockTime)]
+        : [<TextTertiary>--</TextTertiary>, <TextTertiary>--</TextTertiary>],
       <DetailedBlock blockHeight={proxy?.indexer?.blockHeight} />,
       <ProxyStatus isRemoved={proxy?.isRemoved} />,
       <Link to={`/proxy/${proxy.proxyId}`}>

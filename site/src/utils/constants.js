@@ -404,9 +404,9 @@ export const proxyHead = [
     width: 160,
   },
   {
-    name: "Delay Blocks",
+    name: ["Delay Blocks", "Delay Time"],
     width: 160,
-    type: "delay",
+    type: "switch",
   },
   {
     name: "Crated At",
