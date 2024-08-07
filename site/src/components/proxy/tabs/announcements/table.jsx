@@ -11,6 +11,12 @@ import { PROXY_ANNOUNCEMENT_STATUS_COLORS } from "../../consts";
 import DetailedBlock from "../../../detail/block";
 import { TextTertiary } from "../../../styled/text";
 import { time } from "../../../../utils/viewFuncs/time";
+import styled from "styled-components";
+import { Overpass_Mono_14_500 } from "../../../../styles/text";
+
+const Hash = styled.div`
+  ${Overpass_Mono_14_500}
+`;
 
 export default function ProxyAnnouncementsTable({ data, loading }) {
   const tableData = data?.map?.((item) => {
@@ -27,7 +33,7 @@ export default function ProxyAnnouncementsTable({ data, loading }) {
     }
 
     return [
-      hashEllipsis(item.callHash, 6, 8),
+      <Hash>{hashEllipsis(item.callHash, 6, 8)}</Hash>,
       [
         <DetailedBlock blockHeight={item?.indexer?.blockHeight} />,
         <TextTertiary>{time(item?.indexer?.blockTime)}</TextTertiary>,
