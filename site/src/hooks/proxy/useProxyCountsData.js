@@ -17,7 +17,7 @@ const GET_PROXY_COUNTS = gql`
   }
 `;
 
-export function useProxyCountsData({ proxyId, delegatee, delegator } = {}) {
+export function useProxyCountsData(proxyId, { delegatee, delegator } = {}) {
   const { data, ...rest } = useProxyQuery(GET_PROXY_COUNTS, {
     variables: {
       proxyId,

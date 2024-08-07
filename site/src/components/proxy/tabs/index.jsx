@@ -5,8 +5,7 @@ import ProxyCallsTab from "./calls";
 import ProxyTimelineTab from "./timeline";
 
 export default function ProxyDetailTabs({ delegatee, delegator, proxyId }) {
-  const { data } = useProxyCountsData({
-    proxyId,
+  const { data } = useProxyCountsData(proxyId, {
     delegatee,
     delegator,
   });
