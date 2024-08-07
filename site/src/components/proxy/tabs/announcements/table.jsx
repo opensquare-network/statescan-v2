@@ -28,9 +28,6 @@ export default function ProxyAnnouncementsTable({ data, loading }) {
     } else if (item.state === PROXY_ANNOUNCEMENT_STATUS.REMOVED) {
       finalIndexer = item.removedAt;
     }
-    // TODO: proxy, killed?
-    else if (item.state === PROXY_ANNOUNCEMENT_STATUS.KILLED) {
-    }
 
     return [
       <Hash>{hashEllipsis(item.callHash, 6, 8)}</Hash>,

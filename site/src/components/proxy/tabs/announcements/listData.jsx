@@ -31,9 +31,6 @@ export default function ProxyAnnouncementListData({
   } else if (status === PROXY_ANNOUNCEMENT_STATUS.REMOVED) {
     finalIndexer = removedAt;
   }
-  // TODO: proxy, killed?
-  else if (status === PROXY_ANNOUNCEMENT_STATUS.KILLED) {
-  }
 
   const data = [
     {
