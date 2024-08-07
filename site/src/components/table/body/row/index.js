@@ -1,6 +1,5 @@
 import {
   timeTypeSelector,
-  delayTypeSelector,
   tableSwitchFirstSelector,
 } from "../../../../store/reducers/preferenceSlice";
 import { Inter_14_500 } from "../../../../styles/text";
