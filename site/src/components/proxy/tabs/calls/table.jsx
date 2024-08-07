@@ -1,6 +1,9 @@
 import { proxyCallsHead } from "../../../../utils/constants";
 import { hashEllipsis } from "../../../../utils/viewFuncs/text";
+import { time } from "../../../../utils/viewFuncs/time";
+import DetailedBlock from "../../../detail/block";
 import ExtrinsicParametersDisplay from "../../../extrinsicParametersDisplay";
+import { TextTertiary } from "../../../styled/text";
 import Table from "../../../table";
 import CallCell from "../../../table/callCell";
 
@@ -13,7 +16,10 @@ export default function ProxyCallsTabTable({ loading, data }) {
 
     return [
       hashEllipsis(item.callHash, 6, 8),
-      item?.indexer?.blockTime,
+      [
+        <DetailedBlock blockHeight={item?.indexer?.blockHeight} />,
+        <TextTertiary>{time(item?.indexer?.blockTime)}</TextTertiary>,
+      ],
       <img
         alt=""
         src={isErr ? "/imgs/icons/cross.svg" : "/imgs/icons/check.svg"}

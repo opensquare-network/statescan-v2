@@ -428,9 +428,9 @@ export const proxyCallsHead = [
     width: 240,
   },
   {
-    name: "Time",
+    name: ["Block", "Time"],
     width: 200,
-    type: "time",
+    type: "switch",
   },
   {
     name: "Result",
@@ -454,9 +454,9 @@ export const proxyAnnouncementsHead = [
     width: 240,
   },
   {
-    name: "Time",
+    name: ["Block", "Time"],
     width: 200,
-    type: "time",
+    type: "switch",
   },
   {
     name: "Call",
@@ -466,9 +466,9 @@ export const proxyAnnouncementsHead = [
     width: 160,
   },
   {
-    name: "Final Block",
+    name: ["Final Block", "Final Time"],
     width: 200,
-    type: "time",
+    type: "switch",
   },
   {
     name: "",

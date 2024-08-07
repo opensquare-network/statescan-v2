@@ -8,6 +8,9 @@ import Table from "../../../table";
 import CallCell from "../../../table/callCell";
 import FoldButton from "../../../table/body/row/foldButton";
 import { PROXY_ANNOUNCEMENT_STATUS_COLORS } from "../../consts";
+import DetailedBlock from "../../../detail/block";
+import { TextTertiary } from "../../../styled/text";
+import { time } from "../../../../utils/viewFuncs/time";
 
 export default function ProxyAnnouncementsTable({ data, loading }) {
   const tableData = data?.map?.((item) => {
@@ -25,12 +28,20 @@ export default function ProxyAnnouncementsTable({ data, loading }) {
 
     return [
       hashEllipsis(item.callHash, 6, 8),
-      item.indexer?.blockTime,
+      [
+        <DetailedBlock blockHeight={item?.indexer?.blockHeight} />,
+        <TextTertiary>{time(item?.indexer?.blockTime)}</TextTertiary>,
+      ],
       <CallCell call={item.normalizedCall} />,
       <span style={{ color: PROXY_ANNOUNCEMENT_STATUS_COLORS[item.state] }}>
         {item.state}
       </span>,
-      finalIndexer?.blockTime,
+      finalIndexer
+        ? [
+            <DetailedBlock blockHeight={finalIndexer?.blockHeight} />,
+            <TextTertiary>{time(finalIndexer?.blockTime)}</TextTertiary>,
+          ]
+        : [<TextTertiary>--</TextTertiary>, <TextTertiary>--</TextTertiary>],
       <Link to={`/proxy/announcements/${item.announcementId}`}>
         <FoldButton fold />
       </Link>,
