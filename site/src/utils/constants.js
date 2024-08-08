@@ -643,11 +643,6 @@ export const timeTypes = {
   date: "date",
 };
 
-export const delayColumnType = {
-  blocks: "blocks",
-  time: "time",
-};
-
 export const signedOnlyFilter = {
   value: "true",
   defaultValue: "true",
