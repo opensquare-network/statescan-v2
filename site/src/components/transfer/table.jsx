@@ -11,10 +11,30 @@ import getTransferDecimals from "../../utils/viewFuncs/transferDecimals";
 import SymbolLink from "../symbol/symbolLink";
 import getTransferSymbol from "../../utils/viewFuncs/transferSymbol";
 
-export default function TransfersTable({ data, loading }) {
-  const { symbol, decimals } = useChainSettings();
+function ValueCell({ transfer }) {
+  const { symbol, decimals } = useChainSettings(transfer.indexer.blockHeight);
 
+  return (
+    <ValueDisplay
+      value={toPrecision(
+        transfer?.balance,
+        getTransferDecimals(transfer, decimals),
+      )}
+      symbol={
+        <SymbolLink assetId={transfer.assetId}>
+          {getTransferSymbol(transfer, symbol)}
+        </SymbolLink>
+      }
+      showNotEqualTooltip
+    />
+  );
+}
+
+export default function TransfersTable({ data, loading }) {
   const tableData = data?.map?.((transfer, key) => {
+    // table cell has padding left(24) and right(24)
+    const addressOrIdentityMaxWidth = 200 - 48;
+
     return [
       <ColoredLink
         key={`${key}-1`}
@@ -26,23 +46,20 @@ export default function TransfersTable({ data, loading }) {
       <ExtrinsicLink key={`${key}-1`} indexer={transfer.indexer} />,
       transfer?.indexer?.blockTime,
       <Tooltip tip={transfer?.from}>
-        <AddressOrIdentity key={transfer?.from} address={transfer?.from} />
+        <AddressOrIdentity
+          key={transfer?.from}
+          address={transfer?.from}
+          maxWidth={addressOrIdentityMaxWidth}
+        />
       </Tooltip>,
       <Tooltip tip={transfer?.to}>
-        <AddressOrIdentity key={transfer?.to} address={transfer?.to} />
+        <AddressOrIdentity
+          key={transfer?.to}
+          address={transfer?.to}
+          maxWidth={addressOrIdentityMaxWidth}
+        />
       </Tooltip>,
-      <ValueDisplay
-        value={toPrecision(
-          transfer?.balance,
-          getTransferDecimals(transfer, decimals),
-        )}
-        symbol={
-          <SymbolLink assetId={transfer.assetId}>
-            {getTransferSymbol(transfer, symbol)}
-          </SymbolLink>
-        }
-        showNotEqualTooltip
-      />,
+      <ValueCell transfer={transfer} />,
     ];
   });
 

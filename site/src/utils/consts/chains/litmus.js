@@ -1,4 +1,5 @@
 import { ReactComponent as Litmus } from "../../../components/icons/litmus.svg";
+import { litmusBlockHeightSettings } from "./blockHeightSettings/litmus";
 import { governanceModules } from "./modules";
 
 const litmus = {
@@ -9,7 +10,7 @@ const litmus = {
   value: "litmus",
   chain: "kusama",
   symbol: "LIT",
-  decimals: 12,
+  decimals: 18,
   chainIcon: "litmus",
   color: "#6431EC",
   colorSecondary: "rgba(100, 49, 236, 0.1)",
@@ -31,6 +32,7 @@ const litmus = {
   subSquareWebsite: "https://litmus.subsquare.io",
   nodes: [{ name: "Litentry", url: "wss://rpc.litmus-parachain.litentry.io" }],
   useOnChainBlockData: true,
+  blockHeightSettings: litmusBlockHeightSettings,
 };
 
 export default litmus;

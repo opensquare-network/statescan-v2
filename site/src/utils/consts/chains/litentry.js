@@ -1,4 +1,5 @@
 import { ReactComponent as Litentry } from "../../../components/icons/litentry.svg";
+import { litentryBlockHeightSettings } from "./blockHeightSettings/litentry";
 import { governanceModules } from "./modules";
 
 const litentry = {
@@ -9,7 +10,7 @@ const litentry = {
   value: "litentry",
   chain: "polkadot",
   symbol: "LIT",
-  decimals: 12,
+  decimals: 18,
   chainIcon: "litentry",
   color: "#1CC776",
   colorSecondary: "rgba(28, 199, 118, 0.1)",
@@ -34,6 +35,7 @@ const litentry = {
     { name: "Dwellir", url: "wss://litentry-rpc.dwellir.com" },
   ],
   useOnChainBlockData: true,
+  blockHeightSettings: litentryBlockHeightSettings,
 };
 
 export default litentry;
