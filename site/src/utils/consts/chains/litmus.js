@@ -10,7 +10,7 @@ const litmus = {
   value: "litmus",
   chain: "kusama",
   symbol: "LIT",
-  decimals: 12,
+  decimals: 18,
   chainIcon: "litmus",
   color: "#6431EC",
   colorSecondary: "rgba(100, 49, 236, 0.1)",
