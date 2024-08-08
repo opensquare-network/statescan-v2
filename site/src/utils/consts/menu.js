@@ -62,8 +62,13 @@ const recoveryMenus = {
   ],
 };
 
+const proxyMenu = {
+  name: "Proxy",
+  value: "proxy",
+};
+
 export default function getBusinessMenus() {
-  const { identity, multisig, vestings, recovery } = getChainModules();
+  const { identity, multisig, vestings, recovery, proxy } = getChainModules();
   const hasDivider = identity && multisig;
 
   const menus = [];
@@ -92,6 +97,13 @@ export default function getBusinessMenus() {
       menus.push(divider);
     }
     menus.push(vestingMenu);
+  }
+
+  if (proxy) {
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
+    menus.push(proxyMenu);
   }
 
   return menus;

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setTimeType,
   timeTypeSelector,
+  tableSwitchFirstSelector,
+  setTableSwitchFirst,
 } from "../../../store/reducers/preferenceSlice";
 import { useEffect } from "react";
 import { smcss } from "../../../styles/responsive";
@@ -12,6 +14,7 @@ import { w, w_full } from "../../../styles/tailwindcss";
 import last from "lodash.last";
 import SortableHead from "./sortableHead";
 import { useState } from "react";
+import SwitchHead from "./switchHead";
 
 const Tr = styled.tr`
   border-bottom: 1px solid ${(p) => p.theme.strokeBase};
@@ -50,6 +53,7 @@ export default function TableHead({ heads }) {
   const timeType = useSelector(timeTypeSelector);
   const isDataTableTypeLast = last(heads)?.type === "data";
   const [activeSortQueryValue, setActiveSortQueryValue] = useState("");
+  const switchHeadFirst = useSelector(tableSwitchFirstSelector);
 
   useEffect(() => {
     const timeType = localStorage.getItem("timeType");
@@ -60,6 +64,10 @@ export default function TableHead({ heads }) {
 
   const doSetTimeType = (timeType) => {
     dispatch(setTimeType(timeType));
+  };
+
+  const toggleSwitchHead = () => {
+    dispatch(setTableSwitchFirst(!switchHeadFirst));
   };
 
   return (
@@ -76,6 +84,16 @@ export default function TableHead({ heads }) {
           if (type === "time") {
             content = (
               <TimeHead timeType={timeType} setTimeType={doSetTimeType} />
+            );
+          }
+
+          if (type === "switch") {
+            content = (
+              <SwitchHead
+                first={switchHeadFirst}
+                toggle={toggleSwitchHead}
+                name={name}
+              />
             );
           }
 

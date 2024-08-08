@@ -390,6 +390,92 @@ export const vestingsHead = [
   },
 ];
 
+export const proxyHead = [
+  {
+    name: "Delegator",
+    width: 240,
+  },
+  {
+    name: "Delegatee",
+    minWidth: 240,
+  },
+  {
+    name: "Type",
+    width: 160,
+  },
+  {
+    name: ["Delay Blocks", "Delay Time"],
+    width: 160,
+    type: "switch",
+  },
+  {
+    name: "Crated At",
+    width: 160,
+  },
+  {
+    name: "Status",
+    width: 160,
+  },
+  {
+    name: "",
+    width: 76,
+  },
+];
+
+export const proxyCallsHead = [
+  {
+    name: "Hash",
+    width: 240,
+  },
+  {
+    name: ["Block", "Time"],
+    width: 200,
+    type: "switch",
+  },
+  {
+    name: "Result",
+    width: 112,
+  },
+  {
+    name: "Call",
+  },
+  {
+    name: "",
+    width: 76,
+    type: "data",
+    align: "right",
+    display: "table",
+  },
+];
+
+export const proxyAnnouncementsHead = [
+  {
+    name: "Hash",
+    width: 240,
+  },
+  {
+    name: ["Block", "Time"],
+    width: 200,
+    type: "switch",
+  },
+  {
+    name: "Call",
+  },
+  {
+    name: "Status",
+    width: 160,
+  },
+  {
+    name: ["Final Block", "Final Time"],
+    width: 200,
+    type: "switch",
+  },
+  {
+    name: "",
+    width: 76,
+  },
+];
+
 export const MULTISIG_ACCOUNT_SORT = {
   DEBUT_AT_HEIGHT_DESC: "DEBUT_AT_HEIGHT_DESC",
   DEBUT_AT_HEIGHT_ASC: "DEBUT_AT_HEIGHT_ASC",
@@ -662,4 +748,17 @@ export const RECOVERABLE_STATUS = {
 export const RECOVERY_STATUS = {
   ACTIVE: "active",
   CLOSED: "closed",
+};
+
+export const PROXY_STATUS = {
+  ACTIVE: "active",
+  REMOVED: "removed",
+};
+
+export const PROXY_ANNOUNCEMENT_STATUS = {
+  ANNOUNCED: "Announced",
+  EXECUTED: "Executed",
+  KILLED: "Killed",
+  REJECTED: "Rejected",
+  REMOVED: "Removed",
 };
