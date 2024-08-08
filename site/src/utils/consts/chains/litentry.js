@@ -1,4 +1,5 @@
 import { ReactComponent as Litentry } from "../../../components/icons/litentry.svg";
+import { litentryBlockHeightSettings } from "./blockHeightSettings/litentry";
 import { governanceModules } from "./modules";
 
 const litentry = {
@@ -34,6 +35,7 @@ const litentry = {
     { name: "Dwellir", url: "wss://litentry-rpc.dwellir.com" },
   ],
   useOnChainBlockData: true,
+  blockHeightSettings: litentryBlockHeightSettings,
 };
 
 export default litentry;

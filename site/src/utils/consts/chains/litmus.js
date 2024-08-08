@@ -1,4 +1,5 @@
 import { ReactComponent as Litmus } from "../../../components/icons/litmus.svg";
+import { litmusBlockHeightSettings } from "./blockHeightSettings/litmus";
 import { governanceModules } from "./modules";
 
 const litmus = {
@@ -31,6 +32,7 @@ const litmus = {
   subSquareWebsite: "https://litmus.subsquare.io",
   nodes: [{ name: "Litentry", url: "wss://rpc.litmus-parachain.litentry.io" }],
   useOnChainBlockData: true,
+  blockHeightSettings: litmusBlockHeightSettings,
 };
 
 export default litmus;

@@ -11,9 +11,26 @@ import getTransferDecimals from "../../utils/viewFuncs/transferDecimals";
 import SymbolLink from "../symbol/symbolLink";
 import getTransferSymbol from "../../utils/viewFuncs/transferSymbol";
 
-export default function TransfersTable({ data, loading }) {
-  const { symbol, decimals } = useChainSettings();
+function ValueCell({ transfer }) {
+  const { symbol, decimals } = useChainSettings(transfer.indexer.blockHeight);
 
+  return (
+    <ValueDisplay
+      value={toPrecision(
+        transfer?.balance,
+        getTransferDecimals(transfer, decimals),
+      )}
+      symbol={
+        <SymbolLink assetId={transfer.assetId}>
+          {getTransferSymbol(transfer, symbol)}
+        </SymbolLink>
+      }
+      showNotEqualTooltip
+    />
+  );
+}
+
+export default function TransfersTable({ data, loading }) {
   const tableData = data?.map?.((transfer, key) => {
     return [
       <ColoredLink
@@ -31,18 +48,7 @@ export default function TransfersTable({ data, loading }) {
       <Tooltip tip={transfer?.to}>
         <AddressOrIdentity key={transfer?.to} address={transfer?.to} />
       </Tooltip>,
-      <ValueDisplay
-        value={toPrecision(
-          transfer?.balance,
-          getTransferDecimals(transfer, decimals),
-        )}
-        symbol={
-          <SymbolLink assetId={transfer.assetId}>
-            {getTransferSymbol(transfer, symbol)}
-          </SymbolLink>
-        }
-        showNotEqualTooltip
-      />,
+      <ValueCell transfer={transfer} />,
     ];
   });
 
