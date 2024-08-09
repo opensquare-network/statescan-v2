@@ -32,7 +32,7 @@ export function useProxiesFilter() {
     };
 
     setFilter([delegationTypeFilter, statusFilter]);
-  }, [status]);
+  }, [delegationType, status]);
 
   return filter;
 }
