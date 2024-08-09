@@ -1,18 +1,33 @@
 import BreadCrumb from "../../components/breadCrumb";
+import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import Pagination from "../../components/pagination";
 import ProxyTable from "../../components/proxy/table";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
+import { useProxiesFilter } from "../../hooks/filter/useProxiesFilter";
 import { useProxiesData } from "../../hooks/proxy/useProxiesData";
-import { useQueryParams } from "../../hooks/useQueryParams";
+import { useProxiesParams } from "../../hooks/proxy/useProxiesParams";
+import { PROXY_STATUS } from "../../utils/constants";
 
 export default function ProxyPage() {
-  const { page = 1 } = useQueryParams();
-  const { data, loading } = useProxiesData(page);
+  const { page = 1, status } = useProxiesParams();
+
+  const filter = useProxiesFilter();
+
+  const isActive =
+    status === PROXY_STATUS.ACTIVE
+      ? true
+      : status === PROXY_STATUS.REMOVED
+      ? false
+      : null;
+
+  const { data, loading } = useProxiesData({ isActive }, page);
 
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Proxy" }]} />
+
+      <Filter data={filter} filterOnDataChange showFilterButton={false} />
 
       <StyledPanelTableWrapper
         footer={
