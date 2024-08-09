@@ -5,9 +5,20 @@ import { useProxiesParams } from "../proxy/useProxiesParams";
 
 export function useProxiesFilter() {
   const [filter, setFilter] = useState([]);
-  const { status } = useProxiesParams();
+  const { status, delegationType } = useProxiesParams();
 
   useEffect(() => {
+    const delegationTypeFilter = {
+      value: delegationType,
+      name: "Delegation Type",
+      query: "delegationType",
+      options: [
+        { text: "All types", value: null },
+        { type: "divider" },
+        { text: "Pure", value: "pure" },
+      ],
+    };
+
     const statusFilter = {
       value: status,
       name: "Status",
@@ -20,7 +31,7 @@ export function useProxiesFilter() {
       ],
     };
 
-    setFilter([statusFilter]);
+    setFilter([delegationTypeFilter, statusFilter]);
   }, [status]);
 
   return filter;
