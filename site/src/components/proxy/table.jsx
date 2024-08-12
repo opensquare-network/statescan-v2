@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { truncate } from "../../styles/tailwindcss";
 import { proxyHead } from "../../utils/constants";
+import { useChainBlockTime } from "../../utils/hooks/chain/useChainBlockTime";
+import { timeRemain } from "../../utils/viewFuncs/time";
 import AddressOrIdentity from "../address";
 import DetailedBlock from "../detail/block";
 import { Flex } from "../styled/flex";
+import { TextTertiary } from "../styled/text";
 import Table from "../table";
 import FoldButton from "../table/body/row/foldButton";
 import { TagThemed } from "../tag";
+import Tooltip from "../tooltip";
 import ProxyStatus from "./status";
-import { useChainBlockTime } from "../../utils/hooks/chain/useChainBlockTime";
-import { timeRemain } from "../../utils/viewFuncs/time";
-import { TextTertiary } from "../styled/text";
+
+const TypeCellWrapper = styled.div`
+  ${truncate}
+`;
 
 function DelegatorCell({ data }) {
   // table cell has padding left(24) and right(24)
@@ -27,6 +34,14 @@ function DelegatorCell({ data }) {
   );
 }
 
+function TypeCell({ data }) {
+  return (
+    <Tooltip tip={data.type} style={{ maxWidth: 160 - 48 }}>
+      <TypeCellWrapper>{data.type}</TypeCellWrapper>
+    </Tooltip>
+  );
+}
+
 export default function ProxyTable({ data = [], loading }) {
   const blockTime = useChainBlockTime();
 
@@ -36,7 +51,7 @@ export default function ProxyTable({ data = [], loading }) {
       <Flex>
         <AddressOrIdentity key={proxy.delegatee} address={proxy.delegatee} />
       </Flex>,
-      proxy.type,
+      <TypeCell data={proxy} />,
       proxy?.delay
         ? [proxy?.delay, timeRemain(proxy?.delay * blockTime)]
         : [<TextTertiary>--</TextTertiary>, <TextTertiary>--</TextTertiary>],
