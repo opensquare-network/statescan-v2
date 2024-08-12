@@ -6,6 +6,7 @@ import { Flex } from "../styled/flex";
 
 const StyledDropdown = styled(Dropdown)`
   > div:first-child {
+    background: transparent;
     border: 0;
     box-shadow: none;
     height: 100%;
