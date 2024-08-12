@@ -41,7 +41,7 @@ export function useProxiesFilter() {
       component: (
         <InputWithSelectPrefix
           mini
-          inputPrefix={<SearchIcon style={{ width: 16, height: 16 }} />}
+          prefix={<SearchIcon style={{ width: 16, height: 16 }} />}
           value={searchInput || ""}
           placeholder="Address"
           selectValue={searchQuery}
