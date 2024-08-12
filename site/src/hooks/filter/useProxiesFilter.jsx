@@ -1,4 +1,6 @@
 import capitalize from "lodash.capitalize";
+import isNil from "lodash.isnil";
+import { useMemo } from "react";
 import { useEffect, useState } from "react";
 import SearchIcon from "../../components/icons/searchIcon";
 import InputWithSelectPrefix from "../../components/input/inputWithSelectPrefix";
@@ -7,7 +9,8 @@ import { useProxiesParams } from "../proxy/useProxiesParams";
 
 export function useProxiesFilter() {
   const [filter, setFilter] = useState([]);
-  const { status, delegationType } = useProxiesParams();
+  const { status, delegationType, delegatee, delegator } = useProxiesParams();
+  const isPersistDelegatee = !delegatee;
 
   const searchOptions = [
     {
@@ -19,8 +22,17 @@ export function useProxiesFilter() {
       value: "delegator",
     },
   ];
-  const [searchQuery, setSearchQuery] = useState(searchOptions[0].value);
-  const [searchValue, setSearchValue] = useState();
+  const [searchQuery, setSearchQuery] = useState(
+    searchOptions[isPersistDelegatee ? 0 : 1].value,
+  );
+  const [searchValue, setSearchValue] = useState(
+    isPersistDelegatee ? delegatee : delegator,
+  );
+  useEffect(() => {
+    if (isNil(delegatee || delegator)) {
+      setSearchValue("");
+    }
+  }, [delegatee, delegator]);
 
   useEffect(() => {
     const searchFilter = {
@@ -32,12 +44,13 @@ export function useProxiesFilter() {
         <InputWithSelectPrefix
           mini
           inputPrefix={<SearchIcon style={{ width: 16, height: 16 }} />}
+          value={searchValue}
           placeholder="Address"
           selectValue={searchQuery}
           onSelect={(_, value) => {
             setSearchQuery(value);
           }}
-          options={searchOptions}
+          selectOptions={searchOptions}
           onChange={(e) => {
             setSearchValue(e.target.value);
           }}
@@ -75,7 +88,7 @@ export function useProxiesFilter() {
       statusFilter,
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delegationType, searchQuery, searchValue, status]);
+  }, [delegationType, searchQuery, searchValue, status, delegatee, delegator]);
 
   return filter;
 }
