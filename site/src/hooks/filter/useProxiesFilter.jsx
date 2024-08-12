@@ -1,6 +1,5 @@
 import capitalize from "lodash.capitalize";
 import isNil from "lodash.isnil";
-import { useMemo } from "react";
 import { useEffect, useState } from "react";
 import SearchIcon from "../../components/icons/searchIcon";
 import InputWithSelectPrefix from "../../components/input/inputWithSelectPrefix";
@@ -10,7 +9,7 @@ import { useProxiesParams } from "../proxy/useProxiesParams";
 export function useProxiesFilter() {
   const [filter, setFilter] = useState([]);
   const { status, delegationType, delegatee, delegator } = useProxiesParams();
-  const isPersistDelegatee = !delegatee;
+  const searchValue = delegatee || delegator;
 
   const searchOptions = [
     {
@@ -23,20 +22,18 @@ export function useProxiesFilter() {
     },
   ];
   const [searchQuery, setSearchQuery] = useState(
-    searchOptions[isPersistDelegatee ? 0 : 1].value,
+    delegator ? searchOptions[1].value : searchOptions[0].value,
   );
-  const [searchValue, setSearchValue] = useState(
-    isPersistDelegatee ? delegatee : delegator,
-  );
+  const [searchInput, setSearchInput] = useState(searchValue);
   useEffect(() => {
     if (isNil(delegatee || delegator)) {
-      setSearchValue("");
+      setSearchInput(null);
     }
   }, [delegatee, delegator]);
 
   useEffect(() => {
     const searchFilter = {
-      value: searchValue,
+      value: searchInput,
       name: "Search",
       query: searchQuery,
       type: "custom",
@@ -44,7 +41,7 @@ export function useProxiesFilter() {
         <InputWithSelectPrefix
           mini
           inputPrefix={<SearchIcon style={{ width: 16, height: 16 }} />}
-          value={searchValue}
+          value={searchInput || ""}
           placeholder="Address"
           selectValue={searchQuery}
           onSelect={(_, value) => {
@@ -52,7 +49,7 @@ export function useProxiesFilter() {
           }}
           selectOptions={searchOptions}
           onChange={(e) => {
-            setSearchValue(e.target.value);
+            setSearchInput(e.target.value);
           }}
         />
       ),
@@ -87,8 +84,7 @@ export function useProxiesFilter() {
       delegationTypeFilter,
       statusFilter,
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delegationType, searchQuery, searchValue, status, delegatee, delegator]);
+  }, [delegationType, searchQuery, searchInput, status, delegatee, delegator]);
 
   return filter;
 }

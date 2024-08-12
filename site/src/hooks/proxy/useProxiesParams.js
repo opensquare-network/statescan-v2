@@ -6,8 +6,8 @@ export function useProxiesParams() {
     page = 1,
     status = null,
     delegationType = null,
-    delegatee = "",
-    delegator = "",
+    delegatee = null,
+    delegator = null,
   } = useQueryParams();
 
   return {
