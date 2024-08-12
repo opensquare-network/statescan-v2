@@ -2,7 +2,13 @@ import isNil from "lodash.isnil";
 import { useQueryParams } from "../useQueryParams";
 
 export function useProxiesParams() {
-  const { page = 1, status = null, delegationType = null } = useQueryParams();
+  const {
+    page = 1,
+    status = null,
+    delegationType = null,
+    delegatee,
+    delegator,
+  } = useQueryParams();
 
   return {
     page,
@@ -10,5 +16,7 @@ export function useProxiesParams() {
     delegationType: !isNil(delegationType)
       ? delegationType?.toLowerCase?.()
       : delegationType,
+    delegatee,
+    delegator,
   };
 }

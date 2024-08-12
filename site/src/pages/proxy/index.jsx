@@ -10,7 +10,13 @@ import { useProxiesParams } from "../../hooks/proxy/useProxiesParams";
 import { PROXY_STATUS } from "../../utils/constants";
 
 export default function ProxyPage() {
-  const { page = 1, status, delegationType } = useProxiesParams();
+  const {
+    page = 1,
+    status,
+    delegationType,
+    delegatee,
+    delegator,
+  } = useProxiesParams();
 
   const filter = useProxiesFilter();
 
@@ -23,7 +29,10 @@ export default function ProxyPage() {
 
   const isPure = delegationType === "pure";
 
-  const { data, loading } = useProxiesData({ isActive, isPure }, page);
+  const { data, loading } = useProxiesData(
+    { isActive, isPure, delegatee, delegator },
+    page,
+  );
 
   return (
     <Layout>
