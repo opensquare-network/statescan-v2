@@ -4,7 +4,7 @@ export default function ProxyTimleineIcon({ name }) {
     PureCreated: "/imgs/icons/timeline-proxy_pure_created.svg",
     ProxyAdded: "/imgs/icons/timeline-proxy_proxy_added.svg",
     ProxyRemoved: "/imgs/icons/timeline-proxy_proxy_removed.svg",
-    Announced: "/imgs/icons/timeline-annoucement_announced.svg",
+    Announced: "/imgs/icons/timeline-announcement_announced.svg",
     AnonymousCreated: "/imgs/icons/timeline-proxy_anonymous_created.svg",
     Killed: "/imgs/icons/timeline-proxy_killed.svg",
     addProxy: "/imgs/icons/timeline-proxy_add_proxy.svg",
