@@ -20,31 +20,30 @@ const InputPrefixWrapper = styled(Flex)`
   column-gap: 12px;
 `;
 
+/**
+ * @param {import("./types").InputProps} props
+ */
 export default function InputWithSelectPrefix({
-  inputPrefix,
-  mini,
-  placeholder = "",
+  prefix,
   onSelect = noop,
-  options = [],
+  selectOptions = [],
   selectValue,
-  onChange = noop,
+  ...props
 }) {
   return (
     <StyledInput
+      {...props}
       prefix={
         <InputPrefixWrapper>
           <StyledDropdown
             value={selectValue}
-            options={options}
+            options={selectOptions}
             width={"100%"}
             onSelect={onSelect}
           />
-          {inputPrefix}
+          {prefix}
         </InputPrefixWrapper>
       }
-      mini={mini}
-      placeholder={placeholder}
-      onChange={onChange}
     />
   );
 }
