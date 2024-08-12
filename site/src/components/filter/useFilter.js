@@ -18,11 +18,13 @@ import { setCurrentFilterValue } from "../../store/reducers/filterSlice";
 import FilterDatePicker from "./datepicker";
 import moment from "moment";
 
-const InputWrapper = styled(FlexColumn)`
+const Wrapper = styled(FlexColumn)`
   color: var(--fontPrimary);
   justify-content: right;
   row-gap: 8px;
+`;
 
+const InputWrapper = styled(Wrapper)`
   @media screen and (max-width: 900px) {
     flex-grow: 1;
   }
@@ -248,6 +250,11 @@ export default function useFilter({
           }}
         />
       </CheckboxWrapper>
+    ) : item.type === "custom" ? (
+      <Wrapper key={index}>
+        <div>{item.name}</div>
+        {item.component}
+      </Wrapper>
     ) : (
       <DropdownWrapper key={index}>
         <span>{item.name}</span>
