@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useChainBlockTime } from "../../utils/hooks/chain/useChainBlockTime";
 import { timeRemain } from "../../utils/viewFuncs/time";
 import AddressOrIdentity from "../address";
@@ -8,15 +7,9 @@ import { Flex } from "../styled/flex";
 import { TextSecondary, TextTertiary } from "../styled/text";
 import { TagThemed } from "../tag";
 import ProxyStatus from "./status";
-import { Overpass_Mono_14_500 } from "../../styles/text";
-
-const ProxyId = styled(TextSecondary)`
-  ${Overpass_Mono_14_500}
-`;
 
 export default function ProxyListData({
   loading,
-  proxyId,
   isPure,
   delegator,
   blockHeight,
@@ -29,10 +22,6 @@ export default function ProxyListData({
   const remainMs = (delay || 0) * blockTime;
 
   const data = [
-    {
-      label: "ID",
-      value: <ProxyId>{proxyId}</ProxyId>,
-    },
     {
       label: "Delegator",
       value: (

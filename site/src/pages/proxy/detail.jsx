@@ -32,7 +32,6 @@ export default function ProxyDetailPage() {
       <StyledPanel>
         <ProxyListData
           loading={loading}
-          proxyId={data?.proxyId}
           isPure={data?.isPure}
           delegator={data?.delegator}
           blockHeight={data?.indexer?.blockHeight}
