@@ -22,9 +22,12 @@ const SelectWrapper = styled(FlexBetween)`
   column-gap: 8px;
   flex-grow: 1;
   padding: 0 6px 0 12px;
-  width: ${(p) => {
-    return typeof p.width === "number" ? p.width + "px" : p.width;
-  }};
+  width: ${(p) =>
+    p.width
+      ? typeof p.width === "number"
+        ? p.width + "px"
+        : p.width
+      : "140px"};
   height: 26px;
   background: ${(p) => p.theme.fillPopup};
   border-radius: 6px;
