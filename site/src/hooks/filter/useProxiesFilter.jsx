@@ -6,21 +6,22 @@ import InputWithSelectPrefix from "../../components/input/inputWithSelectPrefix"
 import { PROXY_STATUS } from "../../utils/constants";
 import { useProxiesParams } from "../proxy/useProxiesParams";
 
+const searchOptions = [
+  {
+    text: "Delegatee",
+    value: "delegatee",
+  },
+  {
+    text: "Delegator",
+    value: "delegator",
+  },
+];
+
 export function useProxiesFilter() {
   const [filter, setFilter] = useState([]);
   const { status, delegationType, delegatee, delegator } = useProxiesParams();
   const searchValue = delegatee || delegator;
 
-  const searchOptions = [
-    {
-      text: "Delegatee",
-      value: "delegatee",
-    },
-    {
-      text: "Delegator",
-      value: "delegator",
-    },
-  ];
   const [searchQuery, setSearchQuery] = useState(
     delegator ? searchOptions[1].value : searchOptions[0].value,
   );
