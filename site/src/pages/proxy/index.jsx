@@ -27,7 +27,7 @@ export default function ProxyPage() {
       ? false
       : null;
 
-  const isPure = delegationType === "pure";
+  const isPure = delegationType === "pure" ? true : null;
 
   const { data, loading } = useProxiesData(
     { isActive, isPure, delegatee, delegator },
