@@ -21,15 +21,19 @@ async function handleAddProxy(call, signer, extrinsicIndexer) {
   setKnownHeightMark(extrinsicIndexer.blockHeight);
   const blockApi = await findBlockApi(extrinsicIndexer.blockHash);
   if (
-    blockApi.events.proxy?.ProxyAdded || // handle this call only when there is no `ProxyAdded` event
-    call.args.length !== 2
+    blockApi.events.proxy?.ProxyAdded // handle this call only when there is no `ProxyAdded` event
   ) {
     return;
   }
 
+  let delay = 0;
+  if (call.args.length === 3) {
+    delay = call.args[2].toNumber();
+  }
+
   const delegatee = call.args[0].toString();
   const type = call.args[1].toString();
-  const proxyId = generateProxyId(signer, delegatee, type, 0);
+  const proxyId = generateProxyId(signer, delegatee, type, delay);
 
   await upsertProxyIfNo({
     proxyId,
