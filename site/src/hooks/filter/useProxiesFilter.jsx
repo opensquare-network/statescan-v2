@@ -23,7 +23,7 @@ export function useProxiesFilter() {
   const searchValue = delegatee || delegator;
 
   const [searchQuery, setSearchQuery] = useState(
-    delegator ? searchOptions[0].value : searchOptions[1].value,
+    delegatee ? searchOptions[1].value : searchOptions[0].value,
   );
   const [searchInput, setSearchInput] = useState(searchValue);
   useEffect(() => {
