@@ -8,12 +8,12 @@ import { useProxiesParams } from "../proxy/useProxiesParams";
 
 const searchOptions = [
   {
-    text: "Delegatee",
-    value: "delegatee",
-  },
-  {
     text: "Delegator",
     value: "delegator",
+  },
+  {
+    text: "Delegatee",
+    value: "delegatee",
   },
 ];
 
@@ -23,7 +23,7 @@ export function useProxiesFilter() {
   const searchValue = delegatee || delegator;
 
   const [searchQuery, setSearchQuery] = useState(
-    delegator ? searchOptions[1].value : searchOptions[0].value,
+    delegator ? searchOptions[0].value : searchOptions[1].value,
   );
   const [searchInput, setSearchInput] = useState(searchValue);
   useEffect(() => {
