@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom";
+import { useProxyCallsData } from "../../../../hooks/proxy/useProxyCallsData";
+import { useQueryParams } from "../../../../hooks/useQueryParams";
 import Pagination from "../../../pagination";
 import { StyledPanelTableWrapper } from "../../../styled/panel";
-import { useProxyCallsData } from "../../../../hooks/proxy/useProxyCallsData";
 import ProxyCallsTabTable from "./table";
 
 export default function ProxyCallsTab() {
-  const { id, page = 1 } = useParams();
+  const { id } = useParams();
+  const { page = 1 } = useQueryParams();
   const { data, loading } = useProxyCallsData(id, page);
 
   return (
