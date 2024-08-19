@@ -40,7 +40,7 @@ async function handleAddProxy(call, signer, extrinsicIndexer) {
     delegator: signer,
     delegatee,
     type,
-    delay: 0,
+    delay,
     isRemoved: false,
     isPure: false,
     indexer: extrinsicIndexer,
