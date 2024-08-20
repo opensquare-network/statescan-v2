@@ -4,7 +4,7 @@ const {
 } = require("@osn/scan-common");
 const { generateProxyId } = require("../../common/hash");
 const {
-  palletProxy: { upsertProxyIfNo, getProxyTimelineCol },
+  palletProxy: { upsertProxyIfNo, getProxyTimelineCol, isPureProxyDelegator },
 } = require("@statescan/mongo");
 const {
   store: { setKnownHeightMark },
@@ -35,6 +35,7 @@ async function handleAddProxy(call, signer, extrinsicIndexer) {
   const type = call.args[1].toString();
   const proxyId = generateProxyId(signer, delegatee, type, delay);
 
+  const isPure = await isPureProxyDelegator(signer);
   await upsertProxyIfNo({
     proxyId,
     delegator: signer,
@@ -42,7 +43,7 @@ async function handleAddProxy(call, signer, extrinsicIndexer) {
     type,
     delay,
     isRemoved: false,
-    isPure: false,
+    isPure,
     indexer: extrinsicIndexer,
   });
 

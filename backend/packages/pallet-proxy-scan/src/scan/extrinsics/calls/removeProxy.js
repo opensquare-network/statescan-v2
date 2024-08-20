@@ -22,8 +22,7 @@ async function handleRemoveProxy(call, signer, extrinsicIndexer) {
   setKnownHeightMark(extrinsicIndexer.blockHeight);
   const blockApi = await findBlockApi(extrinsicIndexer.blockHash);
   if (
-    blockApi.events.proxy?.ProxyRemoved || // handle this call only when there is no `ProxyRemoved` event
-    call.args.length !== 2
+    blockApi.events.proxy?.ProxyRemoved // handle this call only when there is no `ProxyRemoved` event
   ) {
     return;
   }
@@ -42,7 +41,12 @@ async function handleRemoveProxy(call, signer, extrinsicIndexer) {
     return;
   }
 
-  const proxyId = generateProxyId(signer, delegatee, type, targetProxy.delay);
+  const proxyId = generateProxyId(
+    signer,
+    delegatee,
+    type,
+    targetProxy.delay || 0,
+  );
   const { proxies: nowOnChainProxies } = await queryAllProxiesOf(
     signer,
     extrinsicIndexer.blockHash,
