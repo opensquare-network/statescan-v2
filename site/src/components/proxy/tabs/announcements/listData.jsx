@@ -8,6 +8,7 @@ import { TagThemed } from "../../../tag";
 import { TextTertiary } from "../../../styled/text";
 import { Flex } from "../../../styled/flex";
 import { time } from "../../../../utils/viewFuncs/time";
+import ExtrinsicParametersDisplay from "../../../extrinsicParametersDisplay";
 
 const CallHash = styled.div`
   ${Overpass_Mono_14_500}
@@ -47,7 +48,7 @@ export default function ProxyAnnouncementListData({
       ),
     },
     {
-      label: "Normalized Call",
+      label: "Call",
       value: normalizedCall?.method ? (
         <TagThemed>{normalizedCall.method}</TagThemed>
       ) : (
@@ -76,5 +77,14 @@ export default function ProxyAnnouncementListData({
     },
   ].filter(Boolean);
 
-  return <List data={loading ? [] : data} />;
+  return (
+    <>
+      <List data={loading ? [] : data} />
+      <ExtrinsicParametersDisplay
+        key={callHash}
+        extrinsic={normalizedCall}
+        title="Parameters"
+      />
+    </>
+  );
 }
