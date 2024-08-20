@@ -1,20 +1,24 @@
 const {
   chain: { getBlockHash },
+  call: { normalizeCall },
 } = require("@osn/scan-common");
 const {
-  queryAnnouncements,
-} = require("../../../../extrinsics/calls/common/query");
-const { findProxy, generateAnnouncementId } = require("../../../../common");
+  getProxySection,
+  findProxy,
+  generateAnnouncementId,
+} = require("../../common");
+const {
+  store: { setKnownHeightMark },
+} = require("@statescan/common");
+const { queryAnnouncements } = require("./common/query");
 const {
   palletProxy: { getAnnouncementCol, getAnnouncementTimelineCol },
 } = require("@statescan/mongo");
-const { normalizeCall } = require("@osn/scan-common/src/extrinsic/call");
 
 async function updateAnnouncementsState(
   delegate,
   announcements = [],
   normalizedCall,
-  eventData,
   indexer,
 ) {
   const col = await getAnnouncementCol();
@@ -32,7 +36,6 @@ async function updateAnnouncementsState(
         state: "Executed",
         normalizedCall,
         executedAt: indexer,
-        eventData,
       },
     });
   }
@@ -41,12 +44,7 @@ async function updateAnnouncementsState(
   }
 }
 
-async function insertTimelineItem(
-  delegate,
-  announcements = [],
-  eventData,
-  indexer,
-) {
+async function insertTimelineItem(delegate, announcements = [], indexer) {
   const col = await getAnnouncementTimelineCol();
   const bulk = col.initializeUnorderedBulkOp();
   for (const ann of announcements) {
@@ -59,7 +57,7 @@ async function insertTimelineItem(
     bulk.insert({
       announcementId,
       name: "Executed",
-      args: { eventData },
+      args: {},
       indexer,
     });
   }
@@ -68,27 +66,36 @@ async function insertTimelineItem(
   }
 }
 
-async function handleProxyAnnouncedCall(event, call, indexer) {
+async function handleProxyAnnounced(call, signer, extrinsicIndexer) {
+  const { section, method } = call;
+  if (getProxySection() !== section || "proxyAnnounced" !== method) {
+    return;
+  }
+  setKnownHeightMark(extrinsicIndexer.blockHeight);
+
   const delegate = call.args[0].toString();
   const real = call.args[1].toString();
   const forceProxyType = call.args[2].toString();
   const announcementCall = call.args[3];
   const announcementCallHash = call.args[3].hash.toHex();
   const normalizedCall = normalizeCall(announcementCall);
-  const eventData = event.data.toJSON();
-
   const announcements = await queryAnnouncements(
     delegate,
     real,
-    await getBlockHash(indexer.blockHeight - 1),
+    await getBlockHash(extrinsicIndexer.blockHeight - 1),
   );
-  const proxy = await findProxy(real, delegate, forceProxyType, indexer);
+  const proxy = await findProxy(
+    real,
+    delegate,
+    forceProxyType,
+    extrinsicIndexer,
+  );
 
   const removedAnnouncements = announcements.filter((ann) => {
     return (
       ann.real === real &&
       ann.callHash === announcementCallHash &&
-      indexer.blockHeight - ann.height >= proxy.delay
+      extrinsicIndexer.blockHeight - ann.height >= proxy.delay
     );
   });
 
@@ -96,12 +103,12 @@ async function handleProxyAnnouncedCall(event, call, indexer) {
     delegate,
     removedAnnouncements,
     normalizedCall,
-    eventData,
-    indexer,
+    extrinsicIndexer,
   );
-  await insertTimelineItem(delegate, removedAnnouncements, eventData, indexer);
+
+  await insertTimelineItem(delegate, removedAnnouncements, extrinsicIndexer);
 }
 
 module.exports = {
-  handleProxyAnnouncedCall,
+  handleProxyAnnounced,
 };
