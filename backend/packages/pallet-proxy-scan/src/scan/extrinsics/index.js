@@ -8,6 +8,8 @@ const { handleRemoveAnnouncement } = require("./calls/removeAnnouncement");
 const { handleRejectAnnouncement } = require("./calls/rejectAnnouncement");
 const { handleAddProxy } = require("./calls/addProxy");
 const { handleRemoveProxy } = require("./calls/removeProxy");
+const { handleProxyCall } = require("./calls/proxy");
+const { handleProxyAnnounced } = require("./calls/proxyAnnounced");
 
 async function handleCalls(call, author, extrinsicIndexer) {
   await handleAddProxy(call, author, extrinsicIndexer);
@@ -16,6 +18,8 @@ async function handleCalls(call, author, extrinsicIndexer) {
   await handleRemoveAnnouncement(call, author, extrinsicIndexer);
   await handleRejectAnnouncement(call, author, extrinsicIndexer);
   await handleRemoveProxy(call, author, extrinsicIndexer);
+  await handleProxyCall(call, author, extrinsicIndexer);
+  await handleProxyAnnounced(call, author, extrinsicIndexer);
 }
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
