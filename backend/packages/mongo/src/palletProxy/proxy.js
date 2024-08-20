@@ -31,8 +31,27 @@ async function getAllActiveProxiesOfDelegator(delegator) {
   return await col.find({ delegator, isRemoved: false }).toArray();
 }
 
+async function isPureProxyDelegator(delegator) {
+  if (!delegator) {
+    return false;
+  }
+
+  const col = await getProxyCol();
+  const proxies = await col
+    .find({ delegator })
+    .sort({ "indexer.blockHeight": 1 })
+    .toArray();
+  if ((proxies || []).length <= 0) {
+    return false;
+  }
+
+  const firstProxy = proxies[0];
+  return firstProxy.isPure;
+}
+
 module.exports = {
   upsertProxyIfNo,
   markProxyRemoved,
   getAllActiveProxiesOfDelegator,
+  isPureProxyDelegator,
 };
