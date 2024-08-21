@@ -1,6 +1,6 @@
 const { generateProxyId } = require("../../../common/hash");
 const {
-  palletProxy: { upsertProxyIfNo, getProxyTimelineCol },
+  palletProxy: { upsertProxyIfNo, getProxyTimelineCol, isPureProxyDelegator },
 } = require("@statescan/mongo");
 
 async function handleProxyAdded(event, indexer) {
@@ -10,6 +10,7 @@ async function handleProxyAdded(event, indexer) {
   const delay = event.data[3].toNumber();
   const proxyId = generateProxyId(delegator, delegatee, type, delay);
 
+  const isPure = await isPureProxyDelegator(delegator);
   await upsertProxyIfNo({
     proxyId,
     delegator,
@@ -17,7 +18,7 @@ async function handleProxyAdded(event, indexer) {
     type,
     delay,
     isRemoved: false,
-    isPure: false,
+    isPure,
     indexer,
   });
 
