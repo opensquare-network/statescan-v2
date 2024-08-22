@@ -21,6 +21,7 @@ const polkadot = {
     identity: true,
     multisig: true,
     vestings: true,
+    proxy: true,
   },
   treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",

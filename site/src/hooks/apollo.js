@@ -14,6 +14,8 @@ export const useVestingsQuery = createModuleQuery("vestings");
 
 export const useRecoveryQuery = createModuleQuery("recovery");
 
+export const useProxyQuery = createModuleQuery("proxy");
+
 /**
  * @param {string} module
  * @description useLazyQuery

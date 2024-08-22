@@ -1,4 +1,5 @@
 import moment from "moment";
+import { extractTime } from "@polkadot/util";
 
 export function time(time) {
   if (!time) {
@@ -59,4 +60,18 @@ export function timeDuration(time, roughly = false) {
     return `${mm} min${mm > 1 ? "s" : ""} ago`;
   }
   return `${ss} sec${ss > 1 ? "s" : ""} ago`;
+}
+
+export function timeRemain(ms) {
+  const { days, hours, minutes } = extractTime(ms);
+
+  if (days > 30) {
+    return `${days}days`;
+  }
+
+  return [
+    days ? `${days}days` : "",
+    hours ? `${hours}hrs` : "",
+    minutes ? `${minutes}mins` : "",
+  ].join(" ");
 }

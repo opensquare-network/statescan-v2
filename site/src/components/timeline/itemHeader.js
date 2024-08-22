@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { Flex, FlexColumn } from "../styled/flex";
+import { FlexColumn } from "../styled/flex";
 import { Inter_14_500 } from "../../styles/text";
 import BlockTime from "./blockTime";
 import BlockHeight from "./blockHeight";
-import Link from "./link";
-import isNil from "lodash.isnil";
+import IndexerLinks from "./link";
 import { MOBILE_SIZE } from "@osn/constants";
 
 const Wrapper = styled(FlexColumn)`
@@ -31,30 +30,13 @@ const Title = styled.div`
   color: ${(p) => p.theme.fontPrimary};
 `;
 
-const Links = styled(Flex)`
-  > :nth-child(1) {
-    margin-right: 8px;
-  }
-`;
-
 export default function TimelineItemInfoHeader({ item }) {
   return (
     <Wrapper>
       <Title>{item.name}</Title>
       <BlockTime ts={item.indexer.blockTime} />
       <BlockHeight number={item.indexer.blockHeight} />
-      <Links>
-        <Link
-          name="Extrinsic"
-          to={`/extrinsics/${item.indexer.blockHeight}-${item.indexer.extrinsicIndex}`}
-        />
-        {!isNil(item.indexer.eventIndex) && (
-          <Link
-            name="Event"
-            to={`/events/${item.indexer.blockHeight}-${item.indexer.eventIndex}`}
-          />
-        )}
-      </Links>
+      <IndexerLinks indexer={item.indexer} />
     </Wrapper>
   );
 }
