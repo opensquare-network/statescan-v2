@@ -1,6 +1,6 @@
-const { getProxySection } = require("../../common");
+const { getProxySection, queryAllProxiesOf } = require("../../common");
 const {
-  chain: { findBlockApi },
+  chain: { findBlockApi, getBlockHash },
 } = require("@osn/scan-common");
 const { generateProxyId } = require("../../common/hash");
 const {
@@ -9,8 +9,30 @@ const {
 const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
+const { getAllProxyIds } = require("./common/proxyIds");
 
 const addProxyMethod = "addProxy";
+
+async function isNewAdded(delegator, delegatee, type, delay, indexer) {
+  const proxyId = generateProxyId(delegator, delegatee, type, delay);
+
+  const { proxies: preBlockProxies } = await queryAllProxiesOf(
+    delegator,
+    await getBlockHash(indexer.blockHeight - 1),
+  );
+  const proxyIdsAtPreBlock = getAllProxyIds(delegator, preBlockProxies);
+
+  const { proxies: nowBlockProxies } = await queryAllProxiesOf(
+    delegator,
+    indexer.blockHash,
+  );
+  const proxyIdsAtNowBlock = getAllProxyIds(delegator, nowBlockProxies);
+
+  return (
+    !proxyIdsAtPreBlock.includes(proxyId) &&
+    proxyIdsAtNowBlock.includes(proxyId)
+  );
+}
 
 async function handleAddProxy(call, signer, extrinsicIndexer) {
   const { section, method } = call;
@@ -34,6 +56,17 @@ async function handleAddProxy(call, signer, extrinsicIndexer) {
   const delegatee = call.args[0].toString();
   const type = call.args[1].toString();
   const proxyId = generateProxyId(signer, delegatee, type, delay);
+
+  const isAddedByThisBlock = await isNewAdded(
+    signer,
+    delegatee,
+    type,
+    delay,
+    extrinsicIndexer,
+  );
+  if (!isAddedByThisBlock) {
+    return;
+  }
 
   const isPure = await isPureProxyDelegator(signer);
   await upsertProxyIfNo({
