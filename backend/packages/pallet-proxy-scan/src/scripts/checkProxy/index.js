@@ -31,26 +31,35 @@ async function getOnChainProxies(api, delegator) {
 
 async function checkDelegatorData(api, delegator) {
   const dbProxies = await getDelegatorProxies(delegator);
-  const onchainProxies = await getOnChainProxies(api, delegator);
-  const dbIds = dbProxies.map((item) => item.proxyId);
-  const onChainIds = onchainProxies.map((item) => {
-    const { delegatee, type, delay } = item;
-    return generateProxyId(delegator, delegatee, type, delay);
+  const rawOnchainProxies = await getOnChainProxies(api, delegator);
+  const onChainProxies = rawOnchainProxies.map((item) => {
+    const { delegate, type, delay } = item;
+    return {
+      ...item,
+      proxyId: generateProxyId(delegator, delegate, type, delay),
+    };
   });
 
-  if (dbIds.length !== onChainIds.length) {
-    console.error(`Delegator ${delegator} not match`);
-    return false;
+  for (const dbProxy of dbProxies) {
+    const { proxyId, delegatee, type, delay } = dbProxy;
+    const onchainOne = onChainProxies.find((p) => p.proxyId === proxyId);
+    if (!onchainOne) {
+      console.error(
+        `Can not find on chain proxy. Delegator ${delegator} Delegatee ${delegatee} Type ${type} Delay ${delay}`,
+      );
+      return false;
+    }
   }
 
-  if (dbIds.some((id) => !onChainIds.includes(id))) {
-    console.error(`Some id in DB not onchain ${delegator}`);
-    return false;
-  }
-
-  if (onChainIds.some((id) => !dbIds.includes(id))) {
-    console.error(`Some id on chain not in db ${delegator}`);
-    return false;
+  for (const chainProxy of onChainProxies) {
+    const { proxyId, delegate, type, delay } = chainProxy;
+    const dbOne = dbProxies.find((p) => p.proxyId === proxyId);
+    if (!dbOne) {
+      console.error(
+        `Can not find db proxy. Delegator ${delegator} Delegate ${delegate} Type ${type} Delay ${delay}`,
+      );
+      return false;
+    }
   }
 
   return true;
