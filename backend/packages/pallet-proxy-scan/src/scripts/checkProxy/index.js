@@ -65,6 +65,8 @@ async function checkDelegatorData(api, delegator) {
     if (!match) {
       console.log(`Please check delegator ${delegator}`);
       break;
+    } else {
+      console.log(`Math: delegator ${delegator}`);
     }
   }
 
