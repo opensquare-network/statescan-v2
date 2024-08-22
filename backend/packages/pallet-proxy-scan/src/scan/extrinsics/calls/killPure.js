@@ -60,12 +60,18 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
 
   const pure = createdEvent.event.data[0].toString();
   const delay = createdEvent.event.data[3].toNumber();
-  const proxy = await getPureProxyOn(
+
+  const preBlockHeight = extrinsicIndexer.blockHeight - 1;
+  const preBlockHash = await getBlockHash(preBlockHeight);
+  const { proxies: preBlockProxies } = await queryAllProxiesOf(
     pure,
-    spawner,
-    proxyTypeArg,
-    delay,
-    extrinsicIndexer.blockHeight - 1,
+    preBlockHash,
+  );
+  const proxy = preBlockProxies.find(
+    (p) =>
+      p.delegate === spawner &&
+      p.proxyType === proxyTypeArg &&
+      p.delay === delay,
   );
   if (!proxy) {
     // check there is proxy on previous height block
@@ -80,16 +86,19 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
     return;
   }
 
-  const proxyId = generateProxyId(pure, spawner, proxyTypeArg, delay);
-  await markProxyRemoved(proxyId, extrinsicIndexer);
-
   const timelineCol = await getProxyTimelineCol();
-  await timelineCol.insertOne({
-    proxyId,
-    name: "Killed",
-    args: {},
-    indexer: extrinsicIndexer,
-  });
+  for (const p of preBlockProxies) {
+    const { delegate, proxyType, delay } = p;
+    const proxyId = generateProxyId(pure, delegate, proxyType, delay);
+    await markProxyRemoved(proxyId, extrinsicIndexer);
+
+    await timelineCol.insertOne({
+      proxyId,
+      name: "Killed",
+      args: {},
+      indexer: extrinsicIndexer,
+    });
+  }
 }
 
 module.exports = {
