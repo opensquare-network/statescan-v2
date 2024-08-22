@@ -8,10 +8,6 @@ const {
 } = require("@osn/scan-common");
 const { generateProxyId } = require("../../scan/common/hash");
 
-// todo: 1. get distinct delegators
-// todo: 2. iterate delegators and check
-// todo: 3. get all proxy of this delegator
-
 async function getDistinctDelegators() {
   const proxyCol = await getProxyCol();
   return await proxyCol.distinct("delegator");
