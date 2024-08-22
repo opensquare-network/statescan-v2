@@ -29,14 +29,13 @@ async function queryPureCreatedEvent(height, extIndex) {
   });
 }
 
-async function getPureProxyOn(pure, height) {
+async function getPureProxyOn(pure, delegatee, type, delay, height) {
   const blockHash = await getBlockHash(height);
   const { proxies } = await queryAllProxiesOf(pure, blockHash);
-  if (proxies.length <= 0) {
-    return null;
-  }
-
-  return proxies[0];
+  return proxies.find(
+    (p) =>
+      p.delegate === delegatee && p.proxyType === type && p.delay === delay,
+  );
 }
 
 async function handleKillPure(call, signer, extrinsicIndexer) {
@@ -60,9 +59,15 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
   }
 
   const pure = createdEvent.event.data[0].toString();
-  const proxy = await getPureProxyOn(pure, extrinsicIndexer.blockHeight - 1);
-  const { delegate, proxyType, delay } = proxy || {};
-  if (!proxy || delegate !== spawner || proxyType !== proxyTypeArg) {
+  const delay = createdEvent.event.data[3].toNumber();
+  const proxy = await getPureProxyOn(
+    pure,
+    spawner,
+    proxyTypeArg,
+    delay,
+    extrinsicIndexer.blockHeight - 1,
+  );
+  if (!proxy) {
     // check there is proxy on previous height block
     return;
   }
@@ -75,7 +80,7 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
     return;
   }
 
-  const proxyId = generateProxyId(pure, delegate, proxyType, delay);
+  const proxyId = generateProxyId(pure, spawner, proxyTypeArg, delay);
   await markProxyRemoved(proxyId, extrinsicIndexer);
 
   const timelineCol = await getProxyTimelineCol();
