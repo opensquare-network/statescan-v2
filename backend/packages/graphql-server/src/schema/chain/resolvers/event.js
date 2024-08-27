@@ -4,10 +4,13 @@ const { extractEvent } = require("./extractEventInfo");
 
 async function event(_, _args) {
   const { blockHeight, eventIndex } = _args;
-  const extrinsicData = await chainCall((api) =>
+  const eventData = await chainCall((api) =>
     getEventData(api, blockHeight, eventIndex),
   );
-  return extractEvent(extrinsicData);
+  if (!eventData) {
+    return;
+  }
+  return extractEvent(eventData);
 }
 
 module.exports = {
