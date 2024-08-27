@@ -33,6 +33,7 @@ function OnChainEvent() {
   const { blockHeight, eventIndex } = parseEventId(id);
   const eventData = useOnChainEventData(blockHeight, eventIndex);
   const eventInfo = useEventInfo(eventData);
+  console.log(eventInfo);
 
   const finalizedHeight = useSelector(finalizedHeightSelector);
 

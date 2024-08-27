@@ -38,6 +38,7 @@ function OnChainExtrinsic() {
   const { blockHeight, extrinsicIndex } = parseExtrinsicId(id);
   const extrinsicData = useOnChainExtrinsicData(blockHeight, extrinsicIndex);
   const extrinsicInfo = useExtrinsicInfo(extrinsicData);
+  console.log(extrinsicInfo);
 
   let isFinalized = null;
   if (extrinsicInfo && finalizedHeight) {

@@ -82,7 +82,13 @@ async function createApis() {
   }
 }
 
+async function chainCall(fn) {
+  const apis = getApis();
+  return await Promise.any(apis.map((api) => fn(api)));
+}
+
 module.exports = {
   createApis,
   getApis,
+  chainCall,
 };

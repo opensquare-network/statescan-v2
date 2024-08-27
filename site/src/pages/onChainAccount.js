@@ -22,6 +22,7 @@ function OnChainAccount() {
 
   const accountData = useOnChainAccountData(id);
   const accountInfo = useAccountInfo(accountData);
+  console.log(accountInfo);
 
   const { data: multisigAddressData } = useMultisigAddressData(id);
 
