@@ -10,11 +10,9 @@ function rejectInTime(seconds) {
 }
 
 async function reConnect(endpoint) {
-  const nowApis = apis || [];
-
-  const index = nowApis.findIndex(({ endpoint: url }) => url === endpoint);
+  const index = apis.findIndex(({ endpoint: url }) => url === endpoint);
   if (index >= 0) {
-    const [targetApi] = nowApis.splice(index, 1);
+    const [targetApi] = apis.splice(index, 1);
     if (targetApi && targetApi.api) {
       await targetApi.api.disconnect();
     }
@@ -43,8 +41,7 @@ async function createOneApi(endpoint) {
     reConnect(endpoint, logger);
   });
 
-  const nowApis = [];
-  if (nowApis.findIndex((api) => api.endpoint === endpoint) >= 0) {
+  if (apis.findIndex((api) => api.endpoint === endpoint) >= 0) {
     logger.info(`${endpoint} existed, ignore`);
     return;
   }
@@ -53,7 +50,7 @@ async function createOneApi(endpoint) {
     endpoint,
     api: await api.isReady,
   };
-  apis = [...nowApis, nodeInfo];
+  apis = [...apis, nodeInfo];
 }
 
 async function createApiInLimitTime(endpoint) {
