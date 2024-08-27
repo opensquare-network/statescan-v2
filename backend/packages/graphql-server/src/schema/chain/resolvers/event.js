@@ -10,7 +10,7 @@ async function event(_, _args) {
   if (!eventData) {
     return;
   }
-  return extractEvent(eventData);
+  return extractEvent(eventData.event, eventData.indexer);
 }
 
 module.exports = {
