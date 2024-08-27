@@ -19,6 +19,7 @@ const {
   hasRecovery,
   hasProxy,
 } = require("./env");
+const { createApis } = require("./chainApi");
 
 const port = parseInt(process.env.PORT) || 7100;
 
@@ -43,8 +44,13 @@ async function initDbs() {
   }
 }
 
-function main() {
-  initDbs().then(() => console.log("DB initialized"));
+async function main() {
+  await initDbs();
+  console.log("DB initialized");
+
+  await createApis();
+  console.log("api initialized");
+
   const yoga = createYoga({ schema });
   const server = createServer(yoga);
   server.listen(port, () => {

@@ -21,7 +21,7 @@
   "dependencies": {
     "@graphql-tools/schema": "^10.0.0",
     "@osn/polkadot-api-container": "^1.1.14",
-    "@osn/scan-common": "^0.6.15",
+    "@osn/scan-common": "0.6.16",
     "@statescan/common": "1.0.0",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
@@ -29,8 +29,7 @@
     "graphql-type-json": "^0.3.2",
     "graphql-yoga": "^4.0.3",
     "lodash.isnil": "^4.0.0",
-    "lodash.trim": "^4.5.1",
-    "log4js": "^6.9.1"
+    "lodash.trim": "^4.5.1"
   },
   "devDependencies": {
     "eslint-plugin-jest": "^27.2.1",
