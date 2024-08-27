@@ -4,10 +4,14 @@ const { chainCall } = require("../../../chainApi");
 
 async function extrinsic(_, _args) {
   const { blockHeight, extrinsicIndex } = _args;
-  const extrinsicData = await chainCall((api) =>
-    getExtrinsicData(api, blockHeight, extrinsicIndex),
-  );
-  return extractExtrinsicInfo(extrinsicData);
+  return await chainCall(async (api) => {
+    const extrinsicData = await getExtrinsicData(
+      api,
+      blockHeight,
+      extrinsicIndex,
+    );
+    return extractExtrinsicInfo(api, extrinsicData);
+  });
 }
 
 module.exports = {

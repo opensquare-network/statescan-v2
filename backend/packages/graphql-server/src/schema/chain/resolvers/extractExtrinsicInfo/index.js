@@ -21,6 +21,7 @@ function extractExtrinsicEventInfos(allBlockEvents, extrinsicIndexer) {
 }
 
 async function extractExtrinsicInfo(api, extrinsicData) {
+  console.log({ extrinsicData });
   if (!extrinsicData) {
     return null;
   }
