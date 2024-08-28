@@ -1,6 +1,12 @@
-async function getBlockData(api, blockHeight) {
+async function getBlockData(api, blockHeightOrHash) {
   try {
-    const blockHash = await api.rpc.chain.getBlockHash(blockHeight);
+    let blockHash;
+    if (typeof blockHeightOrHash === "number") {
+      blockHash = await api.rpc.chain.getBlockHash(blockHeightOrHash);
+    } else {
+      blockHash = blockHeightOrHash;
+    }
+
     const [block, events, validators] = await Promise.all([
       api.rpc.chain.getBlock(blockHash),
       api.query.system.events.at(blockHash),

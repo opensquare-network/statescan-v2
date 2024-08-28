@@ -3,8 +3,10 @@ const { getBlockData } = require("./getBlock");
 const { extractBlockInfo } = require("./extractBlockInfo");
 
 async function block(_, _args) {
-  const { blockHeight } = _args;
-  const blockData = await chainCall((api) => getBlockData(api, blockHeight));
+  const { blockHeightOrHash } = _args;
+  const blockData = await chainCall((api) =>
+    getBlockData(api, blockHeightOrHash),
+  );
   return extractBlockInfo(blockData);
 }
 
