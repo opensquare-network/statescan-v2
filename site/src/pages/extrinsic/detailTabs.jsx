@@ -6,8 +6,7 @@ import CallsTable, { toCallTableItem } from "../../components/call/callsTable";
 import DetailTabs from "../../components/detail/tabs";
 import PagingTable from "../../components/detail/pagingTable";
 import isNil from "lodash.isnil";
-import useOnChainExtrinsicData from "../../hooks/useOnChainExtrinsicData";
-import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
+import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
 
 export default function ExtrinsicDetailTabs({ extrinsic }) {
   const { useOnChainBlockData } = useChainSettings();
@@ -17,11 +16,8 @@ export default function ExtrinsicDetailTabs({ extrinsic }) {
 
   const extrinsicId = extrinsic ? `${blockHeight}-${extrinsicIndex}` : null;
 
-  const onChainExtrinsicData = useOnChainExtrinsicData(
-    blockHeight,
-    extrinsicIndex,
-  );
-  const extrinsicInfo = useExtrinsicInfo(onChainExtrinsicData);
+  const { data } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
+  const extrinsicInfo = data?.extrinsic;
 
   const events = extrinsicInfo?.events || extrinsic?.events || [];
   const calls = extrinsicInfo?.calls || extrinsic?.calls || [];
