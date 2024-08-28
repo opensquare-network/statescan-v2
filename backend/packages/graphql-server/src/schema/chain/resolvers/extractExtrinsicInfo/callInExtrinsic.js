@@ -1,21 +1,32 @@
-const { WrappedEvents } = require("./type/wrappedEvents");
-const { isSudoOk, getSudoInnerCallEvents } = require("./utils/sudo");
-const { getBatchInnerCallEvents } = require("./utils/batch");
-const { findInterrupted } = require("./utils/checkInterrupted");
+const { WrappedEvents } = require("@osn/scan-common/src/type/wrappedEvents");
+const {
+  isSudoOk,
+  getSudoInnerCallEvents,
+} = require("@osn/scan-common/src/extrinsic/utils/sudo");
+const {
+  getBatchInnerCallEvents,
+} = require("@osn/scan-common/src/extrinsic/utils/batch");
+const {
+  findInterrupted,
+} = require("@osn/scan-common/src/extrinsic/utils/checkInterrupted");
 const {
   isMultisigExecutedOk,
   getMultisigInnerCallEvents,
-} = require("./utils/multisig");
-const { calcMultisigAddress } = require("./utils/multisig");
-const { getProxyInnerCallEvents } = require("./utils/getProxyCallEvents");
-const { isProxyExecutedOk } = require("./utils/isProxyExecutedOk");
+} = require("@osn/scan-common/src/extrinsic/utils/multisig");
+const { calcMultisigAddress } = require("@osn/scan-common/src/utils/multisig");
+const {
+  getProxyInnerCallEvents,
+} = require("@osn/scan-common/src/extrinsic/utils/getProxyCallEvents");
+const {
+  isProxyExecutedOk,
+} = require("@osn/scan-common/src/extrinsic/utils/isProxyExecutedOk");
 const {
   Modules,
   ProxyMethods,
   MultisigMethods,
   UtilityMethods,
   SudoMethods,
-} = require("./consts");
+} = require("@osn/scan-common/src/consts");
 const { GenericCall } = require("@polkadot/types");
 
 async function unwrapProxy(
