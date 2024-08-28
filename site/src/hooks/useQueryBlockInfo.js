@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 import { useBlockQuery } from "./apollo";
 
 const GET_BLOCK_INFO = gql`
-  query GetBlockInfo($blockHeight: Int!) {
-    block(blockHeight: $blockHeight) {
+  query GetBlockInfo($blockHeightOrHash: BlockHeightOrHash!) {
+    block(blockHeightOrHash: $blockHeightOrHash) {
       digest
       events {
         args
@@ -87,10 +87,11 @@ const GET_BLOCK_INFO = gql`
   }
 `;
 
-export function useQueryBlockInfo(blockHeight) {
+export function useQueryBlockInfo(blockId) {
+  const blockHeightOrHash = /^\d+$/.test(blockId) ? parseInt(blockId) : blockId;
   return useBlockQuery(GET_BLOCK_INFO, {
     variables: {
-      blockHeight,
+      blockHeightOrHash,
     },
   });
 }
