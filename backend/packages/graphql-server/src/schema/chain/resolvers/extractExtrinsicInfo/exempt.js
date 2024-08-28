@@ -4,7 +4,7 @@ const {
   MultisigMethods,
   UtilityMethods,
   SudoMethods,
-} = require("./consts");
+} = require("@osn/scan-common/src/consts");
 
 function isExemptedCall(section, method) {
   if (

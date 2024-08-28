@@ -1,4 +1,6 @@
-const { handleCallsInExtrinsic } = require("./callInExtrinsic");
+const {
+  handleCallsInExtrinsic,
+} = require("@osn/scan-common/src/extrinsic/callInExtrinsic");
 const { isExemptedCall } = require("./exempt");
 const {
   normalizeCall,
