@@ -18,9 +18,14 @@ const {
 } = require("./consts");
 const { GenericCall } = require("@polkadot/types");
 
-let _callHandler;
-
-async function unwrapProxy(api, call, signer, extrinsicIndexer, wrappedEvents) {
+async function unwrapProxy(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
   if (!isProxyExecutedOk(wrappedEvents?.events)) {
     return;
   }
@@ -34,6 +39,7 @@ async function unwrapProxy(api, call, signer, extrinsicIndexer, wrappedEvents) {
     real,
     extrinsicIndexer,
     innerCallEvents,
+    callHandler,
   );
 }
 
@@ -43,6 +49,7 @@ async function handleMultisig(
   signer,
   extrinsicIndexer,
   wrappedEvents,
+  callHandler,
 ) {
   if (!isMultisigExecutedOk(wrappedEvents.events)) {
     return;
@@ -73,10 +80,18 @@ async function handleMultisig(
     multisigAddr,
     extrinsicIndexer,
     innerCallEvents,
+    callHandler,
   );
 }
 
-async function unwrapBatch(api, call, signer, extrinsicIndexer, wrappedEvents) {
+async function unwrapBatch(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
   const method = call.method;
   const interruptedEvent = findInterrupted(wrappedEvents);
 
@@ -98,11 +113,19 @@ async function unwrapBatch(api, call, signer, extrinsicIndexer, wrappedEvents) {
       signer,
       extrinsicIndexer,
       innerCallEvents,
+      callHandler,
     );
   }
 }
 
-async function unwrapSudo(api, call, signer, extrinsicIndexer, wrappedEvents) {
+async function unwrapSudo(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
   const { method } = call;
   if (!isSudoOk(wrappedEvents.events, method)) {
     return;
@@ -118,11 +141,13 @@ async function unwrapSudo(api, call, signer, extrinsicIndexer, wrappedEvents) {
     author,
     extrinsicIndexer,
     innerCallEvents,
+    callHandler,
   );
 }
 
 async function handleWrappedCall() {
   const call = arguments[1];
+  const callHandler = arguments[5];
   const { section, method } = call;
 
   if (Modules.Proxy === section && ProxyMethods.proxy === method) {
@@ -148,8 +173,8 @@ async function handleWrappedCall() {
     await unwrapSudo(...arguments);
   }
 
-  if (_callHandler) {
-    await _callHandler(...arguments);
+  if (callHandler) {
+    await callHandler(...arguments);
   }
 }
 
@@ -164,8 +189,14 @@ async function handleCallsInExtrinsic(
   const signer = extrinsic.signer.toString();
   const call = extrinsic.method;
 
-  _callHandler = callHandler;
-  await handleWrappedCall(api, call, signer, extrinsicIndexer, wrappedEvents);
+  await handleWrappedCall(
+    api,
+    call,
+    signer,
+    extrinsicIndexer,
+    wrappedEvents,
+    callHandler,
+  );
 }
 
 module.exports = {

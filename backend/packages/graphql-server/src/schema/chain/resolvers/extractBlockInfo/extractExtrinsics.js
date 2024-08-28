@@ -1,13 +1,9 @@
 const {
   normalizeExtrinsic,
 } = require("../extractExtrinsicInfo/normalizeExtrinsic");
-
-function extractExtrinsicEvents(events, extrinsicIndex) {
-  return events.filter((event) => {
-    const { phase } = event;
-    return !phase.isNone && phase.value.toNumber() === extrinsicIndex;
-  });
-}
+const {
+  utils: { extractExtrinsicEvents },
+} = require("@osn/scan-common");
 
 function extractExtrinsics(extrinsics = [], blockEvents = [], blockIndexer) {
   let index = 0;

@@ -1,38 +1,44 @@
 const { handleCallsInExtrinsic } = require("./callInExtrinsic");
 const { isExemptedCall } = require("./exempt");
-const { normalizeCall } = require("./normalizeCall");
+const {
+  normalizeCall,
+} = require("@osn/scan-common/src/extrinsic/call/normalize");
 
-let extrinsicCallIndex = 0;
-let extrinsicCalls = [];
-
-async function handleCall(api, call, author, extrinsicIndexer, wrappedEvents) {
-  const { section, method } = call;
-  if (isExemptedCall(section, method)) {
-    return;
+class CallsInExtrinsic {
+  constructor() {
+    this.callIndex = 0;
+    this.calls = [];
   }
 
-  const normalizedCall = normalizeCall(call);
-  const indexer = {
-    ...extrinsicIndexer,
-    callIndex: extrinsicCallIndex,
-  };
+  async handleCall(api, call, author, extrinsicIndexer, wrappedEvents) {
+    const { section, method } = call;
+    if (isExemptedCall(section, method)) {
+      return;
+    }
 
-  let eventAttributes = {
-    isCall: false,
-  };
-  if (wrappedEvents.wrapped) {
-    eventAttributes.isCall = true;
-    eventAttributes.offset = wrappedEvents.offset;
-    eventAttributes.length = wrappedEvents.events.length;
+    const normalizedCall = normalizeCall(call);
+    const indexer = {
+      ...extrinsicIndexer,
+      callIndex: this.callIndex,
+    };
+
+    let eventAttributes = {
+      isCall: false,
+    };
+    if (wrappedEvents.wrapped) {
+      eventAttributes.isCall = true;
+      eventAttributes.offset = wrappedEvents.offset;
+      eventAttributes.length = wrappedEvents.events.length;
+    }
+
+    this.calls.push({
+      indexer,
+      ...normalizedCall,
+      eventAttributes,
+    });
+
+    this.callIndex++;
   }
-
-  extrinsicCalls.push({
-    indexer,
-    ...normalizedCall,
-    eventAttributes,
-  });
-
-  extrinsicCallIndex++;
 }
 
 async function extractCallsFromExtrinsic(
@@ -41,18 +47,17 @@ async function extractCallsFromExtrinsic(
   events,
   extrinsicIndexer,
 ) {
-  extrinsicCallIndex = 0;
-  extrinsicCalls = [];
+  const callsInExtrinsic = new CallsInExtrinsic();
 
   await handleCallsInExtrinsic(
     api,
     extrinsic,
     events,
     extrinsicIndexer,
-    (...args) => handleCall(...args),
+    (...args) => callsInExtrinsic.handleCall(...args),
   );
 
-  return extrinsicCalls;
+  return callsInExtrinsic.calls;
 }
 
 module.exports = {

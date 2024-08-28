@@ -1,5 +1,5 @@
 const { extractAuthor } = require("@polkadot/api-derive/type/util");
-// const { keccakAsHex } = require("@polkadot/util-crypto");
+const { keccakAsHex } = require("@polkadot/util-crypto");
 
 function extractBlockHeader(header, validators) {
   if (!header) {
@@ -16,10 +16,9 @@ function extractBlockHeader(header, validators) {
   } = header;
   const author = extractAuthor(digest, validators);
   let hash = rawHash.toString();
-  //TODO: fix Gargantua
-  // if (process.env.REACT_APP_PUBLIC_CHAIN === "gargantua") {
-  //   hash = keccakAsHex(header.toU8a(), 256);
-  // }
+  if (process.env.CHAIN === "gargantua") {
+    hash = keccakAsHex(header.toU8a(), 256);
+  }
 
   return {
     height: number.toNumber(),

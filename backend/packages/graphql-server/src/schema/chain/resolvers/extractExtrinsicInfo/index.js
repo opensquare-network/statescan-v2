@@ -1,6 +1,6 @@
 const {
-  extractExtrinsicEvents,
-} = require("../extractBlockInfo/extractExtrinsics");
+  utils: { extractExtrinsicEvents },
+} = require("@osn/scan-common");
 const { extractEvent } = require("../extractEventInfo");
 const { extractCallsFromExtrinsic } = require("./extractCallsFromExtrinsic");
 const { normalizeExtrinsic } = require("./normalizeExtrinsic");
@@ -21,7 +21,6 @@ function extractExtrinsicEventInfos(allBlockEvents, extrinsicIndexer) {
 }
 
 async function extractExtrinsicInfo(api, extrinsicData) {
-  console.log({ extrinsicData });
   if (!extrinsicData) {
     return null;
   }

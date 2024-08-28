@@ -1,5 +1,10 @@
-const { normalizeCall } = require("./normalizeCall");
 const { keccakAsHex } = require("@polkadot/util-crypto");
+const {
+  normalizeCall,
+} = require("@osn/scan-common/src/extrinsic/call/normalize");
+const {
+  utils: { isExtrinsicSuccess },
+} = require("@osn/scan-common");
 
 function getLifetime(extrinsic, indexer) {
   if (!extrinsic.era.isMortalEra) {
@@ -10,13 +15,9 @@ function getLifetime(extrinsic, indexer) {
   return [mortal.birth(indexer.blockHeight), mortal.death(indexer.blockHeight)];
 }
 
-function isExtrinsicSuccess(events) {
-  return events.some((e) => e.event.method === "ExtrinsicSuccess");
-}
-
 function normalizeExtrinsic(extrinsic, events, indexer) {
   let hash = extrinsic.hash.toHex();
-  if (process.env.REACT_APP_PUBLIC_CHAIN === "gargantua") {
+  if (process.env.CHAIN === "gargantua") {
     hash = keccakAsHex(extrinsic.toU8a(), 256);
   }
   const version = extrinsic.version;
