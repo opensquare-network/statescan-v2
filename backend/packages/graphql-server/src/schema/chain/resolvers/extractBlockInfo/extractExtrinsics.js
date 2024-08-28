@@ -6,11 +6,12 @@ const {
 } = require("@osn/scan-common");
 
 function extractExtrinsics(extrinsics = [], blockEvents = [], blockIndexer) {
-  let index = 0;
   let normalizedExtrinsics = [];
-  for (const extrinsic of extrinsics) {
+
+  for (let index = 0; index < extrinsics.length; index++) {
+    const extrinsic = extrinsics[index];
     const events = extractExtrinsicEvents(blockEvents, index);
-    const extrinsicIndexer = { ...blockIndexer, extrinsicIndex: index++ };
+    const extrinsicIndexer = { ...blockIndexer, extrinsicIndex: index };
 
     const normalized = normalizeExtrinsic(extrinsic, events, extrinsicIndexer);
     normalizedExtrinsics.push(normalized);
@@ -21,5 +22,4 @@ function extractExtrinsics(extrinsics = [], blockEvents = [], blockIndexer) {
 
 module.exports = {
   extractExtrinsics,
-  extractExtrinsicEvents,
 };

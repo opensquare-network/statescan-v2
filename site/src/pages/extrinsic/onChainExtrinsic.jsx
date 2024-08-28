@@ -35,10 +35,7 @@ function OnChainExtrinsic() {
   const finalizedHeight = useSelector(finalizedHeightSelector);
 
   const { blockHeight, extrinsicIndex } = parseExtrinsicId(id);
-  const { data } = useQueryExtrinsicInfo(
-    parseInt(blockHeight),
-    parseInt(extrinsicIndex),
-  );
+  const { data } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
   const extrinsicInfo = data?.extrinsic;
 
   let isFinalized = null;

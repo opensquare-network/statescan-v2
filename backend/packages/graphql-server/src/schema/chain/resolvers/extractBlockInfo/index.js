@@ -1,7 +1,6 @@
-const extractExtrinsics = require("./extractExtrinsics");
-const extractEvents = require("./extractEvents");
-const extractBlockHeader = require("./extractBlockHeader");
-// const extractBlockTime = require("./extractBlockTime");
+const { extractExtrinsics } = require("./extractExtrinsics");
+const { extractEvents } = require("./extractEvents");
+const { extractBlockHeader } = require("./extractBlockHeader");
 const {
   chain: { getBlockIndexer },
 } = require("@osn/scan-common");
@@ -17,12 +16,8 @@ function extractBlockInfo(blockData) {
   );
 
   const blockIndexer = getBlockIndexer(blockData.block.block);
+
   const time = blockIndexer.blockTime;
-  //   const blockIndexer = {
-  //     blockHash: headerInfo.hash,
-  //   blockHeight: headerInfo.height,
-  //   blockTime: time,
-  // };
 
   const extrinsics = extractExtrinsics(
     blockData.block.block.extrinsics,
