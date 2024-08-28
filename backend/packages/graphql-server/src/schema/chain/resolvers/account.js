@@ -39,10 +39,8 @@ function extractAccountInfo(accountData) {
 }
 
 async function account(_, _args) {
-  const { blockHeight, eventIndex } = _args;
-  const extrinsicData = await chainCall((api) =>
-    getAccountData(api, blockHeight, eventIndex),
-  );
+  const { address } = _args;
+  const extrinsicData = await chainCall((api) => getAccountData(api, address));
   return extractAccountInfo(extrinsicData);
 }
 
