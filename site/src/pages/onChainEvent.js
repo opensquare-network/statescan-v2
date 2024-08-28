@@ -9,11 +9,10 @@ import { toEventDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { useDispatch, useSelector } from "react-redux";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import EventAttributeDisplay from "../components/eventAttributeDisplay";
-import useOnChainEventData from "../hooks/useOnChainEventData";
-import useEventInfo from "../hooks/useEventInfo";
 import { finalizedHeightSelector } from "../store/reducers/chainSlice";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import isNil from "lodash.isnil";
+import { useQueryEventInfo } from "../hooks/useQueryEventInfo";
 
 function parseEventId(id) {
   if (!id.includes("-")) {
@@ -31,9 +30,11 @@ function OnChainEvent() {
   const dispatch = useDispatch();
 
   const { blockHeight, eventIndex } = parseEventId(id);
-  const eventData = useOnChainEventData(blockHeight, eventIndex);
-  const eventInfo = useEventInfo(eventData);
-  console.log(eventInfo);
+  const { data } = useQueryEventInfo(
+    parseInt(blockHeight),
+    parseInt(eventIndex),
+  );
+  const eventInfo = data?.event;
 
   const finalizedHeight = useSelector(finalizedHeightSelector);
 
@@ -54,11 +55,11 @@ function OnChainEvent() {
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (eventData === null) {
+    if (eventInfo === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, eventData]);
+  }, [dispatch, eventInfo]);
 
   const listData = useMemo(
     () => (event ? toEventDetailItem(event) : {}),

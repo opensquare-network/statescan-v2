@@ -22,32 +22,29 @@ import {
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
-import useOnChainBlockData from "../hooks/useOnChainBlockData";
-import useBlockInfo from "../hooks/useBlockInfo";
 import { finalizedHeightSelector } from "../store/reducers/chainSlice";
 import PagingTable from "../components/detail/pagingTable";
 import isNil from "lodash.isnil";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import { getIsSimpleMode } from "../utils/env";
+import { useQueryBlockInfo } from "../hooks/useQueryBlockInfo";
 
 function OnChainBlock() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const blockData = useOnChainBlockData(id);
-  console.log(blockData);
-  const blockInfo = useBlockInfo(blockData);
-  console.log(blockInfo);
+  const { data } = useQueryBlockInfo(parseInt(id));
+  const blockInfo = data?.block;
   const finalizedHeight = useSelector(finalizedHeightSelector);
   const isSimpleMode = getIsSimpleMode();
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (blockData === null) {
+    if (blockInfo === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, blockData]);
+  }, [dispatch, blockInfo]);
 
   let isFinalized = null;
   if (blockInfo && finalizedHeight) {

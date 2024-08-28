@@ -16,6 +16,14 @@ export const useRecoveryQuery = createModuleQuery("recovery");
 
 export const useProxyQuery = createModuleQuery("proxy");
 
+export const useBlockQuery = createModuleQuery("block");
+
+export const useExtrinsicQuery = createModuleQuery("extrinsic");
+
+export const useEventQuery = createModuleQuery("event");
+
+export const useAccountQuery = createModuleQuery("account");
+
 /**
  * @param {string} module
  * @description useLazyQuery
