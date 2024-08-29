@@ -1502,20 +1502,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@osn/polkadot-api-container@npm:1.1.14":
-  version: 1.1.14
-  resolution: "@osn/polkadot-api-container@npm:1.1.14"
-  dependencies:
-    "@osn/provider-options": ^1.1.10
-    "@polkadot/api": ^12.4.2
-    lodash.isnil: ^4.0.0
-  peerDependencies:
-    "@polkadot/api": ^9.*.*
-    "@polkadot/util": ^10.*.*
-  checksum: 33c93b1addfa83c18032f1a2d2c128fb1780f3ade06197c1e1579f641afeb752fd2dfc67f17fb9c3c2535b7febd5c87c9ae35f28f1c45a4a245ef2e21f5355c7
-  languageName: node
-  linkType: hard
-
 "@osn/provider-options@npm:^1.1.10":
   version: 1.1.10
   resolution: "@osn/provider-options@npm:1.1.10"
@@ -2207,7 +2193,6 @@ __metadata:
   resolution: "@statescan/identity-server@workspace:packages/identity-server"
   dependencies:
     "@graphql-tools/schema": ^10.0.0
-    "@osn/polkadot-api-container": 1.1.14
     "@osn/scan-common": 0.6.18
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
