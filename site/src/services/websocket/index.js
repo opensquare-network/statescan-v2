@@ -16,6 +16,7 @@ import {
   setLatestBlocksLoading,
   setLatestSignedTransfersLoading,
 } from "../../store/reducers/socketSlice";
+import { setFinalizedHeight } from "../../store/reducers/chainSlice";
 
 let socket = null;
 let blocksLastUpdate = 0;
@@ -60,6 +61,7 @@ export function connect() {
       const now = new Date().getTime();
       if (now - overviewLastUpdate > 3000) {
         store.dispatch(setOverview(overviewData));
+        store.dispatch(setFinalizedHeight(overviewData.finalizedHeight));
         overviewLastUpdate = now;
       }
     });

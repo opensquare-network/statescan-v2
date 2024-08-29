@@ -48,7 +48,7 @@ const CallText = TextSecondary;
 export const toBlockDetailItem = (block) => {
   return {
     "Block Time": <DetailedTime ts={block?.time} />,
-    Status: <FinalizedState finalized={block?.isFinalized} />,
+    Status: <FinalizedState height={block?.height} />,
     Hash: <TextSecondaryWithCopy>{block?.hash}</TextSecondaryWithCopy>,
     "Parent Hash": (
       <ColoredMonoLinkWithCopy

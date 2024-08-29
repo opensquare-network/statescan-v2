@@ -5,14 +5,14 @@ import { useParams } from "react-router-dom";
 import List from "../components/list";
 import {
   blockEventsHead,
-  extrinsicsHead,
   Events,
   Extrinsics,
+  extrinsicsHead,
   Logs,
 } from "../utils/constants";
 import LogsTable from "../components/block/tabTables/logsTable";
 import { currencify } from "../utils";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import DetailLayout from "../components/layout/detailLayout";
 import { isHash } from "../utils/viewFuncs/text";
 import {
@@ -22,7 +22,6 @@ import {
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
-import { finalizedHeightSelector } from "../store/reducers/chainSlice";
 import PagingTable from "../components/detail/pagingTable";
 import isNil from "lodash.isnil";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
@@ -34,32 +33,16 @@ function OnChainBlock() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data } = useQueryBlockInfo(id);
-  const blockInfo = data?.chainBlock;
-  const finalizedHeight = useSelector(finalizedHeightSelector);
+  const block = data?.chainBlock;
   const isSimpleMode = getIsSimpleMode();
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (blockInfo === null) {
+    if (block === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, blockInfo]);
-
-  let isFinalized = null;
-  if (blockInfo && finalizedHeight) {
-    isFinalized = blockInfo?.height <= finalizedHeight;
-  }
-
-  const block = useMemo(() => {
-    if (!blockInfo || isNil(isFinalized)) {
-      return null;
-    }
-    return {
-      ...blockInfo,
-      isFinalized,
-    };
-  }, [blockInfo, isFinalized]);
+  }, [dispatch, block]);
 
   const height = block?.height ?? (!isHash(id) ? parseInt(id) : 0);
 
@@ -85,8 +68,8 @@ function OnChainBlock() {
         <PagingTable
           heads={extrinsicsHead}
           transformData={toExtrinsicsTabTableItem}
-          data={blockInfo?.extrinsics || []}
-          isLoading={isNil(blockInfo?.extrinsics)}
+          data={block?.extrinsics || []}
+          isLoading={isNil(block?.extrinsics)}
         />
       ),
     },
@@ -97,8 +80,8 @@ function OnChainBlock() {
         <PagingTable
           heads={blockEventsHead}
           transformData={toEventTabTableItem}
-          data={blockInfo?.events || []}
-          isLoading={isNil(blockInfo?.events)}
+          data={block?.events || []}
+          isLoading={isNil(block?.events)}
         />
       ),
     },
