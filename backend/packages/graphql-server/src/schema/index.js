@@ -30,6 +30,7 @@ const {
   hasVesting,
   hasRecovery,
   hasProxy,
+  hasEndpoints,
 } = require("../env");
 const {
   graphql: { indexer, json },
@@ -39,9 +40,13 @@ const {
   typeDefs: chainTypeDefs,
 } = require("./chain");
 
-let resolvers = [chainResolvers];
-let typeDefs = [indexer, json, ...chainTypeDefs];
+let resolvers = [];
+let typeDefs = [indexer, json];
 
+if (hasEndpoints()) {
+  resolvers = [...resolvers, chainResolvers];
+  typeDefs = [...typeDefs, ...chainTypeDefs];
+}
 if (hasVesting()) {
   resolvers = [...resolvers, vestingResolvers];
   typeDefs = [...typeDefs, ...vestingTypeDefs];
