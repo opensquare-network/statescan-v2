@@ -9,8 +9,6 @@ import shadow from "./shadow";
 import gargantua from "./gargantua";
 import polkadotCrustParachain from "./polkadotCrust";
 import tangle from "./tangle";
-import parallel from "./parallel";
-import heiko from "./heiko";
 import crust from "./crust";
 import invarch from "./invarch";
 import tinkernet from "./tinkernet";
@@ -34,8 +32,6 @@ const chains = {
   "crust-parachain": polkadotCrustParachain,
   crust,
   invarch,
-  parallel,
-  heiko,
   tangle,
   tinkernet,
   "people-kusama": peopleKusama,
