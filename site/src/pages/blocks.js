@@ -67,7 +67,7 @@ function Blocks() {
         </ColoredLink>,
         block?.time,
         <Flex>
-          <FinalizedState finalized={block?.isFinalized} />
+          <FinalizedState height={block?.height} />
         </Flex>,
         <Tooltip tip={block.hash}>
           <ColoredMonoLink to={`/blocks/${block?.height}`}>

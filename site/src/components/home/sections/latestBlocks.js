@@ -55,7 +55,7 @@ function LatestBlocks({ blocks }) {
             <BlockHeight>{block.height?.toLocaleString?.()}</BlockHeight>
           </Link>
           <Flex gap={8}>
-            <FinalizedState finalized={block?.isFinalized} />
+            <FinalizedState height={block?.height} />
             <Time>{timeDuration(block.time)}</Time>
           </Flex>
         </div>
