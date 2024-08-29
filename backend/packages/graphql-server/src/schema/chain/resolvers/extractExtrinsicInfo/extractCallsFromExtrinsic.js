@@ -1,10 +1,8 @@
 const {
-  handleCallsInExtrinsicWithApi,
-} = require("@osn/scan-common/src/extrinsic/callInExtrinsic");
-const { isExemptedCall } = require("./exempt");
-const {
   normalizeCall,
-} = require("@osn/scan-common/src/extrinsic/call/normalize");
+  handleCallsInExtrinsicWithApi,
+} = require("@osn/scan-common");
+const { isExemptedCall } = require("./exempt");
 
 class CallsInExtrinsic {
   constructor() {

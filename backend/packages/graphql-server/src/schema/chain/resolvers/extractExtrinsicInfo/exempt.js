@@ -1,10 +1,12 @@
 const {
-  Modules,
-  ProxyMethods,
-  MultisigMethods,
-  UtilityMethods,
-  SudoMethods,
-} = require("@osn/scan-common/src/consts");
+  consts: {
+    Modules,
+    ProxyMethods,
+    MultisigMethods,
+    UtilityMethods,
+    SudoMethods,
+  },
+} = require("@osn/scan-common");
 
 function isExemptedCall(section, method) {
   if (

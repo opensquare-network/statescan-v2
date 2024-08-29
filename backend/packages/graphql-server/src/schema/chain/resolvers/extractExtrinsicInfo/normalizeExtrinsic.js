@@ -1,7 +1,5 @@
 const { keccakAsHex } = require("@polkadot/util-crypto");
-const {
-  normalizeCall,
-} = require("@osn/scan-common/src/extrinsic/call/normalize");
+const { normalizeCall } = require("@osn/scan-common");
 const {
   utils: { isExtrinsicSuccess },
 } = require("@osn/scan-common");
