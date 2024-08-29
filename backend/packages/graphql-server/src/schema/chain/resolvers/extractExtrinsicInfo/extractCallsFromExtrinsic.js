@@ -12,7 +12,7 @@ class CallsInExtrinsic {
     this.calls = [];
   }
 
-  async handleCall(api, call, author, extrinsicIndexer, wrappedEvents) {
+  async handleCall(call, author, extrinsicIndexer, wrappedEvents) {
     const { section, method } = call;
     if (isExemptedCall(section, method)) {
       return;
@@ -51,12 +51,8 @@ async function extractCallsFromExtrinsic(
 ) {
   const callsInExtrinsic = new CallsInExtrinsic();
 
-  await handleCallsInExtrinsic(
-    api,
-    extrinsic,
-    events,
-    extrinsicIndexer,
-    (...args) => callsInExtrinsic.handleCall(...args),
+  await handleCallsInExtrinsic(extrinsic, events, extrinsicIndexer, (...args) =>
+    callsInExtrinsic.handleCall(...args),
   );
 
   return callsInExtrinsic.calls;
