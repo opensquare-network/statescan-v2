@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-import { useBlockQuery } from "./apollo";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_BLOCK_INFO = gql`
   query GetBlockInfo($blockHeightOrHash: BlockHeightOrHash!) {
@@ -89,7 +88,7 @@ const GET_BLOCK_INFO = gql`
 
 export function useQueryBlockInfo(blockId) {
   const blockHeightOrHash = /^\d+$/.test(blockId) ? parseInt(blockId) : blockId;
-  return useBlockQuery(GET_BLOCK_INFO, {
+  return useQuery(GET_BLOCK_INFO, {
     variables: {
       blockHeightOrHash,
     },

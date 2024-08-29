@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-import { useExtrinsicQuery } from "./apollo";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_EXTRINSIC_INFO = gql`
   query GetExtrinsicInfo($blockHeight: Int!, $extrinsicIndex: Int!) {
@@ -61,7 +60,7 @@ const GET_EXTRINSIC_INFO = gql`
 `;
 
 export function useQueryExtrinsicInfo(blockHeight, extrinsicIndex) {
-  return useExtrinsicQuery(GET_EXTRINSIC_INFO, {
+  return useQuery(GET_EXTRINSIC_INFO, {
     variables: {
       blockHeight,
       extrinsicIndex,

@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-import { useAccountQuery } from "./apollo";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_ACCOUNT_INFO = gql`
   query GetAccountInfo($address: String!) {
@@ -38,7 +37,7 @@ const GET_ACCOUNT_INFO = gql`
 `;
 
 export function useQueryAccountInfo(address) {
-  return useAccountQuery(GET_ACCOUNT_INFO, {
+  return useQuery(GET_ACCOUNT_INFO, {
     variables: {
       address,
     },

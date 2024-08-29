@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-import { useEventQuery } from "./apollo";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_EVENT_INFO = gql`
   query GetEventInfo($blockHeight: Int!, $eventIndex: Int!) {
@@ -22,7 +21,7 @@ const GET_EVENT_INFO = gql`
 `;
 
 export function useQueryEventInfo(blockHeight, eventIndex) {
-  return useEventQuery(GET_EVENT_INFO, {
+  return useQuery(GET_EVENT_INFO, {
     variables: {
       blockHeight,
       eventIndex,
