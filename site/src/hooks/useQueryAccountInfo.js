@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 
 const GET_ACCOUNT_INFO = gql`
   query GetAccountInfo($address: String!) {
-    account(address: $address) {
+    chainAccount(address: $address) {
       data {
         feeFrozen
         free

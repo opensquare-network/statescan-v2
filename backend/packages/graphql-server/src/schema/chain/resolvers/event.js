@@ -14,5 +14,5 @@ async function event(_, _args) {
 }
 
 module.exports = {
-  event,
+  chainEvent: event,
 };

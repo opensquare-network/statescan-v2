@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 
 const GET_BLOCK_INFO = gql`
   query GetBlockInfo($blockHeightOrHash: BlockHeightOrHash!) {
-    block(blockHeightOrHash: $blockHeightOrHash) {
+    chainBlock(blockHeightOrHash: $blockHeightOrHash) {
       digest
       events {
         args

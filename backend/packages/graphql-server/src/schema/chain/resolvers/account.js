@@ -45,5 +45,5 @@ async function account(_, _args) {
 }
 
 module.exports = {
-  account,
+  chainAccount: account,
 };

@@ -2,10 +2,10 @@ const queries = /* GraphQL */ `
   scalar BlockHeightOrHash
 
   type Query {
-    block(blockHeightOrHash: BlockHeightOrHash!): Block
-    extrinsic(blockHeight: Int!, extrinsicIndex: Int!): Extrinsic
-    event(blockHeight: Int!, eventIndex: Int!): Event
-    account(address: String!): Account
+    chainBlock(blockHeightOrHash: BlockHeightOrHash!): Block
+    chainExtrinsic(blockHeight: Int!, extrinsicIndex: Int!): Extrinsic
+    chainEvent(blockHeight: Int!, eventIndex: Int!): Event
+    chainAccount(address: String!): Account
   }
 `;
 

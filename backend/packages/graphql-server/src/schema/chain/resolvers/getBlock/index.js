@@ -1,7 +1,10 @@
 async function getBlockData(api, blockHeightOrHash) {
   try {
     let blockHash;
-    if (typeof blockHeightOrHash === "number") {
+    if (
+      typeof blockHeightOrHash === "number" ||
+      blockHeightOrHash.match(/^\d+$/)
+    ) {
       blockHash = await api.rpc.chain.getBlockHash(blockHeightOrHash);
     } else {
       blockHash = blockHeightOrHash;

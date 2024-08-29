@@ -15,5 +15,5 @@ async function extrinsic(_, _args) {
 }
 
 module.exports = {
-  extrinsic,
+  chainExtrinsic: extrinsic,
 };

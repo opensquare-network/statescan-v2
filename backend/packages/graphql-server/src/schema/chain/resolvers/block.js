@@ -11,5 +11,5 @@ async function block(_, _args) {
 }
 
 module.exports = {
-  block,
+  chainBlock: block,
 };
