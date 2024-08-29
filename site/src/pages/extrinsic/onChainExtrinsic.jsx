@@ -9,14 +9,13 @@ import DetailLayout from "../../components/layout/detailLayout";
 import { toExtrinsicDetailItem } from "../../utils/viewFuncs/toDetailItem";
 import ExtrinsicParametersDisplay from "../../components/extrinsicParametersDisplay";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
-import useOnChainExtrinsicData from "../../hooks/useOnChainExtrinsicData";
-import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
 import isNil from "lodash.isnil";
 import { useDispatch, useSelector } from "react-redux";
 import { clearHttpError } from "../../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../../store/reducers/httpErrorSlice";
 import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
 import ExtrinsicDetailTabs from "./detailTabs";
+import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
 
 function parseExtrinsicId(id) {
   if (!id.includes("-")) {
@@ -36,8 +35,8 @@ function OnChainExtrinsic() {
   const finalizedHeight = useSelector(finalizedHeightSelector);
 
   const { blockHeight, extrinsicIndex } = parseExtrinsicId(id);
-  const extrinsicData = useOnChainExtrinsicData(blockHeight, extrinsicIndex);
-  const extrinsicInfo = useExtrinsicInfo(extrinsicData);
+  const { data } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
+  const extrinsicInfo = data?.chainExtrinsic;
 
   let isFinalized = null;
   if (extrinsicInfo && finalizedHeight) {
@@ -56,11 +55,11 @@ function OnChainExtrinsic() {
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (extrinsicData === null) {
+    if (extrinsicInfo === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, extrinsicData]);
+  }, [dispatch, extrinsicInfo]);
 
   const listData = useMemo(
     () =>

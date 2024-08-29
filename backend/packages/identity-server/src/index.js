@@ -9,8 +9,10 @@ const {
 
 const port = parseInt(process.env.PORT) || 5011;
 
-function main() {
-  initIdentityScanDb().then(() => console.log("DB initialized"));
+async function main() {
+  await initIdentityScanDb();
+  console.log("DB initialized");
+
   const yoga = createYoga({ schema });
   const server = createServer(yoga);
   server.listen(port, () => {

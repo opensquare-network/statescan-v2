@@ -6,32 +6,31 @@ import List from "../components/list";
 import { addressEllipsis } from "@osn/common";
 import DetailLayout from "../components/layout/detailLayout";
 import useAchainableProfile from "../hooks/useAchainableProfile";
-import useOnChainAccountData from "../hooks/useOnChainAccountData";
-import useAccountInfo from "../hooks/useAccountInfo";
 import { toOnChainAccountDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AccountDetailCommon from "../components/account/detailCommon";
 import { useDispatch } from "react-redux";
 import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import { useMultisigAddressData } from "../hooks/multisig/useMultisigAddressData";
+import { useQueryAccountInfo } from "../hooks/useQueryAccountInfo";
 
 function OnChainAccount() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const achainableProfile = useAchainableProfile(id);
 
-  const accountData = useOnChainAccountData(id);
-  const accountInfo = useAccountInfo(accountData);
+  const { data } = useQueryAccountInfo(id);
+  const accountInfo = data?.chainAccount;
 
   const { data: multisigAddressData } = useMultisigAddressData(id);
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (accountData === null) {
+    if (accountInfo === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, accountData]);
+  }, [dispatch, accountInfo]);
 
   const detail = useMemo(() => {
     if (!accountInfo) {

@@ -34,9 +34,13 @@ const {
 const {
   graphql: { indexer, json },
 } = require("@statescan/common");
+const {
+  resolvers: chainResolvers,
+  typeDefs: chainTypeDefs,
+} = require("./chain");
 
-let resolvers = [];
-let typeDefs = [indexer, json];
+let resolvers = [chainResolvers];
+let typeDefs = [indexer, json, ...chainTypeDefs];
 
 if (hasVesting()) {
   resolvers = [...resolvers, vestingResolvers];
