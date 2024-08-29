@@ -1,4 +1,4 @@
-import { HashRouter, BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import Extrinsics from "./pages/extrinsics";
 import Blocks from "./pages/blocks";
 import Home from "./pages";
@@ -24,7 +24,6 @@ import DestroyedNfts from "./pages/destroyed/nfts";
 import IdentitiesPage from "./pages/identities";
 import RegistrarsPage from "./pages/registrars";
 import RequestsPage from "./pages/requests";
-import useSubFinalizedHeight from "./hooks/useFinalizedHeight";
 import OnChainBlock from "./pages/onChainBlock";
 import OnChainAccount from "./pages/onChainAccount";
 import OnChainEvent from "./pages/onChainEvent";
@@ -51,7 +50,6 @@ function App() {
   const { assets, uniques, identity, multisig, vestings, recovery, proxy } =
     getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
-  useSubFinalizedHeight();
   useConnectApis();
   useUpdateNodesDelay();
 
