@@ -26,8 +26,9 @@ async function extractExtrinsicInfo(api, extrinsicData) {
   }
   const { extrinsic, allBlockEvents, indexer } = extrinsicData;
   const events = extractExtrinsicEvents(allBlockEvents, indexer.extrinsicIndex);
+  const blockApi = await api.at(indexer.blockHash);
   const calls = await extractCallsFromExtrinsic(
-    api,
+    blockApi,
     extrinsic,
     events,
     indexer,

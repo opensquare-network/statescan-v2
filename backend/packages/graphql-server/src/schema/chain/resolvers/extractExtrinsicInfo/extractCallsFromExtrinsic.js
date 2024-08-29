@@ -1,5 +1,5 @@
 const {
-  handleCallsInExtrinsic,
+  handleCallsInExtrinsicWithApi,
 } = require("@osn/scan-common/src/extrinsic/callInExtrinsic");
 const { isExemptedCall } = require("./exempt");
 const {
@@ -44,15 +44,19 @@ class CallsInExtrinsic {
 }
 
 async function extractCallsFromExtrinsic(
-  api,
+  blockApi,
   extrinsic,
   events,
   extrinsicIndexer,
 ) {
   const callsInExtrinsic = new CallsInExtrinsic();
 
-  await handleCallsInExtrinsic(extrinsic, events, extrinsicIndexer, (...args) =>
-    callsInExtrinsic.handleCall(...args),
+  await handleCallsInExtrinsicWithApi(
+    blockApi,
+    extrinsic,
+    events,
+    extrinsicIndexer,
+    (...args) => callsInExtrinsic.handleCall(...args),
   );
 
   return callsInExtrinsic.calls;

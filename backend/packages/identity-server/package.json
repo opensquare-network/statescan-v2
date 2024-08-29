@@ -21,7 +21,7 @@
   "dependencies": {
     "@graphql-tools/schema": "^10.0.0",
     "@osn/polkadot-api-container": "1.1.14",
-    "@osn/scan-common": "0.6.17",
+    "@osn/scan-common": "0.6.18",
     "@statescan/common": "1.0.0",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
