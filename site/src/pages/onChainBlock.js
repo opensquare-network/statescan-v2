@@ -34,7 +34,7 @@ function OnChainBlock() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data } = useQueryBlockInfo(id);
-  const blockInfo = data?.block;
+  const blockInfo = data?.chainBlock;
   const finalizedHeight = useSelector(finalizedHeightSelector);
   const isSimpleMode = getIsSimpleMode();
 

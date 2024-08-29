@@ -20,7 +20,7 @@ function OnChainAccount() {
   const achainableProfile = useAchainableProfile(id);
 
   const { data } = useQueryAccountInfo(id);
-  const accountInfo = data?.account;
+  const accountInfo = data?.chainAccount;
 
   const { data: multisigAddressData } = useMultisigAddressData(id);
 
