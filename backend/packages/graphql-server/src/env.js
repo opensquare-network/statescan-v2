@@ -22,6 +22,10 @@ function hasProxy() {
   return !!process.env.MONGO_PROXY_SCAN_NAME;
 }
 
+function hasEndpoints() {
+  return !!process.env.WS_ENDPOINTS;
+}
+
 function getEndpoints() {
   return (process.env.WS_ENDPOINTS || "").split(";");
 }
@@ -33,5 +37,6 @@ module.exports = {
   hasIdentity,
   hasRecovery,
   hasProxy,
+  hasEndpoints,
   getEndpoints,
 };
