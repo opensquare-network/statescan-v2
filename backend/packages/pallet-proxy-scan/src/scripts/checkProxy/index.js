@@ -68,16 +68,17 @@ async function checkDelegatorData(api, delegator) {
 (async () => {
   const api = await getApi();
 
+  let errorCnt = 0;
   const delegators = await getDistinctDelegators();
   for (const delegator of delegators) {
     const match = await checkDelegatorData(api, delegator);
     if (!match) {
       console.log(`Please check delegator ${delegator}`);
+      errorCnt++;
       break;
-    } else {
-      console.log(`Match: delegator ${delegator}`);
     }
   }
+  console.log(`Total: ${delegators.length}; error: ${errorCnt}`);
 
   process.exit(0);
 })();
