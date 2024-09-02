@@ -29,15 +29,6 @@ async function queryPureCreatedEvent(height, extIndex) {
   });
 }
 
-async function getPureProxyOn(pure, delegatee, type, delay, height) {
-  const blockHash = await getBlockHash(height);
-  const { proxies } = await queryAllProxiesOf(pure, blockHash);
-  return proxies.find(
-    (p) =>
-      p.delegate === delegatee && p.proxyType === type && p.delay === delay,
-  );
-}
-
 async function handleKillPure(call, signer, extrinsicIndexer) {
   const { section, method } = call;
   if (
@@ -48,8 +39,6 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
   }
   setKnownHeightMark(extrinsicIndexer.blockHeight);
 
-  const spawner = call.args[0].toString();
-  const proxyTypeArg = call.args[1].toString();
   const height = call.args[3].toNumber();
   const extIndex = call.args[4].toNumber();
 
@@ -58,25 +47,13 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
     return;
   }
 
-  const pure = createdEvent.event.data[0].toString();
-  const delay = createdEvent.event.data[3].toNumber();
-
   const preBlockHeight = extrinsicIndexer.blockHeight - 1;
   const preBlockHash = await getBlockHash(preBlockHeight);
+  const pure = createdEvent.event.data[0].toString();
   const { proxies: preBlockProxies } = await queryAllProxiesOf(
     pure,
     preBlockHash,
   );
-  const proxy = preBlockProxies.find(
-    (p) =>
-      p.delegate === spawner &&
-      p.proxyType === proxyTypeArg &&
-      p.delay === delay,
-  );
-  if (!proxy) {
-    // check there is proxy on previous height block
-    return;
-  }
   const { proxies: nowProxies } = await queryAllProxiesOf(
     pure,
     extrinsicIndexer.blockHash,
