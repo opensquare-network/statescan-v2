@@ -26,7 +26,11 @@ export default function ProxyListData({
       label: "Delegator",
       value: (
         <Flex gap={8}>
-          <AddressOrIdentity key={delegator} address={delegator} />
+          <AddressOrIdentity
+            key={delegator}
+            address={delegator}
+            ellipsis={false}
+          />
           {isPure && <TagThemed>Pure</TagThemed>}
         </Flex>
       ),
@@ -39,7 +43,11 @@ export default function ProxyListData({
       label: "Delegatee",
       value: (
         <Flex>
-          <AddressOrIdentity key={delegatee} address={delegatee} />
+          <AddressOrIdentity
+            key={delegatee}
+            address={delegatee}
+            ellipsis={false}
+          />
         </Flex>
       ),
     },
