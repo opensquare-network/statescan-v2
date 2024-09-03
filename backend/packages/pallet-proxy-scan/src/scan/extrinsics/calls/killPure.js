@@ -49,7 +49,7 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
 
   const preBlockHeight = extrinsicIndexer.blockHeight - 1;
   const preBlockHash = await getBlockHash(preBlockHeight);
-  const pure = createdEvent.event.data[0].toString();
+  const pure = signer;
   const { proxies: preBlockProxies } = await queryAllProxiesOf(
     pure,
     preBlockHash,
