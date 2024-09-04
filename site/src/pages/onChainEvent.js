@@ -13,6 +13,8 @@ import { finalizedHeightSelector } from "../store/reducers/chainSlice";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import isNil from "lodash.isnil";
 import { useQueryEventInfo } from "../hooks/useQueryEventInfo";
+import useOnChainEventData from "../hooks/useOnChainEventData";
+import useEventInfo from "../hooks/useEventInfo";
 
 function parseEventId(id) {
   if (!id.includes("-")) {
@@ -31,32 +33,36 @@ function OnChainEvent() {
 
   const { blockHeight, eventIndex } = parseEventId(id);
   const { data } = useQueryEventInfo(blockHeight, eventIndex);
-  const eventInfo = data?.chainEvent;
+
+  const eventData = useOnChainEventData(blockHeight, eventIndex);
+  const eventInfo = useEventInfo(eventData);
+
+  const chainEvent = data?.chainEvent || eventInfo;
 
   const finalizedHeight = useSelector(finalizedHeightSelector);
 
   let isFinalized = null;
-  if (eventInfo && finalizedHeight) {
-    isFinalized = eventInfo?.indexer?.blockHeight <= finalizedHeight;
+  if (chainEvent && finalizedHeight) {
+    isFinalized = chainEvent?.indexer?.blockHeight <= finalizedHeight;
   }
 
   const event = useMemo(() => {
-    if (!eventInfo || isNil(isFinalized)) {
+    if (!chainEvent || isNil(isFinalized)) {
       return null;
     }
     return {
-      ...eventInfo,
+      ...chainEvent,
       isFinalized,
     };
-  }, [eventInfo, isFinalized]);
+  }, [chainEvent, isFinalized]);
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (eventInfo === null) {
+    if (chainEvent === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, eventInfo]);
+  }, [dispatch, chainEvent]);
 
   const listData = useMemo(
     () => (event ? toEventDetailItem(event) : {}),

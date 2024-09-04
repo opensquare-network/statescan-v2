@@ -13,6 +13,8 @@ import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import { useMultisigAddressData } from "../hooks/multisig/useMultisigAddressData";
 import { useQueryAccountInfo } from "../hooks/useQueryAccountInfo";
+import useOnChainAccountData from "../hooks/useOnChainAccountData";
+import useAccountInfo from "../hooks/useAccountInfo";
 
 function OnChainAccount() {
   const { id } = useParams();
@@ -20,27 +22,31 @@ function OnChainAccount() {
   const achainableProfile = useAchainableProfile(id);
 
   const { data } = useQueryAccountInfo(id);
-  const accountInfo = data?.chainAccount;
+
+  const accountData = useOnChainAccountData(id);
+  const accountInfo = useAccountInfo(accountData);
+
+  const chainAccount = data?.chainAccount || accountInfo;
 
   const { data: multisigAddressData } = useMultisigAddressData(id);
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (accountInfo === null) {
+    if (chainAccount === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, accountInfo]);
+  }, [dispatch, chainAccount]);
 
   const detail = useMemo(() => {
-    if (!accountInfo) {
+    if (!chainAccount) {
       return null;
     }
     return {
       address: id,
-      ...accountInfo,
+      ...chainAccount,
     };
-  }, [accountInfo, id]);
+  }, [chainAccount, id]);
 
   const listData = useMemo(() => {
     if (!detail) {
