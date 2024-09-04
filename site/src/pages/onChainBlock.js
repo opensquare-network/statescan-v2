@@ -28,27 +28,35 @@ import { clearHttpError } from "../utils/viewFuncs/errorHandles";
 import { setErrorCode } from "../store/reducers/httpErrorSlice";
 import { getIsSimpleMode } from "../utils/env";
 import { useQueryBlockInfo } from "../hooks/useQueryBlockInfo";
+import useOnChainBlockData from "../hooks/useOnChainBlockData";
+import useBlockInfo from "../hooks/useBlockInfo";
 
 function OnChainBlock() {
   const { id } = useParams();
   const dispatch = useDispatch();
+
   const { data } = useQueryBlockInfo(id);
-  const block = data?.chainBlock;
+
+  const blockData = useOnChainBlockData(id);
+  const blockInfo = useBlockInfo(blockData);
+
+  const chainBlock = data?.chainBlock || blockInfo;
+
   const isSimpleMode = getIsSimpleMode();
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (block === null) {
+    if (chainBlock === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, block]);
+  }, [dispatch, chainBlock]);
 
-  const height = block?.height ?? (!isHash(id) ? parseInt(id) : 0);
+  const height = chainBlock?.height ?? (!isHash(id) ? parseInt(id) : 0);
 
   const listData = useMemo(
-    () => (block ? toBlockDetailItem(block) : {}),
-    [block],
+    () => (chainBlock ? toBlockDetailItem(chainBlock) : {}),
+    [chainBlock],
   );
 
   const breadCrumb = (
@@ -63,32 +71,37 @@ function OnChainBlock() {
   const tabs = [
     {
       name: Extrinsics,
-      count: block?.extrinsicsCount,
+      count: chainBlock?.extrinsicsCount,
       children: (
         <PagingTable
           heads={extrinsicsHead}
           transformData={toExtrinsicsTabTableItem}
-          data={block?.extrinsics || []}
-          isLoading={isNil(block?.extrinsics)}
+          data={chainBlock?.extrinsics || []}
+          isLoading={isNil(chainBlock?.extrinsics)}
         />
       ),
     },
     {
       name: Events,
-      count: block?.eventsCount,
+      count: chainBlock?.eventsCount,
       children: (
         <PagingTable
           heads={blockEventsHead}
           transformData={toEventTabTableItem}
-          data={block?.events || []}
-          isLoading={isNil(block?.events)}
+          data={chainBlock?.events || []}
+          isLoading={isNil(chainBlock?.events)}
         />
       ),
     },
     {
       name: Logs,
-      count: block?.digest?.logs?.length,
-      children: <LogsTable height={block?.height} logs={block?.digest?.logs} />,
+      count: chainBlock?.digest?.logs?.length,
+      children: (
+        <LogsTable
+          height={chainBlock?.height}
+          logs={chainBlock?.digest?.logs}
+        />
+      ),
     },
   ];
 

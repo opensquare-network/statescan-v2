@@ -16,6 +16,8 @@ import { setErrorCode } from "../../store/reducers/httpErrorSlice";
 import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
 import ExtrinsicDetailTabs from "./detailTabs";
 import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
+import useOnChainExtrinsicData from "../../hooks/useOnChainExtrinsicData";
+import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
 
 function parseExtrinsicId(id) {
   if (!id.includes("-")) {
@@ -36,30 +38,34 @@ function OnChainExtrinsic() {
 
   const { blockHeight, extrinsicIndex } = parseExtrinsicId(id);
   const { data } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
-  const extrinsicInfo = data?.chainExtrinsic;
+
+  const extrinsicData = useOnChainExtrinsicData(blockHeight, extrinsicIndex);
+  const extrinsicInfo = useExtrinsicInfo(extrinsicData);
+
+  const chainExtrinsic = data?.chainExtrinsic || extrinsicInfo;
 
   let isFinalized = null;
-  if (extrinsicInfo && finalizedHeight) {
-    isFinalized = extrinsicInfo?.indexer?.blockHeight <= finalizedHeight;
+  if (chainExtrinsic && finalizedHeight) {
+    isFinalized = chainExtrinsic?.indexer?.blockHeight <= finalizedHeight;
   }
 
   const extrinsic = useMemo(() => {
-    if (!extrinsicInfo || isNil(isFinalized)) {
+    if (!chainExtrinsic || isNil(isFinalized)) {
       return null;
     }
     return {
-      ...extrinsicInfo,
+      ...chainExtrinsic,
       isFinalized,
     };
-  }, [extrinsicInfo, isFinalized]);
+  }, [chainExtrinsic, isFinalized]);
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (extrinsicInfo === null) {
+    if (chainExtrinsic === null) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, extrinsicInfo]);
+  }, [dispatch, chainExtrinsic]);
 
   const listData = useMemo(
     () =>
