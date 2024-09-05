@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.5.0
+
+date: 2024-06-25
+
+- [Big] Support proxy business including scan, graphql server and fronted pages.
+- [Big] Support onchain info query from graphql server.
+- Upgrade dependencies, fix styles and code refactor.
+
 ### 1.4.7
 
 date: 2024-06-25
