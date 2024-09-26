@@ -66,7 +66,6 @@ async function scanPeopleChain() {
   while (true) {
     toScanHeight = await oneStepScan(toScanHeight);
   }
-  // todo: set chain to indexer
 }
 
 module.exports = {

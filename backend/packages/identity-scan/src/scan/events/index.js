@@ -1,4 +1,6 @@
 const { handleIdentityEvents } = require("./identity");
+const { isScanPeopleChain } = require("../common/chain");
+const { peopleChainName } = require("../common/consts");
 
 /**
  * handle events and extrinsics
@@ -18,6 +20,10 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
       ...blockIndexer,
       eventIndex,
     };
+
+    if (isScanPeopleChain()) {
+      Object.assign(indexer, { chain: peopleChainName });
+    }
 
     const { event, phase } = events[eventIndex];
     let extrinsic;
