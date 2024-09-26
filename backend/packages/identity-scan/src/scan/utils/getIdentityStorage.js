@@ -1,10 +1,8 @@
-const {
-  chain: { getApi },
-} = require("@osn/scan-common");
 const { toDecimal128 } = require("@statescan/common/src/utils/toDecimal128");
+const { getApiConditionally } = require("../common");
 
 async function getIdentityStorage(accountId) {
-  const api = await getApi();
+  const api = await getApiConditionally();
   let identity = {};
   identity.accountId = accountId;
 

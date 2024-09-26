@@ -1,7 +1,7 @@
-const { getApi } = require("@osn/scan-common/src/chain/api");
+const { getPeopleChainApi } = require("../api/api");
 
 async function fetchOneBlock(height) {
-  const api = await getApi();
+  const api = await getPeopleChainApi();
   const blockHash = await api.rpc.chain.getBlockHash(height);
   const promises = [
     await api.rpc.chain.getBlock(blockHash),

@@ -1,7 +1,5 @@
-const {
-  chain: { getApi },
-} = require("@osn/scan-common");
 const { hexToU8a, u8aToString } = require("@polkadot/util");
+const { getApiConditionally } = require("../common");
 
 /**
  * Get the display name of the sub identity of the given account and convert it to utf8.
@@ -10,7 +8,7 @@ const { hexToU8a, u8aToString } = require("@polkadot/util");
  * @returns {Promise<*|null>}
  */
 async function getSubIdentityDisplay(accountId) {
-  const api = await getApi();
+  const api = await getApiConditionally();
   const subIdentityStorage = await api.query.identity.superOf(accountId);
   if (subIdentityStorage.isSome) {
     const [, raw] = subIdentityStorage.unwrap();
