@@ -1,4 +1,5 @@
 import AddressOrIdentity from "../components/address";
+import { bigNumberToLocaleString } from "./viewFuncs";
 
 function cleanTemplateArgs(typeName) {
   let result = typeName;
@@ -17,6 +18,8 @@ export function makeEventArgs(event) {
         item.name,
         <AddressOrIdentity key="0" address={item.value} ellipsis={false} />,
       ];
+    } else if (fieldType === "BalanceOf") {
+      return [item.name, bigNumberToLocaleString(item.value)];
     }
 
     return [item.name, item.value];
