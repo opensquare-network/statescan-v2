@@ -4,7 +4,7 @@ import Blocks from "./pages/blocks";
 import Home from "./pages";
 import Block from "./pages/block";
 import Events from "./pages/events";
-import Extrinsic from "./pages/extrinsic";
+import Extrinsic from "./pages/extrinsic/extrinsic";
 import Transfers from "./pages/transfers";
 import Accounts from "./pages/accounts";
 import Event from "./pages/event";
@@ -41,6 +41,7 @@ import ProxiesPage from "./pages/proxies";
 import ProxyPage from "./pages/proxy";
 import ProxyDetailPage from "./pages/proxy/detail";
 import ProxyAnnouncementDetailPage from "./pages/proxy/announcement";
+import OnChainExtrinsic from "./pages/extrinsic/onChainExtrinsic";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
@@ -82,7 +83,10 @@ function App() {
           element={isUseOnChainBlockData ? <OnChainBlock /> : <Block />}
         />
         <Route path="/extrinsics" element={<Extrinsics />} />
-        <Route path="/extrinsics/:id" element={<Extrinsic />} />
+        <Route
+          path="/extrinsics/:id"
+          element={isUseOnChainBlockData ? <OnChainExtrinsic /> : <Extrinsic />}
+        />
         <Route path="/events" element={<Events />} />
         <Route
           path="/events/:id"
