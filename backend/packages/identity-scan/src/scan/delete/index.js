@@ -7,12 +7,15 @@ const {
   },
 } = require("@statescan/mongo");
 
-async function deleteFrom(height) {
+async function deleteFrom(height, chain) {
   if (!height) {
     throw new Error("No height given when deleting unFinalized transfers");
   }
 
   const commonQ = { "indexer.blockHeight": { $gte: height } };
+  if (chain) {
+    Object.assign(commonQ, { chain });
+  }
 
   const col = await getRegistrarsTimelineCol();
   await col.deleteMany(commonQ);

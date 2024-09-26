@@ -4,6 +4,9 @@ const RegistrarStatKeys = Object.freeze({
   given: "given",
 });
 
+const peopleChainName = "people";
+
 module.exports = {
   RegistrarStatKeys,
+  peopleChainName,
 };
