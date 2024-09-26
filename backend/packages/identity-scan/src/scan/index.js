@@ -9,11 +9,15 @@ const {
   utils: { sleep },
   env: { firstScanKnowHeights },
 } = require("@osn/scan-common");
+const { getIdentityStopHeight } = require("./people");
 
-async function scan() {
+async function scanOriginalChain(stopHeight) {
   const db = await getIdentityDb();
   let toScanHeight = await db.getNextScanHeight();
   await deleteFrom(toScanHeight);
+  if (stopHeight && toScanHeight >= stopHeight) {
+    return;
+  }
 
   if (firstScanKnowHeights()) {
     await scanKnownHeights(
@@ -32,6 +36,15 @@ async function scan() {
       false,
     );
     await sleep(1);
+  }
+}
+
+async function scan() {
+  const relayChainStopHeight = getIdentityStopHeight();
+  await scanOriginalChain(relayChainStopHeight);
+
+  if (relayChainStopHeight) {
+    // todo: scan people chain
   }
 }
 
