@@ -1,9 +1,26 @@
 const { peopleChainName } = require("../../scan/common/consts");
 const {
   mongo: {
-    known: { saveKnownHeights },
+    known: { saveKnownHeights, getKnownHeightDb },
   },
 } = require("@osn/scan-common");
+
+async function savePeopleChainHeights(heights = []) {
+  if (heights.length <= 0) {
+    return;
+  }
+
+  const db = await getKnownHeightDb();
+  const col = db.collection("peopleChainHeight");
+  await col.createIndex({ height: 1 }, { unique: true });
+
+  const bulk = col.initializeUnorderedBulkOp();
+  for (const height of heights) {
+    bulk.find({ height }).upsert().updateOne({ $set: { height } });
+  }
+
+  await bulk.execute();
+}
 
 async function saveHeightsCommon(col) {
   const items = await col.find({}).toArray();
@@ -38,6 +55,5 @@ async function saveHeightsCommon(col) {
   await saveKnownHeights(uniqueHeights);
 
   const uniquePeopleChainHeights = [...new Set(peopleChainHeights)];
-  console.log(uniquePeopleChainHeights);
-  // todo: save people chain heights
+  await savePeopleChainHeights(uniquePeopleChainHeights);
 }
