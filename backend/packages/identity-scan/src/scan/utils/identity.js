@@ -5,7 +5,7 @@ const {
 } = require("@statescan/common");
 const { getVerificationType } = require("./verification");
 
-function extractAdditional(additional) {
+function extractAdditional(additional = []) {
   return additional.reduce((other, [_key, _value]) => {
     const key = dataAsString(_key);
     const value = dataAsString(_value);

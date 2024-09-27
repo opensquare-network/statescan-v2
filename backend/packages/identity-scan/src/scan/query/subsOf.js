@@ -1,9 +1,7 @@
-const {
-  chain: { findBlockApi },
-} = require("@osn/scan-common");
+const { getBlockApiConditionally } = require("../common/api");
 
 async function querySubsOf(parentAccount, indexer) {
-  const blockApi = await findBlockApi(indexer.blockHash);
+  const blockApi = await getBlockApiConditionally(indexer.blockHash);
   if (!blockApi.query.identity.subsOf) {
     return null;
   }
@@ -16,7 +14,7 @@ async function queryMultipleSubsOf(accounts = [], indexer) {
     return [];
   }
 
-  const blockApi = await findBlockApi(indexer.blockHash);
+  const blockApi = await getBlockApiConditionally(indexer.blockHash);
   return await blockApi.query.identity.subsOf.multi(accounts);
 }
 

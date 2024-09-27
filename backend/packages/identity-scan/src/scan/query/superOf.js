@@ -1,9 +1,7 @@
-const {
-  chain: { findBlockApi },
-} = require("@osn/scan-common");
+const { getBlockApiConditionally } = require("../common/api");
 
 async function querySuperOf(childAccount, indexer) {
-  const blockApi = await findBlockApi(indexer.blockHash);
+  const blockApi = await getBlockApiConditionally(indexer.blockHash);
   if (!blockApi.query.identity.superOf) {
     return null;
   }

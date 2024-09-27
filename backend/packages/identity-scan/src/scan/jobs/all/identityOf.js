@@ -1,9 +1,7 @@
-const {
-  chain: { findBlockApi },
-} = require("@osn/scan-common");
+const { getBlockApiConditionally } = require("../../common/api");
 
 async function getIdentityMap(indexer) {
-  const blockApi = await findBlockApi(indexer.blockHash);
+  const blockApi = await getBlockApiConditionally(indexer.blockHash);
 
   const entries = await blockApi.query.identity.identityOf.entries();
   return (entries || []).reduce((result, [key, identityOfOption]) => {

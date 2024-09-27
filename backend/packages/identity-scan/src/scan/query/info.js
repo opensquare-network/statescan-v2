@@ -1,10 +1,8 @@
-const {
-  chain: { findBlockApi },
-} = require("@osn/scan-common");
 const { getApiConditionally } = require("../common");
+const { getBlockApiConditionally } = require("../common/api");
 
 async function queryIdentityInfo(account, indexer) {
-  const blockApi = await findBlockApi(indexer.blockHash);
+  const blockApi = await getBlockApiConditionally(indexer.blockHash);
   return await blockApi.query.identity.identityOf(account);
 }
 
@@ -19,7 +17,7 @@ async function queryMultipleIdentity(accounts = [], indexer) {
     return [];
   }
 
-  const blockApi = await findBlockApi(indexer.blockHash);
+  const blockApi = await getBlockApiConditionally(indexer.blockHash);
   return await blockApi.query.identity.identityOf.multi(accounts);
 }
 
