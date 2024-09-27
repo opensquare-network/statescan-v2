@@ -1,5 +1,5 @@
 const { hexToU8a, u8aToString } = require("@polkadot/util");
-const { getApiConditionally } = require("../common");
+const { getApiConditionally } = require("../common/api");
 
 /**
  * Get the display name of the sub identity of the given account and convert it to utf8.

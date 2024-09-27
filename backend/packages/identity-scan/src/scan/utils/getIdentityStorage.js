@@ -1,5 +1,5 @@
 const { toDecimal128 } = require("@statescan/common/src/utils/toDecimal128");
-const { getApiConditionally } = require("../common");
+const { getApiConditionally } = require("../common/api");
 
 async function getIdentityStorage(accountId) {
   const api = await getApiConditionally();

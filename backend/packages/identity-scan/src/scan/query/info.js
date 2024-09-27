@@ -1,5 +1,7 @@
-const { getApiConditionally } = require("../common");
-const { getBlockApiConditionally } = require("../common/api");
+const {
+  getBlockApiConditionally,
+  getApiConditionally,
+} = require("../common/api");
 
 async function queryIdentityInfo(account, indexer) {
   const blockApi = await getBlockApiConditionally(indexer.blockHash);
