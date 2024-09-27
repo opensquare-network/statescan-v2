@@ -22,7 +22,7 @@ async function savePeopleChainHeights(heights = []) {
   await bulk.execute();
 }
 
-async function saveHeightsCommon(col) {
+async function saveHeights(col) {
   const items = await col.find({}).toArray();
   const heights = [];
   const peopleChainHeights = [];
@@ -57,3 +57,7 @@ async function saveHeightsCommon(col) {
   const uniquePeopleChainHeights = [...new Set(peopleChainHeights)];
   await savePeopleChainHeights(uniquePeopleChainHeights);
 }
+
+module.exports = {
+  saveHeights,
+};
