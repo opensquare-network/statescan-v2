@@ -14,6 +14,7 @@ const { fetchPeopleChainBlocks } = require("./fetch");
 const last = require("lodash.last");
 const { handleBlock } = require("../../block");
 const { peopleChainName } = require("../../common/consts");
+const { scanKnownHeightsOfPeople } = require("./known");
 
 function getScanHeights(startHeight) {
   const maxHeight = getPeopleLatestHeight();
@@ -63,8 +64,11 @@ async function scanPeopleChain() {
   await deleteFrom(toScanHeight, peopleChainName);
   markScanPeopleChain();
 
+  await scanKnownHeightsOfPeople();
+
   while (true) {
     toScanHeight = await oneStepScan(toScanHeight);
+    await sleep(1);
   }
 }
 
