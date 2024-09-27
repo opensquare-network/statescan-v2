@@ -8,7 +8,7 @@ const {
 const {
   env: { currentChain },
   mongo: {
-    known: { saveKnownHeights, getKnownHeightDb },
+    known: { saveKnownHeights },
   },
 } = require("@osn/scan-common");
 const { saveHeights } = require("./save");
