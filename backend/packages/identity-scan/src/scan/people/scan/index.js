@@ -54,7 +54,7 @@ async function oneStepScan(startHeight) {
   }
 
   const lastHeight = last(blocks || []).height;
-  logger.info(`${lastHeight} scan finished!`);
+  logger.info(`people ${lastHeight} scan finished!`);
   return lastHeight + 1;
 }
 
