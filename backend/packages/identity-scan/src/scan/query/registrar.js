@@ -1,9 +1,7 @@
-const {
-  chain: { findBlockApi },
-} = require("@osn/scan-common");
+const { getBlockApiConditionally } = require("../common/api");
 
 async function queryRegistrars(indexer) {
-  const blockApi = await findBlockApi(indexer.blockHash);
+  const blockApi = await getBlockApiConditionally(indexer.blockHash);
   return await blockApi.query.identity.registrars();
 }
 

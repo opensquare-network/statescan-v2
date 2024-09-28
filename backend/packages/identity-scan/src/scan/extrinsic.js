@@ -5,8 +5,8 @@ const { handleRenameSub } = require("./calls/renameSub");
 const { handleSetSubs } = require("./calls/setSubs");
 const {
   utils: { isExtrinsicSuccess, extractExtrinsicEvents },
-  extrinsic: { handlePureNestedCalls },
 } = require("@osn/scan-common");
+const { handlePureNestedCalls } = require("./calls/common/nested");
 
 async function handleCalls(call, author, extrinsicIndexer) {
   await handleSetSubs(call, author, extrinsicIndexer);

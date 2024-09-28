@@ -9,6 +9,17 @@ const {
 } = require("@statescan/mongo");
 const { handleExtrinsics } = require("./extrinsic");
 const { saveGeneralStatistics } = require("./jobs");
+const { isScanPeopleChain } = require("./common/chain");
+const { updatePeopleChainScanHeight } = require("./people/scan/height");
+
+async function updateScanHeight(height) {
+  if (isScanPeopleChain()) {
+    await updatePeopleChainScanHeight(height);
+  } else {
+    const db = await getIdentityDb();
+    await db.updateScanHeight(height);
+  }
+}
 
 /**
  * fetch block indexer and handle events
@@ -33,8 +44,7 @@ async function handleBlock({ block, events, height }) {
   // note: we disable this because we can not get the latest update for identity
   // await executeUpdateAllIdentitiesJob(blockIndexer);
 
-  const db = await getIdentityDb();
-  await db.updateScanHeight(height);
+  await updateScanHeight(height);
 }
 
 module.exports = {

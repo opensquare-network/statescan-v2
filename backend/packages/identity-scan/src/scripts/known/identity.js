@@ -1,13 +1,11 @@
 const {
   identity: { getIdentityTimelineCol },
 } = require("@statescan/mongo");
-const {
-  utils: { saveHeightsCommon },
-} = require("@statescan/common");
+const { saveHeights } = require("./save");
 
 async function saveIdentityHeights() {
   const timelineCol = await getIdentityTimelineCol();
-  await saveHeightsCommon(timelineCol);
+  await saveHeights(timelineCol);
 }
 
 module.exports = {
