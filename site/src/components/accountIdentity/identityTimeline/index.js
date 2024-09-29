@@ -14,6 +14,7 @@ export default function useIdentityTimeline(account) {
         name
         args
         indexer {
+          chain
           blockHeight
           blockHash
           blockTime

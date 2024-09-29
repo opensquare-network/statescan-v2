@@ -38,7 +38,7 @@ const Links = styled(Flex)`
 
 function Link({ name, to }) {
   return (
-    <MyLink to={to}>
+    <MyLink to={to} target="_blank">
       <Wrapper>
         <div>{name}</div>
         <CaretUprightIcon />
@@ -47,28 +47,69 @@ function Link({ name, to }) {
   );
 }
 
-export default function IndexerLinks({ indexer }) {
-  const { blockHeight, extrinsicIndex, eventIndex } = indexer;
+function SubscanLink({ domain, indexer }) {
+  const { blockHeight, extrinsicIndex, eventIndex, chain } = indexer;
 
+  return (
+    <Links>
+      {isNil(extrinsicIndex) && isNil(eventIndex) && (
+        <Link name="Block" to={`${domain}/block/${blockHeight}`} />
+      )}
+      {!isNil(eventIndex) && (
+        <Link
+          name="Event"
+          to={`${domain}/block/${blockHeight}?tab=event&event=${indexer.blockHeight}-${indexer.eventIndex}`}
+        />
+      )}
+      {!isNil(extrinsicIndex) && (
+        <Link
+          name="Extrinsic"
+          to={`${domain}/extrinsic/${indexer.blockHeight}-${indexer.extrinsicIndex}`}
+        />
+      )}
+    </Links>
+  );
+}
+
+export default function IndexerLinks({ indexer }) {
+  const { blockHeight, extrinsicIndex, eventIndex, chain } = indexer;
   if (isNil(blockHeight) && isNil(extrinsicIndex) && isNil(eventIndex)) {
     return null;
+  }
+
+  if (chain === "people" && process.env.REACT_APP_PUBLIC_CHAIN === "polkadot") {
+    return (
+      <SubscanLink
+        domain="https://people-polkadot.subscan.io"
+        indexer={indexer}
+      />
+    );
+  }
+
+  let domain = null;
+  if (chain === "people" && process.env.REACT_APP_PUBLIC_CHAIN === "kusama") {
+    domain = "https://people-kusama.statescan.io";
   }
 
   return (
     <Links>
       {isNil(extrinsicIndex) && isNil(eventIndex) && (
-        <Link name="Block" to={`/blocks/${blockHeight}`} />
+        <Link name="Block" to={`${domain || ""}/blocks/${blockHeight}`} />
       )}
       {!isNil(extrinsicIndex) && (
         <Link
           name="Extrinsic"
-          to={`/extrinsics/${indexer.blockHeight}-${indexer.extrinsicIndex}`}
+          to={`${domain || ""}/extrinsics/${indexer.blockHeight}-${
+            indexer.extrinsicIndex
+          }`}
         />
       )}
       {!isNil(eventIndex) && (
         <Link
           name="Event"
-          to={`/events/${indexer.blockHeight}-${indexer.eventIndex}`}
+          to={`${domain || ""}/events/${indexer.blockHeight}-${
+            indexer.eventIndex
+          }`}
         />
       )}
     </Links>
