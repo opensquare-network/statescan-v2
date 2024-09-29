@@ -88,7 +88,7 @@ export default function IndexerLinks({ indexer }) {
 
   let domain = null;
   if (chain === "people" && process.env.REACT_APP_PUBLIC_CHAIN === "kusama") {
-    domain = "https://people-kusama.statescan.io";
+    domain = "https://people-kusama.statescan.io/#";
   }
 
   return (
