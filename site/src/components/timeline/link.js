@@ -48,7 +48,7 @@ function Link({ name, to }) {
 }
 
 function SubscanLink({ domain, indexer }) {
-  const { blockHeight, extrinsicIndex, eventIndex, chain } = indexer;
+  const { blockHeight, extrinsicIndex, eventIndex } = indexer;
 
   return (
     <Links>
