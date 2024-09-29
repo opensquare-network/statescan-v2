@@ -1,5 +1,6 @@
 const indexer = /* GraphQL */ `
   type Indexer {
+    chain: String
     blockHeight: Int!
     blockHash: String!
     blockTime: Float!
