@@ -3,11 +3,11 @@ import { useTimeDimensionFilterItems } from "../../../utils/hooks/useTimeDimensi
 import CombinedFilter from "../../filter/combinedFilter";
 
 export default function EventFilter() {
-  const secondMethodFilters = useEventSectionMethodFilter();
+  const sectionMethodFilters = useEventSectionMethodFilter();
   const timeDimensionFilters = useTimeDimensionFilterItems();
   return (
     <CombinedFilter
-      filters1={secondMethodFilters}
+      filters1={sectionMethodFilters}
       filters2={timeDimensionFilters}
     />
   );
