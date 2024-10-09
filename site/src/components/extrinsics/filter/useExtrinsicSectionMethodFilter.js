@@ -7,7 +7,7 @@ import {
 } from "../../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
+import { stringCamelCase } from "@polkadot/util";
 import {
   AllOption,
   getFromQuery,
@@ -60,7 +60,7 @@ function getSectionDescendant(section) {
   };
 }
 
-export function useExtrinsicSecondMethodFilter() {
+export function useExtrinsicSectionMethodFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
@@ -109,7 +109,7 @@ export function useExtrinsicSecondMethodFilter() {
       sectionValue,
       (
         sectionOptions.find(
-          (section) => stringLowerFirst(section.name) === sectionValue,
+          (section) => stringCamelCase(section.name) === sectionValue,
         ) ?? { calls: [] }
       ).calls,
     );
@@ -138,7 +138,7 @@ export function useExtrinsicSecondMethodFilter() {
         sectionOptions.map((section) => {
           return {
             text: section.name,
-            value: stringLowerFirst(section.name),
+            value: stringCamelCase(section.name),
             descendant: getSectionDescendant(section),
           };
         }),

@@ -7,7 +7,7 @@ import {
 } from "../../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { stringLowerFirst } from "@polkadot/util";
+import { stringCamelCase } from "@polkadot/util";
 import {
   AllOption,
   getFromQuery,
@@ -106,7 +106,7 @@ export function useEventSectionMethodFilter() {
         sectionValue,
         (
           sectionOptions.find(
-            (section) => stringLowerFirst(section.name) === sectionValue,
+            (section) => stringCamelCase(section.name) === sectionValue,
           ) ?? { events: [] }
         ).events,
       );
@@ -135,7 +135,7 @@ export function useEventSectionMethodFilter() {
           sectionOptions.map((section) => {
             return {
               text: section.name,
-              value: stringLowerFirst(section.name),
+              value: stringCamelCase(section.name),
               descendant: getSectionDescendant(section),
             };
           }),

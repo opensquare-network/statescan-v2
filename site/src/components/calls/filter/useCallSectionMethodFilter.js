@@ -5,7 +5,7 @@ import {
   fetchSpecsFilter,
   filtersSelector,
 } from "../../../store/reducers/filterSlice";
-import { stringCamelCase, stringLowerFirst } from "@polkadot/util";
+import { stringCamelCase } from "@polkadot/util";
 import {
   AllOption,
   getFromQuery,
@@ -58,7 +58,7 @@ function getSectionDescendant(section) {
   };
 }
 
-export function useCallSecondMethodFilter() {
+export function useCallSectionMethodFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
@@ -95,7 +95,7 @@ export function useCallSecondMethodFilter() {
         sectionQueryValue,
         (
           sectionOptions.find(
-            (section) => stringLowerFirst(section.name) === sectionQueryValue,
+            (section) => stringCamelCase(section.name) === sectionQueryValue,
           ) ?? { calls: [] }
         ).calls,
       );
@@ -124,7 +124,7 @@ export function useCallSecondMethodFilter() {
           sectionOptions.map((section) => {
             return {
               text: section.name,
-              value: stringLowerFirst(section.name),
+              value: stringCamelCase(section.name),
               descendant: getSectionDescendant(section),
             };
           }),
