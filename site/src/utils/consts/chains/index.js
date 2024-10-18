@@ -16,26 +16,28 @@ import tinkernet from "./tinkernet";
 import peopleKusama from "./people-kusama";
 import bridgehubPolkadot from "./bridgehub-polkadot";
 import bridgehubKusama from "./bridgehub-kusama";
+import nexus from "./nexus";
 
 const chains = {
-  kusama,
   polkadot,
-  litentry,
-  statemine,
-  statemint,
-  westmint,
+  "bridgehub-polkadot": bridgehubPolkadot,
   collectives,
+  statemint,
+  "crust-parachain": polkadotCrustParachain,
+  invarch,
+  litentry,
+  nexus,
+  kusama,
+  statemine,
+  westmint,
   // "hydradx-testnet": hydradxTestnet,
   // polimec,
   shadow,
   gargantua,
-  "crust-parachain": polkadotCrustParachain,
-  crust,
-  invarch,
   tangle,
   tinkernet,
+  crust,
   "people-kusama": peopleKusama,
-  "bridgehub-polkadot": bridgehubPolkadot,
   "bridgehub-kusama": bridgehubKusama,
 };
 
