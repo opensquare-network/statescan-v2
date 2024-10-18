@@ -22,7 +22,9 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
   const { section, method } = event;
 
   if (
-    ["shadow", "polkadot-crust-parachain", "gargantua"].includes(currentChain())
+    ["shadow", "polkadot-crust-parachain", "gargantua", "nexus"].includes(
+      currentChain(),
+    )
   ) {
     return;
   }

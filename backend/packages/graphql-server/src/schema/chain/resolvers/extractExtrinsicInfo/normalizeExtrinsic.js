@@ -15,7 +15,7 @@ function getLifetime(extrinsic, indexer) {
 
 function normalizeExtrinsic(extrinsic, events, indexer) {
   let hash = extrinsic.hash.toHex();
-  if (process.env.CHAIN === "gargantua") {
+  if (["gargantua", "nexus"].includes(process.env.CHAIN)) {
     hash = keccakAsHex(extrinsic.toU8a(), 256);
   }
   const version = extrinsic.version;

@@ -4,7 +4,7 @@ const {
 } = require("@osn/scan-common");
 
 function getFixedBlockIndexer(indexer, block) {
-  if (!["gargantua"].includes(currentChain())) {
+  if (!["gargantua", "nexus"].includes(currentChain())) {
     return indexer;
   }
 
@@ -17,7 +17,7 @@ function getFixedBlockIndexer(indexer, block) {
 }
 
 function getExtrinsicHash(extrinsic) {
-  if (!["gargantua"].includes(currentChain())) {
+  if (!["gargantua", "nexus"].includes(currentChain())) {
     return extrinsic.hash.toHex();
   }
 
