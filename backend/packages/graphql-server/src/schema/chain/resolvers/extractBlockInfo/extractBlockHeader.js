@@ -16,7 +16,7 @@ function extractBlockHeader(header, validators) {
   } = header;
   const author = extractAuthor(digest, validators);
   let hash = rawHash.toString();
-  if (process.env.CHAIN === "gargantua") {
+  if (["gargantua", "nexus"].includes(process.env.CHAIN)) {
     hash = keccakAsHex(header.toU8a(), 256);
   }
 
