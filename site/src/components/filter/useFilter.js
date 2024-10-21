@@ -13,8 +13,11 @@ import { useQueryParams } from "../../hooks/useQueryParams";
 import noop from "lodash.noop";
 import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import isNil from "lodash.isnil";
-import { useDispatch } from "react-redux";
-import { setCurrentFilterValue } from "../../store/reducers/filterSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCurrentFilterValue,
+  currentFilterValueSelector,
+} from "../../store/reducers/filterSlice";
 import FilterDatePicker from "./datepicker";
 import moment from "moment";
 
@@ -92,6 +95,7 @@ export default function useFilter({
   const [selectData, setDropdownData] = useState(data);
   const params = useQueryParams();
   const dispatch = useDispatch();
+  const currentFilterValue = useSelector(currentFilterValueSelector);
 
   useEffect(() => {
     setDropdownData(data);
@@ -157,13 +161,14 @@ export default function useFilter({
       if (filterItem.type !== "input") {
         dispatch(
           setCurrentFilterValue({
+            ...currentFilterValue,
             ...getCurrentFilter(),
             [filterItem.query]: value,
           }),
         );
       }
     },
-    [dispatch, selectData, getCurrentFilter],
+    [dispatch, selectData, getCurrentFilter, currentFilterValue],
   );
 
   const handleFilter = useCallback(() => {
@@ -202,7 +207,7 @@ export default function useFilter({
     ) : item.type === "divider" ? (
       <FilterDivider key={index} />
     ) : item.type === "date_start" ? (
-      <DatePickerWrapper>
+      <DatePickerWrapper key={index}>
         <FilterDatePicker
           key={index}
           {...item}
@@ -213,7 +218,7 @@ export default function useFilter({
         />
       </DatePickerWrapper>
     ) : item.type === "date_end" ? (
-      <DatePickerWrapper>
+      <DatePickerWrapper key={index}>
         <FilterDatePicker
           key={index}
           {...item}
