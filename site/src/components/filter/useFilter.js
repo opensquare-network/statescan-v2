@@ -202,7 +202,7 @@ export default function useFilter({
     ) : item.type === "divider" ? (
       <FilterDivider key={index} />
     ) : item.type === "date_start" ? (
-      <DatePickerWrapper>
+      <DatePickerWrapper key={index}>
         <FilterDatePicker
           key={index}
           {...item}
@@ -213,7 +213,7 @@ export default function useFilter({
         />
       </DatePickerWrapper>
     ) : item.type === "date_end" ? (
-      <DatePickerWrapper>
+      <DatePickerWrapper key={index}>
         <FilterDatePicker
           key={index}
           {...item}
