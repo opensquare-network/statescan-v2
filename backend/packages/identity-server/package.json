@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@graphql-tools/schema": "^10.0.0",
-    "@osn/scan-common": "0.6.19",
+    "@osn/scan-common": "0.6.21",
     "@statescan/common": "1.0.0",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
