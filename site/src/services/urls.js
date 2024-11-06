@@ -1,5 +1,9 @@
 // NOTE: all api endpoints here
 
+export const overviewApi = "/overview";
+export const latestBlocksApi = "/latest-blocks";
+export const latestTransfersApi = "/latest-transfers";
+
 export const homeSearchHints = "/search/hints";
 
 // extrinsics

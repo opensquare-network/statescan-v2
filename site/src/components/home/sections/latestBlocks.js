@@ -10,7 +10,6 @@ import FinalizedState from "../../states/finalizedState";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
 import AddressOrIdentity from "../../address";
-import { latestBlocksLoadingSelector } from "../../../store/reducers/socketSlice";
 import LatestList from "./latestList";
 
 const ThemeText = styled.p`
@@ -42,9 +41,8 @@ const Label = styled.span`
   color: ${(props) => props.theme.fontTertiary};
 `;
 
-function LatestBlocks({ blocks }) {
+function LatestBlocks({ blocks, loading }) {
   const chainSetting = useSelector(chainSettingSelector);
-  const blocksLoading = useSelector(latestBlocksLoadingSelector);
 
   const listItems = blocks?.slice(0, 5)?.map((block) => {
     return {
@@ -89,11 +87,7 @@ function LatestBlocks({ blocks }) {
   });
 
   return (
-    <LatestList
-      items={listItems}
-      loading={blocksLoading}
-      noDataText="No blocks"
-    />
+    <LatestList items={listItems} loading={loading} noDataText="No blocks" />
   );
 }
 

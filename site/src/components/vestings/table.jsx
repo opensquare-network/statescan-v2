@@ -5,14 +5,13 @@ import AddressOrIdentity from "../address";
 import ValueDisplay from "../displayValue";
 import { ColoredLink } from "../styled/link";
 import Table from "../table";
-import { useSelector } from "react-redux";
-import { overviewSelector } from "../../store/reducers/socketSlice";
 import Tooltip from "../tooltip";
 import isNil from "lodash.isnil";
 import { Flex } from "../styled/flex";
+import useOverview from "../../hooks/overview/useOverview";
 
 function StartingBlockCell({ data }) {
-  const overview = useSelector(overviewSelector);
+  const { overview } = useOverview();
   const startingBlock = data?.startingBlock;
   const latestHeight = overview?.latestHeight;
 
