@@ -1,5 +1,15 @@
 const { chainCall } = require("../../../chainApi");
 const { getAccountData } = require("./getAccount");
+const BigNumber = require("bignumber.js");
+
+function calcTransferable(info) {
+  const { free, frozen, reserved } = info;
+  const frozenReserveDif = new BigNumber(frozen).minus(reserved);
+  const noZeroConsidered = new BigNumber(free || 0)
+    .minus(BigNumber.max(frozenReserveDif, 0))
+    .toString();
+  return BigNumber.max(noZeroConsidered, 0).toString();
+}
 
 function extractAccountInfo(accountData) {
   if (!accountData) {
@@ -13,6 +23,9 @@ function extractAccountInfo(accountData) {
   const { stakingLedger } = accountData.stakingInfo || {};
 
   const allReserves = namedReserves?.reduce((t, r) => t.concat(...r), []);
+  const transferrable = calcTransferable(
+    accountData.systemAccount.data.toJSON(),
+  );
 
   return {
     data: {
@@ -21,7 +34,7 @@ function extractAccountInfo(accountData) {
       feeFrozen: feeFrozen?.toBigInt().toString(),
       miscFrozen: miscFrozen?.toBigInt().toString(),
       total: (free?.toBigInt() + reserved?.toBigInt()).toString(),
-      transferrable: availableBalance?.toBigInt().toString(),
+      transferrable,
       lockedBalance: lockedBalance?.toBigInt().toString(),
       lockedBreakdown: lockedBreakdown?.map((item) => ({
         reasons: item.reasons.toJSON(),
