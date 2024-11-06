@@ -18,7 +18,7 @@ function extractAccountInfo(accountData) {
 
   const { data: { free, reserved, feeFrozen, miscFrozen } = {} } =
     accountData.account || {};
-  const { lockedBalance, lockedBreakdown, availableBalance, namedReserves } =
+  const { lockedBalance, lockedBreakdown, namedReserves } =
     accountData.balanceAll || {};
   const { stakingLedger } = accountData.stakingInfo || {};
 
