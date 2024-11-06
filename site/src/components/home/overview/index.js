@@ -2,7 +2,6 @@ import { toPrecision } from "@osn/common";
 import { useSelector } from "react-redux";
 import { withLoading } from "../../../HOC/withLoading";
 import { chainSettingSelector } from "../../../store/reducers/settingSlice";
-import { overviewSelector } from "../../../store/reducers/socketSlice";
 import { currencify } from "../../../utils";
 import AssetSquareIcon from "../../icons/assetSquareIcon";
 import BlockSquareIcon from "../../icons/blockSquareIcon";
@@ -18,6 +17,7 @@ import Tooltip from "../../tooltip";
 import NftSquareIcon from "../../icons/nftSquareIcon";
 import ParaIdSquareIcon from "../../icons/paraIdSquareIcon";
 import { OverviewItemsWrapper, OverviewPanel } from "./styled";
+import useOverview from "../../../hooks/overview/useOverview";
 
 const mapLoadingState = (_props) => {
   return {
@@ -27,7 +27,7 @@ const mapLoadingState = (_props) => {
 };
 
 function Overview() {
-  const overview = useSelector(overviewSelector);
+  const { overview } = useOverview();
   const chainSetting = useSelector(chainSettingSelector);
   const { modules = {} } = chainSetting;
 

@@ -1,21 +1,21 @@
 import { useCallback } from "react";
 import { createGlobalState, useInterval } from "react-use";
 import api from "../../services/api";
-import { latestBlocksApi } from "../../services/urls";
+import { overviewApi } from "../../services/urls";
 import useIsRelayChain from "../../utils/hooks/chain/useIsRelayChain";
 
-const useGlobalBlocks = createGlobalState([]);
+const useGlobalData = createGlobalState({});
 const useGlobalLoading = createGlobalState(true);
-const useGlobalIsFetching = createGlobalState(false);
+const useGlobalFetching = createGlobalState(false);
 
-export default function useLatestBlocks() {
-  const [blocks, setBlocks] = useGlobalBlocks();
+export default function useOverview() {
+  const [overview, setOverview] = useGlobalData();
   const [loading, setLoading] = useGlobalLoading();
-  const [isFetching, setIsFetching] = useGlobalIsFetching();
+  const [isFetching, setIsFetching] = useGlobalFetching();
 
   const isRelay = useIsRelayChain();
 
-  const fetchBlocks = useCallback(() => {
+  const fetchOverview = useCallback(() => {
     if (isFetching) {
       return;
     }
@@ -23,22 +23,22 @@ export default function useLatestBlocks() {
     setIsFetching(true);
 
     api
-      .fetch(latestBlocksApi)
+      .fetch(overviewApi)
       .then((resp) => {
-        setBlocks(resp.result || []);
+        setOverview(resp.result || {});
         setLoading(false);
       })
       .finally(() => {
         setIsFetching(false);
       });
-  }, [isFetching, setBlocks, setLoading, setIsFetching]);
+  }, [isFetching, setOverview]);
 
   useInterval(
     () => {
-      fetchBlocks();
+      fetchOverview();
     },
     isRelay ? 6000 : 12000,
   );
 
-  return { blocks, loading };
+  return { overview, loading };
 }
