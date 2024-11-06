@@ -31,7 +31,7 @@ export default function useOverview() {
       .finally(() => {
         setIsFetching(false);
       });
-  }, [isFetching, setOverview]);
+  }, [isFetching, setOverview, setIsFetching, setLoading]);
 
   useInterval(
     () => {
