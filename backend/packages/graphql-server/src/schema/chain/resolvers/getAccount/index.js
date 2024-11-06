@@ -16,6 +16,7 @@ async function getAccountData(api, address) {
   );
 
   return {
+    systemAccount: account,
     account: accountInfo,
     balanceAll,
     stakingInfo,

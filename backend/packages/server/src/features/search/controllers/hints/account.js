@@ -2,9 +2,6 @@ const { encodeAddressByChain } = require("../../../../utils/address");
 const {
   utils: { isValidAddress },
 } = require("@statescan/common");
-const {
-  account: { getAddressCollection },
-} = require("@statescan/mongo");
 
 async function queryAccount(term = "") {
   let address = null;
@@ -13,9 +10,7 @@ async function queryAccount(term = "") {
   }
 
   address = encodeAddressByChain(term);
-  const col = await getAddressCollection();
-  const arr = await col.find({ address }).limit(1).toArray();
-  return arr.length <= 0 ? null : address;
+  return address;
 }
 
 module.exports = {

@@ -14,6 +14,7 @@ const routes = [
   require("./features/spec/routes"),
   require("./features/runtime/routes"),
   require("./features/status/routes"),
+  require("./features/overview/routes"),
 ];
 
 const assetsRoutes = [require("./features/assets/routes")];
