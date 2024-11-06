@@ -28,6 +28,7 @@ export default function useOnChainAccountData(address) {
     );
 
     setAccountData({
+      systemAccount: account,
       account: accountInfo,
       balanceAll,
       stakingInfo,
