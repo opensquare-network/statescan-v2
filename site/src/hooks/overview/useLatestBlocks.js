@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { createGlobalState, useInterval } from "react-use";
+import { createGlobalState, useEffectOnce, useInterval } from "react-use";
 import api from "../../services/api";
 import { latestBlocksApi } from "../../services/urls";
 import useIsRelayChain from "../../utils/hooks/chain/useIsRelayChain";
@@ -32,6 +32,8 @@ export default function useLatestBlocks() {
         setIsFetching(false);
       });
   }, [isFetching, setBlocks, setLoading, setIsFetching]);
+
+  useEffectOnce(fetchBlocks);
 
   useInterval(
     () => {
