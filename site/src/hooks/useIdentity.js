@@ -6,7 +6,7 @@ import { IDENTITY_ID_TYPE, IDENTITY_JUDGEMENT } from "../utils/constants";
 import { useIdentityLazyQuery } from "./apollo";
 
 const fetchIdentity = createFetchIdentity(
-  process.env.REACT_APP_IDENTITY_SERVER_HOST,
+  process.env.REACT_APP_PUBLIC_IDENTITY_SERVER_HOST,
 );
 
 const identityCacheMap = {};
