@@ -2,9 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.6.0
+
+date: 2024-11-07
+
+- Support identity on people chain.
+- Use onchain data when accessing extrinsic detail page with a hash.
+- Fix section filter by the letter case problem.
+- Add latest blocks/transfers/overview API.
+- Support nexus network.
+- Upgrade dependencies.
+
 ### 1.5.0
 
-date: 2024-06-25
+date: 2024-09-05
 
 - [Big] Support proxy business including scan, graphql server and fronted pages.
 - [Big] Support onchain info query from graphql server.
