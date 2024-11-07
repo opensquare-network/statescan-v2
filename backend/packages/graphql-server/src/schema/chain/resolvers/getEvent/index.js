@@ -1,7 +1,11 @@
 const { getBlockData } = require("../getBlock");
 const {
   chain: { getBlockIndexer },
+  env: { currentChain },
 } = require("@osn/scan-common");
+const {
+  utils: { getFixedBlockIndexer },
+} = require("@statescan/common");
 
 async function getEventData(api, blockHeight, eventIndex) {
   const blockData = await getBlockData(api, blockHeight);
@@ -16,7 +20,12 @@ async function getEventData(api, blockHeight, eventIndex) {
     return null;
   }
 
-  const blockIndexer = getBlockIndexer(blockData.block.block);
+  let blockIndexer = getBlockIndexer(blockData.block.block);
+  blockIndexer = getFixedBlockIndexer(
+    blockIndexer,
+    blockData.block.block,
+    currentChain(),
+  );
 
   return {
     event,

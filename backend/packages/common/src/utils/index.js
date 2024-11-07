@@ -6,4 +6,5 @@ module.exports = {
   ...require("./md5"),
   ...require("./known"),
   ...require("./bigInt"),
+  ...require("./hash"),
 };

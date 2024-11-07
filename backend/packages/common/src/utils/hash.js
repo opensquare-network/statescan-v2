@@ -1,10 +1,7 @@
 const { keccakAsHex } = require("@polkadot/util-crypto");
-const {
-  env: { currentChain },
-} = require("@osn/scan-common");
 
-function getFixedBlockIndexer(indexer, block) {
-  if (!["gargantua", "nexus"].includes(currentChain())) {
+function getFixedBlockIndexer(indexer, block, chain) {
+  if (!["gargantua", "nexus"].includes(chain)) {
     return indexer;
   }
 
@@ -16,8 +13,8 @@ function getFixedBlockIndexer(indexer, block) {
   };
 }
 
-function getExtrinsicHash(extrinsic) {
-  if (!["gargantua", "nexus"].includes(currentChain())) {
+function getExtrinsicHash(extrinsic, chain) {
+  if (!["gargantua", "nexus"].includes(chain)) {
     return extrinsic.hash.toHex();
   }
 
