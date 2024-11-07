@@ -20,7 +20,7 @@ const laos = {
   nodes,
   useOnChainBlockData: true,
   modules: {
-    identity: false,
+    identity: true,
   },
 };
 
