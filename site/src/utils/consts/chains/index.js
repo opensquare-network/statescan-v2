@@ -11,7 +11,6 @@ import polkadotCrustParachain from "./polkadotCrust";
 import tangle from "./tangle";
 import crust from "./crust";
 import invarch from "./invarch";
-import tinkernet from "./tinkernet";
 // import hydradxTestnet from "./hydradxTestnet";
 import peopleKusama from "./people-kusama";
 import bridgehubPolkadot from "./bridgehub-polkadot";
@@ -35,7 +34,7 @@ const chains = {
   shadow,
   gargantua,
   tangle,
-  tinkernet,
+  // tinkernet,
   crust,
   "people-kusama": peopleKusama,
   "bridgehub-kusama": bridgehubKusama,
