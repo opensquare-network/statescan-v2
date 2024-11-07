@@ -17,14 +17,16 @@ const {
   logger,
 } = require("@osn/scan-common");
 const {
+  utils: { getFixedBlockIndexer },
+} = require("@statescan/common");
+const {
   block: { getBlockDb },
 } = require("@statescan/mongo");
 const { isSimpleMode } = require("../env");
-const { getFixedBlockIndexer } = require("./utils/hash");
 
 async function handleBlock({ block, author, events, height }) {
   let blockIndexer = getBlockIndexer(block);
-  blockIndexer = getFixedBlockIndexer(blockIndexer, block);
+  blockIndexer = getFixedBlockIndexer(blockIndexer, block, currentChain());
 
   const normalizedBlock = normalizeBlock(block, author, events, blockIndexer);
   const normalizedEvents = normalizeEvents(events, blockIndexer);

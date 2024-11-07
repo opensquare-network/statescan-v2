@@ -1,14 +1,17 @@
 const {
   utils: { isExtrinsicSuccess },
   call: { normalizeCall },
+  env: { currentChain },
 } = require("@osn/scan-common");
-const { getExtrinsicHash } = require("../utils/hash");
+const {
+  utils: { getExtrinsicHash },
+} = require("@statescan/common");
 
 function normalizeInSimpleMode(extrinsic, events, indexer) {
   const isSuccess = isExtrinsicSuccess(events);
   const call = normalizeCall(extrinsic.method);
   const isSigned = extrinsic.isSigned;
-  const hash = getExtrinsicHash(extrinsic);
+  const hash = getExtrinsicHash(extrinsic, currentChain());
 
   let obj = {
     indexer,
