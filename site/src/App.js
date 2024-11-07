@@ -42,6 +42,7 @@ import ProxyPage from "./pages/proxy";
 import ProxyDetailPage from "./pages/proxy/detail";
 import ProxyAnnouncementDetailPage from "./pages/proxy/announcement";
 import OnChainExtrinsic from "./pages/extrinsic/onChainExtrinsic";
+import useSetFinalizedHeight from "./hooks/useSetFinalizedHeight";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
@@ -53,6 +54,7 @@ function App() {
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useConnectApis();
   useUpdateNodesDelay();
+  useSetFinalizedHeight();
 
   return (
     <Router>
