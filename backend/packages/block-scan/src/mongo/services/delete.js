@@ -4,6 +4,7 @@ const {
     getExtrinsicCollection,
     getEventCollection,
     getCallCollection,
+    getTransferCol,
   },
 } = require("@statescan/mongo");
 
@@ -19,6 +20,9 @@ async function deleteFrom(height = 0) {
 
   const callCol = await getCallCollection();
   await callCol.deleteMany({ "indexer.blockHeight": { $gte: height } });
+
+  const transferCol = await getTransferCol();
+  await transferCol.deleteMany({ "indexer.blockHeight": { $gte: height } });
 }
 
 module.exports = {

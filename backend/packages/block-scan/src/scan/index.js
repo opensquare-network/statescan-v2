@@ -23,6 +23,7 @@ const {
   block: { getBlockDb },
 } = require("@statescan/mongo");
 const { isSimpleMode } = require("../env");
+const { handleEvents } = require("./events");
 
 async function handleBlock({ block, author, events, height }) {
   let blockIndexer = getBlockIndexer(block);
@@ -43,6 +44,8 @@ async function handleBlock({ block, author, events, height }) {
   await batchInsertExtrinsics(normalizedExtrinsics);
   await batchInsertEvents(normalizedEvents);
   await batchInsertCalls(normalizedCalls);
+
+  await handleEvents(events, blockIndexer, block.extrinsics);
 
   const db = getBlockDb();
   await db.updateScanHeight(height);
