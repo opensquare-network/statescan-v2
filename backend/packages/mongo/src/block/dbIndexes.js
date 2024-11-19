@@ -90,9 +90,19 @@ async function createCallColIndexes(col) {
   });
 }
 
+async function createTransferIndexes(col) {
+  await col.createIndex({ from: 1 });
+  await col.createIndex({ to: 1 });
+  await col.createIndex({
+    "indexer.blockHeight": -1,
+    "indexer.eventIndex": 1,
+  });
+}
+
 module.exports = {
   createBlockColIndexes,
   createExtrinsicColIndexes,
   createEventColIndexes,
   createCallColIndexes,
+  createTransferIndexes,
 };
