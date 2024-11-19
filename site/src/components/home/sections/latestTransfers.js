@@ -28,7 +28,6 @@ import {
   max_w_full,
   truncate,
 } from "../../../styles/tailwindcss";
-import { latestSignedTransfersLoadingSelector } from "../../../store/reducers/socketSlice";
 import SymbolLink from "../../symbol/symbolLink";
 import LatestList from "./latestList";
 import getTransferDecimals from "../../../utils/viewFuncs/transferDecimals";
@@ -72,9 +71,8 @@ const Tooltip = styled(TooltipOrigin)`
   ${(p) => p.truncate && truncate};
 `;
 
-function LatestTransfers({ transfers }) {
+function LatestTransfers({ transfers, loading }) {
   const chainSetting = useSelector(chainSettingSelector);
-  const transfersLoading = useSelector(latestSignedTransfersLoadingSelector);
 
   const listItems = transfers?.slice(0, 5)?.map((transfer) => {
     return {
@@ -143,11 +141,7 @@ function LatestTransfers({ transfers }) {
   });
 
   return (
-    <LatestList
-      items={listItems}
-      loading={transfersLoading}
-      noDataText="No transfers"
-    />
+    <LatestList items={listItems} loading={loading} noDataText="No transfers" />
   );
 }
 

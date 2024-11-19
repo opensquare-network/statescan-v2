@@ -2537,9 +2537,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@osn/common@npm:^1.3.7":
-  version: 1.3.7
-  resolution: "@osn/common@npm:1.3.7"
+"@osn/common@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@osn/common@npm:2.0.0"
   dependencies:
     "@osn/provider-options": ^1.0.2
     bignumber.js: ^9.1.0
@@ -2552,7 +2552,7 @@ __metadata:
     "@polkadot/util-crypto": "*"
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: a4cede62e7b58ac1694bbd1fa4132e79d2b88f2bf17b4db3dc6150cbf1c6cd57bcbd51b20b3f1dd0013436974840bbb68b42e5e635b3e275a2f398d6f8156347
+  checksum: e1e1f2626e77c1435e1e8d25ed87be2fb30f491ba9bc1fcda67ebcfa93f5f3291ce1360d87b99330d19db7221a395ae570aca0ee852d4a8e5f9472ea921070c9
   languageName: node
   linkType: hard
 
@@ -13692,7 +13692,7 @@ __metadata:
   dependencies:
     "@apollo/client": ^3.8.0
     "@floating-ui/react": ^0.26.1
-    "@osn/common": ^1.3.7
+    "@osn/common": ^2.0.0
     "@osn/constants": ^1.1.2
     "@osn/provider-options": ^1.1.8
     "@polkadot/api": 14.2.2

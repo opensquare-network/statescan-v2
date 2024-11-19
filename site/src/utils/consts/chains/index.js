@@ -16,6 +16,7 @@ import peopleKusama from "./people-kusama";
 import bridgehubPolkadot from "./bridgehub-polkadot";
 import bridgehubKusama from "./bridgehub-kusama";
 import nexus from "./nexus";
+import laos from "./laos";
 
 const chains = {
   polkadot,
@@ -24,6 +25,7 @@ const chains = {
   statemint,
   "crust-parachain": polkadotCrustParachain,
   invarch,
+  laos,
   litentry,
   nexus,
   kusama,
