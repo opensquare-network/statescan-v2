@@ -4,7 +4,6 @@ const {
 } = require("@statescan/common");
 const {
   block: { batchInsertTransfers },
-  block,
 } = require("@statescan/mongo");
 const { handleEthereumEvent } = require("./evm");
 const { clearEvmBlockMark } = require("../store");
