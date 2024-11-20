@@ -5,11 +5,15 @@ const {
   block: { getEvmTxCol },
 } = require("@statescan/mongo");
 const { normalizeTx } = require("./normalizeTx");
+const { queryAndGetReceipt } = require("./receipt");
 
 async function handleOneTransaction(tx) {
   const col = await getEvmTxCol();
-  await col.insertOne(normalizeTx(tx));
-  // todo: query and handle tx receipt
+  const receipt = await queryAndGetReceipt(tx.hash);
+  await col.insertOne({
+    ...normalizeTx(tx),
+    receipt,
+  });
 }
 
 async function queryAndSaveEvmTxs(blockHeight) {
