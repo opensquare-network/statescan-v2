@@ -4,7 +4,11 @@ const {
 } = require("@statescan/common");
 const {
   block: { batchInsertTransfers },
+  block,
 } = require("@statescan/mongo");
+const { handleEthereumEvent } = require("./evm");
+const { clearEvmBlockMark } = require("../store");
+const { queryAndSaveEvmTxs } = require("./evm/tx");
 
 async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
@@ -22,11 +26,15 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
     }
 
     await handleBalancesEvent(event, indexer, extrinsic);
+    await handleEthereumEvent(event, indexer);
   }
 
   const transfers = getBlockNativeTransfers(blockIndexer.blockHash);
   await batchInsertTransfers(transfers);
+  await queryAndSaveEvmTxs(blockIndexer.blockHeight);
+
   clearNativeTransfers(blockIndexer.blockHash);
+  clearEvmBlockMark(blockIndexer.blockHeight);
 }
 
 module.exports = {

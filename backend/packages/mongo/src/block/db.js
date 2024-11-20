@@ -116,6 +116,11 @@ function getBlockDb() {
   return db;
 }
 
+async function getEvmTxCol() {
+  await makeSureInit(evmTxCol);
+  return evmTxCol;
+}
+
 module.exports = {
   initBlockDb,
   getBlockDb,
@@ -124,6 +129,7 @@ module.exports = {
   getEventCollection,
   getCallCollection,
   getTransferCol,
+  getEvmTxCol,
 
   getUnFinalizedBlockCollection,
   getUnFinalizedEventCollection,
