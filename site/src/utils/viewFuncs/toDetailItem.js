@@ -30,7 +30,6 @@ import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
 import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
-import AchainableLabels from "../../components/achainableLabels/index";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
 import CircledInfoIcon from "../../components/icons/circledInfoIcon";
 import { Flex, FlexCenter, FlexColumn } from "../../components/styled/flex";
@@ -69,12 +68,7 @@ export const toBlockDetailItem = (block) => {
   };
 };
 
-export const toAccountDetailItem = (
-  id,
-  account,
-  chainSetting,
-  achainableProfile,
-) => {
+export const toAccountDetailItem = (id, account, chainSetting) => {
   const data = {
     Address: <AddressAndIdentity address={id} ellipsis={false} />,
     "Total Balance": (
@@ -132,10 +126,6 @@ export const toAccountDetailItem = (
     ),
     Nonce: <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>,
   };
-
-  if (achainableProfile) {
-    data["Labels"] = <AchainableLabels achainableProfile={achainableProfile} />;
-  }
 
   return data;
 };
@@ -219,7 +209,6 @@ function ValueDisplayWithTooltip({ value }) {
 export const toOnChainAccountDetailItem = (
   id,
   account,
-  achainableProfile,
   multisigAddressData,
 ) => {
   const lockedBreakdown = account?.data?.lockedBreakdown?.length > 0 && (
@@ -298,13 +287,6 @@ export const toOnChainAccountDetailItem = (
     label: "Transactions",
     value: <TextSecondary>{account?.detail?.nonce || 0}</TextSecondary>,
   });
-
-  if (achainableProfile) {
-    data.push({
-      label: "Labels",
-      value: <AchainableLabels achainableProfile={achainableProfile} />,
-    });
-  }
 
   if (multisigAddressData?.multisigAddress) {
     data.push({
