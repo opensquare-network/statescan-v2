@@ -5,7 +5,8 @@ const { queryFinalizedBlocks } = require("../../common/queryFinalizedBlocks");
 const omit = require("lodash.omit");
 const { setLatestBlocks } = require("../../websocket/store");
 const { CronJob } = require("cron");
-const { every12Secs, timeZone } = require("./common");
+const { every12Secs, timeZone, every6Secs } = require("./common");
+const { currentChain } = require("../../env");
 
 function normalizeBlock(block, isFinalized = true) {
   return {
@@ -34,7 +35,11 @@ async function updateLatestBlocks() {
 }
 
 function startLatestBlocksUpdateJob() {
-  new CronJob(every12Secs, updateLatestBlocks, null, true, timeZone);
+  const chain = currentChain();
+  const cron = ["polkadot", "kusama", "paseo"].includes(chain)
+    ? every6Secs
+    : every12Secs;
+  new CronJob(cron, updateLatestBlocks, null, true, timeZone);
 }
 
 module.exports = {
