@@ -18,6 +18,7 @@
     "@statescan/common": "1.0.0",
     "@statescan/mongo": "1.0.0",
     "bignumber.js": "^9.1.0",
+    "cron": "^3.2.1",
     "dotenv": "^16.0.2",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
