@@ -99,10 +99,15 @@ async function createTransferIndexes(col) {
   });
 }
 
+async function createEvmTxIndexes(col) {
+  await col.createIndex({ hash: 1 });
+}
+
 module.exports = {
   createBlockColIndexes,
   createExtrinsicColIndexes,
   createEventColIndexes,
   createCallColIndexes,
   createTransferIndexes,
+  createEvmTxIndexes,
 };

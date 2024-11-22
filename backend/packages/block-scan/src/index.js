@@ -13,11 +13,13 @@ const {
 const {
   block: { initBlockDb },
 } = require("@statescan/mongo");
+const { initEvmWeb3InstanceConditionally } = require("./evm/web3");
 
 async function main() {
   await initBlockDb();
   await subscribeLatestHeight();
   await subscribeFinalizedHeight();
+  await initEvmWeb3InstanceConditionally();
 
   if (isUseMetaDb()) {
     await updateSpecs();

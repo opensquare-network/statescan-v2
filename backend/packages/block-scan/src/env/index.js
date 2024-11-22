@@ -4,6 +4,11 @@ function isSimpleMode() {
   return simpleMode;
 }
 
+function hasEvmEndPoint() {
+  return !!process.env.EVM_HTTP_ENDPOINT;
+}
+
 module.exports = {
   isSimpleMode,
+  hasEvmEndPoint,
 };

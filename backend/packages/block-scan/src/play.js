@@ -4,10 +4,12 @@ const {
   chain: { getApi, setSpecHeights, subscribeFinalizedHeight },
 } = require("@osn/scan-common");
 const { handleBlock } = require("./scan");
+const { initEvmWeb3InstanceConditionally } = require("./evm/web3");
 
 async function main() {
   await subscribeFinalizedHeight();
-  const blockHeights = [2186971];
+  await initEvmWeb3InstanceConditionally();
+  const blockHeights = [940494];
 
   const api = await getApi();
   for (const height of blockHeights) {

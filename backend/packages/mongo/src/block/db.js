@@ -4,6 +4,7 @@ const {
   createEventColIndexes,
   createCallColIndexes,
   createTransferIndexes,
+  createEvmTxIndexes,
 } = require("./dbIndexes");
 const {
   mongo: { ScanDb },
@@ -17,6 +18,7 @@ let eventCol = null;
 let extrinsicCol = null;
 let callCol = null;
 let transferCol = null;
+let evmTxCol = null;
 
 let unFinalizedBlockCol = null;
 let unFinalizedEventCol = null;
@@ -35,6 +37,7 @@ async function initBlockDb() {
   extrinsicCol = await db.createCol("extrinsic");
   callCol = await db.createCol("call");
   transferCol = await db.createCol("transfer");
+  evmTxCol = await db.createCol("evmTx");
 
   unFinalizedBlockCol = await db.createCol("unFinalizedBlock");
   unFinalizedEventCol = await db.createCol("unFinalizedEvent");
@@ -55,6 +58,7 @@ async function _createIndexes() {
   await createEventColIndexes(eventCol);
   await createCallColIndexes(callCol);
   await createTransferIndexes(transferCol);
+  await createEvmTxIndexes(evmTxCol);
 }
 
 async function makeSureInit(col) {
@@ -112,6 +116,11 @@ function getBlockDb() {
   return db;
 }
 
+async function getEvmTxCol() {
+  await makeSureInit(evmTxCol);
+  return evmTxCol;
+}
+
 module.exports = {
   initBlockDb,
   getBlockDb,
@@ -120,6 +129,7 @@ module.exports = {
   getEventCollection,
   getCallCollection,
   getTransferCol,
+  getEvmTxCol,
 
   getUnFinalizedBlockCollection,
   getUnFinalizedEventCollection,
