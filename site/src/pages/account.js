@@ -14,24 +14,19 @@ import {
   accountFetchDetail,
   clearAccountDetail,
 } from "../store/reducers/accountSlice";
-import useAchainableProfile from "../hooks/useAchainableProfile";
 import AccountDetailCommon from "../components/account/detailCommon";
 
 function Account() {
   const { id } = useParams();
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
-  const achainableProfile = useAchainableProfile(id);
 
   const detail = useSelector(accountDetailSelector);
   const detailLoading = useSelector(accountDetailLoadingSelector);
 
   const listData = useMemo(
-    () =>
-      detailLoading
-        ? {}
-        : toAccountDetailItem(id, detail, chainSetting, achainableProfile),
-    [id, detail, detailLoading, chainSetting, achainableProfile],
+    () => (detailLoading ? {} : toAccountDetailItem(id, detail, chainSetting)),
+    [id, detail, detailLoading, chainSetting],
   );
 
   useEffect(() => {

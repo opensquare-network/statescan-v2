@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import List from "../components/list";
 import { addressEllipsis } from "@osn/common";
 import DetailLayout from "../components/layout/detailLayout";
-import useAchainableProfile from "../hooks/useAchainableProfile";
 import { toOnChainAccountDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AccountDetailCommon from "../components/account/detailCommon";
 import { useDispatch } from "react-redux";
@@ -19,7 +18,6 @@ import useAccountInfo from "../hooks/useAccountInfo";
 function OnChainAccount() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const achainableProfile = useAchainableProfile(id);
 
   const { data } = useQueryAccountInfo(id);
 
@@ -52,13 +50,8 @@ function OnChainAccount() {
     if (!detail) {
       return {};
     }
-    return toOnChainAccountDetailItem(
-      id,
-      detail,
-      achainableProfile,
-      multisigAddressData,
-    );
-  }, [id, detail, achainableProfile, multisigAddressData]);
+    return toOnChainAccountDetailItem(id, detail, multisigAddressData);
+  }, [id, detail, multisigAddressData]);
 
   const breadCrumb = (
     <BreadCrumb
