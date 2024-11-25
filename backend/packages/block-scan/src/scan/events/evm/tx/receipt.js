@@ -6,6 +6,7 @@ async function queryAndGetReceipt(txHash) {
 
   const gasUsed = receipt.gasUsed;
   return {
+    status: receipt.status,
     gasUsed,
     cumulativeGasUsed: receipt.cumulativeGasUsed,
     effectiveGasPrice: receipt.effectiveGasPrice.toString(),
