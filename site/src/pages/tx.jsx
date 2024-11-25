@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import BreadCrumb from "../components/breadCrumb";
 import DetailLayout from "../components/layout/detailLayout";
 import { useTxData } from "../hooks/tx/useTxData";
