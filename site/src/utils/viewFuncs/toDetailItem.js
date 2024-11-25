@@ -586,3 +586,66 @@ export const toMultisigDetailItem = (multisig) => {
     },
   ].filter(Boolean);
 };
+
+export function toTxEvmBlockDetailItem(tx) {
+  if (!tx) {
+    return [];
+  }
+
+  return [
+    {
+      label: "Time",
+      value: "-",
+    },
+    {
+      label: "Block",
+      value: <DetailedBlock blockHeight={tx?.blockNumber} copy />,
+    },
+    {
+      label: "Hash",
+      value: <TextSecondaryWithCopy>{tx?.hash}</TextSecondaryWithCopy>,
+    },
+    {
+      label: "Status",
+      value: "-",
+    },
+  ].filter(Boolean);
+}
+
+export function toTxEvmTxDetailItem(tx, chainSetting) {
+  if (!tx) {
+    return [];
+  }
+
+  return [
+    {
+      label: "From",
+      value: <AddressOrIdentity address={tx?.from} ellipsis={false} />,
+    },
+    {
+      label: "To",
+      value: <AddressOrIdentity address={tx?.to} ellipsis={false} />,
+    },
+    {
+      label: "Value",
+      value: "-",
+    },
+    {
+      label: "Gas",
+      value: (
+        <ValueDisplay
+          value={toPrecision(tx?.gas, 0)}
+          symbol={chainSetting?.symbol}
+        />
+      ),
+    },
+    {
+      label: "Nonce",
+      value: "-",
+    },
+    {
+      label: "Status",
+      value: "-",
+    },
+  ];
+}

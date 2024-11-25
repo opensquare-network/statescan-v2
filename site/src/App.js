@@ -43,13 +43,14 @@ import ProxyDetailPage from "./pages/proxy/detail";
 import ProxyAnnouncementDetailPage from "./pages/proxy/announcement";
 import OnChainExtrinsic from "./pages/extrinsic/onChainExtrinsic";
 import useSetFinalizedHeight from "./hooks/useSetFinalizedHeight";
+import TXPage from "./pages/tx";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
   : HashRouter;
 
 function App() {
-  const { assets, uniques, identity, multisig, vestings, recovery, proxy } =
+  const { assets, uniques, identity, multisig, vestings, recovery, proxy, tx } =
     getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useConnectApis();
@@ -141,6 +142,11 @@ function App() {
               path="/proxy/announcements/:id"
               element={<ProxyAnnouncementDetailPage />}
             />
+          </>
+        )}
+        {tx && (
+          <>
+            <Route path="/tx/:id" element={<TXPage />} />
           </>
         )}
       </Routes>
