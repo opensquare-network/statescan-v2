@@ -1,11 +1,12 @@
-// todo: 1. query EVM block and get transactions
-
 const { getEvmWeb3Instance } = require("../../../../evm/web3");
 const {
   block: { getEvmTxCol },
 } = require("@statescan/mongo");
 const { normalizeTx } = require("./normalizeTx");
 const { queryAndGetReceipt } = require("./receipt");
+const {
+  env: { currentChain },
+} = require("@osn/scan-common");
 
 async function handleOneTransaction(tx) {
   const col = await getEvmTxCol();
@@ -17,6 +18,10 @@ async function handleOneTransaction(tx) {
 }
 
 async function queryAndSaveEvmTxs(blockHeight) {
+  if (!["laos"].includes(currentChain())) {
+    return;
+  }
+
   const web3 = getEvmWeb3Instance();
   const block = await web3.eth.getBlock(blockHeight, true);
 
