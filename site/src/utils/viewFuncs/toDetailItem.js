@@ -639,27 +639,25 @@ export function toTxEvmTxDetailItem(tx, chainSetting) {
       value: <AddressOrIdentity address={tx?.to} ellipsis={false} />,
     },
     {
-      label: "Value",
+      label: "Fee",
       value: (
         <TextSecondary>
           <ValueDisplay
-            value={toPrecision(tx?.value, chainSetting.decimals)}
+            value={toPrecision(
+              BigNumber(tx?.gasPrice).multipliedBy(tx?.receipt?.gasUsed),
+              chainSetting.decimals,
+            )}
             symbol={chainSetting?.symbol}
+            abbreviate={false}
           />
         </TextSecondary>
       ),
     },
     {
-      label: "Gas",
+      label: "Gas Used/Limit",
       value: (
         <TextSecondary>
-          <ValueDisplay
-            value={toPrecision(
-              BigNumber(tx?.gas).multipliedBy(tx?.gasPrice).toString(),
-              chainSetting.decimals,
-            )}
-            symbol={chainSetting?.symbol}
-          />
+          {tx?.receipt?.gasUsed} / {tx?.gas}
         </TextSecondary>
       ),
     },
