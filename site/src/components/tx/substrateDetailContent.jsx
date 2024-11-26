@@ -20,7 +20,9 @@ export default function TxSubstrateDetailContent({ data = {} }) {
     extrinsicIndex,
   );
 
-  const chainExtrinsic = extrinsicInfoData?.chainExtrinsic || {};
+  const chainExtrinsic = useMemo(() => {
+    return extrinsicInfoData?.chainExtrinsic || {};
+  }, [extrinsicInfoData]);
 
   const extrinsic = useMemo(() => {
     if (loading) {

@@ -21,7 +21,9 @@ export default function TxEvmDetailContent({ data }) {
     blockNumber,
     transactionIndex,
   );
-  const chainExtrinsic = extrinsicInfoData?.chainExtrinsic || {};
+  const chainExtrinsic = useMemo(() => {
+    return extrinsicInfoData?.chainExtrinsic || {};
+  }, [extrinsicInfoData]);
 
   const extrinsic = useMemo(() => {
     if (loading) {
