@@ -38,6 +38,7 @@ import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import dark from "../../styles/theme/dark";
 import styled from "styled-components";
+import BigNumber from "bignumber.js";
 
 export const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -470,6 +471,8 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     (modules?.assets || modules?.uniques) &&
     (assetTransferredList?.length || uniqueTransferredList?.length);
 
+  const { section, method } = extrinsic?.call || extrinsic || {};
+
   return [
     {
       label: "Extrinsic Time",
@@ -501,11 +504,11 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
     {
       label: "Module",
-      value: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
+      value: <TagHighContrast>{section}</TagHighContrast>,
     },
     {
       label: "Call",
-      value: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
+      value: <TagThemed>{method}</TagThemed>,
     },
     extrinsic?.isSigned && {
       label: "Signer",
@@ -586,3 +589,79 @@ export const toMultisigDetailItem = (multisig) => {
     },
   ].filter(Boolean);
 };
+
+export function toTxEvmBlockDetailItem(tx) {
+  if (!tx) {
+    return [];
+  }
+
+  const extrinsicDetailItems = toExtrinsicDetailItem(tx);
+  const timeItem = extrinsicDetailItems.find(
+    (item) => item.label === "Extrinsic Time",
+  );
+  timeItem.label = "Time";
+
+  return [
+    timeItem,
+    {
+      label: "Block",
+      value: <DetailedBlock blockHeight={tx?.blockNumber} copy />,
+    },
+    {
+      label: "Hash",
+      value: <TextSecondaryWithCopy>{tx?.hash}</TextSecondaryWithCopy>,
+    },
+    {
+      label: "Status",
+      value: <FinalizedState height={tx?.blockNumber} />,
+    },
+  ];
+}
+
+export function toTxEvmTxDetailItem(tx, chainSetting) {
+  if (!tx) {
+    return [];
+  }
+
+  const extrinsicDetailItems = toExtrinsicDetailItem(tx);
+  const nonceItem = extrinsicDetailItems.find((item) => item.label === "Nonce");
+  const resultItem = extrinsicDetailItems.find(
+    (item) => item.label === "Result",
+  );
+
+  return [
+    {
+      label: "From",
+      value: <AddressOrIdentity address={tx?.from} ellipsis={false} />,
+    },
+    {
+      label: "To",
+      value: <AddressOrIdentity address={tx?.to} ellipsis={false} />,
+    },
+    {
+      label: "Fee",
+      value: (
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(
+              BigNumber(tx?.gasPrice).multipliedBy(tx?.receipt?.gasUsed),
+              chainSetting.decimals,
+            )}
+            symbol={chainSetting?.symbol}
+            abbreviate={false}
+          />
+        </TextSecondary>
+      ),
+    },
+    {
+      label: "Gas Used/Limit",
+      value: (
+        <TextSecondary>
+          {tx?.receipt?.gasUsed} / {tx?.gas}
+        </TextSecondary>
+      ),
+    },
+    nonceItem,
+    resultItem,
+  ].filter(Boolean);
+}

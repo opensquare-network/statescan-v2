@@ -61,7 +61,7 @@ export default function ValueDisplay({
   }
 
   const [int, decimal] = String(value).split(".");
-  if (decimal?.length > 5) {
+  if (decimal?.length > 5 && abbreviate) {
     const shortDeciaml = decimal.substring(0, 2);
 
     let display = (

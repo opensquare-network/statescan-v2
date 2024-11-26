@@ -21,6 +21,7 @@ const laos = {
   useOnChainBlockData: true,
   modules: {
     identity: true,
+    tx: true,
   },
 };
 
