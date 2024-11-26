@@ -25,7 +25,7 @@ export function useTxData() {
     return () => {
       clearHttpError(dispatch);
     };
-  }, [error]);
+  }, [error, dispatch]);
 
   return {
     data: value,
