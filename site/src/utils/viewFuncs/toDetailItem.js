@@ -611,13 +611,18 @@ export function toTxEvmBlockDetailItem(tx) {
       label: "Status",
       value: "-",
     },
-  ].filter(Boolean);
+  ];
 }
 
 export function toTxEvmTxDetailItem(tx, chainSetting) {
   if (!tx) {
     return [];
   }
+
+  const extrinsicDetailItems = toExtrinsicDetailItem(tx);
+  const resultItem = extrinsicDetailItems.find(
+    (item) => item.label === "Result",
+  );
 
   return [
     {
@@ -645,9 +650,6 @@ export function toTxEvmTxDetailItem(tx, chainSetting) {
       label: "Nonce",
       value: "-",
     },
-    {
-      label: "Status",
-      value: "-",
-    },
-  ];
+    resultItem,
+  ].filter(Boolean);
 }

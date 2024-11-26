@@ -1,7 +1,7 @@
 import BreadCrumb from "../components/breadCrumb";
 import DetailLayout from "../components/layout/detailLayout";
 import { useTxData } from "../hooks/tx/useTxData";
-import TxEvmDetailPanel from "../components/tx/evmDetailPanel";
+import TxEvmDetailContent from "../components/tx/evmDetailContent";
 import TxSubstrateDetailContent from "../components/tx/substrateDetailContent";
 import { useSelector } from "react-redux";
 import { finalizedHeightSelector } from "../store/reducers/chainSlice";
@@ -26,7 +26,7 @@ export default function TXPage() {
 
   let content;
   if (data?.isEvm) {
-    content = <TxEvmDetailPanel data={data} />;
+    content = <TxEvmDetailContent data={data} />;
   } else {
     content = <TxSubstrateDetailContent data={data} />;
   }
