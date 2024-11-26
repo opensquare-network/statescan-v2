@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 export default function TXPage() {
   const { id = "" } = useParams();
 
-  const { data } = useTxData();
+  const { data, loading } = useTxData();
   const breadCrumb = (
     <BreadCrumb
       data={[
@@ -22,10 +22,12 @@ export default function TXPage() {
   );
 
   let content;
-  if (data?.isEvm) {
-    content = <TxEvmDetailContent data={data} />;
-  } else {
-    content = <TxSubstrateDetailContent data={data} />;
+  if (!loading) {
+    if (data?.isEvm) {
+      content = <TxEvmDetailContent data={data} />;
+    } else {
+      content = <TxSubstrateDetailContent data={data} />;
+    }
   }
 
   return <DetailLayout breadCrumb={breadCrumb}>{content}</DetailLayout>;
