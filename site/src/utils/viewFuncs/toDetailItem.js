@@ -470,7 +470,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     (modules?.assets || modules?.uniques) &&
     (assetTransferredList?.length || uniqueTransferredList?.length);
 
-  const { section, method } = extrinsic?.call || extrinsic;
+  const { section, method } = extrinsic?.call || extrinsic || {};
 
   return [
     {
