@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { toExtrinsicDetailItem } from "../../utils/viewFuncs/toDetailItem";
 import { Panel } from "../styled/panel";
 import List from "../list";
+import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 
 export default function TxSubstrateDetailPanel({ data = {} }) {
   const listData = useMemo(() => {
@@ -16,6 +17,8 @@ export default function TxSubstrateDetailPanel({ data = {} }) {
   return (
     <Panel>
       <List data={listData} />
+
+      <ExtrinsicParametersDisplay extrinsic={data} title="Parameters" />
     </Panel>
   );
 }
