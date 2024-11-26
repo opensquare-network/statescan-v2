@@ -6,11 +6,6 @@ import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 
 export default function TxSubstrateDetailPanel({ data = {} }) {
   const listData = useMemo(() => {
-    data.call = {
-      section: data?.section,
-      method: data?.method,
-    };
-
     return toExtrinsicDetailItem(data);
   }, [data]);
 

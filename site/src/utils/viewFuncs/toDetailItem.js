@@ -470,6 +470,8 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     (modules?.assets || modules?.uniques) &&
     (assetTransferredList?.length || uniqueTransferredList?.length);
 
+  const { section, method } = extrinsic?.call || extrinsic;
+
   return [
     {
       label: "Extrinsic Time",
@@ -501,11 +503,11 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
     {
       label: "Module",
-      value: <TagHighContrast>{extrinsic?.call?.section}</TagHighContrast>,
+      value: <TagHighContrast>{section}</TagHighContrast>,
     },
     {
       label: "Call",
-      value: <TagThemed>{extrinsic?.call?.method}</TagThemed>,
+      value: <TagThemed>{method}</TagThemed>,
     },
     extrinsic?.isSigned && {
       label: "Signer",
