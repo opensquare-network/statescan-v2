@@ -38,6 +38,7 @@ import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import dark from "../../styles/theme/dark";
 import styled from "styled-components";
+import BigNumber from "bignumber.js";
 
 export const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -594,11 +595,14 @@ export function toTxEvmBlockDetailItem(tx) {
     return [];
   }
 
+  const extrinsicDetailItems = toExtrinsicDetailItem(tx);
+  const timeItem = extrinsicDetailItems.find(
+    (item) => item.label === "Extrinsic Time",
+  );
+  timeItem.label = "Time";
+
   return [
-    {
-      label: "Time",
-      value: "-",
-    },
+    timeItem,
     {
       label: "Block",
       value: <DetailedBlock blockHeight={tx?.blockNumber} copy />,
@@ -609,7 +613,7 @@ export function toTxEvmBlockDetailItem(tx) {
     },
     {
       label: "Status",
-      value: "-",
+      value: <FinalizedState height={tx?.blockNumber} />,
     },
   ];
 }
@@ -620,6 +624,7 @@ export function toTxEvmTxDetailItem(tx, chainSetting) {
   }
 
   const extrinsicDetailItems = toExtrinsicDetailItem(tx);
+  const nonceItem = extrinsicDetailItems.find((item) => item.label === "Nonce");
   const resultItem = extrinsicDetailItems.find(
     (item) => item.label === "Result",
   );
@@ -635,21 +640,30 @@ export function toTxEvmTxDetailItem(tx, chainSetting) {
     },
     {
       label: "Value",
-      value: "-",
+      value: (
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(tx?.value, chainSetting.decimals)}
+            symbol={chainSetting?.symbol}
+          />
+        </TextSecondary>
+      ),
     },
     {
       label: "Gas",
       value: (
-        <ValueDisplay
-          value={toPrecision(tx?.gas, 0)}
-          symbol={chainSetting?.symbol}
-        />
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(
+              BigNumber(tx?.gas).multipliedBy(tx?.gasPrice).toString(),
+              chainSetting.decimals,
+            )}
+            symbol={chainSetting?.symbol}
+          />
+        </TextSecondary>
       ),
     },
-    {
-      label: "Nonce",
-      value: "-",
-    },
+    nonceItem,
     resultItem,
   ].filter(Boolean);
 }

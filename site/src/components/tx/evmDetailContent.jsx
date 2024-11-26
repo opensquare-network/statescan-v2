@@ -9,19 +9,31 @@ import List from "../list";
 import Divider from "../styled/divider";
 import { useSelector } from "react-redux";
 import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
+import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
 
 export default function TxEvmDetailContent({ data }) {
   const chainSetting = useChainSettings();
   const finalizedHeight = useSelector(finalizedHeightSelector);
-  const { blockHeight } = data?.indexer || {};
-  const isFinalized = blockHeight <= finalizedHeight;
+  const { blockNumber, transactionIndex } = data || {};
+  const isFinalized = blockNumber <= finalizedHeight;
+
+  const { data: extrinsicInfoData, loading } = useQueryExtrinsicInfo(
+    blockNumber,
+    transactionIndex,
+  );
+  const chainExtrinsic = extrinsicInfoData?.chainExtrinsic || {};
 
   const extrinsic = useMemo(() => {
+    if (loading) {
+      return null;
+    }
+
     return {
+      ...chainExtrinsic,
       ...data,
       isFinalized,
     };
-  }, [data, isFinalized]);
+  }, [data, isFinalized, chainExtrinsic, loading]);
 
   const blockListData = useMemo(() => {
     return toTxEvmBlockDetailItem(extrinsic);
@@ -32,12 +44,14 @@ export default function TxEvmDetailContent({ data }) {
   }, [extrinsic, chainSetting]);
 
   return (
-    <Panel>
-      <List data={blockListData} />
+    <>
+      <Panel>
+        <List data={blockListData} />
 
-      <Divider />
+        <Divider />
 
-      <List data={txListData} />
-    </Panel>
+        <List data={txListData} />
+      </Panel>
+    </>
   );
 }
