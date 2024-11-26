@@ -639,6 +639,18 @@ export function toTxEvmTxDetailItem(tx, chainSetting) {
       value: <AddressOrIdentity address={tx?.to} ellipsis={false} />,
     },
     {
+      label: "Value",
+      value: (
+        <TextSecondary>
+          <ValueDisplay
+            value={toPrecision(tx?.value, chainSetting.decimals)}
+            symbol={chainSetting?.symbol}
+            abbreviate={false}
+          />
+        </TextSecondary>
+      ),
+    },
+    {
       label: "Fee",
       value: (
         <TextSecondary>
