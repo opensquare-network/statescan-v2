@@ -14,8 +14,11 @@ const {
 async function queryPureCreatedEvent(height, extIndex) {
   const api = await getApi();
   const blockHash = await getBlockHash(height);
-  const allEvents = await api.query.system.events.at(blockHash);
+  if (blockHash.isEmpty) {
+    return null;
+  }
 
+  const allEvents = await api.query.system.events.at(blockHash);
   return allEvents.find(({ event, phase }) => {
     if (phase.isNone || (phase.value && phase.value.toNumber() !== extIndex)) {
       return false;
