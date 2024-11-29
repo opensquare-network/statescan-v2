@@ -98,7 +98,7 @@ const kusamaChains = Object.values(chains).filter((i) => i.chain === "kusama");
 const westendChains = Object.values(chains).filter(
   (i) => i.chain === "westend",
 );
-const rococoChains = Object.values(chains).filter((i) => i.chain === "rococo");
+const paseoChains = Object.values(chains).filter((i) => i.chain === "paseo");
 const testnetOrSoloChains = Object.values(chains).filter((i) => !i.chain);
 
 export default function ChainSwitch() {
@@ -124,9 +124,9 @@ export default function ChainSwitch() {
       title: "Solo chains & Testnet",
       chains: testnetOrSoloChains,
     },
-    rococoChains.length > 0 && {
-      title: "Rococo Parachains",
-      chains: rococoChains,
+    paseoChains.length > 0 && {
+      title: "Paseo Parachains",
+      chains: paseoChains,
     },
   ].filter(Boolean);
 

@@ -12,7 +12,7 @@ const gargantua = {
   name: "Gargantua",
   icon: <GargantuaIcon />,
   identity: "rococo",
-  chain: "rococo",
+  chain: "paseo",
   value: "gargantua",
   symbol: "tNAND",
   decimals: 12,
