@@ -50,7 +50,10 @@ async function handleBlock({ block, author, events, height }) {
   const db = getBlockDb();
   await db.updateScanHeight(height);
 
-  if (height >= finalizedHeight - 100) {
+  if (
+    height >= finalizedHeight - 100 &&
+    !["gargantua"].includes(currentChain())
+  ) {
     await updateUnFinalized(height);
   }
 }

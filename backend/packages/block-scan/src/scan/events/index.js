@@ -30,7 +30,7 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
 
   const transfers = getBlockNativeTransfers(blockIndexer.blockHash);
   await batchInsertTransfers(transfers);
-  await queryAndSaveEvmTxs(blockIndexer.blockHeight);
+  await queryAndSaveEvmTxs(blockIndexer, events);
 
   clearNativeTransfers(blockIndexer.blockHash);
   clearEvmBlockMark(blockIndexer.blockHeight);
