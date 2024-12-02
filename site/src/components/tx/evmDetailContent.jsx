@@ -12,7 +12,6 @@ import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
 import SubstrateExtrinsicTable from "./substrateExtrinsicTable";
 import styled from "styled-components";
 import { space_y } from "../../styles/tailwindcss";
-import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
 
 const Wrapper = styled.div`
   ${space_y(24)}
@@ -22,22 +21,15 @@ export default function TxEvmDetailContent({ data }) {
   const chainSetting = useChainSettings();
   const finalizedHeight = useSelector(finalizedHeightSelector);
   const { indexer } = data || {};
-  const { blockHeight, extrinsicIndex } = indexer || {};
+  const { blockHeight } = indexer || {};
   const isFinalized = blockHeight <= finalizedHeight;
-
-  const { data: extrinsicInfoData, loading } = useQueryExtrinsicInfo(
-    blockHeight,
-    extrinsicIndex,
-  );
-  const chainExtrinsic = extrinsicInfoData?.chainExtrinsic;
 
   const extrinsic = useMemo(() => {
     return {
-      ...chainExtrinsic,
       ...data,
       isFinalized,
     };
-  }, [data, isFinalized, chainExtrinsic]);
+  }, [data, isFinalized]);
 
   const blockListData = useMemo(() => {
     return toTxEvmBlockDetailItem(extrinsic);
@@ -57,7 +49,7 @@ export default function TxEvmDetailContent({ data }) {
         <List data={txListData} />
       </Panel>
 
-      <SubstrateExtrinsicTable data={extrinsic} loading={loading} />
+      <SubstrateExtrinsicTable data={data} />
     </Wrapper>
   );
 }

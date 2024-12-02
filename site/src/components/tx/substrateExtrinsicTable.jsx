@@ -14,6 +14,7 @@ import {
   toExtrinsicsTabTableItem,
   toExtrinsicsTabTableItemSimpleMode,
 } from "../../utils/viewFuncs/toTableItem";
+import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
 
 const Panel = styled(PanelOrigin)`
   color: var(--fontPrimary);
@@ -27,17 +28,26 @@ const Title = styled.div`
 
 const isSimpleMode = getIsSimpleMode();
 
-export default function SubstrateExtrinsicTable({ data, loading }) {
+export default function SubstrateExtrinsicTable({ data }) {
+  const { indexer } = data || {};
+  const { blockHeight, extrinsicIndex } = indexer || {};
+
+  const { data: extrinsicInfoData, loading } = useQueryExtrinsicInfo(
+    blockHeight,
+    extrinsicIndex,
+  );
+  const chainExtrinsic = extrinsicInfoData?.chainExtrinsic;
+
   let head = [];
   let tableData = [];
 
   if (!loading) {
     if (isSimpleMode) {
       head = extrinsicsHeadSimpleMode;
-      tableData = toExtrinsicsTabTableItemSimpleMode([data]);
+      tableData = toExtrinsicsTabTableItemSimpleMode([chainExtrinsic]);
     } else {
       head = extrinsicsHead;
-      tableData = toExtrinsicsTabTableItem([data]);
+      tableData = toExtrinsicsTabTableItem([chainExtrinsic]);
     }
   }
 
