@@ -22,6 +22,8 @@ const Td = styled.td`
 `;
 
 const InnerTableWrapper = styled.td`
+  /* HACK: make 'td' overflow scroll */
+  max-width: 0;
   padding: 24px;
   ${Inter_14_500};
   background: ${({ theme }) => theme.fillBase}; ;
