@@ -9,33 +9,27 @@ import List from "../list";
 import Divider from "../styled/divider";
 import { useSelector } from "react-redux";
 import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
-import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
+import SubstrateExtrinsicTable from "./substrateExtrinsicTable";
+import styled from "styled-components";
+import { space_y } from "../../styles/tailwindcss";
+
+const Wrapper = styled.div`
+  ${space_y(24)}
+`;
 
 export default function TxEvmDetailContent({ data }) {
   const chainSetting = useChainSettings();
   const finalizedHeight = useSelector(finalizedHeightSelector);
-  const { blockNumber, transactionIndex } = data || {};
-  const isFinalized = blockNumber <= finalizedHeight;
-
-  const { data: extrinsicInfoData, loading } = useQueryExtrinsicInfo(
-    blockNumber,
-    transactionIndex,
-  );
-  const chainExtrinsic = useMemo(() => {
-    return extrinsicInfoData?.chainExtrinsic || {};
-  }, [extrinsicInfoData]);
+  const { indexer } = data || {};
+  const { blockHeight } = indexer || {};
+  const isFinalized = blockHeight <= finalizedHeight;
 
   const extrinsic = useMemo(() => {
-    if (loading) {
-      return null;
-    }
-
     return {
-      ...chainExtrinsic,
       ...data,
       isFinalized,
     };
-  }, [data, isFinalized, chainExtrinsic, loading]);
+  }, [data, isFinalized]);
 
   const blockListData = useMemo(() => {
     return toTxEvmBlockDetailItem(extrinsic);
@@ -46,7 +40,7 @@ export default function TxEvmDetailContent({ data }) {
   }, [extrinsic, chainSetting]);
 
   return (
-    <>
+    <Wrapper>
       <Panel>
         <List data={blockListData} />
 
@@ -54,6 +48,8 @@ export default function TxEvmDetailContent({ data }) {
 
         <List data={txListData} />
       </Panel>
-    </>
+
+      <SubstrateExtrinsicTable data={data} />
+    </Wrapper>
   );
 }

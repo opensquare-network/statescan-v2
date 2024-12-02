@@ -45,6 +45,28 @@ const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
 
 const CallText = TextSecondary;
 
+function getExtrinsicTime(data) {
+  if (!data?.indexer?.blockTime) {
+    return null;
+  }
+
+  return {
+    label: "Extrinsic Time",
+    value: <DetailedTime ts={data?.indexer?.blockTime} />,
+  };
+}
+
+function getNonceItem(data) {
+  if (!data?.nonce) {
+    return null;
+  }
+
+  return {
+    label: "Nonce",
+    value: <TextSecondary>{data?.nonce}</TextSecondary>,
+  };
+}
+
 export const toBlockDetailItem = (block) => {
   return {
     "Block Time": <DetailedTime ts={block?.time} />,
@@ -474,10 +496,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
   const { section, method } = extrinsic?.call || extrinsic || {};
 
   return [
-    {
-      label: "Extrinsic Time",
-      value: <DetailedTime ts={extrinsic?.indexer?.blockTime} />,
-    },
+    getExtrinsicTime(extrinsic),
     {
       label: "Block",
       value: (
@@ -524,10 +543,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
         />
       ),
     },
-    extrinsic?.nonce && {
-      label: "Nonce",
-      value: <TextSecondary>{extrinsic?.nonce}</TextSecondary>,
-    },
+    getNonceItem(extrinsic),
     extrinsic?.tip > 0 && {
       label: "Tip",
       value: <TextSecondary>{extrinsic?.tip}</TextSecondary>,
@@ -595,25 +611,22 @@ export function toTxEvmBlockDetailItem(tx) {
     return [];
   }
 
-  const extrinsicDetailItems = toExtrinsicDetailItem(tx);
-  const timeItem = extrinsicDetailItems.find(
-    (item) => item.label === "Extrinsic Time",
-  );
+  const timeItem = getExtrinsicTime(tx);
   timeItem.label = "Time";
 
   return [
     timeItem,
     {
       label: "Block",
-      value: <DetailedBlock blockHeight={tx?.blockNumber} copy />,
+      value: <DetailedBlock blockHeight={tx?.indexer?.blockHeight} copy />,
     },
     {
       label: "Hash",
       value: <TextSecondaryWithCopy>{tx?.hash}</TextSecondaryWithCopy>,
     },
     {
-      label: "Status",
-      value: <FinalizedState height={tx?.blockNumber} />,
+      label: "Finalization",
+      value: <FinalizedState height={tx?.indexer?.blockHeight} />,
     },
   ];
 }
@@ -622,12 +635,6 @@ export function toTxEvmTxDetailItem(tx, chainSetting) {
   if (!tx) {
     return [];
   }
-
-  const extrinsicDetailItems = toExtrinsicDetailItem(tx);
-  const nonceItem = extrinsicDetailItems.find((item) => item.label === "Nonce");
-  const resultItem = extrinsicDetailItems.find(
-    (item) => item.label === "Result",
-  );
 
   return [
     {
@@ -673,7 +680,10 @@ export function toTxEvmTxDetailItem(tx, chainSetting) {
         </TextSecondary>
       ),
     },
-    nonceItem,
-    resultItem,
+    getNonceItem(tx),
+    {
+      label: "Result",
+      value: tx?.receipt?.status === 1 ? <CheckIcon /> : <CrossIcon />,
+    },
   ].filter(Boolean);
 }

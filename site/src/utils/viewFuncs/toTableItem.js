@@ -130,7 +130,7 @@ export const toExtrinsicsTabTableItemSimpleMode = (extrinsics) => {
         </ColoredLink>,
         extrinsic?.indexer?.blockTime,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
-        <CallCell call={extrinsic} />,
+        <CallCell call={extrinsic?.call || extrinsic} />,
         <ExtrinsicParametersDisplay extrinsic={extrinsic} />,
       ];
     }) ?? null
