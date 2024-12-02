@@ -22,7 +22,7 @@ const Td = styled.td`
 `;
 
 const InnerTableWrapper = styled.td`
-  /* HACK: make 'td' overflow scroll */
+  /* HACK: make 'td' content overflow scroll */
   max-width: 0;
   padding: 24px;
   ${Inter_14_500};
