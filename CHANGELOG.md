@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.6.1
+
+date: 2024-12-02
+
+- EVM support:
+  - Save EVM tx info in block scan package.
+  - Add EVM tx fronted detail page.
+- Save balances transfer in block scan package.
+- Support laos network.
+- Add cron job at backend to update latest blocks and transfers.
+- Remove achainable labels.
+- Fix proxy scan script by guarding PureCreatedEvent block query.
+
 ### 1.6.0
 
 date: 2024-11-07
