@@ -76,9 +76,9 @@ const assetsModuleChains = [
 ];
 
 const uniquesModuleChains = [
-  chains.statemint,
-  chains.statemine,
-  chains.westmint,
+  // chains.statemint,
+  // chains.statemine,
+  // chains.westmint,
 ];
 
 module.exports = {
