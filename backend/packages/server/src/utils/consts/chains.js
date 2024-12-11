@@ -3,6 +3,7 @@ const isNil = require("lodash.isnil");
 const chains = Object.freeze({
   polkadot: "polkadot",
   kusama: "kusama",
+  paseo: "paseo",
   statemine: "statemine",
   statemint: "statemint",
   westmint: "westmint",
@@ -33,6 +34,7 @@ const chains = Object.freeze({
 const ss58Format = Object.freeze({
   [chains.polkadot]: 0,
   [chains.kusama]: 2,
+  [chains.paseo]: 0,
   [chains.statemine]: 2,
   [chains.statemint]: 0,
   [chains.westmint]: 42,
@@ -81,9 +83,15 @@ const uniquesModuleChains = [
   // chains.westmint,
 ];
 
+const transferOnBlockChains = [
+  // whose native token transfer records are in block-scan DB.
+  chains.paseo,
+];
+
 module.exports = {
   chains,
   assetsModuleChains,
   uniquesModuleChains,
   getSs58Format,
+  transferOnBlockChains,
 };

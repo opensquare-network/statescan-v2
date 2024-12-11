@@ -17,6 +17,7 @@ import bridgehubPolkadot from "./bridgehub-polkadot";
 import bridgehubKusama from "./bridgehub-kusama";
 import nexus from "./nexus";
 import laos from "./laos";
+import paseo from "./paseo";
 
 const chains = {
   polkadot,
@@ -34,12 +35,13 @@ const chains = {
   // "hydradx-testnet": hydradxTestnet,
   // polimec,
   shadow,
-  gargantua,
   tangle,
   // tinkernet,
   crust,
   "people-kusama": peopleKusama,
   "bridgehub-kusama": bridgehubKusama,
+  paseo,
+  gargantua,
 };
 
 export default chains;

@@ -1,9 +1,7 @@
 const { normalizeTransfers } = require("../../../common/transfer");
 const { extractPage } = require("../../../utils");
-const {
-  asset: { getTransferCollection },
-} = require("@statescan/mongo");
 const { getTimeDimension } = require("../../../common/getTimeDimension");
+const { getTransferColByChain } = require("../../../common/transfer/col");
 
 async function getTransfers(ctx) {
   const { page, pageSize } = extractPage(ctx);
@@ -20,7 +18,7 @@ async function getTransfers(ctx) {
     q.isSigned = true;
   }
 
-  const col = await getTransferCollection();
+  const col = await getTransferColByChain();
   const items = await col
     .find(q, { projection: { _id: 0 } })
     .sort({ "indexer.blockHeight": -1, "indexer.eventIndex": 1 })

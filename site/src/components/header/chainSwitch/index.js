@@ -125,7 +125,7 @@ export default function ChainSwitch() {
       chains: testnetOrSoloChains,
     },
     paseoChains.length > 0 && {
-      title: "Paseo Parachains",
+      title: "Paseo & Parachains",
       chains: paseoChains,
     },
   ].filter(Boolean);

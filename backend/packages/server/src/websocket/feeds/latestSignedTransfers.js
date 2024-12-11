@@ -9,9 +9,10 @@ const {
   setLatestSignedTransfers,
 } = require("../store");
 const {
-  asset: { getTransferCollection, getUnFinalizedTransferCol },
+  asset: { getUnFinalizedTransferCol },
 } = require("@statescan/mongo");
 const { normalizeTransfers } = require("../../common/transfer");
+const { getTransferColByChain } = require("../../common/transfer/col");
 
 async function query(col, size = 5) {
   const transfers = await col
@@ -29,7 +30,7 @@ async function queryUnFinalizedTransfers(size = 5) {
 }
 
 async function queryTransfers(size = 5) {
-  const col = await getTransferCollection();
+  const col = await getTransferColByChain();
   return await query(col, size);
 }
 

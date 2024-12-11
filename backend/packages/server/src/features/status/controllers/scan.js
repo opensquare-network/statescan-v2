@@ -1,4 +1,4 @@
-const { isUniquesChain } = require("../../../env");
+const { isUniquesChain, currentChain } = require("../../../env");
 const {
   asset: { getAssetDb },
   block: { getBlockDb },
@@ -6,13 +6,20 @@ const {
   runtime: { getRuntimeDb },
   account: { getAccountDb },
 } = require("@statescan/mongo");
+const { transferOnBlockChains } = require("../../../utils/consts/chains");
 
 async function getScanHeights(ctx) {
   const blockDb = await getBlockDb();
   const blockScanHeight = await blockDb.getScanHeight();
+  const chain = currentChain();
 
   const runtimeScanHeight = await getRuntimeDb().getScanHeight();
-  const assetsScanHeight = await getAssetDb().getScanHeight();
+  let assetsScanHeight;
+  if (transferOnBlockChains.includes(chain)) {
+    assetsScanHeight = blockScanHeight;
+  } else {
+    assetsScanHeight = await getAssetDb().getScanHeight();
+  }
   const accountScanHeight = await getAccountDb().getScanHeight();
 
   const obj = {
