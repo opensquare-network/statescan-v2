@@ -83,9 +83,15 @@ const uniquesModuleChains = [
   // chains.westmint,
 ];
 
+const transferOnBlockChains = [
+  // whose native token transfer records are in block-scan DB.
+  chains.paseo,
+];
+
 module.exports = {
   chains,
   assetsModuleChains,
   uniquesModuleChains,
   getSs58Format,
+  transferOnBlockChains,
 };
