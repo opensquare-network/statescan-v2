@@ -7,6 +7,7 @@ const westmint = {
   identity: "westend",
   sub: "westend",
   value: "westmint",
+  domain: "assethub-westend",
   chain: "westend",
   symbol: "WND",
   decimals: 12,

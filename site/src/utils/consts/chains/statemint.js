@@ -8,6 +8,7 @@ const statemint = {
   identity: "polkadot",
   sub: "polkadot",
   value: "statemint",
+  domain: "assethub-polkadot",
   chain: "polkadot",
   symbol: "DOT",
   decimals: 10,

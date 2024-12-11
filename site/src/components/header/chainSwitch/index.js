@@ -151,7 +151,7 @@ export default function ChainSwitch() {
                     const isDiffChain = chain.value !== currentNode.value;
 
                     const href = isDiffChain
-                      ? `https://${chain.value}.statescan.io`
+                      ? `https://${chain.domain || chain.value}.statescan.io`
                       : "#/";
 
                     return (

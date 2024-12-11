@@ -7,6 +7,7 @@ const statemine = {
   identity: "kusama",
   sub: "kusama",
   value: "statemine",
+  domain: "assethub-kusama",
   chain: "kusama",
   symbol: "KSM",
   decimals: 12,
