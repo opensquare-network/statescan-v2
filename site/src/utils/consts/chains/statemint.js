@@ -3,7 +3,7 @@ import { assetChainModules } from "./assetChain";
 import { polkadotColor } from "./common";
 
 const statemint = {
-  name: "Statemint",
+  name: "AssetHub",
   icon: <AssetHubPolkadot />,
   identity: "polkadot",
   sub: "polkadot",

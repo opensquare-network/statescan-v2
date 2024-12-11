@@ -2,7 +2,7 @@ import { ReactComponent as AssetHubWestend } from "../../../components/icons/ass
 import { assetChainModules } from "./assetChain";
 
 const westmint = {
-  name: "Westmint",
+  name: "AssetHub",
   icon: <AssetHubWestend />,
   identity: "westend",
   sub: "westend",
