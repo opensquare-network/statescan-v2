@@ -22,8 +22,23 @@ const {
 const {
   block: { getBlockDb },
 } = require("@statescan/mongo");
-const { isSimpleMode } = require("../env");
+const { isSimpleMode, isUsePostgres } = require("../env");
 const { handleEvents } = require("./events");
+const { insertBlockToPg } = require("../postgres");
+
+async function saveMongo(height, block, extrinsics, events, calls) {
+  const finalizedHeight = getLatestFinalizedHeight();
+  if (!isSimpleMode() || height >= finalizedHeight - 100) {
+    await insertBlock(block);
+  }
+  await batchInsertExtrinsics(extrinsics);
+  await batchInsertEvents(events);
+  await batchInsertCalls(calls);
+}
+
+async function savePg(block, extrinsics) {
+  await insertBlockToPg(block, extrinsics);
+}
 
 async function handleBlock({ block, author, events, height }) {
   let blockIndexer = getBlockIndexer(block);
@@ -37,19 +52,24 @@ async function handleBlock({ block, author, events, height }) {
     blockIndexer,
   );
 
-  const finalizedHeight = getLatestFinalizedHeight();
-  if (!isSimpleMode() || height >= finalizedHeight - 100) {
-    await insertBlock(normalizedBlock);
+  if (isUsePostgres()) {
+    await savePg(normalizedBlock, normalizedExtrinsics);
+  } else {
+    await saveMongo(
+      height,
+      normalizedBlock,
+      normalizedExtrinsics,
+      normalizedEvents,
+      normalizedCalls,
+    );
   }
-  await batchInsertExtrinsics(normalizedExtrinsics);
-  await batchInsertEvents(normalizedEvents);
-  await batchInsertCalls(normalizedCalls);
 
   await handleEvents(events, blockIndexer, block.extrinsics);
 
   const db = getBlockDb();
   await db.updateScanHeight(height);
 
+  const finalizedHeight = getLatestFinalizedHeight();
   if (
     height >= finalizedHeight - 100 &&
     !["gargantua"].includes(currentChain())
