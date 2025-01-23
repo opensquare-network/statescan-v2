@@ -1,10 +1,11 @@
 const {
   block: { getBlockDb, getExtrinsicCollection },
-  asset: { getAssetCol, getTransferCollection },
+  asset: { getAssetCol },
   account: { getAddressCollection },
   uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
 const { isAssetsChain, isUniquesChain } = require("../../env");
+const { getTransferColByChain } = require("../../common/transfer/col");
 
 const overview = {};
 
@@ -30,7 +31,7 @@ async function updateSignedExtrinsics() {
 }
 
 async function updateTransfers() {
-  const col = await getTransferCollection();
+  const col = await getTransferColByChain();
   overview.transfers = await col.estimatedDocumentCount();
 }
 
