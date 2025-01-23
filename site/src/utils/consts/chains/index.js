@@ -18,6 +18,7 @@ import bridgehubKusama from "./bridgehub-kusama";
 import nexus from "./nexus";
 import laos from "./laos";
 import paseo from "./paseo";
+import stagelight from "./stagelight";
 
 const chains = {
   polkadot,
@@ -42,6 +43,7 @@ const chains = {
   "bridgehub-kusama": bridgehubKusama,
   paseo,
   gargantua,
+  stagelight,
 };
 
 export default chains;

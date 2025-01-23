@@ -1,5 +1,22 @@
 import { getEnvChain } from "../env";
 import chains from "../consts/chains";
+import DefaultIcon from "../../components/icons/default";
+
+function addDefaultSettings(settingsObj = {}) {
+  const settings = settingsObj || {};
+  const { icon, color } = settings || {};
+  if (!icon) {
+    Object.assign(settings, { icon: <DefaultIcon /> });
+  }
+  if (!color) {
+    Object.assign(settings, {
+      color: "#E6007A",
+      colorSecondary: "rgba(230,0,122, 0.1)",
+    });
+  }
+
+  return settings;
+}
 
 export function getChainSettings() {
   const chain = getEnvChain();
@@ -8,7 +25,7 @@ export function getChainSettings() {
     throw new Error(`Can not find chain setting of ${chain}`);
   }
 
-  return setting;
+  return addDefaultSettings(setting);
 }
 
 export function getChainNodes() {
