@@ -89,6 +89,7 @@ const transferOnBlockChains = [
   // whose native token transfer records are in block-scan DB.
   chains.paseo,
   chains.stagelight,
+  chains.tangle,
 ];
 
 module.exports = {
