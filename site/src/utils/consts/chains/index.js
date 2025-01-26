@@ -19,6 +19,7 @@ import nexus from "./nexus";
 import laos from "./laos";
 import paseo from "./paseo";
 import stagelight from "./stagelight";
+import polimec from "./polimec";
 
 const chains = {
   polkadot,
@@ -34,7 +35,7 @@ const chains = {
   statemine,
   westmint,
   // "hydradx-testnet": hydradxTestnet,
-  // polimec,
+  polimec,
   shadow,
   tangle,
   // tinkernet,
