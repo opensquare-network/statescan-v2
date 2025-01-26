@@ -90,6 +90,7 @@ const transferOnBlockChains = [
   chains.paseo,
   chains.stagelight,
   chains.tangle,
+  chains.polimec,
 ];
 
 module.exports = {
