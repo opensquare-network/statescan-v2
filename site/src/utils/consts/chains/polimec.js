@@ -27,7 +27,7 @@ const nodes = [
 const polimec = {
   name: "Polimec",
   icon: <Polimec />,
-  identity: "polkadot",
+  identity: "polimec",
   chain: "polkadot",
   value: "polimec",
   symbol: "PLMC",
