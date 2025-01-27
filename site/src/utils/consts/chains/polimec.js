@@ -37,6 +37,10 @@ const polimec = {
   modules: collectivesModules,
   nodes,
   useOnChainBlockData: true,
+  para: {
+    relay: "Polkadot",
+    id: "3344",
+  },
 };
 
 export default polimec;
