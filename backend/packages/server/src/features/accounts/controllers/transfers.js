@@ -1,8 +1,6 @@
 const { normalizeTransfers } = require("../../../common/transfer");
 const { extractPage } = require("../../../utils");
-const {
-  asset: { getTransferCollection },
-} = require("@statescan/mongo");
+const { getTransferColByChain } = require("../../../common/transfer/col");
 
 async function getAccountTransfers(ctx) {
   const { address } = ctx.params;
@@ -18,7 +16,7 @@ async function getAccountTransfers(ctx) {
   if (ctx.query.from) {
     q["$and"] = [{ from: ctx.query.from }];
   }
-  const col = await getTransferCollection();
+  const col = await getTransferColByChain();
   const items = await col
     .find(q, { projection: { _id: 0 } })
     .sort({ "indexer.blockHeight": -1, "indexer.eventIndex": 1 })
