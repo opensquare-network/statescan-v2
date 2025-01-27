@@ -33,6 +33,7 @@ const {
 
 const chainSections = {
   statemint: "assets",
+  polimec: "foreignAssets",
 };
 
 function getSection() {
