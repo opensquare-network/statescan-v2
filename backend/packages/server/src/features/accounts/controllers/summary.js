@@ -1,9 +1,10 @@
 const { isUniquesChain, isAssetsChain } = require("../../../env");
 const {
-  asset: { getAssetHolderCol, getTransferCollection },
+  asset: { getAssetHolderCol },
   block: { getExtrinsicCollection },
   uniques: { getInstanceCol, getInstanceTransferCol },
 } = require("@statescan/mongo");
+const { getTransferColByChain } = require("../../../common/transfer/col");
 
 async function countAccountAssets(address) {
   const col = await getAssetHolderCol();
@@ -11,7 +12,7 @@ async function countAccountAssets(address) {
 }
 
 async function countAccountTransfers(address) {
-  const col = await getTransferCollection();
+  const col = await getTransferColByChain();
   return await col.countDocuments({
     $or: [{ from: address }, { to: address }],
   });
