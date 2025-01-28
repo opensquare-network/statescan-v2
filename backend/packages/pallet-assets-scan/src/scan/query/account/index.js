@@ -1,9 +1,14 @@
 const {
   chain: { findBlockApi },
 } = require("@osn/scan-common");
+const { getAssetsSection } = require("../../../consts/section");
 
 async function queryAssetAccount(blockApi, assetId, address) {
-  const rawAccountInfo = await blockApi.query.assets.account(assetId, address);
+  const section = getAssetsSection();
+  const rawAccountInfo = await blockApi.query[section].account(
+    assetId,
+    address,
+  );
   if (rawAccountInfo.isSome) {
     const unwrapped = rawAccountInfo.unwrap();
     const json = unwrapped.toJSON();

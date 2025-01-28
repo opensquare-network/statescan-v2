@@ -1,11 +1,13 @@
 const {
   chain: { findBlockApi },
 } = require("@osn/scan-common");
+const { getAssetsSection } = require("../../consts/section");
 
 async function queryApproval(blockHash, assetId, owner, delegate) {
   const blockApi = await findBlockApi(blockHash);
 
-  const raw = await blockApi.query.assets.approvals(assetId, owner, delegate);
+  const section = getAssetsSection();
+  const raw = await blockApi.query[section].approvals(assetId, owner, delegate);
   if (raw.isSome) {
     const unwrapped = raw.unwrap();
     const json = raw.toJSON();

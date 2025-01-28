@@ -34,7 +34,9 @@ const polimec = {
   decimals: 10,
   color: "#74A84D",
   colorSecondary: "rgba(116,168,77, 0.1)",
-  modules: collectivesModules,
+  modules: {
+    multisig: true,
+  },
   nodes,
   useOnChainBlockData: true,
   para: {

@@ -30,19 +30,11 @@ const {
 const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
-
-const chainSections = {
-  statemint: "assets",
-  polimec: "foreignAssets",
-};
-
-function getSection() {
-  return chainSections[currentChain()] || "assets";
-}
+const { getAssetsSection } = require("../../../consts/section");
 
 async function handleAssetsEvent(event, indexer, extrinsic) {
   const { section, method } = event;
-  if (section !== getSection()) {
+  if (section !== getAssetsSection()) {
     return;
   }
 
