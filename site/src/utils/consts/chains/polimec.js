@@ -1,5 +1,4 @@
 import { ReactComponent as Polimec } from "../../../components/icons/polimec.svg";
-import { collectivesModules } from "./collectives";
 
 const nodes = [
   {
