@@ -1,7 +1,4 @@
 const {
-  env: { currentChain },
-} = require("@osn/scan-common");
-const {
   handleCreated,
   handleForceCreated,
   handleMetadataSet,
