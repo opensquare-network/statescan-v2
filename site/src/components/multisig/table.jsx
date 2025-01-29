@@ -83,7 +83,7 @@ export default function MultisigTable({
         <CallCell call={multisig.call} />
         <Tooltip tip={multisig.callHash}>
           <ColoredMonoLink
-            to={`/multisigs/${multisig?.indexer?.blockHeight}-${multisig?.indexer?.extrinsicIndex}-${multisig?.address}`}
+            to={`/multisigs/${multisig?.indexer?.blockHeight}-${multisig?.indexer?.extrinsicIndex}-${multisig?.address}-${multisig?.callHash}`}
           >
             {hashEllipsis(multisig.callHash, 2, 4)}
           </ColoredMonoLink>
