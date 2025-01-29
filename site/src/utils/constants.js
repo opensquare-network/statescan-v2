@@ -51,6 +51,23 @@ export const menusBlockchain = [
   ...menusBlockchainSimpleMode,
 ];
 
+export const menuAssetsDestroyed = [
+  {
+    name: "Assets",
+    value: "destroyed/assets",
+  },
+];
+
+export const destroyedAssetsMenuItem = {
+  name: "Assets",
+  value: "destroyed/assets",
+};
+
+export const destroyedUniquesMenuItem = {
+  name: "NFT",
+  value: "destroyed/uniques",
+};
+
 export const menusAssetsDestroyed = [
   {
     name: "Assets",
@@ -62,7 +79,36 @@ export const menusAssetsDestroyed = [
   },
 ];
 
-export const menusAssets = [
+export const assetsMenuItem = {
+  name: "Assets",
+  value: "destroyed/assets",
+};
+
+export const dividerMenuItem = {
+  type: "divider",
+};
+
+export const uniquesMenuItem = {
+  name: "NFT",
+  value: "uniques",
+};
+
+export const menuAssets = [
+  {
+    name: "Assets",
+    value: "assets",
+  },
+  {
+    type: "divider",
+  },
+  {
+    type: "group",
+    title: "Destroyed",
+    menus: menuAssetsDestroyed,
+  },
+];
+
+export const menusAssetsAndUniques = [
   {
     name: "Assets",
     value: "assets",

@@ -16,7 +16,8 @@ import {
 import { mdcss, mobilecss } from "../../styles/responsive";
 import { useEffect } from "react";
 import {
-  menusAssets,
+  menuAssets,
+  menusAssetsAndUniques,
   menusBlockchain,
   menusBlockchainSimpleMode,
 } from "../../utils/constants";
@@ -109,7 +110,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const location = useLocation();
   const shouldShowPCExplore = location.pathname !== "/";
-  const { assets, identity, multisig, recovery, vestings, proxy } =
+  const { assets, uniques, identity, multisig, recovery, vestings, proxy } =
     getChainModules();
   const isSimpleMode = getIsSimpleMode();
 
@@ -148,7 +149,11 @@ export default function Header() {
                   isSimpleMode ? menusBlockchainSimpleMode : menusBlockchain
                 }
               />
-              {assets && <SubMenu category="Assets" menus={menusAssets} />}
+              {assets && uniques ? (
+                <SubMenu category="Assets" menus={menusAssetsAndUniques} />
+              ) : assets ? (
+                <SubMenu category="Assets" menus={menuAssets} />
+              ) : null}
               {(identity || multisig || recovery || vestings || proxy) && (
                 <SubMenu category="Business" menus={getBusinessMenus()} />
               )}

@@ -1,5 +1,5 @@
 import { ReactComponent as AssetHubWestend } from "../../../components/icons/assethub-westend.svg";
-import { assetChainModules } from "./assetChain";
+import { assethubChainModules } from "./assetChain";
 
 const westmint = {
   name: "AssetHub",
@@ -15,7 +15,7 @@ const westmint = {
   color: "#DA68A7",
   colorSecondary: "rgba(218, 104, 167, 0.1)",
   buttonColor: "#DA68A7",
-  modules: assetChainModules,
+  modules: assethubChainModules,
   para: {
     relay: "Westend",
     id: "1000",

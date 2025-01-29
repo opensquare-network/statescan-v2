@@ -1,13 +1,17 @@
 import { toggle } from "../../../store/reducers/mobileMenuSlice";
 import {
-  menusAssets,
-  menusAssetsDestroyed,
+  assetsMenuItem,
+  destroyedAssetsMenuItem,
+  destroyedUniquesMenuItem,
+  dividerMenuItem,
   menusBlockchain,
+  uniquesMenuItem,
 } from "../../../utils/constants";
 import { Inter_14_600 } from "../../../styles/text";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import Link from "../../styled/link";
+import { getChainModules } from "../../../utils/chain";
 
 const MenuWrapper = styled.div`
   min-width: 160px;
@@ -58,11 +62,39 @@ function MenuLinkItem({ item = {}, closeMobileMenu }) {
   );
 }
 
+function useAssetsRelatedMenu() {
+  const { assets, uniques } = getChainModules();
+  const menus = [];
+  if (assets) {
+    menus.push(assetsMenuItem);
+  }
+  if (uniques) {
+    menus.push(dividerMenuItem, uniquesMenuItem);
+  }
+  return menus;
+}
+
+function useAssetsDestroyedRelatedMenu() {
+  const { assets, uniques } = getChainModules();
+  const menus = [];
+  if (assets) {
+    menus.push(destroyedAssetsMenuItem);
+  }
+  if (uniques) {
+    menus.push(destroyedUniquesMenuItem);
+  }
+
+  return menus;
+}
+
 export default function Navi() {
   const dispatch = useDispatch();
   const closeMobileMenu = () => {
     dispatch(toggle());
   };
+
+  const assetsRelatedMenu = useAssetsRelatedMenu();
+  const destroyedAssetsRelatedMenu = useAssetsDestroyedRelatedMenu();
 
   return (
     <MenuWrapper>
@@ -76,12 +108,12 @@ export default function Navi() {
       ))}
 
       <MenuLabel>Assets</MenuLabel>
-      {menusAssets.map((item, idx) => (
+      {assetsRelatedMenu.map((item, idx) => (
         <MenuLinkItem key={idx} item={item} closeMobileMenu={closeMobileMenu} />
       ))}
 
       <MenuLabel>Destroyed</MenuLabel>
-      {menusAssetsDestroyed.map((item, idx) => (
+      {destroyedAssetsRelatedMenu.map((item, idx) => (
         <MenuLinkItem key={idx} item={item} closeMobileMenu={closeMobileMenu} />
       ))}
     </MenuWrapper>
