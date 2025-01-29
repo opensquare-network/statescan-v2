@@ -1,3 +1,5 @@
+import { isPolimec } from "./env";
+
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
 export const CACHE_KEY = {
@@ -98,15 +100,20 @@ export const menuAssets = [
     name: "Assets",
     value: "assets",
   },
-  {
-    type: "divider",
-  },
-  {
-    type: "group",
-    title: "Destroyed",
-    menus: menuAssetsDestroyed,
-  },
 ];
+
+if (!isPolimec()) {
+  menuAssets.push(
+    {
+      type: "divider",
+    },
+    {
+      type: "group",
+      title: "Destroyed",
+      menus: menuAssetsDestroyed,
+    },
+  );
+}
 
 export const menusAssetsAndUniques = [
   {
