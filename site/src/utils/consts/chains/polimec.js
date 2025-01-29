@@ -35,6 +35,7 @@ const polimec = {
   colorSecondary: "rgba(116,168,77, 0.1)",
   modules: {
     multisig: true,
+    assets: true,
   },
   nodes,
   useOnChainBlockData: true,
