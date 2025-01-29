@@ -25,7 +25,7 @@ import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
 import { MOBILE_SIZE } from "@osn/constants";
-import { getChainModules } from "../../utils/chain";
+import { getChainModules, hasBusiness } from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
 import NodeSwitch from "../nodeSwitch";
@@ -110,8 +110,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const location = useLocation();
   const shouldShowPCExplore = location.pathname !== "/";
-  const { assets, uniques, identity, multisig, recovery, vestings, proxy } =
-    getChainModules();
+  const { assets, uniques } = getChainModules();
   const isSimpleMode = getIsSimpleMode();
 
   const { width } = useWindowSize();
@@ -154,7 +153,7 @@ export default function Header() {
               ) : assets ? (
                 <SubMenu category="Assets" menus={menuAssets} />
               ) : null}
-              {(identity || multisig || recovery || vestings || proxy) && (
+              {hasBusiness() && (
                 <SubMenu category="Business" menus={getBusinessMenus()} />
               )}
             </MenuWrapper>
