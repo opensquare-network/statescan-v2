@@ -4,7 +4,7 @@ const {
   account: { getAddressCollection },
   uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
-const { isAssetsChain, isUniquesChain } = require("../../env");
+const { isAssetsChain, isUniquesChain, isPolimec } = require("../../env");
 const { getTransferColByChain } = require("../../common/transfer/col");
 
 const overview = {};
@@ -75,7 +75,7 @@ async function updateAll() {
   await updateTransfers();
   await updateAccounts();
 
-  if (isAssetsChain()) {
+  if (isAssetsChain() || isPolimec()) {
     await updateAssets();
   }
 

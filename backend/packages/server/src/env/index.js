@@ -28,12 +28,18 @@ function isAssetsChain() {
   return assetsModuleChains.includes(chain);
 }
 
+function isPolimec() {
+  const chain = currentChain();
+  return chain === chains.polimec;
+}
+
 function isUniquesChain() {
   const chain = currentChain();
   return uniquesModuleChains.includes(chain);
 }
 
 module.exports = {
+  isPolimec,
   currentChain,
   isAssetsChain,
   isUniquesChain,
