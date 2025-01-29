@@ -1,13 +1,20 @@
 import { toggle } from "../../../store/reducers/mobileMenuSlice";
 import {
-  menusAssets,
-  menusAssetsDestroyed,
+  assetsMenuItem,
+  destroyedAssetsMenuItem,
+  destroyedUniquesMenuItem,
+  dividerMenuItem,
   menusBlockchain,
+  uniquesMenuItem,
 } from "../../../utils/constants";
 import { Inter_14_600 } from "../../../styles/text";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import Link from "../../styled/link";
+import { getChainModules, hasBusiness } from "../../../utils/chain";
+import { MenuItem } from "./common";
+import Menus from "./menus";
+import BusinessNavi from "./business";
 
 const MenuWrapper = styled.div`
   min-width: 160px;
@@ -28,34 +35,29 @@ const MenuLabel = styled.div`
   text-align: center;
 `;
 
-const MenuItem = styled(MenuLabel)`
-  margin-top: 16px;
-  cursor: pointer;
-  color: ${(p) => p.theme.fontPrimary};
-  ${(p) =>
-    p.selected &&
-    css`
-      background: ${(p) => p.theme.fillPopupHover};
-    `}
-  ${(p) =>
-    p.disabled &&
-    css`
-      background: ${(p) => p.theme.fillPanel};
-      cursor: not-allowed;
-      pointer-events: none;
-    `}
-`;
+function useAssetsRelatedMenu() {
+  const { assets, uniques } = getChainModules();
+  const menus = [];
+  if (assets) {
+    menus.push(assetsMenuItem);
+  }
+  if (uniques) {
+    menus.push(dividerMenuItem, uniquesMenuItem);
+  }
+  return menus;
+}
 
-function MenuLinkItem({ item = {}, closeMobileMenu }) {
-  if (!item.name) {
-    return null;
+function useAssetsDestroyedRelatedMenu() {
+  const { assets, uniques } = getChainModules();
+  const menus = [];
+  if (assets) {
+    menus.push(destroyedAssetsMenuItem);
+  }
+  if (uniques) {
+    menus.push(destroyedUniquesMenuItem);
   }
 
-  return (
-    <Link to={`/${item.value}`} onClick={closeMobileMenu}>
-      <MenuItem disabled={!item.value}>{item.name}</MenuItem>
-    </Link>
-  );
+  return menus;
 }
 
 export default function Navi() {
@@ -64,6 +66,9 @@ export default function Navi() {
     dispatch(toggle());
   };
 
+  const assetsRelatedMenu = useAssetsRelatedMenu();
+  const destroyedAssetsRelatedMenu = useAssetsDestroyedRelatedMenu();
+
   return (
     <MenuWrapper>
       <Link to={"/"} onClick={closeMobileMenu}>
@@ -71,19 +76,15 @@ export default function Navi() {
       </Link>
 
       <MenuLabel>Blockchain</MenuLabel>
-      {menusBlockchain.map((item, idx) => (
-        <MenuLinkItem key={idx} item={item} closeMobileMenu={closeMobileMenu} />
-      ))}
+      <Menus menus={menusBlockchain} closeFunc={closeMobileMenu} />
 
       <MenuLabel>Assets</MenuLabel>
-      {menusAssets.map((item, idx) => (
-        <MenuLinkItem key={idx} item={item} closeMobileMenu={closeMobileMenu} />
-      ))}
+      <Menus menus={assetsRelatedMenu} closeFunc={closeMobileMenu} />
 
       <MenuLabel>Destroyed</MenuLabel>
-      {menusAssetsDestroyed.map((item, idx) => (
-        <MenuLinkItem key={idx} item={item} closeMobileMenu={closeMobileMenu} />
-      ))}
+      <Menus menus={destroyedAssetsRelatedMenu} closeFunc={closeMobileMenu} />
+
+      {hasBusiness() ? <BusinessNavi /> : null}
     </MenuWrapper>
   );
 }

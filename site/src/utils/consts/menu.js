@@ -1,22 +1,35 @@
 import { getChainModules } from "../chain";
 
+export const identitySubMenus = [
+  {
+    name: "Identities",
+    value: "identities",
+  },
+  {
+    name: "Judgements",
+    value: "identities/judgements",
+  },
+  {
+    name: "Registrars",
+    value: "identities/registrars",
+  },
+];
+
+export const multisigSubMenus = [
+  {
+    name: "Accounts",
+    value: "multisig/accounts",
+  },
+  {
+    name: "Multisigs",
+    value: "multisigs",
+  },
+];
+
 const identityMenus = {
   type: "group",
   title: "Identity",
-  menus: [
-    {
-      name: "Identities",
-      value: "identities",
-    },
-    {
-      name: "Judgements",
-      value: "identities/judgements",
-    },
-    {
-      name: "Registrars",
-      value: "identities/registrars",
-    },
-  ],
+  menus: identitySubMenus,
 };
 
 const divider = {
@@ -26,43 +39,36 @@ const divider = {
 const multisigMenus = {
   type: "group",
   title: "MultiSig",
-  menus: [
-    {
-      name: "Accounts",
-      value: "multisig/accounts",
-    },
-    {
-      name: "Multisigs",
-      value: "multisigs",
-    },
-  ],
+  menus: multisigSubMenus,
 };
 
-const vestingMenu = {
+export const vestingMenu = {
   name: "Vestings",
   value: "vestings",
 };
 
+export const recoverySubMenus = [
+  {
+    name: "Proxies",
+    value: "proxies",
+  },
+  {
+    name: "Recoverables",
+    value: "recoverables",
+  },
+  {
+    name: "Recoveries",
+    value: "recoveries",
+  },
+];
+
 const recoveryMenus = {
   type: "group",
   title: "Recovery",
-  menus: [
-    {
-      name: "Proxies",
-      value: "proxies",
-    },
-    {
-      name: "Recoverables",
-      value: "recoverables",
-    },
-    {
-      name: "Recoveries",
-      value: "recoveries",
-    },
-  ],
+  menus: recoverySubMenus,
 };
 
-const proxyMenu = {
+export const proxyMenu = {
   name: "Proxy",
   value: "proxy",
 };

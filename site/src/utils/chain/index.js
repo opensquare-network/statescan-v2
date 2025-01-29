@@ -41,6 +41,11 @@ export function getChainModules() {
   return settings.modules || {};
 }
 
+export function hasBusiness() {
+  const { identity, multisig, recovery, vestings, proxy } = getChainModules();
+  return identity || multisig || recovery || vestings || proxy;
+}
+
 export function getIsUseOnChainBlockData() {
   const settings = getChainSettings();
   return settings.useOnChainBlockData;

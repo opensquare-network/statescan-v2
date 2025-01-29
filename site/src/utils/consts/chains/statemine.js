@@ -1,5 +1,5 @@
 import { ReactComponent as AssetHubKusama } from "../../../components/icons/assethub-kusama.svg";
-import { assetChainModules } from "./assetChain";
+import { assethubChainModules } from "./assetChain";
 
 const statemine = {
   name: "AssetHub",
@@ -16,7 +16,7 @@ const statemine = {
   colorSecondary: "rgba(55, 101, 220, 0.1)",
   buttonColor: "#000000",
   logo: "logo-img-2",
-  modules: assetChainModules,
+  modules: assethubChainModules,
   para: {
     relay: "Kusama",
     id: "1000",

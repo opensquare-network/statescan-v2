@@ -1,5 +1,5 @@
 import { ReactComponent as AssetHubPolkadot } from "../../../components/icons/assethub-polkadot.svg";
-import { assetChainModules } from "./assetChain";
+import { assethubChainModules } from "./assetChain";
 import { polkadotColor } from "./common";
 
 const statemint = {
@@ -16,7 +16,7 @@ const statemint = {
   ...polkadotColor,
   buttonColor: "#E6007A",
   hidden: false,
-  modules: assetChainModules,
+  modules: assethubChainModules,
   para: {
     relay: "Polkadot",
     id: "1000",
