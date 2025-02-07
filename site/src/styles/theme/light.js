@@ -1,6 +1,7 @@
 import { getChainSettings } from "../../utils/chain";
 
 const chainSetting = getChainSettings();
+const customTheme = chainSetting?.customTheme?.light || {};
 
 const light = {
   fontPrimary: "#000000",
@@ -34,8 +35,10 @@ const light = {
   fillPositive: "#52CC8A",
   fillNegative: "#ee4444",
   fillPending: "#FFBB37",
-  theme500: chainSetting.color,
-  theme100: chainSetting.colorSecondary,
+  theme500: chainSetting?.color,
+  theme100: chainSetting?.colorSecondary,
+  fontButtonTag: "#fff",
+  ...customTheme,
 };
 
 export default light;

@@ -18,7 +18,7 @@ export const Button = styled.button`
   align-items: center;
   padding: 12px 16px;
   background: ${(p) => p.theme.fillButton};
-  color: ${(p) => p.theme.fontPrimaryInverse};
+  color: ${(p) => p.theme.fontButtonTag};
   border-radius: 8px;
   cursor: pointer;
   ${Inter_14_600};

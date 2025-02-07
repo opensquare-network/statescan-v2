@@ -1,5 +1,4 @@
 import { ReactComponent as Polimec } from "../../../components/icons/polimec.svg";
-import { polkadotColor } from "./common";
 
 const nodes = [
   {
@@ -32,7 +31,17 @@ const polimec = {
   value: "polimec",
   symbol: "PLMC",
   decimals: 10,
-  ...polkadotColor,
+  customTheme: {
+    light: {
+      theme500: "#1B202C",
+      theme100: "rgba(27, 32, 44, 0.1)",
+    },
+    dark: {
+      theme500: "#FFFFFF",
+      theme100: "rgba(255, 255, 255, 0.1)",
+      fontButtonTag: "#1B202C",
+    },
+  },
   modules: {
     multisig: true,
     assets: true,
