@@ -1,8 +1,8 @@
 import { getChainSettings } from "../../utils/chain";
 import light from "./light";
-import polimecDark from "./polimec/dark";
 
 const chainSetting = getChainSettings();
+const customTheme = chainSetting?.customTheme?.dark || {};
 
 const dark = {
   ...light,
@@ -23,7 +23,7 @@ const dark = {
   fillSub: "#2D323D",
   fillBase: "#1B202C",
   fillButton: "#1B202C",
-  fillTooltip: "rgba(0, 0, 0, 0.85);",
+  fillTooltip: "rgba(0, 0, 0, 0.85)",
   fillPanelBlanket: "rgba(34, 39, 50, 0.8)",
   fillAlpha: "rgba(255, 255, 255, 0.05)",
   fillBeta: "rgba(255, 255, 255, 0.02)",
@@ -32,9 +32,10 @@ const dark = {
   fillPositive: "#52CC8A",
   fillNegative: "#ee4444",
   fillPending: "#FFBB37",
-  theme500: chainSetting.color,
-  theme100: chainSetting.colorSecondary,
-  ...polimecDark,
+  theme500: chainSetting?.color,
+  theme100: chainSetting?.colorSecondary,
+  fontButtonTag: "#fff",
+  ...customTheme,
 };
 
 export default dark;
