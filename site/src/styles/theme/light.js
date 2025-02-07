@@ -1,4 +1,5 @@
 import { getChainSettings } from "../../utils/chain";
+import polimecLight from "./polimec/light";
 
 const chainSetting = getChainSettings();
 
@@ -36,6 +37,7 @@ const light = {
   fillPending: "#FFBB37",
   theme500: chainSetting.color,
   theme100: chainSetting.colorSecondary,
+  ...polimecLight,
 };
 
 export default light;

@@ -1,5 +1,6 @@
 import { getChainSettings } from "../../utils/chain";
 import light from "./light";
+import polimecDark from "./polimec/dark";
 
 const chainSetting = getChainSettings();
 
@@ -33,6 +34,7 @@ const dark = {
   fillPending: "#FFBB37",
   theme500: chainSetting.color,
   theme100: chainSetting.colorSecondary,
+  ...polimecDark,
 };
 
 export default dark;
