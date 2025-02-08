@@ -234,7 +234,7 @@ export const transfersHead = [
   { name: "Time", type: "time", width: 200 },
   { name: "From", width: 200 },
   { name: "To", width: 200 },
-  { name: "Value", width: 390, align: "right" },
+  { name: "Value", align: "right" },
 ];
 
 export const nftTransfersHead = [
