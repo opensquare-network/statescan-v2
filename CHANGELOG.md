@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.6.2
+
+date: 2025-02-10
+
+- Support paseo/polimec/stagelight.
+- Disable uniques(NFT) section for assethub.
+- Correct assethub chain name and domain.
+- Ignore only HeartbeatReceived event for imOnline.
+- Use block scan transfers data for tangle.
+- Support different highlight color for light/dark mode.
+- Fix: transfer table value column width.
+- Rebrand Litentry to Heima.
+- Style fixes and refactor.
+
 ### 1.6.1
 
 date: 2024-12-02
