@@ -6,6 +6,7 @@ const litentry = {
   name: "Heima",
   icon: <Heima />,
   identity: "polkadot",
+  domain: "heima",
   sub: "litentry",
   value: "litentry",
   chain: "polkadot",
