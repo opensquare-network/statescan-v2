@@ -13,6 +13,7 @@ import crust from "./crust";
 import invarch from "./invarch";
 // import hydradxTestnet from "./hydradxTestnet";
 import peopleKusama from "./people-kusama";
+import peoplePolkadot from "./people-polkadot";
 import bridgehubPolkadot from "./bridgehub-polkadot";
 import bridgehubKusama from "./bridgehub-kusama";
 import nexus from "./nexus";
@@ -26,6 +27,7 @@ const chains = {
   "bridgehub-polkadot": bridgehubPolkadot,
   collectives,
   statemint,
+  "people-polkadot": peoplePolkadot,
   "crust-parachain": polkadotCrustParachain,
   invarch,
   laos,

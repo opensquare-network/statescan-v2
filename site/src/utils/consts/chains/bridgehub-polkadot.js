@@ -40,7 +40,7 @@ const nodes = [
 ];
 
 const bridgehubPolkadot = {
-  name: "Bridgehub Polkadot",
+  name: "Bridgehub",
   icon: <BridgehubPolkadotIcon />,
   identity: "polkadot",
   value: "bridgehub-polkadot",

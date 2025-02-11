@@ -25,6 +25,7 @@ const chains = Object.freeze({
   invarch: "invarch",
   tinkernet: "tinkernet",
   "people-kusama": "people-kusama",
+  "people-polkadot": "people-polkadot",
   "bridgehub-polkadot": "bridgehub-polkadot",
   "bridgehub-kusama": "bridgehub-kusama",
   "bridgehub-westend": "bridgehub-westend",
@@ -58,6 +59,7 @@ const ss58Format = Object.freeze({
   [chains.tinkernet]: 117,
   [chains.laos]: 42,
   [chains["people-kusama"]]: 2,
+  [chains["people-polkadot"]]: 0,
   [chains["bridgehub-polkadot"]]: 0,
   [chains["bridgehub-kusama"]]: 2,
   [chains["bridgehub-westend"]]: 42,
@@ -91,6 +93,7 @@ const transferOnBlockChains = [
   chains.stagelight,
   chains.tangle,
   chains.polimec,
+  chains["people-polkadot"],
 ];
 
 module.exports = {
