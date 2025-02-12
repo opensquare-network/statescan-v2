@@ -21,12 +21,14 @@ import laos from "./laos";
 import paseo from "./paseo";
 import stagelight from "./stagelight";
 import polimec from "./polimec";
+import coretimePolkadot from "./coretime-polkadot";
 
 const chains = {
   polkadot,
   "bridgehub-polkadot": bridgehubPolkadot,
   collectives,
   statemint,
+  "coretime-polkadot": coretimePolkadot,
   "people-polkadot": peoplePolkadot,
   "crust-parachain": polkadotCrustParachain,
   invarch,
