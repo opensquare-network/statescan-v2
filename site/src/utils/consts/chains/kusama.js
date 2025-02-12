@@ -1,5 +1,6 @@
 import KusamaIcon from "../../../components/icons/kusamaIcon";
 import { governanceModules, treasuryModules } from "./modules";
+import { kusamaColor } from "./common";
 
 const kusama = {
   name: "Kusama",
@@ -10,9 +11,7 @@ const kusama = {
   chain: "kusama",
   symbol: "KSM",
   decimals: 12,
-  color: "#3765DC",
-  colorSecondary: "rgba(55, 101, 220, 0.1)",
-  buttonColor: "#000000",
+  ...kusamaColor,
   modules: {
     ...treasuryModules,
     ...governanceModules,

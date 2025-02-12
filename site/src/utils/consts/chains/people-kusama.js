@@ -1,4 +1,5 @@
 import { ReactComponent as PeopleKusama } from "../../../components/icons/people-kusama.svg";
+import { kusamaColor } from "./common";
 
 const nodes = [
   {
@@ -27,8 +28,7 @@ const peopleKusama = {
   chain: "kusama",
   symbol: "KSM",
   decimals: 12,
-  color: "#3765DC",
-  colorSecondary: "rgba(55, 101, 220, 0.1)",
+  ...kusamaColor,
   buttonColor: "#3765DC",
   nodes,
   useOnChainBlockData: true,
