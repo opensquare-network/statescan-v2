@@ -22,6 +22,7 @@ import paseo from "./paseo";
 import stagelight from "./stagelight";
 import polimec from "./polimec";
 import coretimePolkadot from "./coretime-polkadot";
+import coretimeKusama from "./coretime-kusama";
 
 const chains = {
   polkadot,
@@ -44,8 +45,9 @@ const chains = {
   tangle,
   // tinkernet,
   crust,
-  "people-kusama": peopleKusama,
   "bridgehub-kusama": bridgehubKusama,
+  "coretime-kusama": coretimeKusama,
+  "people-kusama": peopleKusama,
   paseo,
   gargantua,
   stagelight,
