@@ -260,11 +260,6 @@ export const toOnChainAccountDetailItem = (
     });
   }
 
-  data.push({
-    label: "Free",
-    value: <ValueDisplayWithTooltip value={account?.data?.free} />,
-  });
-
   if (!isNil(account?.data?.lockedBalance)) {
     data.push({
       label: "Locked",
