@@ -1,4 +1,5 @@
 import { ReactComponent as Paseo } from "../../../components/icons/paseo.svg";
+import { paseoColor } from "./common";
 
 const paseo = {
   name: "Paseo",
@@ -8,8 +9,7 @@ const paseo = {
   symbol: "PAS",
   decimals: 10,
   identity: "paseo",
-  color: "#1CC776",
-  colorSecondary: "rgba(28,199,118, 0.1)",
+  ...paseoColor,
   modules: {
     multisig: true,
     proxy: true,
@@ -20,7 +20,6 @@ const paseo = {
     { name: "StakeWorld", url: "wss://pas-rpc.stakeworld.io" },
     { name: "Dwellir", url: "wss://paseo-rpc.dwellir.com" },
     { name: "IBP2", url: "wss://paseo.dotters.network" },
-    { name: "Zondax", url: "wss://api2.zondax.ch/pas/node/rpc" },
   ],
 };
 
