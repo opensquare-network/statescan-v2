@@ -8,3 +8,8 @@ export const kusamaColor = {
   colorSecondary: "rgba(55, 101, 220, 0.1)",
   buttonColor: "#000000",
 };
+
+export const paseoColor = {
+  color: "#1CC776",
+  colorSecondary: "rgba(28,199,118, 0.1)",
+};
