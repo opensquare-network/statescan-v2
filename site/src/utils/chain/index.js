@@ -20,12 +20,15 @@ function addDefaultSettings(settingsObj = {}) {
 
 export function getChainSettings() {
   const chain = getEnvChain();
-  const setting = Object.values(chains).find((item) => item.value === chain);
+  const normalizedChainSettings = (Object.values(chains) || []).map(
+    addDefaultSettings,
+  );
+  const setting = normalizedChainSettings.find((item) => item.value === chain);
   if (!setting) {
     throw new Error(`Can not find chain setting of ${chain}`);
   }
 
-  return addDefaultSettings(setting);
+  return setting;
 }
 
 export function getChainNodes() {
