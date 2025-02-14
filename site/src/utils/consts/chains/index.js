@@ -24,6 +24,7 @@ import polimec from "./polimec";
 import coretimePolkadot from "./coretime-polkadot";
 import coretimeKusama from "./coretime-kusama";
 import coretimePaseo from "./coretime-paseo";
+import peoplePaseo from "./people-paseo";
 
 const chains = {
   polkadot,
@@ -51,6 +52,7 @@ const chains = {
   "people-kusama": peopleKusama,
   paseo,
   "coretime-paseo": coretimePaseo,
+  "people-paseo": peoplePaseo,
   gargantua,
   stagelight,
 };
