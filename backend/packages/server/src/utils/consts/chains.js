@@ -33,6 +33,7 @@ const chains = Object.freeze({
   "bridgehub-polkadot": "bridgehub-polkadot",
   "bridgehub-kusama": "bridgehub-kusama",
   "bridgehub-westend": "bridgehub-westend",
+  "bridgehub-paseo": "bridgehub-paseo",
   laos: "laos",
   stagelight: "stagelight",
 });
@@ -71,6 +72,7 @@ const ss58Format = Object.freeze({
   [chains["bridgehub-polkadot"]]: 0,
   [chains["bridgehub-kusama"]]: 2,
   [chains["bridgehub-westend"]]: 42,
+  [chains["bridgehub-paseo"]]: 0,
   [chains.stagelight]: 42,
 });
 
@@ -106,6 +108,7 @@ const transferOnBlockChains = [
   chains["coretime-kusama"],
   chains["coretime-paseo"],
   chains["people-paseo"],
+  chains["bridgehub-paseo"],
 ];
 
 module.exports = {
