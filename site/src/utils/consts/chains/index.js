@@ -25,6 +25,7 @@ import coretimePolkadot from "./coretime-polkadot";
 import coretimeKusama from "./coretime-kusama";
 import coretimePaseo from "./coretime-paseo";
 import peoplePaseo from "./people-paseo";
+import bridgehubPaseo from "./bridgehub-paseo";
 
 const chains = {
   polkadot,
@@ -51,6 +52,7 @@ const chains = {
   "coretime-kusama": coretimeKusama,
   "people-kusama": peopleKusama,
   paseo,
+  "bridgehub-paseo": bridgehubPaseo,
   "coretime-paseo": coretimePaseo,
   "people-paseo": peoplePaseo,
   gargantua,
