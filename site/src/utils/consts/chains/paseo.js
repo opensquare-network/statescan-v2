@@ -21,6 +21,7 @@ const paseo = {
     { name: "Dwellir", url: "wss://paseo-rpc.dwellir.com" },
     { name: "IBP2", url: "wss://paseo.dotters.network" },
   ],
+  useOnChainBlockData: true,
 };
 
 export default paseo;
