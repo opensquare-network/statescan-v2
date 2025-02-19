@@ -9,6 +9,7 @@ import {
   Events,
   Extrinsics,
   Logs,
+  extrinsicsHeadSimpleMode,
 } from "../utils/constants";
 import LogsTable from "../components/block/tabTables/logsTable";
 import { currencify } from "../utils";
@@ -23,6 +24,7 @@ import DetailTable from "../components/detail/table";
 import {
   toEventTabTableItem,
   toExtrinsicsTabTableItem,
+  toExtrinsicsTabTableItemSimpleMode,
 } from "../utils/viewFuncs/toTableItem";
 import {
   blockDetailSelector,
@@ -32,12 +34,14 @@ import {
 import { toBlockDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { clearDetailTables } from "../store/reducers/detailTablesSlice";
 import DetailTabs from "../components/detail/tabs";
+import { getIsSimpleMode } from "../utils/env";
 
 function Block() {
   const { id } = useParams();
   const block = useSelector(blockDetailSelector);
   const height = block?.height ?? (!isHash(id) ? parseInt(id) : 0);
   const dispatch = useDispatch();
+  const isSimpleMode = getIsSimpleMode();
 
   const listData = useMemo(
     () => (block ? toBlockDetailItem(block) : {}),
@@ -71,8 +75,12 @@ function Block() {
       children: (
         <DetailTable
           url={`/blocks/${block?.height}/${Extrinsics}`}
-          heads={extrinsicsHead}
-          transformData={toExtrinsicsTabTableItem}
+          heads={isSimpleMode ? extrinsicsHeadSimpleMode : extrinsicsHead}
+          transformData={
+            isSimpleMode
+              ? toExtrinsicsTabTableItemSimpleMode
+              : toExtrinsicsTabTableItem
+          }
         />
       ),
     },
