@@ -27,6 +27,7 @@ import coretimePaseo from "./coretime-paseo";
 import peoplePaseo from "./people-paseo";
 import bridgehubPaseo from "./bridgehub-paseo";
 import assethubPaseo from "./assethub-paseo";
+import westend from "./westend";
 
 const chains = {
   polkadot,
@@ -59,6 +60,7 @@ const chains = {
   "people-paseo": peoplePaseo,
   gargantua,
   stagelight,
+  westend,
 };
 
 export default chains;
