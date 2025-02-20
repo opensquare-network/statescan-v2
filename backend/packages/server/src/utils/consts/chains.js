@@ -37,6 +37,7 @@ const chains = Object.freeze({
   "bridgehub-paseo": "bridgehub-paseo",
   laos: "laos",
   stagelight: "stagelight",
+  westend: "westend",
 });
 
 const ss58Format = Object.freeze({
@@ -76,6 +77,7 @@ const ss58Format = Object.freeze({
   [chains["bridgehub-westend"]]: 42,
   [chains["bridgehub-paseo"]]: 0,
   [chains.stagelight]: 42,
+  [chains.westend]: 42,
 });
 
 function getSs58Format(chain) {
@@ -105,6 +107,7 @@ const transferOnBlockChains = [
   chains.stagelight,
   chains.tangle,
   chains.polimec,
+  chains.westend,
   chains["people-polkadot"],
   chains["coretime-polkadot"],
   chains["coretime-kusama"],
