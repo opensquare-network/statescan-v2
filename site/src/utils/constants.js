@@ -395,7 +395,7 @@ export const multisigsHead = [
   },
   {
     name: "Address",
-    minWidth: 190,
+    minWidth: 176,
   },
   {
     name: "Approving",
@@ -403,7 +403,7 @@ export const multisigsHead = [
   },
   {
     name: "Call",
-    width: 320,
+    minWidth: 320,
   },
   {
     name: "Start Time",
@@ -411,7 +411,7 @@ export const multisigsHead = [
   },
   {
     name: "Status",
-    width: 200,
+    minWidth: 160,
   },
   {
     name: "Data",
