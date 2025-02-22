@@ -14,6 +14,8 @@ const argon = {
   symbol: "ARGN",
   decimals: 6,
   nodes,
+  color: "#AF00C1",
+  colorSecondary: "rgba(175, 0, 193, 0.1)",
   useOnChainBlockData: true,
 };
 
