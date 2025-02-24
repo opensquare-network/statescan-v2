@@ -4,5 +4,4 @@ export const assetChainModules = {
 
 export const assethubChainModules = {
   assets: true,
-  uniques: true,
 };
