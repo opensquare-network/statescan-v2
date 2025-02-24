@@ -61,6 +61,7 @@ export default function MultisigTable({
           key={multisig.address}
           noLink={addressNoLink}
           address={multisig.address}
+          maxWidth={176}
         />
       </Flex>,
       <ApprovingCell>
