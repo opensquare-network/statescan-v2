@@ -13,3 +13,9 @@ export const paseoColor = {
   color: "#1CC776",
   colorSecondary: "rgba(28,199,118, 0.1)",
 };
+
+export const westendColor = {
+  color: "#E6777A",
+  colorSecondary: "rgba(230, 119, 122, 0.1)",
+  buttonColor: "#E6777A",
+};
