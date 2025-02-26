@@ -57,8 +57,7 @@ const GET_EXTRINSIC_INFO = gql`
       version
       error {
         type
-        code
-        message
+        detail
       }
     }
   }

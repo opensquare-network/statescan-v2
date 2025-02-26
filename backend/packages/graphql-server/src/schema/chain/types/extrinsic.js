@@ -54,8 +54,7 @@ const extrinsic = /* GraphQL */ `
 
   type DispatchError {
     type: String
-    code: String
-    message: String
+    detail: JSONObject
   }
 `;
 

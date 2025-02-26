@@ -20,9 +20,12 @@ function getDispatchError(dispatchError) {
       const error = dispatchError.registry.findMetaError(mod);
 
       return {
-        type: error.section,
-        code: error.method,
-        message: error.docs?.join(" "),
+        type: dispatchError.type,
+        detail: {
+          section: error.section,
+          method: error.method,
+          docs: error.docs,
+        },
       };
     } catch (error) {
       // swallow
@@ -30,15 +33,28 @@ function getDispatchError(dispatchError) {
   } else if (dispatchError.isToken) {
     return {
       type: dispatchError.type,
-      code: dispatchError.asToken.type,
-      message: "",
+      detail: {
+        type: dispatchError.asToken.type,
+      },
+    };
+  } else if (dispatchError.isTransactional) {
+    return {
+      type: dispatchError.type,
+      detail: {
+        type: dispatchError.asTransactional.type,
+      },
+    };
+  } else if (dispatchError.isArithmetic) {
+    return {
+      type: dispatchError.type,
+      detail: {
+        type: dispatchError.asArithmetic.type,
+      },
     };
   }
 
   return {
     type: dispatchError.type,
-    code: "",
-    message: "",
   };
 }
 
