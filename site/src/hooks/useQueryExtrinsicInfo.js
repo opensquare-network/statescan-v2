@@ -55,6 +55,11 @@ const GET_EXTRINSIC_INFO = gql`
       signer
       tip
       version
+      error {
+        type
+        code
+        message
+      }
     }
   }
 `;

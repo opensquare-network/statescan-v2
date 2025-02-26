@@ -39,6 +39,7 @@ import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import dark from "../../styles/theme/dark";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
+import QuestionIcon from "../../components/icons/question";
 
 export const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -473,6 +474,26 @@ export const toEventDetailItem = (event) => {
   };
 };
 
+function ExtrinsicErrorResult({ extrinsic }) {
+  return (
+    <Flex gap={8}>
+      <CrossIcon />
+      {extrinsic?.error && (
+        <FlexCenter gap={4}>
+          <TextSecondary>Failed ({extrinsic?.error?.code})</TextSecondary>
+          {extrinsic?.error?.message && (
+            <Tooltip tip={extrinsic?.error?.message}>
+              <FlexCenter>
+                <QuestionIcon />
+              </FlexCenter>
+            </Tooltip>
+          )}
+        </FlexCenter>
+      )}
+    </Flex>
+  );
+}
+
 /**
  * @param {object} opts
  * @param {object} opts.modules chain settings modules
@@ -549,7 +570,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
         extrinsic?.isSuccess ? (
           <CheckIcon />
         ) : (
-          <CrossIcon />
+          <ExtrinsicErrorResult extrinsic={extrinsic} />
         )
       ) : (
         <TimerIcon />
