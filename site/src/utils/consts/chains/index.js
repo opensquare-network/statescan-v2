@@ -45,7 +45,6 @@ const chains = {
   nexus,
   kusama,
   statemine,
-  westmint,
   // "hydradx-testnet": hydradxTestnet,
   polimec,
   shadow,
@@ -63,6 +62,7 @@ const chains = {
   gargantua,
   stagelight,
   westend,
+  westmint,
   "coretime-westend": coretimeWestend,
   "people-westend": peopleWestend,
 };
