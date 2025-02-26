@@ -36,7 +36,7 @@ const nodes = [
 ];
 
 const bridgehubKusama = {
-  name: "Bridgehub Kusama",
+  name: "Bridgehub",
   icon: <BridgehubKusamaIcon />,
   identity: "kusama",
   value: "bridgehub-kusama",
