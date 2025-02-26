@@ -15,6 +15,7 @@ const extrinsic = /* GraphQL */ `
     signer: String
     tip: String
     version: Int
+    error: DispatchError
   }
 
   type Event {
@@ -49,6 +50,11 @@ const extrinsic = /* GraphQL */ `
     blockTime: Float!
     extrinsicIndex: Int
     callIndex: Int
+  }
+
+  type DispatchError {
+    type: String
+    detail: JSONObject
   }
 `;
 

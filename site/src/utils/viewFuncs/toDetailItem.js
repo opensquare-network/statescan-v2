@@ -39,6 +39,7 @@ import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import dark from "../../styles/theme/dark";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
+import QuestionIcon from "../../components/icons/question";
 
 export const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -456,6 +457,39 @@ export const toEventDetailItem = (event) => {
   };
 };
 
+function ExtrinsicErrorResult({ extrinsic }) {
+  let errorType = extrinsic?.error?.type;
+  let message = "";
+
+  const detail = extrinsic?.error?.detail;
+  if (detail) {
+    if (errorType === "Module") {
+      errorType = detail?.method;
+      message = (detail?.docs || []).join(" ");
+    } else {
+      errorType = detail?.type;
+    }
+  }
+
+  return (
+    <Flex gap={8}>
+      <CrossIcon />
+      {errorType && (
+        <FlexCenter gap={4}>
+          <TextSecondary>Failed ({errorType})</TextSecondary>
+          {message && (
+            <Tooltip tip={message}>
+              <FlexCenter>
+                <QuestionIcon />
+              </FlexCenter>
+            </Tooltip>
+          )}
+        </FlexCenter>
+      )}
+    </Flex>
+  );
+}
+
 /**
  * @param {object} opts
  * @param {object} opts.modules chain settings modules
@@ -538,7 +572,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
         extrinsic?.isSuccess ? (
           <CheckIcon />
         ) : (
-          <CrossIcon />
+          <ExtrinsicErrorResult extrinsic={extrinsic} />
         )
       ) : (
         <TimerIcon />

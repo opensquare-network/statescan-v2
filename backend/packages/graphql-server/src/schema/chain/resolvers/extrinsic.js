@@ -10,7 +10,7 @@ async function extrinsic(_, _args) {
       blockHeight,
       extrinsicIndex,
     );
-    return extractExtrinsicInfo(api, extrinsicData);
+    return await extractExtrinsicInfo(api, extrinsicData);
   });
 }
 
