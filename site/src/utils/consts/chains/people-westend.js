@@ -1,5 +1,5 @@
 import { ReactComponent as PeopleWestend } from "../../../components/icons/people-westend.svg";
-import { polkadotColor, westendColor } from "./common";
+import { westendColor } from "./common";
 
 const nodes = [
   {
