@@ -480,7 +480,9 @@ function ExtrinsicErrorResult({ extrinsic }) {
       <CrossIcon />
       {extrinsic?.error && (
         <FlexCenter gap={4}>
-          <TextSecondary>Failed ({extrinsic?.error?.code})</TextSecondary>
+          <TextSecondary>
+            Failed ({extrinsic?.error?.code || extrinsic?.error?.type})
+          </TextSecondary>
           {extrinsic?.error?.message && (
             <Tooltip tip={extrinsic?.error?.message}>
               <FlexCenter>

@@ -35,7 +35,11 @@ function getDispatchError(dispatchError) {
     };
   }
 
-  return null;
+  return {
+    type: dispatchError.type,
+    code: "",
+    message: "",
+  };
 }
 
 function extractExtrinsicError(events) {
