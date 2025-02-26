@@ -475,25 +475,25 @@ export const toEventDetailItem = (event) => {
 };
 
 function ExtrinsicErrorResult({ extrinsic }) {
-  let errCode = extrinsic?.error?.type;
+  let errorType = extrinsic?.error?.type;
   let message = "";
 
   const detail = extrinsic?.error?.detail;
   if (detail) {
-    if (errCode === "Module") {
-      errCode = detail?.method;
+    if (errorType === "Module") {
+      errorType = detail?.method;
       message = (detail?.docs || []).join(" ");
     } else {
-      errCode = detail?.type;
+      errorType = detail?.type;
     }
   }
 
   return (
     <Flex gap={8}>
       <CrossIcon />
-      {errCode && (
+      {errorType && (
         <FlexCenter gap={4}>
-          <TextSecondary>Failed ({errCode})</TextSecondary>
+          <TextSecondary>Failed ({errorType})</TextSecondary>
           {message && (
             <Tooltip tip={message}>
               <FlexCenter>
