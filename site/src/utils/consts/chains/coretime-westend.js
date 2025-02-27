@@ -1,5 +1,5 @@
 import { ReactComponent as CoretimeWestend } from "../../../components/icons/coretime-westend.svg";
-import { westendColor, westendCommon } from "./common";
+import { westendCommon } from "./common";
 
 const nodes = [
   {
