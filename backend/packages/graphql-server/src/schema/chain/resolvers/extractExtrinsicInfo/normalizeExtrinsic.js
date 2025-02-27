@@ -13,6 +13,73 @@ function getLifetime(extrinsic, indexer) {
   return [mortal.birth(indexer.blockHeight), mortal.death(indexer.blockHeight)];
 }
 
+function getDispatchError(dispatchError) {
+  if (dispatchError.isModule) {
+    try {
+      const mod = dispatchError.asModule;
+      const error = dispatchError.registry.findMetaError(mod);
+
+      return {
+        type: dispatchError.type,
+        detail: {
+          section: error.section,
+          method: error.method,
+          docs: error.docs,
+        },
+      };
+    } catch (error) {
+      // swallow
+    }
+  } else if (dispatchError.isToken) {
+    return {
+      type: dispatchError.type,
+      detail: {
+        type: dispatchError.asToken.type,
+      },
+    };
+  } else if (dispatchError.isTransactional) {
+    return {
+      type: dispatchError.type,
+      detail: {
+        type: dispatchError.asTransactional.type,
+      },
+    };
+  } else if (dispatchError.isArithmetic) {
+    return {
+      type: dispatchError.type,
+      detail: {
+        type: dispatchError.asArithmetic.type,
+      },
+    };
+  }
+
+  return {
+    type: dispatchError.type,
+  };
+}
+
+function extractExtrinsicError(events) {
+  const failedEvent = events.find(
+    (e) => e.event.section === "system" && e.event.method === "ExtrinsicFailed",
+  );
+  if (failedEvent) {
+    const [dispatchError] = failedEvent.event.data;
+    return getDispatchError(dispatchError);
+  }
+
+  const proxyExecutedEvent = events.find(
+    (e) => e.event.section === "proxy" && e.event.method === "ProxyExecuted",
+  );
+  if (proxyExecutedEvent) {
+    const [result] = proxyExecutedEvent.event.data;
+    if (result.isErr) {
+      return getDispatchError(result.asErr);
+    }
+  }
+
+  return null;
+}
+
 function normalizeExtrinsic(extrinsic, events, indexer) {
   let hash = extrinsic.hash.toHex();
   if (["gargantua", "nexus"].includes(process.env.CHAIN)) {
@@ -20,6 +87,10 @@ function normalizeExtrinsic(extrinsic, events, indexer) {
   }
   const version = extrinsic.version;
   const isSuccess = isExtrinsicSuccess(events);
+  let error = null;
+  if (!isSuccess) {
+    error = extractExtrinsicError(events);
+  }
   const call = normalizeCall(extrinsic.method);
 
   const isSigned = extrinsic.isSigned;
@@ -30,6 +101,7 @@ function normalizeExtrinsic(extrinsic, events, indexer) {
     isSuccess,
     call,
     isSigned,
+    error,
   };
 
   if (isSigned) {

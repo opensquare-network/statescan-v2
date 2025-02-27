@@ -21,7 +21,7 @@ const nodes = [
 ];
 
 const peopleKusama = {
-  name: "People Kusama",
+  name: "People",
   icon: <PeopleKusama />,
   identity: "kusama",
   value: "people-kusama",

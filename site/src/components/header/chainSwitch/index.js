@@ -27,7 +27,7 @@ const Options = styled.div`
   border: 1px solid ${({ theme }) => theme.strokeBase};
   box-shadow: ${({ theme }) => theme.shadowPanel};
   border-radius: 8px;
-  width: 384px;
+  width: 480px;
   padding: 24px;
   z-index: 999;
 
@@ -54,39 +54,48 @@ const ChainGroupTitle = styled.h5`
   ${Inter_12_500};
 `;
 
-const ChainGroupItems = styled(Flex)`
-  flex-wrap: wrap;
-  gap: 0 16px;
+const ChainGroupItems = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  ${mobilecss(css`
+    display: flex;
+    flex-wrap: wrap;
+  `)}
 `;
 
 const ChainGroupItemName = styled.span`
   display: inline-flex;
-  justify-content: space-between;
+  gap: 0.25rem;
   align-items: center;
   flex: 1;
   color: ${(p) => p.theme.fontPrimary};
   margin-left: 8px;
   ${Inter_14_600};
 `;
+
 const ChainGroupItemCaretWrapper = styled.span`
   display: inline-flex;
   opacity: 0;
 `;
+
 const ChainGroupItem = styled.a`
   display: inline-flex;
   padding: 8px 0;
-  width: calc(50% - 8px);
+  text-decoration: none;
   ${mobilecss(css`
     width: 100%;
   `)}
-  text-decoration: none;
-
   &:hover {
     ${ChainGroupItemName} {
       color: ${(p) => p.theme.theme500};
     }
     ${ChainGroupItemCaretWrapper} {
       opacity: 100;
+      & ${CaretRightIcon} {
+        path {
+          stroke: ${(p) => p.theme.theme500};
+        }
+      }
     }
   }
 `;

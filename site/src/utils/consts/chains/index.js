@@ -31,6 +31,7 @@ import westend from "./westend";
 import peopleWestend from "./people-westend";
 import coretimeWestend from "./coretime-westend";
 import bridgehubWestend from "./bridgehub-westend";
+import argon from "./argon";
 
 const chains = {
   polkadot,
@@ -67,6 +68,7 @@ const chains = {
   "bridgehub-westend": bridgehubWestend,
   "coretime-westend": coretimeWestend,
   "people-westend": peopleWestend,
+  argon,
 };
 
 export default chains;
