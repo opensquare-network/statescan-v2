@@ -19,3 +19,8 @@ export const westendColor = {
   colorSecondary: "rgba(230, 119, 122, 0.1)",
   buttonColor: "#E6777A",
 };
+
+export const westendCommon = {
+  ...westendColor,
+  decimals: 12,
+};

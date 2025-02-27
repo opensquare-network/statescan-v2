@@ -1,5 +1,5 @@
 import { ReactComponent as PeopleWestend } from "../../../components/icons/people-westend.svg";
-import { westendColor } from "./common";
+import { westendCommon } from "./common";
 
 const nodes = [
   {
@@ -27,10 +27,13 @@ const peopleWestend = {
   value: "people-westend",
   chain: "westend",
   symbol: "WND",
-  decimals: 10,
-  ...westendColor,
+  ...westendCommon,
   nodes,
   useOnChainBlockData: true,
+  para: {
+    relay: "Westend",
+    id: "1004",
+  },
 };
 
 export default peopleWestend;

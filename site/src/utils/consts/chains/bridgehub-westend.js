@@ -1,5 +1,5 @@
 import { ReactComponent as BridgehubWestend } from "../../../components/icons/bridegehub-westend.svg";
-import { westendColor } from "./common";
+import { westendColor, westendCommon } from "./common";
 
 const nodes = [
   {
@@ -31,8 +31,7 @@ const bridgehubWestend = {
   value: "bridgehub-westend",
   chain: "westend",
   symbol: "WND",
-  decimals: 10,
-  ...westendColor,
+  ...westendCommon,
   nodes,
   useOnChainBlockData: true,
 };

@@ -1,4 +1,5 @@
 import { ReactComponent as Westend } from "../../../components/icons/westend.svg";
+import { westendCommon } from "./common";
 
 const nodes = [
   {
@@ -38,7 +39,7 @@ const westend = {
   chain: "westend",
   value: "westend",
   symbol: "WND",
-  decimals: 12,
+  ...westendCommon,
   nodes,
   useOnChainBlockData: true,
 };

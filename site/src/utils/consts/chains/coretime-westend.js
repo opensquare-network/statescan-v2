@@ -1,5 +1,5 @@
 import { ReactComponent as CoretimeWestend } from "../../../components/icons/coretime-westend.svg";
-import { westendColor } from "./common";
+import { westendColor, westendCommon } from "./common";
 
 const nodes = [
   {
@@ -27,10 +27,13 @@ const coretimeWestend = {
   value: "coretime-westend",
   chain: "westend",
   symbol: "WND",
-  decimals: 10,
-  ...westendColor,
+  ...westendCommon,
   nodes,
   useOnChainBlockData: true,
+  para: {
+    relay: "Westend",
+    id: "1005",
+  },
 };
 
 export default coretimeWestend;
