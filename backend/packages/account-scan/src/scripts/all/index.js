@@ -28,9 +28,9 @@ async function main() {
   while (entries.length > 0) {
     const normalizedAccounts = entries.map((entry) => normalizeEntry(entry));
     await bulkUpdateAccounts(normalizedAccounts);
-    console.log(`${entries.length} accounts saved!`);
 
     total += normalizedAccounts.length;
+    console.log(`total ${total} accounts saved!`);
 
     startKey = u8aToHex(entries[entries.length - 1][0]);
     entries = await queryEntries(startKey, queryCount);
