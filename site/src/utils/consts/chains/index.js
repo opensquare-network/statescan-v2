@@ -30,6 +30,7 @@ import assethubPaseo from "./assethub-paseo";
 import westend from "./westend";
 import peopleWestend from "./people-westend";
 import coretimeWestend from "./coretime-westend";
+import bridgehubWestend from "./bridgehub-westend";
 
 const chains = {
   polkadot,
@@ -63,6 +64,7 @@ const chains = {
   stagelight,
   westend,
   westmint,
+  "bridgehub-westend": bridgehubWestend,
   "coretime-westend": coretimeWestend,
   "people-westend": peopleWestend,
 };
