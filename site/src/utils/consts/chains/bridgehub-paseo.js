@@ -13,7 +13,7 @@ const nodes = [
 ];
 
 const bridgehubPaseo = {
-  name: "Coretime",
+  name: "Bridgehub",
   icon: <BridgehubPaseo />,
   identity: "paseo",
   value: "bridgehub-paseo",

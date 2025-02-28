@@ -28,7 +28,11 @@ import peoplePaseo from "./people-paseo";
 import bridgehubPaseo from "./bridgehub-paseo";
 import assethubPaseo from "./assethub-paseo";
 import westend from "./westend";
+import peopleWestend from "./people-westend";
+import coretimeWestend from "./coretime-westend";
+import bridgehubWestend from "./bridgehub-westend";
 import argon from "./argon";
+import collectivesWestend from "./collectives-westend";
 
 const chains = {
   polkadot,
@@ -44,7 +48,6 @@ const chains = {
   nexus,
   kusama,
   statemine,
-  westmint,
   // "hydradx-testnet": hydradxTestnet,
   polimec,
   shadow,
@@ -62,6 +65,11 @@ const chains = {
   gargantua,
   stagelight,
   westend,
+  westmint,
+  "bridgehub-westend": bridgehubWestend,
+  "collectives-westend": collectivesWestend,
+  "coretime-westend": coretimeWestend,
+  "people-westend": peopleWestend,
   argon,
 };
 

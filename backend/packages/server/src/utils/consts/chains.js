@@ -24,12 +24,16 @@ const chains = Object.freeze({
   crust: "crust",
   invarch: "invarch",
   tinkernet: "tinkernet",
+  "assethub-westend": "assethub-westend",
+  "collectives-westend": "collectives-westend",
   "people-kusama": "people-kusama",
   "coretime-kusama": "coretime-kusama",
   "people-polkadot": "people-polkadot",
   "people-paseo": "people-paseo",
+  "people-westend": "people-westend",
   "coretime-polkadot": "coretime-polkadot",
   "coretime-paseo": "coretime-paseo",
+  "coretime-westend": "coretime-westend",
   "assethub-paseo": "assethub-paseo",
   "bridgehub-polkadot": "bridgehub-polkadot",
   "bridgehub-kusama": "bridgehub-kusama",
@@ -79,6 +83,10 @@ const ss58Format = Object.freeze({
   [chains["bridgehub-paseo"]]: 0,
   [chains.stagelight]: 42,
   [chains.westend]: 42,
+  [chains["collectives-westend"]]: 42,
+  [chains["coretime-westend"]]: 42,
+  [chains["people-westend"]]: 42,
+  [chains["assethub-westend"]]: 42,
   [chains.argon]: 42,
 });
 
@@ -118,6 +126,10 @@ const transferOnBlockChains = [
   chains["coretime-paseo"],
   chains["people-paseo"],
   chains["bridgehub-paseo"],
+  chains["coretime-westend"],
+  chains["bridgehub-westend"],
+  chains["collectives-westend"],
+  chains["people-westend"],
 ];
 
 module.exports = {
