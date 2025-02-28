@@ -28,7 +28,7 @@ const collectivesWestend = {
   name: "Collectives",
   icon: <WestendCollectivesIcon />,
   identity: "westend",
-  value: "westend-collectives",
+  value: "collectives-westend",
   chain: "westend",
   symbol: "WND",
   ...westendCommon,
