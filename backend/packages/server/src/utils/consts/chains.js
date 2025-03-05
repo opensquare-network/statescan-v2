@@ -39,6 +39,7 @@ const chains = Object.freeze({
   "bridgehub-kusama": "bridgehub-kusama",
   "bridgehub-westend": "bridgehub-westend",
   "bridgehub-paseo": "bridgehub-paseo",
+  "cere-testnet": "cere-testnet",
   laos: "laos",
   stagelight: "stagelight",
   westend: "westend",
@@ -87,6 +88,7 @@ const ss58Format = Object.freeze({
   [chains["coretime-westend"]]: 42,
   [chains["people-westend"]]: 42,
   [chains["assethub-westend"]]: 42,
+  [chains["cere-testnet"]]: 54,
   [chains.argon]: 42,
 });
 
@@ -130,6 +132,7 @@ const transferOnBlockChains = [
   chains["bridgehub-westend"],
   chains["collectives-westend"],
   chains["people-westend"],
+  chains["cere-testnet"],
 ];
 
 module.exports = {

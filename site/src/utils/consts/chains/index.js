@@ -32,6 +32,7 @@ import peopleWestend from "./people-westend";
 import coretimeWestend from "./coretime-westend";
 import argon from "./argon";
 import collectivesWestend from "./collectives-westend";
+import cereTestnet from "./cere-testnet";
 
 const chains = {
   polkadot,
@@ -70,6 +71,7 @@ const chains = {
   "coretime-westend": coretimeWestend,
   "people-westend": peopleWestend,
   argon,
+  "cere-testnet": cereTestnet,
 };
 
 export default chains;
