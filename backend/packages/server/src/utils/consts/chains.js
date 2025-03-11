@@ -39,11 +39,12 @@ const chains = Object.freeze({
   "bridgehub-kusama": "bridgehub-kusama",
   "bridgehub-westend": "bridgehub-westend",
   "bridgehub-paseo": "bridgehub-paseo",
-  "cere-testnet": "cere-testnet",
   laos: "laos",
   stagelight: "stagelight",
   westend: "westend",
   argon: "argon",
+  cere: "cere",
+  "cere-testnet": "cere-testnet",
 });
 
 const ss58Format = Object.freeze({
@@ -90,6 +91,7 @@ const ss58Format = Object.freeze({
   [chains["assethub-westend"]]: 42,
   [chains["cere-testnet"]]: 54,
   [chains.argon]: 42,
+  [chains.cere]: 54,
 });
 
 function getSs58Format(chain) {
@@ -133,6 +135,7 @@ const transferOnBlockChains = [
   chains["collectives-westend"],
   chains["people-westend"],
   chains["cere-testnet"],
+  chains.cere,
 ];
 
 module.exports = {
