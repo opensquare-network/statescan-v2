@@ -68,7 +68,7 @@ const chains = {
   stagelight,
   westend,
   westmint,
-  assethubNextWestend,
+  "assethub-next-westend": assethubNextWestend,
   // "bridgehub-westend": bridgehubWestend,
   "collectives-westend": collectivesWestend,
   "coretime-westend": coretimeWestend,
