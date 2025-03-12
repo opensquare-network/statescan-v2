@@ -34,6 +34,7 @@ import argon from "./argon";
 import collectivesWestend from "./collectives-westend";
 import cereTestnet from "./cere-testnet";
 import cere from "./cere";
+import assethubNextWestend from "./assethub-next-westend";
 
 const chains = {
   polkadot,
@@ -67,6 +68,7 @@ const chains = {
   stagelight,
   westend,
   westmint,
+  assethubNextWestend,
   // "bridgehub-westend": bridgehubWestend,
   "collectives-westend": collectivesWestend,
   "coretime-westend": coretimeWestend,
