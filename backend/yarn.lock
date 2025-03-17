@@ -1534,9 +1534,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@osn/scan-common@npm:0.6.23":
-  version: 0.6.23
-  resolution: "@osn/scan-common@npm:0.6.23"
+"@osn/scan-common@npm:0.6.24":
+  version: 0.6.24
+  resolution: "@osn/scan-common@npm:0.6.24"
   dependencies:
     "@osn/provider-options": 1.1.12
     "@polkadot/api": 15.8.1
@@ -1556,7 +1556,7 @@ __metadata:
     "@polkadot/util": ^9.0.0
     "@polkadot/util-crypto": ^9.0.0
     mongodb: ^4.0.0
-  checksum: 1cd92eab3e72a0b1153e3c2379215dd3b6fc0595816a66cad26d7ad9dd98ff89651ab0b5c29d03c79a753958a40f195f1faa66e67283c221f9a9431befe49936
+  checksum: 20b1bcb7a84a6ff3060c35c6cddc49cf864e6c42eb1af3c3e6bb820ccc091be01e7663f0cb0023ad5dd0330b1bf0f536d4dee2523032be04f591d8f84f087028
   languageName: node
   linkType: hard
 
@@ -2147,7 +2147,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/account-scan@workspace:packages/account-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@polkadot/keyring": 13.4.3
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
@@ -2161,7 +2161,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/asset-scan@workspace:packages/asset-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
     eslint-plugin-jest: ^27.2.1
@@ -2178,7 +2178,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/block-scan@workspace:packages/block-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/mongo": 1.0.0
     cron: ^3.1.7
     dotenv: ^16.0.1
@@ -2195,7 +2195,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/common@workspace:packages/common"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     bignumber.js: ^9.1.0
     eslint-plugin-jest: ^27.2.1
     jest: ^29.3.1
@@ -2208,7 +2208,7 @@ __metadata:
   resolution: "@statescan/graphql-server@workspace:packages/graphql-server"
   dependencies:
     "@graphql-tools/schema": ^10.0.0
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/common": 1.0.0
     "@statescan/identity-server": 1.0.0
     "@statescan/mongo": 1.0.0
@@ -2230,7 +2230,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/identity-scan@workspace:packages/identity-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
@@ -2247,7 +2247,7 @@ __metadata:
   resolution: "@statescan/identity-server@workspace:packages/identity-server"
   dependencies:
     "@graphql-tools/schema": ^10.0.0
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
@@ -2265,7 +2265,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/mongo@workspace:packages/mongo"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     mongodb: 6.1.0
   languageName: unknown
   linkType: soft
@@ -2274,7 +2274,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/multisig-scan@workspace:packages/multisig-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
@@ -2289,7 +2289,7 @@ __metadata:
   resolution: "@statescan/multisig-server@workspace:packages/multisig-server"
   dependencies:
     "@graphql-tools/schema": ^10.0.0
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
@@ -2307,7 +2307,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/pallet-assets-scan@workspace:packages/pallet-assets-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
@@ -2340,7 +2340,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/pallet-proxy-scan@workspace:packages/pallet-proxy-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
@@ -2354,7 +2354,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/pallet-recovery-scan@workspace:packages/pallet-recovery-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
@@ -2368,7 +2368,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/runtime-scan@workspace:packages/runtime-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
     eslint-plugin-jest: ^27.2.1
@@ -2411,7 +2411,7 @@ __metadata:
   dependencies:
     "@ffmpeg-installer/ffmpeg": ^1.1.0
     "@ffprobe-installer/ffprobe": ^1.4.1
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@polkadot/util": 13.4.3
     "@statescan/mongo": 1.0.0
     axios: ^1.2.2
@@ -2432,7 +2432,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/vesting-scan@workspace:packages/vesting-scan"
   dependencies:
-    "@osn/scan-common": 0.6.23
+    "@osn/scan-common": 0.6.24
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
     eslint-plugin-jest: ^27.2.1
