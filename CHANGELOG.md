@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.6.3
+
+date: 2025-03-19
+
+- Update litentry to heima.
+- Remove free field on account panel.
+- Improve account all script log.
+- Improve the layout of chain options dropdown menu.
+- Remove uniques section from assethub chains.
+- Update statemint settings.
+- Set `typesBundle` for gargantua and nexus.
+- Support un-finalized blocks for gargantua.
+- Upgrade dependency.
+- Show error method for a failed extrinsic.
+- Support more chains:
+  - people polkadot.
+  - coretime polkadot.
+  - coretime kusama.
+  - coretime paseo.
+  - people paseo.
+  - bridgehub paseo.
+  - assethub paseo.
+  - westend and system parachains.
+  - argon.
+  - cere.
+
 ### 1.6.2
 
 date: 2025-02-10
