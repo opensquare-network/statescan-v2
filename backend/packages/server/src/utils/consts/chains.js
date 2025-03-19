@@ -123,6 +123,7 @@ const transferOnBlockChains = [
   chains.polimec,
   chains.westend,
   chains.argon,
+  chains.statemint,
   chains["people-polkadot"],
   chains["coretime-polkadot"],
   chains["coretime-kusama"],
