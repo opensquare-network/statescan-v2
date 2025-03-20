@@ -3,19 +3,12 @@ const {
   foreignAsset: { getAssetCol },
 } = require("@statescan/mongo");
 const {
-  chain: { disconnect, getApi, findBlockApi, getBlockIndexer },
+  chain: { getApi, findBlockApi, getBlockIndexer },
 } = require("@osn/scan-common");
 const {
   queryAndInsertAsset,
 } = require("../../scan/common/queryAndInsertAsset");
-
-async function queryAll() {
-  const blockHeight = 3323987;
-  const blockHash =
-    "0x7059c546e6abb01e38ea107114fd0efe3b42b8e38c0cdb34bc67d2b00f5d7eb7";
-  const blockApi = await findBlockApi(blockHash);
-  const entries = await blockApi.query.foreignAssets.asset.entries();
-}
+const { queryAndSaveAllHolders } = require("../../scan/common/account");
 
 (async () => {
   const col = await getAssetCol();
@@ -39,6 +32,7 @@ async function queryAll() {
     const location = storageKey.args[0].toJSON();
 
     await queryAndInsertAsset(hash, location, indexer);
+    await queryAndSaveAllHolders(hash, location, indexer);
   }
 
   process.exit(0);
