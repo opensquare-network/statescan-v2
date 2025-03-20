@@ -3,22 +3,16 @@ const {
   foreignAsset: { insertForeignAssetTimeline },
 } = require("@statescan/mongo");
 
-async function handleCreated(event, indexer) {
+async function handleForceCreated(event, indexer) {
   const { method, data } = event;
   const assetId = data[0].hash.toString();
   await queryAndInsertAsset(assetId, data[0], indexer);
 
-  const creator = data[1].toString();
-  const owner = data[2].toString();
-  const args = {
-    assetId,
-    creator,
-    owner,
-  };
-
+  const owner = data[1].toString();
+  const args = { assetId, owner };
   await insertForeignAssetTimeline(assetId, method, args, indexer);
 }
 
 module.exports = {
-  handleCreated,
+  handleForceCreated,
 };

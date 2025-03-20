@@ -4,6 +4,7 @@ const {
 } = require("@statescan/common");
 const { handleTransferred } = require("./transferred");
 const { handleCreated } = require("./created");
+const { handleForceCreated } = require("./forceCreated");
 
 async function handleForeignAssetsEvent(event, indexer) {
   const { section, method } = event;
@@ -15,6 +16,7 @@ async function handleForeignAssetsEvent(event, indexer) {
   if (method === "Created") {
     await handleCreated(event, indexer);
   } else if (method === "ForceCreated") {
+    await handleForceCreated(event, indexer);
   } else if (method === "MetadataSet") {
   } else if (method === "Issued") {
   } else if (method === "Burned") {
