@@ -21,6 +21,10 @@ async function initForeignAssetScanDb() {
   assetTimelineCol = await db.createCol("assetTimeline");
   transferCol = await db.createCol("transfer");
   holderCol = await db.createCol("holder");
+
+  _createIndexes().then(() =>
+    console.log("foreign assets scan DB indexes created!"),
+  );
 }
 
 async function _createIndexes() {
@@ -28,6 +32,29 @@ async function _createIndexes() {
     console.error("Please call initDb first");
     process.exit(1);
   }
+
+  await assetCol.createIndex({ assetId: 1 }, { unique: true });
+  await assetTimelineCol.createIndex({
+    assetId: 1,
+    "indexer.blockHeight": -1,
+    "indexer.eventIndex": -1,
+  });
+  await transferCol.createIndex({ assetId: 1 });
+  await transferCol.createIndex({
+    assetId: 1,
+    "indexer.blockHeight": -1,
+    "indexer.eventIndex": -1,
+  });
+  await transferCol.createIndex({ from: 1 });
+  await transferCol.createIndex({ to: 1 });
+  await transferCol.createIndex({
+    "indexer.blockHeight": -1,
+    "indexer.eventIndex": 1,
+  });
+
+  await holderCol.createIndex({ address: 1 });
+  await holderCol.createIndex({ assetId: 1 });
+  await holderCol.createIndex({ assetId: 1, address: 1 }, { unique: true });
 }
 
 async function getForeignAssetDb() {

@@ -1,0 +1,42 @@
+const { getForeignAssetsSection } = require("../../../consts/section");
+const {
+  store: { setKnownHeightMark },
+} = require("@statescan/common");
+
+async function handleForeignAssetsEvent(event, indexer) {
+  const { section, method } = event;
+  if (section !== getForeignAssetsSection()) {
+    return;
+  }
+
+  setKnownHeightMark(indexer.blockHeight);
+  if (method === "Created") {
+  } else if (method === "ForceCreated") {
+  } else if (method === "MetadataSet") {
+  } else if (method === "Issued") {
+  } else if (method === "Burned") {
+  } else if (method === "TeamChanged") {
+  } else if (method === "OwnerChanged") {
+  } else if (method === "Frozen") {
+  } else if (method === "Thawed") {
+  } else if (method === "AssetFrozen") {
+  } else if (method === "AssetThawed") {
+  } else if (method === "Transferred") {
+  } else if (method === "MetadataCleared") {
+  } else if (method === "AssetStatusChanged") {
+  } else if (method === "AssetMinBalanceChanged") {
+  } else if (method === "ApprovedTransfer") {
+  } else if (method === "ApprovalCancelled") {
+  } else if (method === "TransferredApproved") {
+  } else if (method === "Touched") {
+  } else if (method === "Blocked") {
+  } else if (method === "Destroyed") {
+  } else if (method === "DestructionStarted") {
+  } else if (method === "AccountsDestroyed") {
+  } else if (method === "ApprovalsDestroyed") {
+  }
+}
+
+module.exports = {
+  handleForeignAssetsEvent,
+};
