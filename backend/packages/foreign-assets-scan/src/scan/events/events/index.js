@@ -5,6 +5,7 @@ const {
 const { handleTransferred } = require("./transferred");
 const { handleCreated } = require("./created");
 const { handleForceCreated } = require("./forceCreated");
+const { handleMetadataSet } = require("./metadataSet");
 
 async function handleForeignAssetsEvent(event, indexer) {
   const { section, method } = event;
@@ -18,6 +19,7 @@ async function handleForeignAssetsEvent(event, indexer) {
   } else if (method === "ForceCreated") {
     await handleForceCreated(event, indexer);
   } else if (method === "MetadataSet") {
+    await handleMetadataSet(event, indexer);
   } else if (method === "Issued") {
   } else if (method === "Burned") {
   } else if (method === "TeamChanged") {
