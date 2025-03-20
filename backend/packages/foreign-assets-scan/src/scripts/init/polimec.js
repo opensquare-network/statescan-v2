@@ -29,10 +29,9 @@ const { queryAndSaveAllHolders } = require("../../scan/common/account");
   for (const [storageKey] of entries) {
     const arg = storageKey.args[0];
     const hash = arg.hash.toString();
-    const location = storageKey.args[0].toJSON();
 
-    await queryAndInsertAsset(hash, location, indexer);
-    await queryAndSaveAllHolders(hash, location, indexer);
+    await queryAndInsertAsset(hash, arg, indexer);
+    await queryAndSaveAllHolders(hash, arg, indexer);
   }
 
   process.exit(0);

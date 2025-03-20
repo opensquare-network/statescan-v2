@@ -1,5 +1,9 @@
 // assetLocation is also assetId
 const { getForeignAssetsSection } = require("../../consts/section");
+const {
+  chain: { findBlockApi },
+} = require("@osn/scan-common");
+const { queryForeignAssetLocation } = require("../common/getLocation");
 
 async function queryForeignAssetAccount(blockApi, assetLocation, address) {
   const section = getForeignAssetsSection();
@@ -22,6 +26,22 @@ async function queryForeignAssetAccount(blockApi, assetLocation, address) {
   };
 }
 
+async function queryForeignAssetsAccounts(assetId, addresses = [], blockHash) {
+  if (addresses.length <= 0) {
+    return [];
+  }
+
+  const location = await queryForeignAssetLocation(blockHash, assetId);
+  const blockApi = await findBlockApi(blockHash);
+  const promises = [];
+  for (const address of addresses) {
+    promises.push(queryForeignAssetAccount(blockApi, location, address));
+  }
+
+  return Promise.all(promises);
+}
+
 module.exports = {
   queryForeignAssetAccount,
+  queryForeignAssetsAccounts,
 };

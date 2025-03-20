@@ -2,6 +2,8 @@ const { getForeignAssetsSection } = require("../../../consts/section");
 const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
+const { handleTransferred } = require("./transferred");
+const { handleCreated } = require("./created");
 
 async function handleForeignAssetsEvent(event, indexer) {
   const { section, method } = event;
@@ -11,6 +13,7 @@ async function handleForeignAssetsEvent(event, indexer) {
 
   setKnownHeightMark(indexer.blockHeight);
   if (method === "Created") {
+    await handleCreated(event, indexer);
   } else if (method === "ForceCreated") {
   } else if (method === "MetadataSet") {
   } else if (method === "Issued") {
@@ -22,6 +25,7 @@ async function handleForeignAssetsEvent(event, indexer) {
   } else if (method === "AssetFrozen") {
   } else if (method === "AssetThawed") {
   } else if (method === "Transferred") {
+    await handleTransferred(event, indexer);
   } else if (method === "MetadataCleared") {
   } else if (method === "AssetStatusChanged") {
   } else if (method === "AssetMinBalanceChanged") {

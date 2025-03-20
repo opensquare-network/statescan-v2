@@ -8,7 +8,7 @@ const {
   foreignAsset: { initForeignAssetScanDb },
   knownHeight: { initKnownHeightDb },
 } = require("@statescan/mongo");
-const { scan } = require("@statescan/pallet-assets-scan/src/scan");
+const { scan } = require("./scan");
 
 async function main() {
   await initForeignAssetScanDb();
