@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Panel } from "../styled/panel";
 import { Inter_14_700, Inter_14_500 } from "../../styles/text";
 import { ReactComponent as IconIdentity } from "../icons/meta/data-identity.svg";
