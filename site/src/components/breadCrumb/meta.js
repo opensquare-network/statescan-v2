@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Panel } from "../styled/panel";
+import { Inter_14_700, Inter_14_500 } from "../../styles/text";
 import { ReactComponent as IconIdentity } from "../icons/meta/data-identity.svg";
 import { ReactComponent as IconCaretUpright } from "../icons/caret-upright.svg";
 import { Mobile, PC } from "../styled/responsive";
@@ -10,6 +11,10 @@ const MetaInfoWraper = styled(Panel)`
   padding: 20px 24px;
   margin-bottom: 24px;
   display: flex;
+
+  path {
+    stroke: ${(p) => p.theme.fontTertiary};
+  }
 `;
 
 const MetaInfoMobileWraper = styled(MetaInfoWraper)`
@@ -36,19 +41,17 @@ const MetaInfoDetail = styled.div`
 const MetaInfoTitle = styled.h3`
   display: flex;
   flex-direction: row;
-  color: rgba(27, 32, 44, 1);
-  font-size: 14px;
-  font-weight: 700;
+  color: ${(p) => p.theme.fontPrimary};
+  ${Inter_14_700};
   margin: 0;
   padding: 0;
   justify-content: space-between;
 `;
 
 const MetaInfoDesc = styled.p`
-  font-size: 14px;
+  ${Inter_14_500};
   line-height: 20px;
-  color: rgba(27, 32, 44, 0.6);
-  font-weight: 500;
+  color: ${(p) => p.theme.fontSecondary};
   margin: 0;
   padding: 0;
 `;
@@ -69,9 +72,10 @@ const MetaInfoIcon = styled.div`
 `;
 
 const WikiLink = styled.a`
-  color: rgba(230, 0, 122, 1);
+  color: ${(p) => p.theme.theme500};
   font-size: 14px;
   font-weight: 500;
+  text-decoration: none;
 `;
 
 const WikiLinkWrap = styled.div`
@@ -81,7 +85,6 @@ const WikiLinkWrap = styled.div`
 
 export default function MetaInfo({ data }) {
   const meta = getMetaData(data);
-  console.log(meta);
 
   if (!meta) return null;
   return (
@@ -106,13 +109,7 @@ function MetaInfoPC({ data }) {
 
         <MetaInfoDetail>
           <MetaInfoTitle>
-            <span>{data.name}</span>{" "}
-            <WikiLinkWrap>
-              <WikiLink href={data.wikiLink} target="_blank">
-                Wiki
-              </WikiLink>
-              <IconCaretUpright width={16} height={16} />
-            </WikiLinkWrap>
+            <span>{data.name}</span> <LinkWrap wikiLink={data.wikiLink} />
           </MetaInfoTitle>
           <MetaInfoDesc>{data.desc}</MetaInfoDesc>
         </MetaInfoDetail>
@@ -132,12 +129,18 @@ function MetaInfoMobile({ data }) {
         <MetaInfoTitle>{data.name}</MetaInfoTitle>
         <MetaInfoDesc>{data.desc}</MetaInfoDesc>
       </MetaInfoDetail>
-      <WikiLinkWrap>
-        <WikiLink href={data.wikiLink} target="_blank">
-          Wiki
-        </WikiLink>
-        <IconCaretUpright width={16} height={16} />
-      </WikiLinkWrap>
+      <LinkWrap wikiLink={data.wikiLink} />
     </MetaInfoMobileWraper>
+  );
+}
+
+function LinkWrap({ wikiLink }) {
+  return (
+    <WikiLinkWrap>
+      <WikiLink href={wikiLink} target="_blank">
+        Wiki
+      </WikiLink>
+      <IconCaretUpright width={16} height={16} />
+    </WikiLinkWrap>
   );
 }

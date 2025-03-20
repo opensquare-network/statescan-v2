@@ -33,6 +33,13 @@ export const Inter_18_700 = css`
   line-height: 20px;
 `;
 
+export const Inter_14_700 = css`
+  ${Inter};
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+`;
+
 export const Inter_14_600 = css`
   ${Inter};
   font-weight: 600;
