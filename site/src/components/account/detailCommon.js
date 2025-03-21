@@ -40,6 +40,7 @@ import { getChainModules } from "../../utils/chain";
 import { getIsSimpleMode } from "../../utils/env";
 import AccountDetailRecoverablesTab from "./tabs/recoverables";
 import { useRecoverablesData } from "../../hooks/recovery/useRecoverablesData";
+import { GET_ACCOUNT_ASSET } from "../../services/gql/assets";
 
 function AccountDetailCommon() {
   const { id } = useParams();
@@ -80,6 +81,8 @@ function AccountDetailCommon() {
       count: assetsCount,
       children: (
         <DetailTable
+          requestType="Graphql"
+          graphql={GET_ACCOUNT_ASSET}
           id={id}
           url={assetsApiKey}
           heads={accountAssetsHead}
