@@ -12,6 +12,10 @@ const {
   typeDefs: proxyTypeDefs,
 } = require("./proxy");
 const {
+  resolvers: foreignAssetsResolvers,
+  typeDefs: foreignAssetsTypeDefs,
+} = require("./foreignAssets");
+const {
   resolvers: assetsPalletResolvers,
   typeDefs: assetsPalletTypeDefs,
 } = require("@statescan/pallet-assets-server");
@@ -25,6 +29,7 @@ const {
 } = require("@statescan/identity-server");
 const {
   hasAssets,
+  hasForeignAssets,
   hasMultisig,
   hasIdentity,
   hasVesting,
@@ -58,6 +63,10 @@ if (hasRecovery()) {
 if (hasAssets()) {
   resolvers = [...resolvers, assetsPalletResolvers];
   typeDefs = [...typeDefs, ...assetsPalletTypeDefs];
+}
+if (hasForeignAssets()) {
+  resolvers = [...resolvers, foreignAssetsResolvers];
+  typeDefs = [...typeDefs, ...foreignAssetsTypeDefs];
 }
 if (hasMultisig()) {
   resolvers = [...resolvers, multisigResolvers];
