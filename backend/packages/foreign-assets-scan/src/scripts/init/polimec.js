@@ -1,6 +1,6 @@
 require("dotenv").config();
 const {
-  foreignAsset: { getAssetCol },
+  foreignAsset: { getAssetCol, getForeignAssetDb },
 } = require("@statescan/mongo");
 const {
   chain: { getApi, findBlockApi, getBlockIndexer },
@@ -33,6 +33,9 @@ const { queryAndSaveAllHolders } = require("../../scan/common/account");
     await queryAndInsertAsset(hash, arg, indexer);
     await queryAndSaveAllHolders(hash, arg, indexer);
   }
+
+  const db = await getForeignAssetDb();
+  await db.updateScanHeight(indexer.blockHeight);
 
   process.exit(0);
 })();
