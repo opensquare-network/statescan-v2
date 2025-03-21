@@ -27,7 +27,7 @@ export default function DetailTable({
 
   useEffect(() => {
     dispatch(setAssetsCount(undefined));
-  }, [setAssetsCount, dispatch]);
+  }, [dispatch]);
 
   const { loading } = useQuery(GET_ACCOUNT_ASSET, {
     variables: {
