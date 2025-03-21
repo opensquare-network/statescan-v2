@@ -19,6 +19,7 @@ const queries = /* GraphQL */ `
       offset: Int!
       limit: Int!
     ): PagedForeignAssetHolder!
+    foreignAssetsScanHeight: Int
   }
 `;
 
