@@ -14,6 +14,11 @@ const queries = /* GraphQL */ `
       to: String
       address: String
     ): PagedForeignAssetTransfer!
+    foreignAssetHolders(
+      assetId: String!
+      offset: Int!
+      limit: Int!
+    ): PagedForeignAssetHolder!
   }
 `;
 
