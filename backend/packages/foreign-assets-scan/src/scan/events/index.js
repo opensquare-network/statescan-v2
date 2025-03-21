@@ -1,5 +1,5 @@
 const { handleForeignAssetsEvent } = require("./events");
-const { doBatchJobAfterEvents } = require("./batch");
+const { flushBlockData } = require("./batch");
 
 async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
@@ -26,7 +26,7 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
     await handleForeignAssetsEvent(event, indexer, extrinsic);
   }
 
-  await doBatchJobAfterEvents(blockIndexer);
+  await flushBlockData(blockIndexer);
 }
 
 module.exports = {

@@ -7,7 +7,7 @@ const { clearAssetIds } = require("../../store/assets");
 const { clearAssetsTransfers } = require("../../store/assetsTransfers");
 const { clearAssetAddresses } = require("../../store/assetsAccounts");
 
-async function doBatchJobAfterEvents(indexer) {
+async function flushBlockData(indexer) {
   await batchInsertForeignAssetsTransfers(indexer);
   await batchUpdateForeignAssets(indexer);
   await batchUpdateForeignAssetHolders(indexer);
@@ -18,5 +18,5 @@ async function doBatchJobAfterEvents(indexer) {
 }
 
 module.exports = {
-  doBatchJobAfterEvents,
+  flushBlockData,
 };

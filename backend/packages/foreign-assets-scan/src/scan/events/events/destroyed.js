@@ -1,4 +1,4 @@
-const { doBatchJobAfterEvents } = require("../batch");
+const { flushBlockData } = require("../batch");
 const {
   foreignAsset: {
     insertForeignAssetTimeline,
@@ -9,8 +9,9 @@ const {
   },
 } = require("@statescan/mongo");
 
+// we don't save records for destroyed asset
 async function handleDestroyed(event, indexer) {
-  await doBatchJobAfterEvents(indexer);
+  await flushBlockData(indexer);
   const { method, data } = event;
   const assetId = data[0].hash.toString();
 
