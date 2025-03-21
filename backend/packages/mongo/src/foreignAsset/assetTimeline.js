@@ -1,5 +1,5 @@
 const isNil = require("lodash.isnil");
-const { getAssetTimelineCol } = require("../palletAsset/db");
+const { getAssetTimelineCol } = require("./db");
 
 async function insertForeignAssetTimeline(assetId, name, args = {}, indexer) {
   if (isNil(assetId)) {
