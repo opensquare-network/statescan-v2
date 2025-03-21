@@ -34,12 +34,14 @@ async function handleForeignAssetsEvent(event, indexer) {
     await updateForeignAssetNoTimeline(event, indexer);
     const { data } = event;
     const beneficiary = data[1].toString();
-    addAssetAddresses(indexer.blockHash, data[0].toNumber(), [beneficiary]);
+    addAssetAddresses(indexer.blockHash, data[0].hash.toString(), [
+      beneficiary,
+    ]);
   } else if (method === "Burned") {
     await updateForeignAssetNoTimeline(event, indexer);
     const { data } = event;
     const owner = data[1].toString();
-    addAssetAddresses(indexer.blockHash, data[0].toNumber(), [owner]);
+    addAssetAddresses(indexer.blockHash, data[0].hash.toString(), [owner]);
   } else if (method === "TeamChanged") {
     const { data } = event;
     await updateForeignAssetCommon(event, indexer, {
