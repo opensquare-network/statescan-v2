@@ -30,6 +30,7 @@ import {
   accountFetchSummary,
   accountSummarySelector,
   accountAssetsCountSelector,
+  setAssetsCount,
 } from "../../store/reducers/accountSlice";
 import DetailTabs from "../detail/tabs";
 import { NftInstancePreview } from "../nft/preview/index";
@@ -40,7 +41,12 @@ import { getChainModules } from "../../utils/chain";
 import { getIsSimpleMode } from "../../utils/env";
 import AccountDetailRecoverablesTab from "./tabs/recoverables";
 import { useRecoverablesData } from "../../hooks/recovery/useRecoverablesData";
-import { GET_ACCOUNT_ASSET } from "../../services/gql/assets";
+import { useQuery } from "@apollo/client";
+import {
+  GET_ACCOUNT_ASSET,
+  GET_ACCOUNT_ASSET_COUNT,
+} from "../../services/gql/assets";
+import DetailTableGraphql from "../detail/tableGraphql";
 
 function AccountDetailCommon() {
   const { id } = useParams();
@@ -69,7 +75,6 @@ function AccountDetailCommon() {
 
   const { hasIdentity, component: accountIdentity } = useAccountIdentity(id);
 
-  const assetsApiKey = `/accounts/${id}/assets`;
   const transfersApiKey = `/accounts/${id}/transfers`;
   const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
   const nftInstanceApiKey = `/accounts/${id}/nft/instances`;
@@ -80,11 +85,9 @@ function AccountDetailCommon() {
       name: Assets,
       count: assetsCount,
       children: (
-        <DetailTable
-          requestType="Graphql"
+        <DetailTableGraphql
           graphql={GET_ACCOUNT_ASSET}
           id={id}
-          url={assetsApiKey}
           heads={accountAssetsHead}
           transformData={toAssetsTabItem}
         />
@@ -178,8 +181,20 @@ function AccountDetailCommon() {
       },
   ].filter(Boolean);
 
+  useQuery(GET_ACCOUNT_ASSET_COUNT, {
+    variables: {
+      address: id,
+      offset: 0,
+      limit: 1,
+    },
+    onCompleted: ({ accountAssets: { total } }) => {
+      dispatch(setAssetsCount(total));
+    },
+  });
+
   useEffect(() => {
     if (id) {
+      dispatch(setAssetsCount(undefined));
       dispatch(accountFetchSummary(id));
     }
   }, [dispatch, id]);
