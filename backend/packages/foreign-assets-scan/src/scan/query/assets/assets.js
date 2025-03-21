@@ -2,9 +2,6 @@ const {
   chain: { findBlockApi },
 } = require("@osn/scan-common");
 const { getForeignAssetsSection } = require("../../../consts/section");
-const {
-  foreignAsset: { getAssetCol },
-} = require("@statescan/mongo");
 const { queryForeignAssetLocation } = require("../../common/getLocation");
 
 async function queryForeignAsset(blockHash, location) {
