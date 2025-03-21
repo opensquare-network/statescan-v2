@@ -276,7 +276,7 @@ export const accountAssetsHead = [
   { name: "Symbol", width: 136 },
   { name: "Name", width: 232 },
   { name: "Balance", width: 160, align: "right" },
-  { name: "Approved", width: 160, align: "right" },
+  // { name: "Approved", width: 160, align: "right" }, // https://github.com/opensquare-network/statescan-v2/issues/1036
   { name: "Frozen", width: 160, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
 ];

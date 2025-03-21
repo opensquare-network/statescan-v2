@@ -150,3 +150,40 @@ export const GET_ASSET_COUNTS = gql`
     }
   }
 `;
+
+export const GET_ACCOUNT_ASSET = gql`
+  query MyQuery($limit: Int!, $offset: Int!, $address: String!) {
+    accountAssets(address: $address, limit: $limit, offset: $offset) {
+      limit
+      offset
+      total
+      holders {
+        balance
+        isFrozen
+        assetId
+        assetHeight
+        asset {
+          destroyed
+          detail {
+            supply
+          }
+          metadata {
+            symbol
+            name
+            decimals
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ACCOUNT_ASSET_COUNT = gql`
+  query MyQuery($limit: Int!, $offset: Int!, $address: String!) {
+    accountAssets(address: $address, limit: $limit, offset: $offset) {
+      total
+      limit
+      offset
+    }
+  }
+`;

@@ -29,6 +29,8 @@ import { clearDetailTables } from "../../store/reducers/detailTablesSlice";
 import {
   accountFetchSummary,
   accountSummarySelector,
+  accountAssetsCountSelector,
+  setAssetsCount,
 } from "../../store/reducers/accountSlice";
 import DetailTabs from "../detail/tabs";
 import { NftInstancePreview } from "../nft/preview/index";
@@ -39,6 +41,12 @@ import { getChainModules } from "../../utils/chain";
 import { getIsSimpleMode } from "../../utils/env";
 import AccountDetailRecoverablesTab from "./tabs/recoverables";
 import { useRecoverablesData } from "../../hooks/recovery/useRecoverablesData";
+import { useQuery } from "@apollo/client";
+import {
+  GET_ACCOUNT_ASSET,
+  GET_ACCOUNT_ASSET_COUNT,
+} from "../../services/gql/assets";
+import DetailTableGraphql from "../detail/tableGraphql";
 
 function AccountDetailCommon() {
   const { id } = useParams();
@@ -57,6 +65,7 @@ function AccountDetailCommon() {
   }, []);
 
   const summary = useSelector(accountSummarySelector);
+  const assetsCount = useSelector(accountAssetsCountSelector);
 
   useEffect(() => {
     return () => {
@@ -66,7 +75,6 @@ function AccountDetailCommon() {
 
   const { hasIdentity, component: accountIdentity } = useAccountIdentity(id);
 
-  const assetsApiKey = `/accounts/${id}/assets`;
   const transfersApiKey = `/accounts/${id}/transfers`;
   const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
   const nftInstanceApiKey = `/accounts/${id}/nft/instances`;
@@ -75,10 +83,11 @@ function AccountDetailCommon() {
   const tabs = [
     chainSetting.modules?.assets && {
       name: Assets,
-      count: summary?.assetsCount,
+      count: assetsCount,
       children: (
-        <DetailTable
-          url={assetsApiKey}
+        <DetailTableGraphql
+          graphql={GET_ACCOUNT_ASSET}
+          id={id}
           heads={accountAssetsHead}
           transformData={toAssetsTabItem}
         />
@@ -180,6 +189,7 @@ function AccountDetailCommon() {
 
   return (
     <>
+      {chainSetting.modules?.assets && id && <DetailAssetsSummary id={id} />}
       <DetailTabs tabs={tabs} />
       <NftInstancePreview
         open={isPreview}
@@ -192,3 +202,26 @@ function AccountDetailCommon() {
 }
 
 export default AccountDetailCommon;
+
+function DetailAssetsSummary({ id }) {
+  const dispatch = useDispatch();
+
+  useQuery(GET_ACCOUNT_ASSET_COUNT, {
+    variables: {
+      address: id,
+      offset: 0,
+      limit: 1,
+    },
+    onCompleted: ({ accountAssets: { total } }) => {
+      dispatch(setAssetsCount(total));
+    },
+  });
+
+  useEffect(() => {
+    if (id) {
+      dispatch(setAssetsCount(undefined));
+    }
+  }, [dispatch, id]);
+
+  return null;
+}

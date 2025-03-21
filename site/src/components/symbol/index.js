@@ -41,7 +41,7 @@ export default function Symbol({ asset, destroyed }) {
             <DestroyedBadge src="/imgs/icons/asset/destroyed-badge.svg" />
           )}
         </AssetLogoWrapper>
-        <Name>{asset?.metadata?.symbol}</Name>
+        <Name>{asset?.metadata?.symbol ?? asset?.asset?.metadata?.symbol}</Name>
       </Wrapper>
     </SymbolLink>
   );

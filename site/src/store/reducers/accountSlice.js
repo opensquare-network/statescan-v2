@@ -16,6 +16,7 @@ const accountSlice = createSlice({
     detail: null,
     detailLoading: false,
     summary: null,
+    assetsCount: undefined,
   },
   reducers: {
     setList(state, { payload }) {
@@ -33,6 +34,9 @@ const accountSlice = createSlice({
     setSummary(state, { payload }) {
       state.summary = payload;
     },
+    setAssetsCount(state, { payload }) {
+      state.assetsCount = payload;
+    },
   },
 });
 
@@ -42,6 +46,7 @@ export const {
   setDetail,
   setDetailLoading,
   setSummary,
+  setAssetsCount,
 } = accountSlice.actions;
 
 export const accountListSelector = (state) => state[name].list;
@@ -50,6 +55,7 @@ export const accountDetailSelector = (state) => state[name].detail;
 export const accountDetailLoadingSelector = (state) =>
   state[name].detailLoading;
 export const accountSummarySelector = (state) => state[name].summary;
+export const accountAssetsCountSelector = (state) => state[name].assetsCount;
 
 export const accountFetchList =
   (page, pageSize, params, fetchOptions) => async (dispatch) => {
