@@ -6,6 +6,14 @@ const queries = /* GraphQL */ `
       sort: ForeignAssetSort
     ): PagedForeignAsset!
     foreignAsset(id: String!): ForeignAsset
+    foreignAssetTransfers(
+      offset: Int!
+      limit: Int!
+      assetId: String
+      from: String
+      to: String
+      address: String
+    ): PagedForeignAssetTransfer!
   }
 `;
 
