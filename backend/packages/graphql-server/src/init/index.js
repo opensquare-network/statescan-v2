@@ -1,6 +1,7 @@
 const {
   hasVesting,
   hasAssets,
+  hasForeignAssets,
   hasMultisig,
   hasIdentity,
   hasRecovery,
@@ -9,6 +10,7 @@ const {
 const {
   vesting: { initVestingScanDb },
   palletAsset: { initPalletAssetScanDb },
+  foreignAsset: { initForeignAssetScanDb },
   multisig: { initMultisigScanDb },
   identity: { initIdentityScanDb },
   palletRecovery: { initPalletRecoveryScanDb },
@@ -33,6 +35,9 @@ async function initDbs() {
   }
   if (hasProxy()) {
     await initPalletProxyScanDb();
+  }
+  if (hasForeignAssets()) {
+    await initForeignAssetScanDb();
   }
 }
 
