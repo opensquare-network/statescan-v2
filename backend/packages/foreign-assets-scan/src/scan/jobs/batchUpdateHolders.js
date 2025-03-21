@@ -1,7 +1,4 @@
-const {
-  getAssetAddresses,
-  clearAssetAddresses,
-} = require("../../store/assetsAccounts");
+const { getAssetAddresses } = require("../../store/assetsAccounts");
 const isEmpty = require("lodash.isempty");
 const {
   foreignAsset: { getForeignAsset, getHolderCol },
