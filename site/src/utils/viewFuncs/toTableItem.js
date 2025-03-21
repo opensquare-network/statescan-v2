@@ -145,7 +145,6 @@ export const toAssetsTabItem = (assets) => {
       balance,
       asset: { metadata, detail, destroyed },
       isFrozen,
-      approved,
     } = asset;
 
     const link = destroyed
@@ -158,7 +157,7 @@ export const toAssetsTabItem = (assets) => {
       metadata?.symbol ? <Symbol asset={asset} /> : "--",
       metadata?.name ? <SymbolName name={metadata.name} /> : "--",
       bigNumberToLocaleString(fromAssetUnit(balance, metadata?.decimals)),
-      bigNumberToLocaleString(fromAssetUnit(approved || 0, metadata?.decimals)),
+      // bigNumberToLocaleString(fromAssetUnit(approved || 0, metadata?.decimals)), // https://github.com/opensquare-network/statescan-v2/issues/1036
       isFrozen?.toString(),
       <Tooltip pullRight tip={bigNumberToLocaleString(supply)}>
         <ValueDisplay value={supply} />

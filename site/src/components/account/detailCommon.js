@@ -29,6 +29,7 @@ import { clearDetailTables } from "../../store/reducers/detailTablesSlice";
 import {
   accountFetchSummary,
   accountSummarySelector,
+  accountAssetsCountSelector,
 } from "../../store/reducers/accountSlice";
 import DetailTabs from "../detail/tabs";
 import { NftInstancePreview } from "../nft/preview/index";
@@ -57,6 +58,7 @@ function AccountDetailCommon() {
   }, []);
 
   const summary = useSelector(accountSummarySelector);
+  const assetsCount = useSelector(accountAssetsCountSelector);
 
   useEffect(() => {
     return () => {
@@ -75,9 +77,10 @@ function AccountDetailCommon() {
   const tabs = [
     chainSetting.modules?.assets && {
       name: Assets,
-      count: summary?.assetsCount,
+      count: assetsCount,
       children: (
         <DetailTable
+          id={id}
           url={assetsApiKey}
           heads={accountAssetsHead}
           transformData={toAssetsTabItem}
