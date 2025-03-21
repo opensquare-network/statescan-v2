@@ -4,4 +4,5 @@ module.exports = {
   ...require("./foreignAssetTransfers"),
   ...require("./foreignAssetHolders"),
   ...require("./foreignAssetsScanHeight"),
+  ...require("./foreignAssetTimeline"),
 };
