@@ -181,6 +181,31 @@ function AccountDetailCommon() {
       },
   ].filter(Boolean);
 
+  useEffect(() => {
+    if (id) {
+      dispatch(accountFetchSummary(id));
+    }
+  }, [dispatch, id]);
+
+  return (
+    <>
+      {chainSetting.modules?.assets && id && <DetailAssetsSummary id={id} />}
+      <DetailTabs tabs={tabs} />
+      <NftInstancePreview
+        open={isPreview}
+        nftClass={previewNft?.class}
+        nftInstance={previewNft?.instance}
+        onClose={() => setIsPreview(false)}
+      />
+    </>
+  );
+}
+
+export default AccountDetailCommon;
+
+function DetailAssetsSummary({ id }) {
+  const dispatch = useDispatch();
+
   useQuery(GET_ACCOUNT_ASSET_COUNT, {
     variables: {
       address: id,
@@ -195,21 +220,8 @@ function AccountDetailCommon() {
   useEffect(() => {
     if (id) {
       dispatch(setAssetsCount(undefined));
-      dispatch(accountFetchSummary(id));
     }
   }, [dispatch, id]);
 
-  return (
-    <>
-      <DetailTabs tabs={tabs} />
-      <NftInstancePreview
-        open={isPreview}
-        nftClass={previewNft?.class}
-        nftInstance={previewNft?.instance}
-        onClose={() => setIsPreview(false)}
-      />
-    </>
-  );
+  return null;
 }
-
-export default AccountDetailCommon;

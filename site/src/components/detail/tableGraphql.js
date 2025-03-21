@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import noop from "lodash.noop";
 import { useQuery } from "@apollo/client";
 import { useDispatch } from "react-redux";
@@ -15,10 +15,6 @@ export default function DetailTableGraphql({
   const dispatch = useDispatch();
   const [table, setTable] = useState();
   const { page, pageSize } = usePageInfo();
-
-  useEffect(() => {
-    dispatch(setAssetsCount(undefined));
-  }, [dispatch]);
 
   const { loading } = useQuery(graphql, {
     variables: {
