@@ -21,7 +21,7 @@ async function foreignAssetHolders(_, _args) {
   const col = await getHolderCol();
   const holders = await col
     .find(q, { projection: { _id: 0 } })
-    .sort({ "info.balance": -1 })
+    .sort({ balance: -1 })
     .collation({ locale: "en_US", numericOrdering: true })
     .skip(offset)
     .limit(limit)
