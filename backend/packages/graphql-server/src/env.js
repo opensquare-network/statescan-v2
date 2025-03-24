@@ -2,6 +2,10 @@ function hasAssets() {
   return !!process.env.MONGO_PALLET_ASSET_SCAN_NAME;
 }
 
+function hasForeignAssets() {
+  return !!process.env.MONGO_FOREIGN_ASSET_SCAN_NAME;
+}
+
 function hasVesting() {
   return !!process.env.MONGO_VESTING_SCAN_NAME;
 }
@@ -32,6 +36,7 @@ function getEndpoints() {
 
 module.exports = {
   hasAssets,
+  hasForeignAssets,
   hasVesting,
   hasMultisig,
   hasIdentity,
