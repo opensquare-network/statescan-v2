@@ -6,15 +6,11 @@ import Tooltip from "../../components/tooltip";
 import { bigNumberToLocaleString } from "../viewFuncs";
 import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
 import { addressEllipsis } from "@osn/common";
-
-// TODO: add foreign asset location
-export function ForeignAssetLocation({ location, link, assetId }) {
-  return <div>Location</div>;
-}
+import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
 
 export default function useForeignAssetsTableData(assets = []) {
   return assets?.map?.((asset) => {
-    const { assetId, metadata, detail } = asset;
+    const { assetId, metadata, detail, location } = asset;
     const link = `/foreign-assets/${assetId}`;
     const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
 
@@ -23,7 +19,7 @@ export default function useForeignAssetsTableData(assets = []) {
       <Tooltip tip={assetId}>
         <ColoredMonoLink to={link}>{addressEllipsis(assetId)}</ColoredMonoLink>
       </Tooltip>,
-      <ForeignAssetLocation />,
+      <ForeignAssetsLocation location={location} />,
       <Tooltip tip={detail?.owner}>
         <AddressOrIdentity key={detail?.owner} address={detail?.owner} />
       </Tooltip>,
