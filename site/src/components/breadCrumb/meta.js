@@ -90,35 +90,25 @@ const WikiLinkWrap = styled.div`
 
 export default function MetaInfo({ data }) {
   const meta = getMetaData(data);
-  const isDark = useIsDark();
 
   if (!meta) return null;
-  const iconName = `data-${meta.name
-    ?.toLocaleLowerCase?.()
-    ?.split(" ")
-    .join("_")}-${isDark ? "dark" : "light"}`;
   return (
     <>
       <PC>
-        <MetaInfoPC data={meta} iconName={iconName} />
+        <MetaInfoPC data={meta} />
       </PC>
       <Mobile>
-        <MetaInfoMobile data={meta} iconName={iconName} />
+        <MetaInfoMobile data={meta} />
       </Mobile>
     </>
   );
 }
 
-function MetaInfoPC({ data, iconName }) {
-  const [error, setError] = useState(false);
+function MetaInfoPC({ data }) {
   return (
     <MetaInfoWraper>
       <MetaInfoMain>
-        {!error && (
-          <MetaInfoIcon>
-            <SvgIcon iconName={iconName} onError={setError} />
-          </MetaInfoIcon>
-        )}
+        <LoadDetailIcon name={data.name} />
 
         <MetaInfoDetail>
           <MetaInfoTitle>
@@ -131,15 +121,10 @@ function MetaInfoPC({ data, iconName }) {
   );
 }
 
-function MetaInfoMobile({ data, iconName }) {
-  const [error, setError] = useState(false);
+function MetaInfoMobile({ data }) {
   return (
     <MetaInfoMobileWraper>
-      {!error && (
-        <MetaInfoIcon>
-          <SvgIcon iconName={iconName} onError={setError} />
-        </MetaInfoIcon>
-      )}
+      <LoadDetailIcon name={data.name} />
 
       <MetaInfoDetail>
         <MetaInfoTitle>{data.name}</MetaInfoTitle>
@@ -158,5 +143,22 @@ function LinkWrap({ wikiLink }) {
       </WikiLink>
       <IconCaretUpright width={16} height={16} />
     </WikiLinkWrap>
+  );
+}
+
+function LoadDetailIcon({ name }) {
+  const isDark = useIsDark();
+  const [error, setError] = useState(false);
+
+  const iconName = `data-${name?.toLocaleLowerCase?.()?.split(" ").join("_")}-${
+    isDark ? "dark" : "light"
+  }`;
+
+  if (error) return null;
+
+  return (
+    <MetaInfoIcon>
+      <SvgIcon iconName={iconName} onError={setError} />
+    </MetaInfoIcon>
   );
 }
