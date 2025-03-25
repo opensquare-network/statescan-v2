@@ -267,6 +267,16 @@ export const assetsHead = [
   { name: "Holders", width: 120, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
 ];
+
+export const foreignAssetsHead = [
+  { name: "Asset", minWidth: 352 },
+  { name: "Asset ID", width: 160 },
+  { name: "Location", width: 120 },
+  { name: "Owner", width: 160 },
+  { name: "Issuer", width: 160 },
+  { name: "Holders", width: 120, align: "right" },
+  { name: "Total Supply", width: 160, align: "right" },
+];
 /**
  * @description for page account
  */
