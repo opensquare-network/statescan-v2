@@ -260,8 +260,8 @@ export const holdersHead = [
 ];
 
 export const assetsHead = [
-  { name: "Asset", minWidth: 352 },
   { name: "Asset ID", width: 160 },
+  { name: "Asset", minWidth: 352 },
   { name: "Owner", width: 160 },
   { name: "Issuer", width: 160 },
   { name: "Holders", width: 120, align: "right" },

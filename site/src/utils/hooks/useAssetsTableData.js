@@ -43,6 +43,7 @@ export function useAssetsTableData(assets = []) {
     const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
 
     return [
+      <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
       <Flex>
         <AssetSymbolWrapper>
           {metadata?.symbol ? (
@@ -64,7 +65,6 @@ export function useAssetsTableData(assets = []) {
           )}
         </AssetNameWrapper>
       </Flex>,
-      <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
       <Tooltip tip={detail?.owner}>
         <AddressOrIdentity key={detail?.owner} address={detail?.owner} />
       </Tooltip>,
