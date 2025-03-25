@@ -13,6 +13,7 @@ import Calls from "./pages/calls";
 import Call from "./pages/call";
 import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
+import ForeignAsset from "./pages/foreign-asset";
 import { Fragment } from "react";
 import Asset from "./pages/asset";
 import { getChainModules, getIsUseOnChainBlockData } from "./utils/chain";
@@ -67,6 +68,7 @@ function App() {
             <Route path="/destroyed/assets" element={<DestroyedAssets />} />
           </Fragment>
         )}
+        <Route path="/foreign-assets/:assetId" element={<ForeignAsset />} />
         {uniques && (
           <Fragment>
             <Route path="/uniques" element={<Nfts />} />

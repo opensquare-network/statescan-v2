@@ -28,7 +28,27 @@ export default function AssetTransfers({ assetId, asset }) {
     onCompleted: setData,
   });
 
-  const tableData = data?.assetTransfers?.transfers?.map?.((transfer, key) => {
+  return (
+    <AssetTransfersView
+      transfers={data?.assetTransfers?.transfers || []}
+      asset={asset}
+      loading={loading}
+      page={page}
+      pageSize={pageSize}
+      total={data?.assetTransfers?.total}
+    />
+  );
+}
+
+export function AssetTransfersView({
+  transfers,
+  asset,
+  total,
+  page,
+  pageSize,
+  loading,
+}) {
+  const tableData = transfers?.map?.((transfer, key) => {
     return [
       <ColoredLink
         key={`${key}-1`}
@@ -55,13 +75,7 @@ export default function AssetTransfers({ assetId, asset }) {
 
   return (
     <StyledPanelTableWrapper
-      footer={
-        <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={data?.assetTransfers?.total || 0}
-        />
-      }
+      footer={<Pagination page={page} pageSize={pageSize} total={total || 0} />}
     >
       <Table heads={transfersHead} data={tableData} loading={loading} />
     </StyledPanelTableWrapper>
