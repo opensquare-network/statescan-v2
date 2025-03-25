@@ -2,29 +2,29 @@ export default function getMetaData(breadCrumbs) {
   const json = [
     {
       name: "Extrinsics",
-      desc: "A SCALE encoded array consisting of a version number, signature, and varying data types, extrinsics constitute information from the outside world.",
+      desc: "A SCALE-encoded array containing a version number, signature, and various data types, representing external information.",
       wikiLink:
         "https://wiki.polkadot.network/docs/build-protocol-info#extrinsics",
     },
     {
       name: "Events",
-      desc: "Events represent information from the chain, extrinsics can trigger events.",
+      desc: "Represent on-chain information, extrinsics can trigger events.",
       wikiLink: "https://wiki.polkadot.network/docs/build-protocol-info#events",
     },
     {
       name: "Calls",
-      desc: "The executable functions within a runtime module (also known as a pallet) and define the various operations that can be performed in the blockchain’s runtime.",
+      desc: "Executable functions within a runtime module that define blockchain operations.",
       wikiLink: "https://docs.substrate.io/reference/frame-pallets/",
     },
     {
       name: "Transfers",
-      desc: "The act of moving assets from one account (address) to another.",
+      desc: "The act of moving assets from one account to another.",
       wikiLink:
         "https://wiki.polkadot.network/docs/learn/xcm/journey/transfers",
     },
     {
       name: "Accounts",
-      desc: "The fundamental entities in blockchain network used for interacting with the blockchain.",
+      desc: "Fundamental entities in a blockchain network used for interaction.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-accounts",
     },
     {
@@ -53,54 +53,54 @@ export default function getMetaData(breadCrumbs) {
     },
     {
       name: "Identities",
-      desc: "A naming system enabling users to incorporate personal details into their blockchain accounts and seek validation of these details from registrars.",
+      desc: "A naming system allowing users to integrate personal details into their blockchain accounts and seek validation from registrars.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-identity",
     },
     {
       name: "Identity Judgements",
-      desc: "A process where a registrar evaluates and verifies the identity information submitted by an account.",
+      desc: "The process where a registrar evaluates and verifies an account’s identity information.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-identity#judgements",
     },
     {
       name: "Identity Registrars",
-      desc: "An entity or individual authorized to verify and validate the identity of accounts. Registrars can set a fee for their services and limit their attestation to certain fields.",
+      desc: "An entity authorized to verify account identities, set fees, and limit attestations to specific fields.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-identity#registrars",
     },
     {
       name: "Multisig Accounts",
-      desc: "An account that requires multiple parties to approve a transaction before it can be executed, it is composed of one or more addresses and a threshold.",
+      desc: "An account requiring multiple parties' approval for transactions, composed of multiple addresses and a threshold.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-account-multisig",
     },
     {
       name: "Multisigs",
-      desc: "A transaction that requires multiple authorized signatories to approve it before it can be executed.",
+      desc: "A transaction requiring multiple authorized signatories for execution.",
       wikiLink:
         "https://wiki.polkadot.network/docs/learn-guides-accounts-multisig#multisig-transactions-with-extrinsic-tab",
     },
     {
       name: "Recovery Proxies",
-      desc: "A M-of-N recovery tool based on the multi-signature wallet designed to help users recover access to their accounts in case they lose their private keys.",
+      desc: "An M-of-N recovery tool based on multi-signature wallets to help users regain account access if they lose their private keys.",
       wikiLink: "https://wiki.polkadot.network/docs/kusama-social-recovery",
     },
     {
       name: "Recoverables",
-      desc: "Accounts that have been pre-configured with a recovery mechanism, allowing the account owner to regain access if they lose their private key.",
+      desc: "Accounts pre-configured with a recovery mechanism, allowing owners to regain access if they lose their private key.",
       wikiLink: "https://wiki.polkadot.network/docs/kusama-social-recovery",
     },
     {
       name: "Recoveries",
-      desc: "Accounts that have been recoveried.",
+      desc: "Accounts that have been successfully recovered.",
       wikiLink: "https://wiki.polkadot.network/docs/kusama-social-recovery",
     },
     {
       name: "Vestings",
-      desc: "Vested transaction allows users to transfer tokens that are subject to a vesting schedule.",
+      desc: "Allows the transfer of tokens subject to a vesting schedule.",
       wikiLink:
         "https://wiki.polkadot.network/docs/learn-guides-transfers#vested-transfers-with-the-polkadot-js-ui",
     },
     {
       name: "Proxy",
-      desc: "Proxy account allows users to delegate specific actions or permissions to other accounts, increasing the security and flexibility of account management.",
+      desc: "Enables users to delegate specific actions or permissions to other accounts, enhancing security and flexibility.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-proxies",
     },
     {
