@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Panel } from "../components/styled/panel";
 import List from "../components/list";
-import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
+import { toForeignAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
 import { Holders, Timeline, Transfers } from "../utils/constants";
 import DetailLayout from "../components/layout/detailLayout";
@@ -18,7 +18,7 @@ import ForeignAssetTransfers from "../components/foreign-asset/transfers";
 import ForeignAssetHolders from "../components/foreign-asset/holders";
 import ForeignAssetTimeline from "../components/foreign-asset/timeline";
 
-function Asset() {
+function ForeignAsset() {
   const { assetId } = useParams();
   const { data } = useQuery(GET_FOREIGN_ASSET_DETAIL, {
     variables: {
@@ -39,7 +39,7 @@ function Asset() {
   const detail = data?.foreignAsset;
 
   const listData = useMemo(
-    () => (detail ? toAssetDetailItem(assetId, detail) : {}),
+    () => (detail ? toForeignAssetDetailItem(assetId, detail) : {}),
     [assetId, detail],
   );
 
@@ -79,4 +79,4 @@ function Asset() {
   );
 }
 
-export default Asset;
+export default ForeignAsset;

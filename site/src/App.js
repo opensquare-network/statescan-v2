@@ -13,7 +13,7 @@ import Calls from "./pages/calls";
 import Call from "./pages/call";
 import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
-import ForeignAsset from "./pages/foreign-asset";
+import ForeignAsset from "./pages/foreignAsset";
 import { Fragment } from "react";
 import Asset from "./pages/asset";
 import { getChainModules, getIsUseOnChainBlockData } from "./utils/chain";

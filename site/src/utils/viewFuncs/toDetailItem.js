@@ -25,6 +25,7 @@ import {
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as CrossIcon } from "../../components/icons/cross.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
+import { ReactComponent as VectorIcon } from "../../components/icons/vector.svg";
 import IpfsItem from "../../components/nft/detail/ipfsItem";
 import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
@@ -423,6 +424,13 @@ export const toAssetDetailItem = (id, asset) => {
       : {}),
     Holders: <TextSecondary>{asset?.detail?.accounts}</TextSecondary>,
     //TODO: TransfersCount
+  };
+};
+
+export const toForeignAssetDetailItem = (id, asset) => {
+  return {
+    ...toAssetDetailItem(id, asset),
+    Location: <VectorIcon />,
   };
 };
 
