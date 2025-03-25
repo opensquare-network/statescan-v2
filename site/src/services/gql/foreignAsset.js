@@ -110,22 +110,23 @@ export const GET_FOREIGN_ASSET_HOLDERS_LIST = gql`
 
 export const GET_FOREIGN_ASSET_TIMELINE_LIST = gql`
   query MyQuery($limit: Int!, $offset: Int!, $assetId: String!) {
-    foreignAssetTimeline(limit: $limit, offset: $offset, assetId: $assetId) {
+    foreignAssetTimeline(assetId: $assetId, limit: $limit, offset: $offset) {
+      items {
+        args
+        assetId
+        indexer {
+          blockHash
+          blockHeight
+          blockTime
+          chain
+          eventIndex
+          extrinsicIndex
+        }
+        name
+      }
       limit
       offset
       total
-      items {
-        args
-        assetHeight
-        name
-        assetId
-        indexer {
-          blockTime
-          eventIndex
-          extrinsicIndex
-          blockHeight
-        }
-      }
     }
   }
 `;
