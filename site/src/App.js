@@ -78,10 +78,10 @@ function App() {
             <Route path="/destroyed/assets" element={<DestroyedAssets />} />
           </Fragment>
         )}
-        <Route path="/foreign-assets/:assetId" element={<ForeignAsset />} />
         {foreignAssets && (
           <Fragment>
             <Route path="/foreign-assets" element={<ForeignAssets />} />
+            <Route path="/foreign-assets/:assetId" element={<ForeignAsset />} />
           </Fragment>
         )}
         {uniques && (
