@@ -2,9 +2,8 @@ export default function getMetaData(breadCrumbs) {
   const json = [
     {
       name: "Multisigs",
-      desc: "A transaction requiring multiple authorized signatories for execution.",
-      wikiLink:
-        "https://wiki.polkadot.network/docs/learn-guides-accounts-multisig#multisig-transactions-with-extrinsic-tab",
+      desc: "All history multisig records and their status and we can filter them by address or status.",
+      wikiLink: "https://wiki.polkadot.network/learn/learn-account-multisig/",
     },
     {
       name: "Proxy",
@@ -13,7 +12,7 @@ export default function getMetaData(breadCrumbs) {
     },
     {
       name: "Recoveries",
-      desc: "Accounts that have been successfully recovered.",
+      desc: "All social recovery records and their statuses.",
       wikiLink: "https://wiki.polkadot.network/docs/kusama-social-recovery",
     },
     // {
