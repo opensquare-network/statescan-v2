@@ -25,7 +25,6 @@ import {
 import { ReactComponent as CheckIcon } from "../../components/icons/check.svg";
 import { ReactComponent as CrossIcon } from "../../components/icons/cross.svg";
 import { ReactComponent as TimerIcon } from "../../components/icons/timer.svg";
-import { ReactComponent as VectorIcon } from "../../components/icons/vector.svg";
 import IpfsItem from "../../components/nft/detail/ipfsItem";
 import { bigNumberToLocaleString } from ".";
 import { time } from "./time";
@@ -41,6 +40,7 @@ import dark from "../../styles/theme/dark";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import QuestionIcon from "../../components/icons/question";
+import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
 
 export const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -432,7 +432,7 @@ export const toForeignAssetDetailItem = (id, asset) => {
   detailItems["Asset ID"] = <TextSecondary>{asset.assetId}</TextSecondary>;
   return {
     ...detailItems,
-    Location: <VectorIcon />,
+    Location: <ForeignAssetsLocation location={asset.location} />,
   };
 };
 
