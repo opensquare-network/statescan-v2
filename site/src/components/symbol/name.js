@@ -5,20 +5,27 @@ import useIsOverflow from "../../utils/hooks/useIsOverflow";
 import Tooltip from "../tooltip";
 
 const Name = styled.div`
-  color: ${(p) => p.theme.fontPrimary};
+  color: ${(p) => p.color};
+  max-width: ${(p) => p.width};
   ${Inter_14_500};
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
 
-export default function SymbolName({ name }) {
+export default function SymbolName({
+  name,
+  color = "var(--fontPrimary)",
+  width = "auto",
+}) {
   const ref = useRef();
   const isEllipsis = useIsOverflow(ref);
 
   return (
     <Tooltip tip={name} disabled={!isEllipsis}>
-      <Name ref={ref}>{name}</Name>
+      <Name ref={ref} color={color} width={width}>
+        {name}
+      </Name>
     </Tooltip>
   );
 }

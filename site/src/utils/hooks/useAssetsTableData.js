@@ -9,6 +9,30 @@ import { bigNumberToLocaleString } from "../viewFuncs";
 import { Flex } from "../../components/styled/flex";
 import TimeBody from "../../components/table/body/time";
 import { timeTypes } from "../constants";
+import styled, { css } from "styled-components";
+import { Inter_14_500 } from "../../styles/text";
+
+const AssetNameWrapper = styled.div`
+  ${Inter_14_500};
+  color: var(--fontSecondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+const AssetSymbolWrapper = styled.div`
+  width: 120px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+const symbolStyle = css`
+  width: 80px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`;
 
 export function useAssetsTableData(assets = []) {
   return assets?.map?.((asset) => {
@@ -20,8 +44,27 @@ export function useAssetsTableData(assets = []) {
 
     return [
       <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
-      <Flex>{metadata?.symbol ? <Symbol asset={asset} /> : "--"}</Flex>,
-      metadata?.name ? <SymbolName name={metadata.name} /> : "--",
+      <Flex>
+        <AssetSymbolWrapper>
+          {metadata?.symbol ? (
+            <Symbol asset={asset} style={symbolStyle} />
+          ) : (
+            "--"
+          )}
+        </AssetSymbolWrapper>
+
+        <AssetNameWrapper>
+          {metadata?.name ? (
+            <SymbolName
+              name={metadata.name}
+              color="var(--fontSecondary)"
+              width="384px"
+            />
+          ) : (
+            "--"
+          )}
+        </AssetNameWrapper>
+      </Flex>,
       <Tooltip tip={detail?.owner}>
         <AddressOrIdentity key={detail?.owner} address={detail?.owner} />
       </Tooltip>,
