@@ -25,7 +25,19 @@ export default function AssetHolders({ assetId }) {
     onCompleted: setData,
   });
 
-  const tableData = data?.assetHolders?.holders?.map?.((holder, index) => {
+  return (
+    <AssetHoldersView
+      holders={data?.assetHolders?.holders || []}
+      loading={loading}
+      page={page}
+      pageSize={pageSize}
+      total={data?.assetHolders?.total}
+    />
+  );
+}
+
+export function AssetHoldersView({ holders, total, page, pageSize, loading }) {
+  const tableData = holders?.map?.((holder, index) => {
     return [
       index + 1,
       <Tooltip tip={holder?.address}>
@@ -40,16 +52,9 @@ export default function AssetHolders({ assetId }) {
       ),
     ];
   });
-
   return (
     <StyledPanelTableWrapper
-      footer={
-        <Pagination
-          page={page}
-          pageSize={pageSize}
-          total={data?.assetHolders?.total || 0}
-        />
-      }
+      footer={<Pagination page={page} pageSize={pageSize} total={total || 0} />}
     >
       <Table heads={holdersHead} data={tableData} loading={loading} />
     </StyledPanelTableWrapper>

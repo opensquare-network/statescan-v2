@@ -68,29 +68,49 @@ export const GET_FOREIGN_ASSET_TRANSFERS_LIST = gql`
 `;
 
 export const GET_FOREIGN_ASSET_HOLDERS_LIST = gql`
-  query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
-    assetHolders(limit: $limit, offset: $offset, assetId: $assetId) {
+  query MyQuery($limit: Int!, $offset: Int!, $assetId: String!) {
+    foreignAssetHolders(assetId: $assetId, limit: $limit, offset: $offset) {
       holders {
         address
-        assetId
-        balance
-        status
         asset {
+          assetHeight
+          assetId
+          detail {
+            accounts
+            admin
+            approvals
+            deposit
+            freezer
+            isSufficient
+            issuer
+            minBalance
+            owner
+            status
+            sufficients
+            supply
+          }
+          location
           metadata {
             decimals
+            deposit
+            isFrozen
+            name
+            symbol
           }
         }
+        balance
+        status
       }
-      total
       limit
       offset
+      total
     }
   }
 `;
 
 export const GET_FOREIGN_ASSET_TIMELINE_LIST = gql`
-  query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
-    assetTimeline(limit: $limit, offset: $offset, assetId: $assetId) {
+  query MyQuery($limit: Int!, $offset: Int!, $assetId: String!) {
+    foreignAssetTimeline(limit: $limit, offset: $offset, assetId: $assetId) {
       limit
       offset
       total
