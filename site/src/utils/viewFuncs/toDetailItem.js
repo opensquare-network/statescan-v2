@@ -428,8 +428,10 @@ export const toAssetDetailItem = (id, asset) => {
 };
 
 export const toForeignAssetDetailItem = (id, asset) => {
+  const detailItems = toAssetDetailItem(id, asset);
+  detailItems["Asset ID"] = <TextSecondary>{asset.assetId}</TextSecondary>;
   return {
-    ...toAssetDetailItem(id, asset),
+    ...detailItems,
     Location: <VectorIcon />,
   };
 };
