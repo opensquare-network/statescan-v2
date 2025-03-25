@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { Panel } from "../styled/panel";
 import { Inter_14_700, Inter_14_500 } from "../../styles/text";
-import { ReactComponent as IconIdentity } from "../icons/meta/data-identity.svg";
 import { ReactComponent as CaretUpright } from "../icons/caret-upright.svg";
 import { Mobile, PC } from "../styled/responsive";
+import SvgIcon from "./icon";
 import getMetaData from "./metaJson";
+import { useIsDark } from "../../utils/hooks";
+import { useState } from "react";
 
 const MetaInfoWraper = styled(Panel)`
   box-sizing: border-box;
@@ -70,7 +72,6 @@ const MetaInfoIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${(p) => p.theme.fillGradientIcon};
   border-radius: 8px;
   flex-shrink: 0;
 `;
@@ -89,27 +90,35 @@ const WikiLinkWrap = styled.div`
 
 export default function MetaInfo({ data }) {
   const meta = getMetaData(data);
+  const isDark = useIsDark();
 
   if (!meta) return null;
+  const iconName = `data-${meta.name
+    ?.toLocaleLowerCase?.()
+    ?.split(" ")
+    .join("_")}-${isDark ? "dark" : "light"}`;
   return (
     <>
       <PC>
-        <MetaInfoPC data={meta} />
+        <MetaInfoPC data={meta} iconName={iconName} />
       </PC>
       <Mobile>
-        <MetaInfoMobile data={meta} />
+        <MetaInfoMobile data={meta} iconName={iconName} />
       </Mobile>
     </>
   );
 }
 
-function MetaInfoPC({ data }) {
+function MetaInfoPC({ data, iconName }) {
+  const [error, setError] = useState(false);
   return (
     <MetaInfoWraper>
       <MetaInfoMain>
-        <MetaInfoIcon>
-          <IconIdentity width={24} height={24} />
-        </MetaInfoIcon>
+        {!error && (
+          <MetaInfoIcon>
+            <SvgIcon iconName={iconName} onError={setError} />
+          </MetaInfoIcon>
+        )}
 
         <MetaInfoDetail>
           <MetaInfoTitle>
@@ -122,12 +131,15 @@ function MetaInfoPC({ data }) {
   );
 }
 
-function MetaInfoMobile({ data }) {
+function MetaInfoMobile({ data, iconName }) {
+  const [error, setError] = useState(false);
   return (
     <MetaInfoMobileWraper>
-      <MetaInfoIcon>
-        <IconIdentity width={24} height={24} />
-      </MetaInfoIcon>
+      {!error && (
+        <MetaInfoIcon>
+          <SvgIcon iconName={iconName} onError={setError} />
+        </MetaInfoIcon>
+      )}
 
       <MetaInfoDetail>
         <MetaInfoTitle>{data.name}</MetaInfoTitle>

@@ -40,13 +40,13 @@ export default function getMetaData(breadCrumbs) {
         "https://wiki.polkadot.network/docs/learn-assets#non-fungible-assets",
     },
     {
-      name: "DestroyedAssets",
+      name: "Destroyed Assets",
       desc: "The fungible assets that have been destroyed.",
       wikiLink:
         "https://wiki.polkadot.network/docs/learn-assets#destroying-an-asset",
     },
     {
-      name: "DestroyedNFT",
+      name: "Destroyed NFT",
       desc: "The non-fungible assets that have been destroyed.",
       wikiLink:
         "https://wiki.polkadot.network/docs/learn-assets#non-fungible-assets",
@@ -57,17 +57,17 @@ export default function getMetaData(breadCrumbs) {
       wikiLink: "https://wiki.polkadot.network/docs/learn-identity",
     },
     {
-      name: "IdentityJudgements",
+      name: "Identity Judgements",
       desc: "A process where a registrar evaluates and verifies the identity information submitted by an account.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-identity#judgements",
     },
     {
-      name: "IdentityRegistrars",
+      name: "Identity Registrars",
       desc: "An entity or individual authorized to verify and validate the identity of accounts. Registrars can set a fee for their services and limit their attestation to certain fields.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-identity#registrars",
     },
     {
-      name: "MultisigAccounts",
+      name: "Multisig Accounts",
       desc: "An account that requires multiple parties to approve a transaction before it can be executed, it is composed of one or more addresses and a threshold.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-account-multisig",
     },
@@ -78,7 +78,7 @@ export default function getMetaData(breadCrumbs) {
         "https://wiki.polkadot.network/docs/learn-guides-accounts-multisig#multisig-transactions-with-extrinsic-tab",
     },
     {
-      name: "RecoveryProxies",
+      name: "Recovery Proxies",
       desc: "A M-of-N recovery tool based on the multi-signature wallet designed to help users recover access to their accounts in case they lose their private keys.",
       wikiLink: "https://wiki.polkadot.network/docs/kusama-social-recovery",
     },
@@ -103,13 +103,23 @@ export default function getMetaData(breadCrumbs) {
       desc: "Proxy account allows users to delegate specific actions or permissions to other accounts, increasing the security and flexibility of account management.",
       wikiLink: "https://wiki.polkadot.network/docs/learn-proxies",
     },
+    {
+      name: "Foreign Assets",
+      desc: "Fungible assets. These are mainly native tokens from other parachains or bridged tokens from other consensus systems.",
+      wikiLink:
+        "https://wiki.polkadot.network/docs/build-integrate-assets#foreign-assets",
+    },
+    {
+      name: "Destroyed Foreign Assets",
+      desc: "The fungible assets that have been destroyed.",
+      wikiLink:
+        "https://wiki.polkadot.network/docs/learn-assets#destroying-an-asset",
+    },
   ];
 
-  const matched = breadCrumbs.find((crumb) =>
-    json.find((item) => item.name === crumb.name),
-  );
+  const matched = breadCrumbs?.[0];
 
-  if (matched) {
+  if (matched && breadCrumbs.length <= 1) {
     return json.find((item) => item.name === matched.name);
   }
 
