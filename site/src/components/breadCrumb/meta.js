@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Panel } from "../styled/panel";
 import { Inter_14_700, Inter_14_500 } from "../../styles/text";
 import { ReactComponent as IconIdentity } from "../icons/meta/data-identity.svg";
-import { ReactComponent as IconCaretUpright } from "../icons/caret-upright.svg";
+import { ReactComponent as CaretUpright } from "../icons/caret-upright.svg";
 import { Mobile, PC } from "../styled/responsive";
 import getMetaData from "./metaJson";
 
@@ -13,7 +13,15 @@ const MetaInfoWraper = styled(Panel)`
   display: flex;
 
   path {
-    stroke: ${(p) => p.theme.fontTertiary};
+    fill: ${(p) => p.theme.fontTertiary}!important;
+    fill-opacity: 1 !important;
+  }
+`;
+
+const IconCaretUpright = styled(CaretUpright)`
+  path {
+    stroke: ${(p) => p.theme.fontTertiary} !important;
+    stroke-opacity: 1 !important;
   }
 `;
 
@@ -62,11 +70,7 @@ const MetaInfoIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    135deg,
-    rgba(27, 32, 44, 0.05) 0%,
-    rgba(27, 32, 44, 0) 100%
-  );
+  background: ${(p) => p.theme.fillGradientIcon};
   border-radius: 8px;
   flex-shrink: 0;
 `;
