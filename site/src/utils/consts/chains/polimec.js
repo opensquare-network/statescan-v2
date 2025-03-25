@@ -44,7 +44,7 @@ const polimec = {
   },
   modules: {
     multisig: true,
-    assets: true,
+    foreignAssets: true,
   },
   nodes,
   useOnChainBlockData: true,

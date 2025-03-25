@@ -9,6 +9,7 @@ import { bigNumberToLocaleString } from "../viewFuncs";
 import { Flex } from "../../components/styled/flex";
 import TimeBody from "../../components/table/body/time";
 import { timeTypes } from "../constants";
+import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
 
 export function useAssetsTableData(assets = []) {
   return assets?.map?.((asset) => {
@@ -20,8 +21,7 @@ export function useAssetsTableData(assets = []) {
 
     return [
       <ColoredInterLink to={link}>#{assetId}</ColoredInterLink>,
-      <Flex>{metadata?.symbol ? <Symbol asset={asset} /> : "--"}</Flex>,
-      metadata?.name ? <SymbolName name={metadata.name} /> : "--",
+      <AssetSymbolAndName asset={asset} />,
       <Tooltip tip={detail?.owner}>
         <AddressOrIdentity key={detail?.owner} address={detail?.owner} />
       </Tooltip>,

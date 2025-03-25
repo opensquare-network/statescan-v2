@@ -12,6 +12,7 @@ const Wrapper = styled.span`
 const Name = styled.span`
   color: ${(p) => p.theme.fontPrimary};
   ${Inter_14_600};
+  ${(p) => p.customStyle && p.customStyle};
 `;
 
 const AssetLogoWrapper = styled(Wrapper)`
@@ -24,7 +25,7 @@ const DestroyedBadge = styled.img`
   bottom: 0;
 `;
 
-export default function Symbol({ asset, destroyed }) {
+export default function Symbol({ asset, destroyed, style }) {
   return (
     <SymbolLink
       destroyed={destroyed}
@@ -41,7 +42,9 @@ export default function Symbol({ asset, destroyed }) {
             <DestroyedBadge src="/imgs/icons/asset/destroyed-badge.svg" />
           )}
         </AssetLogoWrapper>
-        <Name>{asset?.metadata?.symbol ?? asset?.asset?.metadata?.symbol}</Name>
+        <Name customStyle={style}>
+          {asset?.metadata?.symbol ?? asset?.asset?.metadata?.symbol}
+        </Name>
       </Wrapper>
     </SymbolLink>
   );
