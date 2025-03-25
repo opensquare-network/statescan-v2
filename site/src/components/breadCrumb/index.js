@@ -4,6 +4,7 @@ import { Flex } from "../styled/flex";
 import Link from "../styled/link";
 import { useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
+import MetaInfo from "./meta";
 
 const BreadCrumbWrapper = styled(Flex)`
   margin-bottom: 16px;
@@ -43,19 +44,22 @@ export default function BreadCrumb({ data }) {
   const chainSetting = useSelector(chainSettingSelector);
 
   return (
-    <BreadCrumbWrapper>
-      <Link to={"/"}>
-        <StyledLink>{chainSetting.name}</StyledLink>
-      </Link>
-      {(data || []).map((item, index) =>
-        item.path ? (
-          <Link to={item.path} key={index}>
-            <StyledLink>{item.name}</StyledLink>
-          </Link>
-        ) : (
-          <StyledText key={index}>{item.name}</StyledText>
-        ),
-      )}
-    </BreadCrumbWrapper>
+    <>
+      <BreadCrumbWrapper>
+        <Link to={"/"}>
+          <StyledLink>{chainSetting.name}</StyledLink>
+        </Link>
+        {(data || []).map((item, index) =>
+          item.path ? (
+            <Link to={item.path} key={index}>
+              <StyledLink>{item.name}</StyledLink>
+            </Link>
+          ) : (
+            <StyledText key={index}>{item.name}</StyledText>
+          ),
+        )}
+      </BreadCrumbWrapper>
+      <MetaInfo data={data} />
+    </>
   );
 }
