@@ -17,7 +17,6 @@ export default function ForeignAssetsLocation({ location }) {
 
   return (
     <>
-      <ForeignAssetLocationContent location={location} />
       <Wrapper onClick={() => setShowModal(true)}>
         <img src="/imgs/icons/asset/location.svg" alt="Location" />
       </Wrapper>
