@@ -40,7 +40,6 @@ import dark from "../../styles/theme/dark";
 import styled from "styled-components";
 import BigNumber from "bignumber.js";
 import QuestionIcon from "../../components/icons/question";
-import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
 
 export const TextSecondaryWithCopy = withCopy(TextSecondary);
 const ColoredMonoLinkWithCopy = withCopy(ColoredMonoLink);
@@ -432,7 +431,6 @@ export const toForeignAssetDetailItem = (id, asset) => {
   detailItems["Asset ID"] = <TextSecondary>{asset.assetId}</TextSecondary>;
   return {
     ...detailItems,
-    Location: <ForeignAssetsLocation location={asset.location} />,
   };
 };
 

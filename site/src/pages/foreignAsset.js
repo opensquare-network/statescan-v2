@@ -17,6 +17,8 @@ import { addressEllipsis } from "@osn/common";
 import ForeignAssetTransfers from "../components/foreign-asset/transfers";
 import ForeignAssetHolders from "../components/foreign-asset/holders";
 import ForeignAssetTimeline from "../components/foreign-asset/timeline";
+import ForeignAssetLocationContent from "../components/foreignAssetsLocation/foreignAssetLocationContent";
+import { Title, Wrapper } from "../components/dataDisplay";
 
 function ForeignAsset() {
   const { assetId } = useParams();
@@ -72,6 +74,10 @@ function ForeignAsset() {
     <DetailLayout breadCrumb={<BreadCrumb data={breadCrumb} />}>
       <Panel>
         <List header={<AssetInfo detail={detail} />} data={listData} />
+        <Wrapper>
+          <Title>Location</Title>
+          <ForeignAssetLocationContent location={detail?.location} />
+        </Wrapper>
       </Panel>
 
       <DetailTabs tabs={tabs} />
