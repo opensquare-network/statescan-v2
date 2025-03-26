@@ -1,7 +1,7 @@
 const holder = /* GraphQL */ `
   type ForeignAssetHolder {
     address: String!
-    assetId: Int!
+    assetId: String!
     asset: ForeignAsset
     balance: String
     status: String

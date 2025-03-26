@@ -29,8 +29,9 @@ async function accountForeignAssets(_, _args) {
     .toArray();
   const total = await col.countDocuments(q);
 
+  const normalizedHolders = await getHoldersWithAsset(holders);
   return {
-    holders: await getHoldersWithAsset(holders),
+    holders: normalizedHolders,
     offset,
     limit,
     total,
