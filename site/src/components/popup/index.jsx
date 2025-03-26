@@ -4,10 +4,9 @@ import noop from "lodash.noop";
 import styled from "styled-components";
 import PopupContainer from "./container";
 
-const Panel = styled.div`
+const Wrapper = styled.div`
   position: relative;
   margin-top: 12vh;
-  margin-bottom: 16px;
   width: 640px;
   max-width: 100%;
   padding: 24px;
@@ -21,7 +20,7 @@ const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 `;
 
 const Title = styled.h3`
@@ -42,7 +41,7 @@ const CloseIcon = styled.img`
 `;
 
 const ContentWrapper = styled.div`
-  margin-top: 16px;
+  padding: 0;
 `;
 
 let z = 999;
@@ -56,6 +55,7 @@ export default function Popup({
   children,
   container,
   showCloseIcon = true,
+  popupStyle = {},
 }) {
   const [zOverlay] = useState(z);
   const [zContent] = useState(z + 1);
@@ -76,10 +76,11 @@ export default function Popup({
               }
             }}
           >
-            <Panel
+            <Wrapper
               className={className}
               style={{
                 zIndex: zContent,
+                ...popupStyle,
               }}
             >
               {title && (
@@ -102,7 +103,7 @@ export default function Popup({
               )}
 
               <ContentWrapper>{children}</ContentWrapper>
-            </Panel>
+            </Wrapper>
           </PopupContainer>
         </Dialog.Content>
       </Dialog.Portal>

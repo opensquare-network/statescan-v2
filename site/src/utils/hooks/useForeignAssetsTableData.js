@@ -7,6 +7,7 @@ import { bigNumberToLocaleString } from "../viewFuncs";
 import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
 import { addressEllipsis } from "@osn/common";
 import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
+import { currencify } from "../../utils";
 
 export default function useForeignAssetsTableData(assets = []) {
   return assets?.map?.((asset) => {
@@ -15,7 +16,7 @@ export default function useForeignAssetsTableData(assets = []) {
     const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
 
     return [
-      <AssetSymbolAndName asset={asset} />,
+      <AssetSymbolAndName asset={asset} foreignAsset={true} />,
       <Tooltip tip={assetId}>
         <ColoredMonoLink to={link}>{addressEllipsis(assetId)}</ColoredMonoLink>
       </Tooltip>,
@@ -26,7 +27,7 @@ export default function useForeignAssetsTableData(assets = []) {
       <Tooltip tip={detail?.issuer}>
         <AddressOrIdentity key={detail?.issuer} address={detail?.issuer} />
       </Tooltip>,
-      detail?.accounts,
+      <span>{currencify(detail?.accounts)}</span>,
       <Tooltip pullRight={true} tip={bigNumberToLocaleString(supply)}>
         <ValueDisplay value={supply} />
       </Tooltip>,

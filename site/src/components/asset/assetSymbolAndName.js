@@ -33,13 +33,17 @@ const symbolStyle = css`
  * @param {string} nameWidth
  * @returns {JSX.Element}
  */
-const AssetSymbolAndName = ({ asset, nameWidth = "384px" }) => {
+const AssetSymbolAndName = ({
+  asset,
+  nameWidth = "384px",
+  foreignAsset = false,
+}) => {
   const { metadata } = asset || {};
 
   return (
     <Flex>
       <AssetSymbolWrapper>
-        {metadata?.symbol ? <Symbol asset={asset} style={symbolStyle} /> : "--"}
+        {metadata?.symbol ? <Symbol asset={asset} style={symbolStyle} foreignAsset={foreignAsset} /> : "--"}
       </AssetSymbolWrapper>
 
       <AssetNameWrapper>

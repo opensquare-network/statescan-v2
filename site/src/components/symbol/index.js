@@ -25,18 +25,20 @@ const DestroyedBadge = styled.img`
   bottom: 0;
 `;
 
-export default function Symbol({ asset, destroyed, style }) {
+export default function Symbol({ asset, destroyed, style, foreignAsset  }) {
   return (
     <SymbolLink
       destroyed={destroyed}
       assetId={asset?.assetId}
       assetHeight={asset?.assetHeight}
+      foreignAsset={foreignAsset} 
     >
       <Wrapper>
         <AssetLogoWrapper>
           <AssetLogo
             assetId={asset?.assetId}
             assetHeight={asset?.assetHeight}
+            foreignAsset={foreignAsset} 
           />
           {destroyed && (
             <DestroyedBadge src="/imgs/icons/asset/destroyed-badge.svg" />
