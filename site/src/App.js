@@ -41,6 +41,7 @@ import ProxiesPage from "./pages/proxies";
 import ProxyPage from "./pages/proxy";
 import ProxyDetailPage from "./pages/proxy/detail";
 import ProxyAnnouncementDetailPage from "./pages/proxy/announcement";
+import OnChainExtrinsic from "./pages/extrinsic/onChainExtrinsic";
 import useSetFinalizedHeight from "./hooks/useSetFinalizedHeight";
 import TXPage from "./pages/tx";
 
@@ -87,7 +88,7 @@ function App() {
         <Route path="/extrinsics" element={<Extrinsics />} />
         <Route
           path="/extrinsics/:id"
-          element={isUseOnChainBlockData ? <Extrinsic /> : <Extrinsic />}
+          element={isUseOnChainBlockData ? <OnChainExtrinsic /> : <Extrinsic />}
         />
         <Route path="/events" element={<Events />} />
         <Route
