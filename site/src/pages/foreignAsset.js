@@ -73,7 +73,10 @@ function ForeignAsset() {
   return (
     <DetailLayout breadCrumb={<BreadCrumb data={breadCrumb} />}>
       <Panel>
-        <List header={<AssetInfo detail={detail} />} data={listData} />
+        <List
+          header={<AssetInfo detail={detail} foreignAsset />}
+          data={listData}
+        />
         <Wrapper>
           <Title>Location</Title>
           <ForeignAssetLocationContent location={detail?.location} />

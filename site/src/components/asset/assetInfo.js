@@ -51,7 +51,7 @@ const RightWrapper = styled.div`
   flex: 1 1 auto;
 `;
 
-export default function AssetInfo({ detail }) {
+export default function AssetInfo({ detail, foreignAsset = false }) {
   const symbol = detail?.metadata?.symbol;
   const name = detail?.metadata?.name;
 
@@ -62,6 +62,7 @@ export default function AssetInfo({ detail }) {
           assetId={detail?.assetId}
           assetHeight={detail?.assetHeight}
           className="logo"
+          foreignAsset={foreignAsset}
         />
         <SymbolWrapper>
           {symbol && <div className="symbol">{symbol}</div>}
