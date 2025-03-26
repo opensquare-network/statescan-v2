@@ -6,6 +6,14 @@ async function getForeignAsset(assetId) {
   return await col.findOne({ assetId });
 }
 
+async function getAllForeignAssets() {
+  const col = await getAssetCol();
+  return await col
+    .find({}, { projection: { _id: 0 } })
+    .sort({ assetHeight: 1 })
+    .toArray();
+}
+
 async function updateForeignAsset(assetId, updates = {}) {
   if (isEmpty(updates)) {
     return;
@@ -18,4 +26,5 @@ async function updateForeignAsset(assetId, updates = {}) {
 module.exports = {
   getForeignAsset,
   updateForeignAsset,
+  getAllForeignAssets,
 };
