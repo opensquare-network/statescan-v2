@@ -6,13 +6,13 @@ import { useState } from "react";
 import JsonView from "../JSON";
 import { bg_theme, p } from "../../styles/tailwindcss";
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   padding: 24px;
   border-top: 1px solid ${({ theme }) => theme.strokeBase};
   color: ${({ theme }) => theme.fontPrimary};
 `;
 
-const Title = styled.p`
+export const Title = styled.p`
   ${Inter_14_600};
 `;
 

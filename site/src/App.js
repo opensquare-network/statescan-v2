@@ -13,6 +13,7 @@ import Calls from "./pages/calls";
 import Call from "./pages/call";
 import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
+import ForeignAsset from "./pages/foreignAsset";
 import ForeignAssets from "./pages/foreignAssets";
 import { Fragment } from "react";
 import Asset from "./pages/asset";
@@ -80,6 +81,7 @@ function App() {
         {foreignAssets && (
           <Fragment>
             <Route path="/foreign-assets" element={<ForeignAssets />} />
+            <Route path="/foreign-assets/:assetId" element={<ForeignAsset />} />
           </Fragment>
         )}
         {uniques && (

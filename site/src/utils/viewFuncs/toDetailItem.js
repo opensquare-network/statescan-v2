@@ -426,6 +426,14 @@ export const toAssetDetailItem = (id, asset) => {
   };
 };
 
+export const toForeignAssetDetailItem = (id, asset) => {
+  const detailItems = toAssetDetailItem(id, asset);
+  detailItems["Asset ID"] = <TextSecondary>{asset.assetId}</TextSecondary>;
+  return {
+    ...detailItems,
+  };
+};
+
 export const toCallDetailItem = (indexer, section, method) => {
   return {
     "Call ID": (
