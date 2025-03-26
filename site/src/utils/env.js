@@ -17,11 +17,6 @@ export function isPolimec() {
   return chain === polimec.value;
 }
 
-export function isStatemint() {
-  const chain = getEnvChain();
-  return chain === statemint.value;
-}
-
 export function getEnvEndpoint() {
   const endpoint = process.env.REACT_APP_PUBLIC_API_END_POINT;
   if (!endpoint) {

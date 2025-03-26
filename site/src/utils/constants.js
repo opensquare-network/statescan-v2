@@ -1,4 +1,4 @@
-import { isPolimec, isStatemint } from "./env";
+import { getChainModules } from "./chain";
 
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
@@ -95,22 +95,25 @@ export const uniquesMenuItem = {
   value: "uniques",
 };
 
-export const menuAssets = [
-  {
-    name: "Assets",
-    value: "assets",
-  },
-];
+export const foreignAssetsMenuItem = {
+  name: "Foreign Assets",
+  value: "foreign-assets",
+};
 
-if (isPolimec() || isStatemint()) {
-  menuAssets.push({
-    name: "Foreign Assets",
-    value: "foreign-assets",
-  });
-}
+const getMenuAssets = () => {
+  const baseMenus = [
+    {
+      name: "Assets",
+      value: "assets",
+    },
+  ];
 
-if (!isPolimec()) {
-  menuAssets.push(
+  if (getChainModules()?.foreignAssets) {
+    baseMenus.push(foreignAssetsMenuItem);
+  }
+
+  return [
+    ...baseMenus,
     {
       type: "divider",
     },
@@ -119,8 +122,10 @@ if (!isPolimec()) {
       title: "Destroyed",
       menus: menuAssetsDestroyed,
     },
-  );
-}
+  ];
+};
+
+export const menuAssets = getMenuAssets();
 
 export const menusAssetsAndUniques = [
   {
