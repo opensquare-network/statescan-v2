@@ -41,7 +41,6 @@ import ProxiesPage from "./pages/proxies";
 import ProxyPage from "./pages/proxy";
 import ProxyDetailPage from "./pages/proxy/detail";
 import ProxyAnnouncementDetailPage from "./pages/proxy/announcement";
-import OnChainExtrinsic from "./pages/extrinsic/onChainExtrinsic";
 import useSetFinalizedHeight from "./hooks/useSetFinalizedHeight";
 import TXPage from "./pages/tx";
 
