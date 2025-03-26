@@ -66,7 +66,7 @@ function ForeignAsset() {
   const assetIdWithoutHeight = addressEllipsis(assetId);
 
   let breadCrumb = [
-    { name: "ForeignAssets", path: "/foreign-assets" },
+    { name: "Foreign Assets", path: "/foreign-assets" },
     { name: assetIdWithoutHeight },
   ];
 
