@@ -10,18 +10,17 @@ export default function AssetLogo({
   assetHeight,
   size = 24,
   className,
+  foreignAsset = false,
 }) {
   const assetInfoData = useAssetInfoData();
+  const assetKey = foreignAsset ? assetId : `${assetId}_${assetHeight}`;
 
   return (
     <Icon
       className={className}
       width={size}
       height={size}
-      src={
-        assetInfoData[`${assetId}_${assetHeight}`]?.icon ??
-        "/imgs/icons/default.svg"
-      }
+      src={assetInfoData[assetKey]?.icon ?? "/imgs/icons/default.svg"}
       alt="logo"
     />
   );

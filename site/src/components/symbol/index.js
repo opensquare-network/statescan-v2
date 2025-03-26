@@ -38,6 +38,7 @@ export default function Symbol({ asset, destroyed, style, foreignAsset  }) {
           <AssetLogo
             assetId={asset?.assetId}
             assetHeight={asset?.assetHeight}
+            foreignAsset={foreignAsset} 
           />
           {destroyed && (
             <DestroyedBadge src="/imgs/icons/asset/destroyed-badge.svg" />
