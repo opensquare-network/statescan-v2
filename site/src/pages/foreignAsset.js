@@ -77,10 +77,12 @@ function ForeignAsset() {
           header={<AssetInfo detail={detail} foreignAsset />}
           data={listData}
         />
-        <Wrapper>
-          <Title>Location</Title>
-          <ForeignAssetLocationContent location={detail?.location} />
-        </Wrapper>
+        {detail?.location && (
+          <Wrapper>
+            <Title>Location</Title>
+            <ForeignAssetLocationContent location={detail?.location} />
+          </Wrapper>
+        )}
       </Panel>
 
       <DetailTabs tabs={tabs} />
