@@ -31,7 +31,7 @@ export default function SymbolLink({
       : `/assets/${assetId}`;
 
     if (foreignAsset) {
-      link = `/foregin-assets/${assetId}`;
+      link = `/foreign-assets/${assetId}`;
     }
 
     return <MyLink to={link}>{children}</MyLink>;
