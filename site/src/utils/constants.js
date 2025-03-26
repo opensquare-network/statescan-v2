@@ -1,4 +1,4 @@
-import { isPolimec } from "./env";
+import { isPolimec, isStatemint } from "./env";
 
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
@@ -101,6 +101,13 @@ export const menuAssets = [
     value: "assets",
   },
 ];
+
+if (isPolimec() || isStatemint()) {
+  menuAssets.push({
+    name: "Foreign Assets",
+    value: "foreign-assets",
+  });
+}
 
 if (!isPolimec()) {
   menuAssets.push(
