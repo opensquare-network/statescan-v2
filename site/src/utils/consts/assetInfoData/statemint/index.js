@@ -10,7 +10,6 @@ const statemintAssetInfo = {
   [constructAssetId(USDC)]: USDC.data,
   [constructAssetId(Ded)]: Ded.data,
   [constructAssetId(Dota)]: Dota.data,
-  [constructAssetId(Dota)]: Dota.data,
   [constructAssetId(foreignAssetMYTH)]: foreignAssetMYTH.data,
 };
 
