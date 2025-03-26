@@ -21,13 +21,18 @@ export default function SymbolLink({
   assetId,
   assetHeight,
   destroyed = false,
+  foreignAsset = false,
 }) {
   const chainSetting = useChainSettings();
 
   if (chainSetting?.modules?.assets && (assetId || assetHeight)) {
-    const link = destroyed
+    let link = destroyed
       ? `/assets/${assetId}_${assetHeight}`
       : `/assets/${assetId}`;
+
+    if (foreignAsset) {
+      link = `/foregin-assets/${assetId}`;
+    }
 
     return <MyLink to={link}>{children}</MyLink>;
   }
