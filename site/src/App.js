@@ -88,7 +88,7 @@ function App() {
         <Route path="/extrinsics" element={<Extrinsics />} />
         <Route
           path="/extrinsics/:id"
-          element={isUseOnChainBlockData ? <OnChainExtrinsic /> : <Extrinsic />}
+          element={isUseOnChainBlockData ? <Extrinsic /> : <Extrinsic />}
         />
         <Route path="/events" element={<Events />} />
         <Route
