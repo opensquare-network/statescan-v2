@@ -19,6 +19,7 @@ function Assets() {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
+      sort: "HOLDERS_DESC",
     },
     onCompleted: setData,
   });
