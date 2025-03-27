@@ -1,5 +1,3 @@
-import { getChainModules } from "./chain";
-
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
 export const CACHE_KEY = {
@@ -54,13 +52,6 @@ export const menusBlockchain = [
   ...menusBlockchainSimpleMode,
 ];
 
-export const menuAssetsDestroyed = [
-  {
-    name: "Assets",
-    value: "destroyed/assets",
-  },
-];
-
 export const destroyedAssetsMenuItem = {
   name: "Assets",
   value: "destroyed/assets",
@@ -95,38 +86,6 @@ export const uniquesMenuItem = {
   name: "NFT",
   value: "uniques",
 };
-
-export const foreignAssetsMenuItem = {
-  name: "Foreign Assets",
-  value: "foreign-assets",
-};
-
-const getMenuAssets = () => {
-  const baseMenus = [
-    {
-      name: "Assets",
-      value: "assets",
-    },
-  ];
-
-  if (getChainModules()?.foreignAssets) {
-    baseMenus.push(foreignAssetsMenuItem);
-  }
-
-  return [
-    ...baseMenus,
-    {
-      type: "divider",
-    },
-    {
-      type: "group",
-      title: "Destroyed",
-      menus: menuAssetsDestroyed,
-    },
-  ];
-};
-
-export const menuAssets = getMenuAssets();
 
 export const menusAssetsAndUniques = [
   {
