@@ -87,6 +87,32 @@ function AccountDetailCommonInContext({ id }) {
   const nftTransfersApiKey = `/accounts/${id}/nft/transfers`;
 
   const tabs = [
+    {
+      name: Extrinsics,
+      count: summary?.extrinsicsCount,
+      children: (
+        <DetailTable
+          url={extrinsicsApiKey}
+          heads={isSimpleMode ? extrinsicsHeadSimpleMode : extrinsicsHead}
+          transformData={
+            isSimpleMode
+              ? toExtrinsicsTabTableItemSimpleMode
+              : toExtrinsicsTabTableItem
+          }
+        />
+      ),
+    },
+    {
+      name: Transfers,
+      count: summary?.transfersCount,
+      children: (
+        <DetailTable
+          url={transfersApiKey}
+          heads={transfersHead}
+          transformData={toTransferTabTableItem}
+        />
+      ),
+    },
     chainSetting.modules?.assets && {
       name: Assets,
       count: assetsCount,
@@ -103,32 +129,6 @@ function AccountDetailCommonInContext({ id }) {
       name: ForeignAssets,
       count: foreignAssetsCount,
       children: <ForeignAssetsTable />,
-    },
-    {
-      name: Transfers,
-      count: summary?.transfersCount,
-      children: (
-        <DetailTable
-          url={transfersApiKey}
-          heads={transfersHead}
-          transformData={toTransferTabTableItem}
-        />
-      ),
-    },
-    {
-      name: Extrinsics,
-      count: summary?.extrinsicsCount,
-      children: (
-        <DetailTable
-          url={extrinsicsApiKey}
-          heads={isSimpleMode ? extrinsicsHeadSimpleMode : extrinsicsHead}
-          transformData={
-            isSimpleMode
-              ? toExtrinsicsTabTableItemSimpleMode
-              : toExtrinsicsTabTableItem
-          }
-        />
-      ),
     },
     chainSetting.modules?.identity &&
       hasIdentity && {
