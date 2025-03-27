@@ -26,8 +26,9 @@ export default function AssetHolders({ assetId }) {
   });
 
   const tableData = data?.assetHolders?.holders?.map?.((holder, index) => {
+    const rank = (page - 1) * pageSize + index + 1;
     return [
-      index + 1,
+      rank,
       <Tooltip tip={holder?.address}>
         <AddressOrIdentity
           key={holder?.address}
