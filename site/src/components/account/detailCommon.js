@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import {
   accountAssetsHead,
-  accountForeignAssetsHead,
   extrinsicsHead,
   Assets,
   ForeignAssets,
@@ -21,7 +20,6 @@ import {
 import DetailTable from "../detail/table";
 import {
   toAssetsTabItem,
-  toForeignAssetsTabItem,
   toExtrinsicsTabTableItem,
   toNftInstanceTransferTabTableItem,
   toTransferTabTableItem,
@@ -49,12 +47,14 @@ import {
   GET_ACCOUNT_ASSET,
   GET_ACCOUNT_ASSET_COUNT,
 } from "../../services/gql/assets";
-import { GET_FOREIGN_ACCOUNT_ASSET } from "../../services/gql/foreignAssets";
 import DetailTableGraphql from "../detail/tableGraphql";
 import ForeignAssetsTable from "../detail/foreignAssetsTable";
+import {
+  AccountForeignAssetsProvider,
+  useAccountForeignAssets,
+} from "./context/foreignAssetsContext";
 
-function AccountDetailCommon() {
-  const { id } = useParams();
+function AccountDetailCommonInContext({ id }) {
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
   const [previewNft, setPreviewNft] = useState();
@@ -63,6 +63,7 @@ function AccountDetailCommon() {
   const { multisig: hasMultisig } = getChainModules();
   const isSimpleMode = getIsSimpleMode();
   const { data: recoverables } = useRecoverablesData({ lostAccount: id });
+  const { foreignAssetsCount } = useAccountForeignAssets();
 
   const showPreview = useCallback((nft) => {
     setPreviewNft(nft);
@@ -100,15 +101,8 @@ function AccountDetailCommon() {
     },
     chainSetting.modules?.foreignAssets && {
       name: ForeignAssets,
-      count: assetsCount,
-      children: (
-        <ForeignAssetsTable
-          graphql={GET_FOREIGN_ACCOUNT_ASSET}
-          id={id}
-          heads={accountForeignAssetsHead}
-          transformData={toForeignAssetsTabItem}
-        />
-      ),
+      count: foreignAssetsCount,
+      children: <ForeignAssetsTable />,
     },
     {
       name: Transfers,
@@ -218,7 +212,14 @@ function AccountDetailCommon() {
   );
 }
 
-export default AccountDetailCommon;
+export default function AccountDetailCommon() {
+  const { id } = useParams();
+  return (
+    <AccountForeignAssetsProvider address={id}>
+      <AccountDetailCommonInContext id={id} />
+    </AccountForeignAssetsProvider>
+  );
+}
 
 function DetailAssetsSummary({ id }) {
   const dispatch = useDispatch();

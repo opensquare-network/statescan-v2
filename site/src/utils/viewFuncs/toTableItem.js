@@ -31,6 +31,9 @@ import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
 import ExtrinsicLink from "../../components/extrinsic/link";
 import CallCell from "../../components/table/callCell";
+import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
+import { addressEllipsis } from "@osn/common";
+import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
 
 export const toEventTabTableItem = (events = []) => {
   return (
@@ -166,24 +169,22 @@ export const toAssetsTabItem = (assets) => {
   });
 };
 
-export const toForeignAssetsTabItem = (assets) => {
-  return assets?.map((asset) => {
-    const {
-      assetId,
-      balance,
-      asset: { metadata, detail },
-      isFrozen,
-    } = asset;
+export const toForeignAssetsTabItem = (foreignAssets) => {
+  return foreignAssets?.map((foreignAsset) => {
+    const { assetId, balance, asset } = foreignAsset;
+    const { metadata, detail, location } = asset;
 
     const link = `/foreign-assets/${assetId}`;
     const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
 
     return [
-      <ColoredInterLink to={link}>{assetId}</ColoredInterLink>,
-      metadata?.symbol ? <Symbol asset={asset} /> : "--",
-      metadata?.name ? <SymbolName name={metadata.name} /> : "--",
+      <AssetSymbolAndName asset={asset} foreignAsset={true} />,
+      <Tooltip tip={assetId}>
+        <ColoredMonoLink to={link}>{addressEllipsis(assetId)}</ColoredMonoLink>
+      </Tooltip>,
+      <ForeignAssetsLocation location={location} />,
       bigNumberToLocaleString(fromAssetUnit(balance, metadata?.decimals)),
-      isFrozen?.toString(),
+      metadata?.isFrozen?.toString(),
       <Tooltip pullRight tip={bigNumberToLocaleString(supply)}>
         <ValueDisplay value={supply} />
       </Tooltip>,
