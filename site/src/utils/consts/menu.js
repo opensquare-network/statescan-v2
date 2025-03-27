@@ -15,6 +15,29 @@ export const identitySubMenus = [
   },
 ];
 
+export const menuAssetsDestroyed = [
+  {
+    name: "Assets",
+    value: "destroyed/assets",
+  },
+];
+
+const assetsMenuItem = {
+  name: "Assets",
+  value: "assets",
+};
+
+const destroyedAssetsMenuItem = {
+  type: "group",
+  title: "Destroyed",
+  menus: menuAssetsDestroyed,
+};
+
+export const foreignAssetsMenuItem = {
+  name: "Foreign Assets",
+  value: "foreign-assets",
+};
+
 export const multisigSubMenus = [
   {
     name: "Accounts",
@@ -74,7 +97,15 @@ export const proxyMenu = {
 };
 
 export default function getBusinessMenus() {
-  const { identity, multisig, vestings, recovery, proxy } = getChainModules();
+  const {
+    identity,
+    multisig,
+    vestings,
+    recovery,
+    proxy,
+    assets,
+    foreignAssets,
+  } = getChainModules();
   const hasDivider = identity && multisig;
 
   const menus = [];
@@ -110,6 +141,21 @@ export default function getBusinessMenus() {
       menus.push(divider);
     }
     menus.push(proxyMenu);
+  }
+
+  if (assets) {
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
+
+    menus.push(assetsMenuItem, divider, destroyedAssetsMenuItem);
+  }
+
+  if (foreignAssets) {
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
+    menus.push(foreignAssetsMenuItem);
   }
 
   return menus;

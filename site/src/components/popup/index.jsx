@@ -3,11 +3,11 @@ import * as Dialog from "@radix-ui/react-dialog";
 import noop from "lodash.noop";
 import styled from "styled-components";
 import PopupContainer from "./container";
+import { useIsScreen } from "../../utils/hooks";
 
 const Wrapper = styled.div`
   position: relative;
   margin-top: 12vh;
-  width: 640px;
   max-width: 100%;
   padding: 24px;
   background: var(--fillPanel);
@@ -62,6 +62,7 @@ export default function Popup({
   useEffect(() => {
     z++;
   }, []);
+  const { isMobile } = useIsScreen();
 
   return (
     <Dialog.Root open>
@@ -80,6 +81,7 @@ export default function Popup({
               className={className}
               style={{
                 zIndex: zContent,
+                width: isMobile ? "calc(100vw - 50px)" : "640px",
                 ...popupStyle,
               }}
             >
