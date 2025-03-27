@@ -4,11 +4,15 @@ const {
 const isEmpty = require("lodash.isempty");
 
 function extractSort(sort) {
+  const commonSort = { assetHeight: 1 };
   if ("HOLDERS_DESC" === sort) {
-    return { "detail.accounts": -1 };
+    return {
+      "detail.accounts": -1,
+      ...commonSort,
+    };
   }
 
-  return { assetHeight: 1 };
+  return commonSort;
 }
 
 async function foreignAssets(_, _args) {
