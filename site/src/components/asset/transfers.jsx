@@ -49,6 +49,7 @@ export default function AssetTransfers({ assetId, asset }) {
         value={toPrecision(transfer?.balance, asset?.metadata?.decimals)}
         symbol={asset?.metadata?.symbol}
         showNotEqualTooltip
+        symbolWidth={80}
       />,
     ];
   });

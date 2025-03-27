@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { bigNumberToLocaleString } from "../utils/viewFuncs";
 import { abbreviateBigNumber, getEffectiveNumbers } from "@osn/common";
 import TooltipOrigin from "./tooltip";
-import { inline_block } from "../styles/tailwindcss";
+import { inline_block, truncate } from "../styles/tailwindcss";
 
 const Wrapper = styled.div`
   white-space: nowrap;
+  display: inline-flex;
 `;
 
 const NotEqual = styled.div`
@@ -23,14 +24,32 @@ const Tooltip = styled(TooltipOrigin)`
   width: auto;
 `;
 
+const SybmolEllipsis = styled.span`
+  ${truncate};
+  display: inline-block;
+`;
+
 export default function ValueDisplay({
   value,
   symbol,
   abbreviate = true,
   showNotEqualTooltip = false,
+  symbolWidth = 0,
 }) {
   if (isNaN(value)) {
     return <Wrapper>--</Wrapper>;
+  }
+
+  let symbolDisplay = <span className="symbol">{symbol}</span>;
+
+  if (symbolWidth > 0) {
+    symbolDisplay = (
+      <Tooltip tip={symbol}>
+        <SybmolEllipsis className="symbol" style={{ width: symbolWidth }}>
+          {symbol}
+        </SybmolEllipsis>
+      </Tooltip>
+    );
   }
 
   if (
@@ -46,8 +65,7 @@ export default function ValueDisplay({
     if (getEffectiveNumbers(abbreviated) !== getEffectiveNumbers(value)) {
       display = (
         <NotEqual>
-          <span className="figures">{abbreviated}</span>{" "}
-          <span className="symbol">{symbol}</span>
+          <span className="figures">{abbreviated}</span> {symbolDisplay}
         </NotEqual>
       );
 
@@ -69,7 +87,7 @@ export default function ValueDisplay({
         <span className="figures">
           {bigNumberToLocaleString(int)}.{shortDeciaml}
         </span>{" "}
-        <span className="symbol">{symbol}</span>
+        {symbolDisplay}
       </NotEqual>
     );
 
@@ -85,7 +103,7 @@ export default function ValueDisplay({
     <Wrapper>
       <span className="figures">{value} </span>
       <span style={{ width: 4 }} />
-      <span className="symbol">{symbol}</span>
+      {symbolDisplay}
     </Wrapper>
   );
 }
