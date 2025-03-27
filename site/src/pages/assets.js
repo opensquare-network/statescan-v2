@@ -1,7 +1,11 @@
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import BreadCrumb from "../components/breadCrumb";
 import React, { useState } from "react";
-import { assetsHead, LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
+import {
+  ASSETS_SORT,
+  assetsHead,
+  LIST_DEFAULT_PAGE_SIZE,
+} from "../utils/constants";
 import Layout from "../components/layout";
 import Table from "../components/table";
 import Pagination from "../components/pagination";
@@ -19,7 +23,7 @@ function Assets() {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
-      sort: "HOLDERS_DESC",
+      sort: ASSETS_SORT.HOLDERS_DESC,
     },
     onCompleted: setData,
   });
