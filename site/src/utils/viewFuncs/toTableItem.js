@@ -166,6 +166,31 @@ export const toAssetsTabItem = (assets) => {
   });
 };
 
+export const toForeignAssetsTabItem = (assets) => {
+  return assets?.map((asset) => {
+    const {
+      assetId,
+      balance,
+      asset: { metadata, detail },
+      isFrozen,
+    } = asset;
+
+    const link = `/foreign-assets/${assetId}`;
+    const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
+
+    return [
+      <ColoredInterLink to={link}>{assetId}</ColoredInterLink>,
+      metadata?.symbol ? <Symbol asset={asset} /> : "--",
+      metadata?.name ? <SymbolName name={metadata.name} /> : "--",
+      bigNumberToLocaleString(fromAssetUnit(balance, metadata?.decimals)),
+      isFrozen?.toString(),
+      <Tooltip pullRight tip={bigNumberToLocaleString(supply)}>
+        <ValueDisplay value={supply} />
+      </Tooltip>,
+    ];
+  });
+};
+
 export const toInstancesTabTableItem = (
   nftClass,
   nftInstance,

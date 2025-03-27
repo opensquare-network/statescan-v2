@@ -7,6 +7,7 @@ export const CACHE_KEY = {
 };
 
 export const Assets = "assets";
+export const ForeignAssets = "foreign assets";
 export const Transfers = "transfers";
 export const Extrinsics = "extrinsics";
 export const Holders = "holders";
@@ -287,6 +288,15 @@ export const foreignAssetsHead = [
   { name: "Owner", width: 160 },
   { name: "Issuer", width: 160 },
   { name: "Holders", width: 120, align: "right" },
+  { name: "Total Supply", width: 160, align: "right" },
+];
+
+export const accountForeignAssetsHead = [
+  { name: "Asset", minWidth: 352 },
+  { name: "Asset ID", width: 160 },
+  { name: "Location", width: 120 },
+  { name: "Balance", width: 160, align: "right" },
+  { name: "Frozen", width: 160, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
 ];
 /**

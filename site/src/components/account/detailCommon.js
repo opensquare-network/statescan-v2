@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { chainSettingSelector } from "../../store/reducers/settingSlice";
 import {
   accountAssetsHead,
+  accountForeignAssetsHead,
   extrinsicsHead,
   Assets,
+  ForeignAssets,
   Extrinsics,
   Nft,
   nftClassInstanceHead,
@@ -19,6 +21,7 @@ import {
 import DetailTable from "../detail/table";
 import {
   toAssetsTabItem,
+  toForeignAssetsTabItem,
   toExtrinsicsTabTableItem,
   toNftInstanceTransferTabTableItem,
   toTransferTabTableItem,
@@ -46,7 +49,9 @@ import {
   GET_ACCOUNT_ASSET,
   GET_ACCOUNT_ASSET_COUNT,
 } from "../../services/gql/assets";
+import { GET_FOREIGN_ACCOUNT_ASSET } from "../../services/gql/foreignAssets";
 import DetailTableGraphql from "../detail/tableGraphql";
+import ForeignAssetsTable from "../detail/foreignAssetsTable";
 
 function AccountDetailCommon() {
   const { id } = useParams();
@@ -90,6 +95,18 @@ function AccountDetailCommon() {
           id={id}
           heads={accountAssetsHead}
           transformData={toAssetsTabItem}
+        />
+      ),
+    },
+    chainSetting.modules?.foreignAssets && {
+      name: ForeignAssets,
+      count: assetsCount,
+      children: (
+        <ForeignAssetsTable
+          graphql={GET_FOREIGN_ACCOUNT_ASSET}
+          id={id}
+          heads={accountForeignAssetsHead}
+          transformData={toForeignAssetsTabItem}
         />
       ),
     },
