@@ -16,7 +16,6 @@ import {
 import { mdcss, mobilecss } from "../../styles/responsive";
 import { useEffect } from "react";
 import {
-  menuAssets,
   menusAssetsAndUniques,
   menusBlockchain,
   menusBlockchainSimpleMode,
@@ -150,8 +149,6 @@ export default function Header() {
               />
               {assets && uniques ? (
                 <SubMenu category="Assets" menus={menusAssetsAndUniques} />
-              ) : assets ? (
-                <SubMenu category="Assets" menus={menuAssets} />
               ) : null}
               {hasBusiness() && (
                 <SubMenu category="Business" menus={getBusinessMenus()} />

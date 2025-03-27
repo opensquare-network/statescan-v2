@@ -6,6 +6,7 @@ import {
   accountAssetsHead,
   extrinsicsHead,
   Assets,
+  ForeignAssets,
   Extrinsics,
   Nft,
   nftClassInstanceHead,
@@ -47,9 +48,13 @@ import {
   GET_ACCOUNT_ASSET_COUNT,
 } from "../../services/gql/assets";
 import DetailTableGraphql from "../detail/tableGraphql";
+import ForeignAssetsTable from "../detail/foreignAssetsTable";
+import {
+  AccountForeignAssetsProvider,
+  useAccountForeignAssets,
+} from "./context/foreignAssetsContext";
 
-function AccountDetailCommon() {
-  const { id } = useParams();
+function AccountDetailCommonInContext({ id }) {
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
   const [previewNft, setPreviewNft] = useState();
@@ -58,6 +63,7 @@ function AccountDetailCommon() {
   const { multisig: hasMultisig } = getChainModules();
   const isSimpleMode = getIsSimpleMode();
   const { data: recoverables } = useRecoverablesData({ lostAccount: id });
+  const { foreignAssetsCount } = useAccountForeignAssets();
 
   const showPreview = useCallback((nft) => {
     setPreviewNft(nft);
@@ -81,29 +87,6 @@ function AccountDetailCommon() {
   const nftTransfersApiKey = `/accounts/${id}/nft/transfers`;
 
   const tabs = [
-    chainSetting.modules?.assets && {
-      name: Assets,
-      count: assetsCount,
-      children: (
-        <DetailTableGraphql
-          graphql={GET_ACCOUNT_ASSET}
-          id={id}
-          heads={accountAssetsHead}
-          transformData={toAssetsTabItem}
-        />
-      ),
-    },
-    {
-      name: Transfers,
-      count: summary?.transfersCount,
-      children: (
-        <DetailTable
-          url={transfersApiKey}
-          heads={transfersHead}
-          transformData={toTransferTabTableItem}
-        />
-      ),
-    },
     {
       name: Extrinsics,
       count: summary?.extrinsicsCount,
@@ -118,6 +101,34 @@ function AccountDetailCommon() {
           }
         />
       ),
+    },
+    {
+      name: Transfers,
+      count: summary?.transfersCount,
+      children: (
+        <DetailTable
+          url={transfersApiKey}
+          heads={transfersHead}
+          transformData={toTransferTabTableItem}
+        />
+      ),
+    },
+    chainSetting.modules?.assets && {
+      name: Assets,
+      count: assetsCount,
+      children: (
+        <DetailTableGraphql
+          graphql={GET_ACCOUNT_ASSET}
+          id={id}
+          heads={accountAssetsHead}
+          transformData={toAssetsTabItem}
+        />
+      ),
+    },
+    chainSetting.modules?.foreignAssets && {
+      name: ForeignAssets,
+      count: foreignAssetsCount,
+      children: <ForeignAssetsTable />,
     },
     chainSetting.modules?.identity &&
       hasIdentity && {
@@ -201,7 +212,14 @@ function AccountDetailCommon() {
   );
 }
 
-export default AccountDetailCommon;
+export default function AccountDetailCommon() {
+  const { id } = useParams();
+  return (
+    <AccountForeignAssetsProvider address={id}>
+      <AccountDetailCommonInContext id={id} />
+    </AccountForeignAssetsProvider>
+  );
+}
 
 function DetailAssetsSummary({ id }) {
   const dispatch = useDispatch();

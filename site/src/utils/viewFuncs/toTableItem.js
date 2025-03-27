@@ -31,6 +31,9 @@ import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
 import ExtrinsicLink from "../../components/extrinsic/link";
 import CallCell from "../../components/table/callCell";
+import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
+import { addressEllipsis } from "@osn/common";
+import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
 
 export const toEventTabTableItem = (events = []) => {
   return (
@@ -159,6 +162,29 @@ export const toAssetsTabItem = (assets) => {
       bigNumberToLocaleString(fromAssetUnit(balance, metadata?.decimals)),
       // bigNumberToLocaleString(fromAssetUnit(approved || 0, metadata?.decimals)), // https://github.com/opensquare-network/statescan-v2/issues/1036
       isFrozen?.toString(),
+      <Tooltip pullRight tip={bigNumberToLocaleString(supply)}>
+        <ValueDisplay value={supply} />
+      </Tooltip>,
+    ];
+  });
+};
+
+export const toForeignAssetsTabItem = (foreignAssets) => {
+  return foreignAssets?.map((foreignAsset) => {
+    const { assetId, balance, asset } = foreignAsset;
+    const { metadata, detail, location } = asset;
+
+    const link = `/foreign-assets/${assetId}`;
+    const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
+
+    return [
+      <Tooltip tip={assetId}>
+        <ColoredMonoLink to={link}>{addressEllipsis(assetId)}</ColoredMonoLink>
+      </Tooltip>,
+      <AssetSymbolAndName asset={asset} foreignAsset={true} />,
+      <ForeignAssetsLocation location={location} />,
+      bigNumberToLocaleString(fromAssetUnit(balance, metadata?.decimals)),
+      metadata?.isFrozen?.toString(),
       <Tooltip pullRight tip={bigNumberToLocaleString(supply)}>
         <ValueDisplay value={supply} />
       </Tooltip>,

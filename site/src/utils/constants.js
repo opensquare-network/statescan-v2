@@ -1,5 +1,3 @@
-import { isPolimec } from "./env";
-
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
 export const CACHE_KEY = {
@@ -7,6 +5,7 @@ export const CACHE_KEY = {
 };
 
 export const Assets = "assets";
+export const ForeignAssets = "foreign assets";
 export const Transfers = "transfers";
 export const Extrinsics = "extrinsics";
 export const Holders = "holders";
@@ -53,13 +52,6 @@ export const menusBlockchain = [
   ...menusBlockchainSimpleMode,
 ];
 
-export const menuAssetsDestroyed = [
-  {
-    name: "Assets",
-    value: "destroyed/assets",
-  },
-];
-
 export const destroyedAssetsMenuItem = {
   name: "Assets",
   value: "destroyed/assets",
@@ -94,26 +86,6 @@ export const uniquesMenuItem = {
   name: "NFT",
   value: "uniques",
 };
-
-export const menuAssets = [
-  {
-    name: "Assets",
-    value: "assets",
-  },
-];
-
-if (!isPolimec()) {
-  menuAssets.push(
-    {
-      type: "divider",
-    },
-    {
-      type: "group",
-      title: "Destroyed",
-      menus: menuAssetsDestroyed,
-    },
-  );
-}
 
 export const menusAssetsAndUniques = [
   {
@@ -265,6 +237,25 @@ export const assetsHead = [
   { name: "Owner", width: 160 },
   { name: "Issuer", width: 160 },
   { name: "Holders", width: 120, align: "right" },
+  { name: "Total Supply", width: 160, align: "right" },
+];
+
+export const foreignAssetsHead = [
+  { name: "Asset ID", width: 160 },
+  { name: "Asset", minWidth: 352 },
+  { name: "Location", width: 120 },
+  { name: "Owner", width: 160 },
+  { name: "Issuer", width: 160 },
+  { name: "Holders", width: 120, align: "right" },
+  { name: "Total Supply", width: 160, align: "right" },
+];
+
+export const accountForeignAssetsHead = [
+  { name: "Asset ID", width: 160 },
+  { name: "Asset", minWidth: 352 },
+  { name: "Location", width: 120 },
+  { name: "Balance", width: 160, align: "right" },
+  { name: "Frozen", width: 160, align: "right" },
   { name: "Total Supply", width: 160, align: "right" },
 ];
 /**

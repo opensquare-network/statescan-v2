@@ -14,6 +14,7 @@ import IdentitySection from "./identity";
 import { Anchor, AnchorWrapper, Section, Title } from "./styled";
 import BlockAndTransfers from "./blockAndTransfers";
 import RecoverySection from "./recovery";
+import ForeignAssets from "./foreignAssets";
 
 export default function Sections() {
   const assetsListLoading = useSelector(assetListLoadingSelector);
@@ -85,6 +86,21 @@ export default function Sections() {
             }
           >
             <Assets />
+          </StyledPanelTableWrapper>
+        </Section>
+      )}
+
+      {modules?.foreignAssets && (
+        <Section>
+          <Title>Foreign Assets</Title>
+          <StyledPanelTableWrapper
+            footer={
+              <AnchorWrapper>
+                <Anchor to="/foreign-assets">View All</Anchor>
+              </AnchorWrapper>
+            }
+          >
+            <ForeignAssets />
           </StyledPanelTableWrapper>
         </Section>
       )}

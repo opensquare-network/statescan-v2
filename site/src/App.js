@@ -13,6 +13,8 @@ import Calls from "./pages/calls";
 import Call from "./pages/call";
 import NotFound from "./pages/notFound";
 import Assets from "./pages/assets";
+import ForeignAsset from "./pages/foreignAsset";
+import ForeignAssets from "./pages/foreignAssets";
 import { Fragment } from "react";
 import Asset from "./pages/asset";
 import { getChainModules, getIsUseOnChainBlockData } from "./utils/chain";
@@ -50,8 +52,17 @@ const Router = process.env.REACT_APP_BROWSER_ROUTER
   : HashRouter;
 
 function App() {
-  const { assets, uniques, identity, multisig, vestings, recovery, proxy, tx } =
-    getChainModules();
+  const {
+    assets,
+    foreignAssets,
+    uniques,
+    identity,
+    multisig,
+    vestings,
+    recovery,
+    proxy,
+    tx,
+  } = getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useConnectApis();
   useUpdateNodesDelay();
@@ -65,6 +76,12 @@ function App() {
             <Route path="/assets" element={<Assets />} />
             <Route path="/assets/:assetId" element={<Asset />} />
             <Route path="/destroyed/assets" element={<DestroyedAssets />} />
+          </Fragment>
+        )}
+        {foreignAssets && (
+          <Fragment>
+            <Route path="/foreign-assets" element={<ForeignAssets />} />
+            <Route path="/foreign-assets/:assetId" element={<ForeignAsset />} />
           </Fragment>
         )}
         {uniques && (
