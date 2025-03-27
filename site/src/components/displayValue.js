@@ -25,6 +25,10 @@ const Tooltip = styled(TooltipOrigin)`
   width: auto;
 `;
 
+const SymbolTooltip = styled(Tooltip)`
+  display: inline-flex;
+`;
+
 const SybmolEllipsis = styled.span`
   ${truncate};
   display: inline-block;
@@ -45,11 +49,11 @@ export default function ValueDisplay({
 
   if (symbolWidth > 0) {
     symbolDisplay = (
-      <Tooltip tip={symbol}>
+      <SymbolTooltip tip={symbol}>
         <SybmolEllipsis className="symbol" style={{ maxWidth: symbolWidth }}>
           {symbol}
         </SybmolEllipsis>
-      </Tooltip>
+      </SymbolTooltip>
     );
   }
 
@@ -64,19 +68,22 @@ export default function ValueDisplay({
       </Wrapper>
     );
     if (getEffectiveNumbers(abbreviated) !== getEffectiveNumbers(value)) {
+      let notEqualDisplay = <span className="figures">{abbreviated}</span>;
+
+      if (showNotEqualTooltip) {
+        notEqualDisplay = (
+          <Tooltip tip={bigNumberToLocaleString(value)}>
+            {notEqualDisplay}
+          </Tooltip>
+        );
+      }
       display = (
         <NotEqual>
-          <span className="figures">{abbreviated}</span>
+          {notEqualDisplay}
           <span style={{ width: 4 }} />
           {symbolDisplay}
         </NotEqual>
       );
-
-      if (showNotEqualTooltip) {
-        display = (
-          <Tooltip tip={bigNumberToLocaleString(value)}>{display}</Tooltip>
-        );
-      }
     }
     return display;
   }
