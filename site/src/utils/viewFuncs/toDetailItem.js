@@ -395,8 +395,8 @@ export const toNftInstanceDetailItem = (nftClass, nftInstance) => {
 
 export const toAssetDetailItem = (id, asset) => {
   return {
-    Symbol: <TextSecondary>{asset?.metadata?.symbol}</TextSecondary>,
-    Name: <TextSecondary>{asset?.metadata?.name}</TextSecondary>,
+    Symbol: <TextSecondary>{asset?.metadata?.symbol || "--"}</TextSecondary>,
+    Name: <TextSecondary>{asset?.metadata?.name || "--"}</TextSecondary>,
     "Asset ID": <TextSecondary>#{asset.assetId}</TextSecondary>,
     Owner: (
       <AddressOrIdentity address={asset?.detail?.owner} ellipsis={false} />
