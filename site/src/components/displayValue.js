@@ -17,6 +17,7 @@ const NotEqual = styled.div`
     margin-right: 2px;
   }
   white-space: nowrap;
+  display: inline-flex;
 `;
 
 const Tooltip = styled(TooltipOrigin)`
@@ -45,7 +46,7 @@ export default function ValueDisplay({
   if (symbolWidth > 0) {
     symbolDisplay = (
       <Tooltip tip={symbol}>
-        <SybmolEllipsis className="symbol" style={{ width: symbolWidth }}>
+        <SybmolEllipsis className="symbol" style={{ maxWidth: symbolWidth }}>
           {symbol}
         </SybmolEllipsis>
       </Tooltip>
@@ -65,7 +66,9 @@ export default function ValueDisplay({
     if (getEffectiveNumbers(abbreviated) !== getEffectiveNumbers(value)) {
       display = (
         <NotEqual>
-          <span className="figures">{abbreviated}</span> {symbolDisplay}
+          <span className="figures">{abbreviated}</span>
+          <span style={{ width: 4 }} />
+          {symbolDisplay}
         </NotEqual>
       );
 
@@ -86,7 +89,8 @@ export default function ValueDisplay({
       <NotEqual>
         <span className="figures">
           {bigNumberToLocaleString(int)}.{shortDeciaml}
-        </span>{" "}
+        </span>
+        <span style={{ width: 4 }} />
         {symbolDisplay}
       </NotEqual>
     );
