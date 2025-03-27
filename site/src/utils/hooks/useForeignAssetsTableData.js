@@ -16,10 +16,10 @@ export default function useForeignAssetsTableData(assets = []) {
     const supply = toPrecision(detail?.supply, metadata?.decimals || 0);
 
     return [
-      <AssetSymbolAndName asset={asset} foreignAsset={true} />,
       <Tooltip tip={assetId}>
         <ColoredMonoLink to={link}>{addressEllipsis(assetId)}</ColoredMonoLink>
       </Tooltip>,
+      <AssetSymbolAndName asset={asset} foreignAsset={true} />,
       <ForeignAssetsLocation location={location} />,
       <Tooltip tip={detail?.owner}>
         <AddressOrIdentity key={detail?.owner} address={detail?.owner} />

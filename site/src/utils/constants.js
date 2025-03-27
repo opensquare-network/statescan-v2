@@ -241,8 +241,8 @@ export const assetsHead = [
 ];
 
 export const foreignAssetsHead = [
-  { name: "Asset", minWidth: 352 },
   { name: "Asset ID", width: 160 },
+  { name: "Asset", minWidth: 352 },
   { name: "Location", width: 120 },
   { name: "Owner", width: 160 },
   { name: "Issuer", width: 160 },
@@ -251,8 +251,8 @@ export const foreignAssetsHead = [
 ];
 
 export const accountForeignAssetsHead = [
-  { name: "Asset", minWidth: 352 },
   { name: "Asset ID", width: 160 },
+  { name: "Asset", minWidth: 352 },
   { name: "Location", width: 120 },
   { name: "Balance", width: 160, align: "right" },
   { name: "Frozen", width: 160, align: "right" },
