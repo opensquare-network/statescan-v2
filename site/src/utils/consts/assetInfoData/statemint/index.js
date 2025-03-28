@@ -2,8 +2,9 @@ import { assetUSDt } from "./usdt-1984";
 import { USDC } from "./usdc-1337";
 import { Ded } from "./ded-30";
 import { Dota } from "./dota-18";
-import { foreignAssetMYTH } from "../foreign";
+import * as foreignAssets from "../foreign";
 import { constructAssetId } from "../statemine";
+import { formatForeignAssetsInfo } from "../../../formatforeignAssetsInfo";
 
 export const statemintAssetInfo = {
   [constructAssetId(assetUSDt)]: assetUSDt.data,
@@ -12,6 +13,4 @@ export const statemintAssetInfo = {
   [constructAssetId(Dota)]: Dota.data,
 };
 
-export const statemintForeignAssetInfo = {
-  [foreignAssetMYTH?.id]: foreignAssetMYTH.data,
-};
+export const statemintForeignAssetInfo = formatForeignAssetsInfo(foreignAssets);
