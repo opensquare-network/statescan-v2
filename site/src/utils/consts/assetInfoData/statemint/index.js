@@ -4,6 +4,7 @@ import { Ded } from "./ded-30";
 import { Dota } from "./dota-18";
 import * as foreignAssets from "../foreign";
 import { constructAssetId } from "../statemine";
+import { formatForeignAssetsInfo } from "../../../formatforeignAssetsInfo";
 
 export const statemintAssetInfo = {
   [constructAssetId(assetUSDt)]: assetUSDt.data,
@@ -12,9 +13,4 @@ export const statemintAssetInfo = {
   [constructAssetId(Dota)]: Dota.data,
 };
 
-const foreignAssetsEntries = Object.values(foreignAssets).map(
-  ({ id, data }) => [id, data],
-);
-
-export const statemintForeignAssetInfo =
-  Object.fromEntries(foreignAssetsEntries);
+export const statemintForeignAssetInfo = formatForeignAssetsInfo(foreignAssets);
