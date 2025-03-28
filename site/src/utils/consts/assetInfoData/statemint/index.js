@@ -2,7 +2,7 @@ import { assetUSDt } from "./usdt-1984";
 import { USDC } from "./usdc-1337";
 import { Ded } from "./ded-30";
 import { Dota } from "./dota-18";
-import { foreignAssetMYTH } from "../foreign";
+import * as foreignAssets from "../foreign";
 import { constructAssetId } from "../statemine";
 
 export const statemintAssetInfo = {
@@ -12,6 +12,9 @@ export const statemintAssetInfo = {
   [constructAssetId(Dota)]: Dota.data,
 };
 
-export const statemintForeignAssetInfo = {
-  [foreignAssetMYTH?.id]: foreignAssetMYTH.data,
-};
+const foreignAssetsEntries = Object.values(foreignAssets).map(
+  ({ id, data }) => [id, data],
+);
+
+export const statemintForeignAssetInfo =
+  Object.fromEntries(foreignAssetsEntries);
