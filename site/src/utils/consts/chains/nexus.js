@@ -22,7 +22,7 @@ const nexus = {
   identity: "polkadot",
   chain: "polkadot",
   value: "nexus",
-  symbol: "NAND",
+  symbol: "BRIDGE",
   decimals: 12,
   color: "#E13D90",
   colorSecondary: "rgba(225,61,144, 0.1)",
