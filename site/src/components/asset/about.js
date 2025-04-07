@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { Inter_14_500, Inter_14_600 } from "../../styles/text";
-import ExternalLink from "../externalLink";
-import EditIcon from "../icons/editIcon";
 import Tooltip from "../tooltip";
 import { Flex, FlexColumn } from "../styled/flex";
 import Governance from "./governance";
@@ -9,26 +7,17 @@ import { useAssetInfoDataDetail } from "../../utils/hooks/useAssetInfoData";
 import LinkLinksIcon from "../icons/linkLinksIcon";
 import { useSelector } from "react-redux";
 import { mode, modeSelector } from "../../store/reducers/settingSlice";
+import List from "../list";
 
 const Wrapper = styled.div`
+  border-top: 1px solid ${({ theme }) => theme.strokeBase};
+  padding-right: 24px;
   > :not(:first-child) {
     margin-top: 12px;
   }
-`;
-
-const TitleWrapper = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-
-  .edit {
-    display: none;
-  }
-
-  :hover {
-    .edit {
-      display: inline-flex;
-    }
+  @media screen and (max-width: 900px) {
+    padding-right: 0;
+    margin: 0;
   }
 `;
 
@@ -38,7 +27,7 @@ const Title = styled.div`
 `;
 
 const LinksWrapper = styled.div`
-  display: grid;
+  display: flex;
   gap: 8px;
   grid-template-columns: repeat(auto-fill, 20px);
 `;
@@ -46,11 +35,6 @@ const LinksWrapper = styled.div`
 const LinkIcon = styled.img`
   width: 20px;
   height: 20px;
-`;
-
-const NoInfo = styled.div`
-  ${Inter_14_500};
-  color: ${({ theme }) => theme.fontTertiary};
 `;
 
 const AboutContent = styled.div`
@@ -68,22 +52,18 @@ export default function About({ detail }) {
   const data = useAssetInfoDataDetail(detail);
   const themeMode = useSelector(modeSelector);
 
-  return (
-    <Wrapper>
-      <TitleWrapper>
-        <Title>ABOUT</Title>
-        <ExternalLink
-          className="edit"
-          href="https://forms.gle/9C3zJAS9YzYtoJFs9"
-        >
-          <EditIcon />
-        </ExternalLink>
-      </TitleWrapper>
-      {data?.about ? (
-        <AboutContent>{data?.about}</AboutContent>
-      ) : (
-        <NoInfo>No more information.</NoInfo>
-      )}
+  if (!data?.about && !data?.links && !data?.governances) {
+    return null;
+  }
+
+  const renderItem = {};
+
+  if (data?.about) {
+    renderItem["Info"] = <AboutContent>{data?.about}</AboutContent>;
+  }
+
+  if (data?.links.length) {
+    renderItem["Related Link"] = (
       <LinksWrapper>
         {(data?.links || []).map((item, index) => (
           <Tooltip key={index} tip={item.url}>
@@ -99,6 +79,12 @@ export default function About({ detail }) {
           </Tooltip>
         ))}
       </LinksWrapper>
+    );
+  }
+
+  return (
+    <Wrapper>
+      <List data={renderItem} wrapperCompact />
 
       {data?.governances && (
         <GovernanceWrapper>
