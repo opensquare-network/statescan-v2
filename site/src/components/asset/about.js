@@ -62,7 +62,7 @@ export default function About({ detail }) {
     renderItem["Info"] = <AboutContent>{data?.about}</AboutContent>;
   }
 
-  if (data?.links.length) {
+  if (data?.links?.length) {
     renderItem["Related Link"] = (
       <LinksWrapper>
         {(data?.links || []).map((item, index) => (

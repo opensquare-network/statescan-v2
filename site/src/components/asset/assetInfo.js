@@ -23,8 +23,8 @@ const LogoWrapper = styled.div`
   // min-width: 240px;
   flex: 1;
   flex-wrap: wrap;
-  padding: 26px 24px;
-  padding-top: 10px;
+  padding: 10px 24px;
+  margin-bottom: 16px;
 
   .logo {
     width: 52px;
@@ -37,6 +37,7 @@ const LogoWrapper = styled.div`
     flex-direction: column;
     padding: 0;
     padding-top: 16px;
+    margin-bottom: 8px;
     .logo {
       margin-bottom: 16px;
     }
