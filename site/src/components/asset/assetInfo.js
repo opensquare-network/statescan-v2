@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   @media screen and (max-width: 700px) {
     padding-left: 0;
+    margin-bottom: 0px;
     > :not(:first-child) {
       margin-top: 16px;
     }
