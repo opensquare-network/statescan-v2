@@ -18,7 +18,8 @@ const Wrapper = styled.div`
   margin-top: 16px;
   margin-bottom: 16px;
   @media screen and (max-width: 900px) {
-    padding: 24px;
+    padding: ${(p) => (p.wrapperCompact ? 0 : "24px")};
+    padding-bottom: 24px;
     padding-top: 0;
     margin: 0;
   }
@@ -80,7 +81,7 @@ const mapLoadingState = (props) => {
   };
 };
 
-function List({ data, header, compact = false }) {
+function List({ data, header, compact = false, wrapperCompact = false }) {
   let items = [];
   if (Array.isArray(data)) {
     items = data;
@@ -96,7 +97,7 @@ function List({ data, header, compact = false }) {
   }
 
   return (
-    <Wrapper>
+    <Wrapper wrapperCompact={wrapperCompact}>
       {header}
 
       {items.map((item, idx) =>
