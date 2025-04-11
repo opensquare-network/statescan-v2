@@ -16,7 +16,7 @@ function isExtrinsicSuccess(events) {
 
 export function normalizeExtrinsic(extrinsic, events, indexer) {
   let hash = extrinsic.hash.toHex();
-  if (process.env.REACT_APP_PUBLIC_CHAIN === "gargantua") {
+  if (["gargantua", "nexus"].includes(process.env.REACT_APP_PUBLIC_CHAIN)) {
     hash = keccakAsHex(extrinsic.toU8a(), 256);
   }
   const version = extrinsic.version;

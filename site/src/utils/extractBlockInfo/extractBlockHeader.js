@@ -16,7 +16,7 @@ export default function extractBlockHeader(header, validators) {
   } = header;
   const author = extractAuthor(digest, validators);
   let hash = rawHash.toString();
-  if (process.env.REACT_APP_PUBLIC_CHAIN === "gargantua") {
+  if (["gargantua", "nexus"].includes(process.env.REACT_APP_PUBLIC_CHAIN)) {
     hash = keccakAsHex(header.toU8a(), 256);
   }
 
