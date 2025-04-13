@@ -75,7 +75,7 @@ export const menusAssetsDestroyed = [
 
 export const assetsMenuItem = {
   name: "Assets",
-  value: "destroyed/assets",
+  value: "assets",
 };
 
 export const dividerMenuItem = {
