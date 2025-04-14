@@ -5,6 +5,7 @@ const {
 const {
   getProxySection,
   findProxy,
+  findProxyAtHeight,
   generateAnnouncementId,
 } = require("../../common");
 const {
@@ -84,12 +85,15 @@ async function handleProxyAnnounced(call, signer, extrinsicIndexer) {
     real,
     await getBlockHash(extrinsicIndexer.blockHeight - 1),
   );
-  const proxy = await findProxy(
-    real,
-    delegate,
-    forceProxyType,
-    extrinsicIndexer,
-  );
+  let proxy = await findProxy(real, delegate, forceProxyType, extrinsicIndexer);
+  if (!proxy) {
+    proxy = await findProxyAtHeight(
+      real,
+      delegate,
+      forceProxyType,
+      extrinsicIndexer.blockHeight - 1,
+    );
+  }
 
   const removedAnnouncements = announcements.filter((ann) => {
     return (

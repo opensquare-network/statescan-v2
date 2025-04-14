@@ -1,5 +1,5 @@
 const {
-  chain: { findBlockApi },
+  chain: { findBlockApi, getApi },
 } = require("@osn/scan-common");
 
 function normalizeDefinition(definition) {
@@ -29,8 +29,8 @@ async function queryAllProxiesOf(delegator, blockHash) {
   };
 }
 
-async function findProxy(real, delegate, forceProxyType, indexer) {
-  const { proxies } = await queryAllProxiesOf(real, indexer.blockHash);
+async function findProxyAtBlockHash(real, delegate, forceProxyType, blockHash) {
+  const { proxies } = await queryAllProxiesOf(real, blockHash);
   return proxies.find((p) => {
     if (forceProxyType) {
       return p.delegate === delegate && p.proxyType === forceProxyType;
@@ -40,7 +40,24 @@ async function findProxy(real, delegate, forceProxyType, indexer) {
   });
 }
 
+async function findProxy(real, delegate, forceProxyType, indexer) {
+  return findProxyAtBlockHash(
+    real,
+    delegate,
+    forceProxyType,
+    indexer.blockHash,
+  );
+}
+
+async function findProxyAtHeight(real, delegate, forceProxyType, blockHeight) {
+  const api = await getApi();
+  const blockHash = await api.rpc.chain.getBlockHash(blockHeight);
+  return findProxyAtBlockHash(real, delegate, forceProxyType, blockHash);
+}
+
 module.exports = {
   queryAllProxiesOf,
   findProxy,
+  findProxyAtBlockHash,
+  findProxyAtHeight,
 };
