@@ -5,12 +5,12 @@ const {
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 
 // const statemineEndpoint = "wss://kusama-asset-hub-rpc.polkadot.io/";
-const statemineEndpoint = "wss://statemine-rpc.dwellir.com/";
+const statemineEndpoint = "wss://sys.ibp.network/asset-hub-kusama";
 
-async function setStatemine() {
+async function setStatemine(endpoint) {
   jest.setTimeout(3000000);
   setChain("statemine");
-  const provider = new WsProvider(statemineEndpoint, 1000);
+  const provider = new WsProvider(endpoint || statemineEndpoint, 1000);
   const api = await ApiPromise.create({ provider });
   setProvider(provider);
   setApi(api);
