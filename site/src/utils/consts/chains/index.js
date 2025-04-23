@@ -34,6 +34,7 @@ import argon from "./argon";
 import collectivesWestend from "./collectives-westend";
 import cereTestnet from "./cere-testnet";
 import cere from "./cere";
+import ajuna from "./ajuna";
 
 const chains = {
   polkadot,
@@ -43,6 +44,7 @@ const chains = {
   "coretime-polkadot": coretimePolkadot,
   "people-polkadot": peoplePolkadot,
   "crust-parachain": polkadotCrustParachain,
+  ajuna,
   invarch,
   laos,
   litentry,
