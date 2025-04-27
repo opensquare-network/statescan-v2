@@ -6,6 +6,7 @@ const emptyStat = {
   request: 0,
   given: 0,
   totalFee: "0",
+  lastGivenIndexer: null,
 };
 
 function normalizeStat(stat) {
@@ -17,6 +18,7 @@ function normalizeStat(stat) {
     request: stat.request ? parseInt(stat.request) : 0,
     given: stat.given ? parseInt(stat.given) : 0,
     totalFee: stat.fee || "0",
+    lastGivenIndexer: stat?.lastGivenIndexer,
   };
 }
 

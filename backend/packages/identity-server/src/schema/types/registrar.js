@@ -3,6 +3,7 @@ const registrar = /* GraphQL */ `
     request: Int!
     given: Int!
     totalFee: String!
+    lastGivenIndexer: Indexer
   }
 
   type Registrar {
