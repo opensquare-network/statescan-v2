@@ -32,7 +32,7 @@ async function insertRegistrarTimeline(obj = {}) {
   await collection.insertOne(obj);
 }
 
-async function incRegistrarStats(registrarIndex, key, amount, indexer) {
+async function incRegistrarStats(registrarIndex, key, amount) {
   if (new BigNumber(amount).lte(0)) {
     return;
   }
@@ -47,8 +47,18 @@ async function incRegistrarStats(registrarIndex, key, amount, indexer) {
   );
 }
 
+async function updateRegistrarLastGiven(registrarIndex, lastGivenIndexer) {
+  const col = await getRegistrarStatCol();
+  await col.findOneAndUpdate(
+    { index: registrarIndex },
+    { $set: { lastGivenIndexer } },
+    { upsert: true },
+  );
+}
+
 module.exports = {
   batchInsertRegistrars,
   insertRegistrarTimeline,
   incRegistrarStats,
+  updateRegistrarLastGiven,
 };
