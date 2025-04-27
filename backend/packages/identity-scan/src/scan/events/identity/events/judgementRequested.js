@@ -63,12 +63,7 @@ async function handleJudgementRequested(event, indexer, extrinsic) {
     args,
   });
 
-  await incRegistrarStats(
-    registrarIndex,
-    RegistrarStatKeys.request,
-    1,
-    indexer,
-  );
+  await incRegistrarStats(registrarIndex, RegistrarStatKeys.request, 1);
 }
 
 module.exports = {
