@@ -47,6 +47,7 @@ const chains = Object.freeze({
   "cere-testnet": "cere-testnet",
   interlay: "interlay",
   kintsugi: "kintsugi",
+  ajuna: "ajuna",
 });
 
 const ss58Format = Object.freeze({
@@ -96,6 +97,7 @@ const ss58Format = Object.freeze({
   [chains.cere]: 54,
   [chains.interlay]: 2032,
   [chains.kintsugi]: 2092,
+  [chains.ajuna]: 1328,
 });
 
 function getSs58Format(chain) {
@@ -143,6 +145,7 @@ const transferOnBlockChains = [
   chains.cere,
   chains.interlay,
   chains.kintsugi,
+  chains.ajuna,
 ];
 
 module.exports = {
