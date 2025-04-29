@@ -45,6 +45,7 @@ const chains = Object.freeze({
   argon: "argon",
   cere: "cere",
   "cere-testnet": "cere-testnet",
+  ajuna: "ajuna",
 });
 
 const ss58Format = Object.freeze({
@@ -92,6 +93,7 @@ const ss58Format = Object.freeze({
   [chains["cere-testnet"]]: 54,
   [chains.argon]: 42,
   [chains.cere]: 54,
+  [chains.ajuna]: 1328,
 });
 
 function getSs58Format(chain) {
@@ -137,6 +139,7 @@ const transferOnBlockChains = [
   chains["people-westend"],
   chains["cere-testnet"],
   chains.cere,
+  chains.ajuna,
 ];
 
 module.exports = {
