@@ -35,6 +35,7 @@ import collectivesWestend from "./collectives-westend";
 import cereTestnet from "./cere-testnet";
 import cere from "./cere";
 import ajuna from "./ajuna";
+import interlay from "./interlay";
 
 const chains = {
   polkadot,
@@ -45,6 +46,7 @@ const chains = {
   "people-polkadot": peoplePolkadot,
   "crust-parachain": polkadotCrustParachain,
   ajuna,
+  interlay,
   invarch,
   laos,
   litentry,
