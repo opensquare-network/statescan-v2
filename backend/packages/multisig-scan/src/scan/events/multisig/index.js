@@ -3,14 +3,14 @@ const { handleMultisigApproval } = require("./multisigApproval");
 const { handleMultisigExecuted } = require("./multisigExecuted");
 const { handleMultisigCancelled } = require("./multisigCancelled");
 
-async function handleMultisigEvents(event, indexer, extrinsic) {
+async function handleMultisigEvents(event, indexer, extrinsic, blockEvents) {
   const { section, method } = event;
   if (!["multisig", "utility"].includes(section)) {
     return;
   }
 
   if ("NewMultisig" === method) {
-    await handleNewMultisig(event, indexer, extrinsic);
+    await handleNewMultisig(event, indexer, extrinsic, blockEvents);
   } else if ("MultisigApproval" === method) {
     await handleMultisigApproval(event, indexer, extrinsic);
   } else if ("MultisigExecuted" === method) {
