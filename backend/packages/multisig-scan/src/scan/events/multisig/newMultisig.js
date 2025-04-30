@@ -15,8 +15,35 @@ const {
 const {
   getCallHashFromExtrinsic,
 } = require("./common/getCallHashFromExtrinsic");
+const isNil = require("lodash.isnil");
 
-async function handleNewMultisig(event, indexer, extrinsic) {
+function constructMetaWhenNoStorage(event, indexer, blockEvents) {
+  const eventIndex = indexer.eventIndex;
+  // todo: 1. find the closest balances#Reserved event
+  const candidateEvents = blockEvents.slice(0, eventIndex).reverse();
+  const reservationEvent = candidateEvents.find(
+    ({ event }) => "balances" === event.section && "Reserved" === event.method,
+  );
+  if (!reservationEvent) {
+    throw new Error(
+      `Multisig Reserved event at ${indexer.blockHeight} not found.`,
+    );
+  }
+
+  const data = reservationEvent.event.data;
+  const depositor = data[0].toString();
+  return {
+    when: {
+      height: indexer.blockHeight,
+      index: indexer.extrinsicIndex,
+    },
+    deposit: data[1].toJSON(),
+    depositor,
+    approvals: [depositor],
+  };
+}
+
+async function handleNewMultisig(event, indexer, extrinsic, blockEvents = []) {
   const who = event.data[0].toString();
   const multisigAddress = event.data[1].toString();
   let callHash;
@@ -28,13 +55,22 @@ async function handleNewMultisig(event, indexer, extrinsic) {
   }
 
   const rawMultisig = await queryMultisig(multisigAddress, callHash, indexer);
+  let when = null;
   if (!rawMultisig.isSome) {
-    const msg = `Can not find multisig at ${indexer.blockHeight}`;
-    logger.error(msg);
-    throw new Error(msg);
+    if (isNil(indexer.extrinsicIndex)) {
+      const msg = `Can not find multisig at ${indexer.blockHeight}`;
+      logger.error(msg);
+      throw new Error(msg);
+    }
+
+    when = {
+      height: indexer.blockHeight,
+      index: indexer.extrinsicIndex,
+    };
+  } else {
+    when = rawMultisig.unwrap().when.toJSON();
   }
 
-  const when = rawMultisig.unwrap().when.toJSON();
   const multisigId = generateMultisigId(multisigAddress, callHash, when);
 
   const { threshold, allSignatories } = extractSignatories(
@@ -50,7 +86,12 @@ async function handleNewMultisig(event, indexer, extrinsic) {
 
   await upsertMultiAccount(multisigAddress, threshold, allSignatories, indexer);
 
-  const meta = rawMultisig.toJSON();
+  let meta = {};
+  if (rawMultisig.isSome) {
+    meta = rawMultisig.toJSON();
+  } else {
+    meta = constructMetaWhenNoStorage(event, indexer, blockEvents);
+  }
   await insertMultisig({
     id: multisigId,
     multisigAddress,

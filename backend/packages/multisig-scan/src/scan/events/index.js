@@ -22,7 +22,7 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
       extrinsic = extrinsics[extrinsicIndex];
     }
 
-    await handleMultisigEvents(event, indexer, extrinsic);
+    await handleMultisigEvents(event, indexer, extrinsic, events);
   }
 }
 
