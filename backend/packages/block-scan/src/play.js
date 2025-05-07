@@ -9,7 +9,7 @@ const { initEvmWeb3InstanceConditionally } = require("./evm/web3");
 async function main() {
   await subscribeFinalizedHeight();
   await initEvmWeb3InstanceConditionally();
-  const blockHeights = [940494];
+  const blockHeights = [7786051];
 
   const api = await getApi();
   for (const height of blockHeights) {

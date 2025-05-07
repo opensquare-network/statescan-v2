@@ -8,6 +8,7 @@ const {
 const { handleEthereumEvent } = require("./evm");
 const { clearEvmBlockMark } = require("../store");
 const { queryAndSaveEvmTxs } = require("./evm/tx");
+const { handleTokensEvent } = require("./tokens");
 
 async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
@@ -26,6 +27,7 @@ async function handleEvents(events = [], blockIndexer, extrinsics = []) {
 
     await handleBalancesEvent(event, indexer, extrinsic);
     await handleEthereumEvent(event, indexer);
+    await handleTokensEvent(event, indexer, extrinsic);
   }
 
   const transfers = getBlockNativeTransfers(blockIndexer.blockHash);
