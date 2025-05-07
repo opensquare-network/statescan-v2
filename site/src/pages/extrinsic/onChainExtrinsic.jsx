@@ -21,7 +21,7 @@ import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import { extrinsicApi } from "../../services/urls";
 
-export function OnChainExtrinsicImpl({ chainExtrinsic }) {
+export function OnChainExtrinsicImpl({ chainExtrinsic, isLoading = false }) {
   const { modules } = useChainSettings();
   const dispatch = useDispatch();
   const finalizedHeight = useSelector(finalizedHeightSelector);
@@ -43,11 +43,11 @@ export function OnChainExtrinsicImpl({ chainExtrinsic }) {
 
   useEffect(() => {
     clearHttpError(dispatch);
-    if (chainExtrinsic === null) {
+    if (chainExtrinsic === null && !isLoading) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, chainExtrinsic]);
+  }, [dispatch, chainExtrinsic, isLoading]);
 
   const listData = useMemo(
     () =>
@@ -143,7 +143,7 @@ function OnChainExtrinsic() {
   const { extrinsicIndexer, isLoading } = useExtrinsicIndexer();
 
   if (isLoading) {
-    return <OnChainExtrinsicImpl />;
+    return <OnChainExtrinsicImpl isLoading={isLoading} />;
   }
 
   return <OnChainExtrinsicFromIndexer {...extrinsicIndexer} />;
