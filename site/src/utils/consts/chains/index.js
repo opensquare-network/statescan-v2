@@ -10,7 +10,6 @@ import gargantua from "./gargantua";
 import polkadotCrustParachain from "./polkadotCrust";
 import tangle from "./tangle";
 import crust from "./crust";
-import invarch from "./invarch";
 // import hydradxTestnet from "./hydradxTestnet";
 import peopleKusama from "./people-kusama";
 import peoplePolkadot from "./people-polkadot";
@@ -47,7 +46,6 @@ const chains = {
   "crust-parachain": polkadotCrustParachain,
   ajuna,
   interlay,
-  invarch,
   laos,
   litentry,
   nexus,
