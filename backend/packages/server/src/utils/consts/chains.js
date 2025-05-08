@@ -45,6 +45,8 @@ const chains = Object.freeze({
   argon: "argon",
   cere: "cere",
   "cere-testnet": "cere-testnet",
+  interlay: "interlay",
+  kintsugi: "kintsugi",
   ajuna: "ajuna",
 });
 
@@ -93,6 +95,8 @@ const ss58Format = Object.freeze({
   [chains["cere-testnet"]]: 54,
   [chains.argon]: 42,
   [chains.cere]: 54,
+  [chains.interlay]: 2032,
+  [chains.kintsugi]: 2092,
   [chains.ajuna]: 1328,
 });
 
@@ -139,6 +143,8 @@ const transferOnBlockChains = [
   chains["people-westend"],
   chains["cere-testnet"],
   chains.cere,
+  chains.interlay,
+  chains.kintsugi,
   chains.ajuna,
 ];
 

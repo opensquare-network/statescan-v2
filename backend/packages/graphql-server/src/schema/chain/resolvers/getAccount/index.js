@@ -1,9 +1,16 @@
 async function getAccountData(api, address) {
-  const [account, balanceAll, stakingInfo] = await Promise.all([
+  const promises = [
     api.query.system.account(address),
     api.derive.balances?.all(address).catch(() => null),
     api.derive.staking?.account(address).catch(() => null),
-  ]);
+  ];
+  if (["interlay", "kintsugi"].includes(process.env.CHAIN)) {
+    promises.push(api.query.tokens.accounts(address, { token: "INTR" }));
+  }
+
+  const [account, balanceAll, stakingInfo, intrTokens] = await Promise.all(
+    promises,
+  );
 
   if (!account) {
     return null;
@@ -20,6 +27,7 @@ async function getAccountData(api, address) {
     account: accountInfo,
     balanceAll,
     stakingInfo,
+    intrTokens,
   };
 }
 
