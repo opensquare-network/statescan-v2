@@ -48,7 +48,7 @@ function getAccountsWithBalanceData(entries = []) {
     }
   });
 
-  const nonZeroEntries = intrEntries.filter(([key, value]) => {
+  const nonZeroEntries = intrEntries.filter(([, value]) => {
     const free = value.free.toString();
     const reserved = value.reserved.toString();
     return BigInt(free) + BigInt(reserved) > 0;
