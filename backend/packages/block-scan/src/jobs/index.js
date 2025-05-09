@@ -5,6 +5,7 @@ const {
   chain: { getLatestFinalizedHeight, getLatestUnFinalizedHeight, getApi },
 } = require("@osn/scan-common");
 const { CronJob } = require("cron");
+const { isInterlay } = require("../env");
 
 const timeZone = "Asia/Shanghai";
 const every6SecCron = "*/6 * * * * *";
@@ -27,11 +28,19 @@ async function updateHeights() {
   await bulk.execute();
 }
 
-async function updateTotalIssuance() {
+async function getTotalIssuance() {
   const api = await getApi();
-  const raw = await api.query.balances.totalIssuance();
-  const value = raw.toString();
+  if (isInterlay()) {
+    const raw = await api.query.tokens.totalIssuance({ token: "INTR" });
+    return raw.toString();
+  } else {
+    const raw = await api.query.balances.totalIssuance();
+    return raw.toString();
+  }
+}
 
+async function updateTotalIssuance() {
+  const value = await getTotalIssuance();
   const col = await getBlockDb().getStatusCol();
   await col.updateOne(
     { name: "totalIssuance" },
