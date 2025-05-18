@@ -21,13 +21,15 @@ const westmint = {
     id: "1000",
   },
   nodes: [
-    { name: "Parity", url: "wss://westend-asset-hub-rpc.polkadot.io" },
-    { name: "Dwellir", url: "wss://westmint-rpc.dwellir.com" },
-    { name: "Dwellir Tunisia", url: "wss://westmint-rpc-tn.dwellir.com" },
-    { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/westmint" },
-    { name: "IBP-GeoDNS2", url: "wss://sys.dotters.network/westmint" },
-    { name: "OnFinality", url: "wss://westmint.api.onfinality.io/public-ws" },
-    { name: "Stakeworld", url: "wss://wnd-rpc.stakeworld.io/assethub" },
+    { name: "Parity", url: "wss://westend-asset-hub-rpc.polkadot.io/" },
+    { name: "IBP1", url: "wss://sys.ibp.network/asset-hub-westend" },
+    { name: "Dwellir", url: "wss://asset-hub-westend-rpc.dwellir.com/" },
+    { name: "Dwellir Tunisia", url: "wss://westmint-rpc-tn.dwellir.com/" },
+    { name: "IBP2", url: "wss://asset-hub-westend.dotters.network/" },
+    {
+      name: "Permanence DAO EU",
+      url: "wss://asset-hub-westend.rpc.permanence.io/",
+    },
   ],
   useOnChainBlockData: true,
 };
