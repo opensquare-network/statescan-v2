@@ -8,7 +8,6 @@ import polkadot from "./polkadot";
 import shadow from "./shadow";
 import gargantua from "./gargantua";
 import polkadotCrustParachain from "./polkadotCrust";
-import tangle from "./tangle";
 import crust from "./crust";
 // import hydradxTestnet from "./hydradxTestnet";
 import peopleKusama from "./people-kusama";
@@ -54,7 +53,7 @@ const chains = {
   // "hydradx-testnet": hydradxTestnet,
   polimec,
   shadow,
-  tangle,
+  // tangle,
   // tinkernet,
   crust,
   "bridgehub-kusama": bridgehubKusama,
