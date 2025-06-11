@@ -27,31 +27,37 @@ const collectives = {
       url: "wss://polkadot-collectives-rpc.polkadot.io",
     },
     {
-      name: "OnFinality",
-      url: "wss://collectives.api.onfinality.io/public-ws",
+      name: "IBP1",
+      url: "wss://sys.ibp.network/collectives-polkadot",
     },
-    { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/collectives-polkadot" },
     {
       name: "LuckyFriday",
       url: "wss://rpc-collectives-polkadot.luckyfriday.io",
     },
     {
-      name: "Dwellir",
-      url: "wss://collectives-polkadot-rpc.dwellir.com",
+      name: "OnFinality",
+      url: "wss://collectives.api.onfinality.io/public-ws",
     },
     {
-      name: "Dwellir Tunisia",
-      url: "wss://polkadot-collectives-rpc-tn.dwellir.com",
+      name: "Dewllir",
+      url: "wss://polkadot-collectives-rpc.dwellir.com",
     },
     {
-      name: "IBP-GeoDNS2",
+      name: "Dewllir Tunisia",
+      url: "wss://polkadot-collectives-rpc-tn.dwellir.com/",
+    },
+    {
+      name: "IBP2",
       url: "wss://sys.dotters.network/collectives-polkadot",
     },
     {
       name: "RadiumBlock",
       url: "wss://collectives.public.curie.radiumblock.co/ws",
     },
-    { name: "Stakeworld", url: "wss://dot-rpc.stakeworld.io/collectives" },
+    {
+      name: "Stakeworld",
+      url: "wss://dot-rpc.stakeworld.io/collectives",
+    },
   ],
   useOnChainBlockData: true,
 };
