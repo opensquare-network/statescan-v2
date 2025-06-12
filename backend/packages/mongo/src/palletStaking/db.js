@@ -29,7 +29,7 @@ async function _createIndexes() {
   await stakingRewardCol.createIndex({ "indexer.blockHeight": 1 });
   await stakingRewardCol.createIndex({ stash: 1 });
   await stakingRewardCol.createIndex({ rewardId: 1 }, { unique: true });
-  
+
   await stakingRewardTimelineCol.createIndex({ "indexer.blockHeight": 1 });
   await stakingRewardTimelineCol.createIndex({ rewardId: 1 });
 }

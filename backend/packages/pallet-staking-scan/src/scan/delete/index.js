@@ -1,8 +1,5 @@
 const {
-  palletStaking: {
-    getStakingRewardCol,
-    getStakingRewardTimelineCol,
-  },
+  palletStaking: { getStakingRewardCol, getStakingRewardTimelineCol },
 } = require("@statescan/mongo");
 
 async function deleteFrom(height) {
