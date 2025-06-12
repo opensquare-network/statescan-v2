@@ -25,7 +25,9 @@ async function normalizeExtrinsics(
     }
     if (
       !extrinsic.isSigned &&
-      !["tangle", "tangle-testnet", "gargantua", "nexus"].includes(chain)
+      !["tangle", "tangle-testnet", "gargantua", "nexus", "cere"].includes(
+        chain,
+      )
     ) {
       continue;
     }
