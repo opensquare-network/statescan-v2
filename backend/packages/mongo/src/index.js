@@ -11,6 +11,7 @@ const knownHeight = require("./known/db");
 const palletRecovery = require("./palletRecovery");
 const palletProxy = require("./palletProxy");
 const foreignAsset = require("./foreignAsset");
+const palletStaking = require("./palletStaking");
 
 module.exports = {
   account,
@@ -26,4 +27,5 @@ module.exports = {
   palletProxy,
   foreignAsset,
   knownHeight,
+  palletStaking,
 };
