@@ -12,7 +12,7 @@ const {
   await initPalletStakingScanDb();
   await subscribeFinalizedHeight();
 
-  const blockHeights = [26413999, 26414135];
+  const blockHeights = [26413999, 26425075];
 
   const api = await getApi();
   for (const height of blockHeights) {
