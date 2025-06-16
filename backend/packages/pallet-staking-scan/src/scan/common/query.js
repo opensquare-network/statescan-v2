@@ -1,17 +1,14 @@
 const {
-  chain: { findBlockApi, getApi },
+  chain: { findBlockApi },
 } = require("@osn/scan-common");
 
 async function getValidatorExposure(era, validatorStash, blockHash = null) {
   try {
-    let exposure;
-    if (blockHash) {
-      const blockApi = await findBlockApi(blockHash);
-      exposure = await blockApi.query.staking.erasStakers(era, validatorStash);
-    } else {
-      const api = await getApi();
-      exposure = await api.query.staking.erasStakers(era, validatorStash);
-    }
+    const blockApi = await findBlockApi(blockHash);
+    const exposure = await blockApi.query.staking.erasStakers(
+      era,
+      validatorStash,
+    );
 
     return {
       total: exposure.total.toString(),
@@ -32,14 +29,8 @@ async function getValidatorExposure(era, validatorStash, blockHash = null) {
 
 async function getCurrentEra(blockHash = null) {
   try {
-    let activeEra;
-    if (blockHash) {
-      const blockApi = await findBlockApi(blockHash);
-      activeEra = await blockApi.query.staking.activeEra();
-    } else {
-      const api = await getApi();
-      activeEra = await api.query.staking.activeEra();
-    }
+    const blockApi = await findBlockApi(blockHash);
+    const activeEra = await blockApi.query.staking.activeEra();
 
     return activeEra.isSome ? activeEra.unwrap().index.toNumber() : null;
   } catch (error) {
@@ -50,14 +41,8 @@ async function getCurrentEra(blockHash = null) {
 
 async function isValidator(stash, blockHash = null) {
   try {
-    let validators;
-    if (blockHash) {
-      const blockApi = await findBlockApi(blockHash);
-      validators = await blockApi.query.staking.validators(stash);
-    } else {
-      const api = await getApi();
-      validators = await api.query.staking.validators(stash);
-    }
+    const blockApi = await findBlockApi(blockHash);
+    const validators = await blockApi.query.staking.validators(stash);
 
     return !validators.isEmpty;
   } catch (error) {
@@ -68,14 +53,8 @@ async function isValidator(stash, blockHash = null) {
 
 async function getNominatorInfo(nominator, blockHash = null) {
   try {
-    let nominations;
-    if (blockHash) {
-      const blockApi = await findBlockApi(blockHash);
-      nominations = await blockApi.query.staking.nominators(nominator);
-    } else {
-      const api = await getApi();
-      nominations = await api.query.staking.nominators(nominator);
-    }
+    const blockApi = await findBlockApi(blockHash);
+    const nominations = await blockApi.query.staking.nominators(nominator);
 
     if (nominations.isSome) {
       const nominationData = nominations.unwrap();
