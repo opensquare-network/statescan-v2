@@ -35,9 +35,6 @@ async function _createIndexes() {
   await stakingRewardCol.createIndex({ stash: 1, era: 1 });
   await stakingRewardCol.createIndex({ era: 1, isValidator: 1 });
   await stakingRewardCol.createIndex({ "exposure.total": 1 });
-
-  // 移除 timeline 相关索引
-  // await stakingRewardTimelineCol.createIndex({ "indexer.blockHeight": 1 });
   await stakingRewardCol.createIndex({ "indexer.blockHeight": 1, stash: 1 });
   await stakingRewardCol.createIndex({ era: 1, amount: 1 });
 }
