@@ -1,19 +1,15 @@
 const {
-  chain: { getApi },
+  chain: { findBlockApi, getApi },
 } = require("@osn/scan-common");
 
 async function getValidatorExposure(era, validatorStash, blockHash = null) {
-  const api = await getApi();
-
   try {
     let exposure;
     if (blockHash) {
-      exposure = await api.query.staking.erasStakers.at(
-        blockHash,
-        era,
-        validatorStash,
-      );
+      const blockApi = await findBlockApi(blockHash);
+      exposure = await blockApi.query.staking.erasStakers(era, validatorStash);
     } else {
+      const api = await getApi();
       exposure = await api.query.staking.erasStakers(era, validatorStash);
     }
 
@@ -35,13 +31,13 @@ async function getValidatorExposure(era, validatorStash, blockHash = null) {
 }
 
 async function getCurrentEra(blockHash = null) {
-  const api = await getApi();
-
   try {
     let activeEra;
     if (blockHash) {
-      activeEra = await api.query.staking.activeEra.at(blockHash);
+      const blockApi = await findBlockApi(blockHash);
+      activeEra = await blockApi.query.staking.activeEra();
     } else {
+      const api = await getApi();
       activeEra = await api.query.staking.activeEra();
     }
 
@@ -53,13 +49,13 @@ async function getCurrentEra(blockHash = null) {
 }
 
 async function isValidator(stash, blockHash = null) {
-  const api = await getApi();
-
   try {
     let validators;
     if (blockHash) {
-      validators = await api.query.staking.validators.at(blockHash, stash);
+      const blockApi = await findBlockApi(blockHash);
+      validators = await blockApi.query.staking.validators(stash);
     } else {
+      const api = await getApi();
       validators = await api.query.staking.validators(stash);
     }
 
@@ -71,13 +67,13 @@ async function isValidator(stash, blockHash = null) {
 }
 
 async function getNominatorInfo(nominator, blockHash = null) {
-  const api = await getApi();
-
   try {
     let nominations;
     if (blockHash) {
-      nominations = await api.query.staking.nominators.at(blockHash, nominator);
+      const blockApi = await findBlockApi(blockHash);
+      nominations = await blockApi.query.staking.nominators(nominator);
     } else {
+      const api = await getApi();
       nominations = await api.query.staking.nominators(nominator);
     }
 
