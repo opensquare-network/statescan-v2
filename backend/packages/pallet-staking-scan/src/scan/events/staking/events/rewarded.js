@@ -1,5 +1,5 @@
 const {
-  palletStaking: { insertStakingReward, getStakingRewardTimelineCol },
+  palletStaking: { insertStakingReward },
 } = require("@statescan/mongo");
 const { getStakingInfo, getCurrentEra } = require("../../../common/query");
 const {
@@ -52,23 +52,6 @@ async function handleRewarded(event, indexer) {
     isValidator: stakingInfo.isValidator,
     exposure: stakingInfo.exposure,
     nominatorInfo: stakingInfo.nominatorInfo,
-    indexer,
-  });
-
-  const timelineCol = await getStakingRewardTimelineCol();
-  await timelineCol.insertOne({
-    rewardId,
-    name: event.method,
-    args: {
-      stash,
-      dest: {
-        type: destType,
-        account: destAccount,
-      },
-      amount,
-      era: currentEra,
-      stakingInfo,
-    },
     indexer,
   });
 }

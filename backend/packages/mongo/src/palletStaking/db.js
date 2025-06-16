@@ -5,7 +5,6 @@ const {
 
 let db = null;
 let stakingRewardCol = null;
-let stakingRewardTimelineCol = null;
 
 async function initPalletStakingScanDb() {
   db = new ScanDb(
@@ -15,7 +14,6 @@ async function initPalletStakingScanDb() {
   await db.init();
 
   stakingRewardCol = await db.createCol("stakingReward");
-  stakingRewardTimelineCol = await db.createCol("stakingRewardTimeline");
 
   _createIndexes().then(() => console.log("staking scan DB indexes created!"));
 }
@@ -38,7 +36,10 @@ async function _createIndexes() {
   await stakingRewardCol.createIndex({ era: 1, isValidator: 1 });
   await stakingRewardCol.createIndex({ "exposure.total": 1 });
 
-  await stakingRewardTimelineCol.createIndex({ "indexer.blockHeight": 1 });
+  // 移除 timeline 相关索引
+  // await stakingRewardTimelineCol.createIndex({ "indexer.blockHeight": 1 });
+  await stakingRewardCol.createIndex({ "indexer.blockHeight": 1, stash: 1 });
+  await stakingRewardCol.createIndex({ era: 1, amount: 1 });
 }
 
 async function getStakingDb() {
@@ -59,14 +60,8 @@ async function getStakingRewardCol() {
   return stakingRewardCol;
 }
 
-async function getStakingRewardTimelineCol() {
-  await makeSureInit(stakingRewardTimelineCol);
-  return stakingRewardTimelineCol;
-}
-
 module.exports = {
   initPalletStakingScanDb,
   getStakingDb,
   getStakingRewardCol,
-  getStakingRewardTimelineCol,
 };

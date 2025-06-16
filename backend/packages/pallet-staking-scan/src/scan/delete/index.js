@@ -1,5 +1,5 @@
 const {
-  palletStaking: { getStakingRewardCol, getStakingRewardTimelineCol },
+  palletStaking: { getStakingRewardCol },
 } = require("@statescan/mongo");
 
 async function deleteFrom(height) {
@@ -11,9 +11,6 @@ async function deleteFrom(height) {
 
   const rewardCol = await getStakingRewardCol();
   await rewardCol.deleteMany(commonQ);
-
-  const timelineCol = await getStakingRewardTimelineCol();
-  await timelineCol.deleteMany(commonQ);
 }
 
 module.exports = {
