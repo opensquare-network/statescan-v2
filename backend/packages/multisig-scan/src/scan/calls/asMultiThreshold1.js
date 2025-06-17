@@ -46,14 +46,14 @@ async function handleAsMultiThreshold1(
   const otherSignatories = call.args[0].toJSON();
   const allSignatories = [...otherSignatories, signer];
   const blockApi = await findBlockApi(extrinsicIndexer.blockHash);
-  let multisigAddress = getMultisigAddressFromEvents(wrappedEvents);
-  if (!multisigAddress) {
-    multisigAddress = calcMultisigAddress(
-      [...otherSignatories, signer],
-      1,
-      blockApi.registry.chainSS58,
-    );
-  }
+  // let multisigAddress = getMultisigAddressFromEvents(wrappedEvents);
+  // if (!multisigAddress) {
+  const multisigAddress = calcMultisigAddress(
+    [...otherSignatories, signer],
+    1,
+    blockApi.registry.chainSS58,
+  );
+  // }
 
   await upsertMultiAccount(
     multisigAddress,
