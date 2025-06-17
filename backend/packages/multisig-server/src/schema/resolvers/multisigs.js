@@ -55,7 +55,9 @@ async function multisigs(_, _args) {
   const total = await col.countDocuments(q);
 
   return {
-    multisigs: multisigs.map(normalizeMultisig),
+    multisigs: multisigs
+      .filter((item) => item.signatories)
+      .map(normalizeMultisig),
     offset,
     limit,
     total,
