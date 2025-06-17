@@ -12,7 +12,28 @@ const {
 } = require("@statescan/common");
 const { generateMultisigId } = require("../common/multisig");
 
-async function handleAsMultiThreshold1(call, signer, extrinsicIndexer) {
+function getMultisigAddressFromEvents(wrappedEvents) {
+  const events = wrappedEvents.events || [];
+  const newMultisigEvents = events.filter((e) => {
+    const { section, method } = e.event;
+    return (
+      method === "NewMultisig" && ["multisig", "utility"].includes(section)
+    );
+  });
+
+  if (newMultisigEvents.length === 1) {
+    const event = newMultisigEvents[0];
+    const data = event.event.data;
+    return data[1].toString();
+  }
+}
+
+async function handleAsMultiThreshold1(
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+) {
   const { section, method } = call;
   const targetMethodName = "asMultiThreshold1";
   if (
@@ -25,11 +46,14 @@ async function handleAsMultiThreshold1(call, signer, extrinsicIndexer) {
   const otherSignatories = call.args[0].toJSON();
   const allSignatories = [...otherSignatories, signer];
   const blockApi = await findBlockApi(extrinsicIndexer.blockHash);
-  const multisigAddress = calcMultisigAddress(
-    [...otherSignatories, signer],
-    1,
-    blockApi.registry.chainSS58,
-  );
+  let multisigAddress = getMultisigAddressFromEvents(wrappedEvents);
+  if (!multisigAddress) {
+    multisigAddress = calcMultisigAddress(
+      [...otherSignatories, signer],
+      1,
+      blockApi.registry.chainSS58,
+    );
+  }
 
   await upsertMultiAccount(
     multisigAddress,
