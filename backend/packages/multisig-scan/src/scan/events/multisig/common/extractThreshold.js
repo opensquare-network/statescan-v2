@@ -6,6 +6,15 @@ const { sortApprovals } = require("./sortApprovals");
 const { blake2AsU8a } = require("@polkadot/util-crypto");
 const { u8aToHex } = require("@polkadot/util");
 
+function isCallWithHash(callArg, callHash) {
+  if (callArg.section) {
+    return callArg.hash.toString() === callHash;
+  } else {
+    // to adapt legacy code, type OpaqueCall of arg is `OpaqueCall`.
+    return u8aToHex(blake2AsU8a(callArg, 256)) === callHash;
+  }
+}
+
 function extractSignatories(extrinsic, callHash, who) {
   if (!extrinsic) {
     return {};
@@ -18,17 +27,17 @@ function extractSignatories(extrinsic, callHash, who) {
       MultisigMethods.asMulti === method
     ) {
       const callArg = args[3];
-      if (callArg.section) {
-        return args[3].hash.toString() === callHash;
-      } else {
-        // to adapt legacy code, type OpaqueCall of arg is `OpaqueCall`.
-        return u8aToHex(blake2AsU8a(args[3], 256)) === callHash;
-      }
+      return isCallWithHash(callArg, callHash);
     } else if (
       [Modules.Multisig, Modules.Utility].includes(section) &&
       "approveAsMulti" === method
     ) {
       return args[3].toString() === callHash;
+    } else if (
+      [Modules.Multisig, Modules.Utility].includes(section) &&
+      "asMultiThreshold1" === method
+    ) {
+      return isCallWithHash(args[1], callHash);
     } else {
       return false;
     }
