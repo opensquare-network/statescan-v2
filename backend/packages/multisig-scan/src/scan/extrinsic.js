@@ -5,7 +5,7 @@ const {
 const { handleAsMultiThreshold1 } = require("./calls/asMultiThreshold1");
 
 async function handleCalls(call, author, extrinsicIndexer, wrappedEvents) {
-  await handleAsMultiThreshold1(call, author, extrinsicIndexer);
+  await handleAsMultiThreshold1(call, author, extrinsicIndexer, wrappedEvents);
 }
 
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {

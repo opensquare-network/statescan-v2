@@ -82,6 +82,7 @@ async function handleNewMultisig(event, indexer, extrinsic, blockEvents = []) {
     logger.error(
       `Can not get all signatories for new multisig at ${indexer.blockHeight}`,
     );
+    return;
   }
 
   await upsertMultiAccount(multisigAddress, threshold, allSignatories, indexer);
