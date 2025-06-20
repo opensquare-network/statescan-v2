@@ -23,7 +23,7 @@ const statemine = {
   },
   nodes: [
     { name: "Parity", url: "wss://kusama-asset-hub-rpc.polkadot.io/" },
-    { name: "IBP1", url: "wss://sys.ibp.network/statemine" },
+    { name: "IBP1", url: "wss://sys.ibp.network/asset-hub-kusama" },
     { name: "Dwellir", url: "wss://asset-hub-kusama-rpc.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://statemine-rpc-tn.dwellir.com" },
     { name: "IBP2", url: "wss://asset-hub-kusama.dotters.network" },
