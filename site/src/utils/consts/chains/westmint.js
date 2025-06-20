@@ -23,7 +23,7 @@ const westmint = {
   nodes: [
     { name: "Parity", url: "wss://westend-asset-hub-rpc.polkadot.io/" },
     { name: "IBP1", url: "wss://sys.ibp.network/asset-hub-westend" },
-    { name: "Dwellir", url: "wss://asset-hub-westend-rpc.dwellir.com/" },
+    { name: "Dwellir", url: "wss://asset-hub-westend-rpc.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://westmint-rpc-tn.dwellir.com/" },
     { name: "IBP2", url: "wss://asset-hub-westend.dotters.network/" },
     {

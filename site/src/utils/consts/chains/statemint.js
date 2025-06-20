@@ -25,12 +25,16 @@ const statemint = {
     { name: "Parity", url: "wss://polkadot-asset-hub-rpc.polkadot.io/" },
     { name: "OnFinality", url: "wss://statemint.api.onfinality.io/public-ws" },
     { name: "Stakeworld", url: "wss://dot-rpc.stakeworld.io/assethub" },
-    { name: "Dwellir", url: "wss://statemint-rpc.dwellir.com" },
+    { name: "Dwellir", url: "wss://asset-hub-polkadot-rpc.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://statemint-rpc-tn.dwellir.com" },
     { name: "LuckyFriday", url: "wss://rpc-asset-hub-polkadot.luckyfriday.io" },
     {
       name: "RadiumBlock",
       url: "wss://statemint.public.curie.radiumblock.co/ws",
+    },
+    {
+      name: "Blockops",
+      url: "wss://polkadot-assethub-rpc.blockops.network/ws",
     },
   ],
   useOnChainBlockData: true,
