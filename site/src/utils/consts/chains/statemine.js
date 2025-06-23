@@ -16,7 +16,10 @@ const statemine = {
   colorSecondary: "rgba(55, 101, 220, 0.1)",
   buttonColor: "#000000",
   logo: "logo-img-2",
-  modules: assethubChainModules,
+  modules: {
+    ...assethubChainModules,
+    multisig: true,
+  },
   para: {
     relay: "Kusama",
     id: "1000",
