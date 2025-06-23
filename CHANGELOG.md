@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.7.0
+
+date: 2025-06-23
+
+- [Big] Support foreign assets for asset hub including data indexing, backend API and fronted pages.
+- Fix `page` url query param not work.
+- Add a brief introduction card for all businesses.
+- Fix proxy query when call proxy_announced
+- Support multisig for assethub kusama.
+- Support ajuna, interlay, and remove invarch, tangle.
+- Support unsigned extrinsic indexing for argon and cere.
+- Handle multisig with asMultiThreshold1. It's a bug fix.
+- Fix styles and upgrade dependencies.
+
 ### 1.6.3
 
 date: 2025-03-19
