@@ -35,6 +35,9 @@ const assethubPaseo = {
   ...paseoColor,
   nodes,
   useOnChainBlockData: true,
+  modules: {
+    multisig: true,
+  },
 };
 
 export default assethubPaseo;

@@ -22,7 +22,7 @@
     }
   },
   "dependencies": {
-    "@osn/scan-common": "0.6.24",
+    "@osn/scan-common": "0.7.1",
     "@statescan/mongo": "1.0.0",
     "cron": "^3.1.7",
     "dotenv": "^16.0.1",

@@ -16,18 +16,20 @@ const statemine = {
   colorSecondary: "rgba(55, 101, 220, 0.1)",
   buttonColor: "#000000",
   logo: "logo-img-2",
-  modules: assethubChainModules,
+  modules: {
+    ...assethubChainModules,
+    multisig: true,
+  },
   para: {
     relay: "Kusama",
     id: "1000",
   },
   nodes: [
     { name: "Parity", url: "wss://kusama-asset-hub-rpc.polkadot.io/" },
-    { name: "OnFinality", url: "wss://statemine.api.onfinality.io/public-ws" },
-    { name: "IBP1", url: "wss://sys.ibp.network/statemine" },
-    { name: "Dwellir", url: "wss://statemine-rpc.dwellir.com" },
+    { name: "IBP1", url: "wss://sys.ibp.network/asset-hub-kusama" },
+    { name: "Dwellir", url: "wss://asset-hub-kusama-rpc.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://statemine-rpc-tn.dwellir.com" },
-    { name: "IBP2", url: "wss://sys.dotters.network/statemine" },
+    { name: "IBP2", url: "wss://asset-hub-kusama.dotters.network" },
     { name: "LuckyFriday", url: "wss://rpc-asset-hub-kusama.luckyfriday.io" },
     {
       name: "RadiumBlock",
