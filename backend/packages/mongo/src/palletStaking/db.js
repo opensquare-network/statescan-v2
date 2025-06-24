@@ -4,7 +4,7 @@ const {
 } = require("@osn/scan-common");
 
 let db = null;
-let stakingRewardCol = null;
+let rewardCol = null;
 
 async function initPalletStakingScanDb() {
   db = new ScanDb(
@@ -13,7 +13,7 @@ async function initPalletStakingScanDb() {
   );
   await db.init();
 
-  stakingRewardCol = await db.createCol("stakingReward");
+  rewardCol = await db.createCol("reward");
 
   _createIndexes().then(() => console.log("staking scan DB indexes created!"));
 }
@@ -24,19 +24,19 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  await stakingRewardCol.createIndex({ "indexer.blockHeight": 1 });
-  await stakingRewardCol.createIndex({ stash: 1 });
-  await stakingRewardCol.createIndex({ rewardId: 1 }, { unique: true });
+  await rewardCol.createIndex({ "indexer.blockHeight": 1 });
+  await rewardCol.createIndex({ stash: 1 });
+  await rewardCol.createIndex({ rewardId: 1 }, { unique: true });
 
-  await stakingRewardCol.createIndex({ destType: 1 });
-  await stakingRewardCol.createIndex({ destAccount: 1 });
-  await stakingRewardCol.createIndex({ era: 1 });
-  await stakingRewardCol.createIndex({ isValidator: 1 });
-  await stakingRewardCol.createIndex({ stash: 1, era: 1 });
-  await stakingRewardCol.createIndex({ era: 1, isValidator: 1 });
-  await stakingRewardCol.createIndex({ "exposure.total": 1 });
-  await stakingRewardCol.createIndex({ "indexer.blockHeight": 1, stash: 1 });
-  await stakingRewardCol.createIndex({ era: 1, amount: 1 });
+  await rewardCol.createIndex({ destType: 1 });
+  await rewardCol.createIndex({ destAccount: 1 });
+  await rewardCol.createIndex({ era: 1 });
+  await rewardCol.createIndex({ isValidator: 1 });
+  await rewardCol.createIndex({ stash: 1, era: 1 });
+  await rewardCol.createIndex({ era: 1, isValidator: 1 });
+  await rewardCol.createIndex({ "exposure.total": 1 });
+  await rewardCol.createIndex({ "indexer.blockHeight": 1, stash: 1 });
+  await rewardCol.createIndex({ era: 1, amount: 1 });
 }
 
 async function getStakingDb() {
@@ -53,8 +53,8 @@ async function makeSureInit(col) {
 }
 
 async function getStakingRewardCol() {
-  await makeSureInit(stakingRewardCol);
-  return stakingRewardCol;
+  await makeSureInit(rewardCol);
+  return rewardCol;
 }
 
 module.exports = {
