@@ -24,19 +24,7 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  await rewardCol.createIndex({ "indexer.blockHeight": 1 });
-  await rewardCol.createIndex({ stash: 1 });
-  await rewardCol.createIndex({ rewardId: 1 }, { unique: true });
-
-  await rewardCol.createIndex({ destType: 1 });
-  await rewardCol.createIndex({ destAccount: 1 });
-  await rewardCol.createIndex({ era: 1 });
-  await rewardCol.createIndex({ isValidator: 1 });
-  await rewardCol.createIndex({ stash: 1, era: 1 });
-  await rewardCol.createIndex({ era: 1, isValidator: 1 });
-  await rewardCol.createIndex({ "exposure.total": 1 });
-  await rewardCol.createIndex({ "indexer.blockHeight": 1, stash: 1 });
-  await rewardCol.createIndex({ era: 1, amount: 1 });
+  // todo: add indexes for reward col
 }
 
 async function getStakingDb() {
