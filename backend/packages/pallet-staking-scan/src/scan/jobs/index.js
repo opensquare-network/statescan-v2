@@ -1,10 +1,9 @@
 const {
-  palletStaking: { getStakingDb },
-} = require("@statescan/mongo");
+  known: { saveKnownHeight },
+} = require("@statescan/common");
 
 async function doJobsAfterBlock(blockIndexer) {
-  const db = await getStakingDb();
-  await db.updateScanHeight(blockIndexer.blockHeight);
+  await saveKnownHeight(blockIndexer);
 }
 
 module.exports = {
