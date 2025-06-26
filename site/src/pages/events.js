@@ -21,7 +21,9 @@ import ExtrinsicLink from "../components/extrinsic/link";
 import { getIsSimpleMode } from "../utils/env";
 import CallCell from "../components/table/callCell";
 import EventFilter from "../components/events/filter";
+import EventAttributeDisplay from "../components/eventAttributeDisplay";
 import LazyEventAttributeDisplay from "../components/lazyEventAttributeDisplay";
+import { getChainSettings } from "../utils/chain";
 
 const filter = [
   {
@@ -77,11 +79,17 @@ const toEventFields = (event, index) => {
 };
 
 const toEventTabTableItem = (events) => {
+  const { useParamsFromServer } = getChainSettings();
+
   return (
     events?.map((event, index) => {
       return [
         ...toEventFields(event, index),
-        <LazyEventAttributeDisplay indexer={event?.indexer} />,
+        useParamsFromServer ? (
+          <LazyEventAttributeDisplay indexer={event?.indexer} />
+        ) : (
+          <EventAttributeDisplay event={event} />
+        ),
       ];
     }) ?? null
   );

@@ -35,6 +35,7 @@ import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
 import { addressEllipsis } from "@osn/common";
 import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
 import LazyExtrinsicParametersDisplay from "../../components/lazyExtrinsicParametersDisplay";
+import { getChainSettings } from "../../utils/chain";
 
 export const toEventTabTableItem = (events = []) => {
   return (
@@ -122,6 +123,8 @@ export const toExtrinsicsTabTableItem = (extrinsics) => {
 };
 
 export const toExtrinsicsTabTableItemSimpleMode = (extrinsics) => {
+  const { useParamsFromServer } = getChainSettings();
+
   return (
     extrinsics?.map((extrinsic, index) => {
       return [
@@ -135,7 +138,11 @@ export const toExtrinsicsTabTableItemSimpleMode = (extrinsics) => {
         extrinsic?.indexer?.blockTime,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
         <CallCell call={extrinsic?.call || extrinsic} />,
-        <LazyExtrinsicParametersDisplay indexer={extrinsic?.indexer} />,
+        useParamsFromServer ? (
+          <LazyExtrinsicParametersDisplay indexer={extrinsic?.indexer} />
+        ) : (
+          <ExtrinsicParametersDisplay extrinsic={extrinsic} />
+        ),
       ];
     }) ?? null
   );

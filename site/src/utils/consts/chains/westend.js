@@ -42,6 +42,7 @@ const westend = {
   ...westendCommon,
   nodes,
   useOnChainBlockData: true,
+  useParamsFromServer: true,
 };
 
 export default westend;
