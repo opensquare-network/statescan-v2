@@ -16,12 +16,12 @@ import {
   eventListLoadingSelector,
   eventListSelector,
 } from "../store/reducers/eventSlice";
-import EventAttributeDisplay from "../components/eventAttributeDisplay";
 import omit from "lodash.omit";
 import ExtrinsicLink from "../components/extrinsic/link";
 import { getIsSimpleMode } from "../utils/env";
 import CallCell from "../components/table/callCell";
 import EventFilter from "../components/events/filter";
+import LazyEventAttributeDisplay from "../components/lazyEventAttributeDisplay";
 
 const filter = [
   {
@@ -81,7 +81,7 @@ const toEventTabTableItem = (events) => {
     events?.map((event, index) => {
       return [
         ...toEventFields(event, index),
-        <EventAttributeDisplay event={event} />,
+        <LazyEventAttributeDisplay indexer={event?.indexer} />,
       ];
     }) ?? null
   );
