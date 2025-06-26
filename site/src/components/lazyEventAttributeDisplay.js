@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
 import EventAttributeDisplay from "./eventAttributeDisplay";
 import { useQueryEventInfo } from "../hooks/useQueryEventInfo";
 import { finalizedHeightSelector } from "../store/reducers/chainSlice";
@@ -7,18 +7,13 @@ import { useSelector } from "react-redux";
 import Loading from "./loadings/loading";
 
 export default function LazyEventAttributeDisplay({ indexer }) {
-  const [isLoading, setIsLoading] = useState(true);
   const { blockHeight, eventIndex } = indexer;
-  const { data } = useQueryEventInfo(blockHeight, eventIndex);
-
-  const chainEvent = data?.chainEvent;
+  const { data, loading } = useQueryEventInfo(blockHeight, eventIndex);
 
   const finalizedHeight = useSelector(finalizedHeightSelector);
+  const isFinalized = blockHeight <= finalizedHeight;
 
-  let isFinalized = null;
-  if (chainEvent && finalizedHeight) {
-    isFinalized = chainEvent?.indexer?.blockHeight <= finalizedHeight;
-  }
+  const chainEvent = data?.chainEvent;
 
   const event = useMemo(() => {
     if (!chainEvent || isNil(isFinalized)) {
@@ -31,15 +26,7 @@ export default function LazyEventAttributeDisplay({ indexer }) {
     };
   }, [chainEvent, isFinalized]);
 
-  useEffect(() => {
-    if (isNil(blockHeight) || isNil(eventIndex) || !event) {
-      return;
-    }
-
-    setIsLoading(false);
-  }, [blockHeight, event, eventIndex, isLoading]);
-
-  if (isLoading) {
+  if (loading) {
     return <Loading style={{ padding: 0 }} />;
   }
 

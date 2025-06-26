@@ -1,5 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
-import isNil from "lodash.isnil";
+import { useMemo } from "react";
 import Loading from "./loadings/loading";
 import { useQueryExtrinsicInfo } from "../hooks/useQueryExtrinsicInfo";
 import { finalizedHeightSelector } from "../store/reducers/chainSlice";
@@ -7,7 +6,6 @@ import { useSelector } from "react-redux";
 import ExtrinsicParametersDisplay from "./extrinsicParametersDisplay";
 
 export default function LazyExtrinsicParametersDisplay({ indexer }) {
-  const [isLoading, setIsLoading] = useState(true);
   const finalizedHeight = useSelector(finalizedHeightSelector);
   const { blockHeight, extrinsicIndex } = indexer || {};
 
@@ -18,9 +16,7 @@ export default function LazyExtrinsicParametersDisplay({ indexer }) {
     extrinsicIndex,
   );
 
-  const chainExtrinsic = useMemo(() => {
-    return extrinsicInfoData?.chainExtrinsic || {};
-  }, [extrinsicInfoData]);
+  const chainExtrinsic = extrinsicInfoData?.chainExtrinsic;
 
   const extrinsic = useMemo(() => {
     if (loading) {
@@ -33,15 +29,7 @@ export default function LazyExtrinsicParametersDisplay({ indexer }) {
     };
   }, [chainExtrinsic, isFinalized, loading]);
 
-  useEffect(() => {
-    if (isNil(blockHeight) || isNil(extrinsicIndex) || loading || !extrinsic) {
-      return;
-    }
-
-    setIsLoading(false);
-  }, [blockHeight, extrinsic, extrinsicIndex, isLoading, loading]);
-
-  if (isLoading) {
+  if (loading) {
     return <Loading style={{ padding: 0 }} />;
   }
 
