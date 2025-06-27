@@ -23,7 +23,7 @@ import CallCell from "../components/table/callCell";
 import EventFilter from "../components/events/filter";
 import EventAttributeDisplay from "../components/eventAttributeDisplay";
 import LazyEventAttributeDisplay from "../components/lazyEventAttributeDisplay";
-import { getChainSettings } from "../utils/chain";
+import isNil from "lodash.isnil";
 
 const filter = [
   {
@@ -79,13 +79,11 @@ const toEventFields = (event, index) => {
 };
 
 const toEventTabTableItem = (events) => {
-  const { useParamsFromServer } = getChainSettings();
-
   return (
     events?.map((event, index) => {
       return [
         ...toEventFields(event, index),
-        useParamsFromServer ? (
+        isNil(event?.args) ? (
           <LazyEventAttributeDisplay indexer={event?.indexer} />
         ) : (
           <EventAttributeDisplay event={event} />
