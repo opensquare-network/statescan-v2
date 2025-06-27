@@ -16,7 +16,11 @@ const statemint = {
   ...polkadotColor,
   buttonColor: "#E6007A",
   hidden: false,
-  modules: { ...assethubChainModules, foreignAssets: true },
+  modules: {
+    ...assethubChainModules,
+    foreignAssets: true,
+    multisig: true,
+  },
   para: {
     relay: "Polkadot",
     id: "1000",
