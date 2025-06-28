@@ -25,6 +25,7 @@ const {
 const { isSimpleMode } = require("../env");
 const { handleEvents } = require("./events");
 const { getEventWithCleanedArgs } = require("./event/clean");
+const { getExtrinsicWithCleanedArgs } = require("./extrinsic/clean");
 
 async function handleBlock(
   { block, author, events, height },
@@ -43,12 +44,15 @@ async function handleBlock(
     events,
     blockIndexer,
   );
+  const cleanedExtrinsics = normalizedExtrinsics.map(
+    getExtrinsicWithCleanedArgs,
+  );
 
   const finalizedHeight = getLatestFinalizedHeight();
   if (!isSimpleMode() || height >= finalizedHeight - 100) {
     await insertBlock(normalizedBlock);
   }
-  await batchInsertExtrinsics(normalizedExtrinsics);
+  await batchInsertExtrinsics(cleanedExtrinsics);
   await batchInsertEvents(cleanedEvents);
   await batchInsertCalls(normalizedCalls);
 
