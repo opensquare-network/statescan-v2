@@ -9,7 +9,7 @@ const { initEvmWeb3InstanceConditionally } = require("./evm/web3");
 async function main() {
   await subscribeFinalizedHeight();
   await initEvmWeb3InstanceConditionally();
-  const blockHeights = [7786051];
+  const blockHeights = [5475609];
 
   const api = await getApi();
   for (const height of blockHeights) {
@@ -19,11 +19,14 @@ async function main() {
     const block = await api.rpc.chain.getBlock(blockHash);
     const allEvents = await api.query.system.events.at(blockHash);
 
-    await handleBlock({
-      height,
-      block: block.block,
-      events: allEvents,
-    });
+    await handleBlock(
+      {
+        height,
+        block: block.block,
+        events: allEvents,
+      },
+      false,
+    );
   }
 
   console.log("finished");

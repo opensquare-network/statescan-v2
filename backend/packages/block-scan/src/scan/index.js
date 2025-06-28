@@ -24,13 +24,20 @@ const {
 } = require("@statescan/mongo");
 const { isSimpleMode } = require("../env");
 const { handleEvents } = require("./events");
+const { getEventWithCleanedArgs } = require("./event/clean");
 
-async function handleBlock({ block, author, events, height }) {
+async function handleBlock(
+  { block, author, events, height },
+  updateHeight = true,
+) {
   let blockIndexer = getBlockIndexer(block);
   blockIndexer = getFixedBlockIndexer(blockIndexer, block, currentChain());
 
   const normalizedBlock = normalizeBlock(block, author, events, blockIndexer);
   const normalizedEvents = normalizeEvents(events, blockIndexer);
+  const cleanedEvents = normalizedEvents.map((item) =>
+    getEventWithCleanedArgs(item),
+  );
   const { normalizedExtrinsics, normalizedCalls } = await normalizeExtrinsics(
     block.extrinsics,
     events,
@@ -42,13 +49,15 @@ async function handleBlock({ block, author, events, height }) {
     await insertBlock(normalizedBlock);
   }
   await batchInsertExtrinsics(normalizedExtrinsics);
-  await batchInsertEvents(normalizedEvents);
+  await batchInsertEvents(cleanedEvents);
   await batchInsertCalls(normalizedCalls);
 
   await handleEvents(events, blockIndexer, block.extrinsics);
 
-  const db = getBlockDb();
-  await db.updateScanHeight(height);
+  if (updateHeight) {
+    const db = getBlockDb();
+    await db.updateScanHeight(height);
+  }
 
   if (height >= finalizedHeight - 100) {
     await updateUnFinalized(height);
