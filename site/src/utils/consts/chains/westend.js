@@ -42,6 +42,7 @@ const westend = {
   ...westendCommon,
   nodes,
   useOnChainBlockData: true,
+  disabledMenus: ["calls"],
 };
 
 export default westend;
