@@ -96,8 +96,9 @@ export function useExtrinsicSectionMethodFilter() {
 
     const sectionOptions = (
       (
-        specFilters.find((spec) => spec.specVersion === specValue) ??
-        specFilters[0]
+        specFilters.find(
+          (spec) => String(spec.specVersion) === String(specValue),
+        ) ?? specFilters[0]
       )?.pallets ?? []
     )
       .filter((section) => {
