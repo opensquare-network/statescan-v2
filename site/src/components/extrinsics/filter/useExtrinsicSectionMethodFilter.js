@@ -130,7 +130,7 @@ export function useExtrinsicSectionMethodFilter() {
     };
 
     const section = {
-      optionWidth: "inherit",
+      optionWidth: "auto",
       value: sectionValue,
       name: "Section",
       query: "section",

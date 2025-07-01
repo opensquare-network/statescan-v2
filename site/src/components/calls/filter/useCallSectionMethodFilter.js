@@ -135,7 +135,7 @@ export function useCallSectionMethodFilter() {
 
       const method = {
         value: getFromQuery(location, "method"),
-        optionWidth: "inherit",
+        optionWidth: "auto",
         name: "Method",
         isSearch: true,
         query: "method",

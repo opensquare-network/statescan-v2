@@ -145,7 +145,7 @@ export function useEventSectionMethodFilter() {
       };
 
       const method = {
-        optionWidth: "inherit",
+        optionWidth: "auto",
         value: methodValue,
         name: "Method",
         isSearch: true,
