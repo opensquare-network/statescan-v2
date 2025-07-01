@@ -36,11 +36,6 @@ export function getChainNodes() {
   return settings.nodes || [];
 }
 
-export function getChainDisabledMenus() {
-  const settings = getChainSettings();
-  return settings?.disabledMenus || [];
-}
-
 /**
  * @returns {typeof chains.polkadot.modules & typeof chains.kusama.modules}
  */
@@ -76,7 +71,8 @@ export function getIsUseOnChainBlockData() {
 }
 
 export function getFilteredMenus(menus = []) {
-  const disabledMenus = getChainDisabledMenus();
+  const settings = getChainSettings();
+  const disabledMenus = settings?.disabledMenus || [];
 
   return menus.filter((menu) => {
     return !disabledMenus.includes(menu?.value);
