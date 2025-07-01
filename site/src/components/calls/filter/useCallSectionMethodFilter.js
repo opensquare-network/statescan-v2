@@ -116,6 +116,7 @@ export function useCallSectionMethodFilter() {
       };
 
       const section = {
+        optionWidth: "auto",
         value: sectionQueryValue,
         name: "Section",
         query: "section",
@@ -134,6 +135,7 @@ export function useCallSectionMethodFilter() {
 
       const method = {
         value: getFromQuery(location, "method"),
+        optionWidth: "inherit",
         name: "Method",
         isSearch: true,
         query: "method",

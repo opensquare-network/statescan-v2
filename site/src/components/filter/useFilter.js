@@ -149,7 +149,7 @@ export default function useFilter({
           }
 
           if (item?.name === descendant?.name) {
-            const newItem = { ...descendant };
+            const newItem = { ...item, ...descendant };
             descendant = descendant?.options?.[0]?.descendant ?? null;
             return newItem;
           }
@@ -266,6 +266,7 @@ export default function useFilter({
         <span>{item.name}</span>
         <Dropdown
           width={item.width}
+          optionWidth={item.optionWidth}
           isSearch={!!item?.isSearch}
           value={item.value}
           name={item.name}

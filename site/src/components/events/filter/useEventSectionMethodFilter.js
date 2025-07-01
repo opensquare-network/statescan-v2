@@ -127,6 +127,7 @@ export function useEventSectionMethodFilter() {
       };
 
       const section = {
+        optionWidth: "auto",
         value: sectionValue,
         name: "Section",
         query: "section",
@@ -144,6 +145,7 @@ export function useEventSectionMethodFilter() {
       };
 
       const method = {
+        optionWidth: "inherit",
         value: methodValue,
         name: "Method",
         isSearch: true,
