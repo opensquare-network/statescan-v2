@@ -17,7 +17,12 @@ const OptionWrapper = styled.div`
   box-shadow: ${(p) => p.theme.shadowPanel};
   overflow: hidden;
   border-radius: 8px;
-  width: ${(p) => p.width || 140}px;
+  width: ${(p) =>
+    p.width
+      ? typeof p.width === "number"
+        ? p.width + "px"
+        : p.width
+      : "140px"};
   ${border};
   ${border_theme("strokeBase")};
 `;

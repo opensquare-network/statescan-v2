@@ -130,6 +130,7 @@ export function useExtrinsicSectionMethodFilter() {
     };
 
     const section = {
+      optionWidth: "auto",
       value: sectionValue,
       name: "Section",
       query: "section",
@@ -147,6 +148,7 @@ export function useExtrinsicSectionMethodFilter() {
     };
 
     const method = {
+      optionWidth: "auto",
       value: methodValue,
       name: "Method",
       isSearch: true,

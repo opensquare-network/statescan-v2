@@ -71,6 +71,7 @@ export default function Dropdown({
   defaultDisplay = "",
   width,
   className = "",
+  optionWidth = "140px",
 }) {
   const ref = useRef();
   useOnClickOutside(ref, () => setIsActive(false));
@@ -89,7 +90,7 @@ export default function Dropdown({
       </SelectWrapper>
       {isActive && (
         <Options
-          width={width}
+          width={optionWidth}
           setIsActive={setIsActive}
           value={value}
           isSearch={isSearch}
