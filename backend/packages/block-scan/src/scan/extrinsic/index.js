@@ -7,6 +7,7 @@ const {
 const { isExemptedExtrinsic } = require("./exemption");
 const { isSimpleMode } = require("../../env");
 const { normalizeInSimpleMode } = require("./simpleNormalize");
+const { chainsNoNeedCalls } = require("../common/consts");
 
 async function normalizeExtrinsics(
   extrinsics = [],
@@ -44,11 +45,14 @@ async function normalizeExtrinsics(
       normalized = normalizeExtrinsic(extrinsic, events, extrinsicIndexer);
     }
 
-    const calls = await extractCallsFromExtrinsic(
-      extrinsic,
-      events,
-      extrinsicIndexer,
-    );
+    let calls = [];
+    if (!chainsNoNeedCalls.includes(chain)) {
+      calls = await extractCallsFromExtrinsic(
+        extrinsic,
+        events,
+        extrinsicIndexer,
+      );
+    }
     normalizedCalls.push(...calls);
     normalizedExtrinsics.push({
       ...normalized,

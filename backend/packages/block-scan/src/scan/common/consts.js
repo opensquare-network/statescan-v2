@@ -31,7 +31,10 @@ const chainsNeedToClean = [
   "bridgehub-polkadot",
 ];
 
+const chainsNoNeedCalls = [...chainsNeedToClean, "bridgehub-westend"];
+
 module.exports = {
   commonNecessarySections,
   chainsNeedToClean,
+  chainsNoNeedCalls,
 };
