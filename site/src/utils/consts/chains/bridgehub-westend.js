@@ -34,6 +34,7 @@ const bridgehubWestend = {
   ...westendCommon,
   nodes,
   useOnChainBlockData: true,
+  disabledMenus: ["calls"],
 };
 
 export default bridgehubWestend;

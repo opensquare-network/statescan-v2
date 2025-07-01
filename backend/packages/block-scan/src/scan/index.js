@@ -26,6 +26,7 @@ const { isSimpleMode } = require("../env");
 const { handleEvents } = require("./events");
 const { getEventWithCleanedArgs } = require("./event/clean");
 const { getExtrinsicWithCleanedArgs } = require("./extrinsic/clean");
+const { chainsNoNeedCalls } = require("./common/consts");
 
 async function handleBlock(
   { block, author, events, height },
@@ -54,7 +55,10 @@ async function handleBlock(
   }
   await batchInsertExtrinsics(cleanedExtrinsics);
   await batchInsertEvents(cleanedEvents);
-  await batchInsertCalls(normalizedCalls);
+
+  if (!chainsNoNeedCalls.includes(currentChain())) {
+    await batchInsertCalls(normalizedCalls);
+  }
 
   await handleEvents(events, blockIndexer, block.extrinsics);
 

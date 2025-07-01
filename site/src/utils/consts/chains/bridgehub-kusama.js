@@ -48,6 +48,7 @@ const bridgehubKusama = {
   buttonColor: "#3765DC",
   nodes,
   useOnChainBlockData: true,
+  disabledMenus: ["calls"],
 };
 
 export default bridgehubKusama;
