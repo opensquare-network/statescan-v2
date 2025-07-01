@@ -31,7 +31,6 @@ async function getCurrentEra(blockHash = null) {
   try {
     const blockApi = await findBlockApi(blockHash);
     const activeEra = await blockApi.query.staking.activeEra();
-
     return activeEra.isSome ? activeEra.unwrap().index.toNumber() : null;
   } catch (error) {
     console.error("Error querying current era:", error);

@@ -24,7 +24,12 @@ async function _createIndexes() {
     process.exit(1);
   }
 
-  // todo: add indexes for reward col
+  await rewardCol.createIndex({ who: 1 });
+  await rewardCol.createIndex({
+    who: 1,
+    "indexer.blockHeight": -1,
+    "indexer.eventIndex": -1,
+  });
 }
 
 async function getStakingDb() {

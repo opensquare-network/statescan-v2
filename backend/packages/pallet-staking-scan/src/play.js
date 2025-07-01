@@ -12,7 +12,7 @@ const {
   await initPalletStakingScanDb();
   await subscribeFinalizedHeight();
 
-  const blockHeights = [26413999, 26425075];
+  const blockHeights = [26547795];
 
   const api = await getApi();
   for (const height of blockHeights) {
@@ -22,11 +22,14 @@ const {
     const block = await api.rpc.chain.getBlock(blockHash);
     const allEvents = await api.query.system.events.at(blockHash);
 
-    await handleBlock({
-      height,
-      block: block.block,
-      events: allEvents,
-    });
+    await handleBlock(
+      {
+        height,
+        block: block.block,
+        events: allEvents,
+      },
+      false,
+    );
     console.log(`${height} finished`);
   }
 

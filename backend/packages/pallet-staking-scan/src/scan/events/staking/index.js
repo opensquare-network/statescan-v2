@@ -11,7 +11,6 @@ async function handleEvent(event, indexer) {
     return;
   }
   setKnownHeightMark(indexer.blockHeight);
-
   if (method === "Rewarded") {
     await handleRewarded(event, indexer);
   }
