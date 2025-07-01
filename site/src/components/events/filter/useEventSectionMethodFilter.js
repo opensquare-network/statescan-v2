@@ -29,7 +29,7 @@ function getSpecVersionDescendant(specVersion) {
           return {
             name: section.name,
             text: section.name,
-            value: section.name,
+            value: stringCamelCase(section.name),
             descendant: getSectionDescendant(section),
           };
         })
