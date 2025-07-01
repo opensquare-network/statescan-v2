@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  currentFilterValueSelector,
   fetchSpecsFilter,
   filtersSelector,
-  setCurrentFilterValue,
 } from "../../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -31,7 +29,7 @@ function getSpecVersionDescendant(specVersion) {
           return {
             name: section.name,
             text: section.name,
-            value: section.name,
+            value: stringCamelCase(section.name),
             descendant: getSectionDescendant(section),
           };
         })
@@ -64,7 +62,6 @@ export function useEventSectionMethodFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
-  const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
 
   useEffect(() => {
@@ -74,27 +71,20 @@ export function useEventSectionMethodFilter() {
   }, [dispatch, specFilters]);
 
   useEffect(() => {
-    return () => {
-      dispatch(setCurrentFilterValue({}));
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (specFilters) {
-      const specValue =
-        currentFilterValue.spec ??
-        getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
-      const methodValue =
-        currentFilterValue.method ?? getFromQuery(location, "method");
-      const sectionValue =
-        currentFilterValue.section ?? getFromQuery(location, "section");
+      const specValue = getFromQuery(
+        location,
+        "spec",
+        specFilters?.[0]?.specVersion,
+      );
+      const methodValue = getFromQuery(location, "method");
+      const sectionValue = getFromQuery(location, "section");
 
       const sectionOptions = (
         (
-          specFilters.find((spec) => spec.specVersion === specValue) ??
-          specFilters[0]
+          specFilters.find(
+            (spec) => String(spec.specVersion) === String(specValue),
+          ) ?? specFilters[0]
         )?.pallets ?? []
       )
         .filter((section) => {
@@ -162,8 +152,7 @@ export function useEventSectionMethodFilter() {
       };
       setFilters([specs, section, method]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [specFilters, location, currentFilterValue]);
+  }, [specFilters, location]);
 
   return filters;
 }

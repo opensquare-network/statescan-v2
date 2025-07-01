@@ -29,7 +29,7 @@ function getSpecVersionDescendant(specVersion) {
           return {
             name: section.name,
             text: section.name,
-            value: section.name,
+            value: stringCamelCase(section.name),
             descendant: getSectionDescendant(section),
           };
         })
@@ -82,8 +82,9 @@ export function useCallSectionMethodFilter() {
 
       const sectionOptions = (
         (
-          specFilters.find((spec) => spec.specVersion === version) ??
-          specFilters[0]
+          specFilters.find(
+            (spec) => String(spec.specVersion) === String(version),
+          ) ?? specFilters[0]
         )?.pallets ?? []
       )
         .filter((section) => {
