@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  currentFilterValueSelector,
   fetchSpecsFilter,
   filtersSelector,
-  setCurrentFilterValue,
 } from "../../../store/reducers/filterSlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -64,7 +62,6 @@ export function useExtrinsicSectionMethodFilter() {
   const dispatch = useDispatch();
   const location = useLocation();
   const specFilters = useSelector(filtersSelector);
-  const currentFilterValue = useSelector(currentFilterValueSelector);
   const [filters, setFilters] = useState([]);
 
   useEffect(() => {
@@ -74,25 +71,17 @@ export function useExtrinsicSectionMethodFilter() {
   }, [dispatch, specFilters]);
 
   useEffect(() => {
-    return () => {
-      dispatch(setCurrentFilterValue({}));
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (!specFilters) {
       return;
     }
 
-    const specValue =
-      currentFilterValue.spec ??
-      getFromQuery(location, "spec", specFilters?.[0]?.specVersion);
-    const sectionValue =
-      currentFilterValue.section ?? getFromQuery(location, "section");
-    const methodValue =
-      currentFilterValue.method ?? getFromQuery(location, "method");
+    const specValue = getFromQuery(
+      location,
+      "spec",
+      specFilters?.[0]?.specVersion,
+    );
+    const sectionValue = getFromQuery(location, "section");
+    const methodValue = getFromQuery(location, "method");
 
     const sectionOptions = (
       (
@@ -166,8 +155,7 @@ export function useExtrinsicSectionMethodFilter() {
     };
 
     setFilters([specs, section, method]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [specFilters, location, currentFilterValue]);
+  }, [specFilters, location]);
 
   return filters;
 }
