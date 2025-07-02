@@ -3,14 +3,6 @@ import { westendCommon } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://sys.ibp.network/people-westend",
-  },
-  {
-    name: "IBP2",
-    url: "wss://people-westend.dotters.network",
-  },
-  {
     name: "Parity",
     url: "wss://westend-people-rpc.polkadot.io",
   },
