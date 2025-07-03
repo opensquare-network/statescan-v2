@@ -33,12 +33,14 @@ async function handleRewarded(event, indexer) {
 
   const currentEra = await getCurrentEra(indexer?.blockHash);
   const validator = getValidator(indexer);
+  const isValidator = stash === validator;
 
   const obj = {
     who: stash,
     dest,
     amount,
     validator,
+    isValidator,
     era: currentEra,
     indexer,
   };

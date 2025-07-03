@@ -9,6 +9,7 @@ const { doJobsAfterBlock } = require("./jobs");
 const {
   store: { setHeightBlockEvents, clearHeightBlockEvents },
 } = require("@statescan/common");
+const { clearBlockValidators } = require("./store/blockValidators");
 
 async function handleBlock({ block, events }, updateHeight = true) {
   const blockIndexer = getBlockIndexer(block);
@@ -21,6 +22,7 @@ async function handleBlock({ block, events }, updateHeight = true) {
     await db.updateScanHeight(blockIndexer.blockHeight);
   }
   clearHeightBlockEvents(blockIndexer.blockHeight);
+  clearBlockValidators(blockIndexer.blockHash);
 }
 
 module.exports = {

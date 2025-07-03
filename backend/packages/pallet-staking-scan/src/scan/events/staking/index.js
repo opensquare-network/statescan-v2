@@ -4,6 +4,7 @@ const { handleRewarded } = require("./events/rewarded");
 const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
+const { handleReward } = require("./events/reward");
 
 async function handleEvent(event, indexer) {
   const { section, method } = event;
@@ -13,6 +14,8 @@ async function handleEvent(event, indexer) {
   setKnownHeightMark(indexer.blockHeight);
   if (method === "Rewarded") {
     await handleRewarded(event, indexer);
+  } else if (method === "Reward") {
+    await handleReward(event, indexer);
   }
 }
 
