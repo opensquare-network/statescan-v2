@@ -103,13 +103,17 @@ export default function useFilter({
 
   const getCurrentFilter = useCallback(() => {
     const filter = {};
+
     (selectData || []).forEach((item) => {
       if (item.query && !isNil(item.value) && item.value !== "") {
         Object.assign(filter, { [item.query]: item.value });
       }
     });
+
+    Object.assign(filter, currentFilterValue);
+
     return filter;
-  }, [selectData]);
+  }, [selectData, currentFilterValue]);
 
   const handleReset = useCallback(() => {
     const newData = selectData.map((item) => {
