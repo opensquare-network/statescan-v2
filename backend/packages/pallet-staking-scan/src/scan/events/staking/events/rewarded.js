@@ -1,7 +1,6 @@
 const {
   palletStaking: { insertStakingReward },
 } = require("@statescan/mongo");
-const { getCurrentEra } = require("../../../common/query");
 const {
   store: { getHeightBlockEvents },
 } = require("@statescan/common");
@@ -21,9 +20,12 @@ function getPayoutStartedEvent(indexer) {
   return targetEvents[startIndex].event;
 }
 
-function getValidator(indexer) {
+function getEraAndValidator(indexer) {
   const payoutStartedEvent = getPayoutStartedEvent(indexer);
-  return payoutStartedEvent.data[1].toString();
+  return {
+    era: payoutStartedEvent.data[0].toNumber(),
+    validator: payoutStartedEvent.data[1].toString(),
+  };
 }
 
 async function handleRewarded(event, indexer) {
@@ -31,20 +33,18 @@ async function handleRewarded(event, indexer) {
   const dest = event.data[1].toJSON();
   const amount = event.data[2].toString();
 
-  const currentEra = await getCurrentEra(indexer?.blockHash);
-  const validator = getValidator(indexer);
+  const { era, validator } = getEraAndValidator(indexer);
   const isValidator = stash === validator;
 
-  const obj = {
+  await insertStakingReward({
     who: stash,
     dest,
     amount,
     validator,
     isValidator,
-    era: currentEra,
+    era,
     indexer,
-  };
-  await insertStakingReward(obj);
+  });
 }
 
 module.exports = {
