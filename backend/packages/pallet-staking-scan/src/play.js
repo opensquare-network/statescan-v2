@@ -13,7 +13,8 @@ const {
   await subscribeFinalizedHeight();
 
   const blockHeights = [
-    6713103,
+    334618,
+    // 6713103,
     // 26728381,
   ];
 

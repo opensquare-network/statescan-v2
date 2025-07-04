@@ -14,7 +14,7 @@ const {
   call: { findTargetCall },
 } = require("@osn/scan-common");
 
-async function getValidator(who, indexer) {
+async function getValidatorByPayoutStakersCall(who, indexer) {
   const nominationInfo = await getNominator(who, indexer.blockHash);
   const validators = await getBlockValidators(indexer.blockHash);
   if (!nominationInfo || validators.includes(who)) {
@@ -49,7 +49,7 @@ async function handleRewardWithAccountAndBalance(event, indexer, extrinsic) {
   const amount = event.data[1].toString();
 
   const dest = await getPayee(who, indexer.blockHash);
-  const validator = await getValidator(who, indexer);
+  const validator = await getValidatorByPayoutStakersCall(who, indexer);
   const isValidator = who === validator;
 
   let era = null;
