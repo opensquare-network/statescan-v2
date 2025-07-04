@@ -3,12 +3,16 @@ const { getPayee, getNominator } = require("../../../../common");
 const { getBlockValidators } = require("../../../../store");
 const {
   store: { getHeightBlockEvents },
+  utils: { isSameAddress },
 } = require("@statescan/common");
 const findLast = require("lodash.findlast");
 const isNil = require("lodash.isnil");
 const {
   palletStaking: { insertStakingReward },
 } = require("@statescan/mongo");
+const {
+  call: { findTargetCall },
+} = require("@osn/scan-common");
 
 async function getValidator(who, indexer) {
   const nominationInfo = await getNominator(who, indexer.blockHash);
@@ -40,14 +44,29 @@ async function getValidator(who, indexer) {
   return targetEvent ? targetEvent.event.data[0].toString() : null;
 }
 
-async function handleRewardWithAccountAndBalance(event, indexer) {
+async function handleRewardWithAccountAndBalance(event, indexer, extrinsic) {
   const who = event.data[0].toString();
   const amount = event.data[1].toString();
 
-  const currentEra = await getCurrentEra(indexer?.blockHash);
   const dest = await getPayee(who, indexer.blockHash);
   const validator = await getValidator(who, indexer);
   const isValidator = who === validator;
+
+  let era = null;
+  let targetCall = null;
+  if (validator && extrinsic) {
+    targetCall = findTargetCall(extrinsic.method, (call) => {
+      const { section, method, args } = call;
+      if ("staking" === section || "payoutStakers" === method) {
+        return isSameAddress(args[0].toString(), validator);
+      } else {
+        return false;
+      }
+    });
+    if (targetCall) {
+      era = targetCall.args[1].toNumber();
+    }
+  }
 
   await insertStakingReward({
     who,
@@ -55,7 +74,7 @@ async function handleRewardWithAccountAndBalance(event, indexer) {
     amount,
     validator,
     isValidator,
-    era: currentEra,
+    era,
     indexer,
   });
 }

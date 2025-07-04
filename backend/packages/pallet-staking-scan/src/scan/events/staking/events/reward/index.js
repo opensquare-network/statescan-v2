@@ -1,12 +1,9 @@
 const {
-  chain: { findBlockApi },
-} = require("@osn/scan-common");
-const {
   utils: { isValidAddress, isNum },
 } = require("@statescan/common");
 const { handleRewardWithAccountAndBalance } = require("./accountAndBalance");
 
-async function handleReward(event, indexer) {
+async function handleReward(event, indexer, extrinsic) {
   const data = event.data;
   if (data.length === 1) {
     // todo: handle only one data case
@@ -17,7 +14,7 @@ async function handleReward(event, indexer) {
   const arg1 = data[0].toString();
   const arg2 = data[1].toString();
   if (isValidAddress(arg1) && isNum(arg2)) {
-    await handleRewardWithAccountAndBalance(event, indexer);
+    await handleRewardWithAccountAndBalance(event, indexer, extrinsic);
   }
   // todo: case 1(AccountId, balance) -> done
 }

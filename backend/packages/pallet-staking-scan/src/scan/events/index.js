@@ -1,6 +1,6 @@
 const { handleStakingEvent } = require("./staking");
 
-async function handleEvents(events = [], blockIndexer) {
+async function handleEvents(events = [], blockIndexer, extrinsics = []) {
   if (events.length <= 0) {
     return;
   }
@@ -12,15 +12,17 @@ async function handleEvents(events = [], blockIndexer) {
     };
 
     const { event, phase } = events[eventIndex];
+    let extrinsic;
     if (!phase.isNone) {
       const extrinsicIndex = phase.value.toNumber();
       indexer = {
         ...indexer,
         extrinsicIndex,
       };
+      extrinsic = extrinsics[extrinsicIndex];
     }
 
-    await handleStakingEvent(event, indexer);
+    await handleStakingEvent(event, indexer, extrinsic);
   }
 }
 

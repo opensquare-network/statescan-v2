@@ -13,8 +13,8 @@ const {
   await subscribeFinalizedHeight();
 
   const blockHeights = [
-    // 6713103,
-    26728381,
+    6713103,
+    // 26728381,
   ];
 
   const api = await getApi();

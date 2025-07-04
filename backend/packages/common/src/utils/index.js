@@ -8,4 +8,5 @@ module.exports = {
   ...require("./bigInt"),
   ...require("./hash"),
   ...require("./isNum"),
+  ...require("./address"),
 };

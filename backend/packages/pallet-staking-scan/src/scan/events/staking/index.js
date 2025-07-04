@@ -6,7 +6,7 @@ const {
 } = require("@statescan/common");
 const { handleReward } = require("./events/reward");
 
-async function handleEvent(event, indexer) {
+async function handleEvent(event, indexer, extrinsic) {
   const { section, method } = event;
   if (section !== getStakingSection()) {
     return;
@@ -15,13 +15,13 @@ async function handleEvent(event, indexer) {
   if (method === "Rewarded") {
     await handleRewarded(event, indexer);
   } else if (method === "Reward") {
-    await handleReward(event, indexer);
+    await handleReward(event, indexer, extrinsic);
   }
 }
 
-async function handleStakingEvent(event, indexer) {
+async function handleStakingEvent(event, indexer, extrinsic) {
   try {
-    await handleEvent(event, indexer);
+    await handleEvent(event, indexer, extrinsic);
   } catch (e) {
     logger.error(
       `Error in handling staking pallet events at ${indexer.blockHeight}`,

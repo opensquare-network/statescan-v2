@@ -14,7 +14,7 @@ const { clearBlockValidators } = require("./store/blockValidators");
 async function handleBlock({ block, events }, updateHeight = true) {
   const blockIndexer = getBlockIndexer(block);
   setHeightBlockEvents(blockIndexer.blockHeight, events);
-  await handleEvents(events, blockIndexer);
+  await handleEvents(events, blockIndexer, block.extrinsics);
 
   await doJobsAfterBlock(blockIndexer);
   if (updateHeight) {
