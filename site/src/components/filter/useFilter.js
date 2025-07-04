@@ -102,15 +102,13 @@ export default function useFilter({
   }, [data]);
 
   const getCurrentFilter = useCallback(() => {
-    const filter = {};
+    const filter = { ...currentFilterValue };
 
     (selectData || []).forEach((item) => {
       if (item.query && !isNil(item.value) && item.value !== "") {
         Object.assign(filter, { [item.query]: item.value });
       }
     });
-
-    Object.assign(filter, currentFilterValue);
 
     return filter;
   }, [selectData, currentFilterValue]);
@@ -176,7 +174,6 @@ export default function useFilter({
   );
 
   const handleFilter = useCallback(() => {
-    const { page = 1 } = params;
     const value = getCurrentFilter();
     if (params[TABLE_SORT_QUERY_KEY])
       value[TABLE_SORT_QUERY_KEY] = params[TABLE_SORT_QUERY_KEY];
@@ -189,7 +186,7 @@ export default function useFilter({
     });
 
     const search = serialize(value);
-    navigate({ search: `?${search}${search ? "&" : ""}page=${page}` });
+    navigate({ search: `?${search}${search ? "&" : ""}page=1` });
   }, [data, getCurrentFilter, navigate, params]);
 
   const debouncedSelectData = useFilterDebounce(selectData);
