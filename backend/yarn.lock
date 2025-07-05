@@ -2383,7 +2383,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@statescan/pallet-staking-scan@workspace:packages/pallet-staking-scan"
   dependencies:
-    "@osn/scan-common": 0.7.1
+    "@osn/scan-common": 0.8.0
     "@statescan/common": 1.0.0
     "@statescan/mongo": 1.0.0
     dotenv: ^16.0.1
