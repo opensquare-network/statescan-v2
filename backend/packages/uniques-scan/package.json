@@ -28,7 +28,7 @@
     "@osn/scan-common": "0.8.0",
     "@polkadot/util": "13.5.3",
     "@statescan/mongo": "1.0.0",
-    "axios": "^1.2.2",
+    "axios": "^1.10.0",
     "data-urls": "^4.0.0",
     "dotenv": "^16.0.1",
     "fast-average-color-node": "^2.6.0",
