@@ -14,6 +14,7 @@ async function handleReward(event, indexer, extrinsic) {
   const arg1 = data[0].toString();
   const arg2 = data[1].toString();
   if (isValidAddress(arg1) && isNum(arg2)) {
+    // if only payoutValidator, then handle payout validator Reward event
     await handleRewardWithAccountAndBalance(event, indexer, extrinsic);
   }
   // todo: case 1(AccountId, balance) -> done

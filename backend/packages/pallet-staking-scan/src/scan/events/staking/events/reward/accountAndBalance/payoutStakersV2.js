@@ -1,6 +1,5 @@
-const { getCurrentEra } = require("../../../../common/query");
-const { getPayee, getNominator } = require("../../../../common");
-const { getBlockValidators } = require("../../../../store");
+const { getPayee, getNominator } = require("../../../../../common");
+const { getBlockValidators } = require("../../../../../store");
 const {
   store: { getHeightBlockEvents },
   utils: { isSameAddress },
@@ -44,7 +43,7 @@ async function getValidatorByPayoutStakersCall(who, indexer) {
   return targetEvent ? targetEvent.event.data[0].toString() : null;
 }
 
-async function handleRewardWithAccountAndBalance(event, indexer, extrinsic) {
+async function handleRewardByPayoutStakersV2(event, indexer, extrinsic) {
   const who = event.data[0].toString();
   const amount = event.data[1].toString();
 
@@ -80,5 +79,5 @@ async function handleRewardWithAccountAndBalance(event, indexer, extrinsic) {
 }
 
 module.exports = {
-  handleRewardWithAccountAndBalance,
+  handleRewardByPayoutStakersV2,
 };

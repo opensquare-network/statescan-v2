@@ -7,7 +7,11 @@ const {
 const { handleEvents } = require("./events");
 const { doJobsAfterBlock } = require("./jobs");
 const {
-  store: { setHeightBlockEvents, clearHeightBlockEvents },
+  store: {
+    setHeightBlockEvents,
+    clearHeightBlockEvents,
+    clearMetadataFromStore,
+  },
 } = require("@statescan/common");
 const { clearBlockValidators } = require("./store/blockValidators");
 
@@ -23,6 +27,7 @@ async function handleBlock({ block, events }, updateHeight = true) {
   }
   clearHeightBlockEvents(blockIndexer.blockHeight);
   clearBlockValidators(blockIndexer.blockHash);
+  clearMetadataFromStore(blockIndexer.blockHash);
 }
 
 module.exports = {
