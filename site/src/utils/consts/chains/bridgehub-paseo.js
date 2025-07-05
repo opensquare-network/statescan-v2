@@ -23,6 +23,7 @@ const bridgehubPaseo = {
   ...paseoColor,
   nodes,
   useOnChainBlockData: true,
+  disabledMenus: ["calls"],
 };
 
 export default bridgehubPaseo;

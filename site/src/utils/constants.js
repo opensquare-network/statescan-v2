@@ -1,3 +1,5 @@
+import { getFilteredMenus } from "./chain";
+
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
 export const CACHE_KEY = {
@@ -49,7 +51,7 @@ export const menusBlockchain = [
     name: "Blocks",
     value: "blocks",
   },
-  ...menusBlockchainSimpleMode,
+  ...getFilteredMenus(menusBlockchainSimpleMode),
 ];
 
 export const destroyedAssetsMenuItem = {

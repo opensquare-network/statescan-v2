@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import Link from "../styled/link";
 import styled from "styled-components";
-import * as queryString from "query-string";
-import encodeUriQuery from "../../utils/viewFuncs";
-
 import { useLocation } from "react-router-dom";
 
 const StyledLink = styled(Link)`
@@ -23,12 +20,16 @@ export default function PageCaret({ children, page, onPageChange = null }) {
   const [to, setTo] = React.useState("");
 
   useEffect(() => {
-    setTo(
-      `${location.pathname}?${encodeUriQuery({
-        ...queryString.parse(location.search),
-        page,
-      })}`,
-    );
+    let search = location.search;
+    search = search.replace(/[?&]page=[^&]*/g, "");
+    if (search && !search.startsWith("?")) {
+      search = "?" + search;
+    }
+
+    const separator = search && search !== "?" ? "&" : "?";
+    const newSearch = `${search}${separator}page=${encodeURIComponent(page)}`;
+
+    setTo(`${location.pathname}${newSearch}`);
   }, [location, page]);
 
   return (

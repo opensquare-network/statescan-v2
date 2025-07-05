@@ -34,6 +34,8 @@ import CallCell from "../../components/table/callCell";
 import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
 import { addressEllipsis } from "@osn/common";
 import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
+import LazyExtrinsicParametersDisplay from "../../components/lazyExtrinsicParametersDisplay";
+import isNil from "lodash.isnil";
 
 export const toEventTabTableItem = (events = []) => {
   return (
@@ -134,7 +136,11 @@ export const toExtrinsicsTabTableItemSimpleMode = (extrinsics) => {
         extrinsic?.indexer?.blockTime,
         extrinsic?.isSuccess ? <CheckIcon /> : <CrossIcon />,
         <CallCell call={extrinsic?.call || extrinsic} />,
-        <ExtrinsicParametersDisplay extrinsic={extrinsic} />,
+        isNil(extrinsic?.args) ? (
+          <LazyExtrinsicParametersDisplay indexer={extrinsic?.indexer} />
+        ) : (
+          <ExtrinsicParametersDisplay extrinsic={extrinsic} />
+        ),
       ];
     }) ?? null
   );

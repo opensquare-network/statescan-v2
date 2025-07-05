@@ -3,16 +3,8 @@ import { westendCommon } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://rpc.ibp.network/westend",
-  },
-  {
     name: "Parity",
     url: "wss://westend-rpc.polkadot.io/",
-  },
-  {
-    name: "IBP2",
-    url: "wss://westend.dotters.network/",
   },
   {
     name: "OnFinality",
@@ -42,6 +34,7 @@ const westend = {
   ...westendCommon,
   nodes,
   useOnChainBlockData: true,
+  disabledMenus: ["calls"],
 };
 
 export default westend;

@@ -24,7 +24,11 @@ import { useWindowSize } from "@osn/common";
 import ExploreInputOrigin from "../../components/home/explore/input";
 import { useLocation } from "react-router";
 import { MOBILE_SIZE } from "@osn/constants";
-import { getChainModules, hasBusiness } from "../../utils/chain";
+import {
+  getChainModules,
+  hasBusiness,
+  getFilteredMenus,
+} from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
 import NodeSwitch from "../nodeSwitch";
@@ -144,7 +148,9 @@ export default function Header() {
               <SubMenu
                 category="BlockChain"
                 menus={
-                  isSimpleMode ? menusBlockchainSimpleMode : menusBlockchain
+                  isSimpleMode
+                    ? getFilteredMenus(menusBlockchainSimpleMode)
+                    : menusBlockchain
                 }
               />
               {assets && uniques ? (

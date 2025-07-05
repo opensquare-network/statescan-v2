@@ -22,6 +22,7 @@ const paseo = {
     { name: "IBP2", url: "wss://paseo.dotters.network" },
   ],
   useOnChainBlockData: true,
+  disabledMenus: ["calls"],
 };
 
 export default paseo;

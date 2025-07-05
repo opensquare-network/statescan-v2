@@ -69,3 +69,12 @@ export function getIsUseOnChainBlockData() {
   const settings = getChainSettings();
   return settings.useOnChainBlockData;
 }
+
+export function getFilteredMenus(menus = []) {
+  const settings = getChainSettings();
+  const disabledMenus = settings?.disabledMenus || [];
+
+  return menus.filter((menu) => {
+    return !disabledMenus.includes(menu?.value);
+  });
+}

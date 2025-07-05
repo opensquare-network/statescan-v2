@@ -3,14 +3,6 @@ import { westendCommon } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://sys.ibp.network/bridgehub-westend",
-  },
-  {
-    name: "IBP2",
-    url: "wss://bridge-hub-westend.dotters.network",
-  },
-  {
     name: "Parity",
     url: "wss://westend-bridge-hub-rpc.polkadot.io",
   },
@@ -34,6 +26,7 @@ const bridgehubWestend = {
   ...westendCommon,
   nodes,
   useOnChainBlockData: true,
+  disabledMenus: ["calls"],
 };
 
 export default bridgehubWestend;

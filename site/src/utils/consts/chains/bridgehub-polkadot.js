@@ -52,6 +52,7 @@ const bridgehubPolkadot = {
   buttonColor: "#E6007A",
   nodes,
   useOnChainBlockData: true,
+  disabledMenus: ["calls"],
 };
 
 export default bridgehubPolkadot;

@@ -23,13 +23,16 @@ export default function ToggleTheme() {
   const mode = useSelector(modeSelector);
 
   return (
-    <Wrapper
-      onClick={() => {
-        dispatch(setMode(mode === "light" ? "dark" : "light"));
-      }}
-    >
+    <Wrapper>
       <Divider />
-      {mode === "light" ? <MoonIcon /> : <SunIcon />}
+      <span
+        role="button"
+        onClick={() => {
+          dispatch(setMode(mode === "light" ? "dark" : "light"));
+        }}
+      >
+        {mode === "light" ? <MoonIcon /> : <SunIcon />}
+      </span>
     </Wrapper>
   );
 }
