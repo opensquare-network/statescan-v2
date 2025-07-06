@@ -3,6 +3,7 @@ const {
   call: { findLeafOriginAndCalls },
 } = require("@osn/scan-common");
 const { handleRewardByPayoutValidator } = require("./payoutValidator");
+const { hasPayoutValidatorCall } = require("./common/hasPayoutValidatorCall");
 
 function isOnlyPayoutValidator(calls = []) {
   return calls.every((call) => call.method === "payoutValidator");
