@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import FilterIcon from "./filterIcon";
 import { useWindowSize } from "@osn/common";
 import { useIsDark } from "../../utils/hooks";
@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 export default function CombinedFilter({ filters1, filters2 }) {
   const params = useQueryParams();
   const navigate = useNavigate();
+  const handleFilterRef = useRef();
 
   const {
     component: filters1Component,
@@ -37,6 +38,7 @@ export default function CombinedFilter({ filters1, filters2 }) {
     getCurrentFilter: getFilters2Values,
   } = useFilter({
     data: filters2,
+    onEnter: () => handleFilterRef.current?.(),
   });
 
   const reset = useCallback(() => {
@@ -56,6 +58,8 @@ export default function CombinedFilter({ filters1, filters2 }) {
     const search = serialize(value);
     navigate({ search: `?${search}${search ? "&" : ""}page=1` });
   }, [getFilters1Values, getFilters2Values, navigate, params]);
+
+  handleFilterRef.current = handleFilter;
 
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const { width } = useWindowSize();
