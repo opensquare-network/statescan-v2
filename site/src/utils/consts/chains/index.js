@@ -7,8 +7,6 @@ import kusama from "./kusama";
 import polkadot from "./polkadot";
 import shadow from "./shadow";
 import gargantua from "./gargantua";
-import polkadotCrustParachain from "./polkadotCrust";
-import crust from "./crust";
 // import hydradxTestnet from "./hydradxTestnet";
 import peopleKusama from "./people-kusama";
 import peoplePolkadot from "./people-polkadot";
@@ -42,7 +40,6 @@ const chains = {
   collectives,
   "coretime-polkadot": coretimePolkadot,
   "people-polkadot": peoplePolkadot,
-  "crust-parachain": polkadotCrustParachain,
   ajuna,
   interlay,
   laos,
@@ -55,7 +52,6 @@ const chains = {
   shadow,
   // tangle,
   // tinkernet,
-  crust,
   "bridgehub-kusama": bridgehubKusama,
   "coretime-kusama": coretimeKusama,
   "people-kusama": peopleKusama,
