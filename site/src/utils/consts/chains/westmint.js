@@ -15,7 +15,7 @@ const westmint = {
   color: "#DA68A7",
   colorSecondary: "rgba(218, 104, 167, 0.1)",
   buttonColor: "#DA68A7",
-  modules: assethubChainModules,
+  modules: { ...assethubChainModules, multisig: true },
   para: {
     relay: "Westend",
     id: "1000",
