@@ -5,6 +5,7 @@ const {
   store: { getHeightBlockEvents },
 } = require("@statescan/common");
 const findLastIndex = require("lodash.findlastindex");
+const { getPayee } = require("../../../common");
 
 function getPayoutStartedEvent(indexer) {
   const { blockHeight, eventIndex } = indexer;
@@ -30,8 +31,14 @@ function getEraAndValidator(indexer) {
 
 async function handleRewarded(event, indexer) {
   const stash = event.data[0].toString();
-  const dest = event.data[1].toJSON();
-  const amount = event.data[2].toString();
+  let dest, amount;
+  if (event.data.length === 2) {
+    amount = event.data[1].toString();
+    dest = await getPayee(stash, indexer.blockHash);
+  } else {
+    dest = event.data[1].toJSON();
+    amount = event.data[2].toString();
+  }
 
   const { era, validator } = getEraAndValidator(indexer);
   const isValidator = stash === validator;
