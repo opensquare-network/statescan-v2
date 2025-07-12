@@ -7,4 +7,6 @@ module.exports = {
   ...require("./known"),
   ...require("./bigInt"),
   ...require("./hash"),
+  ...require("./isNum"),
+  ...require("./address"),
 };
