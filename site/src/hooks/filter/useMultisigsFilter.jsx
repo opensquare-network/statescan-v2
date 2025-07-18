@@ -6,7 +6,7 @@ import capitalize from "lodash.capitalize";
 
 export function useMultisigsFilter() {
   const [filter, setFilter] = useState([]);
-  const { address = "", status, address_type = "account" } = useQueryParams();
+  const { address = "", status, query_by = "account" } = useQueryParams();
 
   const stableSetFilter = useCallback(
     (newFilter) => {
@@ -17,12 +17,12 @@ export function useMultisigsFilter() {
 
   useEffect(() => {
     const addressTypeFilter = {
-      value: address_type,
-      name: "Address Type",
-      query: "address_type",
+      value: query_by,
+      name: "Query By",
+      query: "query_by",
       options: [
         {
-          text: "Account",
+          text: "Multisig Address",
           value: "account",
         },
         {
@@ -67,7 +67,7 @@ export function useMultisigsFilter() {
       { type: "divider" },
       statusFilter,
     ]);
-  }, [status, address_type, stableSetFilter, address]);
+  }, [status, query_by, stableSetFilter, address]);
 
   return filter;
 }
