@@ -16,7 +16,7 @@ export function useMultisigsFilter() {
   );
 
   useEffect(() => {
-    const searchTypeFilter = {
+    const addressTypeFilter = {
       value: address_type,
       name: "Address Type",
       query: "address_type",
@@ -32,7 +32,7 @@ export function useMultisigsFilter() {
       ],
     };
 
-    const accountFilter = {
+    const addressFilter = {
       value: address,
       type: "input",
       name: "Address",
@@ -62,8 +62,8 @@ export function useMultisigsFilter() {
     };
 
     stableSetFilter([
-      searchTypeFilter,
-      accountFilter,
+      addressTypeFilter,
+      addressFilter,
       { type: "divider" },
       statusFilter,
     ]);
