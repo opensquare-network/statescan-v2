@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.7.1
+
+date: 2025-07-18
+
+- Support lazy-query for extrinsic and event params, so we don't have to index and save args for all extrinsics and
+  events.
+- Fix filter issues on extrinsics and events page.
+- Turn on multisigs for assethub polkadot, assethub paseo and assethub westend.
+- Disable calls for bridgehub chains, paseo and westend.
+- Remove IBP RPCs from westend chains.
+- a11y: set button role for the theme toggle component and menus.
+- Support multisigs query by a signatory address.
+- Check address when render extrinsic and event args.
+- Upgrade dependencies.
+
 ### 1.7.0
 
 date: 2025-06-23
