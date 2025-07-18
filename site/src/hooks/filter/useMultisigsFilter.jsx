@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useQueryParams } from "../useQueryParams";
 import SearchIcon from "../../components/icons/searchIcon";
 import { MULTISIG_STATUS } from "../../utils/constants";
@@ -6,18 +6,46 @@ import capitalize from "lodash.capitalize";
 
 export function useMultisigsFilter() {
   const [filter, setFilter] = useState([]);
-  const { account = "", status } = useQueryParams();
+  const {
+    account = "",
+    status,
+    signatory = "",
+    search_type = "account",
+  } = useQueryParams();
+
+  const stableSetFilter = useCallback(
+    (newFilter) => {
+      setFilter(newFilter);
+    },
+    [setFilter],
+  );
 
   useEffect(() => {
     const searchFilter = {
-      value: account,
+      value: search_type === "account" ? account : signatory,
       type: "input",
-      name: "Search",
-      query: "account",
+      name: "Address",
+      query: search_type === "account" ? "account" : "signatory",
       inputProps: {
-        placeholder: "Address",
+        placeholder: search_type === "account" ? "Account" : "Signatory",
         prefix: <SearchIcon style={{ width: 16, height: 16 }} />,
       },
+    };
+
+    const searchTypeFilter = {
+      value: search_type,
+      name: "Address Type",
+      query: "search_type",
+      options: [
+        {
+          text: "Account",
+          value: "account",
+        },
+        {
+          text: "Signatory",
+          value: "signatory",
+        },
+      ],
     };
 
     const statusFilter = {
@@ -38,8 +66,13 @@ export function useMultisigsFilter() {
       ],
     };
 
-    setFilter([searchFilter, { type: "divider" }, statusFilter]);
-  }, [account, status]);
+    stableSetFilter([
+      searchTypeFilter,
+      searchFilter,
+      { type: "divider" },
+      statusFilter,
+    ]);
+  }, [status, search_type, stableSetFilter, account, signatory]);
 
   return filter;
 }
