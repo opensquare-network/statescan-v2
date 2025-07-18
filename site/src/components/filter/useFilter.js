@@ -106,7 +106,7 @@ export default function useFilter({
     const filter = { ...currentFilterValue };
 
     (selectData || []).forEach((item) => {
-      if (item.query && !isNil(item.value) && item.value !== "") {
+      if (item.query && !isNil(item.value)) {
         Object.assign(filter, { [item.query]: item.value });
       }
     });
