@@ -22,8 +22,10 @@ async function handleRewardWithAccountAndBalance(event, indexer, extrinsic) {
     return;
   }
 
-  const hasItInMetadata = await hasPayoutValidatorCall(indexer.blockHash);
-  if (!extrinsic || !hasItInMetadata) {
+  const hasPayoutValidatorInMetadata = await hasPayoutValidatorCall(
+    indexer.blockHash,
+  );
+  if (!extrinsic || !hasPayoutValidatorInMetadata) {
     await handleRewardByPayoutStakersV2(event, indexer, extrinsic);
     return;
   }
