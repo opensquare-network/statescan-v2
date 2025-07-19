@@ -155,6 +155,7 @@ export default function SubMenu({ category, menus, closeMenu }) {
       onMouseEnter={onMouseOver}
       onMouseLeave={onMouseLeave}
       onMouseOut={onMouseLeave}
+      role="button"
     >
       <TitleWrapper isActive={isActive}>
         {category}

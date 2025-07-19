@@ -18,6 +18,7 @@ const statemine = {
   logo: "logo-img-2",
   modules: {
     ...assethubChainModules,
+    foreignAssets: true,
     multisig: true,
   },
   para: {

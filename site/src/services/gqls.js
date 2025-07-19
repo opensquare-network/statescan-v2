@@ -21,12 +21,14 @@ export const GET_MULTISIGS = gql`
     $offset: Int!
     $multisigState: MultisigState
     $account: String
+    $signatory: String
   ) {
     multisigs(
       limit: $limit
       offset: $offset
       multisigState: $multisigState
       account: $account
+      signatory: $signatory
     ) {
       limit
       offset

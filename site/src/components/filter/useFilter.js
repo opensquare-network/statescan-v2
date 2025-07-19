@@ -90,6 +90,7 @@ export default function useFilter({
   data,
   filterOnDataChange,
   onDataChange = noop,
+  onEnter = noop,
 }) {
   const navigate = useNavigate();
   const [selectData, setDropdownData] = useState(data);
@@ -105,7 +106,7 @@ export default function useFilter({
     const filter = { ...currentFilterValue };
 
     (selectData || []).forEach((item) => {
-      if (item.query && !isNil(item.value) && item.value !== "") {
+      if (item.query && !isNil(item.value)) {
         Object.assign(filter, { [item.query]: item.value });
       }
     });
@@ -174,6 +175,11 @@ export default function useFilter({
   );
 
   const handleFilter = useCallback(() => {
+    if (onEnter !== noop) {
+      onEnter();
+      return;
+    }
+
     const value = getCurrentFilter();
     if (params[TABLE_SORT_QUERY_KEY])
       value[TABLE_SORT_QUERY_KEY] = params[TABLE_SORT_QUERY_KEY];
@@ -187,7 +193,7 @@ export default function useFilter({
 
     const search = serialize(value);
     navigate({ search: `?${search}${search ? "&" : ""}page=1` });
-  }, [data, getCurrentFilter, navigate, params]);
+  }, [data, getCurrentFilter, navigate, onEnter, params]);
 
   const debouncedSelectData = useFilterDebounce(selectData);
 

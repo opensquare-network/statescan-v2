@@ -12,7 +12,7 @@ import { GET_MULTISIGS } from "../services/gqls";
 import { useState } from "react";
 
 export default function MultisigsPage() {
-  const { page = 1, account = "", status } = useQueryParams();
+  const { page = 1, address = "", status, query_by = "" } = useQueryParams();
   const filter = useMultisigsFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const [data, setData] = useState(null);
@@ -21,7 +21,7 @@ export default function MultisigsPage() {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
-      account,
+      [query_by]: address,
       multisigState: status ? status.toUpperCase() : null,
     },
     onCompleted: setData,
@@ -31,7 +31,7 @@ export default function MultisigsPage() {
     <Layout>
       <BreadCrumb data={[{ name: "Multisigs" }]} />
 
-      <Filter data={filter} filterOnDataChange />
+      <Filter data={filter} />
 
       <StyledPanelTableWrapper
         footer={
