@@ -30,10 +30,10 @@ const litentry = {
     },
     multisig: true,
   },
-  subSquareWebsite: "https://litentry.subsquare.io",
+  subSquareWebsite: "https://heima.subsquare.io",
   nodes: [
-    { name: "Litentry", url: "wss://rpc.litentry-parachain.litentry.io" },
-    { name: "Dwellir", url: "wss://litentry-rpc.dwellir.com" },
+    { name: "Heima", url: "wss://rpc.heima-parachain.heima.network/" },
+    { name: "Dwellir", url: "wss://heima-rpc.n.dwellir.com/" },
   ],
   useOnChainBlockData: true,
   blockHeightSettings: litentryBlockHeightSettings,
