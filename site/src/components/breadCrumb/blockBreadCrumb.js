@@ -25,9 +25,18 @@ const NavigationButton = styled.button`
   border: 1px solid transparent;
   border-radius: 50%;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
-  &:hover {
-    border-color: ${({ theme }) => theme.strokeBoxSelected};
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.strokeBoxSelected};
+    }
   }
 
   &:disabled {
