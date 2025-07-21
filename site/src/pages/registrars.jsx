@@ -46,7 +46,7 @@ export default function RegistrarsPage() {
     const registrars = clone(data?.identityRegistrars);
     if (!registrars) return data;
 
-    const sortedData = (registrars || []).sort((a, b) => {
+    const sortedRegistrars = (registrars || []).sort((a, b) => {
       const key = SORT_QUERY_DATA_KEY_MAP[sortKeyPrefix];
       if (descending) {
         return get(b, key) - get(a, key);
@@ -57,7 +57,7 @@ export default function RegistrarsPage() {
 
     return {
       ...data,
-      registrars: sortedData,
+      identityRegistrars: sortedRegistrars,
     };
   }, [sort, data]);
 
