@@ -3,20 +3,12 @@ import { westendCommon } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://sys.ibp.network/coretime-westend",
-  },
-  {
-    name: "IBP2",
-    url: "wss://coretime-westend.dotters.network",
-  },
-  {
     name: "Parity",
     url: "wss://westend-coretime-rpc.polkadot.io",
   },
   {
     name: "Dwellir",
-    url: "wss://coretime-westend-rpc.dwellir.com",
+    url: "wss://coretime-westend-rpc.n.dwellir.com",
   },
 ];
 
