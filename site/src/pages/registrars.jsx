@@ -17,6 +17,8 @@ import { Overpass_Mono_14_500 } from "../styles/text";
 import { LIST_DEFAULT_PAGE_SIZE, registrarsHead } from "../utils/constants";
 import { GET_REGISTRARS } from "../services/gqls";
 import { useIdentityQuery } from "../hooks/apollo";
+import { timeDuration } from "../utils/viewFuncs/time";
+import { TextTertiary } from "../components/styled/text";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
@@ -62,6 +64,7 @@ export default function RegistrarsPage() {
   }, [sort, data]);
 
   const tableData = sortedData?.identityRegistrars.map((item) => {
+    const lastJudgement = item?.statistics?.lastGivenIndexer?.blockTime;
     return [
       <Flex gap={24}>
         <Index>#{item.index}</Index>
@@ -73,6 +76,9 @@ export default function RegistrarsPage() {
       </Flex>,
       item.statistics.request,
       item.statistics.given,
+      <TextTertiary>
+        {lastJudgement ? timeDuration(lastJudgement) : "-"}
+      </TextTertiary>,
       <ValueDisplay
         value={toPrecision(item.fee, chainSetting.decimals)}
         symbol={chainSetting.symbol}
