@@ -340,7 +340,6 @@ export const requestsHead = [
 export const registrarsHead = [
   {
     name: "Registrar",
-    width: 512,
     type: "sortable",
     sortAscendingQueryValue: "REGISTRAR_INDEX_ASC",
     sortDescendingQueryValue: "REGISTRAR_INDEX_DESC",
@@ -349,7 +348,7 @@ export const registrarsHead = [
   {
     name: "Received Req.",
     width: 160,
-    align: "right",
+    align: "left",
     type: "sortable",
     sortAscendingQueryValue: "REGISTRAR_RECEIVED_REQ_ASC",
     sortDescendingQueryValue: "REGISTRAR_RECEIVED_REQ_DESC",
@@ -357,10 +356,15 @@ export const registrarsHead = [
   {
     name: "Total Given.",
     width: 160,
-    align: "right",
+    align: "left",
     type: "sortable",
     sortAscendingQueryValue: "REGISTRAR_TOTAL_GIVEN_ASC",
     sortDescendingQueryValue: "REGISTRAR_TOTAL_GIVEN_DESC",
+  },
+  {
+    name: "Last Judgement",
+    width: 200,
+    align: "left",
   },
   {
     name: "Fee",
