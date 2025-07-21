@@ -116,3 +116,17 @@ export const foreignAssetMYTH = {
     icon: "/imgs/icons/asset/myth.svg",
   },
 };
+
+export const foreignAssetTEEROnKusama = {
+  id: "0x1414fd0c95009d63f26c658fc885ccec9d1b681c7da247b4546c1f0bf1a26461",
+  data: {
+    icon: "/imgs/icons/foreign-asset/teer.svg",
+  },
+};
+
+export const foreignAssetDOTOnKusama = {
+  id: "0x390f7d2082df20ad4780a0b2667826b57b98f0c2cb48286695591d874cf7950d",
+  data: {
+    icon: "/imgs/icons/foreign-asset/dot.svg",
+  },
+};
