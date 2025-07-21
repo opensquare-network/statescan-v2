@@ -1,5 +1,5 @@
 import { toPrecision } from "@osn/common";
-import { parseInt, get, clone } from "lodash";
+import { get, clone } from "lodash";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
@@ -7,14 +7,13 @@ import AddressOrIdentity from "../components/address";
 import BreadCrumb from "../components/breadCrumb";
 import ValueDisplay from "../components/displayValue";
 import Layout from "../components/layout";
-import Pagination from "../components/pagination";
 import { Flex } from "../components/styled/flex";
 import { StyledPanelTableWrapper } from "../components/styled/panel";
 import Table from "../components/table";
 import { useQueryParams } from "../hooks/useQueryParams";
 import { chainSettingSelector } from "../store/reducers/settingSlice";
 import { Overpass_Mono_14_500 } from "../styles/text";
-import { LIST_DEFAULT_PAGE_SIZE, registrarsHead } from "../utils/constants";
+import { registrarsHead } from "../utils/constants";
 import { GET_REGISTRARS } from "../services/gqls";
 import { useIdentityQuery } from "../hooks/apollo";
 import { timeDuration } from "../utils/viewFuncs/time";
@@ -27,8 +26,7 @@ const Index = styled.div`
 
 export default function RegistrarsPage() {
   const chainSetting = useSelector(chainSettingSelector);
-  const { page = 1, sort } = useQueryParams();
-  const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const { sort } = useQueryParams();
 
   const { data, loading } = useIdentityQuery(GET_REGISTRARS);
 
@@ -94,15 +92,7 @@ export default function RegistrarsPage() {
     <Layout>
       <BreadCrumb data={[{ name: "Registrars" }]} />
 
-      <StyledPanelTableWrapper
-        footer={
-          <Pagination
-            page={parseInt(page)}
-            pageSize={pageSize}
-            total={data?.registrars?.length}
-          />
-        }
-      >
+      <StyledPanelTableWrapper>
         <Table heads={registrarsHead} data={tableData} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
