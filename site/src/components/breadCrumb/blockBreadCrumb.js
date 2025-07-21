@@ -16,29 +16,36 @@ const BlockBreadCrumbWrapper = styled(Flex)`
 `;
 
 const NavigationButton = styled.button`
+  all: unset;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  border: 1px solid ${(p) => p.theme.strokeBase};
-  border-radius: 4px;
-  background: ${(p) => p.theme.theme500};
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 50%;
   cursor: pointer;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.strokeBoxSelected};
+  }
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+
+    &:hover {
+      border-color: transparent;
+    }
   }
 
   svg {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
+    width: 16px;
+    height: 16px;
   }
 
   svg path {
-    stroke: ${(p) => p.theme.fillBase};
+    stroke: ${({ theme }) => theme.fontSecondary};
   }
 `;
 
@@ -53,7 +60,7 @@ export default function BlockBreadCrumb({ height }) {
   const navigate = useNavigate();
 
   const handlePrevious = () => {
-    if (height > 1) {
+    if (height > 0) {
       navigate(`/blocks/${height - 1}`);
     }
   };
@@ -66,7 +73,7 @@ export default function BlockBreadCrumb({ height }) {
     <BlockBreadCrumbWrapper>
       <NavigationButton
         onClick={handlePrevious}
-        disabled={height <= 1}
+        disabled={height < 1}
         title="Previous Block"
       >
         <CaretLeftIcon />
