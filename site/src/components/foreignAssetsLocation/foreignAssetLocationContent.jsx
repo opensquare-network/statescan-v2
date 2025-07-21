@@ -6,10 +6,11 @@ import {
   convertLocationForTableView,
   convertLocationForJsonView,
 } from "./convert";
+import { bg_theme } from "../../styles/tailwindcss";
 
 const LocationContent = styled.div`
   padding: 16px;
-  background-color: rgb(248, 248, 249);
+  ${bg_theme("fillBase")}
   margin-top: 0;
   padding: 24px;
 `;
