@@ -16,8 +16,8 @@ import { Overpass_Mono_14_500 } from "../styles/text";
 import { registrarsHead } from "../utils/constants";
 import { GET_REGISTRARS } from "../services/gqls";
 import { useIdentityQuery } from "../hooks/apollo";
-import { timeDuration } from "../utils/viewFuncs/time";
-import { TextTertiary } from "../components/styled/text";
+import { timeDuration, time } from "../utils/viewFuncs/time";
+import Tooltip from "../components/tooltip";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
@@ -74,9 +74,15 @@ export default function RegistrarsPage() {
       </Flex>,
       item.statistics.request,
       item.statistics.given,
-      <TextTertiary>
-        {lastJudgement ? timeDuration(lastJudgement) : "-"}
-      </TextTertiary>,
+      <span>
+        {lastJudgement ? (
+          <Tooltip tip={time(lastJudgement)}>
+            {timeDuration(lastJudgement)}
+          </Tooltip>
+        ) : (
+          "-"
+        )}
+      </span>,
       <ValueDisplay
         value={toPrecision(item.fee, chainSetting.decimals)}
         symbol={chainSetting.symbol}
