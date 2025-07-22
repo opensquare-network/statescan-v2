@@ -16,6 +16,7 @@ import { KNOWN_ADDR_MATCHERS } from "./knownAddr";
 import Tooltip from "../tooltip";
 import { ReactComponent as IdentitySpecial } from "../icons/identity/identity-special.svg";
 import { FlexCenter } from "../styled/flex";
+import { normalizeAddress } from "../../utils/normalizeAddress";
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -64,9 +65,14 @@ export function linkAddressToIdentityRegistrarTimeline(address) {
 const AddressLinkWithCopy = withCopy(AddressLink);
 
 export function Address({ address, ellipsis = true }) {
-  const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  const normalizedAddress = normalizeAddress(address);
+  const displayAddress = ellipsis
+    ? addressEllipsis(normalizedAddress)
+    : normalizedAddress;
   return (
-    <AddressLink to={`/accounts/${address}`}>{displayAddress}</AddressLink>
+    <AddressLink to={`/accounts/${normalizedAddress}`}>
+      {displayAddress}
+    </AddressLink>
   );
 }
 
@@ -76,10 +82,13 @@ export function AddressAndIdentity({
   ellipsis = true,
   checkMultisig = false,
 }) {
-  const identity = useIdentity(address);
-  const displayAddress = ellipsis ? addressEllipsis(address) : address;
+  const normalizedAddress = normalizeAddress(address);
+  const identity = useIdentity(normalizedAddress);
+  const displayAddress = ellipsis
+    ? addressEllipsis(normalizedAddress)
+    : normalizedAddress;
   const [fetchMultisigAddressData, { data: multisigAddressData }] =
-    useMultisigAddressLazyData(address);
+    useMultisigAddressLazyData(normalizedAddress);
 
   useEffect(() => {
     if (checkMultisig) {
@@ -90,7 +99,7 @@ export function AddressAndIdentity({
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
   const addressContent = (
-    <AddressTag to={`/accounts/${address}`}>
+    <AddressTag to={`/accounts/${normalizedAddress}`}>
       {displayAddress}
       {multisigAddressData?.multisigAddress && (
         <Tag style={{ marginLeft: 8 }}>Multisig</Tag>
@@ -104,7 +113,7 @@ export function AddressAndIdentity({
 
   return (
     <CombinationWrapper style={{ maxWidth }}>
-      <Link to={`/accounts/${address}`}>
+      <Link to={`/accounts/${normalizedAddress}`}>
         <Identity identity={identity} />
       </Link>
       {addressContent}
@@ -127,12 +136,15 @@ function AddressOrIdentity({
   linkToIdentityTimeline,
   noLink = false,
 }) {
-  const knownAddr = KNOWN_ADDR_MATCHERS.map((matcher) => matcher(address)).find(
-    Boolean,
-  );
+  const normalizedAddress = normalizeAddress(address);
+  const knownAddr = KNOWN_ADDR_MATCHERS.map((matcher) =>
+    matcher(normalizedAddress),
+  ).find(Boolean);
 
-  const identity = useIdentity(address);
-  let displayAddress = ellipsis ? addressEllipsis(address) : address;
+  const identity = useIdentity(normalizedAddress);
+  let displayAddress = ellipsis
+    ? addressEllipsis(normalizedAddress)
+    : normalizedAddress;
   const hasIdentityInfo = identity && identity?.info?.status !== "NO_ID";
 
   if (knownAddr) {
@@ -158,12 +170,12 @@ function AddressOrIdentity({
     );
   }
 
-  let linkAccountPage = `/accounts/${address}`;
+  let linkAccountPage = `/accounts/${normalizedAddress}`;
   if (linkToIdentityRegistrarTimeline) {
-    linkAccountPage = linkAddressToIdentityRegistrarTimeline(address);
+    linkAccountPage = linkAddressToIdentityRegistrarTimeline(normalizedAddress);
   }
   if (linkToIdentityTimeline) {
-    linkAccountPage = linkAddressToIdentityTimeline(address);
+    linkAccountPage = linkAddressToIdentityTimeline(normalizedAddress);
   }
 
   if (!hasIdentityInfo) {
