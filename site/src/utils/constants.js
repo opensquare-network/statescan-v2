@@ -421,7 +421,6 @@ export const vestingsHead = [
   {
     name: "Address",
     minWidth: 300,
-    width: 704,
   },
   {
     name: "Starting Block",
@@ -435,6 +434,11 @@ export const vestingsHead = [
   {
     name: "Locked",
     width: 200,
+    align: "right",
+  },
+  {
+    name: "Unlockable",
+    width: 160,
     align: "right",
   },
 ];
