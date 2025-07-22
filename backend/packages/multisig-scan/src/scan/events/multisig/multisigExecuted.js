@@ -9,12 +9,16 @@ const { extractCall } = require("./common/extractCall");
 const { sortApprovals } = require("./common/sortApprovals");
 const { normalizeDispatchResult } = require("./common/normalizeDispatchResult");
 const {
-  consts: { TimelineItemTypes },
-  busLogger: logger,
+  consts: { TimelineItemTypes, Modules },
 } = require("@osn/scan-common");
 const {
   getCallHashFromExtrinsic,
 } = require("./common/getCallHashFromExtrinsic");
+
+function isFromAsMultiThreshold1(extrinsic) {
+  const { section, method } = extrinsic.method;
+  return Modules.Multisig === section && "asMultiThreshold1" === method;
+}
 
 async function handleMultisigExecuted(event, indexer, extrinsic) {
   const approving = event.data[0].toString();
@@ -33,9 +37,13 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
   const multisigId = generateMultisigId(multisigAccount, callHash, when);
   const multisigInDb = await getMultisigById(multisigId);
   if (!multisigInDb) {
-    throw new Error(
-      `Can not find multisig from DB when executed at ${indexer.blockHeight}`,
-    );
+    if (isFromAsMultiThreshold1(extrinsic)) {
+      return;
+    } else {
+      throw new Error(
+        `Can not find multisig from DB when executed at ${indexer.blockHeight}`,
+      );
+    }
   }
 
   await insertMultisigTimelineItem({
