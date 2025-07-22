@@ -64,8 +64,8 @@ const ss58Format = Object.freeze({
   [chains["hydradx-testnet"]]: 63,
   [chains.polimec]: 41,
   [chains.shadow]: 66,
-  [chains.gargantua]: 42,
-  [chains.nexus]: 42,
+  [chains.gargantua]: 0,
+  [chains.nexus]: 0,
   [chains["polkadot-crust-parachain"]]: 88,
   [chains.tangle]: 5845,
   [chains["tangle-testnet"]]: 42,
@@ -100,10 +100,27 @@ const ss58Format = Object.freeze({
   [chains.ajuna]: 1328,
 });
 
-function getSs58Format(chain) {
+const legacySs58Format = Object.freeze({
+  [chains.gargantua]: 42,
+  [chains.nexus]: 42,
+});
+
+function getSs58FormatOrThrow(chain) {
   const format = ss58Format[chain];
   if (isNil(format)) {
     throw new Error(`Can not find ss58 format for ${chain}`);
+  }
+  return format;
+}
+
+function hasLegacySs58Format(chain) {
+  return chain in legacySs58Format;
+}
+
+function getLegacySs58FormatOrThrow(chain) {
+  const format = legacySs58Format[chain];
+  if (isNil(format)) {
+    throw new Error(`Can not find legacy ss58 format for ${chain}`);
   }
   return format;
 }
@@ -152,6 +169,8 @@ module.exports = {
   chains,
   assetsModuleChains,
   uniquesModuleChains,
-  getSs58Format,
+  getSs58FormatOrThrow,
+  hasLegacySs58Format,
+  getLegacySs58FormatOrThrow,
   transferOnBlockChains,
 };

@@ -4,11 +4,15 @@ const {
   account: { getAddressCollection },
 } = require("@statescan/mongo");
 const { getCounts } = require("./summary");
+const { getAddressQuery } = require("../../../common/getAddressQuery");
 
 async function getAccount(ctx) {
   const { address } = ctx.params;
   const col = await getAddressCollection();
-  const account = await col.findOne({ address }, { projection: { _id: 0 } });
+  const q = getAddressQuery("address", address);
+  const account = await col.findOne(q, {
+    projection: { _id: 0 },
+  });
   if (!account) {
     throw new HttpError(404, "account not found");
   }

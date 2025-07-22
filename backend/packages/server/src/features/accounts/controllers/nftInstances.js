@@ -2,6 +2,7 @@ const { extractPage } = require("../../../utils");
 const {
   uniques: { getClassCol, getInstanceCol },
 } = require("@statescan/mongo");
+const { getAddressQuery } = require("../../../common/getAddressQuery");
 
 async function populateNftClass(items) {
   const classCol = await getClassCol();
@@ -23,7 +24,7 @@ async function getAccountNftInstances(ctx) {
   }
 
   const q = {
-    "details.owner": address,
+    ...getAddressQuery("details.owner", address),
     isDestroyed: false,
   };
 

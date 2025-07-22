@@ -1,6 +1,7 @@
 const { normalizeTransfers } = require("../../../common/transfer");
 const { extractPage } = require("../../../utils");
 const { getTransferColByChain } = require("../../../common/transfer/col");
+const { getAddressQuery } = require("../../../common/getAddressQuery");
 
 async function getAccountTransfers(ctx) {
   const { address } = ctx.params;
@@ -11,10 +12,10 @@ async function getAccountTransfers(ctx) {
   }
 
   const q = {
-    $or: [{ from: address }, { to: address }],
+    $or: [getAddressQuery("from", address), getAddressQuery("to", address)],
   };
   if (ctx.query.from) {
-    q["$and"] = [{ from: ctx.query.from }];
+    q["$and"] = [getAddressQuery("from", ctx.query.from)];
   }
   const col = await getTransferColByChain();
   const items = await col
