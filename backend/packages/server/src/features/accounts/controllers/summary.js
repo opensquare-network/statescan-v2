@@ -5,28 +5,31 @@ const {
   uniques: { getInstanceCol, getInstanceTransferCol },
 } = require("@statescan/mongo");
 const { getTransferColByChain } = require("../../../common/transfer/col");
+const { getAddressQuery } = require("../../../common/getAddressQuery");
 
 async function countAccountAssets(address) {
   const col = await getAssetHolderCol();
-  return await col.countDocuments({ address });
+  const q = getAddressQuery("address", address);
+  return await col.countDocuments(q);
 }
 
 async function countAccountTransfers(address) {
   const col = await getTransferColByChain();
   return await col.countDocuments({
-    $or: [{ from: address }, { to: address }],
+    $or: [getAddressQuery("from", address), getAddressQuery("to", address)],
   });
 }
 
 async function countAccountExtrinsics(address) {
   const col = await getExtrinsicCollection();
-  return await col.countDocuments({ signer: address });
+  const q = getAddressQuery("signer", address);
+  return await col.countDocuments(q);
 }
 
 async function countAccountNftInstances(address) {
   const col = await getInstanceCol();
   return await col.countDocuments({
-    "details.owner": address,
+    ...getAddressQuery("details.owner", address),
     isDestroyed: false,
   });
 }
@@ -34,7 +37,7 @@ async function countAccountNftInstances(address) {
 async function countAccountNftTransfers(address) {
   const col = await getInstanceTransferCol();
   return await col.countDocuments({
-    $or: [{ from: address }, { to: address }],
+    $or: [getAddressQuery("from", address), getAddressQuery("to", address)],
   });
 }
 

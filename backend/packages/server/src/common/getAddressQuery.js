@@ -2,13 +2,19 @@ const { encodeAddress } = require("@polkadot/util-crypto");
 const { chains, getSs58Format } = require("../utils/consts/chains");
 const { currentChain } = require("../env");
 
-function getNexusAddressQuery(fieldName, address) {
-  const ss58Format = getSs58Format(currentChain());
+function getMultiAddressQuery(fieldName, address, chain) {
+  const ss58Format = getSs58Format(chain);
+  const chainAddress = encodeAddress(address, ss58Format);
+  if (ss58Format === 42) {
+    return {
+      [fieldName]: chainAddress,
+    };
+  }
+
   const substrateAddress = encodeAddress(address, 42);
-  const polkadotAddress = encodeAddress(address, ss58Format);
   return {
     [fieldName]: {
-      $in: [substrateAddress, polkadotAddress],
+      $in: [substrateAddress, chainAddress],
     },
   };
 }
@@ -16,7 +22,7 @@ function getNexusAddressQuery(fieldName, address) {
 function getAddressQuery(fieldName, address) {
   const chain = currentChain();
   if (chain === chains.nexus) {
-    return getNexusAddressQuery(fieldName, address);
+    return getMultiAddressQuery(fieldName, address, chain);
   }
 
   return {
