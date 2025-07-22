@@ -2,6 +2,7 @@ const { extractPage } = require("../../../utils");
 const {
   block: { getExtrinsicCollection },
 } = require("@statescan/mongo");
+const { getAddressQuery } = require("../../../common/getAddressQuery");
 
 async function getAccountExtrinsics(ctx) {
   const { address } = ctx.params;
@@ -11,7 +12,7 @@ async function getAccountExtrinsics(ctx) {
     return;
   }
 
-  const q = { signer: address };
+  const q = getAddressQuery("signer", address);
   const col = await getExtrinsicCollection();
   const items = await col
     .find(q, { projection: { _id: 0 } })

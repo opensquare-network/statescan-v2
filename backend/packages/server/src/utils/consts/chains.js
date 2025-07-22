@@ -65,7 +65,7 @@ const ss58Format = Object.freeze({
   [chains.polimec]: 41,
   [chains.shadow]: 66,
   [chains.gargantua]: 42,
-  [chains.nexus]: 42,
+  [chains.nexus]: 0,
   [chains["polkadot-crust-parachain"]]: 88,
   [chains.tangle]: 5845,
   [chains["tangle-testnet"]]: 42,

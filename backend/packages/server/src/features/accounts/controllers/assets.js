@@ -1,7 +1,8 @@
-const { extractPage } = require("../../../utils");
 const {
   asset: { getAssetHolderCol, getAssetCol, getAssetApprovalCol },
 } = require("@statescan/mongo");
+const { extractPage } = require("../../../utils");
+const { getAddressQuery } = require("../../../common/getAddressQuery");
 
 async function populateAssetDetails(items) {
   const assetCol = await getAssetCol();
@@ -24,7 +25,7 @@ async function populateAssetApproved(items) {
           $match: {
             assetId: item.assetId,
             assetHeight: item.assetHeight,
-            owner: item.address,
+            ...getAddressQuery("owner", item.address),
           },
         },
         {
@@ -56,7 +57,7 @@ async function getAccountAssets(ctx) {
     return;
   }
 
-  const q = { address };
+  const q = getAddressQuery("address", address);
   const col = await getAssetHolderCol();
   const items = await col
     .find(q, { projection: { _id: 0 } })

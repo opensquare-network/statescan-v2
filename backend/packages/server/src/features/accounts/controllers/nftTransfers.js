@@ -2,6 +2,7 @@ const { extractPage } = require("../../../utils");
 const {
   uniques: { getClassCol, getInstanceCol, getInstanceTransferCol },
 } = require("@statescan/mongo");
+const { getAddressQuery } = require("../../../common/getAddressQuery");
 
 async function populateNftClass(items) {
   const classCol = await getClassCol();
@@ -36,7 +37,7 @@ async function getAccountNftTransfers(ctx) {
   }
 
   const q = {
-    $or: [{ from: address }, { to: address }],
+    $or: [getAddressQuery("from", address), getAddressQuery("to", address)],
   };
   const transferCol = await getInstanceTransferCol();
   const items = await transferCol
