@@ -105,7 +105,7 @@ const legacySs58Format = Object.freeze({
   [chains.nexus]: 42,
 });
 
-function getSs58Format(chain) {
+function getSs58FormatOrThrow(chain) {
   const format = ss58Format[chain];
   if (isNil(format)) {
     throw new Error(`Can not find ss58 format for ${chain}`);
@@ -117,7 +117,7 @@ function hasLegacySs58Format(chain) {
   return chain in legacySs58Format;
 }
 
-function getLegacySs58Format(chain) {
+function getLegacySs58FormatOrThrow(chain) {
   const format = legacySs58Format[chain];
   if (isNil(format)) {
     throw new Error(`Can not find legacy ss58 format for ${chain}`);
@@ -169,8 +169,8 @@ module.exports = {
   chains,
   assetsModuleChains,
   uniquesModuleChains,
-  getSs58Format,
+  getSs58FormatOrThrow,
   hasLegacySs58Format,
-  getLegacySs58Format,
+  getLegacySs58FormatOrThrow,
   transferOnBlockChains,
 };
