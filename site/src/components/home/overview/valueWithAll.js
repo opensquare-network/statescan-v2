@@ -12,10 +12,14 @@ export default function OverviewItemValueWithAll({
     <span>
       {active || 0}{" "}
       <Tertiary>
-        /{" "}
-        <Tooltip tip={`Total ${label}`} style={{ display: "inline" }}>
-          <ExternalLink href={link}>{all || 0}</ExternalLink>
-        </Tooltip>
+        {all && (
+          <>
+            /{" "}
+            <Tooltip tip={`Total ${label}`} style={{ display: "inline" }}>
+              <ExternalLink href={link}>{all || 0}</ExternalLink>
+            </Tooltip>
+          </>
+        )}
       </Tertiary>
     </span>
   );

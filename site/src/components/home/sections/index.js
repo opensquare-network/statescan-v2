@@ -1,5 +1,5 @@
 import { FlexColumn } from "../../styled/flex";
-import React from "react";
+import React, { memo } from "react";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import { useSelector } from "react-redux";
 import Assets from "./assets";
@@ -15,6 +15,19 @@ import { Anchor, AnchorWrapper, Section, Title } from "./styled";
 import BlockAndTransfers from "./blockAndTransfers";
 import RecoverySection from "./recovery";
 import ForeignAssets from "./foreignAssets";
+import useChain from "../../../utils/hooks/chain/useChain";
+import PolkadotReferendaSummary from "./polkadotReferendaSummary";
+
+function ReferendaSummary() {
+  const chain = useChain();
+  if (chain === "polkadot") {
+    return <PolkadotReferendaSummary />;
+  }
+
+  return <GovernanceSection />;
+}
+
+const ReferendaSummaryWrapper = memo(ReferendaSummary);
 
 export default function Sections() {
   const assetsListLoading = useSelector(assetListLoadingSelector);
@@ -27,9 +40,9 @@ export default function Sections() {
 
       {modules?.governance && (
         <Section>
-          <Title>Governance</Title>
+          <Title>Referenda</Title>
           <StyledPanelTableWrapper>
-            <GovernanceSection />
+            <ReferendaSummaryWrapper />
             <AnchorWrapper>
               <div>
                 <span>View on</span>{" "}
