@@ -19,17 +19,16 @@ const westendCollectives = {
   },
   nodes: [
     {
+      name: "Parity",
+      url: "wss://westend-collectives-rpc.polkadot.io/",
+    },
+    {
       name: "Dwellir",
       url: "wss://westend-collectives-rpc.dwellir.com",
     },
     {
       name: "Dwellir Tunisia",
       url: "wss://westend-collectives-rpc-tn.dwellir.com",
-    },
-    { name: "IBP-GeoDNS1", url: "wss://sys.ibp.network/collectives-westend" },
-    {
-      name: "IBP-GeoDNS2",
-      url: "wss://sys.dotters.network/collectives-westend",
     },
   ],
   useOnChainBlockData: true,
