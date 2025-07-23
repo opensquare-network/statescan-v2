@@ -15,11 +15,14 @@ import { Anchor, AnchorWrapper, Section, Title } from "./styled";
 import BlockAndTransfers from "./blockAndTransfers";
 import RecoverySection from "./recovery";
 import ForeignAssets from "./foreignAssets";
+import useChain from "../../../utils/hooks/chain/useChain";
+import PolkadotReferendaSummary from "./polkadotReferendaSummary";
 
 export default function Sections() {
   const assetsListLoading = useSelector(assetListLoadingSelector);
   const nftListLoading = useSelector(nftListLoadingSelector);
   const { modules, treasuryWebsite, subSquareWebsite } = useChainSettings();
+  const chain = useChain();
 
   return (
     <FlexColumn gap={16}>
@@ -29,7 +32,11 @@ export default function Sections() {
         <Section>
           <Title>Referenda</Title>
           <StyledPanelTableWrapper>
-            <GovernanceSection />
+            {chain === "polkadot" ? (
+              <PolkadotReferendaSummary />
+            ) : (
+              <GovernanceSection />
+            )}
             <AnchorWrapper>
               <div>
                 <span>View on</span>{" "}
