@@ -1,5 +1,8 @@
 import useChainSettings from "../../../../utils/hooks/chain/useChainSettings";
 import ReferendaSquareIcon from "../../../icons/referendaSquareIcon";
+import ReferendaConfirmingIcon from "../../../icons/referendaConfirmingIcon";
+import ReferendaDecidingIcon from "../../../icons/referendaDecidingIcon";
+import ReferendaPreparingIcon from "../../../icons/referendaPreparingIcon";
 import OverviewItem from "../../overview/item";
 import { OverviewItemsWrapper, OverviewPanel } from "../../overview/styled";
 import OverviewItemValueWithAll from "../../overview/valueWithAll";
@@ -18,7 +21,7 @@ export default function PolkadotReferendaSummary() {
     <OverviewPanel>
       <OverviewItemsWrapper>
         <OverviewItem
-          icon={<ReferendaSquareIcon />}
+          icon={<ReferendaConfirmingIcon />}
           label="Confirming"
           value={
             <OverviewItemValueWithAll
@@ -28,7 +31,7 @@ export default function PolkadotReferendaSummary() {
           }
         />
         <OverviewItem
-          icon={<ReferendaSquareIcon />}
+          icon={<ReferendaDecidingIcon />}
           label="Deciding"
           value={
             <OverviewItemValueWithAll
@@ -38,7 +41,7 @@ export default function PolkadotReferendaSummary() {
           }
         />
         <OverviewItem
-          icon={<ReferendaSquareIcon />}
+          icon={<ReferendaPreparingIcon />}
           label="Preparing"
           value={
             <OverviewItemValueWithAll
