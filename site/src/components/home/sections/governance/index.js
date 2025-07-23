@@ -92,6 +92,8 @@ function GovernanceOverview({ summary = {} }) {
 
   const overviewItems = [];
 
+  console.log("::::summary", summary);
+
   if (has(summary, ["gov2Referenda", "fellowshipReferenda"])) {
     const gov2Items = [];
 

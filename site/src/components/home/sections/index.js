@@ -27,7 +27,7 @@ export default function Sections() {
 
       {modules?.governance && (
         <Section>
-          <Title>Governance</Title>
+          <Title>Referenda</Title>
           <StyledPanelTableWrapper>
             <GovernanceSection />
             <AnchorWrapper>
