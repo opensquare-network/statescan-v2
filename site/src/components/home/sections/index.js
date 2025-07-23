@@ -1,5 +1,5 @@
 import { FlexColumn } from "../../styled/flex";
-import React from "react";
+import React, { memo } from "react";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import { useSelector } from "react-redux";
 import Assets from "./assets";
@@ -18,11 +18,21 @@ import ForeignAssets from "./foreignAssets";
 import useChain from "../../../utils/hooks/chain/useChain";
 import PolkadotReferendaSummary from "./polkadotReferendaSummary";
 
+function ReferendaSummary() {
+  const chain = useChain();
+  if (chain === "polkadot") {
+    return <PolkadotReferendaSummary />;
+  }
+
+  return <GovernanceSection />;
+}
+
+const ReferendaSummaryWrapper = memo(ReferendaSummary);
+
 export default function Sections() {
   const assetsListLoading = useSelector(assetListLoadingSelector);
   const nftListLoading = useSelector(nftListLoadingSelector);
   const { modules, treasuryWebsite, subSquareWebsite } = useChainSettings();
-  const chain = useChain();
 
   return (
     <FlexColumn gap={16}>
@@ -32,11 +42,7 @@ export default function Sections() {
         <Section>
           <Title>Referenda</Title>
           <StyledPanelTableWrapper>
-            {chain === "polkadot" ? (
-              <PolkadotReferendaSummary />
-            ) : (
-              <GovernanceSection />
-            )}
+            <ReferendaSummaryWrapper />
             <AnchorWrapper>
               <div>
                 <span>View on</span>{" "}
