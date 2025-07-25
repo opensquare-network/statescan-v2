@@ -1,5 +1,5 @@
-export default function extractBlockTime(block) {
-  const setTimeExtrinsic = block.extrinsics.find(
+export default function extractBlockTime(extrinsics) {
+  const setTimeExtrinsic = extrinsics.find(
     (ex) => ex.method.section === "timestamp" && ex.method.method === "set",
   );
   if (setTimeExtrinsic) {
