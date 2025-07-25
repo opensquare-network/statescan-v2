@@ -132,9 +132,10 @@ function OnChainExtrinsicFromIndexer({ blockHeight, extrinsicIndex }) {
   const { data } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
 
   const extrinsicData = useOnChainExtrinsicData(blockHeight, extrinsicIndex);
-  const extrinsicInfo = useExtrinsicInfo(extrinsicData);
+  console.log(extrinsicData);
+  // const extrinsicInfo = useExtrinsicInfo(extrinsicData);
 
-  const chainExtrinsic = data?.chainExtrinsic || extrinsicInfo;
+  const chainExtrinsic = data?.chainExtrinsic;
 
   return <OnChainExtrinsicImpl chainExtrinsic={chainExtrinsic} />;
 }

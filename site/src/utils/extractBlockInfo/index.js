@@ -2,6 +2,7 @@ import extractExtrinsics from "./extractExtrinsics";
 import extractEvents from "./extractEvents";
 import extractBlockHeader from "./extractBlockHeader";
 import extractBlockTime from "./extractBlockTime";
+import getBlockIndexer from "../indexer";
 
 export default function extractBlockInfo(blockData) {
   if (!blockData) {
@@ -12,14 +13,8 @@ export default function extractBlockInfo(blockData) {
     blockData.block.block.header,
     blockData.validators,
   );
-  const time = extractBlockTime(blockData.block.block);
 
-  const blockIndexer = {
-    blockHash: headerInfo.hash,
-    blockHeight: headerInfo.height,
-    blockTime: time,
-  };
-
+  const blockIndexer = getBlockIndexer(blockData.block.block);
   const extrinsics = extractExtrinsics(
     blockData.block.block.extrinsics,
     blockData.events,
@@ -29,7 +24,8 @@ export default function extractBlockInfo(blockData) {
 
   return {
     ...headerInfo,
-    time,
+    hash: blockIndexer.blockHash,
+    time: blockIndexer.blockTime,
     eventsCount: blockData.events.length,
     extrinsicsCount: blockData.block.block.extrinsics.length,
     extrinsics,
