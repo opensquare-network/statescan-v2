@@ -1,8 +1,7 @@
 import { Panel } from "../../components/styled/panel";
 import BreadCrumb from "../../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import List from "../../components/list";
-import { useMemo } from "react";
 import { currencify, isHash } from "../../utils";
 import DetailLayout from "../../components/layout/detailLayout";
 import { toExtrinsicDetailItem } from "../../utils/viewFuncs/toDetailItem";
@@ -16,10 +15,10 @@ import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
 import ExtrinsicDetailTabs from "./detailTabs";
 import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
 import useOnChainExtrinsicData from "../../hooks/useOnChainExtrinsicData";
-import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import { extrinsicApi } from "../../services/urls";
+import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
 
 export function OnChainExtrinsicImpl({ chainExtrinsic, isLoading = false }) {
   const { modules } = useChainSettings();
@@ -132,10 +131,8 @@ function OnChainExtrinsicFromIndexer({ blockHeight, extrinsicIndex }) {
   const { data } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
 
   const extrinsicData = useOnChainExtrinsicData(blockHeight, extrinsicIndex);
-  console.log(extrinsicData);
-  // const extrinsicInfo = useExtrinsicInfo(extrinsicData);
-
-  const chainExtrinsic = data?.chainExtrinsic;
+  const extrinsicInfo = useExtrinsicInfo(extrinsicData);
+  const chainExtrinsic = data?.chainExtrinsic || extrinsicInfo;
 
   return <OnChainExtrinsicImpl chainExtrinsic={chainExtrinsic} />;
 }

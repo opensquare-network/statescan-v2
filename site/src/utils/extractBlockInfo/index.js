@@ -1,7 +1,6 @@
 import extractExtrinsics from "./extractExtrinsics";
 import extractEvents from "./extractEvents";
 import extractBlockHeader from "./extractBlockHeader";
-import extractBlockTime from "./extractBlockTime";
 import getBlockIndexer from "../indexer";
 
 export default function extractBlockInfo(blockData) {

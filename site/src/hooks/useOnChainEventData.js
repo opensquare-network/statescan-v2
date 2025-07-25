@@ -24,7 +24,7 @@ export default function useOnChainEventData(blockHeight, eventIndex) {
       return;
     }
 
-    const blockIndexer = getBlockIndexer(blockData.block);
+    const blockIndexer = getBlockIndexer(blockData.block.block);
     const indexer = {
       ...blockIndexer,
       eventIndex,
