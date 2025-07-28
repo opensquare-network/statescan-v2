@@ -4,6 +4,7 @@ const { handleProxyAdded } = require("./events/proxyAdded");
 const { handleProxyRemoved } = require("./events/proxyRemoved");
 const { handlePureCreated } = require("./events/pureCreated");
 const { handleAnnounced } = require("./events/announced");
+const { handlePureKilled } = require("./events/pureKilled");
 const {
   store: { setKnownHeightMark },
 } = require("@statescan/common");
@@ -23,6 +24,8 @@ async function handleEvent(event, indexer, extrinsic) {
     await handlePureCreated(event, indexer, extrinsic);
   } else if (method === "Announced") {
     await handleAnnounced(event, indexer);
+  } else if (method === "PureKilled") {
+    await handlePureKilled(event, indexer);
   }
 }
 
