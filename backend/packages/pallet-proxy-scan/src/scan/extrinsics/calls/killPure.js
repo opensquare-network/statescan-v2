@@ -47,7 +47,7 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
   }
   setKnownHeightMark(extrinsicIndexer.blockHeight);
 
-  if (!hasPureKilledEvent(extrinsicIndexer.blockHeight)) {
+  if (hasPureKilledEvent(extrinsicIndexer.blockHeight)) {
     // handle this call only there are no PureKilled events
     return;
   }
