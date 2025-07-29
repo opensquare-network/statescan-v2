@@ -1,6 +1,6 @@
 import { toPrecision } from "@osn/common";
-import { get, clone } from "lodash";
-import { useMemo } from "react";
+import { get, clone, isNil } from "lodash";
+import { useMemo, memo } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import AddressOrIdentity from "../components/address";
@@ -18,11 +18,46 @@ import { GET_REGISTRARS } from "../services/gqls";
 import { useIdentityQuery } from "../hooks/apollo";
 import { timeDuration, time } from "../utils/viewFuncs/time";
 import Tooltip from "../components/tooltip";
+import Link from "../components/styled/link";
 
 const Index = styled.div`
   ${Overpass_Mono_14_500};
   color: ${(p) => p.theme.fontSecondary};
 `;
+
+function LastJudgementLink({ indexer, children }) {
+  const { blockHeight, extrinsicIndex, chain } = indexer;
+  const link = useMemo(() => {
+    if (isNil(blockHeight) && isNil(extrinsicIndex)) {
+      return null;
+    }
+
+    let domain = null;
+    if (isNil(chain)) {
+      domain = `https://${process.env.REACT_APP_PUBLIC_CHAIN}.statescan.io/#`;
+    } else {
+      domain = `https://${chain}-${process.env.REACT_APP_PUBLIC_CHAIN}.statescan.io/#`;
+    }
+
+    if (isNil(extrinsicIndex)) {
+      return `${domain}/blocks/${blockHeight}`;
+    }
+
+    return `${domain}/extrinsics/${blockHeight}-${extrinsicIndex}`;
+  }, [blockHeight, extrinsicIndex, chain]);
+
+  if (isNil(link)) {
+    return children;
+  }
+
+  return (
+    <Link to={link} target="_blank">
+      {children}
+    </Link>
+  );
+}
+
+const LastJudgementWrapper = memo(LastJudgementLink);
 
 export default function RegistrarsPage() {
   const chainSetting = useSelector(chainSettingSelector);
@@ -77,7 +112,9 @@ export default function RegistrarsPage() {
       <span>
         {lastJudgement ? (
           <Tooltip tip={time(lastJudgement)}>
-            {timeDuration(lastJudgement)}
+            <LastJudgementWrapper indexer={item.statistics.lastGivenIndexer}>
+              {timeDuration(lastJudgement)}
+            </LastJudgementWrapper>
           </Tooltip>
         ) : (
           "-"

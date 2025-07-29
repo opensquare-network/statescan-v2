@@ -10,6 +10,9 @@ export const GET_REGISTRARS = gql`
         totalFee
         lastGivenIndexer {
           blockTime
+          blockHeight
+          extrinsicIndex
+          chain
         }
       }
       index
