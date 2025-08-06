@@ -48,6 +48,7 @@ const chains = Object.freeze({
   interlay: "interlay",
   kintsugi: "kintsugi",
   ajuna: "ajuna",
+  "fintra-testnet": "fintra-testnet",
 });
 
 const ss58Format = Object.freeze({
@@ -98,6 +99,7 @@ const ss58Format = Object.freeze({
   [chains.interlay]: 2032,
   [chains.kintsugi]: 2092,
   [chains.ajuna]: 1328,
+  [chains["fintra-testnet"]]: 42,
 });
 
 const legacySs58Format = Object.freeze({
@@ -163,6 +165,7 @@ const transferOnBlockChains = [
   chains.interlay,
   chains.kintsugi,
   chains.ajuna,
+  chains["fintra-testnet"],
 ];
 
 module.exports = {
