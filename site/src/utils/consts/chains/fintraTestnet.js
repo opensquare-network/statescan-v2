@@ -11,6 +11,7 @@ const fintraTestnet = {
   name: "Fintra Testnet",
   icon: <Fintra />,
   value: "fintra-testnet",
+  chain: "paseo",
   symbol: "Fintra",
   decimals: 12,
   nodes,
