@@ -1,6 +1,6 @@
 const transfer = /* GraphQL */ `
   type ForeignAssetTransfer {
-    assetId: Int!
+    assetId: String!
     from: String
     to: String
     balance: String
