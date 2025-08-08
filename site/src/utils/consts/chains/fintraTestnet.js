@@ -1,4 +1,5 @@
 import { ReactComponent as Fintra } from "../../../components/icons/fintra.svg";
+import { ReactComponent as FintraLogo } from "../../../components/icons/logo/fintraLogo.svg";
 
 const nodes = [
   {
@@ -10,6 +11,7 @@ const nodes = [
 const fintraTestnet = {
   name: "Fintra Testnet",
   icon: <Fintra />,
+  logo: FintraLogo,
   value: "fintra-testnet",
   chain: "paseo",
   symbol: "Fintra",
