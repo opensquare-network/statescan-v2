@@ -7,7 +7,7 @@ import DetailTabs from "../../components/detail/tabs";
 import PagingTable from "../../components/detail/pagingTable";
 import isNil from "lodash.isnil";
 
-export default function ExtrinsicDetailTabs({ extrinsic }) {
+export default function ExtrinsicDetailTabs({ extrinsic, isLoading }) {
   const { useOnChainBlockData } = useChainSettings();
 
   const blockHeight = extrinsic?.indexer?.blockHeight;
@@ -27,7 +27,7 @@ export default function ExtrinsicDetailTabs({ extrinsic }) {
           heads={extrinsicEventsHead}
           transformData={toEventTabTableItem}
           data={events}
-          isLoading={isNil(events)}
+          isLoading={isLoading}
         />
       ) : (
         <DetailTable
@@ -45,7 +45,7 @@ export default function ExtrinsicDetailTabs({ extrinsic }) {
           heads={callsHead}
           transformData={toCallTableItem}
           data={calls}
-          isLoading={isNil(calls)}
+          isLoading={isNil(calls)||isLoading}
         />
       ) : (
         <DetailTable
