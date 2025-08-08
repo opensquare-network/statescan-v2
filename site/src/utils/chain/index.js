@@ -1,7 +1,7 @@
 import { getEnvChain } from "../env";
 import chains from "../consts/chains";
 import DefaultIcon from "../../components/icons/default";
-import { ReactComponent as defaultLogo } from "../../components/icons/logo/defaultLogo.svg";
+import { ReactComponent as Logo } from "../../components/icons/logo/logo.svg";
 
 function addDefaultSettings(settingsObj = {}) {
   const settings = settingsObj || {};
@@ -82,5 +82,5 @@ export function getFilteredMenus(menus = []) {
 
 export function getChainLogo(){
   const settings = getChainSettings();
-  return settings.logo || defaultLogo
+  return settings.logo || Logo
 }
