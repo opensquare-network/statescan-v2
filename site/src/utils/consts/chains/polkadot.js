@@ -14,7 +14,6 @@ const polkadot = {
   chainIcon: "originalPolkadot",
   ...polkadotColor,
   buttonColor: "#E6007A",
-  logo: "logo-img-2",
   modules: {
     ...treasuryModules,
     ...governanceModules,

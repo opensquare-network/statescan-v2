@@ -27,7 +27,7 @@ import {
   getChainModules,
   hasBusiness,
   getFilteredMenus,
-  getChainLogo
+  getChainLogo,
 } from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";

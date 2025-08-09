@@ -80,7 +80,7 @@ export function getFilteredMenus(menus = []) {
   });
 }
 
-export function getChainLogo(){
+export function getChainLogo() {
   const settings = getChainSettings();
-  return settings.logo || Logo
+  return settings.logo || Logo;
 }
