@@ -3,6 +3,7 @@ import { ReactComponent as ReferendaConfirming } from "./referenda-confirming.sv
 
 const ReferendaConfirmingIcon = styled(ReferendaConfirming)`
   path {
+    stroke: ${({ theme }) => theme.fontTertiary};
     stroke-opacity: 1;
   }
 
