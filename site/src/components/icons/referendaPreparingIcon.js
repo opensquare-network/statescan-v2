@@ -3,6 +3,7 @@ import { ReactComponent as ReferendaPreparing } from "./referenda-preparing.svg"
 
 const ReferendaPreparingIcon = styled(ReferendaPreparing)`
   path {
+    stroke: ${({ theme }) => theme.fontTertiary};
     stroke-opacity: 1;
   }
 

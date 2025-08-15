@@ -3,6 +3,7 @@ import { ReactComponent as ReferendaDeciding } from "./referenda-deciding.svg";
 
 const ReferendaDecidingIcon = styled(ReferendaDeciding)`
   path {
+    stroke: ${({ theme }) => theme.fontTertiary};
     stroke-opacity: 1;
   }
 
