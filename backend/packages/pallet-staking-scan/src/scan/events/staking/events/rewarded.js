@@ -2,14 +2,14 @@ const {
   palletStaking: { insertStakingReward },
 } = require("@statescan/mongo");
 const {
-  store: { getHeightBlockEvents },
+  store: { getBlockEvents },
 } = require("@statescan/common");
 const findLastIndex = require("lodash.findlastindex");
 const { getPayee } = require("../../../common");
 
 function getPayoutStartedEvent(indexer) {
   const { blockHeight, eventIndex } = indexer;
-  const blockEvents = getHeightBlockEvents(blockHeight);
+  const blockEvents = getBlockEvents(blockHeight);
   const targetEvents = blockEvents.slice(0, eventIndex);
   const startIndex = findLastIndex(
     targetEvents,

@@ -1,7 +1,7 @@
 const { getPayee, getNominator } = require("../../../../../common");
 const { getBlockValidators } = require("../../../../../store");
 const {
-  store: { getHeightBlockEvents },
+  store: { getBlockEvents },
   utils: { isSameAddress },
 } = require("@statescan/common");
 const findLast = require("lodash.findlast");
@@ -20,7 +20,7 @@ async function getValidatorByPayoutStakersCall(who, indexer) {
     return who;
   }
 
-  const blockEvents = getHeightBlockEvents(indexer.blockHeight);
+  const blockEvents = getBlockEvents(indexer.blockHeight);
   let targetEvents = blockEvents.slice(0, indexer.eventIndex);
   const targetEvent = findLast(targetEvents, (e) => {
     const { event, phase } = e;
