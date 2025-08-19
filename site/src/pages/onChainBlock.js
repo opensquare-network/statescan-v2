@@ -55,7 +55,6 @@ function OnChainBlock() {
     [chainBlock],
   );
 
-
   const tabs = [
     {
       name: Extrinsics,

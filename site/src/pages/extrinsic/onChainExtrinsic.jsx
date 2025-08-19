@@ -37,8 +37,8 @@ const useExtrinsic = (chainExtrinsic) => {
       isFinalized,
     };
   }, [chainExtrinsic, isFinalized]);
-  return extrinsic
-}
+  return extrinsic;
+};
 
 function OnChainExtrinsicImpl({ extrinsic, isLoading = false }) {
   const { modules } = useChainSettings();
@@ -123,7 +123,7 @@ function useExtrinsicIndexer() {
 
 const useChainExtrinsicData = () => {
   const { extrinsicIndexer, isLoading } = useExtrinsicIndexer();
-  const { blockHeight, extrinsicIndex } = extrinsicIndexer
+  const { blockHeight, extrinsicIndex } = extrinsicIndexer;
   const { data, loading } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
 
   const extrinsicData = useOnChainExtrinsicData(blockHeight, extrinsicIndex);
@@ -139,19 +139,17 @@ const useChainExtrinsicData = () => {
     }
   }, [dispatch, chainExtrinsic, isLoading, loading]);
 
-
   return {
     isLoading: loading || isLoading,
-    chainExtrinsic
-  }
-}
+    chainExtrinsic,
+  };
+};
 
 function OnChainExtrinsic() {
-  const { isLoading, chainExtrinsic } = useChainExtrinsicData()
-  const extrinsic = useExtrinsic(chainExtrinsic)
+  const { isLoading, chainExtrinsic } = useChainExtrinsicData();
+  const extrinsic = useExtrinsic(chainExtrinsic);
 
-
-  return <OnChainExtrinsicImpl isLoading={isLoading} extrinsic={extrinsic} />
+  return <OnChainExtrinsicImpl isLoading={isLoading} extrinsic={extrinsic} />;
 }
 
 export default OnChainExtrinsic;

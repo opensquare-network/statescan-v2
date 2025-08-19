@@ -45,7 +45,7 @@ export default function ExtrinsicDetailTabs({ extrinsic, isLoading }) {
           heads={callsHead}
           transformData={toCallTableItem}
           data={calls}
-          isLoading={isNil(calls)||isLoading}
+          isLoading={isNil(calls) || isLoading}
         />
       ) : (
         <DetailTable

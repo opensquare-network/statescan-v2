@@ -62,8 +62,7 @@ export default function Sections() {
             <ReferendaSummaryWrapper />
             <AnchorWrapper>
               <div>
-                <span>View on</span>{" "}
-                <SubSquareLinkWrapper />
+                <span>View on</span> <SubSquareLinkWrapper />
               </div>
             </AnchorWrapper>
           </StyledPanelTableWrapper>
