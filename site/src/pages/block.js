@@ -1,5 +1,5 @@
 import { Panel } from "../components/styled/panel";
-import BreadCrumb from "../components/breadCrumb";
+import BlockBreadCrumb from "../components/breadCrumb/blockBreadCrumb";
 import React, { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import List from "../components/list";
@@ -11,7 +11,6 @@ import {
   Logs,
 } from "../utils/constants";
 import LogsTable from "../components/block/tabTables/logsTable";
-import { currencify } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
 import DetailLayout from "../components/layout/detailLayout";
 import { isHash } from "../utils/viewFuncs/text";
@@ -55,15 +54,6 @@ function Block() {
     };
   }, [id, dispatch]);
 
-  const breadCrumb = (
-    <BreadCrumb
-      data={[
-        { name: "Blocks", path: "/blocks" },
-        { name: currencify(height) ?? "..." },
-      ]}
-    />
-  );
-
   const tabs = [
     {
       name: Extrinsics,
@@ -101,7 +91,7 @@ function Block() {
   }, [dispatch]);
 
   return (
-    <DetailLayout breadCrumb={breadCrumb}>
+    <DetailLayout breadCrumb={<BlockBreadCrumb height={height} />}>
       <Panel>
         <List data={listData} />
       </Panel>

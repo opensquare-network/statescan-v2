@@ -1,5 +1,5 @@
 import { normalizeCall } from "./normalizeCall";
-import { keccakAsHex } from "@polkadot/util-crypto";
+import { keccakAsHex, blake2AsHex } from "@polkadot/util-crypto";
 
 function getLifetime(extrinsic, indexer) {
   if (!extrinsic.era.isMortalEra) {
@@ -15,7 +15,12 @@ function isExtrinsicSuccess(events) {
 }
 
 export function normalizeExtrinsic(extrinsic, events, indexer) {
-  let hash = extrinsic.hash.toHex();
+  let hash;
+  try {
+    hash = extrinsic.hash.toHex();
+  } catch (e) {
+    hash = blake2AsHex(extrinsic.toU8a(), 256);
+  }
   if (["gargantua", "nexus"].includes(process.env.REACT_APP_PUBLIC_CHAIN)) {
     hash = keccakAsHex(extrinsic.toU8a(), 256);
   }

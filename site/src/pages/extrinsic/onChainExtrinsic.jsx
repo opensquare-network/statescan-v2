@@ -1,8 +1,7 @@
 import { Panel } from "../../components/styled/panel";
 import BreadCrumb from "../../components/breadCrumb";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import List from "../../components/list";
-import { useMemo } from "react";
 import { currencify, isHash } from "../../utils";
 import DetailLayout from "../../components/layout/detailLayout";
 import { toExtrinsicDetailItem } from "../../utils/viewFuncs/toDetailItem";
@@ -16,14 +15,12 @@ import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
 import ExtrinsicDetailTabs from "./detailTabs";
 import { useQueryExtrinsicInfo } from "../../hooks/useQueryExtrinsicInfo";
 import useOnChainExtrinsicData from "../../hooks/useOnChainExtrinsicData";
-import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import { extrinsicApi } from "../../services/urls";
+import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
 
-export function OnChainExtrinsicImpl({ chainExtrinsic, isLoading = false }) {
-  const { modules } = useChainSettings();
-  const dispatch = useDispatch();
+const useExtrinsic = (chainExtrinsic) => {
   const finalizedHeight = useSelector(finalizedHeightSelector);
 
   let isFinalized = null;
@@ -40,15 +37,11 @@ export function OnChainExtrinsicImpl({ chainExtrinsic, isLoading = false }) {
       isFinalized,
     };
   }, [chainExtrinsic, isFinalized]);
+  return extrinsic;
+};
 
-  useEffect(() => {
-    clearHttpError(dispatch);
-    if (chainExtrinsic === null && !isLoading) {
-      // Handle failed to load block data
-      dispatch(setErrorCode(404));
-    }
-  }, [dispatch, chainExtrinsic, isLoading]);
-
+function OnChainExtrinsicImpl({ extrinsic, isLoading = false }) {
+  const { modules } = useChainSettings();
   const listData = useMemo(
     () =>
       extrinsic
@@ -81,7 +74,7 @@ export function OnChainExtrinsicImpl({ chainExtrinsic, isLoading = false }) {
         <ExtrinsicParametersDisplay extrinsic={extrinsic} title="Parameters" />
       </Panel>
 
-      <ExtrinsicDetailTabs extrinsic={extrinsic} />
+      <ExtrinsicDetailTabs isLoading={isLoading} extrinsic={extrinsic} />
     </DetailLayout>
   );
 }
@@ -128,25 +121,35 @@ function useExtrinsicIndexer() {
   };
 }
 
-function OnChainExtrinsicFromIndexer({ blockHeight, extrinsicIndex }) {
-  const { data } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
+const useChainExtrinsicData = () => {
+  const { extrinsicIndexer, isLoading } = useExtrinsicIndexer();
+  const { blockHeight, extrinsicIndex } = extrinsicIndexer;
+  const { data, loading } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
 
   const extrinsicData = useOnChainExtrinsicData(blockHeight, extrinsicIndex);
   const extrinsicInfo = useExtrinsicInfo(extrinsicData);
-
   const chainExtrinsic = data?.chainExtrinsic || extrinsicInfo;
 
-  return <OnChainExtrinsicImpl chainExtrinsic={chainExtrinsic} />;
-}
+  const dispatch = useDispatch();
+  useEffect(() => {
+    clearHttpError(dispatch);
+    if (chainExtrinsic === null && !isLoading && !loading) {
+      // Handle failed to load block data
+      dispatch(setErrorCode(404));
+    }
+  }, [dispatch, chainExtrinsic, isLoading, loading]);
+
+  return {
+    isLoading: loading || isLoading,
+    chainExtrinsic,
+  };
+};
 
 function OnChainExtrinsic() {
-  const { extrinsicIndexer, isLoading } = useExtrinsicIndexer();
+  const { isLoading, chainExtrinsic } = useChainExtrinsicData();
+  const extrinsic = useExtrinsic(chainExtrinsic);
 
-  if (isLoading) {
-    return <OnChainExtrinsicImpl isLoading={isLoading} />;
-  }
-
-  return <OnChainExtrinsicFromIndexer {...extrinsicIndexer} />;
+  return <OnChainExtrinsicImpl isLoading={isLoading} extrinsic={extrinsic} />;
 }
 
 export default OnChainExtrinsic;

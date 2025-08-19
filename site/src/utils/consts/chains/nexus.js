@@ -24,6 +24,7 @@ const nexus = {
   value: "nexus",
   symbol: "BRIDGE",
   decimals: 12,
+  ss58Format: 0,
   color: "#E13D90",
   colorSecondary: "rgba(225,61,144, 0.1)",
   modules: collectivesModules,

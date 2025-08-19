@@ -1,5 +1,5 @@
 import { FlexColumn } from "../../styled/flex";
-import React from "react";
+import React, { memo, useMemo } from "react";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import { useSelector } from "react-redux";
 import Assets from "./assets";
@@ -15,11 +15,41 @@ import { Anchor, AnchorWrapper, Section, Title } from "./styled";
 import BlockAndTransfers from "./blockAndTransfers";
 import RecoverySection from "./recovery";
 import ForeignAssets from "./foreignAssets";
+import useChain from "../../../utils/hooks/chain/useChain";
+import PolkadotReferendaSummary from "./polkadotReferendaSummary";
+
+function ReferendaSummary() {
+  const chain = useChain();
+  if (chain === "polkadot") {
+    return <PolkadotReferendaSummary />;
+  }
+
+  return <GovernanceSection />;
+}
+
+const ReferendaSummaryWrapper = memo(ReferendaSummary);
+
+function SubSquareLink() {
+  const { subSquareWebsite } = useChainSettings();
+  const chain = useChain();
+
+  const link = useMemo(() => {
+    if (chain === "polkadot") {
+      return `${subSquareWebsite}/referenda`;
+    }
+
+    return subSquareWebsite;
+  }, [chain, subSquareWebsite]);
+
+  return <ExternalLink href={link}>SubSquare</ExternalLink>;
+}
+
+const SubSquareLinkWrapper = memo(SubSquareLink);
 
 export default function Sections() {
   const assetsListLoading = useSelector(assetListLoadingSelector);
   const nftListLoading = useSelector(nftListLoadingSelector);
-  const { modules, treasuryWebsite, subSquareWebsite } = useChainSettings();
+  const { modules, treasuryWebsite } = useChainSettings();
 
   return (
     <FlexColumn gap={16}>
@@ -27,13 +57,12 @@ export default function Sections() {
 
       {modules?.governance && (
         <Section>
-          <Title>Governance</Title>
+          <Title>Referenda</Title>
           <StyledPanelTableWrapper>
-            <GovernanceSection />
+            <ReferendaSummaryWrapper />
             <AnchorWrapper>
               <div>
-                <span>View on</span>{" "}
-                <ExternalLink href={subSquareWebsite}>SubSquare</ExternalLink>
+                <span>View on</span> <SubSquareLinkWrapper />
               </div>
             </AnchorWrapper>
           </StyledPanelTableWrapper>

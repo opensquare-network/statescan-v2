@@ -1,6 +1,7 @@
 import { getEnvChain } from "../env";
 import chains from "../consts/chains";
 import DefaultIcon from "../../components/icons/default";
+import { ReactComponent as Logo } from "../../components/icons/logo/logo.svg";
 
 function addDefaultSettings(settingsObj = {}) {
   const settings = settingsObj || {};
@@ -77,4 +78,9 @@ export function getFilteredMenus(menus = []) {
   return menus.filter((menu) => {
     return !disabledMenus.includes(menu?.value);
   });
+}
+
+export function getChainLogo() {
+  const settings = getChainSettings();
+  return settings.logo || Logo;
 }

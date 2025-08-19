@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import useOnChainBlockData from "./useOnChainBlockData";
-import extractBlockHeader from "../utils/extractBlockInfo/extractBlockHeader";
-import extractBlockTime from "../utils/extractBlockInfo/extractBlockTime";
+import getBlockIndexer from "../utils/indexer";
 
 export default function useOnChainEventData(blockHeight, eventIndex) {
   const blockData = useOnChainBlockData(blockHeight);
@@ -25,16 +24,9 @@ export default function useOnChainEventData(blockHeight, eventIndex) {
       return;
     }
 
-    const headerInfo = extractBlockHeader(
-      blockData.block.block.header,
-      blockData.validators,
-    );
-    const time = extractBlockTime(blockData.block.block);
-
+    const blockIndexer = getBlockIndexer(blockData.block.block);
     const indexer = {
-      blockHash: headerInfo.hash,
-      blockHeight: headerInfo.height,
-      blockTime: time,
+      ...blockIndexer,
       eventIndex,
     };
 

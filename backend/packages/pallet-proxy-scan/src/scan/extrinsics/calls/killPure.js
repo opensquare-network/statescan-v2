@@ -8,8 +8,13 @@ const {
   palletProxy: { markProxyRemoved, getProxyTimelineCol },
 } = require("@statescan/mongo");
 const {
-  store: { setKnownHeightMark },
+  store: { setKnownHeightMark, getBlockEvents },
 } = require("@statescan/common");
+
+function hasPureKilledEvent(blockHeight) {
+  const allBlockEvents = getBlockEvents(blockHeight);
+  return allBlockEvents.some((e) => e.event.method === "PureKilled");
+}
 
 async function queryPureCreatedEvent(height, extIndex) {
   const api = await getApi();
@@ -41,6 +46,11 @@ async function handleKillPure(call, signer, extrinsicIndexer) {
     return;
   }
   setKnownHeightMark(extrinsicIndexer.blockHeight);
+
+  if (hasPureKilledEvent(extrinsicIndexer.blockHeight)) {
+    // handle this call only there are no PureKilled events
+    return;
+  }
 
   const height = call.args[3].toNumber();
   const extIndex = call.args[4].toNumber();

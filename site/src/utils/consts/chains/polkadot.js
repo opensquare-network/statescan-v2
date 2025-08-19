@@ -14,7 +14,6 @@ const polkadot = {
   chainIcon: "originalPolkadot",
   ...polkadotColor,
   buttonColor: "#E6007A",
-  logo: "logo-img-2",
   modules: {
     ...treasuryModules,
     ...governanceModules,
@@ -26,13 +25,13 @@ const polkadot = {
   treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",
   nodes: [
+    { name: "IBP1", url: "wss://rpc.ibp.network/polkadot" },
     { name: "OnFinality", url: "wss://polkadot.api.onfinality.io/public-ws" },
-    { name: "IBP-GeoDNS1", url: "wss://rpc.ibp.network/polkadot" },
     { name: "LuckyFriday", url: "wss://rpc-polkadot.luckyfriday.io" },
-    { name: "Dwellir", url: "wss://polkadot-rpc.dwellir.com" },
-    { name: "Automata 1RPC", url: "wss://1rpc.io/dot" },
+    { name: "IBP2", url: "wss://polkadot.dotters.network" },
+    { name: "Dwellir", url: "wss://polkadot-rpc.n.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://polkadot-rpc-tn.dwellir.com" },
-    { name: "IBP-GeoDNS2", url: "wss://rpc.dotters.network/polkadot" },
+    { name: "Permanence DAO EU", url: "wss://polkadot.rpc.permanence.io" },
     {
       name: "RadiumBlock",
       url: "wss://polkadot.public.curie.radiumblock.co/ws",

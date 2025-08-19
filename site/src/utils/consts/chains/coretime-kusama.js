@@ -24,7 +24,7 @@ const nodes = [
   },
   {
     name: "Dwellir",
-    url: "wss://coretime-kusama-rpc.dwellir.com/",
+    url: "wss://coretime-kusama-rpc.n.dwellir.com",
   },
 ];
 

@@ -8,6 +8,12 @@ export const GET_REGISTRARS = gql`
         given
         request
         totalFee
+        lastGivenIndexer {
+          blockTime
+          blockHeight
+          extrinsicIndex
+          chain
+        }
       }
       index
       account

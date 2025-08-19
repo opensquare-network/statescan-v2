@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.7.2
+
+date: 2025-07-22
+
+- Turn on foreign assets module for assethub kusama.
+- Update endpoints for heima, and coretime westend.
+- Add the latest judgment column to identity registrars and fix sort.
+- Add tooltip for `TimeAge` component.
+- Fix dark mode style issue for location param on foreign asset detail page.
+- Set foreign asset icons for assethub kusama.
+- Add block navigation components on block detail page enabling users to go to the next or previous block.
+- Support ss58 format change for hyperbridge including nexus and gargantua.
+- Add the unlockable column to the vesting table.
+
 ### 1.7.1
 
 date: 2025-07-18

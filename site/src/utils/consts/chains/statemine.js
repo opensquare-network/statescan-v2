@@ -15,7 +15,6 @@ const statemine = {
   color: "#3765DC",
   colorSecondary: "rgba(55, 101, 220, 0.1)",
   buttonColor: "#000000",
-  logo: "logo-img-2",
   modules: {
     ...assethubChainModules,
     foreignAssets: true,

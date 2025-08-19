@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ReactComponent as Logo } from "./logo.svg";
 import { Flex, FlexBetween } from "../styled/flex";
 import { Mobile, PC } from "../styled/responsive";
 import styled, { css } from "styled-components";
@@ -28,6 +27,7 @@ import {
   getChainModules,
   hasBusiness,
   getFilteredMenus,
+  getChainLogo,
 } from "../../utils/chain";
 import { useScrollLock } from "../../utils/hooks/useScrollLock";
 import { HeaderMenuItem } from "./styled";
@@ -38,7 +38,7 @@ import getBusinessMenus from "../../utils/consts/menu";
 
 const headerHeight = 68;
 
-const StyleLogo = styled(Logo)`
+const StyleLogo = styled(getChainLogo())`
   path {
     fill: ${(props) => props.theme.fontPrimary};
   }
@@ -46,6 +46,10 @@ const StyleLogo = styled(Logo)`
 
 const Link = styled(LinkOrigin)`
   display: block;
+`;
+
+const LogoLink = styled(LinkOrigin)`
+  line-height: 0;
 `;
 
 const Wrapper = styled(FlexBetween)`
@@ -130,14 +134,15 @@ export default function Header() {
   return (
     <Wrapper>
       <FlexBetween style={{ flex: 1 }}>
-        <Link
+        <LogoLink
           to={"/"}
           onClick={() => {
             dispatch(closeMobileMenu());
           }}
+          className=" lin"
         >
           <StyleLogo />
-        </Link>
+        </LogoLink>
 
         <PC>
           <FlexBetween style={{ flex: 1 }}>

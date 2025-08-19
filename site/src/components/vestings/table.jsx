@@ -7,8 +7,14 @@ import { ColoredLink } from "../styled/link";
 import Table from "../table";
 import Tooltip from "../tooltip";
 import isNil from "lodash.isnil";
-import { Flex } from "../styled/flex";
+import { Flex, FlexEnd } from "../styled/flex";
 import useOverview from "../../hooks/overview/useOverview";
+import getUnlockableData from "./getUnlockableData";
+import styled from "styled-components";
+
+const UnlockableCellWrapper = styled(FlexEnd)`
+  display: grid;
+`;
 
 function StartingBlockCell({ data }) {
   const { overview } = useOverview();
@@ -27,6 +33,32 @@ function StartingBlockCell({ data }) {
     <div>
       <ColoredLink to={`/blocks/${startingBlock}`}>{content}</ColoredLink>
     </div>
+  );
+}
+
+function UnlockableCell({ data }) {
+  const { overview } = useOverview();
+  const { symbol, decimals } = useChainSettings();
+  const latestHeight = overview?.latestHeight;
+
+  const { unlockableBalance, unlockablePercentage } = getUnlockableData(
+    latestHeight,
+    data,
+  );
+
+  return (
+    <UnlockableCellWrapper>
+      <Tooltip
+        tip={
+          <ValueDisplay
+            value={toPrecision(unlockableBalance, decimals)}
+            symbol={symbol}
+          />
+        }
+      >
+        {unlockablePercentage}%
+      </Tooltip>
+    </UnlockableCellWrapper>
   );
 }
 
@@ -49,6 +81,7 @@ export default function VestingsTable({ data = [], loading }) {
         symbol={symbol}
         showNotEqualTooltip
       />,
+      <UnlockableCell data={vesting} />,
     ];
   });
 

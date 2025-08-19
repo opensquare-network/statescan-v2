@@ -3,4 +3,5 @@ module.exports = {
   ...require("./nativeTransfers"),
   ...require("./block"),
   ...require("./metadata"),
+  ...require("./blockEvents"),
 };
