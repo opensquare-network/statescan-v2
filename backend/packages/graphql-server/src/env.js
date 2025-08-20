@@ -34,7 +34,12 @@ function getEndpoints() {
   return (process.env.WS_ENDPOINTS || "").split(";");
 }
 
+function hasStaking() {
+  return !!process.env.MONGO_STAKING_SCAN_NAME;
+}
+
 module.exports = {
+  hasStaking,
   hasAssets,
   hasForeignAssets,
   hasVesting,
