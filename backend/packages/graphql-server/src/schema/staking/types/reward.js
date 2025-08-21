@@ -1,12 +1,12 @@
 const reward = /* GraphQL */ `
   type Reward {
     who: String!
-    dest: Dest
+    dest: JSONObject
     amount: String!
     validator: String
     isValidator: Boolean
     era: Int
-    indexer: EventIndexer!
+    indexer: Indexer!
   }
 
   type Dest {
