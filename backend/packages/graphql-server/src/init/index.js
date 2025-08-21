@@ -6,6 +6,7 @@ const {
   hasIdentity,
   hasRecovery,
   hasProxy,
+  hasStaking,
 } = require("../env");
 const {
   vesting: { initVestingScanDb },
@@ -15,6 +16,7 @@ const {
   identity: { initIdentityScanDb },
   palletRecovery: { initPalletRecoveryScanDb },
   palletProxy: { initPalletProxyScanDb },
+  palletStaking: { initPalletStakingScanDb },
 } = require("@statescan/mongo");
 
 async function initDbs() {
@@ -38,6 +40,9 @@ async function initDbs() {
   }
   if (hasForeignAssets()) {
     await initForeignAssetScanDb();
+  }
+  if (hasStaking()) {
+    await initPalletStakingScanDb();
   }
 }
 

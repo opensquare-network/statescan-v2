@@ -1,4 +1,4 @@
 module.exports = {
-  ...require("./reward"),
+  ...require("./rewards"),
   ...require("./stakingScanHeight"),
 };

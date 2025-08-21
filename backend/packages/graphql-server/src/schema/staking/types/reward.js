@@ -14,7 +14,7 @@ const reward = /* GraphQL */ `
   }
 
   type PagedRewards {
-    rewards: [Reward!]!
+    items: [Reward!]!
     offset: Int!
     limit: Int!
     total: Int!
