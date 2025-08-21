@@ -1,3 +1,14 @@
+const {
+  hasAssets,
+  hasForeignAssets,
+  hasMultisig,
+  hasIdentity,
+  hasVesting,
+  hasRecovery,
+  hasProxy,
+  hasEndpoints,
+  hasStaking,
+} = require("../env");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const {
   resolvers: vestingResolvers,
@@ -16,6 +27,10 @@ const {
   typeDefs: foreignAssetsTypeDefs,
 } = require("./foreignAssets");
 const {
+  resolvers: stakingResolvers,
+  typeDefs: stakingTypeDefs,
+} = require("./staking");
+const {
   resolvers: assetsPalletResolvers,
   typeDefs: assetsPalletTypeDefs,
 } = require("@statescan/pallet-assets-server");
@@ -28,22 +43,12 @@ const {
   commonTypeDefs: identityTypeDefs,
 } = require("@statescan/identity-server");
 const {
-  hasAssets,
-  hasForeignAssets,
-  hasMultisig,
-  hasIdentity,
-  hasVesting,
-  hasRecovery,
-  hasProxy,
-  hasEndpoints,
-} = require("../env");
-const {
-  graphql: { indexer, json },
-} = require("@statescan/common");
-const {
   resolvers: chainResolvers,
   typeDefs: chainTypeDefs,
 } = require("./chain");
+const {
+  graphql: { indexer, json },
+} = require("@statescan/common");
 
 let resolvers = [];
 let typeDefs = [indexer, json];
@@ -79,6 +84,10 @@ if (hasIdentity()) {
 if (hasProxy()) {
   resolvers = [...resolvers, proxyResolvers];
   typeDefs = [...typeDefs, ...proxyTypeDefs];
+}
+if (hasStaking()) {
+  resolvers = [...resolvers, stakingResolvers];
+  typeDefs = [...typeDefs, ...stakingTypeDefs];
 }
 
 const schema = makeExecutableSchema({
