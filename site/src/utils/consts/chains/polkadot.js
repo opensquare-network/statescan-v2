@@ -11,6 +11,7 @@ const polkadot = {
   chain: "polkadot",
   symbol: "DOT",
   decimals: 10,
+  ss58Format: 0,
   chainIcon: "originalPolkadot",
   ...polkadotColor,
   buttonColor: "#E6007A",
