@@ -11,6 +11,7 @@ const litmus = {
   chain: "kusama",
   symbol: "LIT",
   decimals: 18,
+  ss58Format: 131,
   chainIcon: "litmus",
   color: "#6431EC",
   colorSecondary: "rgba(100, 49, 236, 0.1)",

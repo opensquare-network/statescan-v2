@@ -12,6 +12,7 @@ const statemint = {
   chain: "polkadot",
   symbol: "DOT",
   decimals: 10,
+  ss58Format: 0,
   chainIcon: "polkadot",
   ...polkadotColor,
   buttonColor: "#E6007A",

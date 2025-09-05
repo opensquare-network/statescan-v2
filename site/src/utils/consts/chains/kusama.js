@@ -11,6 +11,7 @@ const kusama = {
   chain: "kusama",
   symbol: "KSM",
   decimals: 12,
+  ss58Format: 2,
   ...kusamaColor,
   modules: {
     ...treasuryModules,
