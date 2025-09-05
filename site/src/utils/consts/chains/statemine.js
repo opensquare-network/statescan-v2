@@ -11,6 +11,7 @@ const statemine = {
   chain: "kusama",
   symbol: "KSM",
   decimals: 12,
+  ss58Format: 2,
   chainIcon: "kusama",
   color: "#3765DC",
   colorSecondary: "rgba(55, 101, 220, 0.1)",

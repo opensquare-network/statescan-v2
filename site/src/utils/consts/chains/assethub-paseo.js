@@ -32,6 +32,7 @@ const assethubPaseo = {
   chain: "paseo",
   symbol: "PAS",
   decimals: 10,
+  ss58Format: 0,
   ...paseoColor,
   nodes,
   useOnChainBlockData: true,

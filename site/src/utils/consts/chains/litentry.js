@@ -12,6 +12,7 @@ const litentry = {
   chain: "polkadot",
   symbol: "HEI",
   decimals: 18,
+  ss58Format: 31,
   chainIcon: "litentry",
   color: "#016B71",
   colorSecondary: "016B711A",

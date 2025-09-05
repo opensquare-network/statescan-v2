@@ -31,6 +31,7 @@ const polimec = {
   value: "polimec",
   symbol: "PLMC",
   decimals: 10,
+  ss58Format: 41,
   customTheme: {
     light: {
       theme500: "#1B202C",

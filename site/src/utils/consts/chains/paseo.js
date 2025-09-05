@@ -8,6 +8,7 @@ const paseo = {
   icon: <Paseo />,
   symbol: "PAS",
   decimals: 10,
+  ss58Format: 0,
   identity: "paseo",
   ...paseoColor,
   modules: {
