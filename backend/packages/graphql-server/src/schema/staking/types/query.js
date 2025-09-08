@@ -1,6 +1,10 @@
 const queries = /* GraphQL */ `
   type Query {
-    rewards(offset: Int!, limit: Int!, address: String): PagedRewards!
+    stakingRewards(
+      offset: Int!
+      limit: Int!
+      address: String
+    ): PagedStakingRewards!
     stakingScanHeight: Int
   }
 `;

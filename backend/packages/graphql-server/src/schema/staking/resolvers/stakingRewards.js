@@ -3,7 +3,7 @@ const {
 } = require("@statescan/mongo");
 const isEmpty = require("lodash.isempty");
 
-async function rewards(_, _args) {
+async function stakingRewards(_, _args) {
   const { offset, limit, address } = _args;
   if (parseInt(limit) > 100) {
     throw new Error("Over max page size 100");
@@ -38,5 +38,5 @@ async function rewards(_, _args) {
 }
 
 module.exports = {
-  rewards,
+  stakingRewards,
 };
