@@ -39,6 +39,7 @@ export default function AccountStakingRewardsTable({ data = [], loading }) {
       <ValueDisplay
         value={toPrecision(reward.amount, decimals)}
         symbol={symbol}
+        showNotEqualTooltip
       />,
     ];
   });

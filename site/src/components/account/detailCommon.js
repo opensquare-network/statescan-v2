@@ -192,7 +192,7 @@ function AccountDetailCommonInContext({ id }) {
         children: <AccountDetailRecoverablesTab />,
       },
     chainSetting.modules?.staking && {
-      name: "Staking",
+      name: "staking",
       children: <AccountTabStaking />,
     },
   ].filter(Boolean);
