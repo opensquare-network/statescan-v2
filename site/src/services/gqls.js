@@ -94,7 +94,6 @@ export const GET_STAKING_REWARDS = gql`
           extrinsicIndex
           blockHash
         }
-        who
         validator
         isValidator
       }

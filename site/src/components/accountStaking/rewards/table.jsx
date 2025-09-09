@@ -24,15 +24,7 @@ export default function AccountStakingRewardsTable({ data = [], loading }) {
       </ColoredLink>,
       <ExtrinsicLink key={`${reward}-1`} indexer={reward.indexer} />,
       reward?.indexer?.blockTime,
-      <Flex>
-        <Tooltip tip={reward.who}>
-          <AddressOrIdentity
-            key={reward.who}
-            address={reward.who}
-            maxWidth={176}
-          />
-        </Tooltip>
-      </Flex>,
+      <Flex>{"dest"}</Flex>, // todo
       <Tooltip tip={reward.validator}>
         <AddressOrIdentity address={reward.validator} />
       </Tooltip>,

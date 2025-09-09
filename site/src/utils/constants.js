@@ -422,7 +422,7 @@ export const stakingRewardsHead = [
   { name: "Extrinsic ID", width: 160, align: "center" },
   { name: "Time", type: "time", width: 200 },
   {
-    name: "Address",
+    name: "Dest",
     width: 200,
   },
   { name: "Validator", width: 200 },
