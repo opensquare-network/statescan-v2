@@ -246,7 +246,7 @@ export const toOnChainAccountDetailItem = (
   const data = [
     {
       label: "Address",
-      value: <AddressAndIdentity address={id} ellipsis={false} checkMultisig />,
+      value: <AddressAndIdentity address={id} ellipsis={false} checkMultisig key={id} />,
     },
     {
       label: "Total Balance",
