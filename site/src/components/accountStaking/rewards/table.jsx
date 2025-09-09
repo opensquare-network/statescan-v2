@@ -23,6 +23,7 @@ export default function AccountStakingRewardsTable({ data = [], loading }) {
         {reward?.indexer?.eventIndex}
       </ColoredLink>,
       <ExtrinsicLink key={`${reward}-1`} indexer={reward.indexer} />,
+      reward?.indexer?.blockTime,
       <Flex>
         <Tooltip tip={reward.who}>
           <AddressOrIdentity

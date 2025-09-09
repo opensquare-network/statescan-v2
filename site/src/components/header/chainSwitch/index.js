@@ -139,6 +139,7 @@ export default function ChainSwitch() {
     },
   ].filter(Boolean);
 
+
   return (
     <Wrapper ref={ref} onClick={() => setShow((state) => !state)}>
       <Dropdown active={show}>

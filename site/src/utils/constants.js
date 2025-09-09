@@ -420,6 +420,7 @@ export const multisigsHead = [
 export const stakingRewardsHead = [
   { name: "Event ID", width: 160 },
   { name: "Block", width: 160 },
+  { name: "Time", type: "time", width: 200 },
   {
     name: "Address",
     width: 200,
