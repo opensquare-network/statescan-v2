@@ -1,5 +1,5 @@
 const reward = /* GraphQL */ `
-  type Reward {
+  type StakingReward {
     who: String!
     dest: JSONObject
     amount: String!
@@ -9,12 +9,12 @@ const reward = /* GraphQL */ `
     indexer: Indexer!
   }
 
-  type Dest {
+  type StakingDest {
     stash: String
   }
 
-  type PagedRewards {
-    items: [Reward!]!
+  type PagedStakingRewards {
+    items: [StakingReward!]!
     offset: Int!
     limit: Int!
     total: Int!
