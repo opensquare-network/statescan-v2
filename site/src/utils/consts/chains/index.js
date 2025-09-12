@@ -15,7 +15,6 @@ import bridgehubKusama from "./bridgehub-kusama";
 import nexus from "./nexus";
 import laos from "./laos";
 import paseo from "./paseo";
-import stagelight from "./stagelight";
 import polimec from "./polimec";
 import coretimePolkadot from "./coretime-polkadot";
 import coretimeKusama from "./coretime-kusama";
@@ -62,7 +61,6 @@ const chains = {
   "coretime-paseo": coretimePaseo,
   "people-paseo": peoplePaseo,
   gargantua,
-  stagelight,
   westend,
   westmint,
   // "bridgehub-westend": bridgehubWestend,
