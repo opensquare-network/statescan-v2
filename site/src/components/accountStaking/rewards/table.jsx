@@ -1,6 +1,5 @@
 import { stakingRewardsHead } from "../../../utils/constants";
 import AddressOrIdentity from "../../address";
-import { FlexColumn } from "../../styled/flex";
 import Table from "../../table";
 import Tooltip from "../../tooltip";
 import ValueDisplay from "../../displayValue";
@@ -9,32 +8,33 @@ import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import ExtrinsicLink from "../../extrinsic/link";
 import { ColoredLink } from "../../styled/link";
 import { TextSecondary } from "../../styled/text";
+import isNil from "lodash.isnil";
 
-function DestCell({ dest }) {
+function DestCell({ dest, who }) {
   if (!dest) {
     return <TextSecondary>-</TextSecondary>;
   }
 
-  if (dest.account) {
-    return (
-      <FlexColumn style={{ gap: 4 }}>
-        <TextSecondary>Account</TextSecondary>
-        <AddressOrIdentity address={dest.account} maxWidth={160} />
-      </FlexColumn>
-    );
-  }
+  let account = null;
 
-  let content = "-";
+  if (dest.account) {
+    account = dest.account;
+  }
 
   if ("staked" in dest || "stash" in dest) {
-    content = "Stash"; // todo: Stash account
+    account = who;
   }
 
+  // TODO: controller
   if ("controller" in dest) {
-    content = "Controller"; // todo: Controller account
+    // account = dest.controller;
   }
 
-  return <TextSecondary>{content}</TextSecondary>;
+  if (isNil(account)) {
+    return <TextSecondary>-</TextSecondary>;
+  }
+
+  return <AddressOrIdentity address={account} maxWidth={160} />;
 }
 
 export default function AccountStakingRewardsTable({ data = [], loading }) {
@@ -51,7 +51,7 @@ export default function AccountStakingRewardsTable({ data = [], loading }) {
       </ColoredLink>,
       <ExtrinsicLink key={`${reward}-1`} indexer={reward.indexer} />,
       reward?.indexer?.blockTime,
-      <DestCell dest={reward.dest} />,
+      <DestCell dest={reward.dest} who={reward.who} />,
       <Tooltip tip={reward.validator}>
         <AddressOrIdentity address={reward.validator} />
       </Tooltip>,

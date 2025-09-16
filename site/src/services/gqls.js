@@ -96,6 +96,7 @@ export const GET_STAKING_REWARDS = gql`
         }
         validator
         isValidator
+        who
       }
       limit
       offset
