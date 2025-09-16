@@ -25,13 +25,8 @@ function DestCell({ dest, who }) {
     account = dest.account;
   }
 
-  if ("staked" in dest || "stash" in dest) {
+  if ("staked" in dest || "stash" in dest || "controller" in dest) {
     account = who;
-  }
-
-  // TODO: controller
-  if ("controller" in dest) {
-    // account = dest.controller;
   }
 
   if (isNil(account)) {
