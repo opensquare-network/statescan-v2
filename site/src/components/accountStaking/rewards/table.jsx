@@ -10,9 +10,13 @@ import { ColoredLink } from "../../styled/link";
 import { TextSecondary } from "../../styled/text";
 import isNil from "lodash.isnil";
 
+function EmptyCell() {
+  return <TextSecondary>-</TextSecondary>;
+}
+
 function DestCell({ dest, who }) {
   if (!dest) {
-    return <TextSecondary>-</TextSecondary>;
+    return <EmptyCell />;
   }
 
   let account = null;
@@ -31,7 +35,7 @@ function DestCell({ dest, who }) {
   }
 
   if (isNil(account)) {
-    return <TextSecondary>-</TextSecondary>;
+    return <EmptyCell />;
   }
 
   return <AddressOrIdentity address={account} maxWidth={160} />;
@@ -51,10 +55,14 @@ export default function AccountStakingRewardsTable({ data = [], loading }) {
       </ColoredLink>,
       <ExtrinsicLink key={`${reward}-1`} indexer={reward.indexer} />,
       reward?.indexer?.blockTime,
-      <DestCell dest={reward.dest} who={reward.who} />,
-      <Tooltip tip={reward.validator}>
-        <AddressOrIdentity address={reward.validator} />
-      </Tooltip>,
+      <DestCell dest={reward?.dest} who={reward?.who} />,
+      reward?.validator ? (
+        <Tooltip tip={reward.validator}>
+          <AddressOrIdentity address={reward.validator} />
+        </Tooltip>
+      ) : (
+        <EmptyCell />
+      ),
       <ValueDisplay
         value={toPrecision(reward.amount, decimals)}
         symbol={symbol}
