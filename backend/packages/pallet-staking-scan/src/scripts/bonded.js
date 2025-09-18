@@ -38,7 +38,7 @@ async function handleEach(obj, col) {
   console.log(`${records.length} records are found`);
   const promises = [];
   for (const record of records) {
-    promises.push(handleEach(record), col);
+    promises.push(handleEach(record, col));
   }
   await Promise.all(promises);
   console.log("Finished");
