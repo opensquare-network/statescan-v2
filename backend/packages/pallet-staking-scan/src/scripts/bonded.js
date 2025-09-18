@@ -6,7 +6,7 @@ const {
   chain: { getApi },
 } = require("@osn/scan-common");
 const { getBonded } = require("../scan/common/bond");
-const { ObjectId } = require("mongodb");
+const isNil = require("lodash.isnil");
 
 async function query(col) {
   return await col
@@ -23,10 +23,15 @@ function isController(dest) {
 }
 
 async function handleEach(obj, col) {
-  const { _id, who, dest, indexer } = obj || {};
+  const { who, dest, indexer } = obj || {};
+  const { blockHeight, eventIndex, blockHash } = indexer || {};
   if (who && isController(dest)) {
-    const bonded = await getBonded(who, indexer.blockHash);
-    await col.findOneAndUpdate({ _id: ObjectId(_id) }, { $set: { bonded } });
+    const bonded = await getBonded(who, blockHash);
+    const q = { who, "indexer.blockHeight": blockHeight };
+    if (!isNil(eventIndex)) {
+      Object.assign(q, { "indexer.eventIndex": eventIndex });
+    }
+    await col.findOneAndUpdate(q, { $set: { bonded } });
   }
 }
 
