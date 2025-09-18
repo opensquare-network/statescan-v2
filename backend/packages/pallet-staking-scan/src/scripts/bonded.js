@@ -2,6 +2,9 @@ require("dotenv").config();
 const {
   palletStaking: { initPalletStakingScanDb, getStakingRewardCol },
 } = require("@statescan/mongo");
+const {
+  chain: { getApi },
+} = require("@osn/scan-common");
 const { getBonded } = require("../scan/common/bond");
 const { ObjectId } = require("mongodb");
 
@@ -29,12 +32,13 @@ async function handleEach(obj, col) {
 
 (async () => {
   await initPalletStakingScanDb();
+  await getApi();
   const col = await getStakingRewardCol();
   const records = await query(col);
   console.log(`${records.length} records are found`);
   const promises = [];
   for (const record of records) {
-    promises.push(handleEach(record));
+    promises.push(handleEach(record), col);
   }
   await Promise.all(promises);
   console.log("Finished");
