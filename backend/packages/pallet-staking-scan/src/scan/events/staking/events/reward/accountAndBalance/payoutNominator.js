@@ -5,6 +5,7 @@ const { getPayee } = require("../../../../../common");
 const {
   palletStaking: { insertStakingReward },
 } = require("@statescan/mongo");
+const { populateBondedIfNeed } = require("../../common/bonded");
 
 async function handleRewardByPayoutNominator(event, indexer, leafCalls = []) {
   const who = event.data[0].toString();
@@ -25,16 +26,20 @@ async function handleRewardByPayoutNominator(event, indexer, leafCalls = []) {
   const era = args[0].toNumber();
   const validators = args[1].map((tuple) => tuple[0].toString());
 
-  await insertStakingReward({
-    who,
-    dest,
-    amount,
-    validator: null,
-    isValidator: false,
-    validators,
-    era,
-    indexer,
-  });
+  const normalizedObj = await populateBondedIfNeed(
+    {
+      who,
+      dest,
+      amount,
+      validator: null,
+      isValidator: false,
+      validators,
+      era,
+      indexer,
+    },
+    indexer.blockHash,
+  );
+  await insertStakingReward(normalizedObj);
 }
 
 module.exports = {

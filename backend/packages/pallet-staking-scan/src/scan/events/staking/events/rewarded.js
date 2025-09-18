@@ -6,6 +6,7 @@ const {
 } = require("@statescan/common");
 const findLastIndex = require("lodash.findlastindex");
 const { getPayee } = require("../../../common");
+const { populateBondedIfNeed } = require("./common/bonded");
 
 function getPayoutStartedEvent(indexer) {
   const { blockHeight, eventIndex } = indexer;
@@ -42,16 +43,19 @@ async function handleRewarded(event, indexer) {
 
   const { era, validator } = getEraAndValidator(indexer);
   const isValidator = stash === validator;
-
-  await insertStakingReward({
-    who: stash,
-    dest,
-    amount,
-    validator,
-    isValidator,
-    era,
-    indexer,
-  });
+  const normalizedObj = await populateBondedIfNeed(
+    {
+      who: stash,
+      dest,
+      amount,
+      validator,
+      isValidator,
+      era,
+      indexer,
+    },
+    indexer.blockHash,
+  );
+  await insertStakingReward(normalizedObj);
 }
 
 module.exports = {
