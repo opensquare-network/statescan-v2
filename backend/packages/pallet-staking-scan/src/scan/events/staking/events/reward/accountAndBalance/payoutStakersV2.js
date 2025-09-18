@@ -12,6 +12,7 @@ const {
 const {
   call: { findTargetCall },
 } = require("@osn/scan-common");
+const { populateBondedIfNeed } = require("../../common/bonded");
 
 async function getValidatorByPayoutStakersCall(who, indexer) {
   const nominationInfo = await getNominator(who, indexer.blockHash);
@@ -67,15 +68,19 @@ async function handleRewardByPayoutStakersV2(event, indexer, extrinsic) {
     }
   }
 
-  await insertStakingReward({
-    who,
-    dest,
-    amount,
-    validator,
-    isValidator,
-    era,
-    indexer,
-  });
+  const normalizedObj = await populateBondedIfNeed(
+    {
+      who,
+      dest,
+      amount,
+      validator,
+      isValidator,
+      era,
+      indexer,
+    },
+    indexer.blockHash,
+  );
+  await insertStakingReward(normalizedObj);
 }
 
 module.exports = {

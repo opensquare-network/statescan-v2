@@ -3,6 +3,7 @@ const { isSameAddress } = require("@statescan/common/src/utils/address");
 const {
   palletStaking: { insertStakingReward },
 } = require("@statescan/mongo");
+const { populateBondedIfNeed } = require("../../common/bonded");
 
 async function handleRewardByPayoutValidator(
   event,
@@ -20,15 +21,19 @@ async function handleRewardByPayoutValidator(
     era = leafCall.call.args[0].toNumber();
   }
 
-  await insertStakingReward({
-    who,
-    dest,
-    amount,
-    validator: who,
-    isValidator: true,
-    era,
-    indexer,
-  });
+  const normalizedObj = await populateBondedIfNeed(
+    {
+      who,
+      dest,
+      amount,
+      validator: who,
+      isValidator: true,
+      era,
+      indexer,
+    },
+    indexer.blockHash,
+  );
+  await insertStakingReward(normalizedObj);
 }
 
 module.exports = {
