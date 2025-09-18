@@ -40,13 +40,16 @@ async function handleEach(obj, col) {
   await initPalletStakingScanDb();
   await getApi();
   const col = await getStakingRewardCol();
-  const records = await query(col);
-  console.log(`${records.length} records are found`);
-  const promises = [];
-  for (const record of records) {
-    promises.push(handleEach(record, col));
+  let records = await query(col);
+  while (records.length > 0) {
+    const promises = [];
+    for (const record of records) {
+      promises.push(handleEach(record, col));
+    }
+    await Promise.all(promises);
+    records = await query(col);
   }
-  await Promise.all(promises);
+
   console.log("Finished");
   process.exit(0);
 })();
