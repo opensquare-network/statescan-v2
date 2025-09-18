@@ -16,6 +16,8 @@ export const useRecoveryQuery = createModuleQuery("recovery");
 
 export const useProxyQuery = createModuleQuery("proxy");
 
+export const useStakingQuery = createModuleQuery("staking");
+
 /**
  * @param {string} module
  * @description useLazyQuery

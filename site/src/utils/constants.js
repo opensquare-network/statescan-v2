@@ -417,6 +417,18 @@ export const multisigsHead = [
   },
 ];
 
+export const stakingRewardsHead = [
+  { name: "Event ID", width: 160 },
+  { name: "Extrinsic ID", width: 160, align: "center" },
+  { name: "Time", type: "time", width: 200 },
+  {
+    name: "Dest",
+    width: 200,
+  },
+  { name: "Validator", width: 200 },
+  { name: "Amount", width: 200, align: "right" },
+];
+
 export const vestingsHead = [
   {
     name: "Address",
