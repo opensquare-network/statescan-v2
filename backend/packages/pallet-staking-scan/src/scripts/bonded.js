@@ -32,6 +32,7 @@ async function handleEach(obj, col) {
       Object.assign(q, { "indexer.eventIndex": eventIndex });
     }
     await col.findOneAndUpdate(q, { $set: { bonded } });
+    console.log(`${who} at ${indexer.blockHeight} is handled`);
   }
 }
 
