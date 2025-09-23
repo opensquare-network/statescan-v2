@@ -4,6 +4,7 @@ const reward = /* GraphQL */ `
     dest: JSONObject
     amount: String!
     validator: String
+    bonded: String
     isValidator: Boolean
     era: Int
     indexer: Indexer!
