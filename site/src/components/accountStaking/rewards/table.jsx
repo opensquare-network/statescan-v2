@@ -14,7 +14,7 @@ function EmptyCell() {
   return <TextSecondary>-</TextSecondary>;
 }
 
-function DestCell({ dest, who }) {
+function DestCell({ dest, who, bonded }) {
   if (!dest) {
     return <EmptyCell />;
   }
@@ -25,8 +25,12 @@ function DestCell({ dest, who }) {
     account = dest.account;
   }
 
-  if ("staked" in dest || "stash" in dest || "controller" in dest) {
+  if ("staked" in dest || "stash" in dest) {
     account = who;
+  }
+
+  if ("controller" in dest) {
+    account = bonded;
   }
 
   if (isNil(account)) {
@@ -50,7 +54,11 @@ export default function AccountStakingRewardsTable({ data = [], loading }) {
       </ColoredLink>,
       <ExtrinsicLink key={`${reward}-1`} indexer={reward.indexer} />,
       reward?.indexer?.blockTime,
-      <DestCell dest={reward?.dest} who={reward?.who} />,
+      <DestCell
+        dest={reward?.dest}
+        who={reward?.who}
+        bonded={reward?.bonded}
+      />,
       reward?.validator ? (
         <Tooltip tip={reward.validator}>
           <AddressOrIdentity address={reward.validator} />
