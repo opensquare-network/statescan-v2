@@ -95,6 +95,7 @@ export const GET_STAKING_REWARDS = gql`
           blockHash
         }
         validator
+        bonded
         isValidator
         who
       }
