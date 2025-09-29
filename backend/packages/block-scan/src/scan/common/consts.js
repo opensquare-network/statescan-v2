@@ -29,6 +29,7 @@ const chainsNeedToClean = [
   "bridgehub-paseo",
   "bridgehub-kusama",
   "bridgehub-polkadot",
+  "frequency",
 ];
 
 const chainsNoNeedCalls = [...chainsNeedToClean, "bridgehub-westend"];
