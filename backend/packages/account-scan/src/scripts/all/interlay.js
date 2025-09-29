@@ -42,7 +42,11 @@ function getAccountsWithBalanceData(entries = []) {
     const isToken = entry[0].args[1].isToken;
     if (isToken) {
       const token = entry[0].args[1].asToken;
-      return token.isIntr;
+      if ("interlay" === process.env.CHAIN) {
+        return token.isIntr;
+      } else if ("kintsugi" === process.env.CHAIN) {
+        return token.isKint;
+      }
     } else {
       return false;
     }
