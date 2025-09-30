@@ -40,7 +40,9 @@ const useExtrinsic = (chainExtrinsic) => {
   return extrinsic;
 };
 
-function OnChainExtrinsicImpl({ extrinsic, isLoading = false }) {
+function OnChainExtrinsicImpl({ extrinsicIndexer }) {
+  const { isLoading, chainExtrinsic } = useChainExtrinsicData(extrinsicIndexer);
+  const extrinsic = useExtrinsic(chainExtrinsic);
   const { modules } = useChainSettings();
   const listData = useMemo(
     () =>
@@ -121,8 +123,7 @@ function useExtrinsicIndexer() {
   };
 }
 
-const useChainExtrinsicData = () => {
-  const { extrinsicIndexer, isLoading } = useExtrinsicIndexer();
+const useChainExtrinsicData = (extrinsicIndexer) => {
   const { blockHeight, extrinsicIndex } = extrinsicIndexer;
   const { data, loading } = useQueryExtrinsicInfo(blockHeight, extrinsicIndex);
 
@@ -133,23 +134,25 @@ const useChainExtrinsicData = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     clearHttpError(dispatch);
-    if (chainExtrinsic === null && !isLoading && !loading) {
+    if (chainExtrinsic === null && !loading) {
       // Handle failed to load block data
       dispatch(setErrorCode(404));
     }
-  }, [dispatch, chainExtrinsic, isLoading, loading]);
+  }, [dispatch, chainExtrinsic, loading]);
 
   return {
-    isLoading: loading || isLoading,
+    isLoading: loading,
     chainExtrinsic,
   };
 };
 
 function OnChainExtrinsic() {
-  const { isLoading, chainExtrinsic } = useChainExtrinsicData();
-  const extrinsic = useExtrinsic(chainExtrinsic);
+  const { extrinsicIndexer, isLoading } = useExtrinsicIndexer();
+  if (isLoading) {
+    return null;
+  }
 
-  return <OnChainExtrinsicImpl isLoading={isLoading} extrinsic={extrinsic} />;
+  return <OnChainExtrinsicImpl extrinsicIndexer={extrinsicIndexer} />;
 }
 
 export default OnChainExtrinsic;

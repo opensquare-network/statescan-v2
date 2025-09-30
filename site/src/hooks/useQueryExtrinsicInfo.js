@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
+import isNil from "lodash.isnil";
 
 const GET_EXTRINSIC_INFO = gql`
   query GetExtrinsicInfo($blockHeight: Int!, $extrinsicIndex: Int!) {
@@ -64,10 +65,12 @@ const GET_EXTRINSIC_INFO = gql`
 `;
 
 export function useQueryExtrinsicInfo(blockHeight, extrinsicIndex) {
+  const skip = isNil(blockHeight) || isNil(extrinsicIndex);
   return useQuery(GET_EXTRINSIC_INFO, {
     variables: {
       blockHeight,
       extrinsicIndex,
     },
+    skip,
   });
 }
