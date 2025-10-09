@@ -1,5 +1,4 @@
 import { ReactComponent as FrequencyIcon } from "../../../components/icons/frequency.svg";
-import { ReactComponent as FrequencyLogo } from "../../../components/icons/logo/frequency.svg";
 
 const nodes = [
   {
@@ -19,7 +18,6 @@ const nodes = [
 const frequency = {
   name: "Frequency",
   icon: <FrequencyIcon />,
-  logo: FrequencyLogo,
   chain: "polkadot",
   value: "frequency",
   symbol: "BFRQCY",
