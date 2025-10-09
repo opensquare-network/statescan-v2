@@ -1,5 +1,4 @@
 import chains from "./consts/chains";
-import polimec from "./consts/chains/polimec";
 
 export function getEnvChain() {
   // check env `REACT_APP_PUBLIC_CHAIN` setting
@@ -11,10 +10,6 @@ export function getEnvChain() {
   return chain;
 }
 
-export function isPolimec() {
-  const chain = getEnvChain();
-  return chain === polimec.value;
-}
 
 export function getEnvEndpoint() {
   const endpoint = process.env.REACT_APP_PUBLIC_API_END_POINT;

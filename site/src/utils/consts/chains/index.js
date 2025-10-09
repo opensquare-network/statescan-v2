@@ -15,7 +15,6 @@ import bridgehubKusama from "./bridgehub-kusama";
 import nexus from "./nexus";
 import laos from "./laos";
 import paseo from "./paseo";
-import polimec from "./polimec";
 import coretimePolkadot from "./coretime-polkadot";
 import coretimeKusama from "./coretime-kusama";
 import coretimePaseo from "./coretime-paseo";
@@ -48,7 +47,6 @@ const chains = {
   kusama,
   statemine,
   // "hydradx-testnet": hydradxTestnet,
-  polimec,
   shadow,
   // tangle,
   // tinkernet,
