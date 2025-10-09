@@ -11,7 +11,7 @@ const nodes = [
   },
   {
     name: "OnFinality",
-    url: "wss://frequency-polkadot.api.onfinality.io",
+    url: "wss://frequency-polkadot.api.onfinality.io/public-ws",
   },
 ];
 
