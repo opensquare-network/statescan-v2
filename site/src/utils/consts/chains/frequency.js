@@ -20,7 +20,7 @@ const frequency = {
   icon: <FrequencyIcon />,
   chain: "polkadot",
   value: "frequency",
-  symbol: "BFRQCY",
+  symbol: "FRQCY",
   decimals: 8,
   ss58Format: 90,
   color: "#790e70",
