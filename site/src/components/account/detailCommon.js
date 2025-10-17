@@ -53,6 +53,7 @@ import {
   AccountForeignAssetsProvider,
   useAccountForeignAssets,
 } from "./context/foreignAssetsContext";
+import AccountTabStaking from "../accountStaking";
 
 function AccountDetailCommonInContext({ id }) {
   const chainSetting = useSelector(chainSettingSelector);
@@ -190,6 +191,10 @@ function AccountDetailCommonInContext({ id }) {
         count: recoverables?.total,
         children: <AccountDetailRecoverablesTab />,
       },
+    chainSetting.modules?.staking && {
+      name: "staking",
+      children: <AccountTabStaking />,
+    },
   ].filter(Boolean);
 
   useEffect(() => {
