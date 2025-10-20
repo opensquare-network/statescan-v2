@@ -4,7 +4,13 @@ const {
 
 async function handleTokensTransfer(event, indexer, extrinsic) {
   const currency = event.data[0];
-  if (!currency.isToken || !currency.asToken.isIntr) {
+  if (!currency.isToken) {
+    return;
+  }
+  if (!currency.asToken.isIntr && "interlay" === process.env.CHAIN) {
+    return;
+  }
+  if (!currency.asToken.isKint && "kintsugi" === process.env.CHAIN) {
     return;
   }
 
