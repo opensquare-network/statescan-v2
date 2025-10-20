@@ -75,3 +75,33 @@ export const GET_VESTINGS = gql`
     }
   }
 `;
+
+export const GET_STAKING_REWARDS = gql`
+  query GetAccountTabStakingRewards(
+    $limit: Int!
+    $offset: Int!
+    $address: String
+  ) {
+    stakingRewards(limit: $limit, offset: $offset, address: $address) {
+      items {
+        amount
+        dest
+        era
+        indexer {
+          blockHeight
+          blockTime
+          eventIndex
+          extrinsicIndex
+          blockHash
+        }
+        validator
+        bonded
+        isValidator
+        who
+      }
+      limit
+      offset
+      total
+    }
+  }
+`;

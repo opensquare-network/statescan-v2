@@ -22,6 +22,9 @@ const polkadot = {
     multisig: true,
     vestings: true,
     proxy: true,
+    staking: {
+      rewards: true,
+    },
   },
   treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",

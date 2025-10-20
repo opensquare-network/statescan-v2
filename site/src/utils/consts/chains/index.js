@@ -15,7 +15,6 @@ import bridgehubKusama from "./bridgehub-kusama";
 import nexus from "./nexus";
 import laos from "./laos";
 import paseo from "./paseo";
-import polimec from "./polimec";
 import coretimePolkadot from "./coretime-polkadot";
 import coretimeKusama from "./coretime-kusama";
 import coretimePaseo from "./coretime-paseo";
@@ -33,6 +32,7 @@ import ajuna from "./ajuna";
 import interlay from "./interlay";
 import fintraTestnet from "./fintraTestnet";
 import kintsugi from "./kintsugi";
+import frequency from "./frequency";
 
 const chains = {
   polkadot,
@@ -49,7 +49,6 @@ const chains = {
   kusama,
   statemine,
   // "hydradx-testnet": hydradxTestnet,
-  polimec,
   shadow,
   // tangle,
   // tinkernet,
@@ -73,6 +72,7 @@ const chains = {
   cere,
   "cere-testnet": cereTestnet,
   "fintra-testnet": fintraTestnet,
+  frequency,
 };
 
 export default chains;
