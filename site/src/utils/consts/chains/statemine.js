@@ -20,6 +20,9 @@ const statemine = {
     ...assethubChainModules,
     foreignAssets: true,
     multisig: true,
+    staking: {
+      rewards: true,
+    },
   },
   para: {
     relay: "Kusama",
