@@ -5,6 +5,7 @@ const queries = /* GraphQL */ `
       limit: Int!
       address: String
     ): PagedStakingRewards!
+    stakingValidators(address: String!): StakingValidators!
     stakingScanHeight: Int
   }
 `;
