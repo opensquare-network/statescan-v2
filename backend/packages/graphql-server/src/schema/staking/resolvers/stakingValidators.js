@@ -1,17 +1,19 @@
 const { chainCall } = require("../../../chainApi");
+const isEmpty = require("lodash.isempty");
 
 async function stakingValidators(_, _args) {
   const { address } = _args;
 
   return await chainCall(async (api) => {
     const nominatorInfo = await api.query.staking.nominators(address);
-    if (!nominatorInfo || nominatorInfo.isNone) {
-      return null;
-    }
-    const { targets: validators } = nominatorInfo.toJSON();
     const currentEra = await api.query.staking.currentEra();
     const eraIndex = currentEra.toJSON();
 
+    if (!nominatorInfo || nominatorInfo.isNone || !eraIndex) {
+      return null;
+    }
+
+    const { targets: validators } = nominatorInfo.toJSON();
     const validatorInfos = await Promise.all(
       validators.map(async (validator) => {
         const validatorAddress = validator.toString();
@@ -25,29 +27,26 @@ async function stakingValidators(_, _args) {
         ]);
 
         const exposure = exposureResult?.toJSON() || {};
-        const { own, total, nominatorCount } =
-          stakersOverviewResult?.toJSON() || {};
+        const normalizedStakerOverview = stakersOverviewResult?.toJSON() || {};
 
-        // TODO: My Share
-        let myShare = "0";
-        // if (exposure && exposure?.others && exposure?.others?.length > 0) {
-        //   exposure.others.forEach(({ who, value }) => {
-        //     if (who === address) {
-        //       const total = exposure?.pageTotal?.toString() || "0";
-        //       myShare = new BigNumber(value.toString()).dividedBy(total).toFixed(4);
-        //       return;
-        //     }
-        //   });
-        // }
+        let bonded = "0";
+        if (exposure && exposure?.others && exposure?.others?.length > 0) {
+          exposure.others.forEach(({ who, value }) => {
+            if (who === address) {
+              bonded = value.toString();
+              return;
+            }
+          });
+        }
 
         return {
           address: validatorAddress,
           commission,
-          blocked,
-          myShare,
-          validatorBonded: own,
-          totalBonded: total,
-          nominatorCount,
+          active: !isEmpty(normalizedStakerOverview) && !blocked,
+          bonded,
+          bonded_owner: normalizedStakerOverview?.own || "0",
+          bonded_nominators: normalizedStakerOverview?.total || "0",
+          nominator_count: normalizedStakerOverview?.nominatorCount || 0,
         };
       }),
     );

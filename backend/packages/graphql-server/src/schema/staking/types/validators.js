@@ -2,11 +2,11 @@ const validators = /* GraphQL */ `
   type ValidatorInfo {
     address: String!
     commission: String
-    blocked: Boolean!
-    myShare: String
-    validatorBonded: String
-    totalBonded: String
-    nominatorCount: Int
+    active: Boolean!
+    bonded: String
+    bonded_owner: String
+    bonded_nominators: String
+    nominator_count: Int
   }
 
   type StakingValidators {
