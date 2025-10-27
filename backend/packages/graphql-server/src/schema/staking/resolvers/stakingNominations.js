@@ -1,7 +1,7 @@
 const { chainCall } = require("../../../chainApi");
 const isEmpty = require("lodash.isempty");
 
-async function stakingValidators(_, _args) {
+async function stakingNominations(_, _args) {
   const { address } = _args;
 
   return await chainCall(async (api) => {
@@ -59,5 +59,5 @@ async function stakingValidators(_, _args) {
 }
 
 module.exports = {
-  stakingValidators,
+  stakingNominations,
 };

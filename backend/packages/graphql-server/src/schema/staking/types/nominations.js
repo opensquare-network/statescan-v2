@@ -1,4 +1,4 @@
-const validators = /* GraphQL */ `
+const nominations = /* GraphQL */ `
   type ValidatorInfo {
     address: String!
     commission: String
@@ -9,12 +9,12 @@ const validators = /* GraphQL */ `
     nominator_count: Int
   }
 
-  type StakingValidators {
+  type StakingNominations {
     nominator: String!
     validators: [ValidatorInfo!]!
   }
 `;
 
 module.exports = {
-  validators,
+  nominations,
 };
