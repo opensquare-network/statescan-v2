@@ -429,6 +429,19 @@ export const stakingRewardsHead = [
   { name: "Amount", width: 200, align: "right" },
 ];
 
+export const stakingNominationsHead = [
+  { name: "Validator", width: 160 },
+  { name: "Validator Bonded", width: 200, align: "center" },
+  { name: "Total Bonded", width: 200, align: "center" },
+  {
+    name: "Nominators",
+    width: 120,
+  },
+  { name: "Commission", width: 120 },
+  { name: "My Share", width: 200 },
+  { name: "Active", width: 120, align: "right" },
+];
+
 export const vestingsHead = [
   {
     name: "Address",
