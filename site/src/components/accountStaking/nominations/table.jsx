@@ -21,7 +21,7 @@ function MyShareCell({ validator }) {
       {BigNumber(validator?.bonded)
         .div(validator?.bonded_nominators)
         .times(100)
-        .toFixed(3)}
+        .toFixed(2)}
       %
     </span>
   );

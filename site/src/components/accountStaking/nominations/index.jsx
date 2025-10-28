@@ -1,6 +1,6 @@
 import { useState, memo } from "react";
 import { useParams } from "react-router-dom";
-import { StyledPanelTableWrapper } from "../../styled/panel";
+import { StyledPanelTableWrapperNoBordered } from "../../styled/panel";
 import AccountStakingNominationsTable from "./table";
 import { useStakingQuery } from "../../../hooks/apollo";
 import { GET_STAKING_NOMINATIONS } from "../../../services/gqls";
@@ -17,12 +17,12 @@ function AccountTabStakingNominations() {
   });
 
   return (
-    <StyledPanelTableWrapper>
+    <StyledPanelTableWrapperNoBordered>
       <AccountStakingNominationsTable
         data={data?.stakingNominations?.validators}
         loading={loading}
       />
-    </StyledPanelTableWrapper>
+    </StyledPanelTableWrapperNoBordered>
   );
 }
 
