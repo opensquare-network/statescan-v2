@@ -3,9 +3,9 @@ const nominations = /* GraphQL */ `
     address: String!
     commission: String
     active: Boolean!
-    bonded: String
-    bonded_owner: String
-    bonded_nominators: String
+    nominator_stake: String
+    self_stake: String
+    total_stake: String
     nominator_count: Int
   }
 

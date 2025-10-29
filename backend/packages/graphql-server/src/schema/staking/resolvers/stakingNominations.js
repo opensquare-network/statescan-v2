@@ -35,11 +35,11 @@ async function stakingNominations(_, _args) {
           const normalizedStakerOverview =
             stakersOverviewResult?.toJSON() || {};
 
-          let bonded = "0";
+          let nominator_stake = "0";
           if (exposure && exposure?.others && exposure?.others?.length > 0) {
             exposure.others.forEach(({ who, value }) => {
               if (who === address) {
-                bonded = value.toString();
+                nominator_stake = value.toString();
                 return;
               }
             });
@@ -49,11 +49,11 @@ async function stakingNominations(_, _args) {
             address: validatorAddress,
             commission: commission ? commission.toString() : "0",
             active: !isEmpty(normalizedStakerOverview) && !blocked,
-            bonded,
-            bonded_owner: normalizedStakerOverview?.own
+            nominator_stake,
+            self_stake: normalizedStakerOverview?.own
               ? normalizedStakerOverview.own.toString()
               : "0",
-            bonded_nominators: normalizedStakerOverview?.total
+            total_stake: normalizedStakerOverview?.total
               ? normalizedStakerOverview.total.toString()
               : "0",
             nominator_count: normalizedStakerOverview?.nominatorCount || 0,

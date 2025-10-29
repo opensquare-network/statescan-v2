@@ -112,9 +112,9 @@ export const GET_STAKING_NOMINATIONS = gql`
       validators {
         active
         address
-        bonded
-        bonded_nominators
-        bonded_owner
+        nominator_stake
+        total_stake
+        self_stake
         commission
         nominator_count
       }

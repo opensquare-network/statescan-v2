@@ -10,14 +10,14 @@ import { EmptyCell } from "../rewards/table";
 
 function MyShareCell({ validator }) {
   if (
-    BigNumber(validator?.bonded).lte(0) ||
-    BigNumber(validator?.bonded_nominators).lte(0)
+    BigNumber(validator?.nominator_stake).lte(0) ||
+    BigNumber(validator?.total_stake).lte(0)
   ) {
     return <EmptyCell />;
   }
 
-  const myShare = BigNumber(validator?.bonded)
-    .div(validator?.bonded_nominators)
+  const myShare = BigNumber(validator?.nominator_stake)
+    .div(validator?.total_stake)
     .times(100);
 
   return <Tooltip tip={`${myShare}%`}>{myShare.toFixed(2)}%</Tooltip>;
@@ -32,14 +32,14 @@ export default function AccountStakingNominationsTable({ data = [], loading }) {
         <AddressOrIdentity address={validator.address} />
       </Tooltip>,
       <ValueDisplay
-        key={`validator-bonded-${index}`}
-        value={toPrecision(validator.bonded_owner, decimals)}
+        key={`validator-self-stake-${index}`}
+        value={toPrecision(validator.self_stake, decimals)}
         symbol={symbol}
         showNotEqualTooltip
       />,
       <ValueDisplay
-        key={`total-bonded-${index}`}
-        value={toPrecision(validator.bonded_nominators, decimals)}
+        key={`total-stake-${index}`}
+        value={toPrecision(validator.total_stake, decimals)}
         symbol={symbol}
         showNotEqualTooltip
       />,
