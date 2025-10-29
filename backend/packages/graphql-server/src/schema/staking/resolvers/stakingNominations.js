@@ -62,7 +62,6 @@ async function stakingNominations(_, _args) {
       );
 
       return {
-        nominator: address,
         validators: validatorInfos,
       };
     });

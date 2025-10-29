@@ -10,7 +10,6 @@ const nominations = /* GraphQL */ `
   }
 
   type StakingNominations {
-    nominator: String!
     validators: [ValidatorInfo!]!
   }
 `;

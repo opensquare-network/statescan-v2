@@ -431,14 +431,14 @@ export const stakingRewardsHead = [
 
 export const stakingNominationsHead = [
   { name: "Validator", width: 160 },
-  { name: "Validator Bonded", width: 200, align: "center" },
-  { name: "Total Bonded", width: 200, align: "center" },
+  { name: "Self Stake", width: 200 },
+  { name: "Total Stake", width: 200 },
   {
-    name: "Nominators",
-    width: 120,
+    name: "Nominator Count",
+    width: 150,
   },
   { name: "Commission", width: 120 },
-  { name: "My Share", width: 200 },
+  { name: "My Share", width: 160 },
   { name: "Active", width: 120, align: "right" },
 ];
 
