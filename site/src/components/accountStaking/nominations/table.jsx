@@ -32,41 +32,25 @@ export default function AccountStakingNominationsTable({ data = [], loading }) {
 
   const tableData = data?.map?.((validator, index) => {
     return [
-      validator?.address ? (
-        <Tooltip key={`validator-${index}`} tip={validator.address}>
-          <AddressOrIdentity address={validator.address} />
-        </Tooltip>
-      ) : (
-        <EmptyCell />
-      ),
-      validator?.bonded_owner ? (
-        <ValueDisplay
-          key={`validator-bonded-${index}`}
-          value={toPrecision(validator.bonded_owner, decimals)}
-          symbol={symbol}
-          showNotEqualTooltip
-        />
-      ) : (
-        <EmptyCell />
-      ),
-      validator?.bonded ? (
-        <ValueDisplay
-          key={`total-bonded-${index}`}
-          value={toPrecision(validator.bonded_nominators, decimals)}
-          symbol={symbol}
-          showNotEqualTooltip
-        />
-      ) : (
-        <EmptyCell />
-      ),
+      <Tooltip key={`validator-${index}`} tip={validator.address}>
+        <AddressOrIdentity address={validator.address} />
+      </Tooltip>,
+      <ValueDisplay
+        key={`validator-bonded-${index}`}
+        value={toPrecision(validator.bonded_owner, decimals)}
+        symbol={symbol}
+        showNotEqualTooltip
+      />,
+      <ValueDisplay
+        key={`total-bonded-${index}`}
+        value={toPrecision(validator.bonded_nominators, decimals)}
+        symbol={symbol}
+        showNotEqualTooltip
+      />,
       <span key={`nominators-${index}`}>{validator.nominator_count}</span>,
-      validator?.commission ? (
-        <span key={`commission-${index}`}>
-          {(parseFloat(validator.commission) / 10000000).toFixed(2)}%
-        </span>
-      ) : (
-        <EmptyCell />
-      ),
+      <span key={`commission-${index}`}>
+        {(parseFloat(validator.commission) / 10000000).toFixed(2)}%
+      </span>,
       <MyShareCell validator={validator} key={`my-share-${index}`} />,
       <span key={`active-${index}`}>{validator?.active ? "Yes" : "No"}</span>,
     ];
