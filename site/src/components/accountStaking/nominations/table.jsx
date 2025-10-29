@@ -16,15 +16,11 @@ function MyShareCell({ validator }) {
     return <EmptyCell />;
   }
 
-  return (
-    <span>
-      {BigNumber(validator?.bonded)
-        .div(validator?.bonded_nominators)
-        .times(100)
-        .toFixed(2)}
-      %
-    </span>
-  );
+  const myShare = BigNumber(validator?.bonded)
+    .div(validator?.bonded_nominators)
+    .times(100);
+
+  return <Tooltip tip={`${myShare}%`}>{myShare.toFixed(2)}%</Tooltip>;
 }
 
 export default function AccountStakingNominationsTable({ data = [], loading }) {
