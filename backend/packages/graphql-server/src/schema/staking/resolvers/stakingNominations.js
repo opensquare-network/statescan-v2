@@ -1,5 +1,4 @@
 const { chainCall } = require("../../../chainApi");
-const isEmpty = require("lodash.isempty");
 
 async function stakingNominations(_, _args) {
   const { address } = _args;
@@ -21,7 +20,7 @@ async function stakingNominations(_, _args) {
           const validatorPrefs = await api.query.staking.validators(
             validatorAddress,
           );
-          const { commission, blocked } = validatorPrefs?.toJSON() || {};
+          const { commission } = validatorPrefs?.toJSON() || {};
           const [exposureResult, stakersOverviewResult] = await Promise.all([
             api.query.staking.erasStakersPaged(
               eraIndex,
@@ -45,10 +44,12 @@ async function stakingNominations(_, _args) {
             });
           }
 
+          const active = !stakersOverviewResult?.isNone;
+
           return {
             address: validatorAddress,
             commission: commission ? commission.toString() : "0",
-            active: !isEmpty(normalizedStakerOverview) && !blocked,
+            active,
             nominator_stake,
             self_stake: normalizedStakerOverview?.own
               ? normalizedStakerOverview.own.toString()
