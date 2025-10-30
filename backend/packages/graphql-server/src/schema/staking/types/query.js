@@ -10,6 +10,8 @@ const queries = /* GraphQL */ `
       offset: Int!
       limit: Int!
       address: String
+      sortField: ValidatorSortField
+      sortDirection: SortDirection
     ): PagedStakingValidators!
   }
 `;

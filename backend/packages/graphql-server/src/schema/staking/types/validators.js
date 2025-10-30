@@ -14,6 +14,18 @@ const validators = /* GraphQL */ `
     limit: Int!
     total: Int!
   }
+
+  enum ValidatorSortField {
+    nominator_count
+    total_stake
+    self_stake
+    commission
+  }
+
+  enum SortDirection {
+    ASC
+    DESC
+  }
 `;
 
 module.exports = {
