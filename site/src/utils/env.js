@@ -10,7 +10,6 @@ export function getEnvChain() {
   return chain;
 }
 
-
 export function getEnvEndpoint() {
   const endpoint = process.env.REACT_APP_PUBLIC_API_END_POINT;
   if (!endpoint) {
