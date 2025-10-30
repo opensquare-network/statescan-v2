@@ -1,26 +1,5 @@
 const { chainCall } = require("../../../chainApi");
 
-async function getActiveValidatorAddresses(api) {
-  try {
-    const currentEra = await api.query.staking.currentEra();
-    const eraIndex = currentEra.toJSON();
-    if (!eraIndex) {
-      return new Set();
-    }
-
-    const activeValidatorsEntries =
-      await api.query.staking.erasStakersOverview.entries(eraIndex);
-    const activeValidatorAddresses = new Set(
-      activeValidatorsEntries.map(([key]) => key.args[1].toString()),
-    );
-
-    return activeValidatorAddresses;
-  } catch (error) {
-    console.error("Error getting active validators:", error);
-    return new Set();
-  }
-}
-
 function sortValidators(validators, sortField, sortDirection) {
   if (!sortField) return validators;
 
@@ -87,7 +66,6 @@ async function stakingValidators(_, _args) {
       }
 
       const allValidators = await api.query.staking.validators.entries();
-      const activeValidatorAddresses = await getActiveValidatorAddresses(api);
 
       let filteredValidators = allValidators;
       if (address) {
@@ -111,10 +89,12 @@ async function stakingValidators(_, _args) {
           const normalizedStakerOverview =
             stakersOverviewResult?.toJSON() || {};
 
+          const active = !stakersOverviewResult?.isNone;
+
           return {
             address: validatorAddress,
             commission: commission ? commission.toString() : "0",
-            active: activeValidatorAddresses.has(validatorAddress),
+            active,
             self_stake: normalizedStakerOverview?.own
               ? normalizedStakerOverview.own.toString()
               : "0",
