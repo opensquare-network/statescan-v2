@@ -1,5 +1,25 @@
 const { chainCall } = require("../../../chainApi");
-const isEmpty = require("lodash.isempty");
+
+async function getActiveValidatorAddresses(api) {
+  try {
+    const currentEra = await api.query.staking.currentEra();
+    const eraIndex = currentEra.toJSON();
+    if (!eraIndex) {
+      return new Set();
+    }
+
+    const activeValidatorsEntries =
+      await api.query.staking.erasStakersOverview.entries(eraIndex);
+    const activeValidatorAddresses = new Set(
+      activeValidatorsEntries.map(([key]) => key.args[1].toString()),
+    );
+
+    return activeValidatorAddresses;
+  } catch (error) {
+    console.error("Error getting active validators:", error);
+    return new Set();
+  }
+}
 
 function sortValidators(validators, sortField, sortDirection) {
   if (!sortField) return validators;
@@ -49,6 +69,7 @@ async function stakingValidators(_, _args) {
     address,
     sortField = "",
     sortDirection = "",
+    onlyActive = false,
   } = _args;
 
   try {
@@ -66,6 +87,7 @@ async function stakingValidators(_, _args) {
       }
 
       const allValidators = await api.query.staking.validators.entries();
+      const activeValidatorAddresses = await getActiveValidatorAddresses(api);
 
       let filteredValidators = allValidators;
       if (address) {
@@ -78,7 +100,7 @@ async function stakingValidators(_, _args) {
       const validatorInfos = await Promise.all(
         filteredValidators.map(async ([key, validatorPrefs]) => {
           const validatorAddress = key.args[0].toString();
-          const { commission, blocked } = validatorPrefs?.toJSON() || {};
+          const { commission } = validatorPrefs?.toJSON() || {};
 
           const stakersOverviewResult =
             await api.query.staking.erasStakersOverview(
@@ -92,7 +114,7 @@ async function stakingValidators(_, _args) {
           return {
             address: validatorAddress,
             commission: commission ? commission.toString() : "0",
-            active: !isEmpty(normalizedStakerOverview) && !blocked,
+            active: activeValidatorAddresses.has(validatorAddress),
             self_stake: normalizedStakerOverview?.own
               ? normalizedStakerOverview.own.toString()
               : "0",
@@ -104,8 +126,15 @@ async function stakingValidators(_, _args) {
         }),
       );
 
+      let activeFilteredValidators = validatorInfos;
+      if (onlyActive) {
+        activeFilteredValidators = validatorInfos.filter(
+          (validator) => validator.active === true,
+        );
+      }
+
       const sortedValidators = sortValidators(
-        validatorInfos,
+        activeFilteredValidators,
         sortField,
         sortDirection,
       );

@@ -12,6 +12,7 @@ const queries = /* GraphQL */ `
       address: String
       sortField: ValidatorSortField
       sortDirection: SortDirection
+      onlyActive: Boolean
     ): PagedStakingValidators!
   }
 `;
