@@ -4,6 +4,7 @@ import { useQueryParams } from "../../hooks/useQueryParams";
 import useQueryParamsUpdater from "../../hooks/useQueryParamsUpdater";
 import TabBar from "../accountIdentity/tabBar";
 import AccountTabStakingRewards from "./rewards";
+import AccountTabStakingNominations from "./nominations";
 
 export default function AccountTabStaking() {
   const { sub } = useQueryParams();
@@ -15,6 +16,11 @@ export default function AccountTabStaking() {
         icon: null, // TODO: icon
         name: "rewards",
         children: <AccountTabStakingRewards />,
+      },
+      {
+        icon: null,
+        name: "nominations",
+        children: <AccountTabStakingNominations />,
       },
     ],
     [],

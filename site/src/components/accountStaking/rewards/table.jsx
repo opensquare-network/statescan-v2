@@ -10,7 +10,7 @@ import { ColoredLink } from "../../styled/link";
 import { TextSecondary } from "../../styled/text";
 import isNil from "lodash.isnil";
 
-function EmptyCell() {
+export function EmptyCell() {
   return <TextSecondary>-</TextSecondary>;
 }
 

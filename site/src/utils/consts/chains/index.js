@@ -31,7 +31,8 @@ import cere from "./cere";
 import ajuna from "./ajuna";
 import interlay from "./interlay";
 import fintraTestnet from "./fintraTestnet";
-import frequency from './frequency'
+import kintsugi from "./kintsugi";
+import frequency from "./frequency";
 
 const chains = {
   polkadot,
@@ -54,6 +55,7 @@ const chains = {
   "bridgehub-kusama": bridgehubKusama,
   "coretime-kusama": coretimeKusama,
   "people-kusama": peopleKusama,
+  kintsugi,
   paseo,
   "assethub-paseo": assethubPaseo,
   "bridgehub-paseo": bridgehubPaseo,

@@ -5,6 +5,7 @@ const queries = /* GraphQL */ `
       limit: Int!
       address: String
     ): PagedStakingRewards!
+    stakingNominations(address: String!): StakingNominations
     stakingScanHeight: Int
     stakingValidators(
       offset: Int!

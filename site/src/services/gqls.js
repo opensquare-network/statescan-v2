@@ -105,3 +105,19 @@ export const GET_STAKING_REWARDS = gql`
     }
   }
 `;
+
+export const GET_STAKING_NOMINATIONS = gql`
+  query GetAccountTabStakingNominations($address: String!) {
+    stakingNominations(address: $address) {
+      validators {
+        active
+        address
+        nominator_stake
+        total_stake
+        self_stake
+        commission
+        nominator_count
+      }
+    }
+  }
+`;
