@@ -1,4 +1,32 @@
 const { chainCall } = require("../../../chainApi");
+const {
+  identity: { getIdentityCol },
+} = require("@statescan/mongo");
+
+async function getValidatorsIdentities(addresses) {
+  if (!addresses || addresses.length === 0) {
+    return {};
+  }
+
+  try {
+    const identityCol = await getIdentityCol();
+    const identities = await identityCol
+      .find({ account: { $in: addresses } })
+      .toArray();
+
+    const identityMap = {};
+    identities.forEach((identity) => {
+      identityMap[identity.account] = identity;
+    });
+
+    console.log("::::identityMap", identityMap);
+
+    return identityMap;
+  } catch (error) {
+    console.error("Error fetching validators identities:", error);
+    return {};
+  }
+}
 
 function sortValidators(validators, sortField, sortDirection) {
   if (!sortField) return validators;
@@ -130,9 +158,17 @@ async function stakingValidators(_, _args) {
         sortDirection,
       );
 
-      const total = sortedValidators.length;
+      const validatorAddresses = sortedValidators.map(
+        (validator) => validator.address,
+      );
+      const identitiesMap = await getValidatorsIdentities(validatorAddresses);
 
-      const paginatedValidators = sortedValidators.slice(
+      const validatorsWithIdentity = sortedValidators.map((validator) => ({
+        ...validator,
+        identity: identitiesMap[validator.address] || null,
+      }));
+      const total = validatorsWithIdentity.length;
+      const paginatedValidators = validatorsWithIdentity.slice(
         offset,
         offset + limit,
       );
