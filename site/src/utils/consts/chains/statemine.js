@@ -22,6 +22,7 @@ const statemine = {
     multisig: true,
     staking: {
       rewards: true,
+      nominations: true,
     },
   },
   para: {
