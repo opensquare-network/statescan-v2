@@ -14,6 +14,8 @@ const queries = /* GraphQL */ `
       sortDirection: SortDirection
       onlyActive: Boolean
       no100Commission: Boolean
+      identitySearch: String
+      hasIdentityOnly: Boolean
     ): PagedStakingValidators!
   }
 `;
