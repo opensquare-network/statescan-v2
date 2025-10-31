@@ -442,6 +442,19 @@ export const stakingNominationsHead = [
   { name: "Active", width: 120, align: "right" },
 ];
 
+// TODO: search & filter
+export const stakingValidatorsHead = [
+  { name: "Account", width: 160 },
+  { name: "Self Stake", width: 200 },
+  { name: "Total Stake", width: 200 },
+  {
+    name: "Nominator Count",
+    width: 150,
+  },
+  { name: "Commission", width: 120 },
+  { name: "Active", width: 120, align: "right" },
+];
+
 export const vestingsHead = [
   {
     name: "Address",
