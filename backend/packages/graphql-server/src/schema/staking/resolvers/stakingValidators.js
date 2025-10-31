@@ -49,6 +49,7 @@ async function stakingValidators(_, _args) {
     sortField = "",
     sortDirection = "",
     onlyActive = false,
+    no100Commission = false,
   } = _args;
 
   try {
@@ -113,8 +114,18 @@ async function stakingValidators(_, _args) {
         );
       }
 
+      let commissionFilteredValidators = activeFilteredValidators;
+      if (no100Commission) {
+        commissionFilteredValidators = activeFilteredValidators.filter(
+          (validator) => {
+            const commissionValue = BigInt(validator.commission || "0");
+            return commissionValue !== BigInt("1000000000");
+          },
+        );
+      }
+
       const sortedValidators = sortValidators(
-        activeFilteredValidators,
+        commissionFilteredValidators,
         sortField,
         sortDirection,
       );

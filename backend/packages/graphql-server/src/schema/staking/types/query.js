@@ -13,6 +13,7 @@ const queries = /* GraphQL */ `
       sortField: ValidatorSortField
       sortDirection: SortDirection
       onlyActive: Boolean
+      no100Commission: Boolean
     ): PagedStakingValidators!
   }
 `;
