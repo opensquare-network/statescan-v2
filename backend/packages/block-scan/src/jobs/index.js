@@ -31,7 +31,11 @@ async function updateHeights() {
 async function getTotalIssuance() {
   const api = await getApi();
   if (isInterlay()) {
-    const raw = await api.query.tokens.totalIssuance({ token: "INTR" });
+    let token = "INTR";
+    if (process.env.CHAIN === "kintsugi") {
+      token = "KINT";
+    }
+    const raw = await api.query.tokens.totalIssuance({ token });
     return raw.toString();
   } else {
     const raw = await api.query.balances.totalIssuance();
