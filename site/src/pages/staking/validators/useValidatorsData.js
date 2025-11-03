@@ -18,7 +18,7 @@ export function useValidatorsData({ onCompleted } = {}) {
 
   const isSearchAddress = isAddress(search);
   const address = isSearchAddress ? search : undefined;
-  const identitySearch = !isSearchAddress && search ? search : undefined;
+  const identitySearch = !isSearchAddress && search ? String(search) : undefined;
 
   const onlyActiveBool = onlyActive === "Yes";
   const no100CommissionBool = no100Commission === "Yes";
