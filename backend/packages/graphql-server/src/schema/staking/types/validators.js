@@ -17,10 +17,10 @@ const validators = /* GraphQL */ `
   }
 
   enum ValidatorSortField {
-    nominator_count
-    total_stake
-    self_stake
-    commission
+    NOMINATOR_COUNT
+    TOTAL_STAKE
+    SELF_STAKE
+    COMMISSION
   }
 
   enum SortDirection {

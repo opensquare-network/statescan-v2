@@ -146,19 +146,19 @@ function sortValidators(validators, sortField, sortDirection) {
     let aValue, bValue;
 
     switch (sortField) {
-      case "nominator_count":
+      case "NOMINATOR_COUNT":
         aValue = a.nominator_count;
         bValue = b.nominator_count;
         break;
-      case "total_stake":
+      case "TOTAL_STAKE":
         aValue = BigInt(a.total_stake || "0");
         bValue = BigInt(b.total_stake || "0");
         break;
-      case "self_stake":
+      case "SELF_STAKE":
         aValue = BigInt(a.self_stake || "0");
         bValue = BigInt(b.self_stake || "0");
         break;
-      case "commission":
+      case "COMMISSION":
         aValue = BigInt(a.commission || "0");
         bValue = BigInt(b.commission || "0");
         break;

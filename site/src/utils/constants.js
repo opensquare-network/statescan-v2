@@ -442,16 +442,36 @@ export const stakingNominationsHead = [
   { name: "Active", width: 120, align: "right" },
 ];
 
-// TODO: search & filter
 export const stakingValidatorsHead = [
   { name: "Account", width: 160 },
-  { name: "Self Stake", width: 200 },
-  { name: "Total Stake", width: 200 },
+  {
+    name: "Commission",
+    width: 120,
+    type: "sortable",
+    sortAscendingQueryValue: "COMMISSION_ASC",
+    sortDescendingQueryValue: "COMMISSION_DESC",
+  },
   {
     name: "Nominator Count",
-    width: 150,
+    width: 180,
+    type: "sortable",
+    sortAscendingQueryValue: "NOMINATOR_COUNT_ASC",
+    sortDescendingQueryValue: "NOMINATOR_COUNT_DESC",
   },
-  { name: "Commission", width: 120 },
+  {
+    name: "Self Stake",
+    width: 200,
+    type: "sortable",
+    sortAscendingQueryValue: "SELF_STAKE_ASC",
+    sortDescendingQueryValue: "SELF_STAKE_DESC",
+  },
+  {
+    name: "Total Stake",
+    width: 200,
+    type: "sortable",
+    sortAscendingQueryValue: "TOTAL_STAKE_ASC",
+    sortDescendingQueryValue: "TOTAL_STAKE_DESC",
+  },
   { name: "Active", width: 120, align: "right" },
 ];
 

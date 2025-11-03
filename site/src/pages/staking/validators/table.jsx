@@ -14,6 +14,10 @@ export default function StakingValidatorsTable({ data = [], loading }) {
       <Tooltip key={`validator-${index}`} tip={validator.address}>
         <AddressOrIdentity address={validator.address} />
       </Tooltip>,
+      <span key={`commission-${index}`}>
+        {(parseFloat(validator.commission) / 10000000).toFixed(2)}%
+      </span>,
+      <span key={`nominators-${index}`}>{validator.nominator_count}</span>,
       <ValueDisplay
         key={`validator-self-stake-${index}`}
         value={toPrecision(validator.self_stake, decimals)}
@@ -26,10 +30,6 @@ export default function StakingValidatorsTable({ data = [], loading }) {
         symbol={symbol}
         showNotEqualTooltip
       />,
-      <span key={`nominators-${index}`}>{validator.nominator_count}</span>,
-      <span key={`commission-${index}`}>
-        {(parseFloat(validator.commission) / 10000000).toFixed(2)}%
-      </span>,
       <span key={`active-${index}`}>{validator?.active ? "Yes" : "No"}</span>,
     ];
   });

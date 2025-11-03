@@ -8,8 +8,7 @@ export function useValidatorsData({ onCompleted } = {}) {
   const {
     page = 1,
     search = "",
-    sortField,
-    sortDirection,
+    sort,
     onlyActive = "Yes",
     no100Commission = "Yes",
     hasIdentityOnly = "Yes",
@@ -24,6 +23,15 @@ export function useValidatorsData({ onCompleted } = {}) {
   const onlyActiveBool = onlyActive === "Yes";
   const no100CommissionBool = no100Commission === "Yes";
   const hasIdentityOnlyBool = hasIdentityOnly === "Yes";
+
+  let sortField, sortDirection;
+  if (sort) {
+    const parts = sort.split("_");
+    if (parts.length >= 2) {
+      sortDirection = parts.pop();
+      sortField = parts.join("_");
+    }
+  }
 
   const { data, loading, error, refetch } = useStakingQuery(
     GET_STAKING_VALIDATORS,

@@ -25,7 +25,7 @@ export function useValidatorsFilter() {
       name: "Search",
       query: "search",
       inputProps: {
-        placeholder: "Address or Identity",
+        placeholder: "Address/Identity...",
         prefix: <SearchIcon style={{ width: 16, height: 16 }} />,
       },
     };
