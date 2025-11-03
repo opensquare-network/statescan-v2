@@ -136,7 +136,7 @@ export default function getBusinessMenus() {
     menus.push(multisigMenus);
   }
 
-  if (staking) {
+  if (staking?.validators) {
     if (menus.length > 0) {
       menus.push(divider);
     }

@@ -139,7 +139,7 @@ function App() {
             />
           </>
         )}
-        {staking && (
+        {staking?.validators && (
           <>
             <Route path="/staking/validators" element={<StakingValidators />} />
           </>

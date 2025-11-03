@@ -49,7 +49,7 @@ function MultisigMenu({ closeFunc = noop }) {
 
 function StakingMenu({ closeFunc = noop }) {
   const { staking } = getChainModules();
-  if (!staking) {
+  if (!staking?.validators) {
     return null;
   }
 
