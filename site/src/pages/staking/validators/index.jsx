@@ -7,9 +7,12 @@ import StakingValidatorsTable from "./table";
 import Pagination from "../../../components/pagination";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../../utils/constants";
+import { useValidatorsFilter } from "../../../hooks/filter/useValidatorsFilter";
+import Filter from "../../../components/filter";
 
 export default function StakingValidators() {
   const { page = 1 } = useQueryParams();
+  const filter = useValidatorsFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const [data, setData] = useState(null);
 
@@ -20,6 +23,9 @@ export default function StakingValidators() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Validators" }]} />
+
+      <Filter data={filter} />
+
       <StyledPanelTableWrapper
         footer={
           <Pagination
