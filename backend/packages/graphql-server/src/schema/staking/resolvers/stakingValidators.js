@@ -3,19 +3,8 @@ const {
   identity: { getIdentityCol },
 } = require("@statescan/mongo");
 
-async function getCurrentEraIndex(api) {
-  const currentEra = await api.query.staking.currentEra();
-  return currentEra.toJSON();
-}
-
-async function getAllValidatorsFromChain(api) {
-  return await api.query.staking.validators.entries();
-}
-
-async function getValidatorsIdentities(addresses) {
-  if (!addresses || addresses.length === 0) {
-    return {};
-  }
+async function fetchValidatorIdentities(addresses) {
+  if (!addresses?.length) return {};
 
   try {
     const identityCol = await getIdentityCol();
@@ -26,12 +15,10 @@ async function getValidatorsIdentities(addresses) {
       )
       .toArray();
 
-    const identityMap = {};
-    identities.forEach((identity) => {
-      identityMap[identity.account] = identity.fullDisplay;
-    });
-
-    return identityMap;
+    return identities.reduce((map, identity) => {
+      map[identity.account] = identity.fullDisplay;
+      return map;
+    }, {});
   } catch (error) {
     console.error("Error fetching validators identities:", error);
     return {};
@@ -40,222 +27,166 @@ async function getValidatorsIdentities(addresses) {
 
 async function buildValidatorInfo(api, validatorEntry, eraIndex) {
   const [key, validatorPrefs] = validatorEntry;
-  const validatorAddress = key.args[0].toString();
+  const address = key.args[0].toString();
   const { commission } = validatorPrefs?.toJSON() || {};
 
-  const stakersOverviewResult = await api.query.staking.erasStakersOverview(
+  const stakersOverview = await api.query.staking.erasStakersOverview(
     eraIndex,
-    validatorAddress,
+    address,
   );
-
-  const normalizedStakerOverview = stakersOverviewResult?.toJSON() || {};
-  const active = !stakersOverviewResult?.isNone;
-
+  const overview = stakersOverview?.toJSON() || {};
   return {
-    address: validatorAddress,
-    commission: commission ? commission.toString() : "0",
-    active,
-    self_stake: normalizedStakerOverview?.own
-      ? normalizedStakerOverview.own.toString()
-      : "0",
-    total_stake: normalizedStakerOverview?.total
-      ? normalizedStakerOverview.total.toString()
-      : "0",
-    nominator_count: normalizedStakerOverview?.nominatorCount || 0,
+    address,
+    commission: commission?.toString() || "0",
+    active: !stakersOverview?.isNone,
+    self_stake: overview?.own?.toString() || "0",
+    total_stake: overview?.total?.toString() || "0",
+    nominator_count: overview?.nominatorCount || 0,
   };
 }
 
-function filterValidatorsByAddress(validatorEntries, addressFilter) {
-  if (!addressFilter) {
-    return validatorEntries;
+function getValidatorSortValue(validator, sortField) {
+  switch (sortField) {
+    case "NOMINATOR_COUNT":
+      return validator.nominator_count;
+    case "TOTAL_STAKE":
+      return BigInt(validator.total_stake || "0");
+    case "SELF_STAKE":
+      return BigInt(validator.self_stake || "0");
+    case "COMMISSION":
+      return BigInt(validator.commission || "0");
+    default:
+      return "0";
   }
+}
 
-  return validatorEntries.filter(([key]) => {
-    const validatorAddress = key.args[0].toString();
-    return validatorAddress.toLowerCase().includes(addressFilter.toLowerCase());
+function compareValues(a, b) {
+  if (typeof a === "bigint" && typeof b === "bigint") {
+    return a < b ? -1 : a > b ? 1 : 0;
+  }
+  return a - b;
+}
+
+function sortValidatorsByField(validators, sortField, sortDirection) {
+  if (!sortField) return validators;
+
+  return validators.sort((a, b) => {
+    const aValue = getValidatorSortValue(a, sortField);
+    const bValue = getValidatorSortValue(b, sortField);
+    const comparison = compareValues(aValue, bValue);
+    return sortDirection === "DESC" ? -comparison : comparison;
   });
 }
 
-function filterValidatorsByActiveStatus(validators, onlyActive) {
-  if (!onlyActive) {
-    return validators;
-  }
-
-  return validators.filter((validator) => validator.active === true);
-}
-
-function filterValidatorsByCommission(validators, no100Commission) {
-  if (!no100Commission) {
-    return validators;
-  }
+function applyValidatorFilters(validators, filters) {
+  const { onlyActive, no100Commission } = filters;
 
   return validators.filter((validator) => {
-    const commissionValue = BigInt(validator.commission || "0");
-    return commissionValue !== BigInt("1000000000");
+    if (onlyActive && !validator.active) return false;
+
+    if (no100Commission) {
+      return BigInt(validator.commission || "0") !== BigInt("1000000000");
+    }
+
+    return true;
   });
 }
 
-async function filterValidatorsByIdentity(
+async function applyIdentityFilters(
   validators,
-  identitySearch,
-  hasIdentityOnly,
+  filters,
   existingIdentitiesMap = null,
 ) {
+  const { identitySearch, hasIdentityOnly } = filters;
+
   if (!identitySearch && hasIdentityOnly === undefined) {
-    return {
-      filteredValidators: validators,
-      identitiesMap: existingIdentitiesMap,
-    };
+    return { validators, identitiesMap: existingIdentitiesMap };
   }
 
   let identitiesMap = existingIdentitiesMap;
   if (!identitiesMap) {
-    const validatorAddresses = validators.map((validator) => validator.address);
-    identitiesMap = await getValidatorsIdentities(validatorAddresses);
+    const addresses = validators.map((v) => v.address);
+    identitiesMap = await fetchValidatorIdentities(addresses);
   }
 
   const filteredValidators = validators.filter((validator) => {
     const identity = identitiesMap[validator.address];
 
-    if (hasIdentityOnly === true) {
-      if (!identity) {
-        return false;
-      }
-    }
+    if (hasIdentityOnly && !identity) return false;
 
-    if (identitySearch && identity) {
+    if (identitySearch) {
+      if (!identity) return false;
       const searchTerm = identitySearch.toLowerCase();
       const identityDisplay = identity.toLowerCase();
-      if (!identityDisplay.includes(searchTerm)) {
-        return false;
-      }
-    } else if (identitySearch && !identity) {
-      return false;
+      return identityDisplay.includes(searchTerm);
     }
 
     return true;
   });
 
-  return { filteredValidators, identitiesMap };
+  return { validators: filteredValidators, identitiesMap };
 }
 
-function sortValidators(validators, sortField, sortDirection) {
-  if (!sortField) return validators;
-
-  return validators.sort((a, b) => {
-    let aValue, bValue;
-
-    switch (sortField) {
-      case "NOMINATOR_COUNT":
-        aValue = a.nominator_count;
-        bValue = b.nominator_count;
-        break;
-      case "TOTAL_STAKE":
-        aValue = BigInt(a.total_stake || "0");
-        bValue = BigInt(b.total_stake || "0");
-        break;
-      case "SELF_STAKE":
-        aValue = BigInt(a.self_stake || "0");
-        bValue = BigInt(b.self_stake || "0");
-        break;
-      case "COMMISSION":
-        aValue = BigInt(a.commission || "0");
-        bValue = BigInt(b.commission || "0");
-        break;
-      default:
-        return 0;
-    }
-
-    let comparison;
-    if (typeof aValue === "bigint" && typeof bValue === "bigint") {
-      if (aValue < bValue) comparison = -1;
-      else if (aValue > bValue) comparison = 1;
-      else comparison = 0;
-    } else {
-      comparison = aValue - bValue;
-    }
-
-    return sortDirection === "DESC" ? -comparison : comparison;
-  });
-}
-
-function attachIdentityToValidators(validators, identitiesMap) {
+function addIdentityToValidators(validators, identitiesMap) {
   return validators.map((validator) => ({
     ...validator,
-    identity: identitiesMap[validator.address] || null,
+    identity: identitiesMap?.[validator.address] || null,
   }));
 }
 
-function paginateResults(items, offset, limit) {
-  const total = items.length;
-  const paginatedItems = items.slice(offset, offset + limit);
-
+function createPaginatedResponse(items, offset, limit) {
   return {
-    items: paginatedItems,
+    items: items.slice(offset, offset + limit),
     offset,
     limit,
-    total,
+    total: items.length,
   };
 }
 
-async function buildAllValidatorsInfo(api, eraIndex, addressFilter) {
-  const allValidatorEntries = await getAllValidatorsFromChain(api);
-  const filteredEntries = filterValidatorsByAddress(
-    allValidatorEntries,
-    addressFilter,
-  );
-  const validatorInfos = await Promise.all(
+async function fetchAllValidators(api, eraIndex, addressFilter) {
+  const allValidatorEntries = await api.query.staking.validators.entries();
+
+  const filteredEntries = addressFilter
+    ? allValidatorEntries.filter(([key]) => {
+        const address = key.args[0].toString();
+        return address.toLowerCase().includes(addressFilter.toLowerCase());
+      })
+    : allValidatorEntries;
+
+  return Promise.all(
     filteredEntries.map((entry) => buildValidatorInfo(api, entry, eraIndex)),
   );
-
-  return validatorInfos;
 }
 
-async function applyAllFilters(validators, filters) {
-  const { onlyActive, no100Commission, identitySearch, hasIdentityOnly } =
-    filters;
-
-  let filteredValidators = filterValidatorsByActiveStatus(
-    validators,
-    onlyActive,
-  );
-  filteredValidators = filterValidatorsByCommission(
-    filteredValidators,
-    no100Commission,
-  );
-
-  const { filteredValidators: identityFiltered, identitiesMap } =
-    await filterValidatorsByIdentity(
-      filteredValidators,
-      identitySearch,
-      hasIdentityOnly,
-    );
-
-  return { filteredValidators: identityFiltered, identitiesMap };
-}
-
-async function processFinalResults(validators, identitiesMap, options) {
+async function processValidatorData(validators, filters, options) {
   const { sortField, sortDirection, offset, limit } = options;
 
-  const sortedValidators = sortValidators(validators, sortField, sortDirection);
+  let filteredValidators = applyValidatorFilters(validators, filters);
+
+  const { validators: identityFilteredValidators, identitiesMap } =
+    await applyIdentityFilters(filteredValidators, filters);
+
+  const sortedValidators = sortValidatorsByField(
+    identityFilteredValidators,
+    sortField,
+    sortDirection,
+  );
 
   let finalIdentitiesMap = identitiesMap;
   if (!finalIdentitiesMap) {
-    const validatorAddresses = sortedValidators.map(
-      (validator) => validator.address,
-    );
-    finalIdentitiesMap = await getValidatorsIdentities(validatorAddresses);
+    const addresses = sortedValidators.map((v) => v.address);
+    finalIdentitiesMap = await fetchValidatorIdentities(addresses);
   }
 
-  const validatorsWithIdentity = attachIdentityToValidators(
+  const validatorsWithIdentity = addIdentityToValidators(
     sortedValidators,
     finalIdentitiesMap,
   );
 
-  return paginateResults(validatorsWithIdentity, offset, limit);
+  return createPaginatedResponse(validatorsWithIdentity, offset, limit);
 }
 
-async function stakingValidators(_, _args) {
+async function stakingValidators(_, args) {
   const {
     offset = 0,
     limit = 20,
@@ -266,20 +197,18 @@ async function stakingValidators(_, _args) {
     no100Commission = false,
     identitySearch,
     hasIdentityOnly,
-  } = _args;
+  } = args;
 
   try {
     return await chainCall(async (api) => {
-      const eraIndex = await getCurrentEraIndex(api);
+      const currentEra = await api.query.staking.currentEra();
+      const eraIndex = currentEra.toJSON();
+
       if (!eraIndex) {
-        return paginateResults([], offset, limit);
+        return createPaginatedResponse([], offset, limit);
       }
 
-      const allValidators = await buildAllValidatorsInfo(
-        api,
-        eraIndex,
-        address,
-      );
+      const allValidators = await fetchAllValidators(api, eraIndex, address);
 
       const filters = {
         onlyActive,
@@ -287,21 +216,13 @@ async function stakingValidators(_, _args) {
         identitySearch,
         hasIdentityOnly,
       };
-      const { filteredValidators, identitiesMap } = await applyAllFilters(
-        allValidators,
-        filters,
-      );
-
       const options = { sortField, sortDirection, offset, limit };
-      return await processFinalResults(
-        filteredValidators,
-        identitiesMap,
-        options,
-      );
+
+      return await processValidatorData(allValidators, filters, options);
     });
   } catch (error) {
     console.error("Error in stakingValidators:", error);
-    return paginateResults([], offset, limit);
+    return createPaginatedResponse([], offset, limit);
   }
 }
 
