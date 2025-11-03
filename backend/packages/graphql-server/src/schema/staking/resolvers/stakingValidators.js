@@ -193,10 +193,10 @@ async function stakingValidators(_, args) {
     address,
     sortField = "",
     sortDirection = "",
-    onlyActive = false,
-    no100Commission = false,
+    onlyActive = true,
+    no100Commission = true,
     identitySearch,
-    hasIdentityOnly,
+    hasIdentityOnly = true,
   } = args;
 
   try {
