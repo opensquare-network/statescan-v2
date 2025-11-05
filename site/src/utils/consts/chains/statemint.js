@@ -22,6 +22,7 @@ const statemint = {
     foreignAssets: true,
     multisig: true,
     staking: {
+      rewards: true,
       nominations: true,
       validators: true,
     },
