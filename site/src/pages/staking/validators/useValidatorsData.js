@@ -102,7 +102,7 @@ export function useFilteredValidators(fullData, filters) {
     let filteredItems = [...fullData.items];
 
     if (search) {
-      const searchLower = search.toLowerCase();
+      const searchLower = String(search).toLowerCase();
       const isSearchAddr = isAddress(search);
 
       filteredItems = filteredItems.filter((validator) => {
