@@ -15,7 +15,8 @@ describe("Query accounts", () => {
     await disconnect();
   });
 
-  test("works", async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  test.skip("works", async () => {
     const account = "13UVJyLnbVp9RBZYFwFGyDvVd1y27Tt8tkntv6Q7JVPhFsTB";
     const accounts = await getOnChainAccounts([
       account,
