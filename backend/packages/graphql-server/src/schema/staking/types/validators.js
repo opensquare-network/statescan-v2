@@ -6,13 +6,10 @@ const validators = /* GraphQL */ `
     self_stake: String!
     total_stake: String!
     nominator_count: Int!
-    identity: String
   }
 
-  type PagedStakingValidators {
+  type StakingValidatorsList {
     items: [ValidatorInfo!]!
-    offset: Int!
-    limit: Int!
     total: Int!
   }
 

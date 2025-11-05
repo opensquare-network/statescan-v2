@@ -5,7 +5,7 @@ import { gql } from "@apollo/client";
 import { IDENTITY_ID_TYPE, IDENTITY_JUDGEMENT } from "../utils/constants";
 import { useIdentityLazyQuery } from "./apollo";
 
-const fetchIdentity = createFetchIdentity(
+export const fetchIdentity = createFetchIdentity(
   process.env.REACT_APP_PUBLIC_IDENTITY_SERVER_HOST,
 );
 

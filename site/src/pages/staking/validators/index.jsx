@@ -1,8 +1,12 @@
-import { useState } from "react";
 import { StyledPanelTableWrapper } from "../../../components/styled/panel";
 import BreadCrumb from "../../../components/breadCrumb";
 import Layout from "../../../components/layout";
-import { useValidatorsData } from "./useValidatorsData";
+import {
+  useRawValidators,
+  useValidatorsWithIdentity,
+  useFilteredValidators,
+  usePaginatedValidators,
+} from "./useValidatorsData";
 import StakingValidatorsTable from "./table";
 import Pagination from "../../../components/pagination";
 import { useQueryParams } from "../../../hooks/useQueryParams";
@@ -11,14 +15,31 @@ import { useValidatorsFilter } from "../../../hooks/filter/useValidatorsFilter";
 import Filter from "../../../components/filter";
 
 export default function StakingValidators() {
-  const { page = 1 } = useQueryParams();
+  const {
+    page = 1,
+    search = "",
+    onlyActive = "Yes",
+    no100Commission = "Yes",
+    hasIdentityOnly = "Yes",
+  } = useQueryParams();
   const filter = useValidatorsFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const [data, setData] = useState(null);
 
-  const { loading } = useValidatorsData({
-    onCompleted: setData,
+  const { data: rawValidators, loading: rawLoading } = useRawValidators();
+
+  const { data: validatorsWithIdentity, loading: identityLoading } =
+    useValidatorsWithIdentity(rawValidators);
+
+  const filteredData = useFilteredValidators(validatorsWithIdentity, {
+    search,
+    onlyActive,
+    no100Commission,
+    hasIdentityOnly,
   });
+
+  const paginatedData = usePaginatedValidators(filteredData, page, pageSize);
+
+  const loading = rawLoading || identityLoading;
 
   return (
     <Layout>
@@ -31,14 +52,11 @@ export default function StakingValidators() {
           <Pagination
             page={page}
             pageSize={pageSize}
-            total={data?.stakingValidators?.total}
+            total={paginatedData.total}
           />
         }
       >
-        <StakingValidatorsTable
-          data={data?.stakingValidators?.items}
-          loading={loading}
-        />
+        <StakingValidatorsTable data={paginatedData.items} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );

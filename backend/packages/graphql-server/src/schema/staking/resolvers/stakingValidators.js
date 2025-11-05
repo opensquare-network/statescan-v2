@@ -1,29 +1,4 @@
 const { chainCall } = require("../../../chainApi");
-const {
-  identity: { getIdentityCol },
-} = require("@statescan/mongo");
-
-async function fetchValidatorIdentities(addresses) {
-  if (!addresses?.length) return {};
-
-  try {
-    const identityCol = await getIdentityCol();
-    const identities = await identityCol
-      .find(
-        { account: { $in: addresses } },
-        { projection: { account: 1, fullDisplay: 1, _id: 0 } },
-      )
-      .toArray();
-
-    return identities.reduce((map, identity) => {
-      map[identity.account] = identity.fullDisplay;
-      return map;
-    }, {});
-  } catch (error) {
-    console.error("Error fetching validators identities:", error);
-    return {};
-  }
-}
 
 async function buildValidatorInfo(api, validatorEntry, eraIndex) {
   const [key, validatorPrefs] = validatorEntry;
@@ -78,126 +53,36 @@ function sortValidatorsByField(validators, sortField, sortDirection) {
   });
 }
 
-function applyValidatorFilters(validators, filters) {
-  const { onlyActive, no100Commission } = filters;
-
-  return validators.filter((validator) => {
-    if (onlyActive && !validator.active) return false;
-
-    if (no100Commission) {
-      return BigInt(validator.commission || "0") !== BigInt("1000000000");
-    }
-
-    return true;
-  });
-}
-
-async function applyIdentityFilters(
-  validators,
-  filters,
-  existingIdentitiesMap = null,
-) {
-  const { identitySearch, hasIdentityOnly } = filters;
-
-  if (!identitySearch && hasIdentityOnly === undefined) {
-    return { validators, identitiesMap: existingIdentitiesMap };
-  }
-
-  let identitiesMap = existingIdentitiesMap;
-  if (!identitiesMap) {
-    const addresses = validators.map((v) => v.address);
-    identitiesMap = await fetchValidatorIdentities(addresses);
-  }
-
-  const filteredValidators = validators.filter((validator) => {
-    const identity = identitiesMap[validator.address];
-
-    if (hasIdentityOnly && !identity) return false;
-
-    if (identitySearch) {
-      if (!identity) return false;
-      const searchTerm = identitySearch.toLowerCase();
-      const identityDisplay = identity.toLowerCase();
-      return identityDisplay.includes(searchTerm);
-    }
-
-    return true;
-  });
-
-  return { validators: filteredValidators, identitiesMap };
-}
-
-function addIdentityToValidators(validators, identitiesMap) {
-  return validators.map((validator) => ({
-    ...validator,
-    identity: identitiesMap?.[validator.address] || null,
-  }));
-}
-
-function createPaginatedResponse(items, offset, limit) {
+function createFullListResponse(items) {
   return {
-    items: items.slice(offset, offset + limit),
-    offset,
-    limit,
+    items,
     total: items.length,
   };
 }
 
-async function fetchAllValidators(api, eraIndex, addressFilter) {
+async function fetchAllValidators(api, eraIndex) {
   const allValidatorEntries = await api.query.staking.validators.entries();
-
-  const filteredEntries = addressFilter
-    ? allValidatorEntries.filter(([key]) => {
-        const address = key.args[0].toString();
-        return address.toLowerCase().includes(addressFilter.toLowerCase());
-      })
-    : allValidatorEntries;
-
   return Promise.all(
-    filteredEntries.map((entry) => buildValidatorInfo(api, entry, eraIndex)),
+    allValidatorEntries.map((entry) =>
+      buildValidatorInfo(api, entry, eraIndex),
+    ),
   );
 }
 
-async function processValidatorData(validators, filters, options) {
-  const { sortField, sortDirection, offset, limit } = options;
-
-  let filteredValidators = applyValidatorFilters(validators, filters);
-
-  const { validators: identityFilteredValidators, identitiesMap } =
-    await applyIdentityFilters(filteredValidators, filters);
+async function processValidatorData(validators, options) {
+  const { sortField, sortDirection } = options;
 
   const sortedValidators = sortValidatorsByField(
-    identityFilteredValidators,
+    validators,
     sortField,
     sortDirection,
   );
 
-  let finalIdentitiesMap = identitiesMap;
-  if (!finalIdentitiesMap) {
-    const addresses = sortedValidators.map((v) => v.address);
-    finalIdentitiesMap = await fetchValidatorIdentities(addresses);
-  }
-
-  const validatorsWithIdentity = addIdentityToValidators(
-    sortedValidators,
-    finalIdentitiesMap,
-  );
-
-  return createPaginatedResponse(validatorsWithIdentity, offset, limit);
+  return createFullListResponse(sortedValidators);
 }
 
 async function stakingValidators(_, args) {
-  const {
-    offset = 0,
-    limit = 20,
-    address,
-    sortField = "",
-    sortDirection = "",
-    onlyActive = true,
-    no100Commission = true,
-    identitySearch,
-    hasIdentityOnly = true,
-  } = args;
+  const { sortField = "", sortDirection = "" } = args;
 
   try {
     return await chainCall(async (api) => {
@@ -205,24 +90,18 @@ async function stakingValidators(_, args) {
       const eraIndex = currentEra.toJSON();
 
       if (!eraIndex) {
-        return createPaginatedResponse([], offset, limit);
+        return createFullListResponse([]);
       }
 
-      const allValidators = await fetchAllValidators(api, eraIndex, address);
+      const allValidators = await fetchAllValidators(api, eraIndex);
 
-      const filters = {
-        onlyActive,
-        no100Commission,
-        identitySearch,
-        hasIdentityOnly,
-      };
-      const options = { sortField, sortDirection, offset, limit };
+      const options = { sortField, sortDirection };
 
-      return await processValidatorData(allValidators, filters, options);
+      return await processValidatorData(allValidators, options);
     });
   } catch (error) {
     console.error("Error in stakingValidators:", error);
-    return createPaginatedResponse([], offset, limit);
+    return createFullListResponse([]);
   }
 }
 
