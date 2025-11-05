@@ -19,22 +19,16 @@ export function useRawValidators() {
     }
   }
 
-  const { data, loading, error, refetch } = useStakingQuery(
-    GET_STAKING_VALIDATORS,
-    {
-      variables: {
-        sortField,
-        sortDirection,
-      },
-      fetchPolicy: "cache-and-network",
+  const { data, loading } = useStakingQuery(GET_STAKING_VALIDATORS, {
+    variables: {
+      sortField,
+      sortDirection,
     },
-  );
+  });
 
   return {
     data: data?.stakingValidators,
     loading,
-    error,
-    refetch,
   };
 }
 
