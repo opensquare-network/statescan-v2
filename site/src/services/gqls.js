@@ -124,22 +124,12 @@ export const GET_STAKING_NOMINATIONS = gql`
 
 export const GET_STAKING_VALIDATORS = gql`
   query GetStakingValidators(
-    $address: String
     $sortField: ValidatorSortField
     $sortDirection: SortDirection
-    $onlyActive: Boolean
-    $no100Commission: Boolean
-    $identitySearch: String
-    $hasIdentityOnly: Boolean
   ) {
     stakingValidators(
-      address: $address
       sortField: $sortField
       sortDirection: $sortDirection
-      onlyActive: $onlyActive
-      no100Commission: $no100Commission
-      identitySearch: $identitySearch
-      hasIdentityOnly: $hasIdentityOnly
     ) {
       items {
         address
@@ -148,7 +138,6 @@ export const GET_STAKING_VALIDATORS = gql`
         self_stake
         total_stake
         nominator_count
-        identity
       }
       total
     }

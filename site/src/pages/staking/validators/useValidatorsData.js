@@ -1,25 +1,15 @@
+import { useEffect, useState } from "react";
 import { useStakingQuery } from "../../../hooks/apollo";
 import { GET_STAKING_VALIDATORS } from "../../../services/gqls";
 import { useQueryParams } from "../../../hooks/useQueryParams";
-import { isAddress } from "@polkadot/util-crypto";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import { fetchIdentity } from "../../../hooks/useIdentity";
 
 export function useValidatorsData({ onCompleted } = {}) {
-  const {
-    search = "",
-    sort,
-    onlyActive = "Yes",
-    no100Commission = "Yes",
-    hasIdentityOnly = "Yes",
-  } = useQueryParams();
-
-  const isSearchAddress = isAddress(search);
-  const address = isSearchAddress ? search : undefined;
-  const identitySearch =
-    !isSearchAddress && search ? String(search) : undefined;
-
-  const onlyActiveBool = onlyActive === "Yes";
-  const no100CommissionBool = no100Commission === "Yes";
-  const hasIdentityOnlyBool = hasIdentityOnly === "Yes";
+  const { sort } = useQueryParams();
+  const chainSettings = useChainSettings();
+  const [validatorsWithIdentity, setValidatorsWithIdentity] = useState(null);
+  const [identitiesLoading, setIdentitiesLoading] = useState(false);
 
   let sortField, sortDirection;
   if (sort) {
@@ -34,21 +24,64 @@ export function useValidatorsData({ onCompleted } = {}) {
     GET_STAKING_VALIDATORS,
     {
       variables: {
-        address,
         sortField,
         sortDirection,
-        onlyActive: onlyActiveBool,
-        no100Commission: no100CommissionBool,
-        identitySearch,
-        hasIdentityOnly: hasIdentityOnlyBool,
       },
-      onCompleted,
+      fetchPolicy: "cache-and-network",
     },
   );
 
+  useEffect(() => {
+    if (!data?.stakingValidators?.items) {
+      return;
+    }
+
+    const validators = data.stakingValidators.items;
+    setIdentitiesLoading(true);
+
+    const fetchAllIdentities = async () => {
+      const identitiesMap = {};
+
+      await Promise.all(
+        validators.map(async (validator) => {
+          try {
+            const identity = await fetchIdentity(
+              chainSettings.identity,
+              validator.address,
+            );
+            if (identity?.info?.display) {
+              identitiesMap[validator.address] = identity.info.display;
+            }
+          } catch (err) {
+            throw new Error(
+              `Failed to fetch identity for ${validator.address}:`,
+              err,
+            );
+          }
+        }),
+      );
+
+      const validatorsWithIdentities = validators.map((validator) => ({
+        ...validator,
+        identity: identitiesMap[validator.address] || null,
+      }));
+
+      const enrichedData = {
+        items: validatorsWithIdentities,
+        total: data.stakingValidators.total,
+      };
+
+      setValidatorsWithIdentity(enrichedData);
+      setIdentitiesLoading(false);
+      onCompleted?.(enrichedData);
+    };
+
+    fetchAllIdentities();
+  }, [data, chainSettings.identity, onCompleted]);
+
   return {
-    data: data?.stakingValidators,
-    loading,
+    data: validatorsWithIdentity,
+    loading: loading || identitiesLoading,
     error,
     refetch,
   };

@@ -9,28 +9,29 @@ import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 export default function StakingValidatorsTable({ data = [], loading }) {
   const { decimals, symbol } = useChainSettings();
 
-  const tableData = data?.map?.((validator, index) => {
+  const tableData = data?.map?.((validator) => {
+    const address = validator.address;
     return [
-      <Tooltip key={`validator-${index}`} tip={validator.address}>
-        <AddressOrIdentity address={validator.address} />
+      <Tooltip key={`validator-${address}`} tip={address}>
+        <AddressOrIdentity address={address} />
       </Tooltip>,
-      <span key={`commission-${index}`}>
+      <span key={`commission-${address}`}>
         {(parseFloat(validator.commission) / 10000000).toFixed(2)}%
       </span>,
-      <span key={`nominators-${index}`}>{validator.nominator_count}</span>,
+      <span key={`nominators-${address}`}>{validator.nominator_count}</span>,
       <ValueDisplay
-        key={`validator-self-stake-${index}`}
+        key={`validator-self-stake-${address}`}
         value={toPrecision(validator.self_stake, decimals)}
         symbol={symbol}
         showNotEqualTooltip
       />,
       <ValueDisplay
-        key={`total-stake-${index}`}
+        key={`total-stake-${address}`}
         value={toPrecision(validator.total_stake, decimals)}
         symbol={symbol}
         showNotEqualTooltip
       />,
-      <span key={`active-${index}`}>{validator?.active ? "Yes" : "No"}</span>,
+      <span key={`active-${address}`}>{validator?.active ? "Yes" : "No"}</span>,
     ];
   });
 
