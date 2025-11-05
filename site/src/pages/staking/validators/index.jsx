@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import { StyledPanelTableWrapper } from "../../../components/styled/panel";
 import BreadCrumb from "../../../components/breadCrumb";
 import Layout from "../../../components/layout";
@@ -14,11 +14,23 @@ export default function StakingValidators() {
   const { page = 1 } = useQueryParams();
   const filter = useValidatorsFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const [data, setData] = useState(null);
 
-  const { loading } = useValidatorsData({
-    onCompleted: setData,
-  });
+  const { data: fullData, loading } = useValidatorsData();
+
+  const paginatedData = useMemo(() => {
+    if (!fullData?.items) {
+      return { items: [], total: 0 };
+    }
+
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedItems = fullData.items.slice(startIndex, endIndex);
+
+    return {
+      items: paginatedItems,
+      total: fullData.total,
+    };
+  }, [fullData, page, pageSize]);
 
   return (
     <Layout>
@@ -31,14 +43,11 @@ export default function StakingValidators() {
           <Pagination
             page={page}
             pageSize={pageSize}
-            total={data?.stakingValidators?.total}
+            total={paginatedData.total}
           />
         }
       >
-        <StakingValidatorsTable
-          data={data?.stakingValidators?.items}
-          loading={loading}
-        />
+        <StakingValidatorsTable data={paginatedData.items} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );

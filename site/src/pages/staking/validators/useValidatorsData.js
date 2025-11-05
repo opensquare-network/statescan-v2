@@ -1,12 +1,10 @@
 import { useStakingQuery } from "../../../hooks/apollo";
 import { GET_STAKING_VALIDATORS } from "../../../services/gqls";
-import { LIST_DEFAULT_PAGE_SIZE } from "../../../utils/constants";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 import { isAddress } from "@polkadot/util-crypto";
 
 export function useValidatorsData({ onCompleted } = {}) {
   const {
-    page = 1,
     search = "",
     sort,
     onlyActive = "Yes",
@@ -14,11 +12,10 @@ export function useValidatorsData({ onCompleted } = {}) {
     hasIdentityOnly = "Yes",
   } = useQueryParams();
 
-  const pageSize = LIST_DEFAULT_PAGE_SIZE;
-
   const isSearchAddress = isAddress(search);
   const address = isSearchAddress ? search : undefined;
-  const identitySearch = !isSearchAddress && search ? String(search) : undefined;
+  const identitySearch =
+    !isSearchAddress && search ? String(search) : undefined;
 
   const onlyActiveBool = onlyActive === "Yes";
   const no100CommissionBool = no100Commission === "Yes";
@@ -37,8 +34,6 @@ export function useValidatorsData({ onCompleted } = {}) {
     GET_STAKING_VALIDATORS,
     {
       variables: {
-        limit: pageSize,
-        offset: (page - 1) * pageSize,
         address,
         sortField,
         sortDirection,

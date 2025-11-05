@@ -8,8 +8,6 @@ const queries = /* GraphQL */ `
     stakingNominations(address: String!): StakingNominations
     stakingScanHeight: Int
     stakingValidators(
-      offset: Int!
-      limit: Int!
       address: String
       sortField: ValidatorSortField
       sortDirection: SortDirection
@@ -17,7 +15,7 @@ const queries = /* GraphQL */ `
       no100Commission: Boolean
       identitySearch: String
       hasIdentityOnly: Boolean
-    ): PagedStakingValidators!
+    ): StakingValidatorsList!
   }
 `;
 

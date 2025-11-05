@@ -124,8 +124,6 @@ export const GET_STAKING_NOMINATIONS = gql`
 
 export const GET_STAKING_VALIDATORS = gql`
   query GetStakingValidators(
-    $limit: Int!
-    $offset: Int!
     $address: String
     $sortField: ValidatorSortField
     $sortDirection: SortDirection
@@ -135,8 +133,6 @@ export const GET_STAKING_VALIDATORS = gql`
     $hasIdentityOnly: Boolean
   ) {
     stakingValidators(
-      limit: $limit
-      offset: $offset
       address: $address
       sortField: $sortField
       sortDirection: $sortDirection
@@ -154,8 +150,6 @@ export const GET_STAKING_VALIDATORS = gql`
         nominator_count
         identity
       }
-      offset
-      limit
       total
     }
   }

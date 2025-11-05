@@ -9,10 +9,8 @@ const validators = /* GraphQL */ `
     identity: String
   }
 
-  type PagedStakingValidators {
+  type StakingValidatorsList {
     items: [ValidatorInfo!]!
-    offset: Int!
-    limit: Int!
     total: Int!
   }
 

@@ -134,11 +134,9 @@ function addIdentityToValidators(validators, identitiesMap) {
   }));
 }
 
-function createPaginatedResponse(items, offset, limit) {
+function createFullListResponse(items) {
   return {
-    items: items.slice(offset, offset + limit),
-    offset,
-    limit,
+    items,
     total: items.length,
   };
 }
@@ -159,7 +157,7 @@ async function fetchAllValidators(api, eraIndex, addressFilter) {
 }
 
 async function processValidatorData(validators, filters, options) {
-  const { sortField, sortDirection, offset, limit } = options;
+  const { sortField, sortDirection } = options;
 
   let filteredValidators = applyValidatorFilters(validators, filters);
 
@@ -183,13 +181,11 @@ async function processValidatorData(validators, filters, options) {
     finalIdentitiesMap,
   );
 
-  return createPaginatedResponse(validatorsWithIdentity, offset, limit);
+  return createFullListResponse(validatorsWithIdentity);
 }
 
 async function stakingValidators(_, args) {
   const {
-    offset = 0,
-    limit = 20,
     address,
     sortField = "",
     sortDirection = "",
@@ -205,7 +201,7 @@ async function stakingValidators(_, args) {
       const eraIndex = currentEra.toJSON();
 
       if (!eraIndex) {
-        return createPaginatedResponse([], offset, limit);
+        return createFullListResponse([]);
       }
 
       const allValidators = await fetchAllValidators(api, eraIndex, address);
@@ -216,13 +212,13 @@ async function stakingValidators(_, args) {
         identitySearch,
         hasIdentityOnly,
       };
-      const options = { sortField, sortDirection, offset, limit };
+      const options = { sortField, sortDirection };
 
       return await processValidatorData(allValidators, filters, options);
     });
   } catch (error) {
     console.error("Error in stakingValidators:", error);
-    return createPaginatedResponse([], offset, limit);
+    return createFullListResponse([]);
   }
 }
 
