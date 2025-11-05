@@ -5,6 +5,7 @@ import Menus from "./menus";
 import {
   identitySubMenus,
   multisigSubMenus,
+  stakingSubMenus,
   proxyMenu,
   recoverySubMenus,
   vestingMenu,
@@ -45,6 +46,21 @@ function MultisigMenu({ closeFunc = noop }) {
     </>
   );
 }
+
+function StakingMenu({ closeFunc = noop }) {
+  const { staking } = getChainModules();
+  if (!staking?.validators) {
+    return null;
+  }
+
+  return (
+    <>
+      <MenuLabel>Staking</MenuLabel>
+      <Menus menus={stakingSubMenus} closeFunc={closeFunc} />
+    </>
+  );
+}
+
 
 function RecoveryMenu({ closeFunc = noop }) {
   const { recovery } = getChainModules();
@@ -93,6 +109,7 @@ export default function BusinessNavi() {
     <>
       <IdentityMenu />
       <MultisigMenu />
+      <StakingMenu />
       <RecoveryMenu />
       <VestingsMenu />
       <ProxyMenu />

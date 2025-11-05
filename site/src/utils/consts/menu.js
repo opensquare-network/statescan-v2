@@ -49,6 +49,13 @@ export const multisigSubMenus = [
   },
 ];
 
+export const stakingSubMenus = [
+  {
+    name: "Validators",
+    value: "staking/validators",
+  },
+];
+
 const identityMenus = {
   type: "group",
   title: "Identity",
@@ -63,6 +70,12 @@ const multisigMenus = {
   type: "group",
   title: "MultiSig",
   menus: multisigSubMenus,
+};
+
+const stakingMenus = {
+  type: "group",
+  title: "Staking",
+  menus: stakingSubMenus,
 };
 
 export const vestingMenu = {
@@ -105,6 +118,7 @@ export default function getBusinessMenus() {
     proxy,
     assets,
     foreignAssets,
+    staking,
   } = getChainModules();
   const hasDivider = identity && multisig;
 
@@ -120,6 +134,13 @@ export default function getBusinessMenus() {
 
   if (multisig) {
     menus.push(multisigMenus);
+  }
+
+  if (staking?.validators) {
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
+    menus.push(stakingMenus);
   }
 
   if (recovery) {

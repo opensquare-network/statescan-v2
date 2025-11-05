@@ -23,6 +23,7 @@ const statemine = {
     staking: {
       rewards: true,
       nominations: true,
+      validators: true,
     },
   },
   para: {

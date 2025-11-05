@@ -46,6 +46,7 @@ import ProxyAnnouncementDetailPage from "./pages/proxy/announcement";
 import OnChainExtrinsic from "./pages/extrinsic/onChainExtrinsic";
 import useSetFinalizedHeight from "./hooks/useSetFinalizedHeight";
 import TXPage from "./pages/tx";
+import StakingValidators from "./pages/staking/validators";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
@@ -58,6 +59,7 @@ function App() {
     uniques,
     identity,
     multisig,
+    staking,
     vestings,
     recovery,
     proxy,
@@ -135,6 +137,11 @@ function App() {
               path="/multisig/accounts"
               element={<MultisigAccountsPage />}
             />
+          </>
+        )}
+        {staking?.validators && (
+          <>
+            <Route path="/staking/validators" element={<StakingValidators />} />
           </>
         )}
         {vestings && (

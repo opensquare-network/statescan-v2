@@ -24,7 +24,6 @@ const polkadot = {
     proxy: true,
     staking: {
       rewards: true,
-      nominations: true,
     },
   },
   treasuryWebsite: "https://polkadot.dotreasury.com",

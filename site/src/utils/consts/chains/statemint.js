@@ -21,6 +21,11 @@ const statemint = {
     ...assethubChainModules,
     foreignAssets: true,
     multisig: true,
+    staking: {
+      rewards: true,
+      nominations: true,
+      validators: true,
+    },
   },
   para: {
     relay: "Polkadot",
