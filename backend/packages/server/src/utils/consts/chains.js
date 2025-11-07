@@ -50,6 +50,7 @@ const chains = Object.freeze({
   ajuna: "ajuna",
   "fintra-testnet": "fintra-testnet",
   frequency: "frequency",
+  "datahaven-testnet": "datahaven-testnet",
 });
 
 const ss58Format = Object.freeze({
@@ -95,6 +96,7 @@ const ss58Format = Object.freeze({
   [chains["people-westend"]]: 42,
   [chains["assethub-westend"]]: 42,
   [chains["cere-testnet"]]: 54,
+  [chains["datahaven-testnet"]]: 1288,
   [chains.argon]: 42,
   [chains.cere]: 54,
   [chains.interlay]: 2032,
@@ -163,6 +165,7 @@ const transferOnBlockChains = [
   chains["collectives-westend"],
   chains["people-westend"],
   chains["cere-testnet"],
+  chains["datahaven-testnet"],
   chains.cere,
   chains.interlay,
   chains.kintsugi,

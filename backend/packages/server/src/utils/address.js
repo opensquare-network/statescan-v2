@@ -2,10 +2,14 @@ const { currentChain } = require("../env");
 const { getSs58FormatOrThrow, chains } = require("./consts/chains");
 const { hexToU8a, isHex } = require("@polkadot/util");
 const { decodeAddress, encodeAddress } = require("@polkadot/util-crypto");
+const { isEthereumAddress } = require("@polkadot/util-crypto");
 
 function encodeAddressByChain(addr = "") {
   const chain = currentChain();
-  if (chain === chains.laos) {
+  if (
+    [chains.laos, chains["datahaven-testnet"]].includes(chain) ||
+    isEthereumAddress(addr)
+  ) {
     return addr;
   }
 
