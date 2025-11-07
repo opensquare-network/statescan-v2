@@ -33,6 +33,7 @@ import interlay from "./interlay";
 import fintraTestnet from "./fintraTestnet";
 import kintsugi from "./kintsugi";
 import frequency from "./frequency";
+import dataHaven from "./data-haven";
 
 const chains = {
   polkadot,
@@ -73,6 +74,8 @@ const chains = {
   "cere-testnet": cereTestnet,
   "fintra-testnet": fintraTestnet,
   frequency,
+  "data-haven":dataHaven
+
 };
 
 export default chains;
