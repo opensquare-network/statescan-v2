@@ -11,7 +11,7 @@ const datahavenTestnet = {
   name: "DataHaven Testnet",
   icon: <DataHavenIcon />,
   value: "datahaven-testnet",
-  symbol: "HAVE",
+  symbol: "MOCK",
   decimals: 18,
   color: "#2A1605",
   colorSecondary: "rgba(42, 22, 5, 0.1)",
