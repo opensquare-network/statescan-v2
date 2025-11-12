@@ -1,0 +1,24 @@
+import { ReactComponent as AcurastIcon } from "../../../components/icons/acurast.svg";
+
+const nodes = [
+  {
+    name: "Acurast",
+    url: "wss://public-archive.mainnet.acurast.com",
+  },
+];
+
+const acurast = {
+  name: "Acurast",
+  icon: <AcurastIcon />,
+  chain: "polkadot",
+  value: "acurast",
+  symbol: "cACU",
+  decimals: 12,
+  ss58Format: 42,
+  color: "#00D4AA",
+  colorSecondary: "rgba(0, 212, 170, 0.1)",
+  nodes,
+  useOnChainBlockData: true,
+};
+
+export default acurast;
