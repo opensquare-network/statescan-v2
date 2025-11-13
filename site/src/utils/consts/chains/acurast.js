@@ -15,8 +15,8 @@ const acurast = {
   symbol: "ACU",
   decimals: 12,
   ss58Format: 42,
-  color: "#00D4AA",
-  colorSecondary: "rgba(0, 212, 170, 0.1)",
+  color: "rgba(145,190,2,1)",
+  colorSecondary: "rgba(145,190,2,0.1)",
   nodes,
   useOnChainBlockData: true,
 };
