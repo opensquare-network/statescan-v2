@@ -3,6 +3,7 @@ const {
   utils: { calcMultisigAddress },
   call: { normalizeCall },
   consts: { TimelineItemTypes, Modules },
+  env: { currentChain },
 } = require("@osn/scan-common");
 const {
   multisig: { insertMultisig, insertMultisigTimelineItem, upsertMultiAccount },
@@ -11,6 +12,8 @@ const {
   consts: { MultisigStateType },
 } = require("@statescan/common");
 const { generateMultisigId } = require("../common/multisig");
+const { blake2AsU8a } = require("@polkadot/util-crypto");
+const { u8aToHex } = require("@polkadot/util");
 
 function getMultisigAddressFromEvents(wrappedEvents) {
   const events = wrappedEvents.events || [];
@@ -62,7 +65,13 @@ async function handleAsMultiThreshold1(
     extrinsicIndexer,
   );
 
-  const callHash = call.args[1].hash.toString();
+  let callHash;
+  const callArg = call.args[1];
+  if (["nexus", "gargantua"].includes(currentChain())) {
+    callHash = u8aToHex(blake2AsU8a(callArg.toHex(), 256));
+  } else {
+    callHash = call.args[1].hash.toString();
+  }
   const when = {
     height: extrinsicIndexer.blockHeight,
     index: extrinsicIndexer.extrinsicIndex,

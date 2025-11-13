@@ -1,13 +1,16 @@
 const {
   call: { findTargetCall },
   consts: { Modules, MultisigMethods },
+  env: { currentChain },
 } = require("@osn/scan-common");
 const { sortApprovals } = require("./sortApprovals");
 const { blake2AsU8a } = require("@polkadot/util-crypto");
 const { u8aToHex } = require("@polkadot/util");
 
 function isCallWithHash(callArg, callHash) {
-  if (callArg.section) {
+  if (["nexus", "gargantua"].includes(currentChain())) {
+    return u8aToHex(blake2AsU8a(callArg.toHex(), 256)) === callHash;
+  } else if (callArg.section) {
     return callArg.hash.toString() === callHash;
   } else {
     // to adapt legacy code, type OpaqueCall of arg is `OpaqueCall`.
