@@ -2,10 +2,22 @@ const {
   call: { findTargetCall, normalizeCall },
   consts: { Modules, MultisigMethods },
   chain: { findBlockApi },
+  env: { currentChain },
   busLogger,
 } = require("@osn/scan-common");
 const { blake2AsU8a } = require("@polkadot/util-crypto");
 const { u8aToHex } = require("@polkadot/util");
+
+function isCallWithHash(callArg, callHash) {
+  if (["nexus", "gargantua"].includes(currentChain())) {
+    return u8aToHex(blake2AsU8a(callArg.toHex(), 256)) === callHash;
+  } else if (callArg.section) {
+    return callArg.hash.toString() === callHash;
+  } else {
+    // to adapt legacy code, type OpaqueCall of arg is `OpaqueCall`.
+    return u8aToHex(blake2AsU8a(callArg, 256)) === callHash;
+  }
+}
 
 async function tryNormalizeCall(innerCall, indexer) {
   if (innerCall.section) {
@@ -37,12 +49,7 @@ async function extractCall(extrinsic, callHash, indexer) {
     }
 
     const callArg = args[3];
-    if (callArg.section) {
-      return args[3].hash.toString() === callHash;
-    } else {
-      // to adapt legacy code, type OpaqueCall of arg is `OpaqueCall`.
-      return u8aToHex(blake2AsU8a(args[3], 256)) === callHash;
-    }
+    return isCallWithHash(callArg, callHash);
   });
 
   if (!targetAsMultiCall) {
