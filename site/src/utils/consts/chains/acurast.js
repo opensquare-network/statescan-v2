@@ -12,7 +12,7 @@ const acurast = {
   icon: <AcurastIcon />,
   chain: "polkadot",
   value: "acurast",
-  symbol: "cACU",
+  symbol: "ACU",
   decimals: 12,
   ss58Format: 42,
   color: "#00D4AA",
