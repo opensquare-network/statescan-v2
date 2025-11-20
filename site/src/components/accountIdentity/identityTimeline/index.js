@@ -4,6 +4,15 @@ import IdentityTimelineItemFields from "./itemFields";
 import IdentityTimelineItemIcon from "./itemIcon";
 import { useState } from "react";
 import { useIdentityQuery } from "../../../hooks/apollo";
+import isNil from "lodash.isnil";
+
+function sortIdentityTimeline(data) {
+  if (isNil(data) || data?.length === 0) {
+    return [];
+  }
+
+  return [...data].sort((a, b) => a.indexer.blockTime - b.indexer.blockTime);
+}
 
 export default function useIdentityTimeline(account) {
   const [data, setData] = useState(null);
@@ -34,7 +43,7 @@ export default function useIdentityTimeline(account) {
     },
   });
 
-  const timelineData = data?.identityTimeline || [];
+  const timelineData = sortIdentityTimeline(data?.identityTimeline);
 
   const component = (
     <Timeline
