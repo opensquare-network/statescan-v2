@@ -23,8 +23,8 @@
     }
   },
   "dependencies": {
-    "@osn/scan-common": "0.8.3",
-    "@polkadot/keyring": "13.5.6",
+    "@osn/scan-common": "^0.8.5",
+    "@polkadot/keyring": "^13.5.8",
     "@statescan/mongo": "1.0.0",
     "dotenv": "^16.0.1",
     "mongodb": "6.1.0"
