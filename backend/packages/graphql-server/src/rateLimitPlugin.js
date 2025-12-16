@@ -1,16 +1,15 @@
 const CONFIG = {
   MAX_REQUESTS: parseInt(process.env.RATE_LIMIT_MAX) || 100,
   WINDOW_MS: (parseInt(process.env.RATE_LIMIT_WINDOW) || 1) * 1000,
+  WHITELIST_IPS: new Set(
+    (process.env.RATE_LIMIT_WHITELIST_IPS || "")
+      .split(";")
+      .map((ip) => ip.trim())
+      .filter(Boolean),
+  ),
 };
 
 console.log("Rate limit:", CONFIG);
-
-const WHITELIST_IPS = new Set(
-  (process.env.RATE_LIMIT_WHITELIST_IPS || "")
-    .split(";")
-    .map((ip) => ip.trim())
-    .filter(Boolean),
-);
 
 const rateLimitStore = new Map();
 
@@ -43,7 +42,7 @@ function cleanupExpiredRecords() {
 }
 
 function checkRateLimit(ip) {
-  if (WHITELIST_IPS.has(ip)) {
+  if (CONFIG.WHITELIST_IPS.has(ip)) {
     return { allowed: true };
   }
 
