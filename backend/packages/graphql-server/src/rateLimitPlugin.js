@@ -7,7 +7,7 @@ console.log("Rate limit:", CONFIG);
 
 const WHITELIST_IPS = new Set(
   (process.env.RATE_LIMIT_WHITELIST_IPS || "")
-    .split(",")
+    .split(";")
     .map((ip) => ip.trim())
     .filter(Boolean),
 );
