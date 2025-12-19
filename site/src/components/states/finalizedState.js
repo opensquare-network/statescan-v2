@@ -6,6 +6,10 @@ import { finalizedHeightSelector } from "../../store/reducers/chainSlice";
 
 export default function FinalizedState({ height }) {
   const finalizedHeight = useSelector(finalizedHeightSelector);
+  if (!finalizedHeight) {
+    return null;
+  }
+
   const isFinalized = height <= finalizedHeight;
   return isFinalized ? <CheckIcon /> : <TimerIcon />;
 }
