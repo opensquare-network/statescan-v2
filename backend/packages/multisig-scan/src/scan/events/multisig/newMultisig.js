@@ -43,6 +43,19 @@ function constructMetaWhenNoStorage(event, indexer, blockEvents) {
   };
 }
 
+async function safeInsertMultisig(obj) {
+  try {
+    await insertMultisig(obj);
+  } catch (e) {
+    if (e.code === 15 && e.codeName === "Overflow") {
+      // check bsonobj exceeds maximum nested object depth
+      const newObj = { ...obj };
+      delete newObj.call;
+      await insertMultisig(newObj);
+    }
+  }
+}
+
 async function handleNewMultisig(event, indexer, extrinsic, blockEvents = []) {
   const who = event.data[0].toString();
   const multisigAddress = event.data[1].toString();
@@ -93,7 +106,8 @@ async function handleNewMultisig(event, indexer, extrinsic, blockEvents = []) {
   } else {
     meta = constructMetaWhenNoStorage(event, indexer, blockEvents);
   }
-  await insertMultisig({
+
+  await safeInsertMultisig({
     id: multisigId,
     multisigAddress,
     allSignatories: allSignatories?.length,
