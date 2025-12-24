@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import AddressOrIdentity from "../components/address";
 import { hexEllipsis } from ".";
 import LongText from "../components/dataDisplay/longText";
-import BytesDisplay from "../components/dataDisplay/bytesDisplay";
+import DecodableBytesDisplay from "../components/dataDisplay/decodableBytesDisplay";
 import maybeHexToUft8 from "./hex";
 
 export function convertCallForTableView(call) {
@@ -51,7 +51,7 @@ export function convertArgsForTableView(args, section, method) {
             if (section === "system" && method === "remark") {
               return [
                 arg.name,
-                <BytesDisplay key={`arg-${index}`} value={arg.value} />,
+                <DecodableBytesDisplay key={`arg-${index}`} value={arg.value} />,
               ];
             }
 

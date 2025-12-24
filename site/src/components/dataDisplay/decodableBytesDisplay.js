@@ -33,7 +33,7 @@ const ToggleButton = styled.button`
   }
 `;
 
-export default function BytesDisplay({ value }) {
+export default function DecodableBytesDisplay({ value }) {
   const canConvert = isHex(value) && hexIsValidUTF8(value);
   const [isDecoded, setIsDecoded] = useState(canConvert);
   if (!canConvert) {
