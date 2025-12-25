@@ -8,6 +8,7 @@ import maybeHexToUft8 from "../../utils/hex";
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
 `;
 
