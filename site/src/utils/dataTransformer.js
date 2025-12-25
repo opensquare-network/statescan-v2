@@ -48,10 +48,16 @@ export function convertArgsForTableView(args, section, method) {
               return [arg.name, arg.value];
             }
 
-            if (section === "system" && method === "remark") {
+            if (
+              section === "system" &&
+              (method === "remark" || method === "remarkWithEvent")
+            ) {
               return [
                 arg.name,
-                <DecodableBytesDisplay key={`arg-${index}`} value={arg.value} />,
+                <DecodableBytesDisplay
+                  key={`arg-${index}`}
+                  value={arg.value}
+                />,
               ];
             }
 
