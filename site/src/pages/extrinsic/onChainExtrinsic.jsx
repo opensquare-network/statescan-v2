@@ -140,8 +140,10 @@ const useChainExtrinsicData = (extrinsicIndexer) => {
     }
   }, [dispatch, chainExtrinsic, loading]);
 
+  const isLoading = isNil(chainExtrinsic);
+
   return {
-    isLoading: loading,
+    isLoading,
     chainExtrinsic,
   };
 };
