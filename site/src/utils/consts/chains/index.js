@@ -30,7 +30,7 @@ import cereTestnet from "./cere-testnet";
 import cere from "./cere";
 import ajuna from "./ajuna";
 import interlay from "./interlay";
-import fintraTestnet from "./fintraTestnet";
+// import fintraTestnet from "./fintraTestnet";
 import kintsugi from "./kintsugi";
 import frequency from "./frequency";
 import datahavenTestnet from "./datahaven-testnet";
@@ -72,7 +72,7 @@ const chains = {
   argon,
   cere,
   "cere-testnet": cereTestnet,
-  "fintra-testnet": fintraTestnet,
+  // "fintra-testnet": fintraTestnet,
   frequency,
   "datahaven-testnet": datahavenTestnet,
 };
