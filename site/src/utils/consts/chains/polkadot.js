@@ -35,7 +35,6 @@ const polkadot = {
     { name: "IBP2", url: "wss://polkadot.dotters.network" },
     { name: "Dwellir", url: "wss://polkadot-rpc.n.dwellir.com" },
     { name: "Dwellir Tunisia", url: "wss://polkadot-rpc-tn.dwellir.com" },
-    { name: "Permanence DAO EU", url: "wss://polkadot.rpc.permanence.io" },
     {
       name: "RadiumBlock",
       url: "wss://polkadot.public.curie.radiumblock.co/ws",
