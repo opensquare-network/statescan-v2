@@ -5,7 +5,6 @@ import westmint from "./westmint";
 import collectives from "./collectives";
 import kusama from "./kusama";
 import polkadot from "./polkadot";
-import shadow from "./shadow";
 import gargantua from "./gargantua";
 // import hydradxTestnet from "./hydradxTestnet";
 import peopleKusama from "./people-kusama";
@@ -50,7 +49,7 @@ const chains = {
   kusama,
   statemine,
   // "hydradx-testnet": hydradxTestnet,
-  shadow,
+  // shadow,
   // tangle,
   // tinkernet,
   "bridgehub-kusama": bridgehubKusama,
