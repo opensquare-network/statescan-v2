@@ -8,7 +8,7 @@ import Nfts from "./nfts";
 import { assetListLoadingSelector } from "../../../store/reducers/assetSlice";
 import { nftListLoadingSelector } from "../../../store/reducers/nftSlice";
 import ExternalLink from "../../externalLink";
-import TreasurySection from "./treasury";
+// import TreasurySection from "./treasury";
 import GovernanceSection from "./governance";
 import IdentitySection from "./identity";
 import { Anchor, AnchorWrapper, Section, Title } from "./styled";
@@ -49,7 +49,7 @@ const SubSquareLinkWrapper = memo(SubSquareLink);
 export default function Sections() {
   const assetsListLoading = useSelector(assetListLoadingSelector);
   const nftListLoading = useSelector(nftListLoadingSelector);
-  const { modules, treasuryWebsite } = useChainSettings();
+  const { modules } = useChainSettings();
 
   return (
     <FlexColumn gap={16}>
@@ -69,7 +69,7 @@ export default function Sections() {
         </Section>
       )}
 
-      {modules?.treasury && (
+      {/* {modules?.treasury && (
         <Section>
           <Title>Treasury</Title>
           <StyledPanelTableWrapper>
@@ -82,7 +82,7 @@ export default function Sections() {
             </AnchorWrapper>
           </StyledPanelTableWrapper>
         </Section>
-      )}
+      )} */}
 
       {modules?.identity && (
         <Section>
