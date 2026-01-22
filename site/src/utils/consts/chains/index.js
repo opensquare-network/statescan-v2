@@ -33,10 +33,12 @@ import interlay from "./interlay";
 import kintsugi from "./kintsugi";
 import frequency from "./frequency";
 import datahavenTestnet from "./datahaven-testnet";
+import acurast from "./acurast";
 
 const chains = {
   polkadot,
   statemint,
+  acurast,
   "bridgehub-polkadot": bridgehubPolkadot,
   collectives,
   "coretime-polkadot": coretimePolkadot,
