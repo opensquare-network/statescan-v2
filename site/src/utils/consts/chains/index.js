@@ -28,7 +28,6 @@ import collectivesWestend from "./collectives-westend";
 import cereTestnet from "./cere-testnet";
 import cere from "./cere";
 import ajuna from "./ajuna";
-import interlay from "./interlay";
 // import fintraTestnet from "./fintraTestnet";
 import kintsugi from "./kintsugi";
 import frequency from "./frequency";
@@ -42,7 +41,7 @@ const chains = {
   "coretime-polkadot": coretimePolkadot,
   "people-polkadot": peoplePolkadot,
   ajuna,
-  interlay,
+  // interlay,
   laos,
   litentry,
   nexus,
