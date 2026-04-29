@@ -4,8 +4,8 @@ import { LIDO_WITHDRAWAL_STATUS } from "../../utils/constants";
 
 const STATUS_COLORS = {
   [LIDO_WITHDRAWAL_STATUS.PENDING]: "var(--fillPending)",
-  [LIDO_WITHDRAWAL_STATUS.FINALIZED]: "var(--fontSecondary)",
-  [LIDO_WITHDRAWAL_STATUS.CLAIMED]: "var(--fillPositive)",
+  [LIDO_WITHDRAWAL_STATUS.FINALIZED]: "var(--fillPositive)",
+  [LIDO_WITHDRAWAL_STATUS.CLAIMED]: "var(--fontSecondary)",
 };
 
 const Status = styled.div`

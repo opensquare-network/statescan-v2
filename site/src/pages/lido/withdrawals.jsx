@@ -2,6 +2,7 @@ import BreadCrumb from "../../components/breadCrumb";
 import ValueDisplay from "../../components/displayValue";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
+import EvmAddress from "../../components/lido/evmAddress";
 import EvmExternalLink from "../../components/lido/evmExternalLink";
 import EvmPagination from "../../components/lido/evmPagination";
 import LidoStatus from "../../components/lido/status";
@@ -35,13 +36,9 @@ const lidoWithdrawalsHead = [
     width: 180,
   },
   { name: "Tx Hash", width: 220 },
+  { name: "Owner", width: 180 },
   {
     name: "Value",
-    align: "right",
-    width: 180,
-  },
-  {
-    name: "Shares",
     align: "right",
     width: 180,
   },
@@ -72,16 +69,11 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
       ),
       toLidoTimestamp(item.blockTime),
       <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
+      <EvmAddress key={`${item.id}-owner`} address={item.owner} copy={false} />,
       <ValueDisplay
         key={`${item.id}-value`}
         value={toLidoAmount(item.value, decimals)}
         symbol={symbol}
-        showNotEqualTooltip
-      />,
-      <ValueDisplay
-        key={`${item.id}-shares`}
-        value={toLidoAmount(item.shares, decimals)}
-        symbol=""
         showNotEqualTooltip
       />,
       <LidoStatus key={`${item.id}-status`} status={item.status} />,

@@ -8,6 +8,7 @@ import ExternalLinkWithCopy from "../../components/externalLinkWithCopy";
 import LidoRequestId from "../../components/lido/requestId";
 import LidoStatus from "../../components/lido/status";
 import EvmTxHash from "../../components/lido/evmTxHash";
+import EvmAddress from "../../components/lido/evmAddress";
 import LidoValue from "../../components/lido/value";
 import LidoWithdrawalTimeline from "../../components/lido/withdrawalTimeline";
 import NoData from "../../components/noData";
@@ -55,6 +56,14 @@ function toWithdrawalDetailItems(withdrawal, chainSettings) {
     {
       label: "Tx Hash",
       value: <EvmTxHash txHash={withdrawal.txHash} />,
+    },
+    {
+      label: "Requestor",
+      value: <EvmAddress address={withdrawal.requestor} />,
+    },
+    {
+      label: "Owner",
+      value: <EvmAddress address={withdrawal.owner} />,
     },
     {
       label: "Value",
