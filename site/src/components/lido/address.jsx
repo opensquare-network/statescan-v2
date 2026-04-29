@@ -1,5 +1,5 @@
 import Tooltip from "../tooltip";
-import { LidoEtherscanLinkWithCopy } from "./etherscanLink";
+import ExternalLinkWithCopy from "../externalLinkWithCopy";
 import { hashEllipsis } from "../../utils/viewFuncs/text";
 
 function getEtherscanAddressUrl(address) {
@@ -13,9 +13,9 @@ export default function LidoAddress({ address }) {
 
   return (
     <Tooltip tip={address}>
-      <LidoEtherscanLinkWithCopy href={getEtherscanAddressUrl(address)}>
+      <ExternalLinkWithCopy href={getEtherscanAddressUrl(address)}>
         {hashEllipsis(address, 4, 4)}
-      </LidoEtherscanLinkWithCopy>
+      </ExternalLinkWithCopy>
     </Tooltip>
   );
 }

@@ -1,4 +1,4 @@
-import { LidoEtherscanLinkWithCopy } from "./etherscanLink";
+import ExternalLinkWithCopy from "../externalLinkWithCopy";
 
 const LIDO_WITHDRAWAL_QUEUE_ADDRESS =
   "0x889edc2edab5f40e902b864ad4d7ade8e412f9b1";
@@ -13,8 +13,8 @@ export default function LidoRequestId({ requestId }) {
   }
 
   return (
-    <LidoEtherscanLinkWithCopy href={getEtherscanRequestIdUrl(requestId)}>
+    <ExternalLinkWithCopy href={getEtherscanRequestIdUrl(requestId)}>
       {requestId}
-    </LidoEtherscanLinkWithCopy>
+    </ExternalLinkWithCopy>
   );
 }

@@ -1,7 +1,7 @@
 import Tooltip from "../tooltip";
+import ExternalLinkWithCopy from "../externalLinkWithCopy";
 import { getEtherscanTxUrl } from "../../utils/viewFuncs/lido";
 import { hashEllipsis } from "../../utils/viewFuncs/text";
-import { LidoEtherscanLinkWithCopy } from "./etherscanLink";
 
 export default function LidoTxHash({ txHash }) {
   if (!txHash) {
@@ -10,9 +10,9 @@ export default function LidoTxHash({ txHash }) {
 
   return (
     <Tooltip tip={txHash}>
-      <LidoEtherscanLinkWithCopy href={getEtherscanTxUrl(txHash)}>
+      <ExternalLinkWithCopy href={getEtherscanTxUrl(txHash)}>
         {hashEllipsis(txHash)}
-      </LidoEtherscanLinkWithCopy>
+      </ExternalLinkWithCopy>
     </Tooltip>
   );
 }

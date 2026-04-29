@@ -1,8 +1,8 @@
 import BreadCrumb from "../../components/breadCrumb";
 import ValueDisplay from "../../components/displayValue";
+import ExternalLink from "../../components/externalLink";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
-import LidoEtherscanLink from "../../components/lido/etherscanLink";
 import LidoStatus from "../../components/lido/status";
 import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
@@ -62,21 +62,21 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
         {item.id}
       </ColoredInterLink>,
       item.blockNumber ? (
-        <LidoEtherscanLink
+        <ExternalLink
           href={getEtherscanBlockUrl(item.blockNumber)}
           key={`${item.id}-block`}
         >
           {toLidoBlockNumber(item.blockNumber)}
-        </LidoEtherscanLink>
+        </ExternalLink>
       ) : (
         "--"
       ),
       toLidoTimestamp(item.blockTime),
       item.txHash ? (
         <Tooltip tip={item.txHash} key={`${item.id}-tx`}>
-          <LidoEtherscanLink href={getEtherscanTxUrl(item.txHash)}>
+          <ExternalLink href={getEtherscanTxUrl(item.txHash)}>
             {hashEllipsis(item.txHash)}
-          </LidoEtherscanLink>
+          </ExternalLink>
         </Tooltip>
       ) : (
         "--"

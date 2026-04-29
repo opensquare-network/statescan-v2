@@ -4,7 +4,7 @@ import DetailTabs from "../../components/detail/tabs";
 import DetailLayout from "../../components/layout/detailLayout";
 import List from "../../components/list";
 import Loading from "../../components/loadings/loading";
-import { LidoEtherscanLinkWithCopy } from "../../components/lido/etherscanLink";
+import ExternalLinkWithCopy from "../../components/externalLinkWithCopy";
 import LidoRequestId from "../../components/lido/requestId";
 import LidoStatus from "../../components/lido/status";
 import LidoTxHash from "../../components/lido/txHash";
@@ -31,12 +31,9 @@ function toBlockLink(blockNumber) {
   }
 
   return (
-    <LidoEtherscanLinkWithCopy
-      href={getEtherscanBlockUrl(blockNumber)}
-      render={toLidoBlockNumber}
-    >
-      {blockNumber}
-    </LidoEtherscanLinkWithCopy>
+    <ExternalLinkWithCopy href={getEtherscanBlockUrl(blockNumber)}>
+      {toLidoBlockNumber(blockNumber)}
+    </ExternalLinkWithCopy>
   );
 }
 
@@ -55,7 +52,10 @@ function toWithdrawalDetailItems(withdrawal, chainSettings) {
     },
     { label: "Block", value: toBlockLink(withdrawal.blockNumber) },
     { label: "Time", value: toTime(withdrawal.blockTime) },
-    { label: "Tx Hash", value: <LidoTxHash txHash={withdrawal.txHash} /> },
+    {
+      label: "Tx Hash",
+      value: <LidoTxHash txHash={withdrawal.txHash} />,
+    },
     {
       label: "Value",
       value: (

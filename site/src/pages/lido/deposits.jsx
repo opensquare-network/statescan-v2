@@ -1,9 +1,9 @@
 import BreadCrumb from "../../components/breadCrumb";
 import ValueDisplay from "../../components/displayValue";
+import ExternalLink from "../../components/externalLink";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import LidoAddress from "../../components/lido/address";
-import LidoEtherscanLink from "../../components/lido/etherscanLink";
 import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import Table from "../../components/table";
@@ -48,17 +48,17 @@ const lidoDepositsHead = [
 
 function toLidoDepositsTableData(items = [], { decimals, symbol }) {
   return items.map((item) => [
-    <LidoEtherscanLink
+    <ExternalLink
       href={getEtherscanBlockUrl(item.blockNumber)}
       key={`${item.id}-block`}
     >
       {toLidoBlockNumber(item.blockNumber)}
-    </LidoEtherscanLink>,
+    </ExternalLink>,
     toLidoTimestamp(item.blockTime),
     <Tooltip tip={item.txHash} key={`${item.id}-tx`}>
-      <LidoEtherscanLink href={getEtherscanTxUrl(item.txHash)}>
+      <ExternalLink href={getEtherscanTxUrl(item.txHash)}>
         {hashEllipsis(item.txHash)}
-      </LidoEtherscanLink>
+      </ExternalLink>
     </Tooltip>,
     <LidoAddress key={`${item.id}-address`} address={item.address} />,
     <ValueDisplay
