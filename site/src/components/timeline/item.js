@@ -47,6 +47,7 @@ export default function TimelineItem({
   isLast,
   IconComponent,
   FieldsComponent,
+  HeaderComponent,
 }) {
   return (
     <Wrapper>
@@ -61,6 +62,7 @@ export default function TimelineItem({
           data={data}
           item={item}
           FieldsComponent={FieldsComponent}
+          HeaderComponent={HeaderComponent}
         />
       </InfoPanel>
     </Wrapper>

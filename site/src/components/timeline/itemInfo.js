@@ -8,10 +8,15 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function TimelineItemInfo({ data, item, FieldsComponent }) {
+export default function TimelineItemInfo({
+  data,
+  item,
+  FieldsComponent,
+  HeaderComponent = TimelineItemInfoHeader,
+}) {
   return (
     <Wrapper>
-      <TimelineItemInfoHeader item={item} />
+      <HeaderComponent item={item} />
       <FieldsComponent data={data} item={item} />
     </Wrapper>
   );

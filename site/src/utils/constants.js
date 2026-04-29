@@ -866,6 +866,12 @@ export const PROXY_STATUS = {
   REMOVED: "removed",
 };
 
+export const LIDO_WITHDRAWAL_STATUS = {
+  PENDING: "Pending",
+  FINALIZED: "Finalized",
+  CLAIMED: "Claimed",
+};
+
 export const PROXY_ANNOUNCEMENT_STATUS = {
   ANNOUNCED: "Announced",
   EXECUTED: "Executed",

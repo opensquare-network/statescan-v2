@@ -14,6 +14,7 @@ export default function Timeline({
   loading,
   IconComponent,
   FieldsComponent,
+  HeaderComponent,
 }) {
   if (!timeline || loading) {
     return <Loading />;
@@ -34,6 +35,7 @@ export default function Timeline({
           isLast={index === timeline.length - 1}
           IconComponent={IconComponent}
           FieldsComponent={FieldsComponent}
+          HeaderComponent={HeaderComponent}
         />
       ))}
     </Wrapper>

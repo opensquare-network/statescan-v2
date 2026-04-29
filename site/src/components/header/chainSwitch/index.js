@@ -80,6 +80,7 @@ const ChainGroupItemCaretWrapper = styled.span`
 
 const ChainGroupItem = styled.a`
   display: inline-flex;
+  align-items: center;
   padding: 8px 0;
   text-decoration: none;
   ${mobilecss(css`
