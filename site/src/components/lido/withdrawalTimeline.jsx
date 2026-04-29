@@ -1,10 +1,10 @@
-import LidoAddress from "./address";
+import EvmAddress from "./evmAddress";
 import LidoValue from "./value";
 import Timeline from "../timeline";
 import TimelineItemFields from "../timeline/itemFields";
 import TimelineItemIcon from "../timeline/itemIcon";
 import { DetailedTime } from "../styled/time";
-import LidoTxHash from "./txHash";
+import EvmTxHash from "./evmTxHash";
 import LidoRequestId from "./requestId";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import { toLidoTimestamp } from "../../utils/viewFuncs/lido";
@@ -25,7 +25,7 @@ function toBaseEventRows(event, itemId, eventName) {
     ],
     [
       "Tx Hash",
-      <LidoTxHash txHash={event.txHash} key={`${itemId}-${eventName}-tx`} />,
+      <EvmTxHash txHash={event.txHash} key={`${itemId}-${eventName}-tx`} />,
     ],
   ];
 
@@ -86,8 +86,8 @@ function toClaimRows(event, itemId, chainSettings) {
 
   return [
     ...toBaseEventRows(event, itemId, "claim"),
-    ["Owner", <LidoAddress address={event.owner} />],
-    ["Receiver", <LidoAddress address={event.receiver} />],
+    ["Owner", <EvmAddress address={event.owner} />],
+    ["Receiver", <EvmAddress address={event.receiver} />],
     toValueRow("Value", event.value, chainSettings),
   ].filter(Boolean);
 }

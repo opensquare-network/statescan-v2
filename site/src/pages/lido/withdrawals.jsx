@@ -1,25 +1,23 @@
 import BreadCrumb from "../../components/breadCrumb";
 import ValueDisplay from "../../components/displayValue";
-import ExternalLink from "../../components/externalLink";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
+import EvmExternalLink from "../../components/lido/evmExternalLink";
 import LidoStatus from "../../components/lido/status";
+import EvmTxHash from "../../components/lido/evmTxHash";
 import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import { ColoredInterLink } from "../../components/styled/link";
 import Table from "../../components/table";
-import Tooltip from "../../components/tooltip";
 import { useLidoWithdrawalsFilter } from "../../hooks/filter/useLidoWithdrawalsFilter";
 import { useLidoWithdrawalsData } from "../../hooks/lido";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,
-  getEtherscanTxUrl,
   toLidoAmount,
   toLidoBlockNumber,
   toLidoTimestamp,
 } from "../../utils/viewFuncs/lido";
-import { hashEllipsis } from "../../utils/viewFuncs/text";
 
 const lidoWithdrawalsHead = [
   { name: "Request ID", width: 140 },
@@ -62,25 +60,18 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
         {item.id}
       </ColoredInterLink>,
       item.blockNumber ? (
-        <ExternalLink
+        <EvmExternalLink
           href={getEtherscanBlockUrl(item.blockNumber)}
           key={`${item.id}-block`}
+          copy={false}
         >
           {toLidoBlockNumber(item.blockNumber)}
-        </ExternalLink>
+        </EvmExternalLink>
       ) : (
         "--"
       ),
       toLidoTimestamp(item.blockTime),
-      item.txHash ? (
-        <Tooltip tip={item.txHash} key={`${item.id}-tx`}>
-          <ExternalLink href={getEtherscanTxUrl(item.txHash)}>
-            {hashEllipsis(item.txHash)}
-          </ExternalLink>
-        </Tooltip>
-      ) : (
-        "--"
-      ),
+      <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
       <ValueDisplay
         key={`${item.id}-value`}
         value={toLidoAmount(item.value, decimals)}

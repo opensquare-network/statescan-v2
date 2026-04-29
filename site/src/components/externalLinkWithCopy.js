@@ -3,7 +3,7 @@ import ExternalLink from "./externalLink";
 import { withCopy } from "../HOC/withCopy";
 import { Inter_14_500 } from "../styles/text";
 
-const StyledExternalLink = styled(ExternalLink)`
+export const StyledExternalLink = styled(ExternalLink)`
   color: ${(p) => p.theme.theme500};
   text-decoration: none;
   word-break: break-all;

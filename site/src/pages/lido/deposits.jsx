@@ -1,24 +1,22 @@
 import BreadCrumb from "../../components/breadCrumb";
 import ValueDisplay from "../../components/displayValue";
-import ExternalLink from "../../components/externalLink";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
-import LidoAddress from "../../components/lido/address";
+import EvmAddress from "../../components/lido/evmAddress";
+import EvmExternalLink from "../../components/lido/evmExternalLink";
+import EvmTxHash from "../../components/lido/evmTxHash";
 import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import Table from "../../components/table";
-import Tooltip from "../../components/tooltip";
 import { useLidoDepositsFilter } from "../../hooks/filter/useLidoDepositsFilter";
 import { useLidoDepositsData } from "../../hooks/lido";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,
-  getEtherscanTxUrl,
   toLidoAmount,
   toLidoBlockNumber,
   toLidoTimestamp,
 } from "../../utils/viewFuncs/lido";
-import { hashEllipsis } from "../../utils/viewFuncs/text";
 
 const lidoDepositsHead = [
   {
@@ -48,19 +46,20 @@ const lidoDepositsHead = [
 
 function toLidoDepositsTableData(items = [], { decimals, symbol }) {
   return items.map((item) => [
-    <ExternalLink
+    <EvmExternalLink
       href={getEtherscanBlockUrl(item.blockNumber)}
       key={`${item.id}-block`}
+      copy={false}
     >
       {toLidoBlockNumber(item.blockNumber)}
-    </ExternalLink>,
+    </EvmExternalLink>,
     toLidoTimestamp(item.blockTime),
-    <Tooltip tip={item.txHash} key={`${item.id}-tx`}>
-      <ExternalLink href={getEtherscanTxUrl(item.txHash)}>
-        {hashEllipsis(item.txHash)}
-      </ExternalLink>
-    </Tooltip>,
-    <LidoAddress key={`${item.id}-address`} address={item.address} />,
+    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
+    <EvmAddress
+      key={`${item.id}-address`}
+      address={item.address}
+      copy={false}
+    />,
     <ValueDisplay
       key={`${item.id}-value`}
       value={toLidoAmount(item.value, decimals)}

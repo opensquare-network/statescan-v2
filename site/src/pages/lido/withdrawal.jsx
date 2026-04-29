@@ -7,7 +7,7 @@ import Loading from "../../components/loadings/loading";
 import ExternalLinkWithCopy from "../../components/externalLinkWithCopy";
 import LidoRequestId from "../../components/lido/requestId";
 import LidoStatus from "../../components/lido/status";
-import LidoTxHash from "../../components/lido/txHash";
+import EvmTxHash from "../../components/lido/evmTxHash";
 import LidoValue from "../../components/lido/value";
 import LidoWithdrawalTimeline from "../../components/lido/withdrawalTimeline";
 import NoData from "../../components/noData";
@@ -54,7 +54,7 @@ function toWithdrawalDetailItems(withdrawal, chainSettings) {
     { label: "Time", value: toTime(withdrawal.blockTime) },
     {
       label: "Tx Hash",
-      value: <LidoTxHash txHash={withdrawal.txHash} />,
+      value: <EvmTxHash txHash={withdrawal.txHash} />,
     },
     {
       label: "Value",
