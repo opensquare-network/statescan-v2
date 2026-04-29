@@ -10,6 +10,14 @@ export function getEnvChain() {
   return chain;
 }
 
+export function getEnvProtocol() {
+  return process.env.REACT_APP_PUBLIC_PROTOCOL;
+}
+
+export function isLidoProtocol() {
+  return getEnvProtocol() === "lido";
+}
+
 export function getEnvEndpoint() {
   const endpoint = process.env.REACT_APP_PUBLIC_API_END_POINT;
   if (!endpoint) {

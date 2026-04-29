@@ -32,7 +32,7 @@ import ajuna from "./ajuna";
 import kintsugi from "./kintsugi";
 import frequency from "./frequency";
 import datahavenTestnet from "./datahaven-testnet";
-import lido from "./lido";
+import ethereum from "./ethereum";
 
 const chains = {
   polkadot,
@@ -74,7 +74,7 @@ const chains = {
   // "fintra-testnet": fintraTestnet,
   frequency,
   "datahaven-testnet": datahavenTestnet,
-  lido,
+  ethereum,
 };
 
 export default chains;

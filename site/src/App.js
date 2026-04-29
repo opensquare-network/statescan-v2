@@ -1,14 +1,14 @@
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import DotRoutes from "./routes/dotRoutes";
 import EvmRoutes from "./routes/evmRoutes";
-import { getEnvChain } from "./utils/env";
+import { isLidoProtocol } from "./utils/env";
 
 const Router = process.env.REACT_APP_BROWSER_ROUTER
   ? BrowserRouter
   : HashRouter;
 
 function App() {
-  const RoutesComponent = getEnvChain() === "lido" ? EvmRoutes : DotRoutes;
+  const RoutesComponent = isLidoProtocol() ? EvmRoutes : DotRoutes;
 
   return (
     <Router>

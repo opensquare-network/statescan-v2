@@ -14,7 +14,7 @@ export default function LidoAddress({ address }) {
   return (
     <Tooltip tip={address}>
       <LidoEtherscanLinkWithCopy href={getEtherscanAddressUrl(address)}>
-        {hashEllipsis(address, 6, 4)}
+        {hashEllipsis(address, 4, 4)}
       </LidoEtherscanLinkWithCopy>
     </Tooltip>
   );

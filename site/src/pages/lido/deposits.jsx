@@ -1,8 +1,8 @@
-import AddressOrIdentity from "../../components/address";
 import BreadCrumb from "../../components/breadCrumb";
 import ValueDisplay from "../../components/displayValue";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
+import LidoAddress from "../../components/lido/address";
 import LidoEtherscanLink from "../../components/lido/etherscanLink";
 import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
@@ -60,11 +60,7 @@ function toLidoDepositsTableData(items = [], { decimals, symbol }) {
         {hashEllipsis(item.txHash)}
       </LidoEtherscanLink>
     </Tooltip>,
-    <AddressOrIdentity
-      key={`${item.id}-address`}
-      address={item.address}
-      noLink
-    />,
+    <LidoAddress key={`${item.id}-address`} address={item.address} />,
     <ValueDisplay
       key={`${item.id}-value`}
       value={toLidoAmount(item.value, decimals)}

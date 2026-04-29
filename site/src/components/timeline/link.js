@@ -5,6 +5,7 @@ import { Link as RouteLink } from "react-router-dom";
 import CaretUprightIcon from "../icons/caretUpright";
 import isNil from "lodash.isnil";
 import ExternalLink from "../externalLink";
+import { isLidoProtocol } from "../../utils/env";
 
 export const Wrapper = styled(Flex)`
   cursor: pointer;
@@ -108,7 +109,7 @@ export default function IndexerLinks({ indexer }) {
     return null;
   }
 
-  if (process.env.REACT_APP_PUBLIC_CHAIN === "lido") {
+  if (isLidoProtocol()) {
     return <EtherscanLink indexer={indexer} />;
   }
 
