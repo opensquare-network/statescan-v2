@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "../../components/icons/searchIcon";
+import { useTimeDimensionFilterItems } from "../../utils/hooks/useTimeDimensionFilterItems";
 import { useQueryParams } from "../useQueryParams";
 
 export function useLidoDepositsFilter() {
   const [filter, setFilter] = useState([]);
-  const {
-    address = "",
-    txHash = "",
-  } = useQueryParams({ parseNumbers: false });
+  const timeDimensionFilters = useTimeDimensionFilterItems();
+  const { address = "", txHash = "" } = useQueryParams({ parseNumbers: false });
 
   useEffect(() => {
     setFilter([
@@ -31,8 +30,10 @@ export function useLidoDepositsFilter() {
           prefix: <SearchIcon style={{ width: 16, height: 16 }} />,
         },
       },
+      { type: "divider" },
+      ...timeDimensionFilters,
     ]);
-  }, [address, txHash]);
+  }, [address, timeDimensionFilters, txHash]);
 
   return filter;
 }

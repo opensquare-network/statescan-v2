@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SearchIcon from "../../components/icons/searchIcon";
 import { LIDO_WITHDRAWAL_STATUS } from "../../utils/constants";
+import { useTimeDimensionFilterItems } from "../../utils/hooks/useTimeDimensionFilterItems";
 import { useQueryParams } from "../useQueryParams";
 
 const withdrawalStatusOptions = [
@@ -18,10 +19,8 @@ const withdrawalStatusOptions = [
 
 export function useLidoWithdrawalsFilter() {
   const [filter, setFilter] = useState([]);
-  const {
-    status = "",
-    txHash = "",
-  } = useQueryParams({ parseNumbers: false });
+  const timeDimensionFilters = useTimeDimensionFilterItems();
+  const { status = "", txHash = "" } = useQueryParams({ parseNumbers: false });
 
   useEffect(() => {
     setFilter([
@@ -42,8 +41,10 @@ export function useLidoWithdrawalsFilter() {
         query: "status",
         options: withdrawalStatusOptions,
       },
+      { type: "divider" },
+      ...timeDimensionFilters,
     ]);
-  }, [status, txHash]);
+  }, [status, timeDimensionFilters, txHash]);
 
   return filter;
 }

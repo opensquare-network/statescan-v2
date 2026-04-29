@@ -1,42 +1,9 @@
-import { useMemo } from "react";
 import last from "lodash.last";
-import {
-  LIST_DEFAULT_PAGE_SIZE,
-  TABLE_SORT_QUERY_KEY,
-} from "../../utils/constants";
+import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_WITHDRAWAL_REQUESTS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoQuery } from "./useLidoQuery";
-
-const DEFAULT_ORDER_BY = "blockNumber";
-const DEFAULT_ORDER_DIRECTION = "desc";
-
-function getSort(sort) {
-  if (!sort) {
-    return {
-      orderBy: DEFAULT_ORDER_BY,
-      orderDirection: DEFAULT_ORDER_DIRECTION,
-    };
-  }
-
-  const parts = String(sort).split("_");
-  const orderDirection = parts.pop();
-
-  return {
-    orderBy: parts.join("_"),
-    orderDirection,
-  };
-}
-
-function getCursorFilter(cursor, orderDirection) {
-  if (!cursor) {
-    return {};
-  }
-
-  const id = String(cursor);
-
-  return orderDirection === "desc" ? { id_lt: id } : { id_gt: id };
-}
+import { useLidoListVariables } from "./useLidoListVariables";
 
 export function useLidoWithdrawalsData() {
   const {
@@ -44,24 +11,28 @@ export function useLidoWithdrawalsData() {
     [TABLE_SORT_QUERY_KEY]: sortQuery,
     status: statusQuery = "",
     txHash = "",
+    time_dimension: timeDimension = "block",
+    block_start: blockStart,
+    block_end: blockEnd,
+    date_start: dateStart,
+    date_end: dateEnd,
   } = useQueryParams({ parseNumbers: false });
   const status = statusQuery === "null" ? "" : statusQuery;
-  const pageSize = LIST_DEFAULT_PAGE_SIZE;
-
-  const variables = useMemo(() => {
-    const sort = getSort(sortQuery);
-    const where = {
+  const { variables, pageSize } = useLidoListVariables({
+    sortQuery,
+    cursor,
+    where: {
       ...(status ? { status } : {}),
       ...(txHash ? { txHash } : {}),
-      ...getCursorFilter(cursor, sort.orderDirection),
-    };
-
-    return {
-      first: pageSize,
-      ...sort,
-      ...(Object.keys(where).length ? { where } : {}),
-    };
-  }, [cursor, pageSize, sortQuery, status, txHash]);
+    },
+    timeDimensionParams: {
+      timeDimension,
+      blockStart,
+      blockEnd,
+      dateStart,
+      dateEnd,
+    },
+  });
 
   const queryResult = useLidoQuery(GET_LIDO_WITHDRAWAL_REQUESTS, { variables });
 
