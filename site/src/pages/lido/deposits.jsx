@@ -27,13 +27,13 @@ const lidoDepositsHead = [
     sortDescendingQueryValue: "blockNumber_desc",
     width: 160,
   },
+  { name: "Address", width: 220 },
   {
     name: "Time",
     type: "time",
     width: 180,
   },
   { name: "Tx Hash", width: 220 },
-  { name: "Address", width: 220 },
   {
     name: "Value",
     type: "sortable",
@@ -53,13 +53,13 @@ function toLidoDepositsTableData(items = [], { decimals, symbol }) {
     >
       {toLidoBlockNumber(item.blockNumber)}
     </EvmExternalLink>,
-    toLidoTimestamp(item.blockTime),
-    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
     <EvmAddress
       key={`${item.id}-address`}
       address={item.address}
       copy={false}
     />,
+    toLidoTimestamp(item.blockTime),
+    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
     <ValueDisplay
       key={`${item.id}-value`}
       value={toLidoAmount(item.value, decimals)}
@@ -90,11 +90,7 @@ export default function LidoDeposits() {
           />
         }
       >
-        <Table
-          heads={lidoDepositsHead}
-          data={tableData}
-          loading={loading}
-        />
+        <Table heads={lidoDepositsHead} data={tableData} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );

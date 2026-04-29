@@ -77,6 +77,8 @@ export const GET_LIDO_WITHDRAWAL_REQUESTS = gql`
       blockTime
       id
       logIndex
+      owner
+      requestor
       status
       value
       txHash
