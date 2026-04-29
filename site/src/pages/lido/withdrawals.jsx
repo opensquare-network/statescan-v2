@@ -81,7 +81,6 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
       ) : (
         "--"
       ),
-      <LidoStatus key={`${item.id}-status`} status={item.status} />,
       <ValueDisplay
         key={`${item.id}-value`}
         value={toLidoAmount(item.value, decimals)}
@@ -91,9 +90,10 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
       <ValueDisplay
         key={`${item.id}-shares`}
         value={toLidoAmount(item.shares, decimals)}
-        symbol={symbol}
+        symbol=""
         showNotEqualTooltip
       />,
+      <LidoStatus key={`${item.id}-status`} status={item.status} />,
     ];
   });
 }
@@ -119,11 +119,7 @@ export default function LidoWithdrawals() {
           />
         }
       >
-        <Table
-          heads={lidoWithdrawalsHead}
-          data={tableData}
-          loading={loading}
-        />
+        <Table heads={lidoWithdrawalsHead} data={tableData} loading={loading} />
       </StyledPanelTableWrapper>
     </Layout>
   );

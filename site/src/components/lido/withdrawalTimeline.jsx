@@ -1,38 +1,32 @@
+import LidoAddress from "./address";
 import LidoValue from "./value";
 import Timeline from "../timeline";
 import TimelineItemFields from "../timeline/itemFields";
 import TimelineItemIcon from "../timeline/itemIcon";
-import { TextSecondary } from "../styled/text";
-import { withCopy } from "../../HOC/withCopy";
-import { LidoEtherscanLinkWithCopy } from "./etherscanLink";
-import { getEtherscanTxUrl, toLidoTimestamp } from "../../utils/viewFuncs/lido";
+import { DetailedTime } from "../styled/time";
+import LidoTxHash from "./txHash";
+import LidoRequestId from "./requestId";
+import useChainSettings from "../../utils/hooks/chain/useChainSettings";
+import { toLidoTimestamp } from "../../utils/viewFuncs/lido";
 
-const TextSecondaryWithCopy = withCopy(TextSecondary);
-
-function toTxHashDetail(txHash, key) {
-  if (!txHash) {
+function toTimestampDetail(timestamp) {
+  if (!timestamp) {
     return "--";
   }
 
-  return (
-    <LidoEtherscanLinkWithCopy href={getEtherscanTxUrl(txHash)} key={key}>
-      {txHash}
-    </LidoEtherscanLinkWithCopy>
-  );
-}
-
-function toCopyText(value) {
-  if (!value) {
-    return "--";
-  }
-
-  return <TextSecondaryWithCopy>{value}</TextSecondaryWithCopy>;
+  return <DetailedTime ts={Number(timestamp) * 1000} />;
 }
 
 function toBaseEventRows(event, itemId, eventName) {
   const rows = [
-    event.requestId && ["Request ID", toCopyText(event.requestId)],
-    ["Tx Hash", toTxHashDetail(event.txHash, `${itemId}-${eventName}-tx`)],
+    event.requestId && [
+      "Request ID",
+      <LidoRequestId requestId={event.requestId} />,
+    ],
+    [
+      "Tx Hash",
+      <LidoTxHash txHash={event.txHash} key={`${itemId}-${eventName}-tx`} />,
+    ],
   ];
 
   return rows.filter(Boolean);
@@ -55,12 +49,15 @@ function toRequestRows(event, itemId, chainSettings) {
   }
 
   return [
-    ["Request ID", toCopyText(event.requestId || event.id)],
+    ["Request ID", <LidoRequestId requestId={event.requestId || event.id} />],
     ...toBaseEventRows(event, itemId, "request").filter(
       ([label]) => label !== "Request ID",
     ),
     toValueRow("Value", event.value, chainSettings),
-    toValueRow("Shares", event.shares, chainSettings),
+    toValueRow("Shares", event.shares, {
+      decimals: chainSettings.decimals,
+      symbol: "",
+    }),
   ].filter(Boolean);
 }
 
@@ -71,11 +68,14 @@ function toFinalizationRows(event, itemId, chainSettings) {
 
   return [
     ...toBaseEventRows(event, itemId, "finalization"),
-    ["From Request ID", toCopyText(event.fromRequestId)],
-    ["To Request ID", toCopyText(event.toRequestId)],
-    event.timestamp && ["Timestamp", toCopyText(event.timestamp)],
+    ["From Request ID", <LidoRequestId requestId={event.fromRequestId} />],
+    ["To Request ID", <LidoRequestId requestId={event.toRequestId} />],
+    event.timestamp && ["Time", toTimestampDetail(event.timestamp)],
     toValueRow("Value", event.value, chainSettings),
-    toValueRow("Shares", event.shares, chainSettings),
+    toValueRow("Shares", event.shares, {
+      decimals: chainSettings.decimals,
+      symbol: "",
+    }),
   ].filter(Boolean);
 }
 
@@ -86,8 +86,8 @@ function toClaimRows(event, itemId, chainSettings) {
 
   return [
     ...toBaseEventRows(event, itemId, "claim"),
-    ["Owner", toCopyText(event.owner)],
-    ["Receiver", toCopyText(event.receiver)],
+    ["Owner", <LidoAddress address={event.owner} />],
+    ["Receiver", <LidoAddress address={event.receiver} />],
     toValueRow("Value", event.value, chainSettings),
   ].filter(Boolean);
 }
@@ -104,7 +104,8 @@ function toTimelineItem({ name, event, rows }) {
   };
 }
 
-export default function LidoWithdrawalTimeline({ withdrawal, chainSettings }) {
+export default function LidoWithdrawalTimeline({ withdrawal }) {
+  const chainSettings = useChainSettings();
   const request = withdrawal?.request || withdrawal;
   const timeline = [
     toTimelineItem({

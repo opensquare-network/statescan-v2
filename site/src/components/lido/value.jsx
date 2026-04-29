@@ -9,11 +9,7 @@ export default function LidoValue({ value, decimals, symbol }) {
   return (
     <Tooltip tip={`${displayValue} ${symbol}`}>
       <TextSecondary>
-        <ValueDisplay
-          value={displayValue}
-          symbol={symbol}
-          abbreviate={false}
-        />
+        <ValueDisplay value={displayValue} symbol={symbol} />
       </TextSecondary>
     </Tooltip>
   );

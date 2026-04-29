@@ -4,7 +4,7 @@ import { Flex } from "../styled/flex";
 import { Link as RouteLink } from "react-router-dom";
 import CaretUprightIcon from "../icons/caretUpright";
 import isNil from "lodash.isnil";
-import EtherscanLink from "./etherscanLink";
+import ExternalLink from "../externalLink";
 
 export const Wrapper = styled(Flex)`
   cursor: pointer;
@@ -31,7 +31,11 @@ const MyLink = styled(RouteLink)`
   text-decoration: none;
 `;
 
-export const Links = styled(Flex)`
+const MyExternalLink = styled(ExternalLink)`
+  text-decoration: none;
+`;
+
+const Links = styled(Flex)`
   > :nth-child(1) {
     margin-right: 8px;
   }
@@ -45,6 +49,32 @@ function Link({ name, to }) {
         <CaretUprightIcon />
       </Wrapper>
     </MyLink>
+  );
+}
+
+function ExternalTimelineLink({ name, href }) {
+  return (
+    <MyExternalLink href={href}>
+      <Wrapper>
+        <div>{name}</div>
+        <CaretUprightIcon />
+      </Wrapper>
+    </MyExternalLink>
+  );
+}
+
+function EtherscanLink({ indexer }) {
+  const { blockHeight, extrinsicIndex, eventIndex } = indexer;
+
+  return (
+    <Links>
+      {isNil(extrinsicIndex) && isNil(eventIndex) && (
+        <ExternalTimelineLink
+          name="Block"
+          href={`https://etherscan.io/block/${blockHeight}`}
+        />
+      )}
+    </Links>
   );
 }
 

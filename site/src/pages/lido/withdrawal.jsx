@@ -5,28 +5,25 @@ import DetailLayout from "../../components/layout/detailLayout";
 import List from "../../components/list";
 import Loading from "../../components/loadings/loading";
 import { LidoEtherscanLinkWithCopy } from "../../components/lido/etherscanLink";
+import LidoRequestId from "../../components/lido/requestId";
 import LidoStatus from "../../components/lido/status";
+import LidoTxHash from "../../components/lido/txHash";
 import LidoValue from "../../components/lido/value";
 import LidoWithdrawalTimeline from "../../components/lido/withdrawalTimeline";
 import NoData from "../../components/noData";
 import { Panel } from "../../components/styled/panel";
 import { DetailedTime } from "../../components/styled/time";
-import { TextSecondary } from "../../components/styled/text";
 import { useLidoWithdrawalData } from "../../hooks/lido";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,
-  getEtherscanTxUrl,
   toLidoBlockNumber,
   toLidoTimestamp,
 } from "../../utils/viewFuncs/lido";
-import { withCopy } from "../../HOC/withCopy";
 
 const TabPanel = styled(Panel)`
   padding: 24px;
 `;
-
-const TextSecondaryWithCopy = withCopy(TextSecondary);
 
 function toBlockLink(blockNumber) {
   if (!blockNumber) {
@@ -43,18 +40,6 @@ function toBlockLink(blockNumber) {
   );
 }
 
-function toTxLink(txHash) {
-  if (!txHash) {
-    return "--";
-  }
-
-  return (
-    <LidoEtherscanLinkWithCopy href={getEtherscanTxUrl(txHash)}>
-      {txHash}
-    </LidoEtherscanLinkWithCopy>
-  );
-}
-
 function toTime(blockTime) {
   const timestamp = toLidoTimestamp(blockTime);
   return timestamp ? <DetailedTime ts={timestamp} /> : "--";
@@ -66,12 +51,11 @@ function toWithdrawalDetailItems(withdrawal, chainSettings) {
   return [
     {
       label: "Request ID",
-      value: <TextSecondaryWithCopy>{withdrawal.id}</TextSecondaryWithCopy>,
+      value: <LidoRequestId requestId={withdrawal.id} />,
     },
     { label: "Block", value: toBlockLink(withdrawal.blockNumber) },
     { label: "Time", value: toTime(withdrawal.blockTime) },
-    { label: "Tx Hash", value: toTxLink(withdrawal.txHash) },
-    { label: "Status", value: <LidoStatus status={withdrawal.status} /> },
+    { label: "Tx Hash", value: <LidoTxHash txHash={withdrawal.txHash} /> },
     {
       label: "Value",
       value: (
@@ -85,13 +69,10 @@ function toWithdrawalDetailItems(withdrawal, chainSettings) {
     {
       label: "Shares",
       value: (
-        <LidoValue
-          value={withdrawal.shares}
-          decimals={decimals}
-          symbol={symbol}
-        />
+        <LidoValue value={withdrawal.shares} decimals={decimals} symbol="" />
       ),
     },
+    { label: "Status", value: <LidoStatus status={withdrawal.status} /> },
   ];
 }
 
@@ -132,10 +113,7 @@ export default function LidoWithdrawal() {
       name: "Timeline",
       children: (
         <TabPanel>
-          <LidoWithdrawalTimeline
-            withdrawal={data}
-            chainSettings={chainSettings}
-          />
+          <LidoWithdrawalTimeline withdrawal={data} />
         </TabPanel>
       ),
     },
