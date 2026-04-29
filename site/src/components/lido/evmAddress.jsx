@@ -1,23 +1,22 @@
-import EvmExternalLink from "./evmExternalLink";
-import { hashEllipsis } from "../../utils/viewFuncs/text";
+import EvmAddressWithAvatar from "../evm/address";
 
 function getEtherscanAddressUrl(address) {
   return `https://etherscan.io/address/${address}`;
 }
 
-export default function EvmAddress({ address, copy = true, tooltip = true }) {
-  if (!address) {
-    return "--";
-  }
-
+export default function EvmAddress({
+  address,
+  copy = true,
+  tooltip = true,
+  maxWidth,
+}) {
   return (
-    <EvmExternalLink
+    <EvmAddressWithAvatar
+      address={address}
       href={getEtherscanAddressUrl(address)}
       copy={copy}
       tooltip={tooltip}
-      tooltipContent={address}
-    >
-      {hashEllipsis(address, 4, 4)}
-    </EvmExternalLink>
+      maxWidth={maxWidth}
+    />
   );
 }

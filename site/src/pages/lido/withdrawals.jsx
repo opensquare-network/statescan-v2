@@ -36,7 +36,7 @@ const lidoWithdrawalsHead = [
     width: 180,
   },
   { name: "Tx Hash", width: 220 },
-  { name: "Owner", width: 180 },
+  { name: "Owner", width: 200 },
   {
     name: "Value",
     align: "right",
@@ -69,7 +69,12 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
       ),
       toLidoTimestamp(item.blockTime),
       <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
-      <EvmAddress key={`${item.id}-owner`} address={item.owner} copy={false} />,
+      <EvmAddress
+        key={`${item.id}-owner`}
+        address={item.owner}
+        copy={false}
+        maxWidth="150px"
+      />,
       <ValueDisplay
         key={`${item.id}-value`}
         value={toLidoAmount(item.value, decimals)}
@@ -94,11 +99,7 @@ export default function LidoWithdrawals() {
       <Filter data={filter} />
 
       <StyledPanelTableWrapper
-        footer={
-          <EvmPagination
-            nextCursor={data?.nextCursor}
-          />
-        }
+        footer={<EvmPagination nextCursor={data?.nextCursor} />}
       >
         <Table heads={lidoWithdrawalsHead} data={tableData} loading={loading} />
       </StyledPanelTableWrapper>

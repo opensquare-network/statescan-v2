@@ -35,12 +35,19 @@ function defaultRender(children) {
 }
 
 export const withCopy = (Component) => {
-  return ({ children, render = defaultRender, ...restProps }) => {
+  return ({
+    children,
+    copyContent: customCopyContent,
+    render = defaultRender,
+    ...restProps
+  }) => {
     const [copied, setCopied] = React.useState(false);
 
-    const copyContent = React.Children.toArray(children).filter(
-      (item) => typeof item === "string" || typeof item === "number",
-    );
+    const copyContent =
+      customCopyContent ??
+      React.Children.toArray(children).filter(
+        (item) => typeof item === "string" || typeof item === "number",
+      );
 
     return (
       <Wrapper>
