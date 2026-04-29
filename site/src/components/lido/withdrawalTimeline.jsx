@@ -5,10 +5,7 @@ import TimelineItemIcon from "../timeline/itemIcon";
 import { TextSecondary } from "../styled/text";
 import { withCopy } from "../../HOC/withCopy";
 import { LidoEtherscanLinkWithCopy } from "./etherscanLink";
-import {
-  getEtherscanTxUrl,
-  toLidoTimestamp,
-} from "../../utils/viewFuncs/lido";
+import { getEtherscanTxUrl, toLidoTimestamp } from "../../utils/viewFuncs/lido";
 
 const TextSecondaryWithCopy = withCopy(TextSecondary);
 

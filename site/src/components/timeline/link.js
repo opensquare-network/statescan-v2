@@ -4,8 +4,9 @@ import { Flex } from "../styled/flex";
 import { Link as RouteLink } from "react-router-dom";
 import CaretUprightIcon from "../icons/caretUpright";
 import isNil from "lodash.isnil";
+import EtherscanLink from "./etherscanLink";
 
-const Wrapper = styled(Flex)`
+export const Wrapper = styled(Flex)`
   cursor: pointer;
   ${Inter_12_400}
   padding: 2px 8px;
@@ -30,7 +31,7 @@ const MyLink = styled(RouteLink)`
   text-decoration: none;
 `;
 
-const Links = styled(Flex)`
+export const Links = styled(Flex)`
   > :nth-child(1) {
     margin-right: 8px;
   }
@@ -75,6 +76,10 @@ export default function IndexerLinks({ indexer }) {
   const { blockHeight, extrinsicIndex, eventIndex, chain } = indexer;
   if (isNil(blockHeight) && isNil(extrinsicIndex) && isNil(eventIndex)) {
     return null;
+  }
+
+  if (process.env.REACT_APP_PUBLIC_CHAIN === "lido") {
+    return <EtherscanLink indexer={indexer} />;
   }
 
   if (chain === "people" && process.env.REACT_APP_PUBLIC_CHAIN === "polkadot") {
