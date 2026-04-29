@@ -35,7 +35,6 @@ const lidoWithdrawalsHead = [
     width: 180,
   },
   { name: "Tx Hash", width: 220 },
-  { name: "Status", width: 120 },
   {
     name: "Value",
     align: "right",
@@ -46,6 +45,7 @@ const lidoWithdrawalsHead = [
     align: "right",
     width: 180,
   },
+  { name: "Status", width: 120 },
 ];
 
 function toLidoWithdrawalsTableData(items = [], chainSettings) {
