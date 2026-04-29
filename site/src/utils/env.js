@@ -15,7 +15,7 @@ export function getEnvProtocol() {
 }
 
 export function isLidoProtocol() {
-  return getEnvProtocol() === "lido";
+  return getEnvChain() === "ethereum" && getEnvProtocol() === "lido";
 }
 
 export function getEnvEndpoint() {
