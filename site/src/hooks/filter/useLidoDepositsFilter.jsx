@@ -7,7 +7,7 @@ export function useLidoDepositsFilter() {
   const {
     address = "",
     txHash = "",
-  } = useQueryParams();
+  } = useQueryParams({ parseNumbers: false });
 
   useEffect(() => {
     setFilter([

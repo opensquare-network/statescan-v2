@@ -3,14 +3,14 @@ import ValueDisplay from "../../components/displayValue";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import EvmExternalLink from "../../components/lido/evmExternalLink";
+import EvmPagination from "../../components/lido/evmPagination";
 import LidoStatus from "../../components/lido/status";
 import EvmTxHash from "../../components/lido/evmTxHash";
-import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import { ColoredInterLink } from "../../components/styled/link";
 import Table from "../../components/table";
 import { useLidoWithdrawalsFilter } from "../../hooks/filter/useLidoWithdrawalsFilter";
-import { useLidoWithdrawalsData } from "../../hooks/lido";
+import { useLidoWithdrawalsData } from "../../hooks/lido/useLidoWithdrawalsData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,
@@ -103,10 +103,8 @@ export default function LidoWithdrawals() {
 
       <StyledPanelTableWrapper
         footer={
-          <Pagination
-            page={data?.page}
-            pageSize={data?.pageSize}
-            total={data?.total}
+          <EvmPagination
+            nextCursor={data?.nextCursor}
           />
         }
       >

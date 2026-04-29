@@ -4,12 +4,12 @@ import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import EvmAddress from "../../components/lido/evmAddress";
 import EvmExternalLink from "../../components/lido/evmExternalLink";
+import EvmPagination from "../../components/lido/evmPagination";
 import EvmTxHash from "../../components/lido/evmTxHash";
-import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import Table from "../../components/table";
 import { useLidoDepositsFilter } from "../../hooks/filter/useLidoDepositsFilter";
-import { useLidoDepositsData } from "../../hooks/lido";
+import { useLidoDepositsData } from "../../hooks/lido/useLidoDepositsData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,
@@ -83,10 +83,8 @@ export default function LidoDeposits() {
 
       <StyledPanelTableWrapper
         footer={
-          <Pagination
-            page={data?.page}
-            pageSize={data?.pageSize}
-            total={data?.total}
+          <EvmPagination
+            nextCursor={data?.nextCursor}
           />
         }
       >

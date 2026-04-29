@@ -1,79 +1,80 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import last from "lodash.last";
 import {
-  LIDO_WITHDRAWAL_STATUS,
   LIST_DEFAULT_PAGE_SIZE,
+  TABLE_SORT_QUERY_KEY,
 } from "../../utils/constants";
 import { GET_LIDO_WITHDRAWAL_REQUESTS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoQuery } from "./useLidoQuery";
-import { getLidoListPageData } from "./pagination";
 
 const DEFAULT_ORDER_BY = "blockNumber";
 const DEFAULT_ORDER_DIRECTION = "desc";
-const STATUS_COUNT_KEYS = {
-  [LIDO_WITHDRAWAL_STATUS.CLAIMED]: "withdrawalClaimCount",
-  [LIDO_WITHDRAWAL_STATUS.FINALIZED]: "withdrawalFinalizationCount",
-};
+
+function getSort(sort) {
+  if (!sort) {
+    return {
+      orderBy: DEFAULT_ORDER_BY,
+      orderDirection: DEFAULT_ORDER_DIRECTION,
+    };
+  }
+
+  const parts = String(sort).split("_");
+  const orderDirection = parts.pop();
+
+  return {
+    orderBy: parts.join("_"),
+    orderDirection,
+  };
+}
+
+function getCursorFilter(cursor, orderDirection) {
+  if (!cursor) {
+    return {};
+  }
+
+  const id = String(cursor);
+
+  return orderDirection === "desc" ? { id_lt: id } : { id_gt: id };
+}
 
 export function useLidoWithdrawalsData() {
-  const [data, setData] = useState(null);
   const {
-    page = 1,
-    sort,
+    cursor,
+    [TABLE_SORT_QUERY_KEY]: sortQuery,
     status: statusQuery = "",
     txHash = "",
-  } = useQueryParams();
-  const pageSize = LIST_DEFAULT_PAGE_SIZE;
-  const currentPage = Math.max(1, Number(page) || 1);
+  } = useQueryParams({ parseNumbers: false });
   const status = statusQuery === "null" ? "" : statusQuery;
+  const pageSize = LIST_DEFAULT_PAGE_SIZE;
 
   const variables = useMemo(() => {
-    let orderBy = DEFAULT_ORDER_BY;
-    let orderDirection = DEFAULT_ORDER_DIRECTION;
-    if (sort) {
-      const parts = String(sort).split("_");
-      if (parts.length >= 2) {
-        orderDirection = parts.pop();
-        orderBy = parts.join("_");
-      }
-    }
-
+    const sort = getSort(sortQuery);
     const where = {
       ...(status ? { status } : {}),
-      ...(txHash ? { txHash_contains_nocase: String(txHash) } : {}),
+      ...(txHash ? { txHash } : {}),
+      ...getCursorFilter(cursor, sort.orderDirection),
     };
 
     return {
-      includeStats: !txHash,
-      first: pageSize + 1,
-      skip: (currentPage - 1) * pageSize,
-      where,
-      orderBy,
-      orderDirection,
+      first: pageSize,
+      ...sort,
+      ...(Object.keys(where).length ? { where } : {}),
     };
-  }, [currentPage, pageSize, sort, status, txHash]);
+  }, [cursor, pageSize, sortQuery, status, txHash]);
 
-  const queryResult = useLidoQuery(GET_LIDO_WITHDRAWAL_REQUESTS, {
-    variables,
-    onCompleted: setData,
-  });
-  const statsCountKey = STATUS_COUNT_KEYS[status] || "withdrawalRequestCount";
-  const tableData = data
-    ? getLidoListPageData({
-        rawItems: data?.withdrawalRequests || [],
-        page: currentPage,
-        pageSize,
-        stats: data?.paginationStat,
-        statsCountKey,
-      })
-    : null;
+  const queryResult = useLidoQuery(GET_LIDO_WITHDRAWAL_REQUESTS, { variables });
+
+  const queryData = queryResult.data || queryResult.previousData;
+  const items = queryData?.withdrawalRequests || [];
+  const hasNextPage = items.length === pageSize;
+  const nextCursor = hasNextPage ? last(items)?.id : null;
 
   return {
     ...queryResult,
-    data: tableData || {
-      page: currentPage,
-      pageSize,
+    data: {
+      items,
+      nextCursor,
     },
-    variables,
   };
 }

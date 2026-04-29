@@ -13,7 +13,7 @@ import LidoWithdrawalTimeline from "../../components/lido/withdrawalTimeline";
 import NoData from "../../components/noData";
 import { Panel } from "../../components/styled/panel";
 import { DetailedTime } from "../../components/styled/time";
-import { useLidoWithdrawalData } from "../../hooks/lido";
+import { useLidoWithdrawalData } from "../../hooks/lido/useLidoWithdrawalData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,

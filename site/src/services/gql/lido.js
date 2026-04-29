@@ -2,19 +2,13 @@ import { gql } from "@apollo/client";
 
 export const GET_LIDO_DEPOSITS = gql`
   query GetLidoDeposits(
-    $includeStats: Boolean!
     $first: Int!
-    $skip: Int!
     $where: Deposit_filter
     $orderBy: Deposit_orderBy
     $orderDirection: OrderDirection
   ) {
-    paginationStat(id: "global") @include(if: $includeStats) {
-      depositCount
-    }
     deposits(
       first: $first
-      skip: $skip
       where: $where
       orderBy: $orderBy
       orderDirection: $orderDirection
@@ -33,21 +27,13 @@ export const GET_LIDO_DEPOSITS = gql`
 
 export const GET_LIDO_WITHDRAWAL_REQUESTS = gql`
   query GetLidoWithdrawalRequests(
-    $includeStats: Boolean!
     $first: Int!
-    $skip: Int!
     $where: WithdrawalRequest_filter
     $orderBy: WithdrawalRequest_orderBy
     $orderDirection: OrderDirection
   ) {
-    paginationStat(id: "global") @include(if: $includeStats) {
-      withdrawalClaimCount
-      withdrawalFinalizationCount
-      withdrawalRequestCount
-    }
     withdrawalRequests(
       first: $first
-      skip: $skip
       where: $where
       orderBy: $orderBy
       orderDirection: $orderDirection

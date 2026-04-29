@@ -21,7 +21,7 @@ export function useLidoWithdrawalsFilter() {
   const {
     status = "",
     txHash = "",
-  } = useQueryParams();
+  } = useQueryParams({ parseNumbers: false });
 
   useEffect(() => {
     setFilter([
