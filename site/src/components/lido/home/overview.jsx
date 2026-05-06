@@ -75,17 +75,6 @@ export default function LidoOverview({ data, decimals, symbol, loading }) {
           }
         />
         <OverviewCard
-          label="stETH / wstETH"
-          icon={<TransferSquareIcon />}
-          value={
-            <RateValue
-              value={data.stEthPerToken}
-              decimals={decimals}
-              loading={loading}
-            />
-          }
-        />
-        <OverviewCard
           label="wstETH Total Supply"
           icon={<AssetSquareIcon />}
           value={
@@ -98,17 +87,6 @@ export default function LidoOverview({ data, decimals, symbol, loading }) {
           }
         />
         <OverviewCard
-          label="wstETH / stETH"
-          icon={<TransferSquareIcon />}
-          value={
-            <RateValue
-              value={data.tokensPerStEth}
-              decimals={decimals}
-              loading={loading}
-            />
-          }
-        />
-        <OverviewCard
           label="Buffered ETH"
           icon={<SpendPeriodSquareIcon />}
           value={
@@ -116,6 +94,28 @@ export default function LidoOverview({ data, decimals, symbol, loading }) {
               value={data.bufferedEth}
               decimals={decimals}
               symbol={symbol}
+              loading={loading}
+            />
+          }
+        />
+        <OverviewCard
+          label="stETH / wstETH"
+          icon={<TransferSquareIcon />}
+          value={
+            <RateValue
+              value={data.stEthPerToken}
+              decimals={decimals}
+              loading={loading}
+            />
+          }
+        />
+        <OverviewCard
+          label="wstETH / stETH"
+          icon={<TransferSquareIcon />}
+          value={
+            <RateValue
+              value={data.tokensPerStEth}
+              decimals={decimals}
               loading={loading}
             />
           }
