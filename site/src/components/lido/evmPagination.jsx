@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as queryString from "query-string";
 import Link from "../styled/link";
 import { Flex } from "../styled/flex";
@@ -72,30 +72,22 @@ function getBaseParams(params) {
   return result;
 }
 
-function getPrevLink(pathname, currentParams) {
-  const params = getBaseParams(currentParams);
-  const prev = currentParams.prev;
-
-  if (prev) {
-    params.cursor = prev;
-  }
-
-  return queryString.stringifyUrl({ url: pathname, query: params });
-}
-
 function getNextLink(pathname, currentParams, nextCursor) {
   const params = getBaseParams(currentParams);
-  const cursor = currentParams.cursor;
   params.cursor = nextCursor;
-
-  if (cursor) {
-    params.prev = cursor;
-  }
 
   return queryString.stringifyUrl({ url: pathname, query: params });
 }
 
 function EvmPageCaret({ children, to }) {
+  if (!to) {
+    return (
+      <StyledLink as="span">
+        <LinkInnerWrapper>{children}</LinkInnerWrapper>
+      </StyledLink>
+    );
+  }
+
   return (
     <StyledLink to={to}>
       <LinkInnerWrapper>{children}</LinkInnerWrapper>
@@ -103,23 +95,22 @@ function EvmPageCaret({ children, to }) {
   );
 }
 
-export default function EvmPagination({
-  nextCursor,
-}) {
+export default function EvmPagination({ nextCursor }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const params = queryString.parse(location.search);
-  const cursor = params.cursor;
-  const prevLink = getPrevLink(location.pathname, params);
+  const prevDisabled = !params.cursor;
+  const nextDisabled = !nextCursor;
   const nextLink = getNextLink(location.pathname, params, nextCursor);
 
   return (
     <Wrapper>
-      <Nav disabled={!cursor}>
-        <EvmPageCaret to={prevLink}>
+      <Nav disabled={prevDisabled} onClick={() => navigate(-1)}>
+        <EvmPageCaret>
           <CaretLeft />
         </EvmPageCaret>
       </Nav>
-      <Nav disabled={!nextCursor}>
+      <Nav disabled={nextDisabled}>
         <EvmPageCaret to={nextLink}>
           <CaretRight />
         </EvmPageCaret>

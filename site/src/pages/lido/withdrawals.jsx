@@ -39,6 +39,9 @@ const lidoWithdrawalsHead = [
   { name: "Owner", width: 200 },
   {
     name: "Value",
+    type: "sortable",
+    sortAscendingQueryValue: "value_asc",
+    sortDescendingQueryValue: "value_desc",
     align: "right",
     width: 180,
   },

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toSvg } from "jdenticon";
 import styled from "styled-components";
-import { getAddress, isAddress } from "viem";
+import { getAddress, isAddress } from "viem/utils";
 import { withCopy } from "../../HOC/withCopy";
 import evmPublicClient from "../../services/evm/client";
 import { hashEllipsis } from "../../utils/viewFuncs/text";

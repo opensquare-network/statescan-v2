@@ -1,11 +1,29 @@
-const DEFAULT_ORDER_BY = "blockNumber";
-const DEFAULT_ORDER_DIRECTION = "desc";
+export const LIDO_LIST_PAGE_SIZE = 25;
+export const LIDO_LIST_ORDER_BY = "blockNumber";
+export const LIDO_LIST_ORDER_DIRECTION = "desc";
+
+const CURSOR_SEPARATOR = ":";
+
+function getTieBreakerField(orderBy) {
+  return orderBy === "blockNumber" ? "logIndex" : "id";
+}
+
+export function encodeCursor(item, orderBy) {
+  const value = item?.[orderBy];
+  const tieBreaker = item?.[getTieBreakerField(orderBy)];
+
+  if (value == null || tieBreaker == null) {
+    return null;
+  }
+
+  return [value, tieBreaker].join(CURSOR_SEPARATOR);
+}
 
 export function getSort(sort) {
   if (!sort) {
     return {
-      orderBy: DEFAULT_ORDER_BY,
-      orderDirection: DEFAULT_ORDER_DIRECTION,
+      orderBy: LIDO_LIST_ORDER_BY,
+      orderDirection: LIDO_LIST_ORDER_DIRECTION,
     };
   }
 
@@ -18,14 +36,47 @@ export function getSort(sort) {
   };
 }
 
-export function getCursorFilter(cursor, orderDirection) {
+function decodeCursor(cursor) {
+  const [value, tieBreaker] = String(cursor).split(CURSOR_SEPARATOR);
+
+  if (!value || !tieBreaker) {
+    return null;
+  }
+
+  return { value, tieBreaker };
+}
+
+export function getCursorFilter(cursor, orderBy, orderDirection) {
   if (!cursor) {
     return {};
   }
 
-  const id = String(cursor);
+  const decodedCursor = decodeCursor(cursor);
 
-  return orderDirection === "desc" ? { id_lt: id } : { id_gt: id };
+  if (!decodedCursor) {
+    return {};
+  }
+
+  const { value, tieBreaker } = decodedCursor;
+  const operator = orderDirection === "asc" ? "gt" : "lt";
+  const tieBreakerField = getTieBreakerField(orderBy);
+
+  return {
+    or: [
+      { [`${orderBy}_${operator}`]: value },
+      { [orderBy]: value, [`${tieBreakerField}_${operator}`]: tieBreaker },
+    ],
+  };
+}
+
+export function mergeCursorFilter(baseFilters, cursorFilter) {
+  if (!cursorFilter.or) {
+    return baseFilters;
+  }
+
+  return {
+    or: cursorFilter.or.map((item) => ({ ...baseFilters, ...item })),
+  };
 }
 
 export function toSecondsTimestamp(timestamp) {

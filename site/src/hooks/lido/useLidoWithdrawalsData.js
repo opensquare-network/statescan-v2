@@ -4,6 +4,7 @@ import { GET_LIDO_WITHDRAWAL_REQUESTS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoQuery } from "./useLidoQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
+import { encodeCursor } from "./utils";
 
 export function useLidoWithdrawalsData() {
   const {
@@ -39,7 +40,9 @@ export function useLidoWithdrawalsData() {
   const queryData = queryResult.data || queryResult.previousData;
   const items = queryData?.withdrawalRequests || [];
   const hasNextPage = items.length === pageSize;
-  const nextCursor = hasNextPage ? last(items)?.id : null;
+  const nextCursor = hasNextPage
+    ? encodeCursor(last(items), variables.orderBy)
+    : null;
 
   return {
     ...queryResult,

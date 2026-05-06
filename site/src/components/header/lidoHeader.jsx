@@ -40,6 +40,9 @@ export default function LidoHeader() {
       pc={
         <FlexBetween style={{ flex: 1 }}>
           <HeaderMenuWrapper>
+            <HeaderMenuLink to="/">
+              <HeaderMenuText>Home</HeaderMenuText>
+            </HeaderMenuLink>
             <SubMenu category="BlockChain" menus={lidoMenus} />
           </HeaderMenuWrapper>
 
@@ -50,6 +53,9 @@ export default function LidoHeader() {
         <>
           <ChainSwitch />
           <MobileMenuList>
+            <HeaderMenuLink to="/" onClick={closeMobileMenu}>
+              <HeaderMenuText>Home</HeaderMenuText>
+            </HeaderMenuLink>
             {lidoMenus.map((item) => (
               <HeaderMenuLink
                 key={item.name}

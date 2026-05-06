@@ -1,6 +1,11 @@
 import { useMemo } from "react";
-import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
-import { getCursorFilter, getSort, getTimeDimensionFilter } from "./utils";
+import {
+  getCursorFilter,
+  getSort,
+  getTimeDimensionFilter,
+  LIDO_LIST_PAGE_SIZE,
+  mergeCursorFilter,
+} from "./utils";
 
 export function useLidoListVariables({
   sortQuery,
@@ -8,15 +13,20 @@ export function useLidoListVariables({
   where,
   timeDimensionParams,
 }) {
-  const pageSize = LIST_DEFAULT_PAGE_SIZE;
+  const pageSize = LIDO_LIST_PAGE_SIZE;
 
   const variables = useMemo(() => {
     const sort = getSort(sortQuery);
-    const filters = {
+    const baseFilters = {
       ...where,
       ...getTimeDimensionFilter(timeDimensionParams),
-      ...getCursorFilter(cursor, sort.orderDirection),
     };
+    const cursorFilter = getCursorFilter(
+      cursor,
+      sort.orderBy,
+      sort.orderDirection,
+    );
+    const filters = mergeCursorFilter(baseFilters, cursorFilter);
 
     return {
       first: pageSize,
