@@ -19,7 +19,7 @@ const PageTitle = styled.h1`
 `;
 
 const Section = styled.div`
-  margin-top: 120px;
+  margin-top: 80px;
   & + & {
     margin-top: 24px;
   }
