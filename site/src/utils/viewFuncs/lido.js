@@ -1,4 +1,6 @@
 import { toPrecision } from "@osn/common";
+import BigNumber from "bignumber.js";
+import isNil from "lodash.isnil";
 import { currencify } from "..";
 
 const ETHERSCAN_BASE_URL = "https://etherscan.io";
@@ -25,4 +27,12 @@ export function toLidoBlockNumber(blockNumber) {
 
 export function toLidoAmount(value, decimals) {
   return toPrecision(value || 0, decimals);
+}
+
+export function formatLidoBp(value, empty = "--") {
+  if (isNil(value)) {
+    return empty;
+  }
+
+  return `${new BigNumber(value).div(100).toString()}%`;
 }

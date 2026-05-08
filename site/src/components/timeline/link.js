@@ -65,7 +65,7 @@ function ExternalTimelineLink({ name, href }) {
 }
 
 function EtherscanLink({ indexer }) {
-  const { blockHeight, extrinsicIndex, eventIndex } = indexer;
+  const { blockHeight, extrinsicIndex, eventIndex, txHash } = indexer;
 
   return (
     <Links>
@@ -73,6 +73,12 @@ function EtherscanLink({ indexer }) {
         <ExternalTimelineLink
           name="Block"
           href={`https://etherscan.io/block/${blockHeight}`}
+        />
+      )}
+      {txHash && (
+        <ExternalTimelineLink
+          name="Transaction"
+          href={`https://etherscan.io/tx/${txHash}`}
         />
       )}
     </Links>

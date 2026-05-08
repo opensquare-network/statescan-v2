@@ -13,6 +13,7 @@ import { toggle } from "../../store/reducers/mobileMenuSlice";
 const lidoMenus = [
   { name: "Deposits", value: "deposits" },
   { name: "Withdrawals", value: "withdrawals" },
+  { name: "Staking Vaults", value: "staking-vaults" },
 ];
 
 const MobileMenuList = styled.div`
