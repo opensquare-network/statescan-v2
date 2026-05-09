@@ -75,7 +75,9 @@ function renderValue(value, decimals, symbol, key) {
 
 function toLidoStakingVaultsTableData(items = [], { decimals, symbol }) {
   return items.map((item) => {
+    const timelines = item.timelines || [];
     const report = item.lastReport;
+    const vaultCreated = timelines.find((t) => t.eventType === "VaultCreated");
 
     return [
       <span key={`${item.id}-id`}>{renderVaultId(item.id)}</span>,
@@ -87,7 +89,7 @@ function toLidoStakingVaultsTableData(items = [], { decimals, symbol }) {
         symbol={symbol}
       />,
       formatLidoBp(item.reserveRatioBP),
-      toLidoTimestamp(item.lastReport?.blockTime),
+      toLidoTimestamp(report?.blockTime || vaultCreated?.blockTime),
       renderAddress(item.id, "node-operator", item.nodeOperator),
       <LidoVaultStatus key={`${item.id}-status`} status={item.status} />,
     ];

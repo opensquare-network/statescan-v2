@@ -112,6 +112,11 @@ export const GET_LIDO_VAULTS = gql`
       reserveRatioBP
       status
       updatedAtBlock
+      timelines {
+        eventType
+        txHash
+        blockTime
+      }
       lastReport {
         blockTime
         blockNumber
