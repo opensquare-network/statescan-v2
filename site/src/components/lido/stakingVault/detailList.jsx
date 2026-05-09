@@ -2,17 +2,21 @@ import isNil from "lodash.isnil";
 import styled from "styled-components";
 import List from "../../list";
 import EvmAddress from "../evmAddress";
+import EvmExternalLink from "../evmExternalLink";
 import LidoInOutDelta from "./inOutDelta";
 import LidoValue from "../value";
 import LidoVaultStatus from "./status";
 import { DetailedTime } from "../../styled/time";
-import Tooltip from "../../tooltip";
-import { Inter_14_500 } from "../../../styles/text";
+import {
+  formatLidoBp,
+  getEtherscanAddressUrl,
+  toLidoTimestamp,
+} from "../../../utils/viewFuncs/lido";
 import { hashEllipsis } from "../../../utils/viewFuncs/text";
-import { formatLidoBp, toLidoTimestamp } from "../../../utils/viewFuncs/lido";
+import { Overpass_Mono_14_500 } from "../../../styles/text";
 
-const Value = styled.span`
-  ${Inter_14_500};
+const VaultLink = styled(EvmExternalLink)`
+  ${Overpass_Mono_14_500};
 `;
 
 function toTime(timestamp) {
@@ -21,20 +25,24 @@ function toTime(timestamp) {
   return time ? <DetailedTime ts={time} /> : "--";
 }
 
-function toVaultId(id) {
-  return (
-    <Tooltip tip={id}>
-      <Value>{hashEllipsis(id, 4, 4)}</Value>
-    </Tooltip>
-  );
-}
-
 function toValue(value, { decimals, symbol }) {
   if (isNil(value)) {
     return "--";
   }
 
   return <LidoValue value={value} decimals={decimals} symbol={symbol} />;
+}
+
+function toVaultId(id) {
+  return (
+    <VaultLink
+      href={getEtherscanAddressUrl(id)}
+      copyContent={id}
+      tooltipContent={id}
+    >
+      {hashEllipsis(id, 4, 4)}
+    </VaultLink>
+  );
 }
 
 function toVaultDetailItems(vault, chainSettings) {

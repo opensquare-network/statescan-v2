@@ -1,8 +1,5 @@
 import EvmAddressWithAvatar from "../evm/address";
-
-function getEtherscanAddressUrl(address) {
-  return `https://etherscan.io/address/${address}`;
-}
+import { getEtherscanAddressUrl } from "../../utils/viewFuncs/lido";
 
 export default function EvmAddress({
   address,

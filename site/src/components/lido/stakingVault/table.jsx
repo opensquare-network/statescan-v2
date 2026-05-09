@@ -5,7 +5,7 @@ import EvmPagination from "../evmPagination";
 import LidoInOutDelta from "./inOutDelta";
 import LidoVaultStatus from "./status";
 import { StyledPanelTableWrapper } from "../../styled/panel";
-import { ColoredInterLink } from "../../styled/link";
+import { ColoredMonoLink } from "../../styled/link";
 import Table from "../../table";
 import Tooltip from "../../tooltip";
 import { hashEllipsis } from "../../../utils/viewFuncs/text";
@@ -16,7 +16,7 @@ import {
 } from "../../../utils/viewFuncs/lido";
 
 const lidoStakingVaultsHead = [
-  { name: "Vault", width: 130 },
+  { name: "Vault", width: 140 },
   {
     name: "Total",
     align: "right",
@@ -51,9 +51,9 @@ function renderAddress(id, field, address) {
 function renderVaultId(id) {
   return (
     <Tooltip tip={id}>
-      <ColoredInterLink to={`/staking-vaults/${id}`}>
+      <ColoredMonoLink to={`/staking-vaults/${id}`}>
         {hashEllipsis(id, 4, 4)}
-      </ColoredInterLink>
+      </ColoredMonoLink>
     </Tooltip>
   );
 }

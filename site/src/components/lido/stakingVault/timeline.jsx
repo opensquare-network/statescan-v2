@@ -7,6 +7,7 @@ import LidoInOutDelta from "./inOutDelta";
 import LidoValue from "../value";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import { formatLidoBp, toLidoTimestamp } from "../../../utils/viewFuncs/lido";
+import { sortTimelineEvents } from "./utils";
 
 function toValueRow(label, value, { decimals, symbol }) {
   if (isNil(value)) {
@@ -168,7 +169,7 @@ function LidoTimelineItemFields({ item }) {
 
 export default function LidoStakingVaultTimeline({ vault }) {
   const chainSettings = useChainSettings();
-  const timeline = (vault?.timelines || []).map((event) =>
+  const timeline = sortTimelineEvents(vault?.timelines).map((event) =>
     toTimelineItem(event, chainSettings),
   );
 

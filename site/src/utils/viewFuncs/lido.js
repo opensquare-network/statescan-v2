@@ -21,6 +21,10 @@ export function getEtherscanTxUrl(txHash) {
   return `${ETHERSCAN_BASE_URL}/tx/${txHash}`;
 }
 
+export function getEtherscanAddressUrl(address) {
+  return `${ETHERSCAN_BASE_URL}/address/${address}`;
+}
+
 export function toLidoBlockNumber(blockNumber) {
   return currencify(Number(blockNumber));
 }

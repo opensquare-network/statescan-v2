@@ -13,8 +13,16 @@ const Wrapper = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  height: 20px;
   min-width: 0;
   max-width: ${(p) => p.maxWidth || "100%"};
+`;
+
+const AddressTooltip = styled(Tooltip)`
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  max-width: 100%;
 `;
 
 const Avatar = styled.span`
@@ -38,6 +46,7 @@ const AvatarImage = styled.img`
 
 const AddressText = styled.span`
   ${Overpass_Mono_14_500};
+  transform: translateY(2px);
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -128,7 +137,7 @@ function AddressWrapper({
   children,
 }) {
   const visibleContent = tooltip ? (
-    <Tooltip tip={tooltipContent}>{children}</Tooltip>
+    <AddressTooltip tip={tooltipContent}>{children}</AddressTooltip>
   ) : (
     children
   );
