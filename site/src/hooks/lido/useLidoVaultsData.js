@@ -1,12 +1,11 @@
 import last from "lodash.last";
-import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_VAULTS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoQuery } from "./useLidoQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
 import { encodeCursor } from "./utils";
 
-const DEFAULT_SORT = "updatedAtBlock_desc";
+const DEFAULT_SORT = "statusOrder_asc";
 
 export function useLidoVaultsData() {
   const {
@@ -14,11 +13,10 @@ export function useLidoVaultsData() {
     vault = "",
     operator = "",
     status: statusQuery = "",
-    [TABLE_SORT_QUERY_KEY]: sortQuery = DEFAULT_SORT,
   } = useQueryParams({ parseNumbers: false });
   const status = statusQuery === "null" ? "" : statusQuery;
   const { variables, pageSize } = useLidoListVariables({
-    sortQuery,
+    sortQuery: DEFAULT_SORT,
     cursor,
     where: {
       ...(vault ? { id_contains_nocase: String(vault) } : {}),

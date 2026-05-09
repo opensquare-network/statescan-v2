@@ -111,6 +111,7 @@ export const GET_LIDO_VAULTS = gql`
       nodeOperator
       reserveRatioBP
       status
+      statusOrder
       updatedAtBlock
       timelines {
         eventType
@@ -173,7 +174,6 @@ export const GET_LIDO_VAULT = gql`
         blockNumber
         id
         logIndex
-        status
         vaultAddress
         dashboardCreated {
           admin

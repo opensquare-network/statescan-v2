@@ -57,7 +57,8 @@ export function getCursorFilter(cursor, orderBy, orderDirection) {
     return {};
   }
 
-  const { value, tieBreaker } = decodedCursor;
+  const { value: rawValue, tieBreaker } = decodedCursor;
+  const value = orderBy === "statusOrder" ? Number(rawValue) : rawValue;
   const operator = orderDirection === "asc" ? "gt" : "lt";
   const tieBreakerField = getTieBreakerField(orderBy);
 
