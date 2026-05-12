@@ -1,6 +1,7 @@
 import LidoDeposits from "../pages/lido/deposits";
 import LidoHome from "../pages/lido";
 import LidoWithdrawal from "../pages/lido/withdrawal";
+import LidoWithdrawalVault from "../pages/lido/withdrawalVault";
 import LidoWithdrawals from "../pages/lido/withdrawals";
 import LidoStakingVault from "../pages/lido/vault";
 import LidoStakingVaults from "../pages/lido/vaults";
@@ -14,6 +15,7 @@ export default function EvmRoutes() {
       <Route path="/deposits" element={<LidoDeposits />} />
       <Route path="/withdrawals" element={<LidoWithdrawals />} />
       <Route path="/withdrawals/:requestId" element={<LidoWithdrawal />} />
+      <Route path="/withdrawal-vault" element={<LidoWithdrawalVault />} />
       <Route path="/staking-vaults" element={<LidoStakingVaults />} />
       <Route path="/staking-vaults/:vaultId" element={<LidoStakingVault />} />
       <Route path="*" element={<NotFound />} />

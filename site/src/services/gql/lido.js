@@ -94,6 +94,29 @@ export const GET_LIDO_WITHDRAWAL_REQUESTS = gql`
   }
 `;
 
+export const GET_LIDO_WITHDRAWAL_VAULT_WITHDRAWALS_RECEIVED = gql`
+  query GetLidoWithdrawalVaultWithdrawalsReceived(
+    $first: Int!
+    $where: WithdrawalVaultWithdrawalsReceived_filter
+    $orderBy: WithdrawalVaultWithdrawalsReceived_orderBy
+    $orderDirection: OrderDirection
+  ) {
+    withdrawalVaultWithdrawalsReceiveds(
+      first: $first
+      where: $where
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+    ) {
+      amount
+      blockNumber
+      blockTime
+      id
+      logIndex
+      txHash
+    }
+  }
+`;
+
 export const GET_LIDO_VAULTS = gql`
   query GetLidoVaults(
     $first: Int!
