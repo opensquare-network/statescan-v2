@@ -1,12 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components";
 import LidoOverview from "../../components/lido/home/overview";
-import LidoStakingActivity, {
+import LidoUserStaking, {
   PERIODS,
-} from "../../components/lido/home/staking";
+} from "../../components/lido/home/userStaking";
+import LidoWithdrawalVaultStats from "../../components/lido/home/withdrawalVault";
 import Layout from "../../components/layout";
 import { useLidoDailyStatsData } from "../../hooks/lido/useLidoDailyStatsData";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
+import { useLidoWithdrawalVaultBalanceData } from "../../hooks/lido/useLidoWithdrawalVaultBalanceData";
+import { useLidoWithdrawalVaultStatsData } from "../../hooks/lido/useLidoWithdrawalVaultStatsData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import { Inter_24_700 } from "../../styles/text";
 
@@ -29,7 +32,13 @@ export default function LidoHome() {
   const [period, setPeriod] = useState(PERIODS[0].value);
   const chainSettings = useChainSettings();
   const { decimals, symbol } = chainSettings;
-  const { data } = useLidoDailyStatsData();
+  const { data, loading } = useLidoDailyStatsData();
+  const { data: withdrawalVaultData, loading: withdrawalVaultLoading } =
+    useLidoWithdrawalVaultStatsData();
+  const {
+    data: withdrawalVaultBalance,
+    loading: withdrawalVaultBalanceLoading,
+  } = useLidoWithdrawalVaultBalanceData();
   const { data: onchainData, loading: onchainLoading } =
     useLidoOnchainStatsData();
   const stats = data[period];
@@ -48,10 +57,22 @@ export default function LidoHome() {
       </Section>
 
       <Section>
-        <LidoStakingActivity
+        <LidoUserStaking
           period={period}
           onPeriodChange={setPeriod}
           stats={stats}
+          loading={loading}
+          decimals={decimals}
+          symbol={symbol}
+        />
+      </Section>
+
+      <Section>
+        <LidoWithdrawalVaultStats
+          stats={withdrawalVaultData}
+          loading={withdrawalVaultLoading}
+          balance={withdrawalVaultBalance}
+          balanceLoading={withdrawalVaultBalanceLoading}
           decimals={decimals}
           symbol={symbol}
         />

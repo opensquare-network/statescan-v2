@@ -1,11 +1,12 @@
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import ValueDisplay from "../../displayValue";
-import LoadingInlineAnimationIcon from "../../icons/loadingInlineAnimationIcon";
+import LoadableContent from "../../loadings/loadableContent";
 import Tooltip from "../../tooltip";
 import { Inter_12_500, Inter_14_600, Inter_18_700 } from "../../../styles/text";
 import { bigNumberToLocaleString } from "../../../utils/viewFuncs";
 import { toLidoAmount } from "../../../utils/viewFuncs/lido";
+import isNil from "lodash.isnil";
 
 export const IconSlot = styled.div`
   width: 40px;
@@ -53,20 +54,6 @@ const ApproxValue = styled.div`
   }
 `;
 
-const OnchainValueLoading = styled.span`
-  display: inline-flex;
-  align-items: center;
-  width: 14px;
-  height: 18px;
-  vertical-align: -2px;
-
-  > svg {
-    display: block;
-    width: 14px;
-    height: 14px;
-  }
-`;
-
 export function Amount({ value, symbol, decimals }) {
   return (
     <ValueDisplay
@@ -88,31 +75,19 @@ function toRateDisplayValue(value, decimals) {
 }
 
 export function OnchainAmount({ value, symbol, decimals, loading }) {
-  if (loading) {
-    return (
-      <OnchainValueLoading>
-        <LoadingInlineAnimationIcon />
-      </OnchainValueLoading>
-    );
-  }
-
-  if (value == null) {
+  if (!loading && isNil(value)) {
     return "--";
   }
 
-  return <Amount value={value} symbol={symbol} decimals={decimals} />;
+  return (
+    <LoadableContent loading={loading}>
+      <Amount value={value} symbol={symbol} decimals={decimals} />
+    </LoadableContent>
+  );
 }
 
 export function RateValue({ value, decimals, loading }) {
-  if (loading) {
-    return (
-      <OnchainValueLoading>
-        <LoadingInlineAnimationIcon />
-      </OnchainValueLoading>
-    );
-  }
-
-  if (value == null) {
+  if (!loading && isNil(value)) {
     return "--";
   }
 
@@ -123,12 +98,14 @@ export function RateValue({ value, decimals, loading }) {
   );
 
   if (new BigNumber(fullValue).eq(displayValue)) {
-    return display;
+    return <LoadableContent loading={loading}>{display}</LoadableContent>;
   }
 
   return (
-    <Tooltip tip={bigNumberToLocaleString(fullValue)}>
-      <ApproxValue>{display}</ApproxValue>
-    </Tooltip>
+    <LoadableContent loading={loading}>
+      <Tooltip tip={bigNumberToLocaleString(fullValue)}>
+        <ApproxValue>{display}</ApproxValue>
+      </Tooltip>
+    </LoadableContent>
   );
 }

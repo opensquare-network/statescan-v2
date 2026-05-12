@@ -21,6 +21,18 @@ export const GET_LIDO_DAILY_STATS = gql`
   }
 `;
 
+export const GET_LIDO_WITHDRAWAL_VAULT_PROTOCOL_STAT = gql`
+  query GetLidoWithdrawalVaultProtocolStat {
+    protocolStat(id: "withdrawalVaultReceived") {
+      count
+      id
+      updatedAtBlock
+      updatedAtTime
+      value
+    }
+  }
+`;
+
 export const GET_LIDO_DEPOSITS = gql`
   query GetLidoDeposits(
     $first: Int!
