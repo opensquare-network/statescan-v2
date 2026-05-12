@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import evmPublicClient from "../../services/evm/client";
-import { LIDO_WITHDRAWAL_VAULT_ADDRESS } from "../../services/evm/lido";
 
-export function useLidoWithdrawalVaultBalanceData() {
+export function useLidoEvmBalanceData(address) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async () => {
-    if (!evmPublicClient) {
+  const fetchData = useCallback(() => {
+    if (!evmPublicClient || !address) {
       setData(null);
       return;
     }
@@ -16,19 +15,19 @@ export function useLidoWithdrawalVaultBalanceData() {
     setLoading(true);
     setError(null);
 
-    try {
-      const balance = await evmPublicClient.getBalance({
-        address: LIDO_WITHDRAWAL_VAULT_ADDRESS,
+    evmPublicClient
+      .getBalance({ address })
+      .then((balance) => {
+        setData(balance.toString());
+      })
+      .catch((e) => {
+        setError(e);
+        setData(null);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-      setData(balance.toString());
-    } catch (e) {
-      setError(e);
-      setData(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  }, [address]);
 
   useEffect(() => {
     fetchData();

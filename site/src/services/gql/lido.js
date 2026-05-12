@@ -33,6 +33,18 @@ export const GET_LIDO_WITHDRAWAL_VAULT_PROTOCOL_STAT = gql`
   }
 `;
 
+export const GET_LIDO_REWARDS_VAULT_PROTOCOL_STAT = gql`
+  query GetLidoRewardsVaultProtocolStat {
+    protocolStat(id: "rewardsVaultETHReceived") {
+      count
+      id
+      updatedAtBlock
+      updatedAtTime
+      value
+    }
+  }
+`;
+
 export const GET_LIDO_DEPOSITS = gql`
   query GetLidoDeposits(
     $first: Int!
@@ -114,6 +126,29 @@ export const GET_LIDO_WITHDRAWAL_VAULT_WITHDRAWALS_RECEIVED = gql`
     $orderDirection: OrderDirection
   ) {
     withdrawalVaultWithdrawalsReceiveds(
+      first: $first
+      where: $where
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+    ) {
+      amount
+      blockNumber
+      blockTime
+      id
+      logIndex
+      txHash
+    }
+  }
+`;
+
+export const GET_LIDO_REWARDS_VAULT_ETH_RECEIVED = gql`
+  query GetLidoRewardsVaultETHReceived(
+    $first: Int!
+    $where: RewardsVaultETHReceived_filter
+    $orderBy: RewardsVaultETHReceived_orderBy
+    $orderDirection: OrderDirection
+  ) {
+    rewardsVaultETHReceiveds(
       first: $first
       where: $where
       orderBy: $orderBy

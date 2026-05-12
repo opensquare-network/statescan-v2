@@ -1,14 +1,20 @@
 import { useState } from "react";
 import styled from "styled-components";
 import LidoOverview from "../../components/lido/home/overview";
+import LidoRewardsVaultStats from "../../components/lido/home/rewardsVault";
 import LidoUserStaking, {
   PERIODS,
 } from "../../components/lido/home/userStaking";
 import LidoWithdrawalVaultStats from "../../components/lido/home/withdrawalVault";
 import Layout from "../../components/layout";
+import {
+  LIDO_REWARDS_VAULT_ADDRESS,
+  LIDO_WITHDRAWAL_VAULT_ADDRESS,
+} from "../../services/evm/lido";
 import { useLidoDailyStatsData } from "../../hooks/lido/useLidoDailyStatsData";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
-import { useLidoWithdrawalVaultBalanceData } from "../../hooks/lido/useLidoWithdrawalVaultBalanceData";
+import { useLidoRewardsVaultStatsData } from "../../hooks/lido/useLidoRewardsVaultStatsData";
+import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoEvmBalanceData";
 import { useLidoWithdrawalVaultStatsData } from "../../hooks/lido/useLidoWithdrawalVaultStatsData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import { Inter_24_700 } from "../../styles/text";
@@ -35,10 +41,14 @@ export default function LidoHome() {
   const { data, loading } = useLidoDailyStatsData();
   const { data: withdrawalVaultData, loading: withdrawalVaultLoading } =
     useLidoWithdrawalVaultStatsData();
+  const { data: rewardsVaultData, loading: rewardsVaultLoading } =
+    useLidoRewardsVaultStatsData();
   const {
     data: withdrawalVaultBalance,
     loading: withdrawalVaultBalanceLoading,
-  } = useLidoWithdrawalVaultBalanceData();
+  } = useLidoEvmBalanceData(LIDO_WITHDRAWAL_VAULT_ADDRESS);
+  const { data: rewardsVaultBalance, loading: rewardsVaultBalanceLoading } =
+    useLidoEvmBalanceData(LIDO_REWARDS_VAULT_ADDRESS);
   const { data: onchainData, loading: onchainLoading } =
     useLidoOnchainStatsData();
   const stats = data[period];
@@ -73,6 +83,17 @@ export default function LidoHome() {
           loading={withdrawalVaultLoading}
           balance={withdrawalVaultBalance}
           balanceLoading={withdrawalVaultBalanceLoading}
+          decimals={decimals}
+          symbol={symbol}
+        />
+      </Section>
+
+      <Section>
+        <LidoRewardsVaultStats
+          stats={rewardsVaultData}
+          loading={rewardsVaultLoading}
+          balance={rewardsVaultBalance}
+          balanceLoading={rewardsVaultBalanceLoading}
           decimals={decimals}
           symbol={symbol}
         />

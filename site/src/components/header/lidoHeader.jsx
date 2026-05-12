@@ -14,6 +14,7 @@ const lidoMenus = [
   { name: "Deposits", value: "deposits" },
   { name: "Withdrawals", value: "withdrawals" },
   { name: "Withdrawal Vault", value: "withdrawal-vault" },
+  { name: "Rewards Vault", value: "rewards-vault" },
   { name: "Staking Vaults", value: "staking-vaults" },
 ];
 
