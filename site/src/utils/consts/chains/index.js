@@ -69,7 +69,7 @@ const chains = {
   "people-westend": peopleWestend,
   argon,
   cere,
-  "cere-testnet": cereTestnet,
+  // "cere-testnet": cereTestnet,
   // "fintra-testnet": fintraTestnet,
   frequency,
   "datahaven-testnet": datahavenTestnet,
