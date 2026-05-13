@@ -125,7 +125,7 @@ export default function LidoRewardsVaultStats({
   return (
     <StatsSection>
       <StatsSectionHeader>
-        <StatsPanelTitle>Rewards Vault</StatsPanelTitle>
+        <StatsPanelTitle>Execution Layer Reward Vault</StatsPanelTitle>
         <ViewAllLink to="/rewards-vault">View All</ViewAllLink>
       </StatsSectionHeader>
       <StatsPanel>
@@ -140,7 +140,7 @@ export default function LidoRewardsVaultStats({
             labelExtra={<RewardsVaultAddressLink />}
           />
           <AmountCard
-            label="Total rewards"
+            label="Total withdrawal"
             value={stats.value}
             icon={<TransferSquareIcon />}
             decimals={decimals}
@@ -148,7 +148,7 @@ export default function LidoRewardsVaultStats({
             loading={loading}
           />
           <CountCard
-            label="Total rewards count"
+            label="Total withdrawal count"
             icon={<TransferSquareIcon />}
             value={formatCount(stats.count)}
             loading={loading}
