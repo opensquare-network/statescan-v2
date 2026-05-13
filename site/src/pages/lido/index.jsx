@@ -13,11 +13,13 @@ import {
 } from "../../services/evm/lido";
 import { useLidoDailyStatsData } from "../../hooks/lido/useLidoDailyStatsData";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
-import { useLidoRewardsVaultStatsData } from "../../hooks/lido/useLidoRewardsVaultStatsData";
 import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoEvmBalanceData";
-import { useLidoWithdrawalVaultStatsData } from "../../hooks/lido/useLidoWithdrawalVaultStatsData";
+import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import { Inter_24_700 } from "../../styles/text";
+
+const WITHDRAWAL_VAULT_RECEIVED_STAT_ID = "withdrawalVaultReceived";
+const REWARDS_VAULT_RECEIVED_STAT_ID = "rewardsVaultETHReceived";
 
 const PageTitle = styled.h1`
   all: unset;
@@ -40,9 +42,9 @@ export default function LidoHome() {
   const { decimals, symbol } = chainSettings;
   const { data, loading } = useLidoDailyStatsData();
   const { data: withdrawalVaultData, loading: withdrawalVaultLoading } =
-    useLidoWithdrawalVaultStatsData();
+    useLidoProtocolStatData(WITHDRAWAL_VAULT_RECEIVED_STAT_ID);
   const { data: rewardsVaultData, loading: rewardsVaultLoading } =
-    useLidoRewardsVaultStatsData();
+    useLidoProtocolStatData(REWARDS_VAULT_RECEIVED_STAT_ID);
   const {
     data: withdrawalVaultBalance,
     loading: withdrawalVaultBalanceLoading,

@@ -135,11 +135,7 @@ export default function LidoWithdrawalTimeline({ withdrawal }) {
     <Timeline
       timeline={timeline}
       IconComponent={TimelineItemIcon}
-      FieldsComponent={LidoTimelineItemFields}
+      FieldsComponent={TimelineItemFields}
     />
   );
-}
-
-function LidoTimelineItemFields({ item }) {
-  return <TimelineItemFields fields={item.rows} />;
 }

@@ -16,6 +16,14 @@ const lidoMenus = [
   { name: "Withdrawal Vault", value: "withdrawal-vault" },
   { name: "Rewards Vault", value: "rewards-vault" },
   { name: "Staking Vaults", value: "staking-vaults" },
+  {
+    type: "group",
+    title: "Staking Router",
+    menus: [
+      { name: "Staking Modules", value: "staking-modules" },
+      { name: "Module Deposits", value: "module-deposits" },
+    ],
+  },
 ];
 
 const MobileMenuList = styled.div`
@@ -30,6 +38,26 @@ function getMenuPath(value) {
   }
 
   return `/${value}`;
+}
+
+function renderMobileMenuItem(item, closeMobileMenu) {
+  if (item.type === "divider") {
+    return null;
+  } else if (item.type === "group") {
+    return item.menus.map((subItem) =>
+      renderMobileMenuItem(subItem, closeMobileMenu),
+    );
+  }
+
+  return (
+    <HeaderMenuLink
+      key={item.name}
+      to={getMenuPath(item.value)}
+      onClick={closeMobileMenu}
+    >
+      <HeaderMenuText>{item.name}</HeaderMenuText>
+    </HeaderMenuLink>
+  );
 }
 
 export default function LidoHeader() {
@@ -59,15 +87,9 @@ export default function LidoHeader() {
             <HeaderMenuLink to="/" onClick={closeMobileMenu}>
               <HeaderMenuText>Home</HeaderMenuText>
             </HeaderMenuLink>
-            {lidoMenus.map((item) => (
-              <HeaderMenuLink
-                key={item.name}
-                to={getMenuPath(item.value)}
-                onClick={closeMobileMenu}
-              >
-                <HeaderMenuText>{item.name}</HeaderMenuText>
-              </HeaderMenuLink>
-            ))}
+            {lidoMenus.map((item) =>
+              renderMobileMenuItem(item, closeMobileMenu),
+            )}
           </MobileMenuList>
         </>
       }

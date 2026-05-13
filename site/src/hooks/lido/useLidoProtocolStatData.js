@@ -1,4 +1,4 @@
-import { GET_LIDO_REWARDS_VAULT_PROTOCOL_STAT } from "../../services/gql/lido";
+import { GET_LIDO_PROTOCOL_STAT } from "../../services/gql/lido";
 import { useLidoQuery } from "./useLidoQuery";
 
 const emptyData = {
@@ -6,8 +6,11 @@ const emptyData = {
   value: 0,
 };
 
-export function useLidoRewardsVaultStatsData() {
-  const queryResult = useLidoQuery(GET_LIDO_REWARDS_VAULT_PROTOCOL_STAT);
+export function useLidoProtocolStatData(id) {
+  const queryResult = useLidoQuery(GET_LIDO_PROTOCOL_STAT, {
+    variables: { id },
+    skip: !id,
+  });
   const queryData = queryResult.data || queryResult.previousData;
   const stat = queryData?.protocolStat;
 

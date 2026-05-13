@@ -2,11 +2,11 @@ import isNil from "lodash.isnil";
 import Timeline from "../../timeline";
 import TimelineItemFields from "../../timeline/itemFields";
 import TimelineItemIcon from "../../timeline/itemIcon";
-import EvmAddress from "../evmAddress";
 import LidoInOutDelta from "./inOutDelta";
 import LidoValue from "../value";
+import { toAddressRow, toBpRow } from "../timelineRows";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
-import { formatLidoBp, toLidoTimestamp } from "../../../utils/viewFuncs/lido";
+import { toLidoTimestamp } from "../../../utils/viewFuncs/lido";
 import { sortTimelineEvents } from "./utils";
 
 function toValueRow(label, value, { decimals, symbol }) {
@@ -31,23 +31,12 @@ function toInOutDeltaRow(label, value, { decimals, symbol }) {
   ];
 }
 
-function toBpRow(label, value) {
-  if (isNil(value)) {
-    return null;
-  }
-
-  return [label, formatLidoBp(value)];
-}
-
 function toDashboardCreatedRows(event) {
   const payload = event.dashboardCreated;
 
   return [
-    payload?.admin && ["Admin", <EvmAddress address={payload.admin} />],
-    payload?.dashboard && [
-      "Dashboard",
-      <EvmAddress address={payload.dashboard} />,
-    ],
+    toAddressRow("Admin", payload?.admin),
+    toAddressRow("Dashboard", payload?.dashboard),
   ].filter(Boolean);
 }
 
@@ -68,10 +57,7 @@ function toConnectionUpdatedRows(event, chainSettings) {
   const payload = event.vaultConnectionUpdated;
 
   return [
-    payload?.nodeOperator && [
-      "Node Operator",
-      <EvmAddress address={payload.nodeOperator} />,
-    ],
+    toAddressRow("Node Operator", payload?.nodeOperator),
     toValueRow("Share Limit", payload?.shareLimit, chainSettings),
     toBpRow("Reserve Ratio", payload?.reserveRatioBP),
     toBpRow("Rebalance Threshold", payload?.rebalanceThresholdBP),
@@ -163,10 +149,6 @@ function toTimelineItem(event, chainSettings) {
   };
 }
 
-function LidoTimelineItemFields({ item }) {
-  return <TimelineItemFields fields={item.rows} />;
-}
-
 export default function LidoStakingVaultTimeline({ vault }) {
   const chainSettings = useChainSettings();
   const timeline = sortTimelineEvents(vault?.timelines).map((event) =>
@@ -177,7 +159,7 @@ export default function LidoStakingVaultTimeline({ vault }) {
     <Timeline
       timeline={timeline}
       IconComponent={TimelineItemIcon}
-      FieldsComponent={LidoTimelineItemFields}
+      FieldsComponent={TimelineItemFields}
     />
   );
 }
