@@ -10,20 +10,17 @@ import BaseHeader, {
 } from "./baseHeader";
 import { toggle } from "../../store/reducers/mobileMenuSlice";
 
-const lidoMenus = [
+const blockChainMenus = [
   { name: "Deposits", value: "deposits" },
   { name: "Withdrawals", value: "withdrawals" },
   { name: "Withdrawal Vault", value: "withdrawal-vault" },
   { name: "Rewards Vault", value: "rewards-vault" },
   { name: "Staking Vaults", value: "staking-vaults" },
-  {
-    type: "group",
-    title: "Staking Router",
-    menus: [
-      { name: "Staking Modules", value: "staking-modules" },
-      { name: "Module Deposits", value: "module-deposits" },
-    ],
-  },
+];
+
+const moduleMenus = [
+  { name: "Staking Modules", value: "staking-modules" },
+  { name: "Module Deposits", value: "module-deposits" },
 ];
 
 const MobileMenuList = styled.div`
@@ -43,10 +40,6 @@ function getMenuPath(value) {
 function renderMobileMenuItem(item, closeMobileMenu) {
   if (item.type === "divider") {
     return null;
-  } else if (item.type === "group") {
-    return item.menus.map((subItem) =>
-      renderMobileMenuItem(subItem, closeMobileMenu),
-    );
   }
 
   return (
@@ -74,7 +67,8 @@ export default function LidoHeader() {
             <HeaderMenuLink to="/">
               <HeaderMenuText>Home</HeaderMenuText>
             </HeaderMenuLink>
-            <SubMenu category="BlockChain" menus={lidoMenus} />
+            <SubMenu category="BlockChain" menus={blockChainMenus} />
+            <SubMenu category="Modules" menus={moduleMenus} />
           </HeaderMenuWrapper>
 
           <ChainSwitch />
@@ -87,7 +81,10 @@ export default function LidoHeader() {
             <HeaderMenuLink to="/" onClick={closeMobileMenu}>
               <HeaderMenuText>Home</HeaderMenuText>
             </HeaderMenuLink>
-            {lidoMenus.map((item) =>
+            {blockChainMenus.map((item) =>
+              renderMobileMenuItem(item, closeMobileMenu),
+            )}
+            {moduleMenus.map((item) =>
               renderMobileMenuItem(item, closeMobileMenu),
             )}
           </MobileMenuList>
