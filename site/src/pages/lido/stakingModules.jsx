@@ -18,7 +18,11 @@ const lidoStakingModulesHead = [
   { name: "Module", width: 240 },
   { name: "Module Address", width: 220 },
   { name: "Status", width: 170 },
-  { name: "Updated Time", type: "time", width: 180 },
+  {
+    name: { time: "Updated Time", age: "Last Updated" },
+    type: "time",
+    width: 180,
+  },
 ];
 
 const ModuleInfo = styled.div`
