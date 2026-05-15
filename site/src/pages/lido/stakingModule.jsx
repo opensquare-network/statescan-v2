@@ -6,31 +6,26 @@ import List from "../../components/list";
 import EvmAddress from "../../components/lido/evmAddress";
 import LidoStakingModuleETHDepositeds from "../../components/lido/stakingModule/ethDepositeds";
 import LidoStakingModuleNodeOperators from "../../components/lido/stakingModule/nodeOperators";
+import LidoRewardDistributionState from "../../components/lido/stakingModule/rewardDistributionState";
+import LidoStakingModuleStEthBalance from "../../components/lido/stakingModule/stEthBalance";
 import LidoStakingModuleStatus from "../../components/lido/stakingModule/status";
 import LidoStakingModuleTimeline from "../../components/lido/stakingModule/timeline";
+import {
+  getShareLimit,
+  isNorModule,
+  toOptionalBlockNumber,
+} from "../../components/lido/stakingModule/utils";
 import { sortTimelineEvents } from "../../components/lido/stakingVault/utils";
 import Loading from "../../components/loadings/loading";
 import NoData from "../../components/noData";
 import { Panel } from "../../components/styled/panel";
 import { DetailedTime } from "../../components/styled/time";
 import { useLidoStakingModuleData } from "../../hooks/lido/useLidoStakingModuleData";
-import {
-  formatLidoBp,
-  toLidoBlockNumber,
-  toLidoTimestamp,
-} from "../../utils/viewFuncs/lido";
+import { formatLidoBp, toLidoTimestamp } from "../../utils/viewFuncs/lido";
 
 const TabPanel = styled(Panel)`
   padding: 24px;
 `;
-
-function getShareLimit(module) {
-  return module.stakeShareLimit ?? module.targetShare;
-}
-
-function toOptionalBlockNumber(value) {
-  return value == null ? "--" : toLidoBlockNumber(value);
-}
 
 function toStakingModuleDetailItems(module) {
   const latestTimeline = sortTimelineEvents(module.timelines).at(-1);
@@ -42,9 +37,21 @@ function toStakingModuleDetailItems(module) {
       label: "Module Address",
       value: <EvmAddress address={module.moduleAddress} />,
     },
+    isNorModule(module) && {
+      label: "stETH Balance",
+      value: (
+        <LidoStakingModuleStEthBalance moduleAddress={module.moduleAddress} />
+      ),
+    },
     {
       label: "Status",
       value: <LidoStakingModuleStatus status={module.status} />,
+    },
+    isNorModule(module) && {
+      label: "Reward Distribution State",
+      value: (
+        <LidoRewardDistributionState state={module.rewardDistributionState} />
+      ),
     },
     {
       label: "Created By",
@@ -81,7 +88,7 @@ function toStakingModuleDetailItems(module) {
       label: "Min Deposit Block Distance",
       value: toOptionalBlockNumber(module.minDepositBlockDistance),
     },
-  ];
+  ].filter(Boolean);
 }
 
 export default function LidoStakingModule() {
@@ -115,6 +122,8 @@ export default function LidoStakingModule() {
     );
   }
 
+  const detailItems = toStakingModuleDetailItems(data);
+
   const tabs = [
     {
       name: "Timeline",
@@ -144,7 +153,7 @@ export default function LidoStakingModule() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <List data={toStakingModuleDetailItems(data)} />
+        <List data={detailItems} />
       </Panel>
 
       <DetailTabs tabs={tabs} />

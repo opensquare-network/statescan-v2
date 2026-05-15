@@ -1,4 +1,3 @@
-import { toPrecision } from "@osn/common";
 import BigNumber from "bignumber.js";
 import isNil from "lodash.isnil";
 import { currencify } from "..";
@@ -30,7 +29,7 @@ export function toLidoBlockNumber(blockNumber) {
 }
 
 export function toLidoAmount(value, decimals) {
-  return toPrecision(value || 0, decimals);
+  return new BigNumber(value || 0).shiftedBy(-decimals).toFixed();
 }
 
 export function formatLidoBp(value, empty = "--") {
