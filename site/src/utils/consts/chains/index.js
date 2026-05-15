@@ -25,11 +25,11 @@ import peopleWestend from "./people-westend";
 import coretimeWestend from "./coretime-westend";
 import argon from "./argon";
 import collectivesWestend from "./collectives-westend";
-import cereTestnet from "./cere-testnet";
+// import cereTestnet from "./cere-testnet";
 import cere from "./cere";
 import ajuna from "./ajuna";
 // import fintraTestnet from "./fintraTestnet";
-import kintsugi from "./kintsugi";
+// import kintsugi from "./kintsugi";
 import frequency from "./frequency";
 import datahavenTestnet from "./datahaven-testnet";
 
@@ -54,7 +54,7 @@ const chains = {
   "bridgehub-kusama": bridgehubKusama,
   "coretime-kusama": coretimeKusama,
   "people-kusama": peopleKusama,
-  kintsugi,
+  // kintsugi,
   paseo,
   "assethub-paseo": assethubPaseo,
   "bridgehub-paseo": bridgehubPaseo,
