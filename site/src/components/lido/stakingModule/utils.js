@@ -1,3 +1,4 @@
+import isNil from "lodash.isnil";
 import { toLidoBlockNumber } from "../../../utils/viewFuncs/lido";
 
 export function getShareLimit(module) {
@@ -9,5 +10,5 @@ export function isNorModule(module) {
 }
 
 export function toOptionalBlockNumber(value) {
-  return value == null ? "--" : toLidoBlockNumber(value);
+  return isNil(value) ? "--" : toLidoBlockNumber(value);
 }

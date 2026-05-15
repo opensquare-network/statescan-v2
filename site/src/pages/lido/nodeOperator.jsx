@@ -1,9 +1,12 @@
+import isNil from "lodash.isnil";
 import styled from "styled-components";
 import BreadCrumb from "../../components/breadCrumb";
 import DetailTabs from "../../components/detail/tabs";
+import ValueDisplay from "../../components/displayValue";
 import List from "../../components/list";
 import LoadingIcon from "../../components/icons/loadingIcon";
 import EvmAddress from "../../components/lido/evmAddress";
+import LidoNodeOperatorRewardsDistributed from "../../components/lido/nodeOperator/rewardsDistributed";
 import LidoNodeOperatorTimeline from "../../components/lido/nodeOperator/timeline";
 import Loading from "../../components/loadings/loading";
 import NoData from "../../components/noData";
@@ -12,11 +15,16 @@ import { Panel } from "../../components/styled/panel";
 import { ColoredInterLink } from "../../components/styled/link";
 import { DetailedTime } from "../../components/styled/time";
 import { StatusNegativeTag, StatusPositiveTag } from "../../components/tag";
+import HelpLabel from "../../components/tooltip/helpLabel";
 import DetailLayout from "../../components/layout/detailLayout";
 import { useLidoNodeOperatorData } from "../../hooks/lido/useLidoNodeOperatorData";
 import { useLidoNodeOperatorSummaryData } from "../../hooks/lido/useLidoNodeOperatorSummaryData";
 import { useLidoStakingModuleData } from "../../hooks/lido/useLidoStakingModuleData";
-import { toLidoBlockNumber, toLidoTimestamp } from "../../utils/viewFuncs/lido";
+import {
+  toLidoAmount,
+  toLidoBlockNumber,
+  toLidoTimestamp,
+} from "../../utils/viewFuncs/lido";
 
 const TabPanel = styled(Panel)`
   padding: 24px;
@@ -43,18 +51,6 @@ function renderStatus(active) {
   return <TagComponent>{active ? "Active" : "Inactive"}</TagComponent>;
 }
 
-function toOptionalNumber(value) {
-  return value == null ? "--" : toLidoBlockNumber(value);
-}
-
-function toOptionalTimestamp(value) {
-  if (!Number(value)) {
-    return "--";
-  }
-
-  return <DetailedTime ts={toLidoTimestamp(value)} />;
-}
-
 function toNodeOperatorDetailItems(nodeOperator, stakingModule) {
   const stakingModuleId = stakingModule?.id || nodeOperator.stakingModuleId;
 
@@ -65,8 +61,7 @@ function toNodeOperatorDetailItems(nodeOperator, stakingModule) {
       label: "Staking Module",
       value: (
         <ColoredInterLink to={`/staking-modules/${stakingModuleId}`}>
-          #{stakingModuleId}
-          {stakingModule?.name ? ` ${stakingModule.name}` : ""}
+          {stakingModule?.name || "--"}
         </ColoredInterLink>
       ),
     },
@@ -76,7 +71,23 @@ function toNodeOperatorDetailItems(nodeOperator, stakingModule) {
     },
     {
       label: "Vetted Signing Keys",
-      value: toOptionalNumber(nodeOperator.vettedSigningKeysCount),
+      value: isNil(nodeOperator.vettedSigningKeysCount)
+        ? "--"
+        : toLidoBlockNumber(nodeOperator.vettedSigningKeysCount),
+    },
+    {
+      label: (
+        <HelpLabel tip="Total rewards in shares.">Total Rewards</HelpLabel>
+      ),
+      value: isNil(nodeOperator.rewardsDistributedShares) ? (
+        "--"
+      ) : (
+        <ValueDisplay
+          value={toLidoAmount(nodeOperator.rewardsDistributedShares, 18)}
+          symbol=""
+          showNotEqualTooltip
+        />
+      ),
     },
     {
       label: "Status",
@@ -89,35 +100,53 @@ function toNodeOperatorSummaryItems(summary) {
   return [
     {
       label: "Target Limit Mode",
-      value: toOptionalNumber(summary.targetLimitMode),
+      value: isNil(summary.targetLimitMode)
+        ? "--"
+        : toLidoBlockNumber(summary.targetLimitMode),
     },
     {
       label: "Target Validators Count",
-      value: toOptionalNumber(summary.targetValidatorsCount),
+      value: isNil(summary.targetValidatorsCount)
+        ? "--"
+        : toLidoBlockNumber(summary.targetValidatorsCount),
     },
     {
       label: "Stuck Validators Count",
-      value: toOptionalNumber(summary.stuckValidatorsCount),
+      value: isNil(summary.stuckValidatorsCount)
+        ? "--"
+        : toLidoBlockNumber(summary.stuckValidatorsCount),
     },
     {
       label: "Refunded Validators Count",
-      value: toOptionalNumber(summary.refundedValidatorsCount),
+      value: isNil(summary.refundedValidatorsCount)
+        ? "--"
+        : toLidoBlockNumber(summary.refundedValidatorsCount),
     },
     {
       label: "Stuck Penalty End Time",
-      value: toOptionalTimestamp(summary.stuckPenaltyEndTimestamp),
+      value: Number(summary.stuckPenaltyEndTimestamp) ? (
+        <DetailedTime ts={toLidoTimestamp(summary.stuckPenaltyEndTimestamp)} />
+      ) : (
+        "--"
+      ),
     },
     {
       label: "Total Exited Validators",
-      value: toOptionalNumber(summary.totalExitedValidators),
+      value: isNil(summary.totalExitedValidators)
+        ? "--"
+        : toLidoBlockNumber(summary.totalExitedValidators),
     },
     {
       label: "Total Deposited Validators",
-      value: toOptionalNumber(summary.totalDepositedValidators),
+      value: isNil(summary.totalDepositedValidators)
+        ? "--"
+        : toLidoBlockNumber(summary.totalDepositedValidators),
     },
     {
       label: "Depositable Validators Count",
-      value: toOptionalNumber(summary.depositableValidatorsCount),
+      value: isNil(summary.depositableValidatorsCount)
+        ? "--"
+        : toLidoBlockNumber(summary.depositableValidatorsCount),
     },
   ];
 }
@@ -178,6 +207,16 @@ export default function LidoNodeOperator() {
         <TabPanel>
           <LidoNodeOperatorTimeline data={data.timelines} loading={loading} />
         </TabPanel>
+      ),
+    },
+    {
+      name: "Rewards",
+      value: "rewards",
+      children: (
+        <LidoNodeOperatorRewardsDistributed
+          stakingModuleId={stakingModuleId}
+          nodeOperatorId={nodeOperatorId}
+        />
       ),
     },
   ];

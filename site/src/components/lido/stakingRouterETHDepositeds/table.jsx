@@ -61,7 +61,6 @@ function toLidoStakingRouterETHDepositedsTableData(
           key={`${item.id}-module`}
           to={`/staking-modules/${item.stakingModuleId}`}
         >
-          #{item.stakingModule?.id || item.stakingModuleId}{" "}
           {item.stakingModule?.name || "--"}
         </ColoredInterLink>
       ),

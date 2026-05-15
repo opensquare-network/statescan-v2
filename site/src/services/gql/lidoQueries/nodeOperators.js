@@ -18,6 +18,7 @@ export const GET_LIDO_NODE_OPERATORS = gql`
       name
       nodeOperatorId
       rewardAddress
+      rewardsDistributedShares
       stakingModuleId
       vettedSigningKeysCount
     }
@@ -42,6 +43,7 @@ export const GET_LIDO_NODE_OPERATOR = gql`
       name
       nodeOperatorId
       rewardAddress
+      rewardsDistributedShares
       stakingModuleId
       vettedSigningKeysCount
       timelines {
@@ -59,6 +61,7 @@ export const GET_LIDO_NODE_OPERATOR = gql`
           name
           nodeOperatorId
           rewardAddress
+          rewardsDistributedShares
           stakingModuleId
           vettedSigningKeysCount
         }
@@ -101,6 +104,32 @@ export const GET_LIDO_NODE_OPERATOR = gql`
           vettedSigningKeysCount
         }
       }
+    }
+  }
+`;
+
+export const GET_LIDO_REWARDS_DISTRIBUTEDS = gql`
+  query GetLidoRewardsDistributeds(
+    $first: Int!
+    $where: RewardsDistributed_filter
+    $orderBy: RewardsDistributed_orderBy
+    $orderDirection: OrderDirection
+  ) {
+    rewardsDistributeds(
+      first: $first
+      where: $where
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+    ) {
+      blockNumber
+      blockTime
+      id
+      logIndex
+      nodeOperatorId
+      rewardAddress
+      sharesAmount
+      stakingModuleId
+      txHash
     }
   }
 `;

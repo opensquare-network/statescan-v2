@@ -19,8 +19,12 @@ export const GET_LIDO_STAKING_MODULES = gql`
       minDepositBlockDistance
       moduleAddress
       name
+      nodeOperators {
+        rewardsDistributedShares
+      }
       priorityExitShareThreshold
       rewardDistributionState
+      rewardsDistributedShares
       stakeShareLimit
       stakingModuleFee
       stakingModuleId

@@ -1,3 +1,5 @@
+import isNil from "lodash.isnil";
+
 export const LIDO_LIST_PAGE_SIZE = 25;
 export const LIDO_LIST_ORDER_BY = "blockNumber";
 export const LIDO_LIST_ORDER_DIRECTION = "desc";
@@ -12,7 +14,7 @@ export function encodeCursor(item, orderBy) {
   const value = item?.[orderBy];
   const tieBreaker = item?.[getTieBreakerField(orderBy)];
 
-  if (value == null || tieBreaker == null) {
+  if (isNil(value) || isNil(tieBreaker)) {
     return null;
   }
 

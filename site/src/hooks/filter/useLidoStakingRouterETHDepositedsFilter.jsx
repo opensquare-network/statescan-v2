@@ -16,7 +16,7 @@ function toStakingModuleOptions(items = []) {
     { text: "All Modules", value: "" },
     { type: "divider" },
     ...items.map((item) => ({
-      text: `#${item.stakingModuleId} ${item.name || "--"}`,
+      text: item.name || "--",
       value: String(item.stakingModuleId),
     })),
   ];
