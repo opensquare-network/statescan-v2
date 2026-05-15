@@ -4,6 +4,7 @@ import LidoRewardsVault from "../pages/lido/rewardsVault";
 import LidoWithdrawal from "../pages/lido/withdrawal";
 import LidoWithdrawalVault from "../pages/lido/withdrawalVault";
 import LidoWithdrawals from "../pages/lido/withdrawals";
+import LidoNodeOperator from "../pages/lido/nodeOperator";
 import LidoStakingVault from "../pages/lido/vault";
 import LidoStakingVaults from "../pages/lido/vaults";
 import LidoStakingModule from "../pages/lido/stakingModule";
@@ -27,6 +28,10 @@ export default function EvmRoutes() {
       <Route
         path="/staking-modules/:stakingModuleId"
         element={<LidoStakingModule />}
+      />
+      <Route
+        path="/staking-modules/:stakingModuleId/node-operators/:nodeOperatorId"
+        element={<LidoNodeOperator />}
       />
       <Route
         path="/module-deposits"

@@ -15,3 +15,7 @@ export const WSTETH_RATE_ABI = parseAbi([
   "function stEthPerToken() view returns (uint256)",
   "function tokensPerStEth() view returns (uint256)",
 ]);
+
+export const LIDO_NODE_OPERATORS_REGISTRY_ABI = parseAbi([
+  "function getNodeOperatorSummary(uint256) view returns (uint256 targetLimitMode, uint256 targetValidatorsCount, uint256 stuckValidatorsCount, uint256 refundedValidatorsCount, uint256 stuckPenaltyEndTimestamp, uint256 totalExitedValidators, uint256 totalDepositedValidators, uint256 depositableValidatorsCount)",
+]);

@@ -5,6 +5,7 @@ import DetailLayout from "../../components/layout/detailLayout";
 import List from "../../components/list";
 import EvmAddress from "../../components/lido/evmAddress";
 import LidoStakingModuleETHDepositeds from "../../components/lido/stakingModule/ethDepositeds";
+import LidoStakingModuleNodeOperators from "../../components/lido/stakingModule/nodeOperators";
 import LidoStakingModuleStatus from "../../components/lido/stakingModule/status";
 import LidoStakingModuleTimeline from "../../components/lido/stakingModule/timeline";
 import { sortTimelineEvents } from "../../components/lido/stakingVault/utils";
@@ -89,7 +90,7 @@ export default function LidoStakingModule() {
     <BreadCrumb
       data={[
         { name: "Staking Modules", path: "/staking-modules" },
-        { name: stakingModuleId },
+        { name: `#${stakingModuleId}` },
       ]}
     />
   );
@@ -117,6 +118,7 @@ export default function LidoStakingModule() {
   const tabs = [
     {
       name: "Timeline",
+      value: "timeline",
       children: (
         <TabPanel>
           <LidoStakingModuleTimeline stakingModuleId={stakingModuleId} />
@@ -124,7 +126,15 @@ export default function LidoStakingModule() {
       ),
     },
     {
+      name: "Node Operators",
+      value: "node-operators",
+      children: (
+        <LidoStakingModuleNodeOperators stakingModuleId={stakingModuleId} />
+      ),
+    },
+    {
       name: "Deposits",
+      value: "deposits",
       children: (
         <LidoStakingModuleETHDepositeds stakingModuleId={stakingModuleId} />
       ),

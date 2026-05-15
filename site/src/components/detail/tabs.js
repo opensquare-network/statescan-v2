@@ -17,9 +17,10 @@ const TabsFlex = styled(Flex)`
 export default function DetailTabs({ tabs = [] }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const getTabValue = (tab) => tab.value || tab.name;
 
   const [activeTab, setActiveTab] = useState(
-    getTabFromQuery(location, tabs[0].name),
+    getTabFromQuery(location, getTabValue(tabs[0])),
   );
 
   return (
@@ -27,13 +28,15 @@ export default function DetailTabs({ tabs = [] }) {
       <TabsFlex>
         {tabs.map((tab) => (
           <Tab
-            key={tab.name}
+            key={getTabValue(tab)}
             text={tab.name}
             count={tab.count}
-            active={activeTab === tab.name}
+            active={activeTab === getTabValue(tab)}
             onClick={() => {
-              navigate({ search: `?tab=${tab.name}&page=1` });
-              setActiveTab(tab.name);
+              const value = getTabValue(tab);
+
+              navigate({ search: `?tab=${value}&page=1` });
+              setActiveTab(value);
             }}
           />
         ))}
@@ -41,8 +44,8 @@ export default function DetailTabs({ tabs = [] }) {
 
       {tabs.map(
         (tab) =>
-          activeTab === tab.name && (
-            <Fragment key={tab.name}>{tab.children}</Fragment>
+          activeTab === getTabValue(tab) && (
+            <Fragment key={getTabValue(tab)}>{tab.children}</Fragment>
           ),
       )}
     </>
