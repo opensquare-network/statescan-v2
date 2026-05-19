@@ -30,6 +30,7 @@ export const GET_LIDO_STAKING_MODULES = gql`
       stakingModuleId
       status
       targetShare
+      transferSharesRewardsTotal
       treasuryFee
       type
       timelines {

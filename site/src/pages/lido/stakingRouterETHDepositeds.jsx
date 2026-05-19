@@ -2,12 +2,12 @@ import BreadCrumb from "../../components/breadCrumb";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import LidoStakingRouterETHDepositedsTable from "../../components/lido/stakingRouterETHDepositeds/table";
-import { useLidoStakingRouterETHDepositedsFilter } from "../../hooks/filter/useLidoStakingRouterETHDepositedsFilter";
+import { useLidoModuleEventFilter } from "../../hooks/filter/useLidoModuleEventFilter";
 import { useLidoStakingRouterETHDepositedsData } from "../../hooks/lido/useLidoStakingRouterETHDepositedsData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 
 export default function LidoStakingRouterETHDepositeds() {
-  const filter = useLidoStakingRouterETHDepositedsFilter();
+  const filter = useLidoModuleEventFilter();
   const chainSettings = useChainSettings();
   const { data, loading } = useLidoStakingRouterETHDepositedsData();
 

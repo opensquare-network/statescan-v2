@@ -22,7 +22,7 @@ function toStakingModuleOptions(items = []) {
   ];
 }
 
-export function useLidoStakingRouterETHDepositedsFilter() {
+export function useLidoModuleEventFilter() {
   const [filter, setFilter] = useState([]);
   const timeDimensionFilters = useTimeDimensionFilterItems();
   const { stakingModuleId = "", txHash = "" } = useQueryParams({
