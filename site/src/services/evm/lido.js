@@ -19,3 +19,7 @@ export const WSTETH_RATE_ABI = parseAbi([
 export const LIDO_NODE_OPERATORS_REGISTRY_ABI = parseAbi([
   "function getNodeOperatorSummary(uint256) view returns (uint256 targetLimitMode, uint256 targetValidatorsCount, uint256 stuckValidatorsCount, uint256 refundedValidatorsCount, uint256 stuckPenaltyEndTimestamp, uint256 totalExitedValidators, uint256 totalDepositedValidators, uint256 depositableValidatorsCount)",
 ]);
+
+export const LIDO_CSM_NODE_OPERATOR_MANAGEMENT_PROPERTIES_ABI = parseAbi([
+  "function getNodeOperatorManagementProperties(uint256) view returns (address managerAddress, address rewardAddress, bool extendedManagerPermissions)",
+]);

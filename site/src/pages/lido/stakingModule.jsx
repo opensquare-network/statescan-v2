@@ -137,9 +137,7 @@ export default function LidoStakingModule() {
     {
       name: "Node Operators",
       value: "node-operators",
-      children: (
-        <LidoStakingModuleNodeOperators stakingModuleId={stakingModuleId} />
-      ),
+      children: <LidoStakingModuleNodeOperators stakingModule={data} />,
     },
     {
       name: "Deposits",

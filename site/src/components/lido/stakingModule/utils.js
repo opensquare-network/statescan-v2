@@ -9,6 +9,10 @@ export function isNorModule(module) {
   return module?.type?.toLowerCase() === "nor";
 }
 
+export function isCsmModule(module) {
+  return module?.type?.toLowerCase() === "csm";
+}
+
 export function toOptionalBlockNumber(value) {
   return isNil(value) ? "--" : toLidoBlockNumber(value);
 }

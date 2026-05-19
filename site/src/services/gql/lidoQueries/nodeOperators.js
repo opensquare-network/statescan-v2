@@ -14,7 +14,9 @@ export const GET_LIDO_NODE_OPERATORS = gql`
       orderDirection: $orderDirection
     ) {
       active
+      extendedManagerPermissions
       id
+      managerAddress
       name
       nodeOperatorId
       rewardAddress
@@ -39,7 +41,9 @@ export const GET_LIDO_NODE_OPERATOR = gql`
       orderDirection: $orderDirection
     ) {
       active
+      extendedManagerPermissions
       id
+      managerAddress
       name
       nodeOperatorId
       rewardAddress
@@ -57,7 +61,9 @@ export const GET_LIDO_NODE_OPERATOR = gql`
         txHash
         nodeOperator {
           active
+          extendedManagerPermissions
           id
+          managerAddress
           name
           nodeOperatorId
           rewardAddress
@@ -77,8 +83,10 @@ export const GET_LIDO_NODE_OPERATOR = gql`
         nodeOperatorAdded {
           blockNumber
           blockTime
+          extendedManagerPermissions
           id
           logIndex
+          managerAddress
           name
           nodeOperatorId
           rewardAddress

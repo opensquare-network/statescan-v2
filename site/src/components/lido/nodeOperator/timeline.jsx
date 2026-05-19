@@ -41,7 +41,12 @@ function toAddedRows(event) {
   return [
     toIntegerRow("Node Operator ID", payload?.nodeOperatorId),
     payload?.name && ["Name", payload.name],
+    toAddressRow("Manager Address", payload?.managerAddress),
     toAddressRow("Reward Address", payload?.rewardAddress),
+    !isNil(payload?.extendedManagerPermissions) && [
+      "Extended Manager Permissions",
+      String(payload.extendedManagerPermissions),
+    ],
     toIntegerRow("Staking Limit", payload?.stakingLimit),
   ].filter(Boolean);
 }

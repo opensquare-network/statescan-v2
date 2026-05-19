@@ -8,9 +8,10 @@ import { StyledPanelTableWrapper } from "../../styled/panel";
 import Table from "../../table";
 import HelpLabel from "../../tooltip/helpLabel";
 import { useLidoNodeOperatorsData } from "../../../hooks/lido/useLidoNodeOperatorsData";
+import { isCsmModule } from "./utils";
 import { toLidoAmount, toLidoBlockNumber } from "../../../utils/viewFuncs/lido";
 
-const nodeOperatorsHead = [
+const norNodeOperatorsHead = [
   { name: "ID", width: 72 },
   { name: "Name", width: 220 },
   { name: "Reward Address", width: 220 },
@@ -25,6 +26,13 @@ const nodeOperatorsHead = [
     width: 180,
   },
   { name: "Status", align: "right", width: 120 },
+];
+
+const csmNodeOperatorsHead = [
+  { name: "ID", width: 72 },
+  { name: "Manager Address", width: 220 },
+  { name: "Reward Address", width: 220 },
+  { name: "Vetted Signing Keys", align: "right", width: 180 },
 ];
 
 function renderBooleanTag(value, positiveText, negativeText) {
@@ -51,7 +59,7 @@ function toSharesValue(value) {
   );
 }
 
-function toNodeOperatorsTableData(items = []) {
+function toNorNodeOperatorsTableData(items = []) {
   return items.map((item) => {
     const detailPath = `/staking-modules/${item.stakingModuleId}/node-operators/${item.nodeOperatorId}`;
 
@@ -79,15 +87,45 @@ function toNodeOperatorsTableData(items = []) {
   });
 }
 
-export default function LidoStakingModuleNodeOperators({ stakingModuleId }) {
+function toCsmNodeOperatorsTableData(items = []) {
+  return items.map((item) => {
+    const detailPath = `/staking-modules/${item.stakingModuleId}/node-operators/${item.nodeOperatorId}`;
+
+    return [
+      <ColoredInterLink key={`${item.id}-operator`} to={detailPath}>
+        #{item.nodeOperatorId}
+      </ColoredInterLink>,
+      <EvmAddress
+        key={`${item.id}-manager`}
+        address={item.managerAddress}
+        copy={false}
+        maxWidth="170px"
+      />,
+      <EvmAddress
+        key={`${item.id}-reward`}
+        address={item.rewardAddress}
+        copy={false}
+        maxWidth="170px"
+      />,
+      toOptionalNumber(item.vettedSigningKeysCount),
+    ];
+  });
+}
+
+export default function LidoStakingModuleNodeOperators({ stakingModule }) {
+  const stakingModuleId = stakingModule?.id;
+  const isCsm = isCsmModule(stakingModule);
   const { data, loading } = useLidoNodeOperatorsData(stakingModuleId);
-  const tableData = toNodeOperatorsTableData(data?.items);
+  const heads = isCsm ? csmNodeOperatorsHead : norNodeOperatorsHead;
+  const tableData = isCsm
+    ? toCsmNodeOperatorsTableData(data?.items)
+    : toNorNodeOperatorsTableData(data?.items);
 
   return (
     <StyledPanelTableWrapper
       footer={<EvmPagination nextCursor={data?.nextCursor} />}
     >
-      <Table heads={nodeOperatorsHead} data={tableData} loading={loading} />
+      <Table heads={heads} data={tableData} loading={loading} />
     </StyledPanelTableWrapper>
   );
 }

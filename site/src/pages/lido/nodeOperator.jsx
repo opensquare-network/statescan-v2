@@ -6,6 +6,7 @@ import ValueDisplay from "../../components/displayValue";
 import List from "../../components/list";
 import LoadingIcon from "../../components/icons/loadingIcon";
 import EvmAddress from "../../components/lido/evmAddress";
+import LidoCsmExtendedManagerPermissions from "../../components/lido/nodeOperator/extendedManagerPermissions";
 import LidoNodeOperatorRewardsDistributed from "../../components/lido/nodeOperator/rewardsDistributed";
 import LidoNodeOperatorTimeline from "../../components/lido/nodeOperator/timeline";
 import Loading from "../../components/loadings/loading";
@@ -17,6 +18,10 @@ import { DetailedTime } from "../../components/styled/time";
 import { StatusNegativeTag, StatusPositiveTag } from "../../components/tag";
 import HelpLabel from "../../components/tooltip/helpLabel";
 import DetailLayout from "../../components/layout/detailLayout";
+import {
+  isCsmModule,
+  isNorModule,
+} from "../../components/lido/stakingModule/utils";
 import { useLidoNodeOperatorData } from "../../hooks/lido/useLidoNodeOperatorData";
 import { useLidoNodeOperatorSummaryData } from "../../hooks/lido/useLidoNodeOperatorSummaryData";
 import { useLidoStakingModuleData } from "../../hooks/lido/useLidoStakingModuleData";
@@ -51,7 +56,47 @@ function renderStatus(active) {
   return <TagComponent>{active ? "Active" : "Inactive"}</TagComponent>;
 }
 
-function toNodeOperatorDetailItems(nodeOperator, stakingModule) {
+function toCsmNodeOperatorDetailItems(nodeOperator, stakingModule) {
+  const stakingModuleId = stakingModule?.id || nodeOperator.stakingModuleId;
+
+  return [
+    { label: "Node Operator ID", value: `#${nodeOperator.nodeOperatorId}` },
+    {
+      label: "Staking Module",
+      value: (
+        <ColoredInterLink to={`/staking-modules/${stakingModuleId}`}>
+          {stakingModule?.name || "--"}
+        </ColoredInterLink>
+      ),
+    },
+    {
+      label: "Manager Address",
+      value: <EvmAddress address={nodeOperator.managerAddress} />,
+    },
+    {
+      label: "Reward Address",
+      value: <EvmAddress address={nodeOperator.rewardAddress} />,
+    },
+    {
+      label: "Extended Manager Permissions",
+      value: (
+        <LidoCsmExtendedManagerPermissions
+          value={nodeOperator.extendedManagerPermissions}
+          moduleAddress={stakingModule?.moduleAddress}
+          nodeOperatorId={nodeOperator.nodeOperatorId}
+        />
+      ),
+    },
+    {
+      label: "Vetted Signing Keys",
+      value: isNil(nodeOperator.vettedSigningKeysCount)
+        ? "--"
+        : toLidoBlockNumber(nodeOperator.vettedSigningKeysCount),
+    },
+  ];
+}
+
+function toNorNodeOperatorDetailItems(nodeOperator, stakingModule) {
   const stakingModuleId = stakingModule?.id || nodeOperator.stakingModuleId;
 
   return [
@@ -156,6 +201,8 @@ export default function LidoNodeOperator() {
     useLidoNodeOperatorData();
   const { data: stakingModule, loading: stakingModuleLoading } =
     useLidoStakingModuleData();
+  const isNor = isNorModule(stakingModule);
+  const isCsm = isCsmModule(stakingModule);
   const { data: summary, loading: summaryLoading } =
     useLidoNodeOperatorSummaryData(
       stakingModule?.moduleAddress,
@@ -179,7 +226,7 @@ export default function LidoNodeOperator() {
     />
   );
 
-  if (loading) {
+  if (loading || stakingModuleLoading) {
     return (
       <DetailLayout breadCrumb={breadCrumb}>
         <Panel>
@@ -199,6 +246,9 @@ export default function LidoNodeOperator() {
     );
   }
 
+  const detailItems = isCsm
+    ? toCsmNodeOperatorDetailItems(data, stakingModule)
+    : toNorNodeOperatorDetailItems(data, stakingModule);
   const tabs = [
     {
       name: "Timeline",
@@ -209,7 +259,7 @@ export default function LidoNodeOperator() {
         </TabPanel>
       ),
     },
-    {
+    isNor && {
       name: "Rewards",
       value: "rewards",
       children: (
@@ -219,12 +269,12 @@ export default function LidoNodeOperator() {
         />
       ),
     },
-  ];
+  ].filter(Boolean);
 
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <List data={toNodeOperatorDetailItems(data, stakingModule)} />
+        <List data={detailItems} />
         <Divider />
         <SummarySection>
           <List data={toNodeOperatorSummaryItems(summary)} />
