@@ -32,6 +32,7 @@ import ajuna from "./ajuna";
 // import kintsugi from "./kintsugi";
 import frequency from "./frequency";
 import datahavenTestnet from "./datahaven-testnet";
+import bulletin from "./bulletin";
 
 const chains = {
   polkadot,
@@ -73,6 +74,7 @@ const chains = {
   // "fintra-testnet": fintraTestnet,
   frequency,
   "datahaven-testnet": datahavenTestnet,
+  bulletin,
 };
 
 export default chains;
