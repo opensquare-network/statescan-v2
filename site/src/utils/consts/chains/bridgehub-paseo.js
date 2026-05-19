@@ -4,11 +4,11 @@ import { paseoColor } from "./common";
 const nodes = [
   {
     name: "IBP1",
-    url: "wss://sys.ibp.network/bridgehub-paseo",
+    url: "wss://bridge-hub-paseo.ibp.network",
   },
   {
     name: "IBP2",
-    url: "wss://bridge-hub-paseo.dotters.network/",
+    url: "wss://bridge-hub-paseo.dotters.network",
   },
 ];
 

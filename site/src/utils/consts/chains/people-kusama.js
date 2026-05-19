@@ -4,19 +4,35 @@ import { kusamaColor } from "./common";
 const nodes = [
   {
     name: "IBP1",
-    url: "wss://sys.ibp.network/people-kusama",
+    url: "wss://people-kusama.ibp.network",
   },
   {
     name: "IBP2",
-    url: "wss://sys.dotters.network/people-kusama",
+    url: "wss://people-kusama.dotters.network",
   },
   {
     name: "Parity",
     url: "wss://kusama-people-rpc.polkadot.io",
   },
   {
+    name: "OnFinality",
+    url: "wss://people-kusama.api.onfinality.io/public-ws",
+  },
+  {
+    name: "Dwellir",
+    url: "wss://people-kusama-rpc.n.dwellir.com",
+  },
+  {
+    name: "LuckyFriday",
+    url: "wss://rpc-people-kusama.luckyfriday.io",
+  },
+  {
     name: "Stakeworld",
     url: "wss://ksm-rpc.stakeworld.io/people",
+  },
+  {
+    name: "Helixstreet",
+    url: "wss://rpc-people-kusama.helixstreet.io",
   },
 ];
 

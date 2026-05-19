@@ -4,23 +4,31 @@ import { polkadotColor } from "./common";
 const nodes = [
   {
     name: "IBP1",
-    url: "wss://sys.ibp.network/people-polkadot",
+    url: "wss://people-polkadot.ibp.network",
   },
   {
     name: "IBP2",
-    url: "wss://people-polkadot.dotters.network/",
+    url: "wss://people-polkadot.dotters.network",
+  },
+  {
+    name: "OnFinality",
+    url: "wss://people-polkadot.api.onfinality.io/public-ws",
   },
   {
     name: "LuckyFriday",
-    url: "wss://rpc-people-polkadot.luckyfriday.io/",
+    url: "wss://rpc-people-polkadot.luckyfriday.io",
   },
   {
     name: "Parity",
-    url: "wss://polkadot-people-rpc.polkadot.io/",
+    url: "wss://polkadot-people-rpc.polkadot.io",
   },
   {
-    name: "RadiumBlock",
-    url: "wss://people-polkadot.public.curie.radiumblock.co/ws",
+    name: "Dwellir",
+    url: "wss://people-polkadot-rpc.n.dwellir.com",
+  },
+  {
+    name: "Stakeworld",
+    url: "wss://dot-rpc.stakeworld.io/people",
   },
 ];
 

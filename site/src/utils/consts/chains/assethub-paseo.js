@@ -4,11 +4,11 @@ import { paseoColor } from "./common";
 const nodes = [
   {
     name: "IBP1",
-    url: "wss://sys.ibp.network/asset-hub-paseo",
+    url: "wss://asset-hub-paseo.ibp.network",
   },
   {
     name: "IBP2",
-    url: "wss://asset-hub-paseo.dotters.network/",
+    url: "wss://asset-hub-paseo.dotters.network",
   },
   {
     name: "StakeWorld",
@@ -16,7 +16,7 @@ const nodes = [
   },
   {
     name: "Dwellir",
-    url: "wss://asset-hub-paseo-rpc.dwellir.com/",
+    url: "wss://asset-hub-paseo-rpc.n.dwellir.com",
   },
   {
     name: "TurboFlakes",

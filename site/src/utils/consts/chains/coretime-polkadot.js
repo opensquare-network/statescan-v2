@@ -4,15 +4,31 @@ import { polkadotColor } from "./common";
 const nodes = [
   {
     name: "IBP1",
-    url: "wss://sys.ibp.network/coretime-polkadot",
+    url: "wss://coretime-polkadot.ibp.network",
   },
   {
     name: "IBP2",
-    url: "wss://coretime-polkadot.dotters.network/",
+    url: "wss://coretime-polkadot.dotters.network",
   },
   {
     name: "Parity",
-    url: "wss://polkadot-coretime-rpc.polkadot.io/",
+    url: "wss://polkadot-coretime-rpc.polkadot.io",
+  },
+  {
+    name: "LuckyFriday",
+    url: "wss://rpc-coretime-polkadot.luckyfriday.io",
+  },
+  {
+    name: "OnFinality",
+    url: "wss://coretime-polkadot.api.onfinality.io/public-ws",
+  },
+  {
+    name: "Dwellir",
+    url: "wss://coretime-polkadot-rpc.n.dwellir.com",
+  },
+  {
+    name: "Stakeworld",
+    url: "wss://dot-rpc.stakeworld.io/coretime",
   },
 ];
 

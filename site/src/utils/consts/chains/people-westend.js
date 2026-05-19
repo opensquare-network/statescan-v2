@@ -8,7 +8,7 @@ const nodes = [
   },
   {
     name: "Dwellir",
-    url: "wss://people-westend-rpc.dwellir.com",
+    url: "wss://people-westend-rpc.n.dwellir.com",
   },
 ];
 

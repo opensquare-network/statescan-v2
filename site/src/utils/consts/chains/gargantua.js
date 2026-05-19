@@ -4,7 +4,7 @@ import { collectivesModules } from "./collectives";
 const nodes = [
   {
     name: "Paseo",
-    url: "wss://hyperbridge-paseo-rpc.blockops.network/",
+    url: "wss://hyperbridge-paseo-rpc.blockops.network",
   },
 ];
 
