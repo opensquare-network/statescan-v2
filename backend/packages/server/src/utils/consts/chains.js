@@ -51,6 +51,7 @@ const chains = Object.freeze({
   "fintra-testnet": "fintra-testnet",
   frequency: "frequency",
   "datahaven-testnet": "datahaven-testnet",
+  bulletin: "bulletin",
 });
 
 const ss58Format = Object.freeze({
@@ -104,6 +105,7 @@ const ss58Format = Object.freeze({
   [chains.ajuna]: 1328,
   [chains["fintra-testnet"]]: 42,
   [chains.frequency]: 90,
+  [chains.bulletin]: 0,
 });
 
 const legacySs58Format = Object.freeze({
@@ -172,6 +174,7 @@ const transferOnBlockChains = [
   chains.ajuna,
   chains["fintra-testnet"],
   chains.frequency,
+  chains.bulletin,
 ];
 
 module.exports = {
