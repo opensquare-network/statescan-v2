@@ -38,6 +38,7 @@ const chains = {
   polkadot,
   statemint,
   "bridgehub-polkadot": bridgehubPolkadot,
+  "bulletin-polkadot": bulletinPolkadot,
   collectives,
   "coretime-polkadot": coretimePolkadot,
   "people-polkadot": peoplePolkadot,
@@ -74,7 +75,6 @@ const chains = {
   // "fintra-testnet": fintraTestnet,
   frequency,
   "datahaven-testnet": datahavenTestnet,
-  "bulletin-polkadot": bulletinPolkadot,
 };
 
 export default chains;
