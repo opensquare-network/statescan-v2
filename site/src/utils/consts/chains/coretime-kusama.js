@@ -4,19 +4,19 @@ import { kusamaColor } from "./common";
 const nodes = [
   {
     name: "IBP1",
-    url: "wss://sys.ibp.network/coretime-kusama",
+    url: "wss://coretime-kusama.ibp.network",
   },
   {
     name: "IBP2",
-    url: "wss://coretime-kusama.dotters.network/",
+    url: "wss://coretime-kusama.dotters.network",
   },
   {
     name: "Parity",
-    url: "wss://kusama-coretime-rpc.polkadot.io/",
+    url: "wss://kusama-coretime-rpc.polkadot.io",
   },
   {
     name: "LuckyFriday",
-    url: "wss://rpc-coretime-kusama.luckyfriday.io/",
+    url: "wss://rpc-coretime-kusama.luckyfriday.io",
   },
   {
     name: "Stakeworld",
@@ -25,6 +25,10 @@ const nodes = [
   {
     name: "Dwellir",
     url: "wss://coretime-kusama-rpc.n.dwellir.com",
+  },
+  {
+    name: "OnFinality",
+    url: "wss://coretime-kusama.api.onfinality.io/public-ws",
   },
 ];
 

@@ -11,11 +11,7 @@ const nodes = [
   },
   {
     name: "Dwellir",
-    url: "wss://bridge-hub-kusama-rpc.dwellir.com",
-  },
-  {
-    name: "Dwellir Tunisia",
-    url: "wss://kusama-bridge-hub-rpc-tn.dwellir.com",
+    url: "wss://bridge-hub-kusama-rpc.n.dwellir.com",
   },
   {
     name: "IBP2",

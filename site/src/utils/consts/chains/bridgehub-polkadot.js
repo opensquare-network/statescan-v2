@@ -15,11 +15,7 @@ const nodes = [
   },
   {
     name: "Dwellir",
-    url: "wss://bridge-hub-polkadot-rpc.dwellir.com",
-  },
-  {
-    name: "Dwellir Tunisia",
-    url: "wss://polkadot-bridge-hub-rpc-tn.dwellir.com",
+    url: "wss://bridge-hub-polkadot-rpc.n.dwellir.com",
   },
   {
     name: "IBP2",

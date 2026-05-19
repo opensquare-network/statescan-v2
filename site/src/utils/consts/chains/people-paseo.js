@@ -4,15 +4,15 @@ import { paseoColor } from "./common";
 const nodes = [
   {
     name: "Amforc",
-    url: "wss://people-paseo.rpc.amforc.com/",
+    url: "wss://people-paseo.rpc.amforc.com",
   },
   {
     name: "IBP1",
-    url: "wss://sys.ibp.network/people-paseo",
+    url: "wss://people-paseo.ibp.network",
   },
   {
     name: "IBP2",
-    url: "wss://people-paseo.dotters.network/",
+    url: "wss://people-paseo.dotters.network",
   },
 ];
 

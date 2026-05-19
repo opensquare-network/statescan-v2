@@ -21,9 +21,8 @@ const westmint = {
     id: "1000",
   },
   nodes: [
-    { name: "Parity", url: "wss://westend-asset-hub-rpc.polkadot.io/" },
-    { name: "Dwellir", url: "wss://asset-hub-westend-rpc.dwellir.com" },
-    { name: "Dwellir Tunisia", url: "wss://westmint-rpc-tn.dwellir.com/" },
+    { name: "Parity", url: "wss://westend-asset-hub-rpc.polkadot.io" },
+    { name: "Dwellir", url: "wss://asset-hub-westend-rpc.n.dwellir.com" },
   ],
   useOnChainBlockData: true,
 };
