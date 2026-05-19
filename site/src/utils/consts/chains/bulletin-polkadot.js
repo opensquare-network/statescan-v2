@@ -11,10 +11,12 @@ const nodes = [
   },
 ];
 
-const bulletin = {
+const bulletinPolkadot = {
   name: "Bulletin",
   icon: <Bulletin width={20} height={20} />,
-  value: "bulletin",
+  identity: "polkadot",
+  value: "bulletin-polkadot",
+  chain: "polkadot",
   symbol: "DOT",
   decimals: 10,
   nodes,
@@ -23,4 +25,4 @@ const bulletin = {
   useOnChainBlockData: true,
 };
 
-export default bulletin;
+export default bulletinPolkadot;
