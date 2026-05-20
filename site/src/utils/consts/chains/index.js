@@ -25,19 +25,21 @@ import peopleWestend from "./people-westend";
 import coretimeWestend from "./coretime-westend";
 import argon from "./argon";
 import collectivesWestend from "./collectives-westend";
-import cereTestnet from "./cere-testnet";
+// import cereTestnet from "./cere-testnet";
 import cere from "./cere";
 import ajuna from "./ajuna";
 // import fintraTestnet from "./fintraTestnet";
-import kintsugi from "./kintsugi";
+// import kintsugi from "./kintsugi";
 import frequency from "./frequency";
 import datahavenTestnet from "./datahaven-testnet";
 import ethereum from "./ethereum";
+import bulletinPolkadot from "./bulletin-polkadot";
 
 const chains = {
   polkadot,
   statemint,
   "bridgehub-polkadot": bridgehubPolkadot,
+  "bulletin-polkadot": bulletinPolkadot,
   collectives,
   "coretime-polkadot": coretimePolkadot,
   "people-polkadot": peoplePolkadot,
@@ -55,7 +57,7 @@ const chains = {
   "bridgehub-kusama": bridgehubKusama,
   "coretime-kusama": coretimeKusama,
   "people-kusama": peopleKusama,
-  kintsugi,
+  // kintsugi,
   paseo,
   "assethub-paseo": assethubPaseo,
   "bridgehub-paseo": bridgehubPaseo,
@@ -70,7 +72,7 @@ const chains = {
   "people-westend": peopleWestend,
   argon,
   cere,
-  "cere-testnet": cereTestnet,
+  // "cere-testnet": cereTestnet,
   // "fintra-testnet": fintraTestnet,
   frequency,
   "datahaven-testnet": datahavenTestnet,

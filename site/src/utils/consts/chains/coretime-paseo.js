@@ -10,10 +10,6 @@ const nodes = [
     name: "IBP2",
     url: "wss://coretime-paseo.dotters.network/",
   },
-  {
-    name: "ParaNodes",
-    url: "wss://paseo-coretime.paranodes.io/",
-  },
 ];
 
 const coretimePaseo = {

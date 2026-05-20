@@ -4,19 +4,15 @@ import { westendCommon } from "./common";
 const nodes = [
   {
     name: "Parity",
-    url: "wss://westend-rpc.polkadot.io/",
+    url: "wss://westend-rpc.polkadot.io",
   },
   {
     name: "OnFinality",
     url: "wss://westend.api.onfinality.io/public-ws",
   },
   {
-    name: "Dwellir Tunisia",
-    url: "wss://westend-rpc-tn.dwellir.com/",
-  },
-  {
     name: "Dwellir",
-    url: "wss://westend-rpc.dwellir.com/",
+    url: "wss://westend-rpc.n.dwellir.com",
   },
   {
     name: "RadiumBlock",

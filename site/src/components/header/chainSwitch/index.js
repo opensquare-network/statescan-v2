@@ -171,12 +171,14 @@ export default function ChainSwitch() {
                         target={isDiffChain ? "_blank" : ""}
                       >
                         {chain.icon}
-                        <ChainGroupItemName>
-                          <span>{chain.name}</span>
-                          <ChainGroupItemCaretWrapper>
-                            <CaretRightIcon />
-                          </ChainGroupItemCaretWrapper>
-                        </ChainGroupItemName>
+                        <div style={{ display: "flex", alignItems: "start" }}>
+                          <ChainGroupItemName>
+                            <span>{chain.name}</span>
+                            <ChainGroupItemCaretWrapper>
+                              <CaretRightIcon />
+                            </ChainGroupItemCaretWrapper>
+                          </ChainGroupItemName>
+                        </div>
                       </ChainGroupItem>
                     );
                   })}

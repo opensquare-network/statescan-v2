@@ -2,16 +2,8 @@ import { ReactComponent as Ajuna } from "../../../components/icons/ajuna.svg";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://ajuna.ibp.network/",
-  },
-  {
-    name: "Ajuna",
-    url: "wss://rpc-para.ajuna.network/",
-  },
-  {
-    name: "IBP2",
-    url: "wss://ajuna.dotters.network/",
+    name: "AjunaNetwork",
+    url: "wss://rpc-para.ajuna.network",
   },
 ];
 

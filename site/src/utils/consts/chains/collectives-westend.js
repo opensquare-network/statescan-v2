@@ -8,11 +8,7 @@ const nodes = [
   },
   {
     name: "Dwellir",
-    url: "wss://collectives-westend-rpc.dwellir.com",
-  },
-  {
-    name: "Dwellir Tunisia",
-    url: "wss://westend-collectives-rpc-tn.dwellir.com",
+    url: "wss://collectives-westend-rpc.n.dwellir.com",
   },
 ];
 
