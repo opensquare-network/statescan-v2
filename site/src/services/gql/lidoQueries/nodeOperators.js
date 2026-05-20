@@ -141,3 +141,56 @@ export const GET_LIDO_REWARDS_DISTRIBUTEDS = gql`
     }
   }
 `;
+
+export const GET_LIDO_OPERATOR_REWARD_CLAIMS = gql`
+  query GetLidoOperatorRewardClaims(
+    $first: Int!
+    $where: OperatorRewardClaim_filter
+    $orderBy: OperatorRewardClaim_orderBy
+    $orderDirection: OrderDirection
+  ) {
+    operatorRewardClaims(
+      first: $first
+      where: $where
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+    ) {
+      blockNumber
+      blockTime
+      claimAddress
+      claimedShares
+      claimedWstETHAmount
+      cumulativeFeeShares
+      id
+      nodeOperatorId
+      requestId
+      requestedAmount
+      txHash
+      type
+    }
+  }
+`;
+
+export const GET_LIDO_OPERATOR_FEE_DISTRIBUTEDS = gql`
+  query GetLidoOperatorFeeDistributeds(
+    $first: Int!
+    $where: OperatorFeeDistributed_filter
+    $orderBy: OperatorFeeDistributed_orderBy
+    $orderDirection: OrderDirection
+  ) {
+    operatorFeeDistributeds(
+      first: $first
+      where: $where
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+    ) {
+      blockNumber
+      blockTime
+      id
+      logIndex
+      nodeOperatorId
+      shares
+      txHash
+    }
+  }
+`;

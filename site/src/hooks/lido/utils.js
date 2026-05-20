@@ -1,4 +1,5 @@
 import isNil from "lodash.isnil";
+import last from "lodash.last";
 
 export const LIDO_LIST_PAGE_SIZE = 25;
 export const LIDO_LIST_ORDER_BY = "blockNumber";
@@ -19,6 +20,26 @@ export function encodeCursor(item, orderBy) {
   }
 
   return [value, tieBreaker].join(CURSOR_SEPARATOR);
+}
+
+export function toLidoListQueryResult(
+  queryResult,
+  rootField,
+  pageSize,
+  orderBy,
+) {
+  const queryData = queryResult.data || queryResult.previousData;
+  const items = queryData?.[rootField] || [];
+  const hasNextPage = items.length === pageSize;
+  const nextCursor = hasNextPage ? encodeCursor(last(items), orderBy) : null;
+
+  return {
+    ...queryResult,
+    data: {
+      items,
+      nextCursor,
+    },
+  };
 }
 
 export function getSort(sort) {

@@ -5,7 +5,10 @@ import EvmPagination from "../evmPagination";
 import EvmTxHash from "../evmTxHash";
 import HelpLabel from "../../tooltip/helpLabel";
 import { ColoredInterLink } from "../../styled/link";
-import { StyledPanelTableWrapper } from "../../styled/panel";
+import {
+  StyledPanelTableWrapper,
+  StyledPanelTableWrapperNoBordered,
+} from "../../styled/panel";
 import Table from "../../table";
 import {
   getEtherscanBlockUrl,
@@ -87,18 +90,20 @@ export default function LidoModuleRewardsTable({
   data,
   loading,
   showModuleId = true,
+  bordered = true,
 }) {
   const tableData = toLidoModuleRewardsTableData(data?.items, showModuleId);
+  const Wrapper = bordered
+    ? StyledPanelTableWrapper
+    : StyledPanelTableWrapperNoBordered;
 
   return (
-    <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
-    >
+    <Wrapper footer={<EvmPagination nextCursor={data?.nextCursor} />}>
       <Table
         heads={getLidoModuleRewardsHead(showModuleId)}
         data={tableData}
         loading={loading}
       />
-    </StyledPanelTableWrapper>
+    </Wrapper>
   );
 }

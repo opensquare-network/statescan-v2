@@ -1,10 +1,9 @@
-import last from "lodash.last";
 import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_REWARDS_DISTRIBUTEDS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoListVariables } from "./useLidoListVariables";
 import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
-import { encodeCursor } from "./utils";
+import { toLidoListQueryResult } from "./utils";
 
 export function useLidoRewardsDistributedsData(
   stakingModuleId,
@@ -28,18 +27,10 @@ export function useLidoRewardsDistributedsData(
     skip: !stakingModuleId || !nodeOperatorId,
   });
 
-  const queryData = queryResult.data || queryResult.previousData;
-  const items = queryData?.rewardsDistributeds || [];
-  const hasNextPage = items.length === pageSize;
-  const nextCursor = hasNextPage
-    ? encodeCursor(last(items), variables.orderBy)
-    : null;
-
-  return {
-    ...queryResult,
-    data: {
-      items,
-      nextCursor,
-    },
-  };
+  return toLidoListQueryResult(
+    queryResult,
+    "rewardsDistributeds",
+    pageSize,
+    variables.orderBy,
+  );
 }

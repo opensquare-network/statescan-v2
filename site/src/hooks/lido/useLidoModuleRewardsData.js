@@ -1,10 +1,9 @@
-import last from "lodash.last";
 import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_MODULE_REWARDS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
-import { encodeCursor } from "./utils";
+import { toLidoListQueryResult } from "./utils";
 
 export function useLidoModuleRewardsData(fixedStakingModuleId) {
   const {
@@ -39,18 +38,10 @@ export function useLidoModuleRewardsData(fixedStakingModuleId) {
     variables,
   });
 
-  const queryData = queryResult.data || queryResult.previousData;
-  const items = queryData?.stETHSharesTransfers || [];
-  const hasNextPage = items.length === pageSize;
-  const nextCursor = hasNextPage
-    ? encodeCursor(last(items), variables.orderBy)
-    : null;
-
-  return {
-    ...queryResult,
-    data: {
-      items,
-      nextCursor,
-    },
-  };
+  return toLidoListQueryResult(
+    queryResult,
+    "stETHSharesTransfers",
+    pageSize,
+    variables.orderBy,
+  );
 }

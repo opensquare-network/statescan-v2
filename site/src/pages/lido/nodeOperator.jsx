@@ -7,6 +7,8 @@ import List from "../../components/list";
 import LoadingIcon from "../../components/icons/loadingIcon";
 import EvmAddress from "../../components/lido/evmAddress";
 import LidoCsmExtendedManagerPermissions from "../../components/lido/nodeOperator/extendedManagerPermissions";
+import LidoNodeOperatorFeeDistributeds from "../../components/lido/nodeOperator/operatorFeeDistributeds";
+import LidoNodeOperatorRewardClaims from "../../components/lido/nodeOperator/operatorRewardClaims";
 import LidoNodeOperatorRewardsDistributed from "../../components/lido/nodeOperator/rewardsDistributed";
 import LidoNodeOperatorTimeline from "../../components/lido/nodeOperator/timeline";
 import Loading from "../../components/loadings/loading";
@@ -267,6 +269,20 @@ export default function LidoNodeOperator() {
           stakingModuleId={stakingModuleId}
           nodeOperatorId={nodeOperatorId}
         />
+      ),
+    },
+    isCsm && {
+      name: "Reward Claims",
+      value: "reward-claims",
+      children: (
+        <LidoNodeOperatorRewardClaims nodeOperatorId={nodeOperatorId} />
+      ),
+    },
+    isCsm && {
+      name: "Fee Distributed",
+      value: "fee-distributed",
+      children: (
+        <LidoNodeOperatorFeeDistributeds nodeOperatorId={nodeOperatorId} />
       ),
     },
   ].filter(Boolean);

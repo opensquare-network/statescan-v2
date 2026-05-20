@@ -5,7 +5,7 @@ import DetailLayout from "../../components/layout/detailLayout";
 import List from "../../components/list";
 import EvmAddress from "../../components/lido/evmAddress";
 import LidoStakingModuleETHDepositeds from "../../components/lido/stakingModule/ethDepositeds";
-import LidoModuleRewardsTable from "../../components/lido/moduleRewards/table";
+import LidoModuleRewards from "../../components/lido/moduleRewards";
 import LidoStakingModuleNodeOperators from "../../components/lido/stakingModule/nodeOperators";
 import LidoRewardDistributionState from "../../components/lido/stakingModule/rewardDistributionState";
 import LidoStakingModuleStEthBalance from "../../components/lido/stakingModule/stEthBalance";
@@ -25,7 +25,6 @@ import { Panel } from "../../components/styled/panel";
 import { DetailedTime } from "../../components/styled/time";
 import HelpLabel from "../../components/tooltip/helpLabel";
 import { useLidoStakingModuleData } from "../../hooks/lido/useLidoStakingModuleData";
-import { useLidoModuleRewardsData } from "../../hooks/lido/useLidoModuleRewardsData";
 import { formatLidoBp, toLidoTimestamp } from "../../utils/viewFuncs/lido";
 
 const TabPanel = styled(Panel)`
@@ -110,8 +109,6 @@ function toStakingModuleDetailItems(module) {
 
 export default function LidoStakingModule() {
   const { data, loading, stakingModuleId } = useLidoStakingModuleData();
-  const { data: moduleRewardsData, loading: moduleRewardsLoading } =
-    useLidoModuleRewardsData(stakingModuleId);
   const breadCrumb = (
     <BreadCrumb
       data={[
@@ -168,15 +165,9 @@ export default function LidoStakingModule() {
     isCsmModule(data) && {
       name: "Rewards",
       value: "module-rewards",
-      children: (
-        <LidoModuleRewardsTable
-          data={moduleRewardsData}
-          loading={moduleRewardsLoading}
-          showModuleId={false}
-        />
-      ),
+      children: <LidoModuleRewards stakingModuleId={stakingModuleId} />,
     },
-  ];
+  ].filter(Boolean);
 
   return (
     <DetailLayout breadCrumb={breadCrumb}>
