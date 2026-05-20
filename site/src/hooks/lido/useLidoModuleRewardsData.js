@@ -2,7 +2,7 @@ import last from "lodash.last";
 import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_MODULE_REWARDS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
-import { useLidoQuery } from "./useLidoQuery";
+import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
 import { encodeCursor } from "./utils";
 
@@ -35,7 +35,9 @@ export function useLidoModuleRewardsData(fixedStakingModuleId) {
     },
   });
 
-  const queryResult = useLidoQuery(GET_LIDO_MODULE_REWARDS, { variables });
+  const queryResult = useLidoStakingRouterQuery(GET_LIDO_MODULE_REWARDS, {
+    variables,
+  });
 
   const queryData = queryResult.data || queryResult.previousData;
   const items = queryData?.stETHSharesTransfers || [];

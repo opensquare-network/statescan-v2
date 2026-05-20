@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { GET_LIDO_NODE_OPERATOR } from "../../services/gql/lido";
-import { useLidoQuery } from "./useLidoQuery";
+import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
 
 export function useLidoNodeOperatorData() {
   const { stakingModuleId = "", nodeOperatorId = "" } = useParams();
@@ -18,7 +18,7 @@ export function useLidoNodeOperatorData() {
     [stakingModuleId, nodeOperatorId],
   );
 
-  const queryResult = useLidoQuery(GET_LIDO_NODE_OPERATOR, {
+  const queryResult = useLidoStakingRouterQuery(GET_LIDO_NODE_OPERATOR, {
     variables,
     skip: !stakingModuleId || !nodeOperatorId,
   });

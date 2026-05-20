@@ -3,7 +3,7 @@ import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_REWARDS_DISTRIBUTEDS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoListVariables } from "./useLidoListVariables";
-import { useLidoQuery } from "./useLidoQuery";
+import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
 import { encodeCursor } from "./utils";
 
 export function useLidoRewardsDistributedsData(
@@ -23,7 +23,7 @@ export function useLidoRewardsDistributedsData(
     timeDimensionParams: {},
   });
 
-  const queryResult = useLidoQuery(GET_LIDO_REWARDS_DISTRIBUTEDS, {
+  const queryResult = useLidoStakingRouterQuery(GET_LIDO_REWARDS_DISTRIBUTEDS, {
     variables,
     skip: !stakingModuleId || !nodeOperatorId,
   });

@@ -1,7 +1,7 @@
 import last from "lodash.last";
 import { GET_LIDO_STAKING_MODULES } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
-import { useLidoQuery } from "./useLidoQuery";
+import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
 import { encodeCursor } from "./utils";
 
@@ -26,7 +26,9 @@ export function useLidoStakingModulesData() {
     timeDimensionParams: {},
   });
 
-  const queryResult = useLidoQuery(GET_LIDO_STAKING_MODULES, { variables });
+  const queryResult = useLidoStakingRouterQuery(GET_LIDO_STAKING_MODULES, {
+    variables,
+  });
 
   const queryData = queryResult.data || queryResult.previousData;
   const items = queryData?.stakingModules || [];

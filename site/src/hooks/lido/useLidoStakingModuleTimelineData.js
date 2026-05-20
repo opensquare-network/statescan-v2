@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { GET_LIDO_STAKING_MODULE_TIMELINES } from "../../services/gql/lido";
-import { useLidoQuery } from "./useLidoQuery";
+import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
 
 export function useLidoStakingModuleTimelineData(stakingModuleId) {
   const variables = useMemo(
@@ -15,10 +15,13 @@ export function useLidoStakingModuleTimelineData(stakingModuleId) {
     [stakingModuleId],
   );
 
-  const queryResult = useLidoQuery(GET_LIDO_STAKING_MODULE_TIMELINES, {
-    variables,
-    skip: !stakingModuleId,
-  });
+  const queryResult = useLidoStakingRouterQuery(
+    GET_LIDO_STAKING_MODULE_TIMELINES,
+    {
+      variables,
+      skip: !stakingModuleId,
+    },
+  );
 
   return {
     ...queryResult,

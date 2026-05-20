@@ -2,7 +2,7 @@ import last from "lodash.last";
 import { GET_LIDO_NODE_OPERATORS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoListVariables } from "./useLidoListVariables";
-import { useLidoQuery } from "./useLidoQuery";
+import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
 import { encodeCursor } from "./utils";
 
 const DEFAULT_SORT = "nodeOperatorId_asc";
@@ -22,7 +22,7 @@ export function useLidoNodeOperatorsData(stakingModuleId) {
     timeDimensionParams: {},
   });
 
-  const queryResult = useLidoQuery(GET_LIDO_NODE_OPERATORS, {
+  const queryResult = useLidoStakingRouterQuery(GET_LIDO_NODE_OPERATORS, {
     variables,
     skip: !stakingModuleId,
   });
