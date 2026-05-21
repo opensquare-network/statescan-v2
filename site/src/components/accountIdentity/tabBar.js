@@ -61,7 +61,7 @@ export default function TabBar({ tabs = [], selectedTab, setSelectedTab }) {
           active={name === selectedTab}
           onClick={() => setSelectedTab(name)}
         >
-          <TabIcon active={name === selectedTab}>{icon}</TabIcon>
+          {icon && <TabIcon active={name === selectedTab}>{icon}</TabIcon>}
           <span style={{ whiteSpace: "nowrap" }}>{startCase(name)}</span>
         </TabButton>
       ))}

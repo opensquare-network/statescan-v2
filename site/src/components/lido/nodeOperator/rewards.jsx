@@ -1,28 +1,25 @@
 import { useCallback } from "react";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 import useQueryParamsUpdater from "../../../hooks/useQueryParamsUpdater";
+import { useLidoOperatorFeeDistributedsData } from "../../../hooks/lido/useLidoOperatorFeeDistributedsData";
 import TabBar from "../../accountIdentity/tabBar";
 import { Panel } from "../../styled/panel";
-import { useLidoModuleRewardsData } from "../../../hooks/lido/useLidoModuleRewardsData";
-import { useLidoOperatorFeeDistributedsData } from "../../../hooks/lido/useLidoOperatorFeeDistributedsData";
 import LidoOperatorFeeDistributedsTable from "../operatorFeeDistributeds/table";
-import LidoModuleRewardsTable from "./table";
+import LidoNodeOperatorRewardClaims from "./operatorRewardClaims";
 
 const TABS = {
-  received: "received",
   distributed: "distributed",
+  claims: "claims",
 };
 
-const tabs = [{ name: TABS.received }, { name: TABS.distributed }];
+const tabs = [{ name: TABS.distributed }, { name: TABS.claims }];
 
-export default function LidoModuleRewards({ stakingModuleId }) {
+export default function LidoNodeOperatorRewards({ nodeOperatorId }) {
   const { sub } = useQueryParams({ parseNumbers: false });
   const updateQueryParams = useQueryParamsUpdater();
-  const selectedTab = sub || TABS.received;
-  const { data: receivedData, loading: receivedLoading } =
-    useLidoModuleRewardsData(stakingModuleId);
+  const selectedTab = sub || TABS.distributed;
   const { data: distributedData, loading: distributedLoading } =
-    useLidoOperatorFeeDistributedsData();
+    useLidoOperatorFeeDistributedsData(nodeOperatorId);
   const setSelectedTab = useCallback(
     (tab) => {
       updateQueryParams("sub", tab);
@@ -38,19 +35,17 @@ export default function LidoModuleRewards({ stakingModuleId }) {
         setSelectedTab={setSelectedTab}
       />
 
-      {selectedTab === TABS.received && (
-        <LidoModuleRewardsTable
-          data={receivedData}
-          loading={receivedLoading}
-          showModuleId={false}
-          bordered={false}
-        />
-      )}
-
       {selectedTab === TABS.distributed && (
         <LidoOperatorFeeDistributedsTable
           data={distributedData}
           loading={distributedLoading}
+          bordered={false}
+        />
+      )}
+
+      {selectedTab === TABS.claims && (
+        <LidoNodeOperatorRewardClaims
+          nodeOperatorId={nodeOperatorId}
           bordered={false}
         />
       )}

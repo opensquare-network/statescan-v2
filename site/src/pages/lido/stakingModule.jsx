@@ -163,8 +163,8 @@ export default function LidoStakingModule() {
       ),
     },
     isCsmModule(data) && {
-      name: "Rewards",
-      value: "module-rewards",
+      name: "Fee Distributor",
+      value: "fee-distributor",
       children: <LidoModuleRewards stakingModuleId={stakingModuleId} />,
     },
   ].filter(Boolean);

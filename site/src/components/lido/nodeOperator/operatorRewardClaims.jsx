@@ -4,8 +4,12 @@ import EvmAddress from "../evmAddress";
 import EvmExternalLink from "../evmExternalLink";
 import EvmPagination from "../evmPagination";
 import EvmTxHash from "../evmTxHash";
-import { StyledPanelTableWrapper } from "../../styled/panel";
+import {
+  StyledPanelTableWrapper,
+  StyledPanelTableWrapperNoBordered,
+} from "../../styled/panel";
 import Table from "../../table";
+import HelpLabel from "../../tooltip/helpLabel";
 import { useLidoOperatorRewardClaimsData } from "../../../hooks/lido/useLidoOperatorRewardClaimsData";
 import {
   getEtherscanBlockUrl,
@@ -25,9 +29,25 @@ const operatorRewardClaimsHead = [
   { name: "Claim Address", width: 220 },
   { name: "Type", width: 120 },
   { name: "Requested Amount", align: "right", width: 180 },
-  { name: "Claimed Shares", align: "right", width: 180 },
+  {
+    name: (
+      <HelpLabel tip="Reward amount in shares." align="right" fullWidth>
+        Claimed Shares
+      </HelpLabel>
+    ),
+    align: "right",
+    width: 180,
+  },
   { name: "Claimed wstETH", align: "right", width: 180 },
-  { name: "Cumulative Fee Shares", align: "right", width: 220 },
+  {
+    name: (
+      <HelpLabel tip="Reward amount in shares." align="right" fullWidth>
+        Cumulative Fee Shares
+      </HelpLabel>
+    ),
+    align: "right",
+    width: 220,
+  },
 ];
 
 function toAmountValue(value) {
@@ -70,19 +90,23 @@ function toOperatorRewardClaimsTableData(items = []) {
   ]);
 }
 
-export default function LidoNodeOperatorRewardClaims({ nodeOperatorId }) {
+export default function LidoNodeOperatorRewardClaims({
+  nodeOperatorId,
+  bordered = true,
+}) {
   const { data, loading } = useLidoOperatorRewardClaimsData(nodeOperatorId);
   const tableData = toOperatorRewardClaimsTableData(data?.items);
+  const Wrapper = bordered
+    ? StyledPanelTableWrapper
+    : StyledPanelTableWrapperNoBordered;
 
   return (
-    <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
-    >
+    <Wrapper footer={<EvmPagination nextCursor={data?.nextCursor} />}>
       <Table
         heads={operatorRewardClaimsHead}
         data={tableData}
         loading={loading}
       />
-    </StyledPanelTableWrapper>
+    </Wrapper>
   );
 }

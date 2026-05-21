@@ -8,6 +8,7 @@ import {
   StyledPanelTableWrapperNoBordered,
 } from "../../styled/panel";
 import Table from "../../table";
+import HelpLabel from "../../tooltip/helpLabel";
 import {
   getEtherscanBlockUrl,
   toLidoAmount,
@@ -22,7 +23,15 @@ const operatorFeeDistributedsHead = [
   },
   { name: "Time", type: "time", width: 180 },
   { name: "Tx Hash", width: 220 },
-  { name: "Shares", align: "right", width: 180 },
+  {
+    name: (
+      <HelpLabel tip="Reward amount in shares." align="right" fullWidth>
+        Shares
+      </HelpLabel>
+    ),
+    align: "right",
+    width: 180,
+  },
 ];
 
 function toSharesValue(value) {
