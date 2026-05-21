@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { EMPTY_OBJECT } from "../../utils/constants";
 import {
   getCursorFilter,
   getSort,
@@ -10,10 +11,11 @@ import {
 export function useLidoListVariables({
   sortQuery,
   cursor,
-  where,
-  timeDimensionParams,
+  where = EMPTY_OBJECT,
+  timeDimensionParams = EMPTY_OBJECT,
+  pageSize,
 }) {
-  const pageSize = LIDO_LIST_PAGE_SIZE;
+  const limit = pageSize ?? LIDO_LIST_PAGE_SIZE;
 
   const variables = useMemo(() => {
     const sort = getSort(sortQuery);
@@ -29,11 +31,11 @@ export function useLidoListVariables({
     const filters = mergeCursorFilter(baseFilters, cursorFilter);
 
     return {
-      first: pageSize,
+      first: limit,
       ...sort,
       ...(Object.keys(filters).length ? { where: filters } : {}),
     };
-  }, [cursor, pageSize, sortQuery, timeDimensionParams, where]);
+  }, [cursor, limit, sortQuery, timeDimensionParams, where]);
 
-  return { variables, pageSize };
+  return { variables, pageSize: limit };
 }

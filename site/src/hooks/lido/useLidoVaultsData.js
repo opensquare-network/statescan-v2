@@ -3,7 +3,7 @@ import { GET_LIDO_VAULTS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoQuery } from "./useLidoQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
-import { encodeCursor } from "./utils";
+import { encodeCursor, pickLidoFilters } from "./utils";
 
 const DEFAULT_SORT = "statusOrder_asc";
 
@@ -14,15 +14,14 @@ export function useLidoVaultsData() {
     operator = "",
     status: statusQuery = "",
   } = useQueryParams({ parseNumbers: false });
-  const status = statusQuery === "null" ? "" : statusQuery;
   const { variables, pageSize } = useLidoListVariables({
     sortQuery: DEFAULT_SORT,
     cursor,
-    where: {
-      ...(vault ? { id_contains_nocase: String(vault) } : {}),
-      ...(operator ? { nodeOperator_contains_nocase: String(operator) } : {}),
-      ...(status ? { status } : {}),
-    },
+    where: pickLidoFilters({
+      id_contains_nocase: vault,
+      nodeOperator_contains_nocase: operator,
+      status: statusQuery,
+    }),
     timeDimensionParams: {},
   });
 

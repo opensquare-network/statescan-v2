@@ -3,7 +3,7 @@ import { GET_LIDO_STAKING_MODULES } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
-import { encodeCursor } from "./utils";
+import { encodeCursor, pickLidoFilters } from "./utils";
 
 const DEFAULT_SORT = "stakingModuleId_asc";
 
@@ -14,15 +14,17 @@ export function useLidoStakingModulesData() {
     name = "",
     status: statusQuery = "",
   } = useQueryParams({ parseNumbers: false });
-  const status = statusQuery === "null" ? "" : statusQuery;
   const { variables, pageSize } = useLidoListVariables({
     sortQuery: DEFAULT_SORT,
     cursor,
-    where: {
-      ...(module ? { moduleAddress_contains_nocase: String(module) } : {}),
-      ...(name ? { name_contains_nocase: String(name) } : {}),
-      ...(status !== "" ? { status: Number(status) } : {}),
-    },
+    where: pickLidoFilters(
+      {
+        moduleAddress_contains_nocase: module,
+        name_contains_nocase: name,
+        status: statusQuery,
+      },
+      { status: Number },
+    ),
     timeDimensionParams: {},
   });
 

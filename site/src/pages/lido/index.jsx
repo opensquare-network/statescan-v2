@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import LidoOverview from "../../components/lido/home/overview";
+import LidoLatestUserActions from "../../components/lido/home/latestUserActions";
 import LidoRewardsVaultStats from "../../components/lido/home/rewardsVault";
 import LidoUserStaking, {
   PERIODS,
@@ -17,6 +18,7 @@ import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoEvmBalanceData";
 import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import { Inter_24_700 } from "../../styles/text";
+import LoadingIcon from "../../components/icons/loadingIcon";
 
 const WITHDRAWAL_VAULT_RECEIVED_STAT_ID = "withdrawalVaultReceived";
 const REWARDS_VAULT_RECEIVED_STAT_ID = "rewardsVaultETHReceived";
@@ -66,6 +68,10 @@ export default function LidoHome() {
           symbol={symbol}
           loading={onchainLoading}
         />
+      </Section>
+
+      <Section>
+        <LidoLatestUserActions decimals={decimals} symbol={symbol} />
       </Section>
 
       <Section>

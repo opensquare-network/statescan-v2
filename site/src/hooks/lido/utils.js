@@ -1,5 +1,6 @@
 import isNil from "lodash.isnil";
 import last from "lodash.last";
+import omit from "lodash.omit";
 
 export const LIDO_LIST_PAGE_SIZE = 25;
 export const LIDO_LIST_ORDER_BY = "blockNumber";
@@ -107,6 +108,24 @@ export function toSecondsTimestamp(timestamp) {
   return Math.floor(Number(timestamp) / 1000);
 }
 
+function isEmptyFilterValue(value) {
+  return isNil(value) || value === "";
+}
+
+export function pickLidoFilters(filters, formatters = {}) {
+  const emptyKeys = Object.entries(filters)
+    .filter(([, value]) => isEmptyFilterValue(value))
+    .map(([key]) => key);
+
+  return Object.fromEntries(
+    Object.entries(omit(filters, emptyKeys)).map(([key, value]) => {
+      const formatter = formatters[key];
+
+      return [key, formatter ? formatter(value) : value];
+    }),
+  );
+}
+
 export function getTimeDimensionFilter({
   timeDimension,
   blockStart,
@@ -115,14 +134,20 @@ export function getTimeDimensionFilter({
   dateEnd,
 }) {
   if (timeDimension === "date") {
-    return {
-      ...(dateStart ? { blockTime_gte: toSecondsTimestamp(dateStart) } : {}),
-      ...(dateEnd ? { blockTime_lte: toSecondsTimestamp(dateEnd) } : {}),
-    };
+    return pickLidoFilters(
+      {
+        blockTime_gte: dateStart,
+        blockTime_lte: dateEnd,
+      },
+      {
+        blockTime_gte: toSecondsTimestamp,
+        blockTime_lte: toSecondsTimestamp,
+      },
+    );
   }
 
-  return {
-    ...(blockStart ? { blockNumber_gte: blockStart } : {}),
-    ...(blockEnd ? { blockNumber_lte: blockEnd } : {}),
-  };
+  return pickLidoFilters({
+    blockNumber_gte: blockStart,
+    blockNumber_lte: blockEnd,
+  });
 }
