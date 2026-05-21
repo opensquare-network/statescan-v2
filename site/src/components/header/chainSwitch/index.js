@@ -109,6 +109,9 @@ const westendChains = Object.values(chains).filter(
   (i) => i.chain === "westend",
 );
 const paseoChains = Object.values(chains).filter((i) => i.chain === "paseo");
+const ethereumChains = Object.values(chains).filter(
+  (i) => i.chain === "ethereum",
+);
 const testnetOrSoloChains = Object.values(chains).filter((i) => !i.chain);
 
 export default function ChainSwitch() {
@@ -137,6 +140,10 @@ export default function ChainSwitch() {
     paseoChains.length > 0 && {
       title: "Paseo & Parachains",
       chains: paseoChains,
+    },
+    ethereumChains.length > 0 && {
+      title: "Ethereum",
+      chains: ethereumChains,
     },
   ].filter(Boolean);
 

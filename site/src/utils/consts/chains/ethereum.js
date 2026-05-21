@@ -1,10 +1,12 @@
-import { ReactComponent as EthereumIcon } from "../../../components/icons/ethereum.svg";
+import { ReactComponent as LidoIcon } from "../../../components/icons/lido.svg";
 
 const ethereum = {
-  name: "Ethereum",
-  icon: <EthereumIcon width="24" height="24" />,
+  name: "Lido",
+  icon: <LidoIcon width="24" height="24" />,
   value: "ethereum",
   domain: "ethereum",
+  chain: "ethereum",
+  protocol: "lido",
   symbol: "ETH",
   decimals: 18,
   color: "#00A3FF",
