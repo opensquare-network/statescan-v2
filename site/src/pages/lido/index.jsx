@@ -18,7 +18,6 @@ import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoEvmBalanceData";
 import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import { Inter_24_700 } from "../../styles/text";
-import LoadingIcon from "../../components/icons/loadingIcon";
 
 const WITHDRAWAL_VAULT_RECEIVED_STAT_ID = "withdrawalVaultReceived";
 const REWARDS_VAULT_RECEIVED_STAT_ID = "rewardsVaultETHReceived";
