@@ -63,7 +63,7 @@ export default function LidoRewardsVault() {
 
   return (
     <Layout>
-      <BreadCrumb data={[{ name: "Rewards Vault" }]} />
+      <BreadCrumb data={[{ name: "Exection Layer Rewards Vault" }]} />
 
       <Filter data={filter} />
 

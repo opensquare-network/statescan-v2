@@ -21,16 +21,16 @@ const blockchainMenus = [
     menus: [
       { name: "Deposits", value: "deposits" },
       { name: "Withdrawals", value: "withdrawals" },
-      { name: "Wrap", value: "wrap" },
-      { name: "Unwrap", value: "unwrap" },
+      { name: "wstETH Wrap", value: "wsteth-wrap" },
+      { name: "wstETH Unwrap", value: "wsteth-unwrap" },
     ],
   },
   {
     type: "group",
     title: "Vaults",
     menus: [
-      { name: "CL Withdrawal Vault", value: "withdrawal-vault" },
-      { name: "EL Withdrawal Vault", value: "rewards-vault" },
+      { name: "EL Withdrawal Vault", value: "withdrawal-vault" },
+      { name: "EL Rewards Vault", value: "rewards-vault" },
     ],
   },
   { type: "divider" },

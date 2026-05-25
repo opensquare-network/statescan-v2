@@ -93,10 +93,18 @@ function LidoWstETHWrapEvents({ title, useData }) {
 
 export function LidoWstETHUnwraps() {
   return (
-    <LidoWstETHWrapEvents title="Unwrap" useData={useLidoWstETHUnwrapsData} />
+    <LidoWstETHWrapEvents
+      title="wstETH Unwrap"
+      useData={useLidoWstETHUnwrapsData}
+    />
   );
 }
 
 export default function LidoWstETHWraps() {
-  return <LidoWstETHWrapEvents title="Wrap" useData={useLidoWstETHWrapsData} />;
+  return (
+    <LidoWstETHWrapEvents
+      title="wstETH Wrap"
+      useData={useLidoWstETHWrapsData}
+    />
+  );
 }

@@ -63,7 +63,7 @@ export default function LidoWithdrawalVault() {
 
   return (
     <Layout>
-      <BreadCrumb data={[{ name: "Withdrawal Vault" }]} />
+      <BreadCrumb data={[{ name: "Exection Layer Withdrawal Vault" }]} />
 
       <Filter data={filter} />
 
