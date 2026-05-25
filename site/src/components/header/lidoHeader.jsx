@@ -13,6 +13,8 @@ import { toggle } from "../../store/reducers/mobileMenuSlice";
 const blockChainMenus = [
   { name: "Deposits", value: "deposits" },
   { name: "Withdrawals", value: "withdrawals" },
+  { name: "Wrap", value: "wrap" },
+  { name: "Unwrap", value: "unwrap" },
   { name: "Withdrawal Vault", value: "withdrawal-vault" },
   { name: "Rewards Vault", value: "rewards-vault" },
   { name: "Staking Vaults", value: "staking-vaults" },
