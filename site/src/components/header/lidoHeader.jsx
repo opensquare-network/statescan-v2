@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { FlexBetween } from "../styled/flex";
@@ -8,13 +9,29 @@ import BaseHeader, {
   HeaderMenuText,
   HeaderMenuWrapper,
 } from "./baseHeader";
+import Link from "../styled/link";
+import { MenuItem, MenuLabel } from "./navi/common";
+import Menus from "./navi/menus";
 import { toggle } from "../../store/reducers/mobileMenuSlice";
 
-const blockChainMenus = [
-  { name: "Deposits", value: "deposits" },
-  { name: "Withdrawals", value: "withdrawals" },
-  { name: "Withdrawal Vault", value: "withdrawal-vault" },
-  { name: "Rewards Vault", value: "rewards-vault" },
+const blockchainMenus = [
+  {
+    type: "group",
+    title: "User actions",
+    menus: [
+      { name: "Deposits", value: "deposits" },
+      { name: "Withdrawals", value: "withdrawals" },
+    ],
+  },
+  {
+    type: "group",
+    title: "Vaults",
+    menus: [
+      { name: "CL Withdrawal Vault", value: "withdrawal-vault" },
+      { name: "EL Withdrawal Vault", value: "rewards-vault" },
+    ],
+  },
+  { type: "divider" },
   { name: "Staking Vaults", value: "staking-vaults" },
 ];
 
@@ -24,33 +41,24 @@ const moduleMenus = [
 ];
 
 const MobileMenuList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  min-width: 160px;
 `;
 
-function getMenuPath(value) {
-  if (!value) {
-    return "/";
-  }
-
-  return `/${value}`;
-}
-
-function renderMobileMenuItem(item, closeMobileMenu) {
+function renderMobileMenus(item, closeMobileMenu) {
   if (item.type === "divider") {
     return null;
   }
 
-  return (
-    <HeaderMenuLink
-      key={item.name}
-      to={getMenuPath(item.value)}
-      onClick={closeMobileMenu}
-    >
-      <HeaderMenuText>{item.name}</HeaderMenuText>
-    </HeaderMenuLink>
-  );
+  if (item.type === "group") {
+    return (
+      <Fragment key={item.title}>
+        <MenuLabel>{item.title}</MenuLabel>
+        <Menus menus={item.menus} closeFunc={closeMobileMenu} />
+      </Fragment>
+    );
+  }
+
+  return <Menus key={item.name} menus={[item]} closeFunc={closeMobileMenu} />;
 }
 
 export default function LidoHeader() {
@@ -67,7 +75,7 @@ export default function LidoHeader() {
             <HeaderMenuLink to="/">
               <HeaderMenuText>Home</HeaderMenuText>
             </HeaderMenuLink>
-            <SubMenu category="BlockChain" menus={blockChainMenus} />
+            <SubMenu category="Blockchain" menus={blockchainMenus} />
             <SubMenu category="Modules" menus={moduleMenus} />
           </HeaderMenuWrapper>
 
@@ -78,15 +86,14 @@ export default function LidoHeader() {
         <>
           <ChainSwitch />
           <MobileMenuList>
-            <HeaderMenuLink to="/" onClick={closeMobileMenu}>
-              <HeaderMenuText>Home</HeaderMenuText>
-            </HeaderMenuLink>
-            {blockChainMenus.map((item) =>
-              renderMobileMenuItem(item, closeMobileMenu),
+            <Link to="/" onClick={closeMobileMenu}>
+              <MenuItem>Home</MenuItem>
+            </Link>
+            {blockchainMenus.map((item) =>
+              renderMobileMenus(item, closeMobileMenu),
             )}
-            {moduleMenus.map((item) =>
-              renderMobileMenuItem(item, closeMobileMenu),
-            )}
+            <MenuLabel>Modules</MenuLabel>
+            <Menus menus={moduleMenus} closeFunc={closeMobileMenu} />
           </MobileMenuList>
         </>
       }

@@ -59,6 +59,7 @@ const MouseWrapper = styled.div`
 `;
 
 const MenuWrapper = styled(Panel)`
+  width: max-content;
   min-width: 160px;
   overflow: hidden;
   padding: 8px 0;
@@ -68,6 +69,7 @@ const MenuWrapper = styled(Panel)`
 const MenuItem = styled.div`
   cursor: pointer;
   padding: 8px 12px;
+  white-space: nowrap;
   ${Inter_14_500};
 
   :hover {
