@@ -21,6 +21,8 @@ const blockchainMenus = [
     menus: [
       { name: "Deposits", value: "deposits" },
       { name: "Withdrawals", value: "withdrawals" },
+      { name: "Wrap", value: "wrap" },
+      { name: "Unwrap", value: "unwrap" },
     ],
   },
   {

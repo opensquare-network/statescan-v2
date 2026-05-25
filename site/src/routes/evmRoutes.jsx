@@ -4,6 +4,7 @@ import LidoRewardsVault from "../pages/lido/rewardsVault";
 import LidoWithdrawal from "../pages/lido/withdrawal";
 import LidoWithdrawalVault from "../pages/lido/withdrawalVault";
 import LidoWithdrawals from "../pages/lido/withdrawals";
+import LidoWstETHWraps, { LidoWstETHUnwraps } from "../pages/lido/wstETHWraps";
 import LidoNodeOperator from "../pages/lido/nodeOperator";
 import LidoStakingVault from "../pages/lido/vault";
 import LidoStakingVaults from "../pages/lido/vaults";
@@ -19,6 +20,8 @@ export default function EvmRoutes() {
       <Route path="/" element={<LidoHome />} />
       <Route path="/deposits" element={<LidoDeposits />} />
       <Route path="/withdrawals" element={<LidoWithdrawals />} />
+      <Route path="/wrap" element={<LidoWstETHWraps />} />
+      <Route path="/unwrap" element={<LidoWstETHUnwraps />} />
       <Route path="/withdrawals/:requestId" element={<LidoWithdrawal />} />
       <Route path="/withdrawal-vault" element={<LidoWithdrawalVault />} />
       <Route path="/rewards-vault" element={<LidoRewardsVault />} />
