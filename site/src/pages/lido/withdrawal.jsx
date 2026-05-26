@@ -91,7 +91,7 @@ export default function LidoWithdrawal() {
   const breadCrumb = (
     <BreadCrumb
       data={[
-        { name: "Withdrawals", path: "/withdrawals" },
+        { name: "Withdrawals", path: "/steth/withdrawals" },
         { name: requestId },
       ]}
     />

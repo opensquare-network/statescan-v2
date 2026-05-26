@@ -55,7 +55,7 @@ function renderAddress(id, field, address) {
 function renderVaultId(id) {
   return (
     <Tooltip tip={id}>
-      <ColoredMonoLink to={`/staking-vaults/${id}`}>
+      <ColoredMonoLink to={`/staking/vaults/${id}`}>
         {hashEllipsis(id, 4, 4)}
       </ColoredMonoLink>
     </Tooltip>

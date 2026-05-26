@@ -20,7 +20,7 @@ export default function LidoStakingVault() {
   const breadCrumb = (
     <BreadCrumb
       data={[
-        { name: "Staking Vaults", path: "/staking-vaults" },
+        { name: "Staking Vaults", path: "/staking/vaults" },
         { name: vaultId },
       ]}
     />

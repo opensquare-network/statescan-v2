@@ -112,7 +112,7 @@ export default function LidoStakingModule() {
   const breadCrumb = (
     <BreadCrumb
       data={[
-        { name: "Staking Modules", path: "/staking-modules" },
+        { name: "Staking Modules", path: "/staking/modules" },
         { name: `#${stakingModuleId}` },
       ]}
     />

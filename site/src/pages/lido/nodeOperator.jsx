@@ -65,7 +65,7 @@ function toCsmNodeOperatorDetailItems(nodeOperator, stakingModule) {
     {
       label: "Staking Module",
       value: (
-        <ColoredInterLink to={`/staking-modules/${stakingModuleId}`}>
+        <ColoredInterLink to={`/staking/modules/${stakingModuleId}`}>
           {stakingModule?.name || "--"}
         </ColoredInterLink>
       ),
@@ -106,7 +106,7 @@ function toNorNodeOperatorDetailItems(nodeOperator, stakingModule) {
     {
       label: "Staking Module",
       value: (
-        <ColoredInterLink to={`/staking-modules/${stakingModuleId}`}>
+        <ColoredInterLink to={`/staking/modules/${stakingModuleId}`}>
           {stakingModule?.name || "--"}
         </ColoredInterLink>
       ),
@@ -213,14 +213,14 @@ export default function LidoNodeOperator() {
   const breadCrumb = (
     <BreadCrumb
       data={[
-        { name: "Staking Modules", path: "/staking-modules" },
+        { name: "Staking Modules", path: "/staking/modules" },
         {
           name: `#${stakingModuleId}`,
-          path: `/staking-modules/${stakingModuleId}`,
+          path: `/staking/modules/${stakingModuleId}`,
         },
         {
           name: "Node Operators",
-          path: `/staking-modules/${stakingModuleId}?tab=node-operators&page=1`,
+          path: `/staking/modules/${stakingModuleId}?tab=node-operators&page=1`,
         },
         { name: `#${nodeOperatorId}` },
       ]}

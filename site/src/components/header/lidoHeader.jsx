@@ -17,37 +17,37 @@ import { toggle } from "../../store/reducers/mobileMenuSlice";
 const blockchainMenus = [
   {
     type: "group",
-    title: "User actions",
+    title: "stETH",
     menus: [
-      { name: "Deposits", value: "deposits" },
-      { name: "Withdrawals", value: "withdrawals" },
-      { name: "wstETH Wrap", value: "wsteth-wrap" },
-      { name: "wstETH Unwrap", value: "wsteth-unwrap" },
+      { name: "Deposits", value: "steth/deposits" },
+      { name: "Withdrawals", value: "steth/withdrawals" },
+      { name: "stETH Holders", value: "steth/holders" },
     ],
   },
   {
     type: "group",
-    title: "Holders",
+    title: "wstETH",
     menus: [
-      { name: "stETH Holders", value: "steth-holders" },
-      { name: "wstETH Holders", value: "wsteth-holders" },
+      { name: "wstETH Wrap", value: "wsteth/wrap" },
+      { name: "wstETH Unwrap", value: "wsteth/unwrap" },
+      { name: "wstETH Holders", value: "wsteth/holders" },
     ],
   },
   {
     type: "group",
     title: "Vaults",
     menus: [
-      { name: "EL Withdrawal Vault", value: "withdrawal-vault" },
-      { name: "EL Rewards Vault", value: "rewards-vault" },
+      { name: "EL Withdrawal Vault", value: "vaults/withdrawal" },
+      { name: "EL Rewards Vault", value: "vaults/rewards" },
     ],
   },
   { type: "divider" },
-  { name: "Staking Vaults", value: "staking-vaults" },
+  { name: "Staking Vaults", value: "staking/vaults" },
 ];
 
 const moduleMenus = [
-  { name: "Staking Modules", value: "staking-modules" },
-  { name: "Module Deposits", value: "module-deposits" },
+  { name: "Staking Modules", value: "staking/modules" },
+  { name: "Module Deposits", value: "staking/deposits" },
 ];
 
 const MobileMenuList = styled.div`

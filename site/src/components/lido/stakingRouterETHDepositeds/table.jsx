@@ -59,7 +59,7 @@ function toLidoStakingRouterETHDepositedsTableData(
       showModuleId && (
         <ColoredInterLink
           key={`${item.id}-module`}
-          to={`/staking-modules/${item.stakingModuleId}`}
+          to={`/staking/modules/${item.stakingModuleId}`}
         >
           {item.stakingModule?.name || "--"}
         </ColoredInterLink>

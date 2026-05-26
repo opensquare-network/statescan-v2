@@ -55,7 +55,7 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
     return [
       <ColoredInterLink
         key={`${item.id}-request-id`}
-        to={`/withdrawals/${item.id}`}
+        to={`/steth/withdrawals/${item.id}`}
       >
         {item.id}
       </ColoredInterLink>,

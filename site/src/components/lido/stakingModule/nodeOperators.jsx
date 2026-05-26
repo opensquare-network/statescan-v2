@@ -61,7 +61,7 @@ function toSharesValue(value) {
 
 function toNorNodeOperatorsTableData(items = []) {
   return items.map((item) => {
-    const detailPath = `/staking-modules/${item.stakingModuleId}/node-operators/${item.nodeOperatorId}`;
+    const detailPath = `/staking/modules/${item.stakingModuleId}/node-operators/${item.nodeOperatorId}`;
 
     return [
       <ColoredInterLink key={`${item.id}-operator`} to={detailPath}>
@@ -89,7 +89,7 @@ function toNorNodeOperatorsTableData(items = []) {
 
 function toCsmNodeOperatorsTableData(items = []) {
   return items.map((item) => {
-    const detailPath = `/staking-modules/${item.stakingModuleId}/node-operators/${item.nodeOperatorId}`;
+    const detailPath = `/staking/modules/${item.stakingModuleId}/node-operators/${item.nodeOperatorId}`;
 
     return [
       <ColoredInterLink key={`${item.id}-operator`} to={detailPath}>

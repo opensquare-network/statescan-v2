@@ -75,7 +75,7 @@ function toLidoModuleRewardsTableData(items = [], showModuleId) {
       showModuleId && item.stakingModuleId && (
         <ColoredInterLink
           key={`${item.id}-module`}
-          to={`/staking-modules/${item.stakingModuleId}`}
+          to={`/staking/modules/${item.stakingModuleId}`}
         >
           {item.stakingModule?.name || "--"}
         </ColoredInterLink>

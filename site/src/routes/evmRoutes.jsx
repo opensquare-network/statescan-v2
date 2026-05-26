@@ -19,28 +19,31 @@ export default function EvmRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LidoHome />} />
-      <Route path="/deposits" element={<LidoDeposits />} />
-      <Route path="/withdrawals" element={<LidoWithdrawals />} />
-      <Route path="/steth-holders" element={<LidoStETHHolders />} />
-      <Route path="/wsteth-holders" element={<LidoWstETHHolders />} />
-      <Route path="/wsteth-wrap" element={<LidoWstETHWraps />} />
-      <Route path="/wsteth-unwrap" element={<LidoWstETHUnwraps />} />
-      <Route path="/withdrawals/:requestId" element={<LidoWithdrawal />} />
-      <Route path="/withdrawal-vault" element={<LidoWithdrawalVault />} />
-      <Route path="/rewards-vault" element={<LidoRewardsVault />} />
-      <Route path="/staking-vaults" element={<LidoStakingVaults />} />
-      <Route path="/staking-vaults/:vaultId" element={<LidoStakingVault />} />
-      <Route path="/staking-modules" element={<LidoStakingModules />} />
+      <Route path="/steth/deposits" element={<LidoDeposits />} />
+      <Route path="/steth/withdrawals" element={<LidoWithdrawals />} />
+      <Route path="/steth/holders" element={<LidoStETHHolders />} />
+      <Route path="/wsteth/holders" element={<LidoWstETHHolders />} />
+      <Route path="/wsteth/wrap" element={<LidoWstETHWraps />} />
+      <Route path="/wsteth/unwrap" element={<LidoWstETHUnwraps />} />
       <Route
-        path="/staking-modules/:stakingModuleId"
+        path="/steth/withdrawals/:requestId"
+        element={<LidoWithdrawal />}
+      />
+      <Route path="/vaults/withdrawal" element={<LidoWithdrawalVault />} />
+      <Route path="/vaults/rewards" element={<LidoRewardsVault />} />
+      <Route path="/staking/vaults" element={<LidoStakingVaults />} />
+      <Route path="/staking/vaults/:vaultId" element={<LidoStakingVault />} />
+      <Route path="/staking/modules" element={<LidoStakingModules />} />
+      <Route
+        path="/staking/modules/:stakingModuleId"
         element={<LidoStakingModule />}
       />
       <Route
-        path="/staking-modules/:stakingModuleId/node-operators/:nodeOperatorId"
+        path="/staking/modules/:stakingModuleId/node-operators/:nodeOperatorId"
         element={<LidoNodeOperator />}
       />
       <Route
-        path="/module-deposits"
+        path="/staking/deposits"
         element={<LidoStakingRouterETHDepositeds />}
       />
       <Route path="*" element={<NotFound />} />

@@ -27,7 +27,7 @@ const lidoStakingModulesHead = [
 function toLidoStakingModulesTableData(items = []) {
   return items.map((item) => {
     const latestTimeline = sortTimelineEvents(item.timelines).at(-1);
-    const detailPath = `/staking-modules/${item.id}`;
+    const detailPath = `/staking/modules/${item.id}`;
 
     return [
       <ColoredInterLink key={`${item.id}-id`} to={detailPath}>
