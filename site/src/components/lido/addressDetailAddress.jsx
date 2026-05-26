@@ -11,6 +11,10 @@ const EnsAddressWrapper = styled.div`
   gap: 6px;
   min-width: 0;
   max-width: 100%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  box-sizing: border-box;
+  height: 72px;
 `;
 
 const FullAddressLine = styled.div`

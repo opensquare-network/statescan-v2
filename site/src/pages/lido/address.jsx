@@ -9,6 +9,7 @@ import LidoAddressDetailAddress from "../../components/lido/addressDetailAddress
 import LoadableContent from "../../components/loadings/loadableContent";
 import List from "../../components/list";
 import { Panel } from "../../components/styled/panel";
+import { TextSecondary } from "../../components/styled/text";
 import ValueDisplay from "../../components/displayValue";
 import { LidoDepositsTable } from "./deposits";
 import { LidoWithdrawalsTable } from "./withdrawals";
@@ -31,18 +32,24 @@ function toApproximateValue(value) {
 
 function toDisplayValue(value, symbol) {
   return (
-    <ValueDisplay
-      value={toLidoEtherAmount(value ?? "0")}
-      symbol={symbol}
-      showNotEqualTooltip
-    />
+    <TextSecondary>
+      <ValueDisplay
+        value={toLidoEtherAmount(value ?? "0")}
+        symbol={symbol}
+        showNotEqualTooltip
+      />
+    </TextSecondary>
   );
 }
 
 function toWstEthValue(balance, stEthPerToken) {
   const value = toLidoEtherAmount(balance ?? "0");
   if (isNil(stEthPerToken)) {
-    return <ValueDisplay value={value} symbol="wstETH" />;
+    return (
+      <TextSecondary>
+        <ValueDisplay value={value} symbol="wstETH" />
+      </TextSecondary>
+    );
   }
 
   const ethValue = new BigNumber(value)
@@ -50,17 +57,23 @@ function toWstEthValue(balance, stEthPerToken) {
     .toFixed();
 
   return (
-    <ValueDisplay
-      value={value}
-      symbol="wstETH"
-      tooltipContent={`≈${toApproximateValue(ethValue)} ETH`}
-    />
+    <TextSecondary>
+      <ValueDisplay
+        value={value}
+        symbol="wstETH"
+        tooltipContent={`≈${toApproximateValue(ethValue)} ETH`}
+      />
+    </TextSecondary>
   );
 }
 
 function toStEthBalanceValue(shares, sharesRate) {
   if (isNil(shares)) {
-    return <ValueDisplay value="0" symbol="stETH" showNotEqualTooltip />;
+    return (
+      <TextSecondary>
+        <ValueDisplay value="0" symbol="stETH" showNotEqualTooltip />
+      </TextSecondary>
+    );
   }
 
   const balance = toStEthAmountFromShares(shares, sharesRate);
@@ -69,7 +82,11 @@ function toStEthBalanceValue(shares, sharesRate) {
     return "--";
   }
 
-  return <ValueDisplay value={balance} symbol="stETH" showNotEqualTooltip />;
+  return (
+    <TextSecondary>
+      <ValueDisplay value={balance} symbol="stETH" showNotEqualTooltip />
+    </TextSecondary>
+  );
 }
 
 function LidoAddressSummary({ address }) {
