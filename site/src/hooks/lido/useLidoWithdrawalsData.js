@@ -4,7 +4,8 @@ import { useQueryParams } from "../useQueryParams";
 import { useLidoList } from "./useLidoList";
 import { pickLidoFilters } from "./utils";
 
-export function useLidoWithdrawalsData() {
+export function useLidoWithdrawalsData(options = EMPTY_OBJECT) {
+  const filters = options.filters || EMPTY_OBJECT;
   const queryParams = useQueryParams({ parseNumbers: false });
   const params = queryParams || EMPTY_OBJECT;
   const {
@@ -19,15 +20,21 @@ export function useLidoWithdrawalsData() {
     date_end: dateEnd,
   } = params;
 
+  const where = pickLidoFilters({
+    status: statusQuery,
+    txHash,
+  });
+
+  if (filters.address) {
+    where.or = [{ owner: filters.address }, { requestor: filters.address }];
+  }
+
   return useLidoList({
     query: GET_LIDO_WITHDRAWAL_REQUESTS,
     field: "withdrawalRequests",
     sortQuery,
     cursor,
-    where: pickLidoFilters({
-      status: statusQuery,
-      txHash,
-    }),
+    where,
     timeDimensionParams: {
       timeDimension,
       blockStart,

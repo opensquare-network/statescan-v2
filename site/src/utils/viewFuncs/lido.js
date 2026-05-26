@@ -41,6 +41,16 @@ export function toLidoEtherAmount(value) {
   return formatEther(value);
 }
 
+export function toStEthAmountFromShares(shares, rate) {
+  if (isNil(shares) || isNil(rate)) {
+    return undefined;
+  }
+
+  return new BigNumber(toLidoEtherAmount(shares))
+    .times(toLidoEtherAmount(rate))
+    .toFixed();
+}
+
 export function formatLidoBp(value, empty = "--") {
   if (isNil(value)) {
     return empty;

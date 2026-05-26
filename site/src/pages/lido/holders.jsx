@@ -1,6 +1,4 @@
 import BreadCrumb from "../../components/breadCrumb";
-import BigNumber from "bignumber.js";
-import isNil from "lodash.isnil";
 import ValueDisplay from "../../components/displayValue";
 import Filter from "../../components/filter";
 import SearchIcon from "../../components/icons/searchIcon";
@@ -17,7 +15,11 @@ import {
 } from "../../hooks/lido/useLidoHoldersData";
 import { useLidoStEthSharesRateData } from "../../hooks/lido/useLidoStEthSharesRateData";
 import { useQueryParams } from "../../hooks/useQueryParams";
-import { toLidoEtherAmount, toLidoTimestamp } from "../../utils/viewFuncs/lido";
+import {
+  toLidoEtherAmount,
+  toLidoTimestamp,
+  toStEthAmountFromShares,
+} from "../../utils/viewFuncs/lido";
 import { useEffect, useState } from "react";
 
 const HoldersTableWrapper = styled(StyledPanelTableWrapper)`
@@ -115,16 +117,6 @@ function toStEthHoldersTableData(items = [], sharesRate) {
       showNotEqualTooltip
     />,
   ]);
-}
-
-function toStEthAmountFromShares(shares, rate) {
-  if (isNil(shares) || isNil(rate)) {
-    return undefined;
-  }
-
-  return new BigNumber(toLidoEtherAmount(shares))
-    .times(toLidoEtherAmount(rate))
-    .toFixed();
 }
 
 function useLidoHoldersFilter() {

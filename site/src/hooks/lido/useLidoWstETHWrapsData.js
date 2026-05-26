@@ -7,7 +7,7 @@ import { useQueryParams } from "../useQueryParams";
 import { useLidoList } from "./useLidoList";
 import { pickLidoFilters } from "./utils";
 
-function useLidoWstETHWrapEventsData({ query, field }) {
+function useLidoWstETHWrapEventsData({ query, field, filters = EMPTY_OBJECT }) {
   const queryParams = useQueryParams({ parseNumbers: false });
   const params = queryParams || EMPTY_OBJECT;
   const {
@@ -28,7 +28,7 @@ function useLidoWstETHWrapEventsData({ query, field }) {
     sortQuery,
     cursor,
     where: pickLidoFilters({
-      address: String(address ?? ""),
+      address: String(filters.address ?? address ?? ""),
       txHash,
     }),
     timeDimensionParams: {
@@ -41,16 +41,18 @@ function useLidoWstETHWrapEventsData({ query, field }) {
   });
 }
 
-export function useLidoWstETHWrapsData() {
+export function useLidoWstETHWrapsData(options = EMPTY_OBJECT) {
   return useLidoWstETHWrapEventsData({
     query: GET_LIDO_WSTETH_WRAPS,
     field: "wstETHWraps",
+    filters: options.filters,
   });
 }
 
-export function useLidoWstETHUnwrapsData() {
+export function useLidoWstETHUnwrapsData(options = EMPTY_OBJECT) {
   return useLidoWstETHWrapEventsData({
     query: GET_LIDO_WSTETH_UNWRAPS,
     field: "wstETHUnwraps",
+    filters: options.filters,
   });
 }

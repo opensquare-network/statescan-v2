@@ -4,7 +4,8 @@ import { useQueryParams } from "../useQueryParams";
 import { useLidoList } from "./useLidoList";
 import { pickLidoFilters } from "./utils";
 
-export function useLidoDepositsData() {
+export function useLidoDepositsData(options = EMPTY_OBJECT) {
+  const filters = options.filters || EMPTY_OBJECT;
   const queryParams = useQueryParams({ parseNumbers: false });
   const params = queryParams || EMPTY_OBJECT;
   const {
@@ -25,7 +26,7 @@ export function useLidoDepositsData() {
     sortQuery,
     cursor,
     where: pickLidoFilters({
-      address: String(address ?? ""),
+      address: String(filters.address ?? address ?? ""),
       txHash,
     }),
     timeDimensionParams: {

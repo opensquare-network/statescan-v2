@@ -89,11 +89,33 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
   });
 }
 
+function LidoWithdrawalsTableView({ data, loading, chainSettings }) {
+  const tableData = toLidoWithdrawalsTableData(data?.items, chainSettings);
+
+  return (
+    <StyledPanelTableWrapper
+      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+    >
+      <Table heads={lidoWithdrawalsHead} data={tableData} loading={loading} />
+    </StyledPanelTableWrapper>
+  );
+}
+
+export function LidoWithdrawalsTable({ filters }) {
+  const chainSettings = useChainSettings();
+  const { data, loading } = useLidoWithdrawalsData({ filters });
+
+  return (
+    <LidoWithdrawalsTableView
+      data={data}
+      loading={loading}
+      chainSettings={chainSettings}
+    />
+  );
+}
+
 export default function LidoWithdrawals() {
   const filter = useLidoWithdrawalsFilter();
-  const chainSettings = useChainSettings();
-  const { data, loading } = useLidoWithdrawalsData();
-  const tableData = toLidoWithdrawalsTableData(data?.items, chainSettings);
 
   return (
     <Layout>
@@ -101,11 +123,7 @@ export default function LidoWithdrawals() {
 
       <Filter data={filter} />
 
-      <StyledPanelTableWrapper
-        footer={<EvmPagination nextCursor={data?.nextCursor} />}
-      >
-        <Table heads={lidoWithdrawalsHead} data={tableData} loading={loading} />
-      </StyledPanelTableWrapper>
+      <LidoWithdrawalsTable />
     </Layout>
   );
 }

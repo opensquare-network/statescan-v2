@@ -39,6 +39,7 @@ export default function ValueDisplay({
   symbol,
   abbreviate = true,
   showNotEqualTooltip = false,
+  tooltipContent,
   symbolWidth = 0,
 }) {
   if (isNaN(value)) {
@@ -70,12 +71,10 @@ export default function ValueDisplay({
     if (getEffectiveNumbers(abbreviated) !== getEffectiveNumbers(value)) {
       let notEqualDisplay = <span className="figures">{abbreviated}</span>;
 
-      if (showNotEqualTooltip) {
-        notEqualDisplay = (
-          <Tooltip tip={bigNumberToLocaleString(value)}>
-            {notEqualDisplay}
-          </Tooltip>
-        );
+      const tip = tooltipContent || bigNumberToLocaleString(value);
+
+      if (showNotEqualTooltip || tooltipContent) {
+        notEqualDisplay = <Tooltip tip={tip}>{notEqualDisplay}</Tooltip>;
       }
       display = (
         <NotEqual>
@@ -92,11 +91,19 @@ export default function ValueDisplay({
   if (decimal?.length > 5 && abbreviate) {
     const shortDeciaml = decimal.substring(0, 2);
 
+    let figures = (
+      <span className="figures">
+        {bigNumberToLocaleString(int)}.{shortDeciaml}
+      </span>
+    );
+
+    if (tooltipContent) {
+      figures = <Tooltip tip={tooltipContent}>{figures}</Tooltip>;
+    }
+
     let display = (
       <NotEqual>
-        <span className="figures">
-          {bigNumberToLocaleString(int)}.{shortDeciaml}
-        </span>
+        {figures}
         <span style={{ width: 4 }} />
         {symbolDisplay}
       </NotEqual>
@@ -110,9 +117,15 @@ export default function ValueDisplay({
 
     return display;
   }
+  let figures = <span className="figures">{value} </span>;
+
+  if (tooltipContent) {
+    figures = <Tooltip tip={tooltipContent}>{figures}</Tooltip>;
+  }
+
   return (
     <Wrapper>
-      <span className="figures">{value} </span>
+      {figures}
       <span style={{ width: 4 }} />
       {symbolDisplay}
     </Wrapper>

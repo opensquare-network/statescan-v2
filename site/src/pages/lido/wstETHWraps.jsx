@@ -71,10 +71,32 @@ function toLidoWstETHWrapsTableData(items = []) {
   ]);
 }
 
-function LidoWstETHWrapEvents({ title, useData }) {
-  const filter = useLidoDepositsFilter();
-  const { data, loading } = useData();
+function LidoWstETHWrapEventsTableView({ data, loading }) {
   const tableData = toLidoWstETHWrapsTableData(data?.items);
+
+  return (
+    <StyledPanelTableWrapper
+      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+    >
+      <Table heads={lidoWstETHWrapsHead} data={tableData} loading={loading} />
+    </StyledPanelTableWrapper>
+  );
+}
+
+export function LidoWstETHWrapsTable({ filters }) {
+  const { data, loading } = useLidoWstETHWrapsData({ filters });
+
+  return <LidoWstETHWrapEventsTableView data={data} loading={loading} />;
+}
+
+export function LidoWstETHUnwrapsTable({ filters }) {
+  const { data, loading } = useLidoWstETHUnwrapsData({ filters });
+
+  return <LidoWstETHWrapEventsTableView data={data} loading={loading} />;
+}
+
+function LidoWstETHWrapEvents({ title, children }) {
+  const filter = useLidoDepositsFilter();
 
   return (
     <Layout>
@@ -82,29 +104,23 @@ function LidoWstETHWrapEvents({ title, useData }) {
 
       <Filter data={filter} />
 
-      <StyledPanelTableWrapper
-        footer={<EvmPagination nextCursor={data?.nextCursor} />}
-      >
-        <Table heads={lidoWstETHWrapsHead} data={tableData} loading={loading} />
-      </StyledPanelTableWrapper>
+      {children}
     </Layout>
   );
 }
 
 export function LidoWstETHUnwraps() {
   return (
-    <LidoWstETHWrapEvents
-      title="wstETH Unwrap"
-      useData={useLidoWstETHUnwrapsData}
-    />
+    <LidoWstETHWrapEvents title="wstETH Unwrap">
+      <LidoWstETHUnwrapsTable />
+    </LidoWstETHWrapEvents>
   );
 }
 
 export default function LidoWstETHWraps() {
   return (
-    <LidoWstETHWrapEvents
-      title="wstETH Wrap"
-      useData={useLidoWstETHWrapsData}
-    />
+    <LidoWstETHWrapEvents title="wstETH Wrap">
+      <LidoWstETHWrapsTable />
+    </LidoWstETHWrapEvents>
   );
 }

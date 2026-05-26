@@ -69,11 +69,33 @@ function toLidoDepositsTableData(items = [], { decimals, symbol }) {
   ]);
 }
 
+function LidoDepositsTableView({ data, loading, chainSettings }) {
+  const tableData = toLidoDepositsTableData(data?.items, chainSettings);
+
+  return (
+    <StyledPanelTableWrapper
+      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+    >
+      <Table heads={lidoDepositsHead} data={tableData} loading={loading} />
+    </StyledPanelTableWrapper>
+  );
+}
+
+export function LidoDepositsTable({ filters }) {
+  const chainSettings = useChainSettings();
+  const { data, loading } = useLidoDepositsData({ filters });
+
+  return (
+    <LidoDepositsTableView
+      data={data}
+      loading={loading}
+      chainSettings={chainSettings}
+    />
+  );
+}
+
 export default function LidoDeposits() {
   const filter = useLidoDepositsFilter();
-  const chainSettings = useChainSettings();
-  const { data, loading } = useLidoDepositsData();
-  const tableData = toLidoDepositsTableData(data?.items, chainSettings);
 
   return (
     <Layout>
@@ -81,11 +103,7 @@ export default function LidoDeposits() {
 
       <Filter data={filter} />
 
-      <StyledPanelTableWrapper
-        footer={<EvmPagination nextCursor={data?.nextCursor} />}
-      >
-        <Table heads={lidoDepositsHead} data={tableData} loading={loading} />
-      </StyledPanelTableWrapper>
+      <LidoDepositsTable />
     </Layout>
   );
 }
