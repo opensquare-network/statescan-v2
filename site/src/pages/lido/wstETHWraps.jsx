@@ -33,7 +33,7 @@ const lidoWstETHWrapsHead = [
   {
     name: "Time",
     type: "time",
-    width: 180,
+    width: 200,
   },
   { name: "Tx Hash", width: 220 },
   {

@@ -28,7 +28,7 @@ function useLidoWstETHWrapEventsData({ query, field }) {
     sortQuery,
     cursor,
     where: pickLidoFilters({
-      address_contains_nocase: address,
+      address: String(address ?? ""),
       txHash,
     }),
     timeDimensionParams: {

@@ -11,7 +11,7 @@ export function useLidoProtocolStatData(id) {
     variables: { id },
     skip: !id,
   });
-  const queryData = queryResult.data || queryResult.previousData;
+  const queryData = queryResult.data;
   const stat = queryData?.protocolStat;
 
   return {

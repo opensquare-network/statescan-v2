@@ -21,7 +21,7 @@ const operatorFeeDistributedsHead = [
     name: "Block",
     width: 160,
   },
-  { name: "Time", type: "time", width: 180 },
+  { name: "Time", type: "time", width: 200 },
   { name: "Tx Hash", width: 220 },
   {
     name: (

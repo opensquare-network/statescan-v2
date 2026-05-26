@@ -20,7 +20,7 @@ const lidoStakingModulesHead = [
   {
     name: { time: "Updated Time", age: "Last Updated" },
     type: "time",
-    width: 180,
+    width: 200,
   },
 ];
 

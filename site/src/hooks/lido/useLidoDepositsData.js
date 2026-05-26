@@ -25,7 +25,7 @@ export function useLidoDepositsData() {
     sortQuery,
     cursor,
     where: pickLidoFilters({
-      address_contains_nocase: address,
+      address: String(address ?? ""),
       txHash,
     }),
     timeDimensionParams: {

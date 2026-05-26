@@ -27,6 +27,14 @@ const blockchainMenus = [
   },
   {
     type: "group",
+    title: "Holders",
+    menus: [
+      { name: "stETH Holders", value: "steth-holders" },
+      { name: "wstETH Holders", value: "wsteth-holders" },
+    ],
+  },
+  {
+    type: "group",
     title: "Vaults",
     menus: [
       { name: "EL Withdrawal Vault", value: "withdrawal-vault" },

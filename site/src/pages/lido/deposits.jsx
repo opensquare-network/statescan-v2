@@ -31,7 +31,7 @@ const lidoDepositsHead = [
   {
     name: "Time",
     type: "time",
-    width: 180,
+    width: 200,
   },
   { name: "Tx Hash", width: 220 },
   {
@@ -82,11 +82,7 @@ export default function LidoDeposits() {
       <Filter data={filter} />
 
       <StyledPanelTableWrapper
-        footer={
-          <EvmPagination
-            nextCursor={data?.nextCursor}
-          />
-        }
+        footer={<EvmPagination nextCursor={data?.nextCursor} />}
       >
         <Table heads={lidoDepositsHead} data={tableData} loading={loading} />
       </StyledPanelTableWrapper>

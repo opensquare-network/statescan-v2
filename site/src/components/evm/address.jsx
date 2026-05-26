@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { toSvg } from "jdenticon";
 import styled from "styled-components";
-import { getAddress, isAddress } from "viem/utils";
 import { withCopy } from "../../HOC/withCopy";
 import evmPublicClient from "../../services/evm/client";
+import { normalizeEvmAddress } from "../../utils/normalizeAddress";
 import { hashEllipsis } from "../../utils/viewFuncs/text";
 import ExternalLink from "../externalLink";
 import Tooltip from "../tooltip";
@@ -64,20 +64,12 @@ const AddressLink = styled(ExternalLink)`
 
 const AddressLinkWithCopy = withCopy(AddressLink);
 
-function normalizeEvmAddress(address) {
-  if (!address || !isAddress(address)) {
-    return address;
-  }
-
-  return getAddress(address);
-}
-
 function useEnsProfile(address) {
   const [profile, setProfile] = useState({ name: null, avatar: null });
 
   useEffect(() => {
     async function fetchEnsProfile() {
-      if (!address || !evmPublicClient || !isAddress(address)) {
+      if (!address || !evmPublicClient) {
         setProfile({ name: null, avatar: null });
         return;
       }

@@ -1,5 +1,6 @@
 import BigNumber from "bignumber.js";
 import isNil from "lodash.isnil";
+import { formatEther } from "viem";
 import { currencify } from "..";
 
 const ETHERSCAN_BASE_URL = "https://etherscan.io";
@@ -30,6 +31,14 @@ export function toLidoBlockNumber(blockNumber) {
 
 export function toLidoAmount(value, decimals) {
   return new BigNumber(value || 0).shiftedBy(-decimals).toFixed();
+}
+
+export function toLidoEtherAmount(value) {
+  if (isNil(value)) {
+    return undefined;
+  }
+
+  return formatEther(value);
 }
 
 export function formatLidoBp(value, empty = "--") {

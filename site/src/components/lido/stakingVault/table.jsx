@@ -35,7 +35,7 @@ const lidoStakingVaultsHead = [
   {
     name: { time: "Last Report Time", age: "Last Reported" },
     type: "time",
-    width: 180,
+    width: 200,
   },
   { name: "Operator", width: 200 },
   { name: "Status", width: 120 },

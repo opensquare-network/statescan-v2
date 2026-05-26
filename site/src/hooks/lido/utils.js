@@ -6,7 +6,7 @@ export const LIDO_LIST_PAGE_SIZE = 25;
 export const LIDO_LIST_ORDER_BY = "blockNumber";
 export const LIDO_LIST_ORDER_DIRECTION = "desc";
 
-const CURSOR_SEPARATOR = ":";
+const CURSOR_SEPARATOR = "-";
 
 function getTieBreakerField(orderBy) {
   return orderBy === "blockNumber" ? "logIndex" : "id";

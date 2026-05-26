@@ -11,6 +11,10 @@ export const LIDO_BUFFERED_ETHER_ABI = parseAbi([
   "function getBufferedEther() view returns (uint256)",
 ]);
 
+export const LIDO_STETH_SHARES_ABI = parseAbi([
+  "function getPooledEthByShares(uint256) view returns (uint256)",
+]);
+
 export const WSTETH_RATE_ABI = parseAbi([
   "function stEthPerToken() view returns (uint256)",
   "function tokensPerStEth() view returns (uint256)",
