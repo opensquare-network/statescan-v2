@@ -13,6 +13,7 @@ import LidoStakingVaults from "../pages/lido/vaults";
 import LidoStakingModule from "../pages/lido/stakingModule";
 import LidoStakingModules from "../pages/lido/stakingModules";
 import LidoStakingRouterETHDepositeds from "../pages/lido/stakingRouterETHDepositeds";
+import LidoLocator from "../pages/lido/locator";
 import NotFound from "../pages/notFound";
 import { Route, Routes } from "react-router-dom";
 
@@ -27,6 +28,7 @@ export default function EvmRoutes() {
       <Route path="/wsteth/holders" element={<LidoWstETHHolders />} />
       <Route path="/wsteth/wrap" element={<LidoWstETHWraps />} />
       <Route path="/wsteth/unwrap" element={<LidoWstETHUnwraps />} />
+      <Route path="/locator" element={<LidoLocator />} />
       <Route
         path="/steth/withdrawals/:requestId"
         element={<LidoWithdrawal />}

@@ -42,6 +42,8 @@ const blockchainMenus = [
     ],
   },
   { type: "divider" },
+  { name: "Locator", value: "locator" },
+  { type: "divider" },
   { name: "Staking Vaults", value: "staking/vaults" },
 ];
 
