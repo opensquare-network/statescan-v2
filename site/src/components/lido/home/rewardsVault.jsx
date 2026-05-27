@@ -125,7 +125,7 @@ export default function LidoRewardsVaultStats({
   return (
     <StatsSection>
       <StatsSectionHeader>
-        <StatsPanelTitle>Execution Layer Reward Vault</StatsPanelTitle>
+        <StatsPanelTitle>Execution Layer Rewards Vault</StatsPanelTitle>
         <ViewAllLink to="/vaults/rewards">View All</ViewAllLink>
       </StatsSectionHeader>
       <StatsPanel>
