@@ -125,7 +125,7 @@ export default function LidoWithdrawalVaultStats({
   return (
     <StatsSection>
       <StatsSectionHeader>
-        <StatsPanelTitle>Withdrawal Vault</StatsPanelTitle>
+        <StatsPanelTitle>Consensus Layer Withdrawal Vault</StatsPanelTitle>
         <ViewAllLink to="/vaults/withdrawal">View All</ViewAllLink>
       </StatsSectionHeader>
       <StatsPanel>

@@ -37,8 +37,8 @@ const blockchainMenus = [
     type: "group",
     title: "Vaults",
     menus: [
-      { name: "EL Withdrawal Vault", value: "vaults/withdrawal" },
-      { name: "EL Rewards Vault", value: "vaults/rewards" },
+      { name: "CL withdrawal vault", value: "vaults/withdrawal" },
+      { name: "EL rewards vault", value: "vaults/rewards" },
     ],
   },
   { type: "divider" },

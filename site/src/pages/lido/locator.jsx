@@ -38,7 +38,7 @@ const AddressLink = styled(EvmExternalLink)`
 
 function LocatorAddress({ address }) {
   if (!address) {
-    return "--";
+    return null;
   }
 
   return (
