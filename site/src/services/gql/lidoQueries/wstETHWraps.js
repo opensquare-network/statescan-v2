@@ -18,6 +18,7 @@ export const GET_LIDO_WSTETH_WRAPS = gql`
       blockTime
       id
       logIndex
+      stETHValue
       txHash
       value
     }
@@ -42,6 +43,7 @@ export const GET_LIDO_WSTETH_UNWRAPS = gql`
       blockTime
       id
       logIndex
+      stETHValue
       txHash
       value
     }

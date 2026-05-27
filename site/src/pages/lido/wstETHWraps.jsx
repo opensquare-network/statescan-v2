@@ -37,10 +37,15 @@ const lidoWstETHWrapsHead = [
   },
   { name: "Tx Hash", width: 220 },
   {
-    name: "Value",
+    name: "wstETH",
     type: "sortable",
     sortAscendingQueryValue: "value_asc",
     sortDescendingQueryValue: "value_desc",
+    align: "right",
+    width: 180,
+  },
+  {
+    name: "stETH",
     align: "right",
     width: 180,
   },
@@ -66,6 +71,12 @@ function toLidoWstETHWrapsTableData(items = []) {
       key={`${item.id}-value`}
       value={toLidoAmount(item.value, 18)}
       symbol="wstETH"
+      showNotEqualTooltip
+    />,
+    <ValueDisplay
+      key={`${item.id}-steth-value`}
+      value={toLidoAmount(item.stETHValue, 18)}
+      symbol="stETH"
       showNotEqualTooltip
     />,
   ]);
