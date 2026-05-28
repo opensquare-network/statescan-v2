@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import LoadableContent from "../../loadings/loadableContent";
 import { ColoredInterLink } from "../../styled/link";
 import { StatItem } from "../home/styled";
 import { CardContent, IconSlot, Label, MetricValue } from "../home/metrics";
@@ -21,14 +20,7 @@ export const StatsMetricLink = styled(ColoredInterLink)`
   ${Inter_18_700};
 `;
 
-export default function LidoStatsCard({
-  label,
-  value,
-  icon,
-  loading,
-  labelExtra,
-  valueLoading = true,
-}) {
+export default function LidoStatsCard({ label, value, icon, labelExtra }) {
   return (
     <StatItem>
       <IconSlot>{icon}</IconSlot>
@@ -37,13 +29,7 @@ export default function LidoStatsCard({
           {label}
           {labelExtra}
         </StatCardLabel>
-        <MetricValue>
-          {valueLoading ? (
-            <LoadableContent loading={loading}>{value}</LoadableContent>
-          ) : (
-            value
-          )}
-        </MetricValue>
+        <MetricValue>{value}</MetricValue>
       </CardContent>
     </StatItem>
   );

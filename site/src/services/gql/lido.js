@@ -6,4 +6,5 @@ export * from "./lidoQueries/stakingModules";
 export * from "./lidoQueries/stats";
 export * from "./lidoQueries/vaults";
 export * from "./lidoQueries/withdrawals";
+export * from "./lidoQueries/withdrawalQueue";
 export * from "./lidoQueries/wstETHWraps";

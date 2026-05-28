@@ -58,7 +58,11 @@ export const LIDO_LOCATOR_ABI = parseAbi([
 ]);
 
 export const LIDO_WITHDRAWAL_QUEUE_ABI = parseAbi([
+  "function getLastRequestId() view returns (uint256)",
   "function getLastFinalizedRequestId() view returns (uint256)",
+  "function unfinalizedRequestNumber() view returns (uint256)",
+  "function unfinalizedStETH() view returns (uint256)",
+  "function getLastCheckpointIndex() view returns (uint256)",
   "function isPaused() view returns (bool)",
   "function getResumeSinceTimestamp() view returns (uint256)",
   "function getLockedEtherAmount() view returns (uint256)",

@@ -21,6 +21,7 @@ const blockchainMenus = [
     menus: [
       { name: "Deposits", value: "steth/deposits" },
       { name: "Withdrawals", value: "steth/withdrawals" },
+      { name: "Withdrawal Queue", value: "steth/withdrawal-queue" },
       { name: "stETH Holders", value: "steth/holders" },
     ],
   },

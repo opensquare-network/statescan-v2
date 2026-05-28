@@ -35,6 +35,9 @@ export const Label = styled.div`
 export const MetricValue = styled.div`
   ${Inter_18_700};
   color: ${(p) => p.theme.fontPrimary};
+  display: flex;
+  align-items: center;
+  min-height: 22px;
   min-width: 0;
 `;
 

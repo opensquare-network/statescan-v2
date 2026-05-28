@@ -4,6 +4,7 @@ import LidoAddress from "../pages/lido/address";
 import LidoHome from "../pages/lido";
 import LidoRewardsVault from "../pages/lido/rewardsVault";
 import LidoWithdrawal from "../pages/lido/withdrawal";
+import LidoWithdrawalQueue from "../pages/lido/withdrawalQueue";
 import LidoWithdrawalVault from "../pages/lido/withdrawalVault";
 import LidoWithdrawals from "../pages/lido/withdrawals";
 import LidoWstETHWraps, { LidoWstETHUnwraps } from "../pages/lido/wstETHWraps";
@@ -24,6 +25,7 @@ export default function EvmRoutes() {
       <Route path="/addresses/:address" element={<LidoAddress />} />
       <Route path="/steth/deposits" element={<LidoDeposits />} />
       <Route path="/steth/withdrawals" element={<LidoWithdrawals />} />
+      <Route path="/steth/withdrawal-queue" element={<LidoWithdrawalQueue />} />
       <Route path="/steth/holders" element={<LidoStETHHolders />} />
       <Route path="/wsteth/holders" element={<LidoWstETHHolders />} />
       <Route path="/wsteth/wrap" element={<LidoWstETHWraps />} />

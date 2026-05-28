@@ -5,6 +5,7 @@ import TransferSquareIcon from "../../icons/transferSquareIcon";
 import { StyledExternalLink } from "../../externalLinkWithCopy";
 import Link from "../../styled/link";
 import Tooltip from "../../tooltip";
+import LoadableContent from "../../loadings/loadableContent";
 import LidoStatsCard from "../stats/card";
 import { LIDO_REWARDS_VAULT_ADDRESS } from "../../../services/evm/lido";
 import { Inter_12_500, Inter_14_500 } from "../../../styles/text";
@@ -76,25 +77,34 @@ export default function LidoRewardsVaultStats({
           <LidoStatsCard
             label="Current Balance"
             value={
-              <Amount value={balance} decimals={decimals} symbol={symbol} />
+              <LoadableContent loading={balanceLoading}>
+                <Amount value={balance} decimals={decimals} symbol={symbol} />
+              </LoadableContent>
             }
             icon={<AssetSquareIcon />}
-            loading={balanceLoading}
             labelExtra={<RewardsVaultAddressLink />}
           />
           <LidoStatsCard
             label="Total withdrawal"
             value={
-              <Amount value={stats.value} decimals={decimals} symbol={symbol} />
+              <LoadableContent loading={loading}>
+                <Amount
+                  value={stats.value}
+                  decimals={decimals}
+                  symbol={symbol}
+                />
+              </LoadableContent>
             }
             icon={<TransferSquareIcon />}
-            loading={loading}
           />
           <LidoStatsCard
             label="Total withdrawal count"
             icon={<TransferSquareIcon />}
-            value={formatCount(stats.count)}
-            loading={loading}
+            value={
+              <LoadableContent loading={loading}>
+                {formatCount(stats.count)}
+              </LoadableContent>
+            }
           />
         </StatsGrid>
       </StatsPanel>
