@@ -56,3 +56,10 @@ export const LIDO_LOCATOR_ABI = parseAbi([
   "function withdrawalVault() view returns (address)",
   "function wstETH() view returns (address)",
 ]);
+
+export const LIDO_WITHDRAWAL_QUEUE_ABI = parseAbi([
+  "function getLastFinalizedRequestId() view returns (uint256)",
+  "function isPaused() view returns (bool)",
+  "function getResumeSinceTimestamp() view returns (uint256)",
+  "function getLockedEtherAmount() view returns (uint256)",
+]);

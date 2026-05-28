@@ -1,4 +1,5 @@
 import BreadCrumb from "../../components/breadCrumb";
+import LidoWithdrawalsSummary from "../../components/lido/withdrawals/summary";
 import ValueDisplay from "../../components/displayValue";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
@@ -120,6 +121,8 @@ export default function LidoWithdrawals() {
   return (
     <Layout>
       <BreadCrumb data={[{ name: "Withdrawals" }]} />
+
+      <LidoWithdrawalsSummary />
 
       <Filter data={filter} />
 

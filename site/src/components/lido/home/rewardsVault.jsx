@@ -4,35 +4,19 @@ import CaretUprightIcon from "../../icons/caretUpright";
 import TransferSquareIcon from "../../icons/transferSquareIcon";
 import { StyledExternalLink } from "../../externalLinkWithCopy";
 import Link from "../../styled/link";
-import LoadableContent from "../../loadings/loadableContent";
 import Tooltip from "../../tooltip";
+import LidoStatsCard from "../stats/card";
 import { LIDO_REWARDS_VAULT_ADDRESS } from "../../../services/evm/lido";
 import { Inter_12_500, Inter_14_500 } from "../../../styles/text";
 import { getEtherscanAddressUrl } from "../../../utils/viewFuncs/lido";
 import {
-  StatItem,
-  StatLabel as BaseStatLabel,
   StatsGrid,
   StatsPanel,
   StatsPanelTitle,
   StatsSection,
   StatsSectionHeader,
 } from "./styled";
-import {
-  Amount,
-  CardContent,
-  formatCount,
-  IconSlot,
-  MetricValue,
-} from "./metrics";
-
-const VaultStatLabel = styled(BaseStatLabel)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4px;
-  width: 100%;
-`;
+import { Amount, formatCount } from "./metrics";
 
 const AddressLink = styled(StyledExternalLink)`
   ${Inter_12_500};
@@ -63,47 +47,6 @@ const ViewAllLink = styled(Link)`
   text-decoration: none;
 `;
 
-function AmountCard({
-  label,
-  value,
-  icon,
-  decimals,
-  symbol,
-  loading,
-  labelExtra,
-}) {
-  return (
-    <StatItem>
-      <IconSlot>{icon}</IconSlot>
-      <CardContent>
-        <VaultStatLabel>
-          {label}
-          {labelExtra}
-        </VaultStatLabel>
-        <MetricValue>
-          <LoadableContent loading={loading}>
-            <Amount value={value} decimals={decimals} symbol={symbol} />
-          </LoadableContent>
-        </MetricValue>
-      </CardContent>
-    </StatItem>
-  );
-}
-
-function CountCard({ label, value, icon, loading }) {
-  return (
-    <StatItem>
-      <IconSlot>{icon}</IconSlot>
-      <CardContent>
-        <VaultStatLabel>{label}</VaultStatLabel>
-        <MetricValue>
-          <LoadableContent loading={loading}>{value}</LoadableContent>
-        </MetricValue>
-      </CardContent>
-    </StatItem>
-  );
-}
-
 function RewardsVaultAddressLink() {
   return (
     <Tooltip tip={LIDO_REWARDS_VAULT_ADDRESS} style={{ marginLeft: null }}>
@@ -130,24 +73,24 @@ export default function LidoRewardsVaultStats({
       </StatsSectionHeader>
       <StatsPanel>
         <StatsGrid>
-          <AmountCard
+          <LidoStatsCard
             label="Current Balance"
-            value={balance}
+            value={
+              <Amount value={balance} decimals={decimals} symbol={symbol} />
+            }
             icon={<AssetSquareIcon />}
-            decimals={decimals}
-            symbol={symbol}
             loading={balanceLoading}
             labelExtra={<RewardsVaultAddressLink />}
           />
-          <AmountCard
+          <LidoStatsCard
             label="Total withdrawal"
-            value={stats.value}
+            value={
+              <Amount value={stats.value} decimals={decimals} symbol={symbol} />
+            }
             icon={<TransferSquareIcon />}
-            decimals={decimals}
-            symbol={symbol}
             loading={loading}
           />
-          <CountCard
+          <LidoStatsCard
             label="Total withdrawal count"
             icon={<TransferSquareIcon />}
             value={formatCount(stats.count)}
