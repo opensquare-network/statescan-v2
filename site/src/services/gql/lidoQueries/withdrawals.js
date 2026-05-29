@@ -36,6 +36,8 @@ export const GET_LIDO_WITHDRAWAL_REQUESTS = gql`
       }
       blockNumber
       blockTime
+      cumulativeShares
+      cumulativeStETH
       id
       logIndex
       owner

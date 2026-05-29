@@ -14,6 +14,7 @@ import LidoWithdrawalTimeline from "../../components/lido/withdrawalTimeline";
 import NoData from "../../components/noData";
 import { Panel } from "../../components/styled/panel";
 import { DetailedTime } from "../../components/styled/time";
+import HelpLabel from "../../components/tooltip/helpLabel";
 import { useLidoWithdrawalData } from "../../hooks/lido/useLidoWithdrawalData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
@@ -79,6 +80,30 @@ function toWithdrawalDetailItems(withdrawal, chainSettings) {
       label: "Shares",
       value: (
         <LidoValue value={withdrawal.shares} decimals={decimals} symbol="" />
+      ),
+    },
+    {
+      label: "Cumulative stETH",
+      value: (
+        <LidoValue
+          value={withdrawal.cumulativeStETH}
+          decimals={decimals}
+          symbol={symbol}
+        />
+      ),
+    },
+    {
+      label: (
+        <HelpLabel tip="Cumulative stETH amount in shares.">
+          Cumulative Shares
+        </HelpLabel>
+      ),
+      value: (
+        <LidoValue
+          value={withdrawal.cumulativeShares}
+          decimals={decimals}
+          symbol=""
+        />
       ),
     },
     { label: "Status", value: <LidoStatus status={withdrawal.status} /> },

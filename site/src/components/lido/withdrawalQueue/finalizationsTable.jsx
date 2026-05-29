@@ -36,7 +36,11 @@ const heads = [
   { name: "Value", align: "right", width: 180 },
   {
     name: (
-      <HelpLabel tip="Finalized amount in shares." align="right" fullWidth>
+      <HelpLabel
+        tip="Finalized stETH amount in shares."
+        align="right"
+        fullWidth
+      >
         Shares
       </HelpLabel>
     ),
