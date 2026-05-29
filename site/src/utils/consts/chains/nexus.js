@@ -3,16 +3,8 @@ import { collectivesModules } from "./collectives";
 
 const nodes = [
   {
-    name: "BlockOps",
-    url: "wss://hyperbridge-nexus-rpc.blockops.network/",
-  },
-  {
-    name: "IBP1",
-    url: "wss://nexus.ibp.network/",
-  },
-  {
-    name: "IBP2",
-    url: "wss://nexus.dotters.network/",
+    name: "Polytope Labs",
+    url: "wss://nexus.rpc.polytope.technology",
   },
 ];
 
