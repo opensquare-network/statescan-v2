@@ -6,29 +6,19 @@ import List from "../../components/list";
 import LoadableContent from "../../components/loadings/loadableContent";
 import { Panel } from "../../components/styled/panel";
 import { TextSecondary } from "../../components/styled/text";
-import ValueDisplay from "../../components/displayValue";
 import { LidoDepositsTable } from "./deposits";
 import { LidoStETHHoldersTable } from "./holders";
 import { LidoWithdrawalsTable } from "./withdrawals";
 import { LIDO_STETH_ADDRESS } from "../../services/evm/lido";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
 import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
-import { formatCount } from "../../components/lido/home/metrics";
-import { toLidoEtherAmount } from "../../utils/viewFuncs/lido";
+import { formatCount, OnchainAmount } from "../../components/lido/home/metrics";
+import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 
 const STETH_HOLDER_COUNT_STAT_ID = "stETHHolderCount";
 
-function toValue(value, symbol) {
-  return (
-    <ValueDisplay
-      value={toLidoEtherAmount(value ?? "0")}
-      symbol={symbol}
-      showNotEqualTooltip
-    />
-  );
-}
-
 function LidoStETHSummary() {
+  const { decimals } = useChainSettings();
   const { data, loading } = useLidoOnchainStatsData();
   const { data: holders, loading: holdersLoading } = useLidoProtocolStatData(
     STETH_HOLDER_COUNT_STAT_ID,
@@ -37,11 +27,14 @@ function LidoStETHSummary() {
     {
       label: "Total Supply",
       value: (
-        <LoadableContent loading={loading}>
-          <TextSecondary>
-            {toValue(data.stEthTotalSupply, "stETH")}
-          </TextSecondary>
-        </LoadableContent>
+        <TextSecondary>
+          <OnchainAmount
+            value={data.stEthTotalSupply}
+            decimals={decimals}
+            symbol="stETH"
+            loading={loading}
+          />
+        </TextSecondary>
       ),
     },
     {
@@ -57,9 +50,14 @@ function LidoStETHSummary() {
     {
       label: "Buffered ETH",
       value: (
-        <LoadableContent loading={loading}>
-          <TextSecondary>{toValue(data.bufferedEth, "ETH")}</TextSecondary>
-        </LoadableContent>
+        <TextSecondary>
+          <OnchainAmount
+            value={data.bufferedEth}
+            decimals={decimals}
+            symbol="ETH"
+            loading={loading}
+          />
+        </TextSecondary>
       ),
     },
     {

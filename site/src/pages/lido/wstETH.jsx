@@ -6,28 +6,22 @@ import List from "../../components/list";
 import LoadableContent from "../../components/loadings/loadableContent";
 import { Panel } from "../../components/styled/panel";
 import { TextSecondary } from "../../components/styled/text";
-import ValueDisplay from "../../components/displayValue";
 import { LidoWstETHHoldersTable } from "./holders";
 import { LidoWstETHUnwrapsTable, LidoWstETHWrapsTable } from "./wstETHWraps";
 import { LIDO_WSTETH_ADDRESS } from "../../services/evm/lido";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
 import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
-import { formatCount } from "../../components/lido/home/metrics";
-import { toLidoEtherAmount } from "../../utils/viewFuncs/lido";
+import {
+  formatCount,
+  OnchainAmount,
+  RateValue,
+} from "../../components/lido/home/metrics";
+import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 
 const WSTETH_HOLDER_COUNT_STAT_ID = "wstETHHolderCount";
 
-function toValue(value, symbol) {
-  return (
-    <ValueDisplay
-      value={toLidoEtherAmount(value ?? "0")}
-      symbol={symbol}
-      showNotEqualTooltip
-    />
-  );
-}
-
 function LidoWstETHSummary() {
+  const { decimals } = useChainSettings();
   const { data, loading } = useLidoOnchainStatsData();
   const { data: holders, loading: holdersLoading } = useLidoProtocolStatData(
     WSTETH_HOLDER_COUNT_STAT_ID,
@@ -36,11 +30,14 @@ function LidoWstETHSummary() {
     {
       label: "Total Supply",
       value: (
-        <LoadableContent loading={loading}>
-          <TextSecondary>
-            {toValue(data.wstEthTotalSupply, "wstETH")}
-          </TextSecondary>
-        </LoadableContent>
+        <TextSecondary>
+          <OnchainAmount
+            value={data.wstEthTotalSupply}
+            decimals={decimals}
+            symbol="wstETH"
+            loading={loading}
+          />
+        </TextSecondary>
       ),
     },
     {
@@ -56,19 +53,25 @@ function LidoWstETHSummary() {
     {
       label: "stETH / wstETH",
       value: (
-        <LoadableContent loading={loading}>
-          <TextSecondary>{toValue(data.stEthPerToken, "stETH")}</TextSecondary>
-        </LoadableContent>
+        <TextSecondary>
+          <RateValue
+            value={data.stEthPerToken}
+            decimals={decimals}
+            loading={loading}
+          />
+        </TextSecondary>
       ),
     },
     {
       label: "wstETH / stETH",
       value: (
-        <LoadableContent loading={loading}>
-          <TextSecondary>
-            {toValue(data.tokensPerStEth, "wstETH")}
-          </TextSecondary>
-        </LoadableContent>
+        <TextSecondary>
+          <RateValue
+            value={data.tokensPerStEth}
+            decimals={decimals}
+            loading={loading}
+          />
+        </TextSecondary>
       ),
     },
     {
