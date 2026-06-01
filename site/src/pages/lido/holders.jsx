@@ -141,11 +141,26 @@ function useLidoHoldersFilter() {
   return filter;
 }
 
-export function LidoStETHHolders() {
+export function LidoStETHHoldersTable() {
   const { data: sharesRate, loading } = useLidoStEthSharesRateData();
-  const filter = useLidoHoldersFilter();
   const { data, loading: listLoading } = useLidoStETHHoldersData();
   const tableData = toStEthHoldersTableData(data?.items, sharesRate);
+
+  return (
+    <HoldersTableWrapper
+      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+    >
+      <Table
+        heads={stEthHoldersHead}
+        data={tableData}
+        loading={listLoading || loading}
+      />
+    </HoldersTableWrapper>
+  );
+}
+
+export function LidoStETHHolders() {
+  const filter = useLidoHoldersFilter();
 
   return (
     <Layout>
@@ -153,23 +168,26 @@ export function LidoStETHHolders() {
 
       <Filter data={filter} />
 
-      <HoldersTableWrapper
-        footer={<EvmPagination nextCursor={data?.nextCursor} />}
-      >
-        <Table
-          heads={stEthHoldersHead}
-          data={tableData}
-          loading={listLoading || loading}
-        />
-      </HoldersTableWrapper>
+      <LidoStETHHoldersTable />
     </Layout>
   );
 }
 
-export default function LidoWstETHHolders() {
+export function LidoWstETHHoldersTable() {
   const { data, loading } = useLidoWstETHHoldersData();
-  const filter = useLidoHoldersFilter();
   const tableData = toWstEthHoldersTableData(data?.items);
+
+  return (
+    <HoldersTableWrapper
+      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+    >
+      <Table heads={wstEthHoldersHead} data={tableData} loading={loading} />
+    </HoldersTableWrapper>
+  );
+}
+
+export default function LidoWstETHHolders() {
+  const filter = useLidoHoldersFilter();
 
   return (
     <Layout>
@@ -177,11 +195,7 @@ export default function LidoWstETHHolders() {
 
       <Filter data={filter} />
 
-      <HoldersTableWrapper
-        footer={<EvmPagination nextCursor={data?.nextCursor} />}
-      >
-        <Table heads={wstEthHoldersHead} data={tableData} loading={loading} />
-      </HoldersTableWrapper>
+      <LidoWstETHHoldersTable />
     </Layout>
   );
 }

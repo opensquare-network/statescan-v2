@@ -19,6 +19,7 @@ const blockchainMenus = [
     type: "group",
     title: "stETH",
     menus: [
+      { name: "Overview", value: "steth" },
       { name: "Deposits", value: "steth/deposits" },
       { name: "Withdrawals", value: "steth/withdrawals" },
       { name: "Withdrawal Queue", value: "steth/withdrawal-queue" },
@@ -29,6 +30,7 @@ const blockchainMenus = [
     type: "group",
     title: "wstETH",
     menus: [
+      { name: "Overview", value: "wsteth" },
       { name: "wstETH Wrap", value: "wsteth/wrap" },
       { name: "wstETH Unwrap", value: "wsteth/unwrap" },
       { name: "wstETH Holders", value: "wsteth/holders" },
