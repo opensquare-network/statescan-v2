@@ -12,11 +12,58 @@ export const GET_LIDO_DAILY_STATS = gql`
       orderBy: $orderBy
       orderDirection: $orderDirection
     ) {
+      id
       depositCount
       depositValue
       timestamp
+      stETHTotalSupply
+      wstETHTotalSupply
+      stETHHolderCount
+      wstETHHolderCount
       withdrawalRequestCount
       withdrawalRequestValue
+    }
+  }
+`;
+
+export const GET_LIDO_STETH_DAILY_STATS_ANALYTICS = gql`
+  query GetLidoStETHDailyStatsAnalytics(
+    $first: Int!
+    $where: DailyStat_filter
+    $orderBy: DailyStat_orderBy
+    $orderDirection: OrderDirection
+  ) {
+    dailyStats(
+      interval: day
+      first: $first
+      where: $where
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+    ) {
+      id
+      timestamp
+      stETHHolderCount
+    }
+  }
+`;
+
+export const GET_LIDO_WSTETH_DAILY_STATS_ANALYTICS = gql`
+  query GetLidoWstETHDailyStatsAnalytics(
+    $first: Int!
+    $where: DailyStat_filter
+    $orderBy: DailyStat_orderBy
+    $orderDirection: OrderDirection
+  ) {
+    dailyStats(
+      interval: day
+      first: $first
+      where: $where
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+    ) {
+      id
+      timestamp
+      wstETHHolderCount
     }
   }
 `;
@@ -29,6 +76,31 @@ export const GET_LIDO_PROTOCOL_STAT = gql`
       updatedAtBlock
       updatedAtTime
       value
+    }
+  }
+`;
+
+export const GET_LIDO_SERVER_STETH_DAILY_STATS = gql`
+  query GetLidoServerStETHDailyStats {
+    stethDailyStats {
+      address
+      blockNumber
+      date
+      totalShares
+      totalSupply
+      timestamp
+    }
+  }
+`;
+
+export const GET_LIDO_SERVER_WSTETH_DAILY_STATS = gql`
+  query GetLidoServerWstETHDailyStats {
+    wstethDailyStats {
+      address
+      blockNumber
+      date
+      totalSupply
+      timestamp
     }
   }
 `;

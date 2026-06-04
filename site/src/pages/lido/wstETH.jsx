@@ -2,6 +2,7 @@ import BreadCrumb from "../../components/breadCrumb";
 import DetailLayout from "../../components/layout/detailLayout";
 import DetailTabs from "../../components/detail/tabs";
 import EvmAddress from "../../components/lido/evmAddress";
+import LidoTokenAnalyticsChart from "../../components/lido/tokenAnalyticsChart";
 import List from "../../components/list";
 import LoadableContent from "../../components/loadings/loadableContent";
 import { Panel } from "../../components/styled/panel";
@@ -104,6 +105,17 @@ export default function LidoWstETH() {
       name: "Holders",
       value: "holders",
       children: <LidoWstETHHoldersTable />,
+    },
+    {
+      name: "Analytics",
+      value: "analytics",
+      children: (
+        <LidoTokenAnalyticsChart
+          token="wstETH"
+          supplyField="wstETHTotalSupply"
+          holdersField="wstETHHolderCount"
+        />
+      ),
     },
   ];
 

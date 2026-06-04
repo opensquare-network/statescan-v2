@@ -2,6 +2,7 @@ import BreadCrumb from "../../components/breadCrumb";
 import DetailLayout from "../../components/layout/detailLayout";
 import DetailTabs from "../../components/detail/tabs";
 import EvmAddress from "../../components/lido/evmAddress";
+import LidoTokenAnalyticsChart from "../../components/lido/tokenAnalyticsChart";
 import List from "../../components/list";
 import LoadableContent from "../../components/loadings/loadableContent";
 import { Panel } from "../../components/styled/panel";
@@ -90,6 +91,17 @@ export default function LidoStETH() {
       name: "Holders",
       value: "holders",
       children: <LidoStETHHoldersTable />,
+    },
+    {
+      name: "Analytics",
+      value: "analytics",
+      children: (
+        <LidoTokenAnalyticsChart
+          token="stETH"
+          supplyField="stETHTotalSupply"
+          holdersField="stETHHolderCount"
+        />
+      ),
     },
   ];
 
