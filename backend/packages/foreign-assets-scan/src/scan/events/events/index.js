@@ -15,6 +15,8 @@ const { handleTransferredApproved } = require("./transferredApproved");
 const { handleDestroyed } = require("./destroyed");
 const { handleBlocked } = require("./blocked");
 const { handleTouched } = require("./touched");
+const { handleDeposited } = require("./deposited");
+const { handleWithdrawn } = require("./withdrawn");
 const { addAssetAddresses } = require("../../../store/assetsAccounts");
 
 async function handleForeignAssetsEvent(event, indexer) {
@@ -102,6 +104,10 @@ async function handleForeignAssetsEvent(event, indexer) {
       approvalsDestroyed,
       approvalsRemaining,
     });
+  } else if (method === "Deposited") {
+    await handleDeposited(event, indexer);
+  } else if (method === "Withdrawn") {
+    await handleWithdrawn(event, indexer);
   }
 }
 
