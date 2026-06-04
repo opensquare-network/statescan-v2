@@ -108,6 +108,12 @@ async function handleForeignAssetsEvent(event, indexer) {
     await handleDeposited(event, indexer);
   } else if (method === "Withdrawn") {
     await handleWithdrawn(event, indexer);
+  } else if (
+    ["IssuedCredit", "BurnedCredit", "IssuedDebt", "BurnedDebt"].includes(
+      method,
+    )
+  ) {
+    await updateForeignAssetNoTimeline(event, indexer);
   }
 }
 
