@@ -14,28 +14,7 @@ import { MenuItem, MenuLabel } from "./navi/common";
 import Menus from "./navi/menus";
 import { toggle } from "../../store/reducers/mobileMenuSlice";
 
-const blockchainMenus = [
-  {
-    type: "group",
-    title: "stETH",
-    menus: [
-      { name: "Overview", value: "steth" },
-      { name: "Deposits", value: "steth/deposits" },
-      { name: "Withdrawals", value: "steth/withdrawals" },
-      { name: "Withdrawal Queue", value: "steth/withdrawal-queue" },
-      { name: "stETH Holders", value: "steth/holders" },
-    ],
-  },
-  {
-    type: "group",
-    title: "wstETH",
-    menus: [
-      { name: "Overview", value: "wsteth" },
-      { name: "wstETH Wrap", value: "wsteth/wrap" },
-      { name: "wstETH Unwrap", value: "wsteth/unwrap" },
-      { name: "wstETH Holders", value: "wsteth/holders" },
-    ],
-  },
+const otherMenus = [
   {
     type: "group",
     title: "Vaults",
@@ -48,6 +27,21 @@ const blockchainMenus = [
   { name: "Locator", value: "locator" },
   { type: "divider" },
   { name: "Staking Vaults", value: "staking/vaults" },
+];
+
+const stethMenus = [
+  { name: "Overview", value: "steth" },
+  { name: "Deposits", value: "steth/deposits" },
+  { name: "Withdrawals", value: "steth/withdrawals" },
+  { name: "Withdrawal Queue", value: "steth/withdrawal-queue" },
+  { name: "stETH Holders", value: "steth/holders" },
+];
+
+const wstethMenus = [
+  { name: "Overview", value: "wsteth" },
+  { name: "wstETH Wrap", value: "wsteth/wrap" },
+  { name: "wstETH Unwrap", value: "wsteth/unwrap" },
+  { name: "wstETH Holders", value: "wsteth/holders" },
 ];
 
 const moduleMenus = [
@@ -90,8 +84,10 @@ export default function LidoHeader() {
             <HeaderMenuLink to="/">
               <HeaderMenuText>Home</HeaderMenuText>
             </HeaderMenuLink>
-            <SubMenu category="Blockchain" menus={blockchainMenus} />
+            <SubMenu category="stETH" menus={stethMenus} />
+            <SubMenu category="wstETH" menus={wstethMenus} />
             <SubMenu category="Modules" menus={moduleMenus} />
+            <SubMenu category="Others" menus={otherMenus} />
           </HeaderMenuWrapper>
 
           <ChainSwitch />
@@ -104,11 +100,16 @@ export default function LidoHeader() {
             <Link to="/" onClick={closeMobileMenu}>
               <MenuItem>Home</MenuItem>
             </Link>
-            {blockchainMenus.map((item) =>
-              renderMobileMenus(item, closeMobileMenu),
-            )}
             <MenuLabel>Modules</MenuLabel>
             <Menus menus={moduleMenus} closeFunc={closeMobileMenu} />
+            <MenuLabel>stETH</MenuLabel>
+            {stethMenus.map((item) => renderMobileMenus(item, closeMobileMenu))}
+            <MenuLabel>wstETH</MenuLabel>
+            {wstethMenus.map((item) =>
+              renderMobileMenus(item, closeMobileMenu),
+            )}
+            <MenuLabel>Others</MenuLabel>
+            {otherMenus.map((item) => renderMobileMenus(item, closeMobileMenu))}
           </MobileMenuList>
         </>
       }
