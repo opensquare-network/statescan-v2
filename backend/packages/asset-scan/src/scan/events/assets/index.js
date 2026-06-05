@@ -17,10 +17,7 @@ const { handleMetadataSet } = require("./metadataSet");
 const { handleCreated } = require("./created");
 const { handleDeposited } = require("./deposited");
 const { handleWithdrawn } = require("./withdrawn");
-const { updateAssetDetail } = require("./common/updateAssetDetail");
-const {
-  insertAssetActivity,
-} = require("../../mongo/assets/insertAssetActivity");
+const { handleFungiblesCreditDebt } = require("./fungiblesCreditDebt");
 const { AssetsEvents } = require("./consts");
 const { currentChain } = require("@osn/scan-common/src/env");
 
@@ -88,9 +85,7 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
       AssetsEvents.BurnedDebt,
     ].includes(method)
   ) {
-    const assetId = event.data[0].toNumber();
-    await updateAssetDetail(assetId, indexer);
-    await insertAssetActivity(assetId, method, {}, indexer);
+    await handleFungiblesCreditDebt(event, indexer);
   }
 }
 
