@@ -15,6 +15,9 @@ const { handleIssued } = require("./issued");
 const { handleOwnerChanged } = require("./ownerChanged");
 const { handleMetadataSet } = require("./metadataSet");
 const { handleCreated } = require("./created");
+const { handleDeposited } = require("./deposited");
+const { handleWithdrawn } = require("./withdrawn");
+const { updateAssetDetail } = require("./common/updateAssetDetail");
 const { AssetsEvents } = require("./consts");
 const { currentChain } = require("@osn/scan-common/src/env");
 
@@ -70,6 +73,20 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleApprovalCancelled(...arguments);
   } else if (method === AssetsEvents.TransferredApproved) {
     await handleTransferredApproved(...arguments);
+  } else if (method === AssetsEvents.Deposited) {
+    await handleDeposited(event, indexer);
+  } else if (method === AssetsEvents.Withdrawn) {
+    await handleWithdrawn(event, indexer);
+  } else if (
+    [
+      AssetsEvents.IssuedCredit,
+      AssetsEvents.BurnedCredit,
+      AssetsEvents.IssuedDebt,
+      AssetsEvents.BurnedDebt,
+    ].includes(method)
+  ) {
+    const assetId = event.data[0].toNumber();
+    await updateAssetDetail(assetId, indexer);
   }
 }
 
