@@ -1,23 +1,22 @@
 const { addAssetAddresses } = require("../../../store/assetsAccounts");
-const { updateAssetDetail } = require("./common/updateAssetDetail");
+const { updateForeignAssetNoTimeline } = require("./common/updateForeignAsset");
 const {
-  insertAssetActivity,
-} = require("../../mongo/assets/insertAssetActivity");
+  foreignAsset: { insertForeignAssetActivity },
+} = require("@statescan/mongo");
 
 async function handleIssued(event, indexer) {
   const { data } = event;
-  const assetId = data[0].toNumber();
+  const assetId = data[0].hash.toString();
   const beneficiary = data[1].toString();
   const amount = data[2].toString();
 
-  await updateAssetDetail(assetId, indexer);
-  await insertAssetActivity(
+  await updateForeignAssetNoTimeline(event, indexer);
+  await insertForeignAssetActivity(
     assetId,
     event.method,
     { beneficiary, amount },
     indexer,
   );
-
   addAssetAddresses(indexer.blockHash, assetId, [beneficiary]);
 }
 

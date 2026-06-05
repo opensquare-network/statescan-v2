@@ -9,6 +9,7 @@ let assetCol = null;
 let assetTimelineCol = null;
 let transferCol = null;
 let holderCol = null;
+let assetActivityCol = null;
 
 async function initForeignAssetScanDb() {
   db = new ScanDb(
@@ -21,6 +22,7 @@ async function initForeignAssetScanDb() {
   assetTimelineCol = await db.createCol("assetTimeline");
   transferCol = await db.createCol("transfer");
   holderCol = await db.createCol("holder");
+  assetActivityCol = await db.createCol("assetActivity");
 
   _createIndexes().then(() =>
     console.log("foreign assets scan DB indexes created!"),
@@ -55,6 +57,12 @@ async function _createIndexes() {
   await holderCol.createIndex({ address: 1 });
   await holderCol.createIndex({ assetId: 1 });
   await holderCol.createIndex({ assetId: 1, address: 1 }, { unique: true });
+
+  await assetActivityCol.createIndex({
+    assetId: 1,
+    "indexer.blockHeight": -1,
+  });
+  await assetActivityCol.createIndex({ "indexer.blockHeight": -1 });
 }
 
 async function getForeignAssetDb() {
@@ -91,6 +99,11 @@ async function getHolderCol() {
   return holderCol;
 }
 
+async function getAssetActivityCol() {
+  await makeSureInit(assetActivityCol);
+  return assetActivityCol;
+}
+
 module.exports = {
   initForeignAssetScanDb,
   getForeignAssetDb,
@@ -98,4 +111,5 @@ module.exports = {
   getAssetTimelineCol,
   getTransferCol,
   getHolderCol,
+  getAssetActivityCol,
 };

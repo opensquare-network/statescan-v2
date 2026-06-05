@@ -24,6 +24,14 @@ const AssetsEvents = Object.freeze({
   // Asset & Account
   Issued: "Issued",
   Burned: "Burned",
+
+  // fungibles trait
+  Deposited: "Deposited",
+  Withdrawn: "Withdrawn",
+  IssuedCredit: "IssuedCredit",
+  BurnedCredit: "BurnedCredit",
+  IssuedDebt: "IssuedDebt",
+  BurnedDebt: "BurnedDebt",
 });
 
 const AssetsMethods = Object.freeze({

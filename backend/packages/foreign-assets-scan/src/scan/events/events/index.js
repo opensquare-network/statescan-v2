@@ -17,6 +17,9 @@ const { handleBlocked } = require("./blocked");
 const { handleTouched } = require("./touched");
 const { handleDeposited } = require("./deposited");
 const { handleWithdrawn } = require("./withdrawn");
+const { handleIssued } = require("./issued");
+const { handleBurned } = require("./burned");
+const { handleFungiblesCreditDebt } = require("./fungiblesCreditDebt");
 const { addAssetAddresses } = require("../../../store/assetsAccounts");
 
 async function handleForeignAssetsEvent(event, indexer) {
@@ -33,17 +36,9 @@ async function handleForeignAssetsEvent(event, indexer) {
   } else if (method === "MetadataSet") {
     await handleMetadataSet(event, indexer);
   } else if (method === "Issued") {
-    await updateForeignAssetNoTimeline(event, indexer);
-    const { data } = event;
-    const beneficiary = data[1].toString();
-    addAssetAddresses(indexer.blockHash, data[0].hash.toString(), [
-      beneficiary,
-    ]);
+    await handleIssued(event, indexer);
   } else if (method === "Burned") {
-    await updateForeignAssetNoTimeline(event, indexer);
-    const { data } = event;
-    const owner = data[1].toString();
-    addAssetAddresses(indexer.blockHash, data[0].hash.toString(), [owner]);
+    await handleBurned(event, indexer);
   } else if (method === "TeamChanged") {
     const { data } = event;
     await updateForeignAssetCommon(event, indexer, {
@@ -113,7 +108,7 @@ async function handleForeignAssetsEvent(event, indexer) {
       method,
     )
   ) {
-    await updateForeignAssetNoTimeline(event, indexer);
+    await handleFungiblesCreditDebt(event, indexer);
   }
 }
 

@@ -4,4 +4,5 @@ module.exports = {
   ...db,
   ...require("./asset"),
   ...require("./assetTimeline"),
+  ...require("./assetActivity"),
 };
