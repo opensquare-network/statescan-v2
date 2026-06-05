@@ -11,6 +11,7 @@ let transferCol = null;
 let holderCol = null;
 let approvalCol = null;
 let statisticCol = null;
+let assetActivityCol = null;
 
 async function initPalletAssetScanDb() {
   db = new ScanDb(
@@ -25,6 +26,7 @@ async function initPalletAssetScanDb() {
   holderCol = await db.createCol("holder");
   approvalCol = await db.createCol("approval");
   statisticCol = await db.createCol("statistic");
+  assetActivityCol = await db.createCol("assetActivity");
 
   _createIndexes().then(() => console.log("asset scan DB indexes created!"));
 }
@@ -68,6 +70,13 @@ async function _createIndexes() {
     assetHeight: 1,
     "indexer.blockHeight": 1,
   });
+
+  await assetActivityCol.createIndex({
+    assetId: 1,
+    assetHeight: 1,
+    "indexer.blockHeight": -1,
+  });
+  await assetActivityCol.createIndex({ "indexer.blockHeight": -1 });
 }
 
 async function getAssetDb() {
@@ -114,6 +123,11 @@ async function getStatisticCol() {
   return statisticCol;
 }
 
+async function getAssetActivityCol() {
+  await makeSureInit(assetActivityCol);
+  return assetActivityCol;
+}
+
 module.exports = {
   initPalletAssetScanDb,
   getAssetDb,
@@ -123,4 +137,5 @@ module.exports = {
   getHolderCol,
   getApprovalCol,
   getStatisticCol,
+  getAssetActivityCol,
 };
