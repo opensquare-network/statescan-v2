@@ -83,7 +83,7 @@ function getFields(timelineItem, asset) {
         Freezer: (
           <AddressOrIdentity key={freezer} ellipsis={false} address={freezer} />
         ),
-        "Min Balance": formatBalance(minBalance, asset),
+        "Min Balance": formatBalance(minBalance, asset?.metadata ?? asset),
         Sufficient: <BoldText>{isSufficient}</BoldText>,
         Frozen: <BoldText>{isFrozen}</BoldText>,
       };
@@ -125,28 +125,6 @@ function getFields(timelineItem, asset) {
     case "Destroyed": {
       return {
         "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-      };
-    }
-    case "Issued": {
-      const { beneficiary, amount } = timelineItem.args;
-      return {
-        "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Beneficiary: (
-          <AddressOrIdentity
-            key={beneficiary}
-            ellipsis={false}
-            address={beneficiary}
-          />
-        ),
-        Amount: formatBalance(amount, asset),
-      };
-    }
-    case "Burned": {
-      const { owner, balance } = timelineItem.args;
-      return {
-        "Asset ID": <Text>{`#${asset.assetId}`}</Text>,
-        Who: <AddressOrIdentity key={owner} ellipsis={false} address={owner} />,
-        Amount: formatBalance(balance, asset),
       };
     }
     default: {

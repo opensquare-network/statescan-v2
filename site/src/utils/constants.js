@@ -14,6 +14,7 @@ export const Holders = "holders";
 export const Events = "events";
 export const Logs = "logs";
 export const Timeline = "timeline";
+export const Activity = "activity";
 export const Analytics = "analytics";
 export const Instances = "instances";
 export const Attributes = "attributes";

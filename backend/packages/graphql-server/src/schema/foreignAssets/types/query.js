@@ -11,6 +11,11 @@ const queries = /* GraphQL */ `
       offset: Int!
       limit: Int!
     ): PagedForeignAssetTimeline!
+    foreignAssetActivity(
+      assetId: String!
+      offset: Int!
+      limit: Int!
+    ): PagedForeignAssetActivity!
     foreignAssetTransfers(
       offset: Int!
       limit: Int!

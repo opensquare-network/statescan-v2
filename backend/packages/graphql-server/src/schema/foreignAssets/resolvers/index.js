@@ -5,5 +5,6 @@ module.exports = {
   ...require("./foreignAssetHolders"),
   ...require("./foreignAssetsScanHeight"),
   ...require("./foreignAssetTimeline"),
+  ...require("./foreignAssetActivity"),
   ...require("./accountForeignAssets"),
 };
