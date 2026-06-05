@@ -7,6 +7,7 @@ const { transfer } = require("./transfer");
 const { holder } = require("./holder");
 const { timeline } = require("./timeline");
 const { statistics } = require("./statistics");
+const { activity } = require("./activity");
 
 const typeDefs = [
   indexer,
@@ -16,6 +17,7 @@ const typeDefs = [
   holder,
   timeline,
   statistics,
+  activity,
 ];
 
 module.exports = {

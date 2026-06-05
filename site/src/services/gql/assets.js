@@ -123,6 +123,28 @@ export const GET_ASSET_TIMELINE_LIST = gql`
   }
 `;
 
+export const GET_ASSET_ACTIVITY_LIST = gql`
+  query MyQuery($limit: Int!, $offset: Int!, $assetId: Int!) {
+    assetActivity(limit: $limit, offset: $offset, assetId: $assetId) {
+      limit
+      offset
+      total
+      items {
+        args
+        assetHeight
+        name
+        assetId
+        indexer {
+          blockTime
+          eventIndex
+          extrinsicIndex
+          blockHeight
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ASSET_ANALYTICS = gql`
   query MyQuery($assetId: Int!) {
     assetHistoryStatistics(assetId: $assetId) {
@@ -143,6 +165,9 @@ export const GET_ASSET_COUNTS = gql`
       total
     }
     assetTimeline(assetId: $assetId, limit: 10, offset: 0) {
+      total
+    }
+    assetActivity(assetId: $assetId, limit: 10, offset: 0) {
       total
     }
     assetTransfers(assetId: $assetId, limit: 10, offset: 0) {
