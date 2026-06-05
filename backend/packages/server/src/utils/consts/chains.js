@@ -155,6 +155,7 @@ const transferOnBlockChains = [
   chains.westend,
   chains.argon,
   chains.statemint,
+  chains.statemine,
   chains["people-polkadot"],
   chains["coretime-polkadot"],
   chains["coretime-kusama"],
