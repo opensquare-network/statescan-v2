@@ -1,5 +1,10 @@
 const {
-  foreignAsset: { getTransferCol, getAssetTimelineCol, getAssetCol },
+  foreignAsset: {
+    getTransferCol,
+    getAssetTimelineCol,
+    getAssetCol,
+    getAssetActivityCol,
+  },
 } = require("@statescan/mongo");
 
 async function deleteFrom(height) {
@@ -17,6 +22,9 @@ async function deleteFrom(height) {
 
   const transferCol = await getTransferCol();
   await transferCol.deleteMany({ "indexer.blockHeight": { $gte: height } });
+
+  const activityCol = await getAssetActivityCol();
+  await activityCol.deleteMany({ "indexer.blockHeight": { $gte: height } });
 }
 
 module.exports = {
