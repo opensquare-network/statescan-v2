@@ -20,6 +20,9 @@ const { handleWithdrawn } = require("./withdrawn");
 const { handleIssued } = require("./issued");
 const { handleBurned } = require("./burned");
 const { addAssetAddresses } = require("../../../store/assetsAccounts");
+const {
+  foreignAsset: { insertForeignAssetActivity },
+} = require("@statescan/mongo");
 
 async function handleForeignAssetsEvent(event, indexer) {
   const { section, method } = event;
@@ -108,6 +111,8 @@ async function handleForeignAssetsEvent(event, indexer) {
     )
   ) {
     await updateForeignAssetNoTimeline(event, indexer);
+    const assetId = event.data[0].hash.toString();
+    await insertForeignAssetActivity(assetId, method, {}, indexer);
   }
 }
 
