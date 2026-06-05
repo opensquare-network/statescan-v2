@@ -1,15 +1,24 @@
 const { addAssetAddresses } = require("../../../store/assetsAccounts");
-const { updateAsset } = require("./common/updateAsset");
+const { updateAssetDetail } = require("./common/updateAssetDetail");
+const {
+  insertAssetActivity,
+} = require("../../mongo/assets/insertAssetActivity");
 
 async function handleIssued(event, indexer) {
   const { data } = event;
+  const assetId = data[0].toNumber();
   const beneficiary = data[1].toString();
-  await updateAsset(event, indexer, {
-    beneficiary,
-    amount: data[2].toString(),
-  });
+  const amount = data[2].toString();
 
-  addAssetAddresses(indexer.blockHash, data[0].toNumber(), [beneficiary]);
+  await updateAssetDetail(assetId, indexer);
+  await insertAssetActivity(
+    assetId,
+    event.method,
+    { beneficiary, amount },
+    indexer,
+  );
+
+  addAssetAddresses(indexer.blockHash, assetId, [beneficiary]);
 }
 
 module.exports = {
