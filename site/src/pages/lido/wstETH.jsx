@@ -109,13 +109,7 @@ export default function LidoWstETH() {
     {
       name: "Analytics",
       value: "analytics",
-      children: (
-        <LidoTokenAnalyticsChart
-          token="wstETH"
-          supplyField="wstETHTotalSupply"
-          holdersField="wstETHHolderCount"
-        />
-      ),
+      children: <LidoTokenAnalyticsChart token="wstETH" />,
     },
   ];
 

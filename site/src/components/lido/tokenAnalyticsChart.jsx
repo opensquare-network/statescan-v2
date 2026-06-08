@@ -9,6 +9,7 @@ import {
   ASSET_ANALYTICS_RANGE_ITEMS,
 } from "../../utils/constants";
 import { fromAssetUnit } from "../../utils";
+import { toLidoTimestamp } from "../../utils/viewFuncs/lido";
 import { Inter_12_500, Inter_12_600, Inter_14_600 } from "../../styles/text";
 import { useLidoDailyStatsAnalyticsData } from "../../hooks/lido/useLidoDailyStatsData";
 import { withLoading } from "../../HOC/withLoading";
@@ -128,14 +129,20 @@ const rangeDateMap = {
   [ASSET_ANALYTICS_RANGE.ONE_YEAR]: "years",
 };
 
-function toMilliseconds(timestamp) {
-  return Number(timestamp || 0) / 1000;
-}
-
 function getLatestTimestamp(data = []) {
   return data.reduce((result, item) => {
-    return Math.max(result, toMilliseconds(item?.timestamp));
+    return Math.max(result, toLidoTimestamp(item?.timestamp));
   }, 0);
+}
+
+function filterStatsByRange(items = [], startTimestamp) {
+  if (!startTimestamp) {
+    return items;
+  }
+
+  return items.filter(
+    (item) => toLidoTimestamp(item?.timestamp) > startTimestamp,
+  );
 }
 
 function getChartData(data = [], range) {
@@ -153,9 +160,7 @@ function getChartData(data = [], range) {
     .subtract(1, rangeDateMap[range])
     .valueOf();
 
-  return data.filter(
-    (item) => toMilliseconds(item?.timestamp) > startTimestamp,
-  );
+  return filterStatsByRange(data, startTimestamp);
 }
 
 function toSupplyValue(value, decimals) {
@@ -177,18 +182,16 @@ const mapLoadingState = (props) => {
 
 function LidoTokenAnalyticsChartBody({
   data = [],
-  supplyField,
-  holdersField,
   decimals,
   supplyHidden,
   holdersHidden,
 }) {
   const pointRadius = data.length <= 1 ? 3 : 0;
-  const chartLabels = data.map((item) => toMilliseconds(item.timestamp));
+  const chartLabels = data.map((item) => toLidoTimestamp(item.timestamp));
   const totalSupply = data.map((item) =>
-    toSupplyValue(item[supplyField], decimals),
+    toSupplyValue(item.totalSupply, decimals),
   );
-  const holders = data.map((item) => item[holdersField] ?? null);
+  const holders = data.map((item) => item.holders ?? null);
 
   const chartData = {
     labels: chartLabels,
@@ -259,6 +262,17 @@ function LidoTokenAnalyticsChartBody({
       tooltip: {
         mode: "index",
         intersect: false,
+        filter(item) {
+          return item.raw != null;
+        },
+        callbacks: {
+          title(items) {
+            return moment(items[0]?.parsed?.x).format("MMM D, YYYY");
+          },
+          label(item) {
+            return `${item.dataset.label}: ${item.formattedValue}`;
+          },
+        },
       },
     },
   };
@@ -280,11 +294,7 @@ const LoadableLidoTokenAnalyticsChartBody = withLoading(mapLoadingState)(
   LidoTokenAnalyticsChartBody,
 );
 
-export default function LidoTokenAnalyticsChart({
-  token,
-  supplyField,
-  holdersField,
-}) {
+export default function LidoTokenAnalyticsChart({ token }) {
   const { decimals } = useChainSettings();
   const [range, setRange] = useState(ASSET_ANALYTICS_RANGE.ALL);
   const [supplyHidden, setSupplyHidden] = useState(false);
@@ -313,8 +323,6 @@ export default function LidoTokenAnalyticsChart({
 
       <LoadableLidoTokenAnalyticsChartBody
         data={rangeData}
-        supplyField={supplyField}
-        holdersField={holdersField}
         decimals={decimals}
         supplyHidden={supplyHidden}
         holdersHidden={holdersHidden}

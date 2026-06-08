@@ -95,13 +95,7 @@ export default function LidoStETH() {
     {
       name: "Analytics",
       value: "analytics",
-      children: (
-        <LidoTokenAnalyticsChart
-          token="stETH"
-          supplyField="stETHTotalSupply"
-          holdersField="stETHHolderCount"
-        />
-      ),
+      children: <LidoTokenAnalyticsChart token="stETH" />,
     },
   ];
 

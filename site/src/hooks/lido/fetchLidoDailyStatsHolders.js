@@ -1,3 +1,7 @@
+function toSecondsFromMicroseconds(timestamp) {
+  return Math.floor(Number(timestamp) / 1000000);
+}
+
 export async function fetchLidoDailyStatsHolders({ client, query, pageSize }) {
   const items = [];
   const cursorHistory = new Set();
@@ -27,7 +31,12 @@ export async function fetchLidoDailyStatsHolders({ client, query, pageSize }) {
       break;
     }
 
-    items.push(...page);
+    items.push(
+      ...page.map((item) => ({
+        ...item,
+        timestamp: toSecondsFromMicroseconds(item.timestamp),
+      })),
+    );
 
     if (page.length < pageSize) {
       break;

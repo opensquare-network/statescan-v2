@@ -7,6 +7,7 @@ import {
   GET_LIDO_STETH_DAILY_STATS_ANALYTICS,
   GET_LIDO_WSTETH_DAILY_STATS_ANALYTICS,
 } from "../../services/gql/lido";
+import { toLidoTimestamp } from "../../utils/viewFuncs/lido";
 import { fetchLidoDailyStatsHolders } from "./fetchLidoDailyStatsHolders";
 import { lidoClient, useLidoQuery, useLidoServerQuery } from "./useLidoQuery";
 
@@ -70,16 +71,14 @@ const tokenConfigs = {
   stETH: {
     query: GET_LIDO_STETH_DAILY_STATS_ANALYTICS,
     serverQuery: GET_LIDO_SERVER_STETH_DAILY_STATS,
-    serverField: "stethDailyStats",
+    serverField: "stEthDailyStats",
     holdersField: "stETHHolderCount",
-    totalSupplyField: "stETHTotalSupply",
   },
   wstETH: {
     query: GET_LIDO_WSTETH_DAILY_STATS_ANALYTICS,
     serverQuery: GET_LIDO_SERVER_WSTETH_DAILY_STATS,
-    serverField: "wstethDailyStats",
+    serverField: "wstEthDailyStats",
     holdersField: "wstETHHolderCount",
-    totalSupplyField: "wstETHTotalSupply",
   },
 };
 
@@ -90,30 +89,37 @@ function formatHolderStats(holderStats = [], holdersField) {
     })
     .map((item) => {
       return {
+        holders: item[holdersField] ?? null,
         timestamp: item.timestamp,
-        [holdersField]: item[holdersField] ?? null,
       };
     });
 }
 
 function formatSupplyStats(supplyStats = []) {
-  return [...supplyStats]
-    .sort((a, b) => {
-      return Number(a.timestamp || 0) - Number(b.timestamp || 0);
-    })
-    .map((item) => {
-      return {
-        timestamp: item.timestamp,
-        totalSupply: item.totalSupply ?? null,
-      };
-    });
+  return supplyStats.map((item) => {
+    return {
+      timestamp: item.timestamp,
+      totalSupply: item.totalSupply ?? null,
+    };
+  });
 }
 
-function mergeStats(holderStats, supplyStats, totalSupplyField) {
-  return holderStats.map((item, index) => {
+function getDateKey(timestamp) {
+  return new Date(toLidoTimestamp(timestamp)).toISOString().slice(0, 10);
+}
+
+function mergeStatsByHolderDate(holderStats, supplyStats) {
+  const supplyMap = new Map(
+    supplyStats.map((item) => [getDateKey(item.timestamp), item]),
+  );
+
+  return holderStats.map((holderItem) => {
+    const supplyItem = supplyMap.get(getDateKey(holderItem.timestamp));
+
     return {
-      ...item,
-      [totalSupplyField]: supplyStats[index]?.totalSupply ?? null,
+      timestamp: holderItem.timestamp,
+      totalSupply: supplyItem?.totalSupply ?? null,
+      holders: holderItem.holders,
     };
   });
 }
@@ -168,23 +174,14 @@ export function useLidoDailyStatsAnalyticsData(token) {
     serverQueryResult.data || serverQueryResult.previousData;
   const supplyStats = serverQueryData?.[config.serverField];
   const data = useMemo(() => {
-    const formattedHolderStats = formatHolderStats(
+    const holderStats = formatHolderStats(
       holdersQueryResult.data,
       config.holdersField,
     );
     const formattedSupplyStats = formatSupplyStats(supplyStats);
 
-    return mergeStats(
-      formattedHolderStats,
-      formattedSupplyStats,
-      config.totalSupplyField,
-    );
-  }, [
-    config.holdersField,
-    config.totalSupplyField,
-    holdersQueryResult.data,
-    supplyStats,
-  ]);
+    return mergeStatsByHolderDate(holderStats, formattedSupplyStats);
+  }, [config.holdersField, holdersQueryResult.data, supplyStats]);
 
   return {
     ...serverQueryResult,

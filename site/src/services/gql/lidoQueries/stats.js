@@ -82,11 +82,7 @@ export const GET_LIDO_PROTOCOL_STAT = gql`
 
 export const GET_LIDO_SERVER_STETH_DAILY_STATS = gql`
   query GetLidoServerStETHDailyStats {
-    stethDailyStats {
-      address
-      blockNumber
-      date
-      totalShares
+    stEthDailyStats {
       totalSupply
       timestamp
     }
@@ -95,10 +91,7 @@ export const GET_LIDO_SERVER_STETH_DAILY_STATS = gql`
 
 export const GET_LIDO_SERVER_WSTETH_DAILY_STATS = gql`
   query GetLidoServerWstETHDailyStats {
-    wstethDailyStats {
-      address
-      blockNumber
-      date
+    wstEthDailyStats {
       totalSupply
       timestamp
     }
