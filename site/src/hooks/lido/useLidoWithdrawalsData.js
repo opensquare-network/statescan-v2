@@ -22,6 +22,7 @@ export function useLidoWithdrawalsData(options = EMPTY_OBJECT) {
 
   const where = pickLidoFilters({
     status: statusQuery,
+    status_not: filters.status_not,
     txHash,
   });
 

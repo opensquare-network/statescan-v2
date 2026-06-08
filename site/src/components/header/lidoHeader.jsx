@@ -33,9 +33,9 @@ const wstethMenus = [
 
 const stakingMenus = [
   { name: "Overview", value: "staking" },
-  { name: "Staking Modules", value: "staking/modules" },
+  { name: "Modules", value: "staking/modules" },
   { name: "Module Deposits", value: "staking/deposits" },
-  { name: "Staking Vaults", value: "staking/vaults" },
+  { name: "Vaults", value: "staking/vaults" },
   { type: "divider" },
   {
     type: "group",
