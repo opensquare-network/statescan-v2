@@ -17,4 +17,7 @@ module.exports = {
   ...require("./approval"),
   ...require("./account"),
   ...require("./destruction"),
+  ...require("./deposited"),
+  ...require("./withdrawn"),
+  ...require("./fungiblesCreditDebt"),
 };

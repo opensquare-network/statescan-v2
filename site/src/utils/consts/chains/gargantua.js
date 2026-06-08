@@ -3,8 +3,8 @@ import { collectivesModules } from "./collectives";
 
 const nodes = [
   {
-    name: "Paseo",
-    url: "wss://hyperbridge-paseo-rpc.blockops.network",
+    name: "Polytope Labs",
+    url: "wss://gargantua.rpc.polytope.technology",
   },
 ];
 

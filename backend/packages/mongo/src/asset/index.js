@@ -11,6 +11,7 @@ let assetTimelineCol = null;
 let assetHolderCol = null;
 let assetApprovalCol = null;
 let assetDailyStatisticCol = null;
+let assetActivityCol = null;
 
 async function initAssetScanDb() {
   db = new ScanDb(
@@ -26,6 +27,7 @@ async function initAssetScanDb() {
   assetHolderCol = await db.createCol("assetHolder");
   assetApprovalCol = await db.createCol("assetApproval");
   assetDailyStatisticCol = await db.createCol("assetDailyStatistic");
+  assetActivityCol = await db.createCol("assetActivity");
   _createIndexes().then(() => console.log("DB indexes created!"));
 }
 
@@ -64,6 +66,13 @@ async function _createIndexes() {
     { assetId: 1, assetHeight: 1, owner: 1, delegate: 1 },
     { unique: true },
   );
+
+  await assetActivityCol.createIndex({
+    assetId: 1,
+    assetHeight: 1,
+    "indexer.blockHeight": -1,
+  });
+  await assetActivityCol.createIndex({ "indexer.blockHeight": -1 });
 }
 
 async function makeSureInit(col) {
@@ -107,6 +116,11 @@ async function getAssetDailyStatisticCol() {
   return assetDailyStatisticCol;
 }
 
+async function getAssetActivityCol() {
+  await makeSureInit(assetActivityCol);
+  return assetActivityCol;
+}
+
 function getAssetDb() {
   return db;
 }
@@ -135,4 +149,5 @@ module.exports = {
   getAssetHolderCol,
   getAssetApprovalCol,
   getAssetDailyStatisticCol,
+  getAssetActivityCol,
 };

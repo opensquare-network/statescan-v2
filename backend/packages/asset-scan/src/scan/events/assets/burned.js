@@ -1,15 +1,19 @@
 const { addAssetAddresses } = require("../../../store/assetsAccounts");
-const { updateAsset } = require("./common/updateAsset");
+const { updateAssetDetail } = require("./common/updateAssetDetail");
+const {
+  insertAssetActivity,
+} = require("../../mongo/assets/insertAssetActivity");
 
 async function handleBurned(event, indexer) {
   const { data } = event;
+  const assetId = data[0].toNumber();
   const owner = data[1].toString();
-  await updateAsset(event, indexer, {
-    owner,
-    balance: data[2].toString(),
-  });
+  const balance = data[2].toString();
 
-  addAssetAddresses(indexer.blockHash, data[0].toNumber(), [owner]);
+  await updateAssetDetail(assetId, indexer);
+  await insertAssetActivity(assetId, event.method, { owner, balance }, indexer);
+
+  addAssetAddresses(indexer.blockHash, assetId, [owner]);
 }
 
 module.exports = {

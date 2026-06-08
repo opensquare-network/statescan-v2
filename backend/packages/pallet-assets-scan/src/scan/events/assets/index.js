@@ -23,6 +23,9 @@ const {
   handleAccountsDestroyed,
   handleDestructionStarted,
   handleApprovalsDestroyed,
+  handleDeposited,
+  handleWithdrawn,
+  handleFungiblesCreditDebt,
 } = require("./events");
 const {
   store: { setKnownHeightMark },
@@ -85,6 +88,16 @@ async function handleAssetsEvent(event, indexer, extrinsic) {
     await handleAccountsDestroyed(event, indexer);
   } else if (method === "ApprovalsDestroyed") {
     await handleApprovalsDestroyed(event, indexer);
+  } else if (method === "Deposited") {
+    await handleDeposited(event, indexer);
+  } else if (method === "Withdrawn") {
+    await handleWithdrawn(event, indexer);
+  } else if (
+    ["IssuedCredit", "BurnedCredit", "IssuedDebt", "BurnedDebt"].includes(
+      method,
+    )
+  ) {
+    await handleFungiblesCreditDebt(event, indexer);
   }
 }
 
