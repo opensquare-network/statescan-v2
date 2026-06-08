@@ -14,6 +14,7 @@ const emptyData = {
   nodeOperatorFee: null,
   treasuryFee: null,
   precisionPoints: null,
+  routerVersion: null,
 };
 
 async function getStakingRouterAddress() {
@@ -44,8 +45,11 @@ export function useLidoStakingOverviewData() {
         functionName,
         args,
       });
-      const [totalModules, moduleIds, feeAggregate, rewards] =
+      const [routerVersion, totalModules, moduleIds, feeAggregate, rewards] =
         await Promise.all([
+          evmPublicClient.readContract(
+            getStakingRouterContract("getContractVersion"),
+          ),
           evmPublicClient.readContract(
             getStakingRouterContract("getStakingModulesCount"),
           ),
@@ -83,6 +87,7 @@ export function useLidoStakingOverviewData() {
         nodeOperatorFee: modulesFee?.toString() ?? null,
         treasuryFee: treasuryFee?.toString() ?? null,
         precisionPoints: (precisionPoints || basePrecision)?.toString() ?? null,
+        routerVersion: routerVersion?.toString() ?? null,
       });
     } catch {
       setData(emptyData);

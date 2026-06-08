@@ -31,6 +31,7 @@ export const LIDO_CSM_NODE_OPERATOR_MANAGEMENT_PROPERTIES_ABI = parseAbi([
 ]);
 
 export const LIDO_STAKING_ROUTER_ABI = parseAbi([
+  "function getContractVersion() view returns (uint256)",
   "function getStakingModulesCount() view returns (uint256)",
   "function getStakingModuleIds() view returns (uint256[])",
   "function getStakingModuleActiveValidatorsCount(uint256) view returns (uint256)",

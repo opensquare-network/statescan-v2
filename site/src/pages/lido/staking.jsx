@@ -7,6 +7,7 @@ import LidoStakingRouterETHDepositedsTable from "../../components/lido/stakingRo
 import LidoStakingVaultsTable from "../../components/lido/stakingVault/table";
 import List from "../../components/list";
 import LoadableContent from "../../components/loadings/loadableContent";
+import Advanced from "../../components/advanced";
 import { Panel } from "../../components/styled/panel";
 import { TextSecondary } from "../../components/styled/text";
 import { LidoStakingModulesTable } from "./stakingModules";
@@ -81,11 +82,21 @@ function LidoStakingSummary() {
         </MetricValue>
       ),
     },
+  ];
+  const advancedListData = [
     {
-      label: "Contract Address",
+      label: "Router Address",
       value: (
         <MetricValue loading={loading}>
           <EvmAddress address={data.contractAddress} />
+        </MetricValue>
+      ),
+    },
+    {
+      label: "Router Version",
+      value: (
+        <MetricValue loading={loading}>
+          {data.routerVersion ?? "--"}
         </MetricValue>
       ),
     },
@@ -94,6 +105,9 @@ function LidoStakingSummary() {
   return (
     <Panel>
       <List data={listData} />
+      <Advanced>
+        <List data={advancedListData} compact />
+      </Advanced>
     </Panel>
   );
 }
