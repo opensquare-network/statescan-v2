@@ -6,7 +6,6 @@ import { LIDO_STETH_ADDRESS } from "../../services/evm/lido";
 export function useLidoStEthBalanceData(accountAddress) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchData = useCallback(() => {
     if (!evmPublicClient || !accountAddress) {
@@ -16,7 +15,6 @@ export function useLidoStEthBalanceData(accountAddress) {
     }
 
     setLoading(true);
-    setError(null);
 
     evmPublicClient
       .readContract({
@@ -28,8 +26,7 @@ export function useLidoStEthBalanceData(accountAddress) {
       .then((balance) => {
         setData(balance.toString());
       })
-      .catch((e) => {
-        setError(e);
+      .catch(() => {
         setData(null);
       })
       .finally(() => {
@@ -44,7 +41,5 @@ export function useLidoStEthBalanceData(accountAddress) {
   return {
     data,
     loading,
-    error,
-    refetch: fetchData,
   };
 }

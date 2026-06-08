@@ -47,7 +47,6 @@ const contracts = [
 export function useLidoOnchainStatsData() {
   const [data, setData] = useState(emptyData);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchData = useCallback(async () => {
     if (!evmPublicClient) {
@@ -56,7 +55,6 @@ export function useLidoOnchainStatsData() {
     }
 
     setLoading(true);
-    setError(null);
 
     try {
       const [
@@ -76,8 +74,7 @@ export function useLidoOnchainStatsData() {
         stEthPerToken: stEthPerToken.toString(),
         tokensPerStEth: tokensPerStEth.toString(),
       });
-    } catch (e) {
-      setError(e);
+    } catch {
       setData(emptyData);
     } finally {
       setLoading(false);
@@ -91,7 +88,5 @@ export function useLidoOnchainStatsData() {
   return {
     data,
     loading,
-    error,
-    refetch: fetchData,
   };
 }

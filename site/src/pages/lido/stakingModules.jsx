@@ -16,12 +16,12 @@ const lidoStakingModulesHead = [
   { name: "ID", width: 56 },
   { name: "Name", width: 220 },
   { name: "Module Address", width: 220 },
-  { name: "Status", width: 170 },
   {
     name: { time: "Updated Time", age: "Last Updated" },
     type: "time",
     width: 200,
   },
+  { name: "Status", align: "right", width: 170 },
 ];
 
 function toLidoStakingModulesTableData(items = []) {
@@ -46,19 +46,34 @@ function toLidoStakingModulesTableData(items = []) {
         copy={false}
         maxWidth="170px"
       />,
+      toLidoTimestamp(latestTimeline?.blockTime),
       <LidoStakingModuleStatus
         key={`${item.id}-status`}
         status={item.status}
       />,
-      toLidoTimestamp(latestTimeline?.blockTime),
     ];
   });
+}
+
+export function LidoStakingModulesTable({ data, loading }) {
+  const tableData = toLidoStakingModulesTableData(data?.items);
+
+  return (
+    <StyledPanelTableWrapper
+      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+    >
+      <Table
+        heads={lidoStakingModulesHead}
+        data={tableData}
+        loading={loading}
+      />
+    </StyledPanelTableWrapper>
+  );
 }
 
 export default function LidoStakingModules() {
   const filter = useLidoStakingModulesFilter();
   const { data, loading } = useLidoStakingModulesData();
-  const tableData = toLidoStakingModulesTableData(data?.items);
 
   return (
     <Layout>
@@ -66,15 +81,7 @@ export default function LidoStakingModules() {
 
       <Filter data={filter} />
 
-      <StyledPanelTableWrapper
-        footer={<EvmPagination nextCursor={data?.nextCursor} />}
-      >
-        <Table
-          heads={lidoStakingModulesHead}
-          data={tableData}
-          loading={loading}
-        />
-      </StyledPanelTableWrapper>
+      <LidoStakingModulesTable data={data} loading={loading} />
     </Layout>
   );
 }

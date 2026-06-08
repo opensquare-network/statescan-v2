@@ -33,7 +33,6 @@ function toSummaryData(result) {
 export function useLidoNodeOperatorSummaryData(address, nodeOperatorId) {
   const [data, setData] = useState(emptyData);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchData = useCallback(() => {
     if (!evmPublicClient || !address || !nodeOperatorId) {
@@ -42,7 +41,6 @@ export function useLidoNodeOperatorSummaryData(address, nodeOperatorId) {
     }
 
     setLoading(true);
-    setError(null);
 
     evmPublicClient
       .readContract({
@@ -54,8 +52,7 @@ export function useLidoNodeOperatorSummaryData(address, nodeOperatorId) {
       .then((result) => {
         setData(toSummaryData(result));
       })
-      .catch((e) => {
-        setError(e);
+      .catch(() => {
         setData(emptyData);
       })
       .finally(() => {
@@ -70,7 +67,5 @@ export function useLidoNodeOperatorSummaryData(address, nodeOperatorId) {
   return {
     data,
     loading,
-    error,
-    refetch: fetchData,
   };
 }

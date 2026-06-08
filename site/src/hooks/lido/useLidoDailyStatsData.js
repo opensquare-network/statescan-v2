@@ -154,7 +154,6 @@ function useLidoDailyStatsHoldersData({ token, query }) {
   return {
     data,
     loading,
-    refetch: fetchData,
   };
 }
 

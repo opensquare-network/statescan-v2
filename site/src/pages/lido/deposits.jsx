@@ -44,7 +44,9 @@ const lidoDepositsHead = [
   },
 ];
 
-function toLidoDepositsTableData(items = [], { decimals, symbol }) {
+function useLidoDepositsTableData(items = []) {
+  const { decimals, symbol } = useChainSettings();
+
   return items.map((item) => [
     <EvmExternalLink
       href={getEtherscanBlockUrl(item.blockNumber)}
@@ -69,8 +71,8 @@ function toLidoDepositsTableData(items = [], { decimals, symbol }) {
   ]);
 }
 
-function LidoDepositsTableView({ data, loading, chainSettings }) {
-  const tableData = toLidoDepositsTableData(data?.items, chainSettings);
+function LidoDepositsTableView({ data, loading }) {
+  const tableData = useLidoDepositsTableData(data?.items);
 
   return (
     <StyledPanelTableWrapper
@@ -82,16 +84,9 @@ function LidoDepositsTableView({ data, loading, chainSettings }) {
 }
 
 export function LidoDepositsTable({ filters }) {
-  const chainSettings = useChainSettings();
   const { data, loading } = useLidoDepositsData({ filters });
 
-  return (
-    <LidoDepositsTableView
-      data={data}
-      loading={loading}
-      chainSettings={chainSettings}
-    />
-  );
+  return <LidoDepositsTableView data={data} loading={loading} />;
 }
 
 export default function LidoDeposits() {

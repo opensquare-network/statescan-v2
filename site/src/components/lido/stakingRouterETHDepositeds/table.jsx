@@ -11,6 +11,7 @@ import {
   toLidoBlockNumber,
   toLidoTimestamp,
 } from "../../../utils/viewFuncs/lido";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 
 function getLidoStakingRouterETHDepositedsHead(showModuleId) {
   return [
@@ -40,11 +41,9 @@ function getLidoStakingRouterETHDepositedsHead(showModuleId) {
   ].filter(Boolean);
 }
 
-function toLidoStakingRouterETHDepositedsTableData(
-  items = [],
-  { decimals, symbol },
-  showModuleId,
-) {
+function useLidoStakingRouterETHDepositedsTableData(items = [], showModuleId) {
+  const { decimals, symbol } = useChainSettings();
+
   return items.map((item) =>
     [
       <EvmExternalLink
@@ -77,12 +76,10 @@ function toLidoStakingRouterETHDepositedsTableData(
 export default function LidoStakingRouterETHDepositedsTable({
   data,
   loading,
-  chainSettings,
   showModuleId = true,
 }) {
-  const tableData = toLidoStakingRouterETHDepositedsTableData(
+  const tableData = useLidoStakingRouterETHDepositedsTableData(
     data?.items,
-    chainSettings,
     showModuleId,
   );
 

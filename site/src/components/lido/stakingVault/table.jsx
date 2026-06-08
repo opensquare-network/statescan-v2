@@ -14,6 +14,7 @@ import {
   toLidoAmount,
   toLidoTimestamp,
 } from "../../../utils/viewFuncs/lido";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 
 const lidoStakingVaultsHead = [
   { name: "Vault", width: 140 },
@@ -38,7 +39,7 @@ const lidoStakingVaultsHead = [
     width: 200,
   },
   { name: "Operator", width: 200 },
-  { name: "Status", width: 120 },
+  { name: "Status", align: "right", width: 120 },
 ];
 
 function renderAddress(id, field, address) {
@@ -77,7 +78,9 @@ function renderValue(value, decimals, symbol, key) {
   );
 }
 
-function toLidoStakingVaultsTableData(items = [], { decimals, symbol }) {
+function useLidoStakingVaultsTableData(items = []) {
+  const { decimals, symbol } = useChainSettings();
+
   return items.map((item) => {
     const timelines = item.timelines || [];
     const report = item.lastReport;
@@ -100,12 +103,8 @@ function toLidoStakingVaultsTableData(items = [], { decimals, symbol }) {
   });
 }
 
-export default function LidoStakingVaultsTable({
-  data,
-  loading,
-  chainSettings,
-}) {
-  const tableData = toLidoStakingVaultsTableData(data?.items, chainSettings);
+export default function LidoStakingVaultsTable({ data, loading }) {
+  const tableData = useLidoStakingVaultsTableData(data?.items);
 
   return (
     <StyledPanelTableWrapper

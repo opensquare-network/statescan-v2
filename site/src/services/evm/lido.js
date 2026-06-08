@@ -30,6 +30,14 @@ export const LIDO_CSM_NODE_OPERATOR_MANAGEMENT_PROPERTIES_ABI = parseAbi([
   "function getNodeOperatorManagementProperties(uint256) view returns (address managerAddress, address rewardAddress, bool extendedManagerPermissions)",
 ]);
 
+export const LIDO_STAKING_ROUTER_ABI = parseAbi([
+  "function getStakingModulesCount() view returns (uint256)",
+  "function getStakingModuleIds() view returns (uint256[])",
+  "function getStakingModuleActiveValidatorsCount(uint256) view returns (uint256)",
+  "function getStakingFeeAggregateDistribution() view returns (uint96 modulesFee, uint96 treasuryFee, uint256 basePrecision)",
+  "function getStakingRewardsDistribution() view returns (address[] recipients, uint256[] stakingModuleIds, uint96[] stakingModuleFees, uint96 totalFee, uint256 precisionPoints)",
+]);
+
 export const LIDO_LOCATOR_ABI = parseAbi([
   "function accounting() view returns (address)",
   "function accountingOracle() view returns (address)",

@@ -8,7 +8,6 @@ import LidoStakingVaultDetailList from "../../components/lido/stakingVault/detai
 import LidoStakingVaultTimeline from "../../components/lido/stakingVault/timeline";
 import { Panel } from "../../components/styled/panel";
 import { useLidoVaultData } from "../../hooks/lido/useLidoVaultData";
-import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 
 const TabPanel = styled(Panel)`
   padding: 24px;
@@ -16,7 +15,6 @@ const TabPanel = styled(Panel)`
 
 export default function LidoStakingVault() {
   const { data, loading, vaultId } = useLidoVaultData();
-  const chainSettings = useChainSettings();
   const breadCrumb = (
     <BreadCrumb
       data={[
@@ -60,10 +58,7 @@ export default function LidoStakingVault() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <Panel>
-        <LidoStakingVaultDetailList
-          vault={data}
-          chainSettings={chainSettings}
-        />
+        <LidoStakingVaultDetailList vault={data} />
       </Panel>
 
       <DetailTabs tabs={tabs} />

@@ -8,7 +8,6 @@ export function useLidoCsmExtendedManagerPermissionsData(
 ) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchData = useCallback(() => {
     if (!evmPublicClient || !address || !nodeOperatorId) {
@@ -17,7 +16,6 @@ export function useLidoCsmExtendedManagerPermissionsData(
     }
 
     setLoading(true);
-    setError(null);
 
     evmPublicClient
       .readContract({
@@ -29,8 +27,7 @@ export function useLidoCsmExtendedManagerPermissionsData(
       .then((result) => {
         setData(result?.[2] ?? null);
       })
-      .catch((e) => {
-        setError(e);
+      .catch(() => {
         setData(null);
       })
       .finally(() => {
@@ -45,7 +42,5 @@ export function useLidoCsmExtendedManagerPermissionsData(
   return {
     data,
     loading,
-    error,
-    refetch: fetchData,
   };
 }

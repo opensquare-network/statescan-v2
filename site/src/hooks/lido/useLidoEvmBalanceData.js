@@ -4,7 +4,6 @@ import evmPublicClient from "../../services/evm/client";
 export function useLidoEvmBalanceData(address) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchData = useCallback(() => {
     if (!evmPublicClient || !address) {
@@ -13,15 +12,13 @@ export function useLidoEvmBalanceData(address) {
     }
 
     setLoading(true);
-    setError(null);
 
     evmPublicClient
       .getBalance({ address })
       .then((balance) => {
         setData(balance.toString());
       })
-      .catch((e) => {
-        setError(e);
+      .catch(() => {
         setData(null);
       })
       .finally(() => {
@@ -36,7 +33,5 @@ export function useLidoEvmBalanceData(address) {
   return {
     data,
     loading,
-    error,
-    refetch: fetchData,
   };
 }

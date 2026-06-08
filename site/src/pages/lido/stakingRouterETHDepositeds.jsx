@@ -4,11 +4,9 @@ import Layout from "../../components/layout";
 import LidoStakingRouterETHDepositedsTable from "../../components/lido/stakingRouterETHDepositeds/table";
 import { useLidoModuleEventFilter } from "../../hooks/filter/useLidoModuleEventFilter";
 import { useLidoStakingRouterETHDepositedsData } from "../../hooks/lido/useLidoStakingRouterETHDepositedsData";
-import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 
 export default function LidoStakingRouterETHDepositeds() {
   const filter = useLidoModuleEventFilter();
-  const chainSettings = useChainSettings();
   const { data, loading } = useLidoStakingRouterETHDepositedsData();
 
   return (
@@ -17,11 +15,7 @@ export default function LidoStakingRouterETHDepositeds() {
 
       <Filter data={filter} />
 
-      <LidoStakingRouterETHDepositedsTable
-        data={data}
-        loading={loading}
-        chainSettings={chainSettings}
-      />
+      <LidoStakingRouterETHDepositedsTable data={data} loading={loading} />
     </Layout>
   );
 }

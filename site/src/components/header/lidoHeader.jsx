@@ -14,20 +14,7 @@ import { MenuItem, MenuLabel } from "./navi/common";
 import Menus from "./navi/menus";
 import { toggle } from "../../store/reducers/mobileMenuSlice";
 
-const otherMenus = [
-  {
-    type: "group",
-    title: "Vaults",
-    menus: [
-      { name: "CL withdrawal vault", value: "vaults/withdrawal" },
-      { name: "EL rewards vault", value: "vaults/rewards" },
-    ],
-  },
-  { type: "divider" },
-  { name: "Locator", value: "locator" },
-  { type: "divider" },
-  { name: "Staking Vaults", value: "staking/vaults" },
-];
+const otherMenus = [{ name: "Locator", value: "locator" }];
 
 const stethMenus = [
   { name: "Overview", value: "steth" },
@@ -44,9 +31,20 @@ const wstethMenus = [
   { name: "wstETH Holders", value: "wsteth/holders" },
 ];
 
-const moduleMenus = [
+const stakingMenus = [
+  { name: "Overview", value: "staking" },
   { name: "Staking Modules", value: "staking/modules" },
   { name: "Module Deposits", value: "staking/deposits" },
+  { name: "Staking Vaults", value: "staking/vaults" },
+  { type: "divider" },
+  {
+    type: "group",
+    title: "Reward vaults",
+    menus: [
+      { name: "CL withdrawal vault", value: "vaults/withdrawal" },
+      { name: "EL rewards vault", value: "vaults/rewards" },
+    ],
+  },
 ];
 
 const MobileMenuList = styled.div`
@@ -86,7 +84,7 @@ export default function LidoHeader() {
             </HeaderMenuLink>
             <SubMenu category="stETH" menus={stethMenus} />
             <SubMenu category="wstETH" menus={wstethMenus} />
-            <SubMenu category="Modules" menus={moduleMenus} />
+            <SubMenu category="Staking" menus={stakingMenus} />
             <SubMenu category="Others" menus={otherMenus} />
           </HeaderMenuWrapper>
 
@@ -100,8 +98,8 @@ export default function LidoHeader() {
             <Link to="/" onClick={closeMobileMenu}>
               <MenuItem>Home</MenuItem>
             </Link>
-            <MenuLabel>Modules</MenuLabel>
-            <Menus menus={moduleMenus} closeFunc={closeMobileMenu} />
+            <MenuLabel>Staking</MenuLabel>
+            <Menus menus={stakingMenus} closeFunc={closeMobileMenu} />
             <MenuLabel>stETH</MenuLabel>
             {stethMenus.map((item) => renderMobileMenus(item, closeMobileMenu))}
             <MenuLabel>wstETH</MenuLabel>

@@ -13,6 +13,7 @@ import {
   toLidoTimestamp,
 } from "../../../utils/viewFuncs/lido";
 import { hashEllipsis } from "../../../utils/viewFuncs/text";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import { Overpass_Mono_14_500 } from "../../../styles/text";
 
 const VaultLink = styled(EvmExternalLink)`
@@ -45,7 +46,8 @@ function toVaultId(id) {
   );
 }
 
-function toVaultDetailItems(vault, chainSettings) {
+function useVaultDetailItems(vault) {
+  const chainSettings = useChainSettings();
   const { decimals, symbol } = chainSettings;
   const report = vault.lastReport;
 
@@ -94,6 +96,6 @@ function toVaultDetailItems(vault, chainSettings) {
   ];
 }
 
-export default function LidoStakingVaultDetailList({ vault, chainSettings }) {
-  return <List data={toVaultDetailItems(vault, chainSettings)} />;
+export default function LidoStakingVaultDetailList({ vault }) {
+  return <List data={useVaultDetailItems(vault)} />;
 }

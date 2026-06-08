@@ -49,8 +49,8 @@ const lidoWithdrawalsHead = [
   { name: "Status", width: 120 },
 ];
 
-function toLidoWithdrawalsTableData(items = [], chainSettings) {
-  const { decimals, symbol } = chainSettings;
+function useLidoWithdrawalsTableData(items = []) {
+  const { decimals, symbol } = useChainSettings();
 
   return items.map((item) => {
     return [
@@ -90,8 +90,8 @@ function toLidoWithdrawalsTableData(items = [], chainSettings) {
   });
 }
 
-function LidoWithdrawalsTableView({ data, loading, chainSettings }) {
-  const tableData = toLidoWithdrawalsTableData(data?.items, chainSettings);
+function LidoWithdrawalsTableView({ data, loading }) {
+  const tableData = useLidoWithdrawalsTableData(data?.items);
 
   return (
     <StyledPanelTableWrapper
@@ -103,16 +103,9 @@ function LidoWithdrawalsTableView({ data, loading, chainSettings }) {
 }
 
 export function LidoWithdrawalsTable({ filters }) {
-  const chainSettings = useChainSettings();
   const { data, loading } = useLidoWithdrawalsData({ filters });
 
-  return (
-    <LidoWithdrawalsTableView
-      data={data}
-      loading={loading}
-      chainSettings={chainSettings}
-    />
-  );
+  return <LidoWithdrawalsTableView data={data} loading={loading} />;
 }
 
 export default function LidoWithdrawals() {
