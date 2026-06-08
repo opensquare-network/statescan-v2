@@ -27,7 +27,7 @@ const lidoDepositsHead = [
     sortDescendingQueryValue: "blockNumber_desc",
     width: 160,
   },
-  { name: "Address", width: 220 },
+  { name: "Depositor", width: 220 },
   {
     name: "Time",
     type: "time",

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
 import CaretDownIcon from "../icons/caretDownIcon";
-import { Inter_14_600 } from "../../styles/text";
+import { Inter_14_500 } from "../../styles/text";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,34 +23,16 @@ const Line = styled.div`
 `;
 
 const ToggleButton = styled.button`
-  ${Inter_14_600};
+  ${Inter_14_500};
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-width: 140px;
   height: 36px;
-  padding: 0px;
   color: ${(p) => p.theme.fontPrimary};
-  background: ${(p) => p.theme.fillPanel};
-  border: 1px solid ${(p) => p.theme.strokeBox};
-  border-radius: 10px;
+  background: transparent;
   cursor: pointer;
-
-  :hover {
-    border-color: ${(p) => p.theme.strokeBox};
-  }
-
-  ${(p) =>
-    p.open &&
-    css`
-      border-color: ${(p) => p.theme.strokeBox};
-    `}
-
-  :focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px ${(p) => p.theme.theme100};
-  }
+  border: none;
 `;
 
 const ArrowIcon = styled(CaretDownIcon)`
