@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import SearchIcon from "../../components/icons/searchIcon";
 import { GET_LIDO_STAKING_MODULES } from "../../services/gql/lido";
 import { useTimeDimensionFilterItems } from "../../utils/hooks/useTimeDimensionFilterItems";
-import { useLidoQuery } from "../lido/useLidoQuery";
+import { useLidoStakingRouterQuery } from "../lido/useLidoQuery";
 import { useQueryParams } from "../useQueryParams";
 
 const STAKING_MODULES_VARIABLES = {
@@ -28,7 +28,7 @@ export function useLidoModuleEventFilter() {
   const { stakingModuleId = "", txHash = "" } = useQueryParams({
     parseNumbers: false,
   });
-  const { data } = useLidoQuery(GET_LIDO_STAKING_MODULES, {
+  const { data } = useLidoStakingRouterQuery(GET_LIDO_STAKING_MODULES, {
     variables: STAKING_MODULES_VARIABLES,
   });
   const moduleOptions = useMemo(

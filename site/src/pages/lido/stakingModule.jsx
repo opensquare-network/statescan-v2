@@ -175,7 +175,7 @@ export default function LidoStakingModule() {
         <List data={detailItems} />
       </Panel>
 
-      <DetailTabs tabs={tabs} />
+      <DetailTabs tabs={tabs} resetPage={false} />
     </DetailLayout>
   );
 }

@@ -39,21 +39,3 @@ export const GET_LIDO_WSTETH_HOLDERS = gql`
     }
   }
 `;
-
-export const GET_LIDO_STETH_HOLDER = gql`
-  query GetLidoStETHHolder($where: StETHHolder_filter) {
-    stETHHolders(first: 1, where: $where) {
-      id
-      shares
-    }
-  }
-`;
-
-export const GET_LIDO_WSTETH_HOLDER = gql`
-  query GetLidoWstETHHolder($where: WstETHHolder_filter) {
-    wstETHHolders(first: 1, where: $where) {
-      balance
-      id
-    }
-  }
-`;

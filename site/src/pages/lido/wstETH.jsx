@@ -116,7 +116,7 @@ export default function LidoWstETH() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <LidoWstETHSummary />
-      <DetailTabs tabs={tabs} />
+      <DetailTabs tabs={tabs} resetPage={false} />
     </DetailLayout>
   );
 }

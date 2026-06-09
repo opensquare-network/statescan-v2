@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { GET_LIDO_STAKING_MODULES } from "../../services/gql/lido";
-import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
+import { useLidoStakingRouterQuery } from "./useLidoQuery";
 
 export function useLidoStakingModuleData() {
   const { stakingModuleId = "" } = useParams();

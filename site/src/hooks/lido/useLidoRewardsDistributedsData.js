@@ -2,7 +2,7 @@ import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_REWARDS_DISTRIBUTEDS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoListVariables } from "./useLidoListVariables";
-import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
+import { useLidoStakingRouterQuery } from "./useLidoQuery";
 import { toLidoListQueryResult } from "./utils";
 
 export function useLidoRewardsDistributedsData(

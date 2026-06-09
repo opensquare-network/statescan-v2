@@ -159,7 +159,7 @@ export default function LidoWithdrawal() {
         <List data={toWithdrawalDetailItems(data, chainSettings)} />
       </Panel>
 
-      <DetailTabs tabs={tabs} />
+      <DetailTabs tabs={tabs} resetPage={false} />
     </DetailLayout>
   );
 }

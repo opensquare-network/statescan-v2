@@ -1,20 +1,11 @@
-import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_WITHDRAWAL_QUEUE_FINALIZATIONS } from "../../services/gql/lido";
-import { useQueryParams } from "../useQueryParams";
 import { useLidoList } from "./useLidoList";
+import { useLidoListQueryParams } from "./useLidoListQueryParams";
 import { pickLidoFilters } from "./utils";
 
 export function useLidoWithdrawalQueueFinalizationsData() {
-  const {
-    cursor,
-    txHash = "",
-    time_dimension: timeDimension = "block",
-    block_start: blockStart,
-    block_end: blockEnd,
-    date_start: dateStart,
-    date_end: dateEnd,
-    [TABLE_SORT_QUERY_KEY]: sortQuery,
-  } = useQueryParams({ parseNumbers: false });
+  const { cursor, sortQuery, txHash, timeDimensionParams } =
+    useLidoListQueryParams();
 
   return useLidoList({
     query: GET_LIDO_WITHDRAWAL_QUEUE_FINALIZATIONS,
@@ -22,12 +13,6 @@ export function useLidoWithdrawalQueueFinalizationsData() {
     sortQuery,
     cursor,
     where: pickLidoFilters({ txHash }),
-    timeDimensionParams: {
-      timeDimension,
-      blockStart,
-      blockEnd,
-      dateStart,
-      dateEnd,
-    },
+    timeDimensionParams,
   });
 }

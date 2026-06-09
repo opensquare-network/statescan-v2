@@ -1,35 +1,21 @@
 import last from "lodash.last";
 import { GET_LIDO_WITHDRAWAL_VAULT_WITHDRAWALS_RECEIVED } from "../../services/gql/lido";
-import { useQueryParams } from "../useQueryParams";
 import { useLidoQuery } from "./useLidoQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
+import { useLidoListQueryParams } from "./useLidoListQueryParams";
 import { encodeCursor } from "./utils";
 
 const DEFAULT_SORT = "blockNumber_desc";
 
 export function useLidoWithdrawalVaultData() {
-  const {
-    cursor,
-    txHash = "",
-    time_dimension: timeDimension = "block",
-    block_start: blockStart,
-    block_end: blockEnd,
-    date_start: dateStart,
-    date_end: dateEnd,
-  } = useQueryParams({ parseNumbers: false });
+  const { cursor, txHash, timeDimensionParams } = useLidoListQueryParams();
   const { variables, pageSize } = useLidoListVariables({
     sortQuery: DEFAULT_SORT,
     cursor,
     where: {
       ...(txHash ? { txHash } : {}),
     },
-    timeDimensionParams: {
-      timeDimension,
-      blockStart,
-      blockEnd,
-      dateStart,
-      dateEnd,
-    },
+    timeDimensionParams,
   });
 
   const queryResult = useLidoQuery(

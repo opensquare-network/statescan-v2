@@ -23,7 +23,7 @@ export default function LidoWithdrawalQueue() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <LidoWithdrawalQueueSummary />
-      <DetailTabs tabs={tabs} />
+      <DetailTabs tabs={tabs} resetPage={false} />
     </DetailLayout>
   );
 }

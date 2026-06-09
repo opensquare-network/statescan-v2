@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { GET_LIDO_STAKING_MODULE_TIMELINES } from "../../services/gql/lido";
-import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
+import { useLidoStakingRouterQuery } from "./useLidoQuery";
 
 export function useLidoStakingModuleTimelineData(stakingModuleId) {
   const variables = useMemo(

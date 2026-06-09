@@ -153,7 +153,7 @@ export default function LidoStaking() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <LidoStakingSummary />
-      <DetailTabs tabs={tabs} />
+      <DetailTabs tabs={tabs} resetPage={false} />
     </DetailLayout>
   );
 }

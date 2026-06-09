@@ -15,6 +15,7 @@ export const LIDO_BUFFERED_ETHER_ABI = parseAbi([
 
 export const LIDO_STETH_SHARES_ABI = parseAbi([
   "function getPooledEthByShares(uint256) view returns (uint256)",
+  "function sharesOf(address) view returns (uint256)",
 ]);
 
 export const WSTETH_RATE_ABI = parseAbi([

@@ -102,7 +102,7 @@ export default function LidoStETH() {
   return (
     <DetailLayout breadCrumb={breadCrumb}>
       <LidoStETHSummary />
-      <DetailTabs tabs={tabs} />
+      <DetailTabs tabs={tabs} resetPage={false} />
     </DetailLayout>
   );
 }

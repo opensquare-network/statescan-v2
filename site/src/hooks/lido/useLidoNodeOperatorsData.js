@@ -2,7 +2,7 @@ import last from "lodash.last";
 import { GET_LIDO_NODE_OPERATORS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoListVariables } from "./useLidoListVariables";
-import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
+import { useLidoStakingRouterQuery } from "./useLidoQuery";
 import { encodeCursor } from "./utils";
 
 const DEFAULT_SORT = "nodeOperatorId_asc";

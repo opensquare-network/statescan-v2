@@ -1,24 +1,18 @@
-import { EMPTY_OBJECT, TABLE_SORT_QUERY_KEY } from "../../utils/constants";
+import { EMPTY_OBJECT } from "../../utils/constants";
 import { GET_LIDO_WITHDRAWAL_REQUESTS } from "../../services/gql/lido";
-import { useQueryParams } from "../useQueryParams";
 import { useLidoList } from "./useLidoList";
+import { useLidoListQueryParams } from "./useLidoListQueryParams";
 import { pickLidoFilters } from "./utils";
 
 export function useLidoWithdrawalsData(options = EMPTY_OBJECT) {
   const filters = options.filters || EMPTY_OBJECT;
-  const queryParams = useQueryParams({ parseNumbers: false });
-  const params = queryParams || EMPTY_OBJECT;
   const {
     cursor,
-    [TABLE_SORT_QUERY_KEY]: sortQuery,
-    status: statusQuery = "",
-    txHash = "",
-    time_dimension: timeDimension = "block",
-    block_start: blockStart,
-    block_end: blockEnd,
-    date_start: dateStart,
-    date_end: dateEnd,
-  } = params;
+    sortQuery,
+    txHash,
+    params: { status: statusQuery = "" },
+    timeDimensionParams,
+  } = useLidoListQueryParams();
 
   const where = pickLidoFilters({
     status: statusQuery,
@@ -36,12 +30,6 @@ export function useLidoWithdrawalsData(options = EMPTY_OBJECT) {
     sortQuery,
     cursor,
     where,
-    timeDimensionParams: {
-      timeDimension,
-      blockStart,
-      blockEnd,
-      dateStart,
-      dateEnd,
-    },
+    timeDimensionParams,
   });
 }

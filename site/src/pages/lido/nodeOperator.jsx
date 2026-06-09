@@ -292,7 +292,7 @@ export default function LidoNodeOperator() {
         </SummarySection>
       </Panel>
 
-      <DetailTabs tabs={tabs} />
+      <DetailTabs tabs={tabs} resetPage={false} />
     </DetailLayout>
   );
 }

@@ -1,38 +1,41 @@
-import { ApolloClient, InMemoryCache, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToast } from "../../store/reducers/toastSlice";
+import {
+  lidoClient,
+  lidoGraphqlUrl,
+  lidoServerClient,
+  lidoServerUrl,
+  stakingRouterClient,
+  stakingRouterGraphqlUrl,
+} from "./lidoGraphqlClient";
 
-const lidoGraphqlUrl = process.env.REACT_APP_PUBLIC_LIDO_GRAPHQL_URL;
-const lidoServerUrl = process.env.REACT_APP_PUBLIC_LIDO_SERVER_URL;
+export { lidoClient };
 
-export const lidoClient = new ApolloClient({
-  uri: lidoGraphqlUrl || "/",
-  cache: new InMemoryCache(),
-});
-
-const lidoServerClient = new ApolloClient({
-  uri: lidoServerUrl || "/",
-  cache: new InMemoryCache(),
-});
-
-export function useLidoQuery(query, options = {}) {
+export function useLidoApolloQuery({
+  query,
+  options = {},
+  client,
+  url,
+  errorMessage,
+}) {
   const dispatch = useDispatch();
-  const missingGraphqlUrl = !lidoGraphqlUrl;
+  const missingUrl = !url;
   const queryResult = useQuery(query, {
     fetchPolicy: "no-cache",
     notifyOnNetworkStatusChange: true,
     ...options,
-    skip: missingGraphqlUrl || options.skip,
-    client: lidoClient,
+    skip: missingUrl || options.skip,
+    client,
   });
 
   useEffect(() => {
-    if (missingGraphqlUrl) {
+    if (missingUrl) {
       dispatch(
         addToast({
           type: "error",
-          message: "REACT_APP_PUBLIC_LIDO_GRAPHQL_URL is not set",
+          message: "Lido GraphQL URL is not set",
         }),
       );
       return;
@@ -45,47 +48,40 @@ export function useLidoQuery(query, options = {}) {
     dispatch(
       addToast({
         type: "error",
-        message: queryResult.error.message || "Failed to load Lido data",
+        message: queryResult.error.message || errorMessage,
       }),
     );
-  }, [dispatch, missingGraphqlUrl, queryResult.error]);
+  }, [dispatch, errorMessage, missingUrl, queryResult.error]);
 
   return queryResult;
 }
 
-export function useLidoServerQuery(query, options = {}) {
-  const dispatch = useDispatch();
-  const missingServerUrl = !lidoServerUrl;
-  const queryResult = useQuery(query, {
-    fetchPolicy: "no-cache",
-    notifyOnNetworkStatusChange: true,
-    ...options,
-    skip: missingServerUrl || options.skip,
-    client: lidoServerClient,
+export function useLidoQuery(query, options = {}) {
+  return useLidoApolloQuery({
+    query,
+    options,
+    client: lidoClient,
+    url: lidoGraphqlUrl,
+    errorMessage: "Failed to load Lido data",
   });
+}
 
-  useEffect(() => {
-    if (missingServerUrl) {
-      dispatch(
-        addToast({
-          type: "error",
-          message: "REACT_APP_PUBLIC_LIDO_SERVER_URL is not set",
-        }),
-      );
-      return;
-    }
+export function useLidoServerQuery(query, options = {}) {
+  return useLidoApolloQuery({
+    query,
+    options,
+    client: lidoServerClient,
+    url: lidoServerUrl,
+    errorMessage: "Failed to load Lido server data",
+  });
+}
 
-    if (!queryResult.error) {
-      return;
-    }
-
-    dispatch(
-      addToast({
-        type: "error",
-        message: queryResult.error.message || "Failed to load Lido server data",
-      }),
-    );
-  }, [dispatch, missingServerUrl, queryResult.error]);
-
-  return queryResult;
+export function useLidoStakingRouterQuery(query, options = {}) {
+  return useLidoApolloQuery({
+    query,
+    options,
+    client: stakingRouterClient,
+    url: stakingRouterGraphqlUrl,
+    errorMessage: "Failed to load Lido data",
+  });
 }

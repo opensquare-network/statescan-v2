@@ -1,7 +1,7 @@
 import last from "lodash.last";
 import { GET_LIDO_STAKING_MODULES } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
-import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
+import { useLidoStakingRouterQuery } from "./useLidoQuery";
 import { useLidoListVariables } from "./useLidoListVariables";
 import { encodeCursor, pickLidoFilters } from "./utils";
 

@@ -1,7 +1,7 @@
 import { GET_LIDO_OPERATOR_REWARD_CLAIMS } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoListVariables } from "./useLidoListVariables";
-import { useLidoStakingRouterQuery } from "./useLidoStakingRouterQuery";
+import { useLidoStakingRouterQuery } from "./useLidoQuery";
 import { toLidoListQueryResult } from "./utils";
 
 export function useLidoOperatorRewardClaimsData(nodeOperatorId) {

@@ -61,7 +61,7 @@ export default function LidoStakingVault() {
         <LidoStakingVaultDetailList vault={data} />
       </Panel>
 
-      <DetailTabs tabs={tabs} />
+      <DetailTabs tabs={tabs} resetPage={false} />
     </DetailLayout>
   );
 }

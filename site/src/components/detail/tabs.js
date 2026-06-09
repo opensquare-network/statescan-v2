@@ -1,6 +1,6 @@
 // ant.design tabs component
 
-import { useState, Fragment } from "react";
+import { Fragment } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { no_scroll_bar } from "../../styles";
@@ -14,14 +14,12 @@ const TabsFlex = styled(Flex)`
   ${no_scroll_bar};
 `;
 
-export default function DetailTabs({ tabs = [] }) {
+export default function DetailTabs({ tabs = [], resetPage = true }) {
   const navigate = useNavigate();
   const location = useLocation();
   const getTabValue = (tab) => tab.value || tab.name;
 
-  const [activeTab, setActiveTab] = useState(
-    getTabFromQuery(location, getTabValue(tabs[0])),
-  );
+  const activeTab = getTabFromQuery(location, getTabValue(tabs[0]));
 
   return (
     <>
@@ -34,9 +32,13 @@ export default function DetailTabs({ tabs = [] }) {
             active={activeTab === getTabValue(tab)}
             onClick={() => {
               const value = getTabValue(tab);
+              const searchParams = new URLSearchParams({ tab: value });
 
-              navigate({ search: `?tab=${value}&page=1` });
-              setActiveTab(value);
+              if (resetPage) {
+                searchParams.set("page", "1");
+              }
+
+              navigate({ search: `?${searchParams.toString()}` });
             }}
           />
         ))}
