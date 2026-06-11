@@ -17,10 +17,8 @@ const paseo = {
   },
   nodes: [
     { name: "Amforc", url: "wss://paseo.rpc.amforc.com" },
-    { name: "IBP1", url: "wss://paseo.ibp.network" },
     { name: "StakeWorld", url: "wss://pas-rpc.stakeworld.io" },
     { name: "Dwellir", url: "wss://paseo-rpc.n.dwellir.com" },
-    { name: "IBP2", url: "wss://paseo.dotters.network" },
   ],
   useOnChainBlockData: true,
   disabledMenus: ["calls"],

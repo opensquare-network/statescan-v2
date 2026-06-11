@@ -29,11 +29,9 @@ const polkadot = {
   treasuryWebsite: "https://polkadot.dotreasury.com",
   subSquareWebsite: "https://polkadot.subsquare.io",
   nodes: [
-    { name: "IBP1", url: "wss://polkadot.ibp.network" },
     { name: "Parity", url: "wss://rpc.polkadot.io" },
     { name: "OnFinality", url: "wss://polkadot.api.onfinality.io/public-ws" },
     { name: "LuckyFriday", url: "wss://rpc-polkadot.luckyfriday.io" },
-    { name: "IBP2", url: "wss://polkadot.dotters.network" },
     { name: "Dwellir", url: "wss://polkadot-rpc.n.dwellir.com" },
     { name: "Helixstreet", url: "wss://rpc-polkadot.helixstreet.io" },
     { name: "Allnodes", url: "wss://polkadot-rpc.publicnode.com" },

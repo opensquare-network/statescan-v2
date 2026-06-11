@@ -3,14 +3,6 @@ import { paseoColor } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://asset-hub-paseo.ibp.network",
-  },
-  {
-    name: "IBP2",
-    url: "wss://asset-hub-paseo.dotters.network",
-  },
-  {
     name: "StakeWorld",
     url: "wss://pas-rpc.stakeworld.io/assethub",
   },
