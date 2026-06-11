@@ -6,20 +6,12 @@ const nodes = [
     url: "wss://polkadot-bridge-hub-rpc.polkadot.io",
   },
   {
-    name: "IBP1",
-    url: "wss://sys.ibp.network/bridgehub-polkadot",
-  },
-  {
     name: "OnFinality",
     url: "wss://bridgehub-polkadot.api.onfinality.io/public-ws",
   },
   {
     name: "Dwellir",
     url: "wss://bridge-hub-polkadot-rpc.n.dwellir.com",
-  },
-  {
-    name: "IBP2",
-    url: "wss://sys.dotters.network/bridgehub-polkadot",
   },
   {
     name: "LuckyFriday",

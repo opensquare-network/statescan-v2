@@ -3,12 +3,8 @@ import { paseoColor } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://sys.ibp.network/coretime-paseo",
-  },
-  {
-    name: "IBP2",
-    url: "wss://coretime-paseo.dotters.network/",
+    name: "Zondax",
+    url: "wss://api2.zondax.ch/pas/coretime/node/rpc",
   },
 ];
 

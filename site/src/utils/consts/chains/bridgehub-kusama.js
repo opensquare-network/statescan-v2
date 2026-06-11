@@ -6,16 +6,8 @@ const nodes = [
     url: "wss://kusama-bridge-hub-rpc.polkadot.io",
   },
   {
-    name: "IBP1",
-    url: "wss://sys.ibp.network/bridgehub-kusama",
-  },
-  {
     name: "Dwellir",
     url: "wss://bridge-hub-kusama-rpc.n.dwellir.com",
-  },
-  {
-    name: "IBP2",
-    url: "wss://sys.dotters.network/bridgehub-kusama",
   },
   {
     name: "LuckyFriday",

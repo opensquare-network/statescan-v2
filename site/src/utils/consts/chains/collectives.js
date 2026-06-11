@@ -27,10 +27,6 @@ const collectives = {
       url: "wss://polkadot-collectives-rpc.polkadot.io",
     },
     {
-      name: "IBP1",
-      url: "wss://collectives-polkadot.ibp.network",
-    },
-    {
       name: "LuckyFriday",
       url: "wss://rpc-collectives-polkadot.luckyfriday.io",
     },
@@ -41,10 +37,6 @@ const collectives = {
     {
       name: "Dwellir",
       url: "wss://collectives-polkadot-rpc.n.dwellir.com",
-    },
-    {
-      name: "IBP2",
-      url: "wss://collectives-polkadot.dotters.network",
     },
     {
       name: "RadiumBlock",
