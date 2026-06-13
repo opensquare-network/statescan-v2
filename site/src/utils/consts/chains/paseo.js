@@ -16,8 +16,8 @@ const paseo = {
     proxy: true,
   },
   nodes: [
+    { name: "Zondax", url: "wss://api2.zondax.ch/pas/relay/node/rpc" },
     { name: "Amforc", url: "wss://paseo.rpc.amforc.com" },
-    { name: "StakeWorld", url: "wss://pas-rpc.stakeworld.io" },
     { name: "Dwellir", url: "wss://paseo-rpc.n.dwellir.com" },
   ],
   useOnChainBlockData: true,

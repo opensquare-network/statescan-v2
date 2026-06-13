@@ -3,12 +3,12 @@ import { paseoColor } from "./common";
 
 const nodes = [
   {
-    name: "Amforc",
-    url: "wss://people-paseo.rpc.amforc.com",
-  },
-  {
     name: "Zondax",
     url: "wss://api2.zondax.ch/pas/people/node/rpc",
+  },
+  {
+    name: "Amforc",
+    url: "wss://people-paseo.rpc.amforc.com",
   },
 ];
 
