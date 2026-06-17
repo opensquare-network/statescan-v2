@@ -17,6 +17,7 @@ import LidoStakingVaults from "../pages/lido/vaults";
 import LidoStakingModule from "../pages/lido/stakingModule";
 import LidoStakingModules from "../pages/lido/stakingModules";
 import LidoStakingRouterETHDepositeds from "../pages/lido/stakingRouterETHDepositeds";
+import LidoTreasury, { LidoTreasuryIncome } from "../pages/lido/treasury";
 import LidoLocator from "../pages/lido/locator";
 import NotFound from "../pages/notFound";
 import { Route, Routes } from "react-router-dom";
@@ -58,6 +59,8 @@ export default function EvmRoutes() {
         path="/staking/deposits"
         element={<LidoStakingRouterETHDepositeds />}
       />
+      <Route path="/treasury" element={<LidoTreasury />} />
+      <Route path="/treasury/income" element={<LidoTreasuryIncome />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

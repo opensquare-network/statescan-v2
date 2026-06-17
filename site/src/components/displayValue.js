@@ -37,6 +37,7 @@ const SybmolEllipsis = styled.span`
 export default function ValueDisplay({
   value,
   symbol,
+  prefix = "",
   abbreviate = true,
   showNotEqualTooltip = false,
   tooltipContent,
@@ -46,9 +47,12 @@ export default function ValueDisplay({
     return <Wrapper>--</Wrapper>;
   }
 
-  let symbolDisplay = <span className="symbol">{symbol}</span>;
+  const hasSymbol = !!symbol;
+  let symbolDisplay = hasSymbol ? (
+    <span className="symbol">{symbol}</span>
+  ) : null;
 
-  if (symbolWidth > 0) {
+  if (hasSymbol && symbolWidth > 0) {
     symbolDisplay = (
       <SymbolTooltip tip={symbol}>
         <SybmolEllipsis className="symbol" style={{ maxWidth: symbolWidth }}>
@@ -65,13 +69,21 @@ export default function ValueDisplay({
     const abbreviated = abbreviateBigNumber(value, 2);
     let display = (
       <Wrapper>
-        {abbreviated} {symbol}
+        {prefix}
+        {abbreviated}
+        {hasSymbol ? ` ${symbol}` : ""}
       </Wrapper>
     );
     if (getEffectiveNumbers(abbreviated) !== getEffectiveNumbers(value)) {
-      let notEqualDisplay = <span className="figures">{abbreviated}</span>;
+      let notEqualDisplay = (
+        <span className="figures">
+          {prefix}
+          {abbreviated}
+        </span>
+      );
 
-      const tip = tooltipContent || bigNumberToLocaleString(value);
+      const tip =
+        tooltipContent || `${prefix}${bigNumberToLocaleString(value)}`;
 
       if (showNotEqualTooltip || tooltipContent) {
         notEqualDisplay = <Tooltip tip={tip}>{notEqualDisplay}</Tooltip>;
@@ -79,8 +91,8 @@ export default function ValueDisplay({
       display = (
         <NotEqual>
           {notEqualDisplay}
-          <span style={{ width: 4 }} />
-          {symbolDisplay}
+          {hasSymbol && <span style={{ width: 4 }} />}
+          {hasSymbol && symbolDisplay}
         </NotEqual>
       );
     }
@@ -93,6 +105,7 @@ export default function ValueDisplay({
 
     let figures = (
       <span className="figures">
+        {prefix}
         {bigNumberToLocaleString(int)}.{shortDeciaml}
       </span>
     );
@@ -104,20 +117,27 @@ export default function ValueDisplay({
     let display = (
       <NotEqual>
         {figures}
-        <span style={{ width: 4 }} />
-        {symbolDisplay}
+        {hasSymbol && <span style={{ width: 4 }} />}
+        {hasSymbol && symbolDisplay}
       </NotEqual>
     );
 
     if (showNotEqualTooltip) {
       display = (
-        <Tooltip tip={bigNumberToLocaleString(value)}>{display}</Tooltip>
+        <Tooltip tip={`${prefix}${bigNumberToLocaleString(value)}`}>
+          {display}
+        </Tooltip>
       );
     }
 
     return display;
   }
-  let figures = <span className="figures">{value} </span>;
+  let figures = (
+    <span className="figures">
+      {prefix}
+      {value}
+    </span>
+  );
 
   if (tooltipContent) {
     figures = <Tooltip tip={tooltipContent}>{figures}</Tooltip>;
@@ -126,8 +146,8 @@ export default function ValueDisplay({
   return (
     <Wrapper>
       {figures}
-      <span style={{ width: 4 }} />
-      {symbolDisplay}
+      {hasSymbol && <span style={{ width: 4 }} />}
+      {hasSymbol && symbolDisplay}
     </Wrapper>
   );
 }

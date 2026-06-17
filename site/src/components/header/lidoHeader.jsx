@@ -16,6 +16,11 @@ import { toggle } from "../../store/reducers/mobileMenuSlice";
 
 const otherMenus = [{ name: "Locator", value: "locator" }];
 
+const treasuryMenus = [
+  { name: "Overview", value: "treasury" },
+  { name: "Income", value: "treasury/income" },
+];
+
 const stethMenus = [
   { name: "Overview", value: "steth" },
   { name: "Deposits", value: "steth/deposits" },
@@ -85,6 +90,7 @@ export default function LidoHeader() {
             <SubMenu category="stETH" menus={stethMenus} />
             <SubMenu category="wstETH" menus={wstethMenus} />
             <SubMenu category="Staking" menus={stakingMenus} />
+            <SubMenu category="Treasury" menus={treasuryMenus} />
             <SubMenu category="Others" menus={otherMenus} />
           </HeaderMenuWrapper>
 
@@ -104,6 +110,10 @@ export default function LidoHeader() {
             {stethMenus.map((item) => renderMobileMenus(item, closeMobileMenu))}
             <MenuLabel>wstETH</MenuLabel>
             {wstethMenus.map((item) =>
+              renderMobileMenus(item, closeMobileMenu),
+            )}
+            <MenuLabel>Treasury</MenuLabel>
+            {treasuryMenus.map((item) =>
               renderMobileMenus(item, closeMobileMenu),
             )}
             <MenuLabel>Others</MenuLabel>
