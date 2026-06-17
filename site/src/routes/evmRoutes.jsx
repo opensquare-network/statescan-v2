@@ -1,6 +1,9 @@
 import LidoDeposits from "../pages/lido/deposits";
 import LidoWstETHHolders, { LidoStETHHolders } from "../pages/lido/holders";
 import LidoAddress from "../pages/lido/address";
+import { LidoEarnETH, LidoEarnUSD } from "../pages/lido/earn";
+import LidoEarnDeposit from "../pages/lido/earnDeposit";
+import LidoEarnRedeem from "../pages/lido/earnRedeem";
 import LidoHome from "../pages/lido";
 import LidoRewardsVault from "../pages/lido/rewardsVault";
 import LidoWithdrawal from "../pages/lido/withdrawal";
@@ -20,13 +23,28 @@ import LidoStakingRouterETHDepositeds from "../pages/lido/stakingRouterETHDeposi
 import LidoTreasury, { LidoTreasuryIncome } from "../pages/lido/treasury";
 import LidoLocator from "../pages/lido/locator";
 import NotFound from "../pages/notFound";
+import { LidoEarnProvider } from "../context/lidoEarn";
 import { Route, Routes } from "react-router-dom";
+
+function withLidoEarnProvider(element) {
+  return <LidoEarnProvider>{element}</LidoEarnProvider>;
+}
 
 export default function EvmRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LidoHome />} />
       <Route path="/addresses/:address" element={<LidoAddress />} />
+      <Route path="/earn/eth" element={withLidoEarnProvider(<LidoEarnETH />)} />
+      <Route path="/earn/usd" element={withLidoEarnProvider(<LidoEarnUSD />)} />
+      <Route
+        path="/earn/deposits/:id"
+        element={withLidoEarnProvider(<LidoEarnDeposit />)}
+      />
+      <Route
+        path="/earn/redeems/:id"
+        element={withLidoEarnProvider(<LidoEarnRedeem />)}
+      />
       <Route path="/steth" element={<LidoStETH />} />
       <Route path="/steth/deposits" element={<LidoDeposits />} />
       <Route path="/steth/withdrawals" element={<LidoWithdrawals />} />

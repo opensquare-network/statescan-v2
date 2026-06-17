@@ -1,4 +1,5 @@
 export * from "./lidoQueries/deposits";
+export * from "./lidoQueries/earn";
 export * from "./lidoQueries/holders";
 export * from "./lidoQueries/moduleRewards";
 export * from "./lidoQueries/nodeOperators";

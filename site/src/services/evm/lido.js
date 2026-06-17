@@ -8,6 +8,10 @@ export const LIDO_REWARDS_VAULT_ADDRESS =
   "0x388C818CA8B9251b393131C08a736A67ccB19297";
 export const LIDO_LOCATOR_ADDRESS =
   "0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb";
+export const LIDO_EARN_ETH_VAULT_ADDRESS =
+  "0x6a37725ca7f4CE81c004c955f7280d5C704a249e";
+export const LIDO_EARN_USD_VAULT_ADDRESS =
+  "0x014e6DA8F283C4aF65B2AA0f201438680A004452";
 
 export const LIDO_TREASURY_TOKEN_ADDRESSES = [
   "0xdAC17F958D2ee523a2206206994597C13D831ec7",
@@ -85,4 +89,19 @@ export const LIDO_WITHDRAWAL_QUEUE_ABI = parseAbi([
   "function isPaused() view returns (bool)",
   "function getResumeSinceTimestamp() view returns (uint256)",
   "function getLockedEtherAmount() view returns (uint256)",
+]);
+
+export const LIDO_EARN_VAULT_ABI = parseAbi([
+  "function shareManager() view returns (address)",
+  "function riskManager() view returns (address)",
+]);
+
+export const LIDO_EARN_SHARE_MANAGER_ABI = parseAbi([
+  "function totalSupply() view returns (uint256)",
+  "function totalShares() view returns (uint256)",
+  "function activeShares() view returns (uint256)",
+]);
+
+export const LIDO_EARN_RISK_MANAGER_ABI = parseAbi([
+  "function pendingBalance() view returns (uint256)",
 ]);

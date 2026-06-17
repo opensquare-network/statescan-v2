@@ -21,6 +21,11 @@ const treasuryMenus = [
   { name: "Income", value: "treasury/income" },
 ];
 
+const earnMenus = [
+  { name: "earnETH", value: "earn/eth" },
+  { name: "earnUSD", value: "earn/usd" },
+];
+
 const stethMenus = [
   { name: "Overview", value: "steth" },
   { name: "Deposits", value: "steth/deposits" },
@@ -91,6 +96,7 @@ export default function LidoHeader() {
             <SubMenu category="wstETH" menus={wstethMenus} />
             <SubMenu category="Staking" menus={stakingMenus} />
             <SubMenu category="Treasury" menus={treasuryMenus} />
+            <SubMenu category="Earn" menus={earnMenus} />
             <SubMenu category="Others" menus={otherMenus} />
           </HeaderMenuWrapper>
 
@@ -106,6 +112,8 @@ export default function LidoHeader() {
             </Link>
             <MenuLabel>Staking</MenuLabel>
             <Menus menus={stakingMenus} closeFunc={closeMobileMenu} />
+            <MenuLabel>Earn</MenuLabel>
+            {earnMenus.map((item) => renderMobileMenus(item, closeMobileMenu))}
             <MenuLabel>stETH</MenuLabel>
             {stethMenus.map((item) => renderMobileMenus(item, closeMobileMenu))}
             <MenuLabel>wstETH</MenuLabel>
