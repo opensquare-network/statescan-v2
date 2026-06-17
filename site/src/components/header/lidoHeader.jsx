@@ -57,6 +57,9 @@ const stakingMenus = [
   },
 ];
 
+const showExperimentalMenus =
+  process.env.REACT_APP_PUBLIC_MODE !== "production";
+
 const MobileMenuList = styled.div`
   min-width: 160px;
 `;
@@ -95,8 +98,12 @@ export default function LidoHeader() {
             <SubMenu category="stETH" menus={stethMenus} />
             <SubMenu category="wstETH" menus={wstethMenus} />
             <SubMenu category="Staking" menus={stakingMenus} />
-            <SubMenu category="Treasury" menus={treasuryMenus} />
-            <SubMenu category="Earn" menus={earnMenus} />
+            {showExperimentalMenus && (
+              <>
+                <SubMenu category="Treasury" menus={treasuryMenus} />
+                <SubMenu category="Earn" menus={earnMenus} />
+              </>
+            )}
             <SubMenu category="Others" menus={otherMenus} />
           </HeaderMenuWrapper>
 
@@ -112,16 +119,22 @@ export default function LidoHeader() {
             </Link>
             <MenuLabel>Staking</MenuLabel>
             <Menus menus={stakingMenus} closeFunc={closeMobileMenu} />
-            <MenuLabel>Earn</MenuLabel>
-            {earnMenus.map((item) => renderMobileMenus(item, closeMobileMenu))}
+            {showExperimentalMenus && (
+              <>
+                <MenuLabel>Treasury</MenuLabel>
+                {treasuryMenus.map((item) =>
+                  renderMobileMenus(item, closeMobileMenu),
+                )}
+                <MenuLabel>Earn</MenuLabel>
+                {earnMenus.map((item) =>
+                  renderMobileMenus(item, closeMobileMenu),
+                )}
+              </>
+            )}
             <MenuLabel>stETH</MenuLabel>
             {stethMenus.map((item) => renderMobileMenus(item, closeMobileMenu))}
             <MenuLabel>wstETH</MenuLabel>
             {wstethMenus.map((item) =>
-              renderMobileMenus(item, closeMobileMenu),
-            )}
-            <MenuLabel>Treasury</MenuLabel>
-            {treasuryMenus.map((item) =>
               renderMobileMenus(item, closeMobileMenu),
             )}
             <MenuLabel>Others</MenuLabel>
