@@ -28,6 +28,7 @@ import {
   StyledPanelTableWrapperNoBordered,
 } from "../../components/styled/panel";
 import { InlineValueSlot } from "../../components/styled/valueSlot";
+import { TextSecondary } from "../../components/styled/text";
 import { Tag, TagThemed } from "../../components/tag";
 import Table from "../../components/table";
 import {
@@ -103,6 +104,11 @@ const TabPanel = styled.div`
   margin-top: 0;
 `;
 
+const ValueWrapper = styled(TextSecondary)`
+  display: inline-flex;
+  align-items: center;
+`;
+
 const QUEUE_TABS = {
   deposit: "deposit",
   redeem: "redeem",
@@ -112,11 +118,11 @@ const queueTabs = [{ name: QUEUE_TABS.deposit }, { name: QUEUE_TABS.redeem }];
 
 function LoadableSharesValue({ loading, value }) {
   return (
-    <InlineValueSlot>
+    <ValueWrapper>
       <LoadableContent loading={loading}>
         <EarnTableSharesValue value={value} />
       </LoadableContent>
-    </InlineValueSlot>
+    </ValueWrapper>
   );
 }
 
