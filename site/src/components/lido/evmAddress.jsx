@@ -195,6 +195,7 @@ function AddressWrapper({
 export default function EvmAddress({
   address,
   href,
+  noLink = false,
   copy = true,
   tooltip = true,
   ellipsis = true,
@@ -221,7 +222,7 @@ export default function EvmAddress({
 
   return (
     <AddressWrapper
-      href={href || `/addresses/${normalizedAddress}`}
+      href={noLink ? null : href || `/addresses/${normalizedAddress}`}
       copy={copy}
       tooltip={tooltip}
       tooltipContent={ensName || normalizedAddress}

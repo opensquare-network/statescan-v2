@@ -1,7 +1,8 @@
 import { Fragment } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
-import { FlexBetween } from "../styled/flex";
+import { useLocation } from "react-router";
+import { Flex, FlexBetween } from "../styled/flex";
 import ChainSwitch from "./chainSwitch";
 import SubMenu from "./subMenu";
 import BaseHeader, {
@@ -13,6 +14,8 @@ import Link from "../styled/link";
 import { MenuItem, MenuLabel } from "./navi/common";
 import Menus from "./navi/menus";
 import { toggle } from "../../store/reducers/mobileMenuSlice";
+import { mdcss } from "../../styles/responsive";
+import LidoSearchInputOrigin from "../lido/searchInput";
 
 const otherMenus = [{ name: "Locator", value: "locator" }];
 
@@ -64,6 +67,38 @@ const MobileMenuList = styled.div`
   min-width: 160px;
 `;
 
+const SearchInputWrapper = styled.div`
+  position: relative;
+  display: flex;
+`;
+
+const SearchInputPCWrapper = styled(SearchInputWrapper)`
+  margin-right: 16px;
+  width: 300px;
+
+  .explore-dropdown {
+    right: 0;
+    width: 100%;
+    top: 44px;
+  }
+
+  ${mdcss(css`
+    display: none;
+  `)}
+`;
+
+const SearchInputMobileWrapper = styled(SearchInputWrapper)`
+  & .explore-dropdown {
+    width: auto;
+    top: 44px;
+  }
+`;
+
+const LidoSearchInput = styled(LidoSearchInputOrigin)`
+  display: inline-flex;
+  flex: 1;
+`;
+
 function renderMobileMenus(item, closeMobileMenu) {
   if (item.type === "divider") {
     return null;
@@ -82,7 +117,9 @@ function renderMobileMenus(item, closeMobileMenu) {
 }
 
 export default function LidoHeader() {
+  const location = useLocation();
   const dispatch = useDispatch();
+  const shouldShowPCSearch = location.pathname !== "/";
   const closeMobileMenu = () => {
     dispatch(toggle());
   };
@@ -107,11 +144,22 @@ export default function LidoHeader() {
             <SubMenu category="Others" menus={otherMenus} />
           </HeaderMenuWrapper>
 
-          <ChainSwitch />
+          <Flex>
+            {shouldShowPCSearch && (
+              <SearchInputPCWrapper>
+                <LidoSearchInput small />
+              </SearchInputPCWrapper>
+            )}
+            <ChainSwitch />
+          </Flex>
         </FlexBetween>
       }
       mobile={
         <>
+          <SearchInputMobileWrapper>
+            <LidoSearchInput />
+          </SearchInputMobileWrapper>
+
           <ChainSwitch />
           <MobileMenuList>
             <Link to="/" onClick={closeMobileMenu}>

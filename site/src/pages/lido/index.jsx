@@ -3,11 +3,12 @@ import styled from "styled-components";
 import LidoOverview from "../../components/lido/home/overview";
 import LidoLatestUserActions from "../../components/lido/home/latestUserActions";
 import LidoRewardsVaultStats from "../../components/lido/home/rewardsVault";
+import LidoSearch from "../../components/lido/home/search";
 import LidoUserStaking, {
   PERIODS,
 } from "../../components/lido/home/userStaking";
 import LidoWithdrawalVaultStats from "../../components/lido/home/withdrawalVault";
-import Layout from "../../components/layout";
+import HomeLayout from "../../components/layout/home";
 import {
   LIDO_REWARDS_VAULT_ADDRESS,
   LIDO_WITHDRAWAL_VAULT_ADDRESS,
@@ -17,21 +18,15 @@ import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsDat
 import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoEvmBalanceData";
 import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
-import { Inter_24_700 } from "../../styles/text";
 
 const WITHDRAWAL_VAULT_RECEIVED_STAT_ID = "withdrawalVaultReceived";
 const REWARDS_VAULT_RECEIVED_STAT_ID = "rewardsVaultETHReceived";
 
-const PageTitle = styled.h1`
-  all: unset;
-  margin-bottom: 24px;
-  display: block;
-  ${Inter_24_700};
-  color: ${(props) => props.theme.fontPrimary};
+const SearchSection = styled.div`
+  margin-bottom: 40px;
 `;
 
 const Section = styled.div`
-  margin-top: 80px;
   & + & {
     margin-top: 24px;
   }
@@ -57,8 +52,10 @@ export default function LidoHome() {
   const stats = data[period];
 
   return (
-    <Layout>
-      <PageTitle>Lido Explorer</PageTitle>
+    <HomeLayout>
+      <SearchSection>
+        <LidoSearch />
+      </SearchSection>
 
       <Section>
         <LidoOverview
@@ -105,6 +102,6 @@ export default function LidoHome() {
           symbol={symbol}
         />
       </Section>
-    </Layout>
+    </HomeLayout>
   );
 }
