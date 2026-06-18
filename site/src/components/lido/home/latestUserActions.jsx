@@ -199,14 +199,14 @@ export default function LidoLatestUserActions({ decimals, symbol }) {
         items={toDepositItems(deposits, { decimals, symbol })}
         loading={depositsLoading}
         noDataText="No deposits"
-        viewAllPath="/deposits"
+        viewAllPath="/steth/deposits"
       />
       <LatestPanel
         title="Latest User Withdrawals"
         items={toWithdrawalItems(withdrawals, { decimals, symbol })}
         loading={withdrawalsLoading}
         noDataText="No withdrawals"
-        viewAllPath="/withdrawals"
+        viewAllPath="/steth/withdrawals"
       />
     </SectionsWrapper>
   );
