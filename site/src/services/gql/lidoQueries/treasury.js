@@ -34,7 +34,7 @@ export const GET_LIDO_TREASURY_TRANSFERS = gql`
 
 export const GET_LIDO_TREASURY_TOKENS_STATUS = gql`
   query GetLidoTreasuryTokensStatus {
-    status(key: "lido-treasury-tokens") {
+    status(key: "lido-treasury-positions") {
       key
       value
     }
