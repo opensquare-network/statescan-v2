@@ -33,6 +33,7 @@ const chainsNeedToClean = [
   "gargantua",
   "nexus",
   "datahaven-testnet",
+  "argon",
 ];
 
 const chainsNoNeedCalls = [...chainsNeedToClean, "bridgehub-westend"];
