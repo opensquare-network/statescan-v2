@@ -3,6 +3,9 @@ const {
 } = require("@statescan/mongo");
 const { getActiveAsset } = require("./getActiveAsset");
 const isNil = require("lodash.isnil");
+const {
+  logger,
+} = require("@osn/scan-common");
 
 async function insertAssetActivity(assetId, name, args = {}, indexer) {
   if (isNil(assetId)) {
@@ -11,9 +14,8 @@ async function insertAssetActivity(assetId, name, args = {}, indexer) {
 
   const activeAsset = await getActiveAsset(assetId);
   if (!activeAsset) {
-    throw new Error(
-      `Can not find asset: ${assetId} when insert activity at ${indexer.blockHeight}`,
-    );
+    logger.error(`Can not find asset: ${assetId} when insert activity at ${indexer.blockHeight}`);
+    return;
   }
   const col = await getAssetActivityCol();
   await col.insertOne({
