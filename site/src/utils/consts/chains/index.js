@@ -23,7 +23,7 @@ import assethubPaseo from "./assethub-paseo";
 import westend from "./westend";
 import peopleWestend from "./people-westend";
 import coretimeWestend from "./coretime-westend";
-// import argon from "./argon";
+import argon from "./argon";
 import collectivesWestend from "./collectives-westend";
 // import cereTestnet from "./cere-testnet";
 import cere from "./cere";
@@ -68,7 +68,7 @@ const chains = {
   "collectives-westend": collectivesWestend,
   "coretime-westend": coretimeWestend,
   "people-westend": peopleWestend,
-  // argon,
+  argon,
   cere,
   // "cere-testnet": cereTestnet,
   // "fintra-testnet": fintraTestnet,
