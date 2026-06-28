@@ -12,12 +12,18 @@ const {
 
 async function deleteAssetApprovals(assetId, indexer) {
   const asset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
+  if (!asset) {
+    return;
+  }
   const col = await getAssetApprovalCol();
   await col.deleteMany({ assetId, assetHeight: asset.assetHeight });
 }
 
 async function updateApproval(assetId, owner, delegate, indexer) {
   const asset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
+  if (!asset) {
+    return;
+  }
   const approval = await queryApproval(
     indexer.blockHash,
     assetId,

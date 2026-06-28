@@ -1,4 +1,5 @@
 const { getAssetCol } = require("./db");
+const { logger } = require("@osn/scan-common");
 
 async function getActiveAsset(assetId) {
   const col = await getAssetCol();
@@ -11,9 +12,8 @@ async function getActiveAssetOrThrow(assetId, blockHeight) {
   const q = { assetId, destroyed: false };
   const asset = await col.findOne(q);
   if (!asset) {
-    throw new Error(
-      `Can not find asset ${assetId} when update approval at ${blockHeight}`,
-    );
+    logger.error(`Can not find asset ${assetId} when update approval at ${blockHeight}`);
+    return null;
   }
 
   return asset;

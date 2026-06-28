@@ -8,6 +8,9 @@ async function insertPalletAssetTimeline(assetId, name, args = {}, indexer) {
   }
 
   const activeAsset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
+  if (!activeAsset) {
+    return;
+  }
   const timelineCol = await getAssetTimelineCol();
   await timelineCol.insertOne({
     assetId,
