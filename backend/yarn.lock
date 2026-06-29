@@ -2238,6 +2238,7 @@ __metadata:
     lodash.isnil: ^4.0.0
     lodash.trim: ^4.5.1
     log4js: ^6.9.1
+    lru-cache: ^11.5.1
   languageName: unknown
   linkType: soft
 
@@ -6623,6 +6624,13 @@ __metadata:
   version: 10.3.0
   resolution: "lru-cache@npm:10.3.0"
   checksum: f2289639bd94cf3c87bfd8a77ac991f9afe3af004ddca3548c3dae63ead1c73bba449a60a4e270992e16cf3261b3d4130943234d52ca3a4d4de2fc074a3cc7b5
+  languageName: node
+  linkType: hard
+
+"lru-cache@npm:^11.5.1":
+  version: 11.5.1
+  resolution: "lru-cache@npm:11.5.1"
+  checksum: d92b10275051c5139ee8087bd71b18718f0bd1a964f80b9ddc65dc31eecee0bcedc59b29e7f876fcc3ffce7a9823d7789977ebc4ab247a382a6e55f8895c85a2
   languageName: node
   linkType: hard
 
