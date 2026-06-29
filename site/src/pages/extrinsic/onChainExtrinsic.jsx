@@ -24,17 +24,17 @@ const useExtrinsic = (chainExtrinsic) => {
   const finalizedHeight = useSelector(finalizedHeightSelector);
 
   let isFinalized = null;
-  if (chainExtrinsic && finalizedHeight) {
+  if (chainExtrinsic && finalizedHeight > 0) {
     isFinalized = chainExtrinsic?.indexer?.blockHeight <= finalizedHeight;
   }
 
   const extrinsic = useMemo(() => {
-    if (!chainExtrinsic || isNil(isFinalized)) {
+    if (!chainExtrinsic) {
       return null;
     }
     return {
       ...chainExtrinsic,
-      isFinalized,
+      isFinalized: isNil(isFinalized) ? false : isFinalized,
     };
   }, [chainExtrinsic, isFinalized]);
   return extrinsic;
@@ -44,6 +44,7 @@ function OnChainExtrinsicImpl({ extrinsicIndexer }) {
   const { isLoading, chainExtrinsic } = useChainExtrinsicData(extrinsicIndexer);
   const extrinsic = useExtrinsic(chainExtrinsic);
   const { modules } = useChainSettings();
+
   const listData = useMemo(
     () =>
       extrinsic
