@@ -14,7 +14,9 @@ export default function useExtrinsicInfo(extrinsicData) {
       setData(extrinsicData);
       return;
     }
-    extractExtrinsicInfo(api, extrinsicData).then((data) => setData(data));
+    extractExtrinsicInfo(api, extrinsicData)
+      .then((result) => setData(result))
+      .catch(() => setData(null));
   }, [extrinsicData, api]);
 
   return data;
