@@ -7,9 +7,9 @@ import EvmExternalLink from "../evmExternalLink";
 import LatestList from "../../home/sections/latestList";
 import {
   GET_LIDO_DEPOSITS,
-  GET_LIDO_WITHDRAWAL_REQUESTS,
+  GET_LIDO_WITHDRAWALS,
 } from "../../../services/gql/lido";
-import { useLidoList } from "../../../hooks/lido/useLidoList";
+import { useLidoServerQuery } from "../../../hooks/lido/useLidoQuery";
 import {
   Anchor,
   AnchorWrapper,
@@ -113,8 +113,8 @@ function toDepositItems(items, { decimals, symbol }) {
     icon: <AssetSquareIcon />,
     left: (
       <div>
-        <BlockLink blockNumber={item.blockNumber} />
-        <Time blockTime={item.blockTime} />
+        <BlockLink blockNumber={item.indexer?.blockNumber} />
+        <Time blockTime={item.indexer?.blockTimestamp} />
       </div>
     ),
     right: (
@@ -135,14 +135,18 @@ function toWithdrawalItems(items, { decimals, symbol }) {
     icon: <TransferSquareIcon />,
     left: (
       <div>
-        <BlockLink blockNumber={item.blockNumber} />
-        <Time blockTime={item.blockTime} />
+        <BlockLink blockNumber={item.indexer?.blockNumber} />
+        <Time blockTime={item.indexer?.blockTimestamp} />
       </div>
     ),
     right: (
       <Right>
         <Value>
-          <Amount value={item.value} decimals={decimals} symbol={symbol} />
+          <Amount
+            value={item.amountOfStETH}
+            decimals={decimals}
+            symbol={symbol}
+          />
         </Value>
         <User>
           <EvmAddress address={item.owner} copy={false} maxWidth="160px" />
@@ -176,21 +180,20 @@ function LatestPanel({ title, items, loading, noDataText, viewAllPath }) {
 }
 
 export default function LidoLatestUserActions({ decimals, symbol }) {
-  const { data: depositsData, loading: depositsLoading } = useLidoList({
-    query: GET_LIDO_DEPOSITS,
-    field: "deposits",
-    pageSize: LATEST_ITEMS_COUNT,
-    sortQuery: "blockNumber_desc",
-  });
-  const { data: withdrawalsData, loading: withdrawalsLoading } = useLidoList({
-    query: GET_LIDO_WITHDRAWAL_REQUESTS,
-    field: "withdrawalRequests",
-    pageSize: LATEST_ITEMS_COUNT,
-    sortQuery: "blockNumber_desc",
-  });
-
-  const deposits = depositsData?.items || [];
-  const withdrawals = withdrawalsData?.items || [];
+  const variables = {
+    limit: LATEST_ITEMS_COUNT,
+    offset: 0,
+  };
+  const { data: depositsQueryData, loading: depositsLoading } =
+    useLidoServerQuery(GET_LIDO_DEPOSITS, {
+      variables,
+    });
+  const { data: withdrawalsQueryData, loading: withdrawalsLoading } =
+    useLidoServerQuery(GET_LIDO_WITHDRAWALS, {
+      variables,
+    });
+  const deposits = depositsQueryData?.deposits?.items || [];
+  const withdrawals = withdrawalsQueryData?.withdrawals?.items || [];
 
   return (
     <SectionsWrapper>

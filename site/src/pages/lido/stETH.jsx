@@ -12,18 +12,17 @@ import { LidoStETHHoldersTable } from "./holders";
 import { LidoWithdrawalsTable } from "./withdrawals";
 import { LIDO_STETH_ADDRESS } from "../../services/evm/lido";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
-import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
+import { useLidoStEthHolderCountData } from "../../hooks/lido/useLidoProtocolStatData";
 import { formatCount, OnchainAmount } from "../../components/lido/home/metrics";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
-
-const STETH_HOLDER_COUNT_STAT_ID = "stETHHolderCount";
+import { GET_LIDO_STETH_TOTALS } from "../../services/gql/lido";
+import { useLidoServerQuery } from "../../hooks/lido/useLidoQuery";
 
 function LidoStETHSummary() {
   const { decimals } = useChainSettings();
   const { data, loading } = useLidoOnchainStatsData();
-  const { data: holders, loading: holdersLoading } = useLidoProtocolStatData(
-    STETH_HOLDER_COUNT_STAT_ID,
-  );
+  const { data: holders, loading: holdersLoading } =
+    useLidoStEthHolderCountData();
   const listData = [
     {
       label: "Total Supply",
@@ -76,20 +75,24 @@ function LidoStETHSummary() {
 
 export default function LidoStETH() {
   const breadCrumb = <BreadCrumb data={[{ name: "stETH" }]} />;
+  const { data: totals } = useLidoServerQuery(GET_LIDO_STETH_TOTALS);
   const tabs = [
     {
       name: "Deposits",
       value: "deposits",
+      count: totals?.deposits?.total,
       children: <LidoDepositsTable />,
     },
     {
       name: "Withdrawals",
       value: "withdrawals",
+      count: totals?.withdrawals?.total,
       children: <LidoWithdrawalsTable />,
     },
     {
       name: "Holders",
       value: "holders",
+      count: totals?.stethHolders?.total,
       children: <LidoStETHHoldersTable />,
     },
     {

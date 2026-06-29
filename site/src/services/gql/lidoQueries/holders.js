@@ -1,21 +1,15 @@
 import { gql } from "@apollo/client";
 
 export const GET_LIDO_STETH_HOLDERS = gql`
-  query GetLidoStETHHolders(
-    $first: Int!
-    $where: StETHHolder_filter
-    $orderBy: StETHHolder_orderBy
-    $orderDirection: OrderDirection
-  ) {
-    stETHHolders(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      id
-      shares
-      updatedAtTime
+  query GetLidoStETHHolders($limit: Int!, $offset: Int!) {
+    stethHolders(limit: $limit, offset: $offset) {
+      items {
+        address
+        shares
+      }
+      total
+      offset
+      limit
     }
   }
 `;
@@ -36,6 +30,20 @@ export const GET_LIDO_WSTETH_HOLDERS = gql`
       balance
       id
       updatedAtTime
+    }
+  }
+`;
+
+export const GET_LIDO_STETH_TOTALS = gql`
+  query GetLidoStETHTotals {
+    deposits(limit: 1, offset: 0) {
+      total
+    }
+    withdrawals(limit: 1, offset: 0) {
+      total
+    }
+    stethHolders(limit: 1, offset: 0) {
+      total
     }
   }
 `;

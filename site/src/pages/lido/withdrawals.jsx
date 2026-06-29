@@ -5,14 +5,15 @@ import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import EvmAddress from "../../components/lido/evmAddress";
 import EvmExternalLink from "../../components/lido/evmExternalLink";
-import EvmPagination from "../../components/lido/evmPagination";
 import LidoStatus from "../../components/lido/status";
 import EvmTxHash from "../../components/lido/evmTxHash";
+import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import { ColoredInterLink } from "../../components/styled/link";
 import Table from "../../components/table";
 import { useLidoWithdrawalsFilter } from "../../hooks/filter/useLidoWithdrawalsFilter";
 import { useLidoWithdrawalsData } from "../../hooks/lido/useLidoWithdrawalsData";
+import { useQueryParams } from "../../hooks/useQueryParams";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,
@@ -55,47 +56,58 @@ function useLidoWithdrawalsTableData(items = []) {
   return items.map((item) => {
     return [
       <ColoredInterLink
-        key={`${item.id}-request-id`}
-        to={`/steth/withdrawals/${item.id}`}
+        key={`${item.requestId}-request-id`}
+        to={`/steth/withdrawals/${item.requestId}`}
       >
-        {item.id}
+        {item.requestId}
       </ColoredInterLink>,
-      item.blockNumber ? (
+      item.indexer?.blockNumber ? (
         <EvmExternalLink
-          href={getEtherscanBlockUrl(item.blockNumber)}
-          key={`${item.id}-block`}
+          href={getEtherscanBlockUrl(item.indexer.blockNumber)}
+          key={`${item.requestId}-block`}
           copy={false}
         >
-          {toLidoBlockNumber(item.blockNumber)}
+          {toLidoBlockNumber(item.indexer.blockNumber)}
         </EvmExternalLink>
       ) : (
         "--"
       ),
-      toLidoTimestamp(item.blockTime),
-      <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
+      toLidoTimestamp(item.indexer?.blockTimestamp),
+      <EvmTxHash
+        key={`${item.requestId}-tx`}
+        txHash={item.indexer?.txHash}
+        copy={false}
+      />,
       <EvmAddress
-        key={`${item.id}-owner`}
+        key={`${item.requestId}-owner`}
         address={item.owner}
         copy={false}
         maxWidth="150px"
       />,
       <ValueDisplay
-        key={`${item.id}-value`}
-        value={toLidoAmount(item.value, decimals)}
+        key={`${item.requestId}-value`}
+        value={toLidoAmount(item.amountOfStETH, decimals)}
         symbol={symbol}
         showNotEqualTooltip
       />,
-      <LidoStatus key={`${item.id}-status`} status={item.status} />,
+      <LidoStatus key={`${item.requestId}-status`} status={item.status} />,
     ];
   });
 }
 
 function LidoWithdrawalsTableView({ data, loading }) {
+  const { page = 1 } = useQueryParams();
   const tableData = useLidoWithdrawalsTableData(data?.items);
 
   return (
     <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
       <Table heads={lidoWithdrawalsHead} data={tableData} loading={loading} />
     </StyledPanelTableWrapper>
@@ -110,6 +122,7 @@ export function LidoWithdrawalsTable({ filters }) {
 
 export default function LidoWithdrawals() {
   const filter = useLidoWithdrawalsFilter();
+  const { status = "" } = useQueryParams({ parseNumbers: false });
 
   return (
     <Layout>
@@ -119,7 +132,7 @@ export default function LidoWithdrawals() {
 
       <Filter data={filter} />
 
-      <LidoWithdrawalsTable />
+      <LidoWithdrawalsTable filters={{ status }} />
     </Layout>
   );
 }

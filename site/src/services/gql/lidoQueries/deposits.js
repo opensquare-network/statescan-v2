@@ -2,25 +2,25 @@ import { gql } from "@apollo/client";
 
 export const GET_LIDO_DEPOSITS = gql`
   query GetLidoDeposits(
-    $first: Int!
-    $where: Deposit_filter
-    $orderBy: Deposit_orderBy
-    $orderDirection: OrderDirection
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    deposits(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      address
-      blockNumber
-      blockTime
-      id
-      logIndex
-      referral
-      txHash
-      value
+    deposits(limit: $limit, offset: $offset, filter: $filter) {
+      items {
+        address
+        referral
+        value
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;

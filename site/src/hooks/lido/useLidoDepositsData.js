@@ -1,28 +1,24 @@
-import { EMPTY_OBJECT } from "../../utils/constants";
 import { GET_LIDO_DEPOSITS } from "../../services/gql/lido";
-import { useLidoList } from "./useLidoList";
+import { useLidoServerQuery } from "./useLidoQuery";
 import { useLidoListQueryParams } from "./useLidoListQueryParams";
-import { pickLidoFilters } from "./utils";
+import {
+  getLidoServerIndexerFilter,
+  useLidoServerListVariables,
+} from "./useLidoListVariables";
 
-export function useLidoDepositsData(options = EMPTY_OBJECT) {
-  const filters = options.filters || EMPTY_OBJECT;
-  const {
-    cursor,
-    txHash,
-    sortQuery,
-    params: { address },
-    timeDimensionParams,
-  } = useLidoListQueryParams();
-
-  return useLidoList({
-    query: GET_LIDO_DEPOSITS,
-    field: "deposits",
-    sortQuery,
-    cursor,
-    where: pickLidoFilters({
-      address: String(filters.address ?? address ?? ""),
-      txHash,
-    }),
-    timeDimensionParams,
+export function useLidoDepositsData() {
+  const { txHash, timeDimensionParams } = useLidoListQueryParams();
+  const variables = useLidoServerListVariables({
+    variables: {
+      filter: getLidoServerIndexerFilter({ txHash, timeDimensionParams }),
+    },
   });
+  const queryResult = useLidoServerQuery(GET_LIDO_DEPOSITS, {
+    variables,
+  });
+
+  return {
+    ...queryResult,
+    data: queryResult.data?.deposits,
+  };
 }

@@ -869,9 +869,9 @@ export const PROXY_STATUS = {
 };
 
 export const LIDO_WITHDRAWAL_STATUS = {
-  PENDING: "Pending",
-  FINALIZED: "Finalized",
-  CLAIMED: "Claimed",
+  REQUEST: "REQUEST",
+  FINALIZED: "FINALIZED",
+  CLAIMED: "CLAIMED",
 };
 
 export const PROXY_ANNOUNCEMENT_STATUS = {

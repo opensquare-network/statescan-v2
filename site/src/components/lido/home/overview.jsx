@@ -11,9 +11,11 @@ import {
   RateValue,
 } from "./metrics";
 import LoadableContent from "../../loadings/loadableContent";
-import { useLidoProtocolStatData } from "../../../hooks/lido/useLidoProtocolStatData";
+import {
+  useLidoProtocolStatData,
+  useLidoStEthHolderCountData,
+} from "../../../hooks/lido/useLidoProtocolStatData";
 
-const STETH_HOLDER_COUNT_STAT_ID = "stETHHolderCount";
 const WSTETH_HOLDER_COUNT_STAT_ID = "wstETHHolderCount";
 
 function OverviewCard({ label, value, icon }) {
@@ -34,6 +36,22 @@ function HolderOverviewCard({ label, statId }) {
   return (
     <OverviewCard
       label={label}
+      icon={<AssetSquareIcon />}
+      value={
+        <LoadableContent loading={loading}>
+          {data?.count == null ? "--" : formatCount(data.count)}
+        </LoadableContent>
+      }
+    />
+  );
+}
+
+function StEthHolderOverviewCard() {
+  const { data, loading } = useLidoStEthHolderCountData();
+
+  return (
+    <OverviewCard
+      label="stETH Holders"
       icon={<AssetSquareIcon />}
       value={
         <LoadableContent loading={loading}>
@@ -106,10 +124,7 @@ export default function LidoOverview({ data, decimals, symbol, loading }) {
             />
           }
         />
-        <HolderOverviewCard
-          label="stETH Holders"
-          statId={STETH_HOLDER_COUNT_STAT_ID}
-        />
+        <StEthHolderOverviewCard />
         <HolderOverviewCard
           label="wstETH Holders"
           statId={WSTETH_HOLDER_COUNT_STAT_ID}

@@ -1,35 +1,27 @@
-import { EMPTY_OBJECT } from "../../utils/constants";
-import { GET_LIDO_WITHDRAWAL_REQUESTS } from "../../services/gql/lido";
-import { useLidoList } from "./useLidoList";
+import { GET_LIDO_WITHDRAWALS } from "../../services/gql/lido";
 import { useLidoListQueryParams } from "./useLidoListQueryParams";
+import { useLidoServerQuery } from "./useLidoQuery";
 import { pickLidoFilters } from "./utils";
+import {
+  getLidoServerIndexerFilter,
+  useLidoServerListVariables,
+} from "./useLidoListVariables";
+import { EMPTY_OBJECT } from "../../utils/constants";
 
 export function useLidoWithdrawalsData(options = EMPTY_OBJECT) {
-  const filters = options.filters || EMPTY_OBJECT;
-  const {
-    cursor,
-    sortQuery,
-    txHash,
-    params: { status: statusQuery = "" },
-    timeDimensionParams,
-  } = useLidoListQueryParams();
-
-  const where = pickLidoFilters({
-    status: statusQuery,
-    status_not: filters.status_not,
-    txHash,
+  const { txHash, timeDimensionParams } = useLidoListQueryParams();
+  const variables = useLidoServerListVariables({
+    variables: pickLidoFilters({
+      status: options.filters?.status,
+      filter: getLidoServerIndexerFilter({ txHash, timeDimensionParams }),
+    }),
+  });
+  const queryResult = useLidoServerQuery(GET_LIDO_WITHDRAWALS, {
+    variables,
   });
 
-  if (filters.address) {
-    where.or = [{ owner: filters.address }, { requestor: filters.address }];
-  }
-
-  return useLidoList({
-    query: GET_LIDO_WITHDRAWAL_REQUESTS,
-    field: "withdrawalRequests",
-    sortQuery,
-    cursor,
-    where,
-    timeDimensionParams,
-  });
+  return {
+    ...queryResult,
+    data: queryResult.data?.withdrawals,
+  };
 }

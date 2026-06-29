@@ -1,51 +1,55 @@
 import { gql } from "@apollo/client";
 
-export const GET_LIDO_WITHDRAWAL_REQUESTS = gql`
-  query GetLidoWithdrawalRequests(
-    $first: Int!
-    $where: WithdrawalRequest_filter
-    $orderBy: WithdrawalRequest_orderBy
-    $orderDirection: OrderDirection
+export const GET_LIDO_WITHDRAWALS = gql`
+  query GetLidoWithdrawals(
+    $limit: Int!
+    $offset: Int!
+    $status: WithdrawalStatus
+    $filter: IndexerFilterInput
   ) {
-    withdrawalRequests(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    withdrawals(
+      limit: $limit
+      offset: $offset
+      status: $status
+      filter: $filter
     ) {
-      claim {
-        blockNumber
-        blockTime
-        logIndex
-        owner
-        receiver
+      items {
         requestId
-        txHash
-        value
+        requester
+        owner
+        amountOfStETH
+        amountOfShares
+        status
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
       }
-      finalization {
-        blockNumber
-        blockTime
-        fromRequestId
-        logIndex
-        shares
-        timestamp
-        toRequestId
-        txHash
-        value
-      }
-      blockNumber
-      blockTime
-      cumulativeShares
-      cumulativeStETH
-      id
-      logIndex
+      total
+      offset
+      limit
+    }
+  }
+`;
+
+export const GET_LIDO_WITHDRAWAL = gql`
+  query GetLidoWithdrawal($requestId: Int!) {
+    withdrawal(requestId: $requestId) {
+      requestId
+      requester
       owner
-      requestor
+      amountOfStETH
+      amountOfShares
       status
-      value
-      txHash
-      shares
+      timeline
+      indexer {
+        blockNumber
+        blockTimestamp
+        txHash
+        logIndex
+      }
     }
   }
 `;

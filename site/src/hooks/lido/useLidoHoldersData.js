@@ -5,7 +5,9 @@ import {
 } from "../../services/gql/lido";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoList } from "./useLidoList";
+import { useLidoServerQuery } from "./useLidoQuery";
 import { pickLidoFilters } from "./utils";
+import { useLidoServerListVariables } from "./useLidoListVariables";
 
 function useLidoHoldersData({ query, field, defaultSortQuery, nonZeroField }) {
   const queryParams = useQueryParams({ parseNumbers: false });
@@ -25,12 +27,15 @@ function useLidoHoldersData({ query, field, defaultSortQuery, nonZeroField }) {
 }
 
 export function useLidoStETHHoldersData() {
-  return useLidoHoldersData({
-    query: GET_LIDO_STETH_HOLDERS,
-    field: "stETHHolders",
-    defaultSortQuery: "shares_desc",
-    nonZeroField: "shares",
+  const variables = useLidoServerListVariables();
+  const queryResult = useLidoServerQuery(GET_LIDO_STETH_HOLDERS, {
+    variables,
   });
+
+  return {
+    ...queryResult,
+    data: queryResult.data?.stethHolders,
+  };
 }
 
 export function useLidoWstETHHoldersData() {
