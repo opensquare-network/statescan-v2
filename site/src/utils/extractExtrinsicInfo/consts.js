@@ -44,6 +44,8 @@ const UtilityEvents = Object.freeze({
   BatchInterrupted: "BatchInterrupted",
   BatchCompleted: "BatchCompleted",
   ItemCompleted: "ItemCompleted",
+  ItemFailed: "ItemFailed",
+  BatchCompletedWithErrors: "BatchCompletedWithErrors",
 });
 
 export {

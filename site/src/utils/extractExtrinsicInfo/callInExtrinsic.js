@@ -17,14 +17,20 @@ import {
 } from "./consts";
 import { GenericCall } from "@polkadot/types";
 
-function findBatchItemEventIndex(events = [], from = 0) {
+const UtilityBatchTerminalEvents = [
+  UtilityEvents.ItemCompleted,
+  UtilityEvents.BatchInterrupted,
+  UtilityEvents.ItemFailed,
+  UtilityEvents.BatchCompleted,
+  UtilityEvents.BatchCompletedWithErrors,
+];
+
+function findBatchTerminalEventIndex(events = [], from = 0, methods = []) {
   return events.findIndex(({ event }, index) => {
     return (
       index >= from &&
       event?.section === Modules.Utility &&
-      [UtilityEvents.ItemCompleted, UtilityEvents.BatchInterrupted].includes(
-        event?.method,
-      )
+      methods.includes(event?.method)
     );
   });
 }
@@ -102,6 +108,7 @@ async function handleMultisig(
   );
 }
 
+// batch emits BatchInterrupted on the first failed item, otherwise BatchCompleted.
 async function unwrapBatch(
   api,
   call,
@@ -110,36 +117,38 @@ async function unwrapBatch(
   wrappedEvents,
   callHandler,
 ) {
-  const method = call.method;
   const innerCalls = call.args[0];
   const events = wrappedEvents.events || [];
   let cursor = 0;
-  let interrupted = false;
 
   for (const innerCall of innerCalls) {
-    const start = cursor;
     cursor += await handleWrappedCall(
       api,
       innerCall,
       signer,
       extrinsicIndexer,
-      getSlicedEvents(wrappedEvents, start, events.length, false),
+      getSlicedEvents(wrappedEvents, cursor, events.length, false),
       callHandler,
     );
-    const itemEventIndex = findBatchItemEventIndex(events, cursor);
+
+    const itemEventIndex = findBatchTerminalEventIndex(events, cursor, [
+      UtilityEvents.ItemCompleted,
+      UtilityEvents.BatchInterrupted,
+    ]);
 
     if (itemEventIndex < 0) {
       cursor = events.length;
       break;
     }
 
-    interrupted =
-      events[itemEventIndex].event.method === UtilityEvents.BatchInterrupted;
-    cursor = itemEventIndex + 1;
-
-    if (interrupted) {
+    if (
+      events[itemEventIndex].event.method === UtilityEvents.BatchInterrupted
+    ) {
+      cursor = itemEventIndex + 1;
       break;
     }
+
+    cursor = itemEventIndex + 1;
   }
 
   if (
@@ -149,7 +158,137 @@ async function unwrapBatch(
     cursor++;
   }
 
-  return UtilityMethods.batchAll === method && interrupted ? 0 : cursor;
+  return cursor;
+}
+
+async function walkBatchAllItems(
+  api,
+  innerCalls,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
+  const events = wrappedEvents.events || [];
+  let cursor = 0;
+
+  for (const innerCall of innerCalls) {
+    cursor += await handleWrappedCall(
+      api,
+      innerCall,
+      signer,
+      extrinsicIndexer,
+      getSlicedEvents(wrappedEvents, cursor, events.length, false),
+      callHandler,
+    );
+
+    const itemEventIndex = findBatchTerminalEventIndex(
+      events,
+      cursor,
+      UtilityBatchTerminalEvents,
+    );
+
+    if (
+      itemEventIndex < 0 ||
+      events[itemEventIndex].event.method !== UtilityEvents.ItemCompleted
+    ) {
+      return 0;
+    }
+
+    cursor = itemEventIndex + 1;
+  }
+
+  if (
+    events[cursor]?.event?.section === Modules.Utility &&
+    events[cursor]?.event?.method === UtilityEvents.BatchCompleted
+  ) {
+    return cursor + 1;
+  }
+
+  return 0;
+}
+
+// batchAll is atomic. A failure rolls back previous item state and events, so
+// inner calls are emitted only after its own BatchCompleted is confirmed.
+async function unwrapBatchAll(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
+  const innerCalls = call.args[0];
+  const consumed = await walkBatchAllItems(
+    api,
+    innerCalls,
+    signer,
+    extrinsicIndexer,
+    wrappedEvents,
+    null,
+  );
+
+  if (!consumed) {
+    return 0;
+  }
+
+  return await walkBatchAllItems(
+    api,
+    innerCalls,
+    signer,
+    extrinsicIndexer,
+    wrappedEvents,
+    callHandler,
+  );
+}
+
+// forceBatch emits ItemFailed for failed items but continues processing.
+async function unwrapForceBatch(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
+  const innerCalls = call.args[0];
+  const events = wrappedEvents.events || [];
+  let cursor = 0;
+
+  for (const innerCall of innerCalls) {
+    cursor += await handleWrappedCall(
+      api,
+      innerCall,
+      signer,
+      extrinsicIndexer,
+      getSlicedEvents(wrappedEvents, cursor, events.length, false),
+      callHandler,
+    );
+
+    const itemEventIndex = findBatchTerminalEventIndex(events, cursor, [
+      UtilityEvents.ItemCompleted,
+      UtilityEvents.ItemFailed,
+    ]);
+
+    if (itemEventIndex < 0) {
+      cursor = events.length;
+      break;
+    }
+
+    cursor = itemEventIndex + 1;
+  }
+
+  if (
+    events[cursor]?.event?.section === Modules.Utility &&
+    [
+      UtilityEvents.BatchCompleted,
+      UtilityEvents.BatchCompletedWithErrors,
+    ].includes(events[cursor]?.event?.method)
+  ) {
+    cursor++;
+  }
+
+  return cursor;
 }
 
 async function unwrapSudo(
@@ -211,15 +350,32 @@ async function handleWrappedCall(
       wrappedEvents,
       callHandler,
     );
+  } else if (Modules.Utility === section && UtilityMethods.batch === method) {
+    consumed = await unwrapBatch(
+      api,
+      call,
+      signer,
+      extrinsicIndexer,
+      wrappedEvents,
+      callHandler,
+    );
   } else if (
     Modules.Utility === section &&
-    [
-      UtilityMethods.batch,
-      UtilityMethods.batchAll,
-      UtilityMethods.forceBatch,
-    ].includes(method)
+    UtilityMethods.batchAll === method
   ) {
-    consumed = await unwrapBatch(
+    consumed = await unwrapBatchAll(
+      api,
+      call,
+      signer,
+      extrinsicIndexer,
+      wrappedEvents,
+      callHandler,
+    );
+  } else if (
+    Modules.Utility === section &&
+    UtilityMethods.forceBatch === method
+  ) {
+    consumed = await unwrapForceBatch(
       api,
       call,
       signer,
