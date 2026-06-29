@@ -71,7 +71,7 @@ function useVaultDetailItems(vault) {
     { label: "Reserve", value: formatLidoBp(vault.reserveRatioBP) },
     {
       label: "Last Report",
-      value: toTime(vault.lastReport?.blockTime),
+      value: toTime(report?.blockTime),
     },
     {
       label: "Share Limit",

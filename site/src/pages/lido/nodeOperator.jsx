@@ -58,7 +58,8 @@ function renderStatus(active) {
 }
 
 function toCsmNodeOperatorDetailItems(nodeOperator, stakingModule) {
-  const stakingModuleId = stakingModule?.id || nodeOperator.stakingModuleId;
+  const stakingModuleId = stakingModule?.stakingModuleId;
+  const stakingModuleAddress = stakingModule?.stakingModule;
 
   return [
     { label: "Node Operator ID", value: `#${nodeOperator.nodeOperatorId}` },
@@ -66,7 +67,7 @@ function toCsmNodeOperatorDetailItems(nodeOperator, stakingModule) {
       label: "Staking Module",
       value: (
         <ColoredInterLink to={`/staking/modules/${stakingModuleId}`}>
-          {stakingModule?.name || "--"}
+          {stakingModule?.name}
         </ColoredInterLink>
       ),
     },
@@ -83,31 +84,37 @@ function toCsmNodeOperatorDetailItems(nodeOperator, stakingModule) {
       value: (
         <LidoCsmExtendedManagerPermissions
           value={nodeOperator.extendedManagerPermissions}
-          moduleAddress={stakingModule?.moduleAddress}
+          moduleAddress={stakingModuleAddress}
           nodeOperatorId={nodeOperator.nodeOperatorId}
         />
       ),
     },
     {
       label: "Vetted Signing Keys",
-      value: isNil(nodeOperator.vettedSigningKeysCount)
+      value: isNil(
+        nodeOperator.vettedSigningKeysCount ??
+          nodeOperator.approvedValidatorsCount,
+      )
         ? "--"
-        : toLidoBlockNumber(nodeOperator.vettedSigningKeysCount),
+        : toLidoBlockNumber(
+            nodeOperator.vettedSigningKeysCount ??
+              nodeOperator.approvedValidatorsCount,
+          ),
     },
   ];
 }
 
 function toNorNodeOperatorDetailItems(nodeOperator, stakingModule) {
-  const stakingModuleId = stakingModule?.id || nodeOperator.stakingModuleId;
+  const stakingModuleId = stakingModule?.stakingModuleId;
 
   return [
     { label: "Node Operator ID", value: `#${nodeOperator.nodeOperatorId}` },
-    { label: "Name", value: nodeOperator.name || "--" },
+    { label: "Name", value: nodeOperator.name },
     {
       label: "Staking Module",
       value: (
         <ColoredInterLink to={`/staking/modules/${stakingModuleId}`}>
-          {stakingModule?.name || "--"}
+          {stakingModule?.name}
         </ColoredInterLink>
       ),
     },
@@ -117,9 +124,15 @@ function toNorNodeOperatorDetailItems(nodeOperator, stakingModule) {
     },
     {
       label: "Vetted Signing Keys",
-      value: isNil(nodeOperator.vettedSigningKeysCount)
+      value: isNil(
+        nodeOperator.vettedSigningKeysCount ??
+          nodeOperator.approvedValidatorsCount,
+      )
         ? "--"
-        : toLidoBlockNumber(nodeOperator.vettedSigningKeysCount),
+        : toLidoBlockNumber(
+            nodeOperator.vettedSigningKeysCount ??
+              nodeOperator.approvedValidatorsCount,
+          ),
     },
     {
       label: (

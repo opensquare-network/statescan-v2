@@ -2,27 +2,52 @@ import { gql } from "@apollo/client";
 
 export const GET_LIDO_NODE_OPERATORS = gql`
   query GetLidoNodeOperators(
-    $first: Int!
-    $where: NodeOperator_filter
-    $orderBy: NodeOperator_orderBy
-    $orderDirection: OrderDirection
+    $stakingModuleId: Int
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
     nodeOperators(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+      stakingModuleId: $stakingModuleId
+      limit: $limit
+      offset: $offset
+      filter: $filter
+    ) {
+      items {
+        active
+        approvedValidatorsCount
+        extendedManagerPermissions
+        managerAddress
+        name
+        nodeOperatorId
+        rewardAddress
+        stakingModuleId
+      }
+      total
+      offset
+      limit
+    }
+  }
+`;
+
+export const GET_LIDO_SERVER_NODE_OPERATOR = gql`
+  query GetLidoServerNodeOperator(
+    $stakingModuleId: Int!
+    $nodeOperatorId: Int!
+  ) {
+    nodeOperator(
+      stakingModuleId: $stakingModuleId
+      nodeOperatorId: $nodeOperatorId
     ) {
       active
+      approvedValidatorsCount
       extendedManagerPermissions
-      id
       managerAddress
       name
       nodeOperatorId
       rewardAddress
-      rewardsDistributedShares
       stakingModuleId
-      vettedSigningKeysCount
+      timeline
     }
   }
 `;

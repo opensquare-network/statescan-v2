@@ -60,7 +60,7 @@ function toTimelineItem({ name, event, rows }) {
     event,
     rows,
     indexer: {
-      blockTime: toLidoTimestamp(event?.blockTime || event?.requestTime),
+      blockTime: toLidoTimestamp(event?.requestTime),
       blockHeight: event?.blockNumber,
       txHash: event?.txHash,
     },

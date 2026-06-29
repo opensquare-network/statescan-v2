@@ -25,38 +25,22 @@ export const GET_LIDO_REWARDS_VAULT_ETH_RECEIVED = gql`
 
 export const GET_LIDO_VAULTS = gql`
   query GetLidoVaults(
-    $first: Int!
-    $where: Vault_filter
-    $orderBy: Vault_orderBy
-    $orderDirection: OrderDirection
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    vaults(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      id
-      nodeOperator
-      reserveRatioBP
-      status
-      statusOrder
-      updatedAtBlock
-      timelines {
-        eventType
-        txHash
-        blockTime
+    vaultHubVaults(limit: $limit, offset: $offset, filter: $filter) {
+      items {
+        vault
+        nodeOperator
+        reserveRatioBP
+        status
+        lastReport
+        timeline
       }
-      lastReport {
-        blockTime
-        blockNumber
-        id
-        inOutDelta
-        logIndex
-        timestamp
-        totalValue
-        txHash
-      }
+      total
+      offset
+      limit
     }
   }
 `;

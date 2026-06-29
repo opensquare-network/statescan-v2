@@ -1,30 +1,20 @@
-import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { GET_LIDO_STAKING_MODULES } from "../../services/gql/lido";
-import { useLidoStakingRouterQuery } from "./useLidoQuery";
+import { GET_LIDO_SERVER_STAKING_MODULE } from "../../services/gql/lido";
+import { useLidoServerQuery } from "./useLidoQuery";
 
 export function useLidoStakingModuleData() {
   const { stakingModuleId = "" } = useParams();
-  const variables = useMemo(
-    () => ({
-      first: 1,
-      where: {
-        id: String(stakingModuleId),
-      },
-      orderBy: "stakingModuleId",
-      orderDirection: "asc",
-    }),
-    [stakingModuleId],
-  );
 
-  const queryResult = useLidoStakingRouterQuery(GET_LIDO_STAKING_MODULES, {
-    variables,
+  const queryResult = useLidoServerQuery(GET_LIDO_SERVER_STAKING_MODULE, {
+    variables: {
+      stakingModuleId: Number(stakingModuleId),
+    },
     skip: !stakingModuleId,
   });
 
   return {
     ...queryResult,
-    data: queryResult.data?.stakingModules?.[0] || null,
+    data: queryResult.data?.stakingModule || null,
     stakingModuleId,
   };
 }

@@ -16,6 +16,8 @@ import { useLidoStakingOverviewData } from "../../hooks/lido/useLidoStakingOverv
 import { useLidoStakingModulesData } from "../../hooks/lido/useLidoStakingModulesData";
 import { useLidoStakingRouterETHDepositedsData } from "../../hooks/lido/useLidoStakingRouterETHDepositedsData";
 import { useLidoVaultsData } from "../../hooks/lido/useLidoVaultsData";
+import { GET_LIDO_STAKING_TOTALS } from "../../services/gql/lido";
+import { useLidoServerQuery } from "../../hooks/lido/useLidoQuery";
 
 function formatFee(value, precisionPoints) {
   if (value == null || precisionPoints == null) {
@@ -132,10 +134,12 @@ function LidoStakingVaultsTab() {
 
 export default function LidoStaking() {
   const breadCrumb = <BreadCrumb data={[{ name: "Staking" }]} />;
+  const { data: totals } = useLidoServerQuery(GET_LIDO_STAKING_TOTALS);
   const tabs = [
     {
       name: "Modules",
       value: "modules",
+      count: totals?.stakingModules?.total,
       children: <LidoStakingModulesTab />,
     },
     {
@@ -146,6 +150,7 @@ export default function LidoStaking() {
     {
       name: "Vaults",
       value: "vaults",
+      count: totals?.vaultHubVaults?.total,
       children: <LidoStakingVaultsTab />,
     },
   ];

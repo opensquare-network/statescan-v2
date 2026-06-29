@@ -4,9 +4,7 @@ import Timeline from "../../timeline";
 import TimelineItemFields from "../../timeline/itemFields";
 import TimelineItemIcon from "../../timeline/itemIcon";
 import { toAddressRow, toBpRow, toIntegerRow } from "../timelineRows";
-import { useLidoStakingModuleTimelineData } from "../../../hooks/lido/useLidoStakingModuleTimelineData";
 import { toLidoTimestamp } from "../../../utils/viewFuncs/lido";
-import { sortTimelineEvents } from "../stakingVault/utils";
 
 const StakingModuleTimelineItemFields = styled(TimelineItemFields)`
   > div > div:first-child {
@@ -28,9 +26,7 @@ const StakingModuleTimelineItemFields = styled(TimelineItemFields)`
   }
 `;
 
-function toAddedRows(event) {
-  const payload = event.stakingModuleAdded;
-
+function toAddedRows(payload) {
   return [
     payload?.stakingModuleId && ["Module ID", payload.stakingModuleId],
     payload?.name && ["Name", payload.name],
@@ -39,9 +35,7 @@ function toAddedRows(event) {
   ].filter(Boolean);
 }
 
-function toFeesSetRows(event) {
-  const payload = event.stakingModuleFeesSet;
-
+function toFeesSetRows(payload) {
   return [
     toAddressRow("Set By", payload?.setBy),
     toBpRow("Staking Module Fee", payload?.stakingModuleFee),
@@ -49,18 +43,14 @@ function toFeesSetRows(event) {
   ].filter(Boolean);
 }
 
-function toMaxDepositsPerBlockRows(event) {
-  const payload = event.stakingModuleMaxDepositsPerBlockSet;
-
+function toMaxDepositsPerBlockRows(payload) {
   return [
     toAddressRow("Set By", payload?.setBy),
     toIntegerRow("Max Deposits Per Block", payload?.maxDepositsPerBlock),
   ].filter(Boolean);
 }
 
-function toMinDepositBlockDistanceRows(event) {
-  const payload = event.stakingModuleMinDepositBlockDistanceSet;
-
+function toMinDepositBlockDistanceRows(payload) {
   return [
     toAddressRow("Set By", payload?.setBy),
     toIntegerRow(
@@ -70,9 +60,7 @@ function toMinDepositBlockDistanceRows(event) {
   ].filter(Boolean);
 }
 
-function toShareLimitRows(event) {
-  const payload = event.stakingModuleShareLimitSet;
-
+function toShareLimitRows(payload) {
   return [
     toAddressRow("Set By", payload?.setBy),
     toBpRow("Stake Share Limit", payload?.stakeShareLimit),
@@ -83,18 +71,14 @@ function toShareLimitRows(event) {
   ].filter(Boolean);
 }
 
-function toTargetShareRows(event) {
-  const payload = event.stakingModuleTargetShareSet;
-
+function toTargetShareRows(payload) {
   return [
     toAddressRow("Set By", payload?.setBy),
     toBpRow("Target Share", payload?.targetShare),
   ].filter(Boolean);
 }
 
-function toStatusSetRows(event) {
-  const payload = event.stakingModuleStatusSet;
-
+function toStatusSetRows(payload) {
   return [
     toAddressRow("Set By", payload?.setBy),
     !isNil(payload?.status) && ["Status", payload.status],
@@ -102,19 +86,31 @@ function toStatusSetRows(event) {
 }
 
 function toEventRows(event) {
-  if (event.stakingModuleAdded) {
+  if (event.eventName === "StakingModuleAdded") {
     return toAddedRows(event);
-  } else if (event.stakingModuleFeesSet) {
+  }
+
+  if (event.eventName === "StakingModuleFeesSet") {
     return toFeesSetRows(event);
-  } else if (event.stakingModuleMaxDepositsPerBlockSet) {
+  }
+
+  if (event.eventName === "StakingModuleMaxDepositsPerBlockSet") {
     return toMaxDepositsPerBlockRows(event);
-  } else if (event.stakingModuleMinDepositBlockDistanceSet) {
+  }
+
+  if (event.eventName === "StakingModuleMinDepositBlockDistanceSet") {
     return toMinDepositBlockDistanceRows(event);
-  } else if (event.stakingModuleShareLimitSet) {
+  }
+
+  if (event.eventName === "StakingModuleShareLimitSet") {
     return toShareLimitRows(event);
-  } else if (event.stakingModuleTargetShareSet) {
+  }
+
+  if (event.eventName === "StakingModuleTargetShareSet") {
     return toTargetShareRows(event);
-  } else if (event.stakingModuleStatusSet) {
+  }
+
+  if (event.eventName === "StakingModuleStatusSet") {
     return toStatusSetRows(event);
   }
 
@@ -123,22 +119,19 @@ function toEventRows(event) {
 
 function toTimelineItem(event) {
   return {
-    name: event.eventType || "--",
+    name: event.eventName,
     event,
     rows: toEventRows(event),
     indexer: {
-      blockTime: toLidoTimestamp(event.blockTime),
-      blockHeight: event.blockNumber,
-      txHash: event.txHash,
+      blockTime: toLidoTimestamp(event.indexer?.blockTimestamp),
+      blockHeight: event.indexer?.blockNumber,
+      txHash: event.indexer?.txHash,
     },
   };
 }
 
-export default function LidoStakingModuleTimeline({ stakingModuleId }) {
-  const { data, loading } = useLidoStakingModuleTimelineData(stakingModuleId);
-  const timeline = sortTimelineEvents(data).map((event) =>
-    toTimelineItem(event),
-  );
+export default function LidoStakingModuleTimeline({ events = [], loading }) {
+  const timeline = events.map((event) => toTimelineItem(event));
 
   return (
     <Timeline

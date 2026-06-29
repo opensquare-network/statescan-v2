@@ -1,24 +1,17 @@
-import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { GET_LIDO_VAULT } from "../../services/gql/lido";
-import { useLidoQuery } from "./useLidoQuery";
+import { useLidoServerQuery } from "./useLidoQuery";
 
 export function useLidoVaultData() {
   const { vaultId = "" } = useParams();
-  const variables = useMemo(
-    () => ({
+
+  const queryResult = useLidoServerQuery(GET_LIDO_VAULT, {
+    variables: {
       first: 1,
       where: {
-        id: String(vaultId),
+        id: vaultId.toLowerCase(),
       },
-      orderBy: "updatedAtBlock",
-      orderDirection: "desc",
-    }),
-    [vaultId],
-  );
-
-  const queryResult = useLidoQuery(GET_LIDO_VAULT, {
-    variables,
+    },
     skip: !vaultId,
   });
 

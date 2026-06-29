@@ -5,7 +5,6 @@ import TimelineItemFields from "../../timeline/itemFields";
 import TimelineItemIcon from "../../timeline/itemIcon";
 import { toAddressRow, toIntegerRow } from "../timelineRows";
 import { toLidoTimestamp } from "../../../utils/viewFuncs/lido";
-import { sortTimelineEvents } from "../stakingVault/utils";
 
 const NodeOperatorTimelineItemFields = styled(TimelineItemFields)`
   > div > div:first-child {
@@ -27,17 +26,13 @@ const NodeOperatorTimelineItemFields = styled(TimelineItemFields)`
   }
 `;
 
-function toActiveSetRows(event) {
-  const payload = event.nodeOperatorActiveSet;
-
+function toActiveSetRows(payload) {
   return [!isNil(payload?.active) && ["Active", String(payload.active)]].filter(
     Boolean,
   );
 }
 
-function toAddedRows(event) {
-  const payload = event.nodeOperatorAdded;
-
+function toAddedRows(payload) {
   return [
     toIntegerRow("Node Operator ID", payload?.nodeOperatorId),
     payload?.name && ["Name", payload.name],
@@ -51,29 +46,39 @@ function toAddedRows(event) {
   ].filter(Boolean);
 }
 
-function toNameSetRows(event) {
-  const payload = event.nodeOperatorNameSet;
-
+function toNameSetRows(payload) {
   return [payload?.name && ["Name", payload.name]].filter(Boolean);
 }
 
-function toVettedSigningKeysCountChangedRows(event) {
-  const payload = event.nodeOperatorVettedSigningKeysCountChanged;
-
+function toVettedSigningKeysCountChangedRows(payload) {
   return [
     toIntegerRow("Vetted Signing Keys Count", payload?.vettedSigningKeysCount),
   ].filter(Boolean);
 }
 
+function toServerVettedSigningKeysCountPayload(event) {
+  return {
+    vettedSigningKeysCount: event.approvedValidatorsCount,
+  };
+}
+
 function toEventRows(event) {
-  if (event.nodeOperatorActiveSet) {
+  if (event.eventName === "NodeOperatorActiveSet") {
     return toActiveSetRows(event);
-  } else if (event.nodeOperatorAdded) {
+  }
+
+  if (event.eventName === "NodeOperatorAdded") {
     return toAddedRows(event);
-  } else if (event.nodeOperatorNameSet) {
+  }
+
+  if (event.eventName === "NodeOperatorNameSet") {
     return toNameSetRows(event);
-  } else if (event.nodeOperatorVettedSigningKeysCountChanged) {
-    return toVettedSigningKeysCountChangedRows(event);
+  }
+
+  if (event.eventName === "NodeOperatorVettedSigningKeysCountChanged") {
+    return toVettedSigningKeysCountChangedRows(
+      toServerVettedSigningKeysCountPayload(event),
+    );
   }
 
   return [];
@@ -81,21 +86,19 @@ function toEventRows(event) {
 
 function toTimelineItem(event) {
   return {
-    name: event.eventType || "--",
+    name: event.eventName,
     event,
     rows: toEventRows(event),
     indexer: {
-      blockTime: toLidoTimestamp(event.blockTime),
-      blockHeight: event.blockNumber,
-      txHash: event.txHash,
+      blockTime: toLidoTimestamp(event.indexer?.blockTimestamp),
+      blockHeight: event.indexer?.blockNumber,
+      txHash: event.indexer?.txHash,
     },
   };
 }
 
 export default function LidoNodeOperatorTimeline({ data = [], loading }) {
-  const timeline = sortTimelineEvents(data).map((event) =>
-    toTimelineItem(event),
-  );
+  const timeline = data.map((event) => toTimelineItem(event));
 
   return (
     <Timeline

@@ -111,9 +111,9 @@ function toTimelineItem({ name, event, rows }) {
 
 export default function LidoWithdrawalTimeline({ withdrawal }) {
   const chainSettings = useChainSettings();
-  const timeline = (withdrawal?.timeline || []).map((event) =>
+  const timeline = withdrawal.timeline.map((event) =>
     toTimelineItem({
-      name: EVENT_NAMES[event.eventName] || event.eventName,
+      name: EVENT_NAMES[event.eventName],
       event,
       rows: toRows(event, chainSettings),
     }),

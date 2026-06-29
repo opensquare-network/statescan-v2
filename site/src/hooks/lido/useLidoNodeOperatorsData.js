@@ -1,44 +1,28 @@
-import last from "lodash.last";
 import { GET_LIDO_NODE_OPERATORS } from "../../services/gql/lido";
-import { useQueryParams } from "../useQueryParams";
-import { useLidoListVariables } from "./useLidoListVariables";
-import { useLidoStakingRouterQuery } from "./useLidoQuery";
-import { encodeCursor } from "./utils";
-
-const DEFAULT_SORT = "nodeOperatorId_asc";
+import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
+import { useLidoServerQuery } from "./useLidoQuery";
 
 export function useLidoNodeOperatorsData(stakingModuleId) {
-  const { cursor } = useQueryParams({ parseNumbers: false });
-  const { variables, pageSize } = useLidoListVariables({
-    sortQuery: DEFAULT_SORT,
-    cursor,
-    where: {
-      ...(stakingModuleId
-        ? {
-            stakingModuleId: String(stakingModuleId),
-          }
-        : {}),
+  const queryResult = useLidoServerQuery(GET_LIDO_NODE_OPERATORS, {
+    variables: {
+      stakingModuleId: Number(stakingModuleId),
+      limit: LIST_DEFAULT_PAGE_SIZE,
+      offset: 0,
     },
-    timeDimensionParams: {},
-  });
-
-  const queryResult = useLidoStakingRouterQuery(GET_LIDO_NODE_OPERATORS, {
-    variables,
     skip: !stakingModuleId,
   });
+  const data = queryResult.data?.nodeOperators;
 
-  const queryData = queryResult.data || queryResult.previousData;
-  const items = queryData?.nodeOperators || [];
-  const hasNextPage = items.length === pageSize;
-  const nextCursor = hasNextPage
-    ? encodeCursor(last(items), variables.orderBy)
-    : null;
+  if (!data) {
+    return queryResult;
+  }
 
   return {
     ...queryResult,
     data: {
-      items,
-      nextCursor,
+      ...data,
+      offset: 0,
+      limit: LIST_DEFAULT_PAGE_SIZE,
     },
   };
 }

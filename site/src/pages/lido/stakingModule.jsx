@@ -18,7 +18,6 @@ import {
   isNorModule,
   toOptionalBlockNumber,
 } from "../../components/lido/stakingModule/utils";
-import { sortTimelineEvents } from "../../components/lido/stakingVault/utils";
 import Loading from "../../components/loadings/loading";
 import NoData from "../../components/noData";
 import { Panel } from "../../components/styled/panel";
@@ -32,20 +31,19 @@ const TabPanel = styled(Panel)`
 `;
 
 function toStakingModuleDetailItems(module) {
-  const latestTimeline = sortTimelineEvents(module.timelines).at(-1);
+  const moduleAddress = module.stakingModule;
+  const latestTimeline = module.timeline?.at(-1);
 
   return [
     { label: "Module ID", value: module.stakingModuleId },
-    { label: "Module Name", value: module.name || "--" },
+    { label: "Module Name", value: module.name },
     {
       label: "Module Address",
-      value: <EvmAddress address={module.moduleAddress} />,
+      value: <EvmAddress address={moduleAddress} />,
     },
     isNorModule(module) && {
       label: "stETH Balance",
-      value: (
-        <LidoStakingModuleStEthBalance moduleAddress={module.moduleAddress} />
-      ),
+      value: <LidoStakingModuleStEthBalance moduleAddress={moduleAddress} />,
     },
     {
       label: "Status",
@@ -63,8 +61,10 @@ function toStakingModuleDetailItems(module) {
     },
     {
       label: "Updated Time",
-      value: latestTimeline?.blockTime ? (
-        <DetailedTime ts={toLidoTimestamp(latestTimeline.blockTime)} />
+      value: latestTimeline?.indexer?.blockTimestamp ? (
+        <DetailedTime
+          ts={toLidoTimestamp(latestTimeline.indexer?.blockTimestamp)}
+        />
       ) : (
         "--"
       ),
@@ -146,7 +146,7 @@ export default function LidoStakingModule() {
       value: "timeline",
       children: (
         <TabPanel>
-          <LidoStakingModuleTimeline stakingModuleId={stakingModuleId} />
+          <LidoStakingModuleTimeline events={data.timeline} />
         </TabPanel>
       ),
     },

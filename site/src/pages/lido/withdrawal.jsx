@@ -46,7 +46,7 @@ function toTime(blockTime) {
 
 function toWithdrawalDetailItems(withdrawal, chainSettings) {
   const { decimals, symbol } = chainSettings;
-  const indexer = withdrawal.indexer || {};
+  const indexer = withdrawal.indexer;
 
   return [
     {
