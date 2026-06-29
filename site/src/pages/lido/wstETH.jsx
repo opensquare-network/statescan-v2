@@ -11,22 +11,21 @@ import { LidoWstETHHoldersTable } from "./holders";
 import { LidoWstETHUnwrapsTable, LidoWstETHWrapsTable } from "./wstETHWraps";
 import { LIDO_WSTETH_ADDRESS } from "../../services/evm/lido";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
-import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
+import { useLidoWstEthHolderCountData } from "../../hooks/lido/useLidoProtocolStatData";
 import {
   formatCount,
   OnchainAmount,
   RateValue,
 } from "../../components/lido/home/metrics";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
-
-const WSTETH_HOLDER_COUNT_STAT_ID = "wstETHHolderCount";
+import { GET_LIDO_WSTETH_TOTALS } from "../../services/gql/lido";
+import { useLidoServerQuery } from "../../hooks/lido/useLidoQuery";
 
 function LidoWstETHSummary() {
   const { decimals } = useChainSettings();
   const { data, loading } = useLidoOnchainStatsData();
-  const { data: holders, loading: holdersLoading } = useLidoProtocolStatData(
-    WSTETH_HOLDER_COUNT_STAT_ID,
-  );
+  const { data: holders, loading: holdersLoading } =
+    useLidoWstEthHolderCountData();
   const listData = [
     {
       label: "Total Supply",
@@ -90,20 +89,24 @@ function LidoWstETHSummary() {
 
 export default function LidoWstETH() {
   const breadCrumb = <BreadCrumb data={[{ name: "wstETH" }]} />;
+  const { data: totals } = useLidoServerQuery(GET_LIDO_WSTETH_TOTALS);
   const tabs = [
     {
       name: "Wrap",
       value: "wrap",
+      count: totals?.wrap?.total,
       children: <LidoWstETHWrapsTable />,
     },
     {
       name: "Unwrap",
       value: "unwrap",
+      count: totals?.unwrap?.total,
       children: <LidoWstETHUnwrapsTable />,
     },
     {
       name: "Holders",
       value: "holders",
+      count: totals?.wstethHolders?.total,
       children: <LidoWstETHHoldersTable />,
     },
     {

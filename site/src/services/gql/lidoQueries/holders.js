@@ -15,21 +15,15 @@ export const GET_LIDO_STETH_HOLDERS = gql`
 `;
 
 export const GET_LIDO_WSTETH_HOLDERS = gql`
-  query GetLidoWstETHHolders(
-    $first: Int!
-    $where: WstETHHolder_filter
-    $orderBy: WstETHHolder_orderBy
-    $orderDirection: OrderDirection
-  ) {
-    wstETHHolders(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      balance
-      id
-      updatedAtTime
+  query GetLidoWstETHHolders($limit: Int!, $offset: Int!) {
+    wstethHolders(limit: $limit, offset: $offset) {
+      items {
+        address
+        balance
+      }
+      total
+      offset
+      limit
     }
   }
 `;
@@ -43,6 +37,20 @@ export const GET_LIDO_STETH_TOTALS = gql`
       total
     }
     stethHolders(limit: 1, offset: 0) {
+      total
+    }
+  }
+`;
+
+export const GET_LIDO_WSTETH_TOTALS = gql`
+  query GetLidoWstETHTotals {
+    wrap(limit: 1, offset: 0) {
+      total
+    }
+    unwrap(limit: 1, offset: 0) {
+      total
+    }
+    wstethHolders(limit: 1, offset: 0) {
       total
     }
   }

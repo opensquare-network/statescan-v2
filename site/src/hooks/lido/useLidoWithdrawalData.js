@@ -6,7 +6,7 @@ export function useLidoWithdrawalData() {
   const { requestId } = useParams();
   const queryResult = useLidoServerQuery(GET_LIDO_WITHDRAWAL, {
     variables: {
-      requestId: requestId,
+      requestId: Number(requestId),
     },
     skip: !requestId,
   });

@@ -4,7 +4,6 @@ import Filter from "../../components/filter";
 import SearchIcon from "../../components/icons/searchIcon";
 import Layout from "../../components/layout";
 import EvmAddress from "../../components/lido/evmAddress";
-import EvmPagination from "../../components/lido/evmPagination";
 import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import Table from "../../components/table";
@@ -167,12 +166,19 @@ export function LidoStETHHolders() {
 }
 
 export function LidoWstETHHoldersTable() {
+  const { page = 1 } = useQueryParams();
   const { data, loading } = useLidoWstETHHoldersData();
   const tableData = toWstEthHoldersTableData(data?.items);
 
   return (
     <HoldersTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
       <Table heads={wstEthHoldersHead} data={tableData} loading={loading} />
     </HoldersTableWrapper>

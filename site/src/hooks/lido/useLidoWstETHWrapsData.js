@@ -1,46 +1,41 @@
-import { EMPTY_OBJECT } from "../../utils/constants";
 import {
   GET_LIDO_WSTETH_UNWRAPS,
   GET_LIDO_WSTETH_WRAPS,
 } from "../../services/gql/lido";
-import { useLidoList } from "./useLidoList";
 import { useLidoListQueryParams } from "./useLidoListQueryParams";
-import { pickLidoFilters } from "./utils";
+import { useLidoServerQuery } from "./useLidoQuery";
+import {
+  getLidoServerIndexerFilter,
+  useLidoServerListVariables,
+} from "./useLidoListVariables";
 
-function useLidoWstETHWrapEventsData({ query, field, filters = EMPTY_OBJECT }) {
-  const {
-    cursor,
-    txHash,
-    sortQuery,
-    params: { address },
-    timeDimensionParams,
-  } = useLidoListQueryParams();
-
-  return useLidoList({
-    query,
-    field,
-    sortQuery,
-    cursor,
-    where: pickLidoFilters({
-      address: String(filters.address ?? address ?? ""),
-      txHash,
-    }),
-    timeDimensionParams,
+function useLidoWstETHWrapEventsData({ query, field }) {
+  const { txHash, timeDimensionParams } = useLidoListQueryParams();
+  const variables = useLidoServerListVariables({
+    variables: {
+      filter: getLidoServerIndexerFilter({ txHash, timeDimensionParams }),
+    },
   });
+  const queryResult = useLidoServerQuery(query, {
+    variables,
+  });
+
+  return {
+    ...queryResult,
+    data: queryResult.data?.[field],
+  };
 }
 
-export function useLidoWstETHWrapsData(options = EMPTY_OBJECT) {
+export function useLidoWstETHWrapsData() {
   return useLidoWstETHWrapEventsData({
     query: GET_LIDO_WSTETH_WRAPS,
-    field: "wstETHWraps",
-    filters: options.filters,
+    field: "wrap",
   });
 }
 
-export function useLidoWstETHUnwrapsData(options = EMPTY_OBJECT) {
+export function useLidoWstETHUnwrapsData() {
   return useLidoWstETHWrapEventsData({
     query: GET_LIDO_WSTETH_UNWRAPS,
-    field: "wstETHUnwraps",
-    filters: options.filters,
+    field: "unwrap",
   });
 }

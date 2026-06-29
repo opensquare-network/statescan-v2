@@ -1,6 +1,7 @@
 import {
   GET_LIDO_PROTOCOL_STAT,
   GET_LIDO_STETH_TOTALS,
+  GET_LIDO_WSTETH_TOTALS,
 } from "../../services/gql/lido";
 import { useLidoQuery, useLidoServerQuery } from "./useLidoQuery";
 
@@ -22,6 +23,19 @@ export function useLidoProtocolStatData(id) {
 export function useLidoStEthHolderCountData() {
   const queryResult = useLidoServerQuery(GET_LIDO_STETH_TOTALS);
   const total = queryResult.data?.stethHolders?.total;
+
+  return {
+    ...queryResult,
+    data: {
+      count: total,
+      value: total,
+    },
+  };
+}
+
+export function useLidoWstEthHolderCountData() {
+  const queryResult = useLidoServerQuery(GET_LIDO_WSTETH_TOTALS);
+  const total = queryResult.data?.wstethHolders?.total;
 
   return {
     ...queryResult,
