@@ -46,117 +46,21 @@ export const GET_LIDO_VAULTS = gql`
 `;
 
 export const GET_LIDO_VAULT = gql`
-  query GetLidoVault(
-    $first: Int!
-    $where: Vault_filter
-    $orderBy: Vault_orderBy
-    $orderDirection: OrderDirection
-  ) {
-    vaults(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      admin
+  query GetLidoVault($vault: String!) {
+    vaultHubVault(vault: $vault) {
+      vault
       dashboard
+      admin
+      nodeOperator
+      status
+      shareLimit
+      reserveRatioBP
       forcedRebalanceThresholdBP
-      id
       infraFeeBP
       liquidityFeeBP
-      nodeOperator
       reservationFeeBP
-      reserveRatioBP
-      shareLimit
-      status
-      updatedAtBlock
-      lastReport {
-        blockNumber
-        blockTime
-        id
-        inOutDelta
-        logIndex
-        timestamp
-        totalValue
-        txHash
-      }
-      timelines {
-        eventType
-        txHash
-        blockTime
-        blockNumber
-        id
-        logIndex
-        vaultAddress
-        dashboardCreated {
-          admin
-          blockNumber
-          blockTime
-          dashboard
-          id
-          logIndex
-          txHash
-        }
-        vaultConnected {
-          blockNumber
-          blockTime
-          id
-          infraFeeBP
-          liquidityFeeBP
-          logIndex
-          rebalanceThresholdBP
-          reservationFeeBP
-          reserveRatioBP
-          shareLimit
-          txHash
-        }
-        vaultConnectionUpdated {
-          blockNumber
-          blockTime
-          id
-          logIndex
-          nodeOperator
-          rebalanceThresholdBP
-          reserveRatioBP
-          shareLimit
-          txHash
-        }
-        vaultDisconnectAborted {
-          blockNumber
-          blockTime
-          id
-          logIndex
-          slashingReserve
-          txHash
-        }
-        vaultFeesUpdated {
-          blockNumber
-          blockTime
-          id
-          infraFeeBP
-          liquidityFeeBP
-          logIndex
-          previousInfraFeeBP
-          previousLiquidityFeeBP
-          previousReservationFeeBP
-          reservationFeeBP
-          txHash
-        }
-        vaultReportApplied {
-          blockNumber
-          blockTime
-          cumulativeLidoFees
-          id
-          inOutDelta
-          liabilityShares
-          logIndex
-          maxLiabilityShares
-          slashingReserve
-          timestamp
-          totalValue
-          txHash
-        }
-      }
+      lastReport
+      timeline
     }
   }
 `;

@@ -1,7 +1,7 @@
 import ValueDisplay from "../../displayValue";
 import EvmExternalLink from "../evmExternalLink";
-import EvmPagination from "../evmPagination";
 import EvmTxHash from "../evmTxHash";
+import Pagination from "../../pagination";
 import { ColoredInterLink } from "../../styled/link";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import Table from "../../table";
@@ -12,6 +12,7 @@ import {
   toLidoTimestamp,
 } from "../../../utils/viewFuncs/lido";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 
 function getLidoStakingRouterETHDepositedsHead(showModuleId) {
   return [
@@ -60,7 +61,7 @@ function useLidoStakingRouterETHDepositedsTableData(items = [], showModuleId) {
           key={`${item.id}-module`}
           to={`/staking/modules/${item.stakingModuleId}`}
         >
-          {item.stakingModule?.name}
+          {item.stakingModule?.name || item.stakingModuleId}
         </ColoredInterLink>
       ),
       <ValueDisplay
@@ -82,10 +83,17 @@ export default function LidoStakingRouterETHDepositedsTable({
     data?.items,
     showModuleId,
   );
+  const { page = 1 } = useQueryParams();
 
   return (
     <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
       <Table
         heads={getLidoStakingRouterETHDepositedsHead(showModuleId)}

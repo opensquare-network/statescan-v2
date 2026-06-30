@@ -37,12 +37,13 @@ function toEarnListResult(queryResult, field, skip) {
   };
 }
 
-function useLidoEarnList({ query, field, type }) {
+function useLidoEarnList({ query, field, type, variables: extraVariables }) {
   const market = markets[type];
   const variables = useLidoServerListVariables({
     pageSize: EARN_LIST_PAGE_SIZE,
     variables: {
       market,
+      ...extraVariables,
     },
   });
   const shouldSkip = !market;
@@ -103,26 +104,14 @@ export function useLidoEarnVaultDepositData() {
 }
 
 export function useLidoEarnVaultQueuesData(type, isDepositQueue) {
-  const queryResult = useLidoEarnList({
+  return useLidoEarnList({
     query: GET_LIDO_EARN_VAULT_QUEUES,
     field: "earnQueues",
     type,
-  });
-  const items = queryResult.data?.items || [];
-  const hasQueueType = items.some((item) => item.isDepositQueue != null);
-  const filteredItems = items.filter(
-    (item) =>
-      item.active !== false &&
-      (!hasQueueType || item.isDepositQueue === isDepositQueue),
-  );
-
-  return {
-    ...queryResult,
-    data: queryResult.data && {
-      ...queryResult.data,
-      items: filteredItems,
+    variables: {
+      isDepositQueue,
     },
-  };
+  });
 }
 
 export function useLidoEarnSubvaultsData(type) {

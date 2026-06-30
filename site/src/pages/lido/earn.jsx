@@ -32,14 +32,16 @@ import { InlineValueSlot } from "../../components/styled/valueSlot";
 import { TextSecondary } from "../../components/styled/text";
 import { Tag, TagThemed } from "../../components/tag";
 import Table from "../../components/table";
+import { GET_LIDO_EARN_TOTALS } from "../../services/gql/lido";
+import { useLidoEarnAssets } from "../../context/lidoEarn";
 import {
   useLidoEarnSubvaultsData,
   useLidoEarnVaultDepositsData,
   useLidoEarnVaultQueuesData,
   useLidoEarnVaultRedeemsData,
 } from "../../hooks/lido/useLidoEarnData";
-import { useLidoEarnAssets } from "../../context/lidoEarn";
 import { useLidoEarnVaultStatsData } from "../../hooks/lido/useLidoEarnVaultStatsData";
+import { useLidoServerQuery } from "../../hooks/lido/useLidoQuery";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import {
   getEtherscanAddressUrl,
@@ -113,6 +115,11 @@ const ValueWrapper = styled(TextSecondary)`
 const QUEUE_TABS = {
   deposit: "deposit",
   redeem: "redeem",
+};
+
+const EARN_MARKETS = {
+  eth: "ETH",
+  usd: "USD",
 };
 
 const queueTabs = [{ name: QUEUE_TABS.deposit }, { name: QUEUE_TABS.redeem }];
@@ -452,25 +459,36 @@ function EarnRedeemsTable({ type }) {
 }
 
 function EarnTabs({ type }) {
+  const market = EARN_MARKETS[type];
+  const { data: totals } = useLidoServerQuery(GET_LIDO_EARN_TOTALS, {
+    variables: {
+      market,
+    },
+    skip: !market,
+  });
   const tabs = [
     {
       name: "Queue",
       value: "queue",
+      count: totals?.earnQueues?.total,
       children: <EarnQueueTabs type={type} />,
     },
     {
       name: "Subvault",
       value: "subvault",
+      count: totals?.earnSubvaults?.total,
       children: <EarnSubvaultTable type={type} />,
     },
     {
       name: "Deposits",
       value: "deposits",
+      count: totals?.earnDeposits?.total,
       children: <EarnDepositsTable type={type} />,
     },
     {
       name: "Redeems",
       value: "redeems",
+      count: totals?.earnRedeems?.total,
       children: <EarnRedeemsTable type={type} />,
     },
   ];

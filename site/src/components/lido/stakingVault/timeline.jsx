@@ -152,7 +152,7 @@ function toTimelineItem(event, chainSettings) {
 
 export default function LidoStakingVaultTimeline({ vault }) {
   const chainSettings = useChainSettings();
-  const timeline = vault.timelines.map((event) =>
+  const timeline = (vault.timeline || []).map((event) =>
     toTimelineItem(event, chainSettings),
   );
 

@@ -54,7 +54,25 @@ export const GET_LIDO_STAKING_TOTALS = gql`
     stakingModules(limit: 1, offset: 0) {
       total
     }
+    stakingRouterEthDeposited(limit: 1, offset: 0) {
+      total
+    }
     vaultHubVaults(limit: 1, offset: 0) {
+      total
+    }
+  }
+`;
+
+export const GET_LIDO_STAKING_MODULE_TOTALS = gql`
+  query GetLidoStakingModuleTotals($stakingModuleId: Int!) {
+    nodeOperators(stakingModuleId: $stakingModuleId, limit: 1, offset: 0) {
+      total
+    }
+    stakingRouterEthDeposited(
+      stakingModuleId: $stakingModuleId
+      limit: 1
+      offset: 0
+    ) {
       total
     }
   }
@@ -84,6 +102,37 @@ export const GET_LIDO_STAKING_ROUTER_ETH_DEPOSITEDS = gql`
       }
       stakingModuleId
       txHash
+    }
+  }
+`;
+
+export const GET_LIDO_SERVER_STAKING_ROUTER_ETH_DEPOSITED = gql`
+  query GetLidoServerStakingRouterEthDeposited(
+    $stakingModuleId: Int
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
+  ) {
+    stakingRouterEthDeposited(
+      stakingModuleId: $stakingModuleId
+      limit: $limit
+      offset: $offset
+      filter: $filter
+    ) {
+      items {
+        amount
+        eventName
+        stakingModuleId
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;

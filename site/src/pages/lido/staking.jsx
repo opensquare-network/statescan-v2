@@ -145,6 +145,7 @@ export default function LidoStaking() {
     {
       name: "Module Deposits",
       value: "module-deposits",
+      count: totals?.stakingRouterEthDeposited?.total,
       children: <LidoModuleDepositsTab />,
     },
     {

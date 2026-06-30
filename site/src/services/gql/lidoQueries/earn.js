@@ -167,12 +167,14 @@ export const GET_LIDO_EARN_VAULT_DEPOSIT = gql`
 export const GET_LIDO_EARN_VAULT_QUEUES = gql`
   query GetLidoEarnVaultQueues(
     $market: EarnMarket
+    $isDepositQueue: Boolean
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
   ) {
     earnQueues(
       market: $market
+      isDepositQueue: $isDepositQueue
       limit: $limit
       offset: $offset
       filter: $filter
@@ -200,14 +202,29 @@ export const GET_LIDO_EARN_VAULT_QUEUES = gql`
   }
 `;
 
+export const GET_LIDO_EARN_TOTALS = gql`
+  query GetLidoEarnTotals($market: EarnMarket) {
+    earnQueues(market: $market, limit: 1, offset: 0) {
+      total
+    }
+    earnSubvaults(market: $market, limit: 1, offset: 0) {
+      total
+    }
+    earnDeposits(market: $market, limit: 1, offset: 0) {
+      total
+    }
+    earnRedeems(market: $market, limit: 1, offset: 0) {
+      total
+    }
+  }
+`;
+
 export const GET_LIDO_EARN_ACTIVE_QUEUES = gql`
-  query GetLidoEarnActiveQueues($first: Int!, $where: EarnVaultQueue_filter) {
-    earnVaultQueues(first: $first, where: $where) {
-      asset
-      blockTime
-      id
-      logIndex
-      txHash
+  query GetLidoEarnActiveQueues($active: Boolean, $limit: Int!, $offset: Int!) {
+    earnQueues(active: $active, limit: $limit, offset: $offset) {
+      items {
+        asset
+      }
     }
   }
 `;

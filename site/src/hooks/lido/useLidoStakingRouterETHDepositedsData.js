@@ -1,37 +1,60 @@
-import { GET_LIDO_STAKING_ROUTER_ETH_DEPOSITEDS } from "../../services/gql/lido";
-import { useLidoStakingRouterQuery } from "./useLidoQuery";
-import { useLidoListVariables } from "./useLidoListVariables";
+import { GET_LIDO_SERVER_STAKING_ROUTER_ETH_DEPOSITED } from "../../services/gql/lido";
+import { useLidoServerQuery } from "./useLidoQuery";
+import {
+  getLidoServerIndexerFilter,
+  useLidoServerListVariables,
+} from "./useLidoListVariables";
 import { useLidoListQueryParams } from "./useLidoListQueryParams";
-import { toLidoListQueryResult } from "./utils";
+import { pickLidoFilters } from "./utils";
+
+function toStakingRouterEthDepositedItem(item) {
+  const rowKey = [item.indexer?.txHash, item.indexer?.logIndex]
+    .filter(Boolean)
+    .join("-");
+
+  return {
+    ...item,
+    blockNumber: item.indexer?.blockNumber,
+    blockTime: item.indexer?.blockTimestamp,
+    id: rowKey,
+    logIndex: item.indexer?.logIndex,
+    txHash: item.indexer?.txHash,
+  };
+}
+
+function toServerStakingRouterEthDepositedResult(queryResult) {
+  const queryData = queryResult.data || queryResult.previousData;
+  const data = queryData?.stakingRouterEthDeposited;
+
+  return {
+    ...queryResult,
+    data: data && {
+      ...data,
+      items: (data.items || []).map(toStakingRouterEthDepositedItem),
+    },
+  };
+}
 
 export function useLidoStakingRouterETHDepositedsData(fixedStakingModuleId) {
   const {
-    cursor,
-    sortQuery,
     txHash,
     params: { stakingModuleId = "" },
     timeDimensionParams,
   } = useLidoListQueryParams();
   const moduleId = fixedStakingModuleId || stakingModuleId;
-  const { variables, pageSize } = useLidoListVariables({
-    sortQuery,
-    cursor,
-    where: {
-      ...(moduleId ? { stakingModuleId: String(moduleId) } : {}),
-      ...(txHash ? { txHash } : {}),
-    },
-    timeDimensionParams,
+  const serverVariables = useLidoServerListVariables({
+    variables: pickLidoFilters({
+      stakingModuleId: moduleId ? Number(moduleId) : undefined,
+      filter: getLidoServerIndexerFilter({ txHash, timeDimensionParams }),
+    }),
   });
 
-  const queryResult = useLidoStakingRouterQuery(
-    GET_LIDO_STAKING_ROUTER_ETH_DEPOSITEDS,
-    { variables },
+  const serverQueryResult = useLidoServerQuery(
+    GET_LIDO_SERVER_STAKING_ROUTER_ETH_DEPOSITED,
+    {
+      variables: serverVariables,
+    },
   );
 
-  return toLidoListQueryResult(
-    queryResult,
-    "stakingRouterETHDepositeds",
-    pageSize,
-    variables.orderBy,
-  );
+  return toServerStakingRouterEthDepositedResult(serverQueryResult);
 }

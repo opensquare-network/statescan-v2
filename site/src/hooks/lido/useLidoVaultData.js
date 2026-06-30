@@ -7,17 +7,14 @@ export function useLidoVaultData() {
 
   const queryResult = useLidoServerQuery(GET_LIDO_VAULT, {
     variables: {
-      first: 1,
-      where: {
-        id: vaultId.toLowerCase(),
-      },
+      vault: vaultId.toLowerCase(),
     },
     skip: !vaultId,
   });
 
   return {
     ...queryResult,
-    data: queryResult.data?.vaults?.[0] || null,
+    data: queryResult.data?.vaultHubVault || null,
     vaultId,
   };
 }

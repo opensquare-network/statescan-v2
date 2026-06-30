@@ -7,11 +7,11 @@ import {
   useState,
 } from "react";
 import { erc20Abi, getAddress, isAddress, isAddressEqual } from "viem";
+import { LIST_DEFAULT_PAGE_SIZE } from "../utils/constants";
 import evmPublicClient from "../services/evm/client";
 import { GET_LIDO_EARN_ACTIVE_QUEUES } from "../services/gql/lido";
-import { useLidoStakingRouterQuery } from "../hooks/lido/useLidoQuery";
+import { useLidoServerQuery } from "../hooks/lido/useLidoQuery";
 
-const LIDO_EARN_ACTIVE_QUEUE_LIMIT = 1000;
 const EVM_NATIVE_ASSET_ADDRESS = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
 
 const LidoEarnContext = createContext({
@@ -65,21 +65,20 @@ export function LidoEarnProvider({ children }) {
   const [decimals, setDecimals] = useState({});
   const [metadataLoading, setMetadataLoading] = useState(false);
   const [symbols, setSymbols] = useState({});
-  const { data, loading: queuesLoading } = useLidoStakingRouterQuery(
+  const { data, loading: queuesLoading } = useLidoServerQuery(
     GET_LIDO_EARN_ACTIVE_QUEUES,
     {
       variables: {
-        first: LIDO_EARN_ACTIVE_QUEUE_LIMIT,
-        where: {
-          active: true,
-        },
+        active: true,
+        limit: LIST_DEFAULT_PAGE_SIZE,
+        offset: 0,
       },
     },
   );
   const assetAddresses = useMemo(() => {
     const uniqueAddresses = new Map();
 
-    for (const item of data?.earnVaultQueues || []) {
+    for (const item of data?.earnQueues?.items || []) {
       const normalizedAddress = getAssetAddressKey(item.asset);
 
       if (normalizedAddress && !uniqueAddresses.has(normalizedAddress)) {
