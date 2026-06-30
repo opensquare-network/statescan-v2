@@ -2,28 +2,13 @@ import {
   GET_LIDO_WSTETH_UNWRAPS,
   GET_LIDO_WSTETH_WRAPS,
 } from "../../services/gql/lido";
-import { useLidoListQueryParams } from "./useLidoListQueryParams";
-import { useLidoServerQuery } from "./useLidoQuery";
-import {
-  getLidoServerIndexerFilter,
-  useLidoServerListVariables,
-} from "./useLidoListVariables";
+import { useLidoServerListQuery } from "./useLidoList";
+import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
 
 function useLidoWstETHWrapEventsData({ query, field }) {
-  const { txHash, timeDimensionParams } = useLidoListQueryParams();
-  const variables = useLidoServerListVariables({
-    variables: {
-      filter: getLidoServerIndexerFilter({ txHash, timeDimensionParams }),
-    },
-  });
-  const queryResult = useLidoServerQuery(query, {
-    variables,
-  });
+  const variables = useLidoServerIndexerFilterVariables();
 
-  return {
-    ...queryResult,
-    data: queryResult.data?.[field],
-  };
+  return useLidoServerListQuery({ query, field, variables });
 }
 
 export function useLidoWstETHWrapsData() {

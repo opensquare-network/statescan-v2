@@ -84,30 +84,19 @@ function useLidoStakingVaultsTableData(items = []) {
 
   return items.map((item) => {
     const id = item.vault;
-    const timelines = item.timeline;
-    const reportEvent = timelines
-      .filter((event) => event.eventName === "VaultReportApplied")
-      .at(-1);
-    const report = {
-      totalValue: reportEvent?.reportTotalValue,
-      inOutDelta: reportEvent?.reportInOutDelta,
-      blockTime: reportEvent?.indexer?.blockTimestamp,
-    };
-    const vaultCreated = timelines.find((t) => t.eventName === "VaultCreated");
+    const report = item.lastReport;
 
     return [
       <span key={`${id}-id`}>{renderVaultId(id)}</span>,
-      renderValue(report?.totalValue, decimals, symbol, `${id}-total`),
+      renderValue(report?.reportTotalValue, decimals, symbol, `${id}-total`),
       <LidoInOutDelta
         key={`${id}-in-out-delta`}
-        value={report?.inOutDelta}
+        value={report?.reportInOutDelta}
         decimals={decimals}
         symbol={symbol}
       />,
       formatLidoBp(item.reserveRatioBP),
-      toLidoTimestamp(
-        report.blockTime ?? vaultCreated?.indexer?.blockTimestamp,
-      ),
+      toLidoTimestamp(report?.indexer?.blockTimestamp),
       renderAddress(id, "node-operator", item.nodeOperator),
       <LidoVaultStatus key={`${id}-status`} status={item.status} />,
     ];

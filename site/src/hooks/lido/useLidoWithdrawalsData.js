@@ -1,27 +1,19 @@
 import { GET_LIDO_WITHDRAWALS } from "../../services/gql/lido";
-import { useLidoListQueryParams } from "./useLidoListQueryParams";
-import { useLidoServerQuery } from "./useLidoQuery";
-import { pickLidoFilters } from "./utils";
-import {
-  getLidoServerIndexerFilter,
-  useLidoServerListVariables,
-} from "./useLidoListVariables";
 import { EMPTY_OBJECT } from "../../utils/constants";
+import { useLidoServerListQuery } from "./useLidoList";
+import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
+import { pickLidoFilters } from "./utils";
 
 export function useLidoWithdrawalsData(options = EMPTY_OBJECT) {
-  const { txHash, timeDimensionParams } = useLidoListQueryParams();
-  const variables = useLidoServerListVariables({
+  const variables = useLidoServerIndexerFilterVariables({
     variables: pickLidoFilters({
       status: options.filters?.status,
-      filter: getLidoServerIndexerFilter({ txHash, timeDimensionParams }),
     }),
   });
-  const queryResult = useLidoServerQuery(GET_LIDO_WITHDRAWALS, {
+
+  return useLidoServerListQuery({
+    query: GET_LIDO_WITHDRAWALS,
+    field: "withdrawals",
     variables,
   });
-
-  return {
-    ...queryResult,
-    data: queryResult.data?.withdrawals,
-  };
 }

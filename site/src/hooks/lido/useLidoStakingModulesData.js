@@ -1,16 +1,9 @@
 import { GET_LIDO_SERVER_STAKING_MODULES } from "../../services/gql/lido";
-import { useLidoServerQuery } from "./useLidoQuery";
-import { useLidoServerListVariables } from "./useLidoListVariables";
+import { useLidoServerListQuery } from "./useLidoList";
 
 export function useLidoStakingModulesData() {
-  const variables = useLidoServerListVariables();
-
-  const queryResult = useLidoServerQuery(GET_LIDO_SERVER_STAKING_MODULES, {
-    variables,
+  return useLidoServerListQuery({
+    query: GET_LIDO_SERVER_STAKING_MODULES,
+    field: "stakingModules",
   });
-
-  return {
-    ...queryResult,
-    data: queryResult.data?.stakingModules,
-  };
 }

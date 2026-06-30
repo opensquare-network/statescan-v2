@@ -64,22 +64,6 @@ const lidoTreasuryStethIncomeHead = [
   },
 ];
 
-function getTreasuryTransferValue(item) {
-  if (item?.stethTransfer) {
-    return item.stethTransfer.value;
-  }
-
-  return item?.ethTransfer?.value;
-}
-
-function getTreasuryTransferValueSymbol(item) {
-  if (item?.stethTransfer) {
-    return "stETH";
-  }
-
-  return "ETH";
-}
-
 function TreasuryIncomeAmount({ value, symbol }) {
   return (
     <ValueDisplay
@@ -95,22 +79,25 @@ function toLidoTreasuryIncomeTableData(
   { showEthFeeFields = false, showShares = false } = {},
 ) {
   return items.map((item) => {
+    const indexer = item.indexer || {};
+    const rowKey = [indexer.txHash, indexer.logIndex].filter(Boolean).join("-");
+    const symbol = showShares ? "stETH" : "ETH";
     const baseColumns = [
       <EvmExternalLink
-        href={getEtherscanBlockUrl(item.blockNumber)}
-        key={`${item.id}-block`}
+        href={getEtherscanBlockUrl(indexer.blockNumber)}
+        key={`${rowKey}-block`}
         copy={false}
       >
-        {toLidoBlockNumber(item.blockNumber)}
+        {toLidoBlockNumber(indexer.blockNumber)}
       </EvmExternalLink>,
-      toLidoTimestamp(item.blockTime),
-      <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
+      toLidoTimestamp(indexer.blockTimestamp),
+      <EvmTxHash key={`${rowKey}-tx`} txHash={indexer.txHash} copy={false} />,
     ];
     const valueColumn = (
       <TreasuryIncomeAmount
-        key={`${item.id}-value`}
-        value={getTreasuryTransferValue(item)}
-        symbol={getTreasuryTransferValueSymbol(item)}
+        key={`${rowKey}-value`}
+        value={item.value}
+        symbol={symbol}
       />
     );
 
@@ -118,8 +105,8 @@ function toLidoTreasuryIncomeTableData(
       return [
         ...baseColumns,
         <EvmAddress
-          key={`${item.id}-vault`}
-          address={item?.ethTransfer?.vault}
+          key={`${rowKey}-vault`}
+          address={item.vault}
           copy={false}
           maxWidth="150px"
         />,
@@ -132,8 +119,8 @@ function toLidoTreasuryIncomeTableData(
     if (showShares) {
       columns.push(
         <TreasuryIncomeAmount
-          key={`${item.id}-shares`}
-          value={item?.stethTransfer?.shares}
+          key={`${rowKey}-shares`}
+          value={item.shares}
           symbol="shares"
         />,
       );

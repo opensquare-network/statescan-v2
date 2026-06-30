@@ -2,29 +2,18 @@ import {
   GET_LIDO_STETH_HOLDERS,
   GET_LIDO_WSTETH_HOLDERS,
 } from "../../services/gql/lido";
-import { useLidoServerQuery } from "./useLidoQuery";
-import { useLidoServerListVariables } from "./useLidoListVariables";
+import { useLidoServerListQuery } from "./useLidoList";
 
 export function useLidoStETHHoldersData() {
-  const variables = useLidoServerListVariables();
-  const queryResult = useLidoServerQuery(GET_LIDO_STETH_HOLDERS, {
-    variables,
+  return useLidoServerListQuery({
+    query: GET_LIDO_STETH_HOLDERS,
+    field: "stethHolders",
   });
-
-  return {
-    ...queryResult,
-    data: queryResult.data?.stethHolders,
-  };
 }
 
 export function useLidoWstETHHoldersData() {
-  const variables = useLidoServerListVariables();
-  const queryResult = useLidoServerQuery(GET_LIDO_WSTETH_HOLDERS, {
-    variables,
+  return useLidoServerListQuery({
+    query: GET_LIDO_WSTETH_HOLDERS,
+    field: "wstethHolders",
   });
-
-  return {
-    ...queryResult,
-    data: queryResult.data?.wstethHolders,
-  };
 }

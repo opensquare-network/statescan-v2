@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { EMPTY_OBJECT, LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { useQueryParams } from "../useQueryParams";
+import { useLidoListQueryParams } from "./useLidoListQueryParams";
 import {
   getCursorFilter,
   getSort,
@@ -82,4 +83,19 @@ export function useLidoServerListVariables({
     offset: (page - 1) * pageSize,
     ...variables,
   };
+}
+
+export function useLidoServerIndexerFilterVariables({
+  variables = EMPTY_OBJECT,
+  txHash: fixedTxHash,
+} = EMPTY_OBJECT) {
+  const { txHash, timeDimensionParams } = useLidoListQueryParams();
+
+  return pickLidoFilters({
+    ...variables,
+    filter: getLidoServerIndexerFilter({
+      txHash: fixedTxHash ?? txHash,
+      timeDimensionParams,
+    }),
+  });
 }

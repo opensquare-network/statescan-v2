@@ -36,7 +36,6 @@ export const GET_LIDO_VAULTS = gql`
         reserveRatioBP
         status
         lastReport
-        timeline
       }
       total
       offset
