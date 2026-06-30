@@ -10,23 +10,16 @@ import Table from "../../components/table";
 import { useLidoStakingModulesFilter } from "../../hooks/filter/useLidoStakingModulesFilter";
 import { useLidoStakingModulesData } from "../../hooks/lido/useLidoStakingModulesData";
 import { useQueryParams } from "../../hooks/useQueryParams";
-import { toLidoTimestamp } from "../../utils/viewFuncs/lido";
 
 const lidoStakingModulesHead = [
   { name: "ID", width: 56 },
   { name: "Name", width: 220 },
   { name: "Module Address", width: 220 },
-  {
-    name: { time: "Updated Time", age: "Last Updated" },
-    type: "time",
-    width: 200,
-  },
   { name: "Status", align: "right", width: 170 },
 ];
 
 function toLidoStakingModulesTableData(items = []) {
   return items.map((item) => {
-    const latestTimeline = item.timeline?.at(-1);
     const moduleId = item.stakingModuleId;
     const detailPath = `/staking/modules/${moduleId}`;
 
@@ -43,7 +36,6 @@ function toLidoStakingModulesTableData(items = []) {
         copy={false}
         maxWidth="170px"
       />,
-      toLidoTimestamp(latestTimeline?.indexer?.blockTimestamp),
       <LidoStakingModuleStatus
         key={`${moduleId}-status`}
         status={item.status}

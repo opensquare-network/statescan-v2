@@ -20,7 +20,6 @@ export const GET_LIDO_SERVER_STAKING_MODULES = gql`
         priorityExitShareThreshold
         maxDepositsPerBlock
         minDepositBlockDistance
-        timeline
       }
       total
       offset
