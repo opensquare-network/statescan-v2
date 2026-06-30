@@ -1,36 +1,22 @@
-import { TABLE_SORT_QUERY_KEY } from "../../utils/constants";
 import { GET_LIDO_REWARDS_DISTRIBUTEDS } from "../../services/gql/lido";
-import { useQueryParams } from "../useQueryParams";
-import { useLidoListVariables } from "./useLidoListVariables";
-import { useLidoStakingRouterQuery } from "./useLidoQuery";
-import { toLidoListQueryResult } from "./utils";
+import { useLidoServerListQuery } from "./useLidoList";
+import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
 
 export function useLidoRewardsDistributedsData(
   stakingModuleId,
   nodeOperatorId,
 ) {
-  const { cursor, [TABLE_SORT_QUERY_KEY]: sortQuery } = useQueryParams({
-    parseNumbers: false,
-  });
-  const { variables, pageSize } = useLidoListVariables({
-    sortQuery,
-    cursor,
-    where: {
-      stakingModuleId: String(stakingModuleId),
-      nodeOperatorId: String(nodeOperatorId),
+  const variables = useLidoServerIndexerFilterVariables({
+    variables: {
+      stakingModuleId: Number(stakingModuleId),
+      nodeOperatorId: Number(nodeOperatorId),
     },
-    timeDimensionParams: {},
   });
 
-  const queryResult = useLidoStakingRouterQuery(GET_LIDO_REWARDS_DISTRIBUTEDS, {
+  return useLidoServerListQuery({
+    query: GET_LIDO_REWARDS_DISTRIBUTEDS,
+    field: "rewardsDistributeds",
     variables,
     skip: !stakingModuleId || !nodeOperatorId,
   });
-
-  return toLidoListQueryResult(
-    queryResult,
-    "rewardsDistributeds",
-    pageSize,
-    variables.orderBy,
-  );
 }

@@ -2,28 +2,30 @@ import { gql } from "@apollo/client";
 
 export const GET_LIDO_MODULE_REWARDS = gql`
   query GetLidoModuleRewards(
-    $first: Int!
-    $where: StETHSharesTransfer_filter
-    $orderBy: StETHSharesTransfer_orderBy
-    $orderDirection: OrderDirection
+    $stakingModuleId: Int
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    stETHSharesTransfers(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    stethCsmRewards(
+      stakingModuleId: $stakingModuleId
+      limit: $limit
+      offset: $offset
+      filter: $filter
     ) {
-      blockNumber
-      blockTime
-      id
-      logIndex
-      sharesValue
-      stakingModule {
-        id
-        name
+      items {
+        sharesValue
+        stakingModuleId
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
       }
-      stakingModuleId
-      txHash
+      total
+      offset
+      limit
     }
   }
 `;

@@ -1,14 +1,15 @@
 import isNil from "lodash.isnil";
 import ValueDisplay from "../../displayValue";
 import EvmExternalLink from "../evmExternalLink";
-import EvmPagination from "../evmPagination";
 import EvmTxHash from "../evmTxHash";
+import Pagination from "../../pagination";
 import {
   StyledPanelTableWrapper,
   StyledPanelTableWrapperNoBordered,
 } from "../../styled/panel";
 import Table from "../../table";
 import HelpLabel from "../../tooltip/helpLabel";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 import {
   getEtherscanBlockUrl,
   toLidoAmount,
@@ -49,18 +50,23 @@ function toSharesValue(value) {
 }
 
 function toOperatorFeeDistributedsTableData(items = []) {
-  return items.map((item) => [
-    <EvmExternalLink
-      href={getEtherscanBlockUrl(item.blockNumber)}
-      key={`${item.id}-block`}
-      copy={false}
-    >
-      {toLidoBlockNumber(item.blockNumber)}
-    </EvmExternalLink>,
-    toLidoTimestamp(item.blockTime),
-    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
-    toSharesValue(item.shares),
-  ]);
+  return items.map((item) => {
+    const indexer = item.indexer || {};
+    const rowKey = [indexer.txHash, indexer.logIndex].filter(Boolean).join("-");
+
+    return [
+      <EvmExternalLink
+        href={getEtherscanBlockUrl(indexer.blockNumber)}
+        key={`${rowKey}-block`}
+        copy={false}
+      >
+        {toLidoBlockNumber(indexer.blockNumber)}
+      </EvmExternalLink>,
+      toLidoTimestamp(indexer.blockTimestamp),
+      <EvmTxHash key={`${rowKey}-tx`} txHash={indexer.txHash} copy={false} />,
+      toSharesValue(item.shares),
+    ];
+  });
 }
 
 export default function LidoOperatorFeeDistributedsTable({
@@ -69,12 +75,21 @@ export default function LidoOperatorFeeDistributedsTable({
   bordered = true,
 }) {
   const tableData = toOperatorFeeDistributedsTableData(data?.items);
+  const { page = 1 } = useQueryParams();
   const Wrapper = bordered
     ? StyledPanelTableWrapper
     : StyledPanelTableWrapperNoBordered;
 
   return (
-    <Wrapper footer={<EvmPagination nextCursor={data?.nextCursor} />}>
+    <Wrapper
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
+    >
       <Table
         heads={operatorFeeDistributedsHead}
         data={tableData}

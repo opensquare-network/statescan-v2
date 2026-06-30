@@ -2,12 +2,13 @@ import isNil from "lodash.isnil";
 import ValueDisplay from "../../displayValue";
 import EvmAddress from "../evmAddress";
 import EvmExternalLink from "../evmExternalLink";
-import EvmPagination from "../evmPagination";
 import EvmTxHash from "../evmTxHash";
+import Pagination from "../../pagination";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import Table from "../../table";
 import HelpLabel from "../../tooltip/helpLabel";
 import { useLidoRewardsDistributedsData } from "../../../hooks/lido/useLidoRewardsDistributedsData";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 import {
   getEtherscanBlockUrl,
   toLidoAmount,
@@ -53,24 +54,29 @@ function toSharesValue(value) {
 }
 
 function toRewardsDistributedTableData(items = []) {
-  return items.map((item) => [
-    <EvmExternalLink
-      href={getEtherscanBlockUrl(item.blockNumber)}
-      key={`${item.id}-block`}
-      copy={false}
-    >
-      {toLidoBlockNumber(item.blockNumber)}
-    </EvmExternalLink>,
-    toLidoTimestamp(item.blockTime),
-    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
-    <EvmAddress
-      key={`${item.id}-reward-address`}
-      address={item.rewardAddress}
-      copy={false}
-      maxWidth="170px"
-    />,
-    toSharesValue(item.sharesAmount),
-  ]);
+  return items.map((item) => {
+    const indexer = item.indexer || {};
+    const rowKey = [indexer.txHash, indexer.logIndex].filter(Boolean).join("-");
+
+    return [
+      <EvmExternalLink
+        href={getEtherscanBlockUrl(indexer.blockNumber)}
+        key={`${rowKey}-block`}
+        copy={false}
+      >
+        {toLidoBlockNumber(indexer.blockNumber)}
+      </EvmExternalLink>,
+      toLidoTimestamp(indexer.blockTimestamp),
+      <EvmTxHash key={`${rowKey}-tx`} txHash={indexer.txHash} copy={false} />,
+      <EvmAddress
+        key={`${rowKey}-reward-address`}
+        address={item.rewardAddress}
+        copy={false}
+        maxWidth="170px"
+      />,
+      toSharesValue(item.sharesAmount),
+    ];
+  });
 }
 
 export default function LidoNodeOperatorRewardsDistributed({
@@ -82,10 +88,17 @@ export default function LidoNodeOperatorRewardsDistributed({
     nodeOperatorId,
   );
   const tableData = toRewardsDistributedTableData(data?.items);
+  const { page = 1 } = useQueryParams();
 
   return (
     <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
       <Table
         heads={rewardsDistributedHead}
