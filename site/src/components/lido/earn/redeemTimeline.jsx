@@ -49,8 +49,8 @@ function toTimelineItem({ name, event, rows }) {
     rows,
     indexer: {
       blockTime: toLidoTimestamp(event?.requestTime),
-      blockHeight: event?.blockNumber,
-      txHash: event?.txHash,
+      blockHeight: event?.indexer?.blockNumber,
+      txHash: event?.indexer?.txHash,
     },
   };
 }

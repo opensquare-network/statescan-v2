@@ -7,8 +7,8 @@ import {
   GET_LIDO_EARN_VAULT_REDEEMS,
   GET_LIDO_EARN_SUBVAULTS,
 } from "../../services/gql/lido";
-import { useLidoServerQuery, useLidoStakingRouterQuery } from "./useLidoQuery";
-import { useLidoServerListVariables } from "./useLidoListVariables";
+import { useLidoServerQuery } from "./useLidoQuery";
+import { useLidoServerListQuery } from "./useLidoList";
 
 const EARN_LIST_PAGE_SIZE = 25;
 const markets = {
@@ -16,59 +16,34 @@ const markets = {
   usd: "USD",
 };
 
-function toEarnListResult(queryResult, field, skip) {
-  if (skip) {
-    return {
-      ...queryResult,
-      data: {
-        items: [],
-        total: 0,
-        offset: 0,
-        limit: EARN_LIST_PAGE_SIZE,
-      },
-    };
-  }
-
-  const queryData = queryResult.data || queryResult.previousData;
-
-  return {
-    ...queryResult,
-    data: queryData?.[field],
-  };
-}
-
 function useLidoEarnList({ query, field, type, variables: extraVariables }) {
   const market = markets[type];
-  const variables = useLidoServerListVariables({
+  const shouldSkip = !market;
+
+  return useLidoServerListQuery({
+    query,
+    field,
     pageSize: EARN_LIST_PAGE_SIZE,
     variables: {
       market,
       ...extraVariables,
     },
-  });
-  const shouldSkip = !market;
-  const queryResult = useLidoServerQuery(query, {
-    variables,
     skip: shouldSkip,
   });
-
-  return toEarnListResult(queryResult, field, shouldSkip);
 }
 
 function useLidoEarnVaultItemData(query, field) {
   const { id = "" } = useParams();
-  const queryResult = useLidoStakingRouterQuery(query, {
+  const queryResult = useLidoServerQuery(query, {
     variables: {
-      where: {
-        id,
-      },
+      id,
     },
     skip: !id,
   });
 
   return {
     ...queryResult,
-    data: queryResult.data?.[field]?.[0] || null,
+    data: queryResult.data?.[field] || null,
     id,
   };
 }
@@ -82,10 +57,7 @@ export function useLidoEarnVaultRedeemsData(type) {
 }
 
 export function useLidoEarnVaultRedeemData() {
-  return useLidoEarnVaultItemData(
-    GET_LIDO_EARN_VAULT_REDEEM,
-    "earnVaultRedeems",
-  );
+  return useLidoEarnVaultItemData(GET_LIDO_EARN_VAULT_REDEEM, "earnRedeem");
 }
 
 export function useLidoEarnVaultDepositsData(type) {
@@ -97,10 +69,7 @@ export function useLidoEarnVaultDepositsData(type) {
 }
 
 export function useLidoEarnVaultDepositData() {
-  return useLidoEarnVaultItemData(
-    GET_LIDO_EARN_VAULT_DEPOSIT,
-    "earnVaultDeposits",
-  );
+  return useLidoEarnVaultItemData(GET_LIDO_EARN_VAULT_DEPOSIT, "earnDeposit");
 }
 
 export function useLidoEarnVaultQueuesData(type, isDepositQueue) {

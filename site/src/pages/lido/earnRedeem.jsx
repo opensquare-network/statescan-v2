@@ -31,7 +31,7 @@ function toEarnRedeemDetailItems(redeem) {
       label: "Amount",
       value: (
         <EarnDetailValue
-          value={redeem.claimed?.assets}
+          value={redeem.assets}
           decimals={EARN_SHARES_DECIMALS}
           symbol="wstETH"
         />
@@ -41,7 +41,10 @@ function toEarnRedeemDetailItems(redeem) {
       label: "Shares",
       value: <EarnDetailSharesValue value={redeem.shares} />,
     },
-    { label: "Time", value: <EarnTime time={redeem.blockTime} /> },
+    {
+      label: "Time",
+      value: <EarnTime time={redeem.indexer?.blockTimestamp} />,
+    },
     { label: "Request Time", value: <EarnTime time={redeem.requestTime} /> },
     { label: "Status", value: <LidoEarnStatus status={redeem.status} /> },
     {

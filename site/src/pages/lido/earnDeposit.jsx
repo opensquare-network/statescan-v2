@@ -36,7 +36,10 @@ function toEarnDepositDetailItems(deposit) {
       label: "Shares",
       value: <EarnDetailSharesValue value={deposit.shares} />,
     },
-    { label: "Time", value: <EarnTime time={deposit.blockTime} /> },
+    {
+      label: "Time",
+      value: <EarnTime time={deposit.indexer?.blockTimestamp} />,
+    },
     { label: "Status", value: <LidoEarnStatus status={deposit.status} /> },
     {
       label: "Account",

@@ -41,34 +41,26 @@ export const GET_LIDO_EARN_VAULT_REDEEMS = gql`
 `;
 
 export const GET_LIDO_EARN_VAULT_REDEEM = gql`
-  query GetLidoEarnVaultRedeem($where: EarnVaultRedeem_filter) {
-    earnVaultRedeems(first: 1, where: $where) {
+  query GetLidoEarnVaultRedeem($id: String!) {
+    earnRedeem(id: $id) {
+      id
+      queue
+      vault
+      market
       account
       asset
-      blockNumber
-      blockTime
-      claimed {
-        account
-        asset
-        assets
-        blockNumber
-        blockTime
-        id
-        logIndex
-        queue
-        receiver
-        requestTime
-        txHash
-        vault
-      }
-      vault
-      status
+      receiver
       shares
+      assets
       requestTime
-      queue
-      id
-      logIndex
-      txHash
+      status
+      claimed
+      indexer {
+        blockNumber
+        blockTimestamp
+        txHash
+        logIndex
+      }
     }
   }
 `;
@@ -117,49 +109,29 @@ export const GET_LIDO_EARN_VAULT_DEPOSITS = gql`
 `;
 
 export const GET_LIDO_EARN_VAULT_DEPOSIT = gql`
-  query GetLidoEarnVaultDeposit($where: EarnVaultDeposit_filter) {
-    earnVaultDeposits(first: 1, where: $where) {
+  query GetLidoEarnVaultDeposit($id: String!) {
+    earnDeposit(id: $id) {
+      id
+      type
+      queue
+      vault
+      market
       account
       asset
-      assets
-      blockNumber
-      blockTime
-      canceled {
-        account
-        asset
-        assets
-        blockNumber
-        blockTime
-        id
-        logIndex
-        queue
-        requestTime
-        txHash
-        vault
-      }
-      claimed {
-        account
-        asset
-        blockNumber
-        blockTime
-        id
-        logIndex
-        queue
-        requestTime
-        shares
-        txHash
-        vault
-      }
-      id
-      queue
       referral
+      assets
+      shares
+      fees
       requestTime
       status
-      shares
-      type
-      vault
-      logIndex
-      txHash
+      claimed
+      canceled
+      indexer {
+        blockNumber
+        blockTimestamp
+        txHash
+        logIndex
+      }
     }
   }
 `;
