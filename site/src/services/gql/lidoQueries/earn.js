@@ -2,43 +2,40 @@ import { gql } from "@apollo/client";
 
 export const GET_LIDO_EARN_VAULT_REDEEMS = gql`
   query GetLidoEarnVaultRedeems(
-    $first: Int!
-    $where: EarnVaultRedeem_filter
-    $orderBy: EarnVaultRedeem_orderBy
-    $orderDirection: OrderDirection
+    $market: EarnMarket
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    earnVaultRedeems(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    earnRedeems(
+      market: $market
+      limit: $limit
+      offset: $offset
+      filter: $filter
     ) {
-      account
-      asset
-      blockNumber
-      blockTime
-      claimed {
-        account
-        asset
-        assets
-        blockNumber
-        blockTime
+      items {
         id
-        logIndex
         queue
-        receiver
-        requestTime
-        txHash
         vault
+        market
+        asset
+        account
+        receiver
+        shares
+        assets
+        requestTime
+        status
+        claimed
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
       }
-      vault
-      status
-      shares
-      requestTime
-      queue
-      id
-      logIndex
-      txHash
+      total
+      offset
+      limit
     }
   }
 `;
@@ -78,58 +75,43 @@ export const GET_LIDO_EARN_VAULT_REDEEM = gql`
 
 export const GET_LIDO_EARN_VAULT_DEPOSITS = gql`
   query GetLidoEarnVaultDeposits(
-    $first: Int!
-    $where: EarnVaultDeposit_filter
-    $orderBy: EarnVaultDeposit_orderBy
-    $orderDirection: OrderDirection
+    $market: EarnMarket
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    earnVaultDeposits(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    earnDeposits(
+      market: $market
+      limit: $limit
+      offset: $offset
+      filter: $filter
     ) {
-      account
-      asset
-      assets
-      blockNumber
-      blockTime
-      canceled {
-        account
+      items {
+        id
+        type
+        queue
+        vault
+        market
         asset
+        account
+        referral
         assets
-        blockNumber
-        blockTime
-        id
-        logIndex
-        queue
-        requestTime
-        txHash
-        vault
-      }
-      claimed {
-        account
-        asset
-        blockNumber
-        blockTime
-        id
-        logIndex
-        queue
-        requestTime
         shares
-        txHash
-        vault
+        fees
+        requestTime
+        status
+        claimed
+        canceled
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
       }
-      id
-      queue
-      referral
-      requestTime
-      status
-      shares
-      type
-      vault
-      logIndex
-      txHash
+      total
+      offset
+      limit
     }
   }
 `;
@@ -184,27 +166,36 @@ export const GET_LIDO_EARN_VAULT_DEPOSIT = gql`
 
 export const GET_LIDO_EARN_VAULT_QUEUES = gql`
   query GetLidoEarnVaultQueues(
-    $first: Int!
-    $where: EarnVaultQueue_filter
-    $orderBy: EarnVaultQueue_orderBy
-    $orderDirection: OrderDirection
+    $market: EarnMarket
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    earnVaultQueues(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    earnQueues(
+      market: $market
+      limit: $limit
+      offset: $offset
+      filter: $filter
     ) {
-      active
-      asset
-      blockTime
-      id
-      isDepositQueue
-      logIndex
-      paused
-      queueType
-      txHash
-      vault
+      items {
+        queue
+        vault
+        market
+        asset
+        isDepositQueue
+        queueType
+        active
+        paused
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;
@@ -223,28 +214,35 @@ export const GET_LIDO_EARN_ACTIVE_QUEUES = gql`
 
 export const GET_LIDO_EARN_SUBVAULTS = gql`
   query GetLidoEarnSubvaults(
-    $first: Int!
-    $where: EarnVaultSubvault_filter
-    $orderBy: EarnVaultSubvault_orderBy
-    $orderDirection: OrderDirection
+    $market: EarnMarket
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    earnVaultSubvaults(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    earnSubvaults(
+      market: $market
+      limit: $limit
+      offset: $offset
+      filter: $filter
     ) {
-      blockNumber
-      blockTime
-      connected
-      id
-      logIndex
-      owner
-      subvault
-      txHash
-      vaultAddress
-      verifier
-      version
+      items {
+        vault
+        market
+        subvault
+        owner
+        verifier
+        version
+        connected
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;

@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Advanced from "../../components/advanced";
 import TabBar from "../../components/accountIdentity/tabBar";
@@ -13,9 +14,9 @@ import {
   LIDO_EARN_CONFIGS,
 } from "../../components/lido/earn/common";
 import EvmExternalLink from "../../components/lido/evmExternalLink";
-import EvmPagination from "../../components/lido/evmPagination";
 import EvmTxHash from "../../components/lido/evmTxHash";
 import LoadableContent from "../../components/loadings/loadableContent";
+import Pagination from "../../components/pagination";
 import {
   EarnTableAssetValue,
   EarnTableSharesValue,
@@ -40,7 +41,6 @@ import {
 import { useLidoEarnAssets } from "../../context/lidoEarn";
 import { useLidoEarnVaultStatsData } from "../../hooks/lido/useLidoEarnVaultStatsData";
 import { useQueryParams } from "../../hooks/useQueryParams";
-import useQueryParamsUpdater from "../../hooks/useQueryParamsUpdater";
 import {
   getEtherscanAddressUrl,
   getEtherscanBlockUrl,
@@ -75,6 +75,7 @@ const subvaultHead = [
 
 const activityHead = [
   { name: "Address", width: 200 },
+  { name: "Asset", width: 140 },
   { name: "Amount", width: 200 },
   { name: "Shares", width: 140 },
   { name: "Status", align: "right", width: 160 },
@@ -253,9 +254,16 @@ function QueueTypeTag({ queueType }) {
 
 function toEarnQueueTableData(items = [], isDepositQueue) {
   return items.map((item) => {
+    const rowKey = [item.indexer?.txHash, item.indexer?.logIndex]
+      .filter(Boolean)
+      .join("-");
     const baseColumns = [
-      toLidoTimestamp(item.blockTime),
-      <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
+      toLidoTimestamp(item.indexer?.blockTimestamp),
+      <EvmTxHash
+        key={`${rowKey || item.queue}-tx`}
+        txHash={item.indexer?.txHash}
+        copy={false}
+      />,
       <AssetSymbolLink asset={item.asset} />,
     ];
 
@@ -276,9 +284,13 @@ function toEarnQueueTableData(items = [], isDepositQueue) {
 
 function toEarnSubvaultTableData(items = []) {
   return items.map((item) => [
-    toBlockLink(item.blockNumber),
-    toLidoTimestamp(item.blockTime),
-    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
+    toBlockLink(item.indexer?.blockNumber),
+    toLidoTimestamp(item.indexer?.blockTimestamp),
+    <EvmTxHash
+      key={`${item.indexer?.txHash || item.subvault}-tx`}
+      txHash={item.indexer?.txHash}
+      copy={false}
+    />,
     <EvmAddress address={item.subvault} copy={false} maxWidth="150px" />,
     item.version ?? "--",
     <LidoEarnStatus status={item.connected ? "Connected" : "Disconnected"} />,
@@ -292,6 +304,7 @@ function toEarnDepositsTableData(items = []) {
     </ColoredInterLink>,
     toLidoTimestamp(item.requestTime),
     <EvmAddress address={item.account} copy={false} maxWidth="150px" />,
+    <AssetSymbolLink asset={item.asset} />,
     <EarnTableAssetValue value={item.assets} asset={item.asset} />,
     <EarnTableSharesValue value={item.shares} />,
     <LidoEarnStatus status={item.status} />,
@@ -308,8 +321,9 @@ function toEarnRedeemsTableData(items = []) {
       </ColoredInterLink>,
       toLidoTimestamp(item.requestTime),
       <EvmAddress address={item.account} copy={false} maxWidth="150px" />,
+      <AssetSymbolLink asset={item.asset} />,
       <EarnTableValue
-        value={claimed?.assets}
+        value={item.assets ?? claimed?.assets}
         decimals={EARN_SHARES_DECIMALS}
         symbol="wstETH"
       />,
@@ -319,12 +333,21 @@ function toEarnRedeemsTableData(items = []) {
   });
 }
 
-function EarnTable({ heads, data, loading, nextCursor, bordered = true }) {
+function EarnTable({ heads, data, loading, pagination, bordered = true }) {
   const Wrapper = bordered
     ? StyledPanelTableWrapper
     : StyledPanelTableWrapperNoBordered;
+  const { page = 1 } = useQueryParams();
   const content = (
-    <Wrapper footer={<EvmPagination nextCursor={nextCursor} />}>
+    <Wrapper
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={pagination?.limit}
+          total={pagination?.total}
+        />
+      }
+    >
       <Table heads={heads} data={data} loading={loading} />
     </Wrapper>
   );
@@ -344,7 +367,7 @@ function EarnQueueTable({ type, isDepositQueue, bordered = true }) {
       heads={isDepositQueue ? queueHead : redeemQueueHead}
       data={toEarnQueueTableData(data?.items, isDepositQueue)}
       loading={loading}
-      nextCursor={data?.nextCursor}
+      pagination={data}
       bordered={bordered}
     />
   );
@@ -352,13 +375,20 @@ function EarnQueueTable({ type, isDepositQueue, bordered = true }) {
 
 function EarnQueueTabs({ type }) {
   const { sub } = useQueryParams({ parseNumbers: false });
-  const updateQueryParams = useQueryParamsUpdater();
+  const location = useLocation();
+  const navigate = useNavigate();
   const selectedTab = sub || QUEUE_TABS.deposit;
   const setSelectedTab = useCallback(
     (tab) => {
-      updateQueryParams("sub", tab);
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set("sub", tab);
+      searchParams.set("page", "1");
+      navigate({
+        pathname: location.pathname,
+        search: searchParams.toString(),
+      });
     },
-    [updateQueryParams],
+    [location, navigate],
   );
 
   return (
@@ -390,7 +420,7 @@ function EarnDepositsTable({ type }) {
       heads={depositsHead}
       data={toEarnDepositsTableData(data?.items)}
       loading={loading}
-      nextCursor={data?.nextCursor}
+      pagination={data}
     />
   );
 }
@@ -403,7 +433,7 @@ function EarnSubvaultTable({ type }) {
       heads={subvaultHead}
       data={toEarnSubvaultTableData(data?.items)}
       loading={loading}
-      nextCursor={data?.nextCursor}
+      pagination={data}
     />
   );
 }
@@ -416,7 +446,7 @@ function EarnRedeemsTable({ type }) {
       heads={redeemsHead}
       data={toEarnRedeemsTableData(data?.items)}
       loading={loading}
-      nextCursor={data?.nextCursor}
+      pagination={data}
     />
   );
 }

@@ -2,23 +2,23 @@ import { gql } from "@apollo/client";
 
 export const GET_LIDO_REWARDS_VAULT_ETH_RECEIVED = gql`
   query GetLidoRewardsVaultETHReceived(
-    $first: Int!
-    $where: RewardsVaultETHReceived_filter
-    $orderBy: RewardsVaultETHReceived_orderBy
-    $orderDirection: OrderDirection
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    rewardsVaultETHReceiveds(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      amount
-      blockNumber
-      blockTime
-      id
-      logIndex
-      txHash
+    rewardsVaultReceived(limit: $limit, offset: $offset, filter: $filter) {
+      items {
+        amount
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;

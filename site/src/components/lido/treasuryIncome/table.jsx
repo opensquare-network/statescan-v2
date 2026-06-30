@@ -1,8 +1,13 @@
 import ValueDisplay from "../../displayValue";
+import EvmAddress from "../evmAddress";
 import EvmExternalLink from "../evmExternalLink";
-import EvmPagination from "../evmPagination";
 import EvmTxHash from "../evmTxHash";
-import { StyledPanelTableWrapper } from "../../styled/panel";
+import Pagination from "../../pagination";
+import HelpLabel from "../../tooltip/helpLabel";
+import {
+  StyledPanelTableWrapper,
+  StyledPanelTableWrapperNoBordered,
+} from "../../styled/panel";
 import Table from "../../table";
 import {
   getEtherscanBlockUrl,
@@ -10,10 +15,11 @@ import {
   toLidoBlockNumber,
   toLidoTimestamp,
 } from "../../../utils/viewFuncs/lido";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 
 const TOKEN_DECIMALS = 18;
 
-const lidoTreasuryIncomeHead = [
+const lidoTreasuryIncomeBaseHead = [
   {
     name: "Block",
     type: "sortable",
@@ -35,59 +41,140 @@ const lidoTreasuryIncomeHead = [
   },
 ];
 
-function getTreasuryTransferSymbol(item) {
-  if (item?.stethTransfer) {
-    return "shares";
-  }
+const lidoTreasuryEthIncomeHead = [
+  ...lidoTreasuryIncomeBaseHead.slice(0, 3),
+  { name: "Vault", width: 220 },
+  lidoTreasuryIncomeBaseHead[3],
+];
 
-  return "ETH";
-}
+const lidoTreasuryStethIncomeHead = [
+  ...lidoTreasuryIncomeBaseHead,
+  {
+    name: (
+      <HelpLabel
+        tip="Treasury stETH income amount in shares."
+        align="right"
+        fullWidth
+      >
+        Shares
+      </HelpLabel>
+    ),
+    align: "right",
+    width: 180,
+  },
+];
 
 function getTreasuryTransferValue(item) {
   if (item?.stethTransfer) {
-    return item.stethTransfer.shares;
+    return item.stethTransfer.value;
   }
 
   return item?.ethTransfer?.value;
 }
 
-function TreasuryIncomeValue({ item }) {
+function getTreasuryTransferValueSymbol(item) {
+  if (item?.stethTransfer) {
+    return "stETH";
+  }
+
+  return "ETH";
+}
+
+function TreasuryIncomeAmount({ value, symbol }) {
   return (
     <ValueDisplay
-      value={toLidoAmount(getTreasuryTransferValue(item), TOKEN_DECIMALS)}
-      symbol={getTreasuryTransferSymbol(item)}
+      value={toLidoAmount(value, TOKEN_DECIMALS)}
+      symbol={symbol}
       showNotEqualTooltip
     />
   );
 }
 
-function toLidoTreasuryIncomeTableData(items = []) {
-  return items.map((item) => [
-    <EvmExternalLink
-      href={getEtherscanBlockUrl(item.blockNumber)}
-      key={`${item.id}-block`}
-      copy={false}
-    >
-      {toLidoBlockNumber(item.blockNumber)}
-    </EvmExternalLink>,
-    toLidoTimestamp(item.blockTime),
-    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
-    <TreasuryIncomeValue key={`${item.id}-value`} item={item} />,
-  ]);
+function toLidoTreasuryIncomeTableData(
+  items = [],
+  { showEthFeeFields = false, showShares = false } = {},
+) {
+  return items.map((item) => {
+    const baseColumns = [
+      <EvmExternalLink
+        href={getEtherscanBlockUrl(item.blockNumber)}
+        key={`${item.id}-block`}
+        copy={false}
+      >
+        {toLidoBlockNumber(item.blockNumber)}
+      </EvmExternalLink>,
+      toLidoTimestamp(item.blockTime),
+      <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
+    ];
+    const valueColumn = (
+      <TreasuryIncomeAmount
+        key={`${item.id}-value`}
+        value={getTreasuryTransferValue(item)}
+        symbol={getTreasuryTransferValueSymbol(item)}
+      />
+    );
+
+    if (showEthFeeFields) {
+      return [
+        ...baseColumns,
+        <EvmAddress
+          key={`${item.id}-vault`}
+          address={item?.ethTransfer?.vault}
+          copy={false}
+          maxWidth="150px"
+        />,
+        valueColumn,
+      ];
+    }
+
+    const columns = [...baseColumns, valueColumn];
+
+    if (showShares) {
+      columns.push(
+        <TreasuryIncomeAmount
+          key={`${item.id}-shares`}
+          value={item?.stethTransfer?.shares}
+          symbol="shares"
+        />,
+      );
+    }
+
+    return columns;
+  });
 }
 
-export default function LidoTreasuryIncomeTable({ data, loading }) {
-  const tableData = toLidoTreasuryIncomeTableData(data?.items);
+export default function LidoTreasuryIncomeTable({
+  data,
+  loading,
+  bordered = true,
+  showEthFeeFields = false,
+  showShares = false,
+}) {
+  const Wrapper = bordered
+    ? StyledPanelTableWrapper
+    : StyledPanelTableWrapperNoBordered;
+  const { page = 1 } = useQueryParams();
+  const tableData = toLidoTreasuryIncomeTableData(data?.items, {
+    showEthFeeFields,
+    showShares,
+  });
+  const heads = showEthFeeFields
+    ? lidoTreasuryEthIncomeHead
+    : showShares
+    ? lidoTreasuryStethIncomeHead
+    : lidoTreasuryIncomeBaseHead;
 
   return (
-    <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+    <Wrapper
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
-      <Table
-        heads={lidoTreasuryIncomeHead}
-        data={tableData}
-        loading={loading}
-      />
-    </StyledPanelTableWrapper>
+      <Table heads={heads} data={tableData} loading={loading} />
+    </Wrapper>
   );
 }
