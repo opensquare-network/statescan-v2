@@ -56,23 +56,23 @@ export const GET_LIDO_WITHDRAWAL = gql`
 
 export const GET_LIDO_WITHDRAWAL_VAULT_WITHDRAWALS_RECEIVED = gql`
   query GetLidoWithdrawalVaultWithdrawalsReceived(
-    $first: Int!
-    $where: WithdrawalVaultWithdrawalsReceived_filter
-    $orderBy: WithdrawalVaultWithdrawalsReceived_orderBy
-    $orderDirection: OrderDirection
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    withdrawalVaultWithdrawalsReceiveds(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
-    ) {
-      amount
-      blockNumber
-      blockTime
-      id
-      logIndex
-      txHash
+    withdrawalVaultReceived(limit: $limit, offset: $offset, filter: $filter) {
+      items {
+        amount
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;

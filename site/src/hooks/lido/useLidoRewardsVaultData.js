@@ -1,39 +1,27 @@
-import last from "lodash.last";
 import { GET_LIDO_REWARDS_VAULT_ETH_RECEIVED } from "../../services/gql/lido";
-import { useLidoQuery } from "./useLidoQuery";
-import { useLidoListVariables } from "./useLidoListVariables";
+import { useLidoServerQuery } from "./useLidoQuery";
 import { useLidoListQueryParams } from "./useLidoListQueryParams";
-import { encodeCursor } from "./utils";
-
-const DEFAULT_SORT = "blockNumber_desc";
+import {
+  getLidoServerIndexerFilter,
+  useLidoServerListVariables,
+} from "./useLidoListVariables";
+import { pickLidoFilters } from "./utils";
 
 export function useLidoRewardsVaultData() {
-  const { cursor, txHash, timeDimensionParams } = useLidoListQueryParams();
-  const { variables, pageSize } = useLidoListVariables({
-    sortQuery: DEFAULT_SORT,
-    cursor,
-    where: {
-      ...(txHash ? { txHash } : {}),
-    },
-    timeDimensionParams,
+  const { txHash, timeDimensionParams } = useLidoListQueryParams();
+  const variables = useLidoServerListVariables({
+    variables: pickLidoFilters({
+      filter: getLidoServerIndexerFilter({ txHash, timeDimensionParams }),
+    }),
   });
-
-  const queryResult = useLidoQuery(GET_LIDO_REWARDS_VAULT_ETH_RECEIVED, {
+  const queryResult = useLidoServerQuery(GET_LIDO_REWARDS_VAULT_ETH_RECEIVED, {
     variables,
   });
 
   const queryData = queryResult.data || queryResult.previousData;
-  const items = queryData?.rewardsVaultETHReceiveds || [];
-  const hasNextPage = items.length === pageSize;
-  const nextCursor = hasNextPage
-    ? encodeCursor(last(items), variables.orderBy)
-    : null;
 
   return {
     ...queryResult,
-    data: {
-      items,
-      nextCursor,
-    },
+    data: queryData?.rewardsVaultReceived,
   };
 }

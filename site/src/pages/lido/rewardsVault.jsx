@@ -3,12 +3,13 @@ import ValueDisplay from "../../components/displayValue";
 import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import EvmExternalLink from "../../components/lido/evmExternalLink";
-import EvmPagination from "../../components/lido/evmPagination";
 import EvmTxHash from "../../components/lido/evmTxHash";
+import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import Table from "../../components/table";
 import { useLidoRewardsVaultFilter } from "../../hooks/filter/useLidoRewardsVaultFilter";
 import { useLidoRewardsVaultData } from "../../hooks/lido/useLidoRewardsVaultData";
+import { useQueryParams } from "../../hooks/useQueryParams";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,
@@ -36,28 +37,39 @@ const lidoRewardsVaultHead = [
 ];
 
 function toLidoRewardsVaultTableData(items = [], { decimals, symbol }) {
-  return items.map((item) => [
-    <EvmExternalLink
-      href={getEtherscanBlockUrl(item.blockNumber)}
-      key={`${item.id}-block`}
-      copy={false}
-    >
-      {toLidoBlockNumber(item.blockNumber)}
-    </EvmExternalLink>,
-    toLidoTimestamp(item.blockTime),
-    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
-    <ValueDisplay
-      key={`${item.id}-amount`}
-      value={toLidoAmount(item.amount, decimals)}
-      symbol={symbol}
-      showNotEqualTooltip
-    />,
-  ]);
+  return items.map((item) => {
+    const rowKey = [item.indexer?.txHash, item.indexer?.logIndex]
+      .filter(Boolean)
+      .join("-");
+
+    return [
+      <EvmExternalLink
+        href={getEtherscanBlockUrl(item.indexer?.blockNumber)}
+        key={`${rowKey}-block`}
+        copy={false}
+      >
+        {toLidoBlockNumber(item.indexer?.blockNumber)}
+      </EvmExternalLink>,
+      toLidoTimestamp(item.indexer?.blockTimestamp),
+      <EvmTxHash
+        key={`${rowKey}-tx`}
+        txHash={item.indexer?.txHash}
+        copy={false}
+      />,
+      <ValueDisplay
+        key={`${rowKey}-amount`}
+        value={toLidoAmount(item.amount, decimals)}
+        symbol={symbol}
+        showNotEqualTooltip
+      />,
+    ];
+  });
 }
 
 export default function LidoRewardsVault() {
   const filter = useLidoRewardsVaultFilter();
   const chainSettings = useChainSettings();
+  const { page = 1 } = useQueryParams();
   const { data, loading } = useLidoRewardsVaultData();
   const tableData = toLidoRewardsVaultTableData(data?.items, chainSettings);
 
@@ -68,7 +80,13 @@ export default function LidoRewardsVault() {
       <Filter data={filter} />
 
       <StyledPanelTableWrapper
-        footer={<EvmPagination nextCursor={data?.nextCursor} />}
+        footer={
+          <Pagination
+            page={parseInt(page)}
+            pageSize={data?.limit}
+            total={data?.total}
+          />
+        }
       >
         <Table
           heads={lidoRewardsVaultHead}
