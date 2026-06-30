@@ -1,6 +1,9 @@
+import { useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import BreadCrumb from "../../components/breadCrumb";
+import TabBar from "../../components/accountIdentity/tabBar";
 import DetailLayout from "../../components/layout/detailLayout";
 import DetailTabs from "../../components/detail/tabs";
 import Filter from "../../components/filter";
@@ -19,9 +22,18 @@ import { TextSecondary } from "../../components/styled/text";
 import { useLidoTreasuryTransfersFilter } from "../../hooks/filter/useLidoTreasuryTransfersFilter";
 import { useLidoTreasuryAddressData } from "../../hooks/lido/useLidoTreasuryAddressData";
 import { useLidoTreasuryTokenBalancesData } from "../../hooks/lido/useLidoTreasuryTokenBalancesData";
-import { useLidoTreasuryTransfersData } from "../../hooks/lido/useLidoTreasuryTransfersData";
+import {
+  LIDO_TREASURY_INCOME_TYPES,
+  useLidoTreasuryTransfersData,
+} from "../../hooks/lido/useLidoTreasuryTransfersData";
+import { useQueryParams } from "../../hooks/useQueryParams";
 
 const TOP_TREASURY_ASSETS_COUNT = 5;
+
+const treasuryIncomeTabs = [
+  { name: LIDO_TREASURY_INCOME_TYPES.eth },
+  { name: LIDO_TREASURY_INCOME_TYPES.steth },
+];
 
 const ValueWrapper = styled(TextSecondary)`
   display: inline-flex;
@@ -168,10 +180,54 @@ function LidoTreasuryOverview({ treasuryAddress, treasuryAddressLoading }) {
   );
 }
 
-function LidoTreasuryIncomeTableView() {
-  const { data, loading } = useLidoTreasuryTransfersData();
+function LidoTreasuryIncomeTableView({
+  type = LIDO_TREASURY_INCOME_TYPES.eth,
+  bordered = true,
+}) {
+  const { data, loading } = useLidoTreasuryTransfersData({ type });
+  const showEthFeeFields = type === LIDO_TREASURY_INCOME_TYPES.eth;
+  const showShares = type === LIDO_TREASURY_INCOME_TYPES.steth;
 
-  return <LidoTreasuryIncomeTable data={data} loading={loading} />;
+  return (
+    <LidoTreasuryIncomeTable
+      data={data}
+      loading={loading}
+      bordered={bordered}
+      showEthFeeFields={showEthFeeFields}
+      showShares={showShares}
+    />
+  );
+}
+
+function LidoTreasuryIncomeTabs() {
+  const { sub } = useQueryParams({ parseNumbers: false });
+  const location = useLocation();
+  const navigate = useNavigate();
+  const selectedTab = sub || LIDO_TREASURY_INCOME_TYPES.eth;
+  const setSelectedTab = useCallback(
+    (tab) => {
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set("sub", tab);
+      searchParams.set("page", "1");
+      navigate({
+        pathname: location.pathname,
+        search: searchParams.toString(),
+      });
+    },
+    [location, navigate],
+  );
+
+  return (
+    <Panel>
+      <TabBar
+        tabs={treasuryIncomeTabs}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+      />
+
+      <LidoTreasuryIncomeTableView type={selectedTab} bordered={false} />
+    </Panel>
+  );
 }
 
 export function LidoTreasuryIncome() {
@@ -185,7 +241,7 @@ export function LidoTreasuryIncome() {
 
       <Filter data={filter} />
 
-      <LidoTreasuryIncomeTableView />
+      <LidoTreasuryIncomeTabs />
     </Layout>
   );
 }
@@ -198,7 +254,7 @@ export default function LidoTreasury() {
     {
       name: "Income",
       value: "income",
-      children: <LidoTreasuryIncomeTableView />,
+      children: <LidoTreasuryIncomeTabs />,
     },
   ];
 

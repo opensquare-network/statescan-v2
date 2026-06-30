@@ -1,33 +1,59 @@
 import { gql } from "@apollo/client";
 
-export const GET_LIDO_TREASURY_TRANSFERS = gql`
-  query GetLidoTreasuryTransfers(
-    $first: Int!
-    $where: TreasuryTransfer_filter
-    $orderBy: TreasuryTransfer_orderBy
-    $orderDirection: OrderDirection
+export const GET_LIDO_TREASURY_ETH_INCOME = gql`
+  query GetLidoTreasuryEthIncome(
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
-    treasuryTransfers(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    treasuryEthIncome: treasuryEthTransfers(
+      limit: $limit
+      offset: $offset
+      filter: $filter
     ) {
-      blockNumber
-      blockTime
-      id
-      logIndex
-      txHash
-      stethTransfer {
-        value
-        shares
-      }
-      ethTransfer {
+      items {
         value
         vault
         settledLidoFees
         cumulativeLidoFees
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
       }
+      total
+      offset
+      limit
+    }
+  }
+`;
+
+export const GET_LIDO_TREASURY_STETH_INCOME = gql`
+  query GetLidoTreasuryStethIncome(
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
+  ) {
+    treasuryStethIncome: treasuryStethTransfers(
+      limit: $limit
+      offset: $offset
+      filter: $filter
+    ) {
+      items {
+        value
+        shares
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;
