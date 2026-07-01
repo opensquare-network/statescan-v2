@@ -1,17 +1,6 @@
 import { EMPTY_OBJECT } from "../../utils/constants";
-import {
-  useLidoListVariables,
-  useLidoServerListVariables,
-} from "./useLidoListVariables";
-import { useLidoQuery, useLidoServerQuery } from "./useLidoQuery";
-import { toLidoListQueryResult } from "./utils";
-
-export function useLidoList({ query, field, ...listOptions }) {
-  const { variables, pageSize } = useLidoListVariables(listOptions);
-  const queryResult = useLidoQuery(query, { variables });
-
-  return toLidoListQueryResult(queryResult, field, pageSize, variables.orderBy);
-}
+import { useLidoServerListVariables } from "./useLidoListVariables";
+import { useLidoServerQuery } from "./useLidoQuery";
 
 export function useLidoServerListQuery({
   query,

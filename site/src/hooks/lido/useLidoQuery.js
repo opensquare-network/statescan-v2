@@ -2,16 +2,9 @@ import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToast } from "../../store/reducers/toastSlice";
-import {
-  lidoClient,
-  lidoGraphqlUrl,
-  lidoServerClient,
-  lidoServerUrl,
-  stakingRouterClient,
-  stakingRouterGraphqlUrl,
-} from "./lidoGraphqlClient";
+import { lidoServerClient, lidoServerUrl } from "./lidoGraphqlClient";
 
-export { lidoClient, lidoServerClient, lidoServerUrl };
+export { lidoServerClient, lidoServerUrl };
 
 export function useLidoApolloQuery({
   query,
@@ -56,16 +49,6 @@ export function useLidoApolloQuery({
   return queryResult;
 }
 
-export function useLidoQuery(query, options = {}) {
-  return useLidoApolloQuery({
-    query,
-    options,
-    client: lidoClient,
-    url: lidoGraphqlUrl,
-    errorMessage: "Failed to load Lido data",
-  });
-}
-
 export function useLidoServerQuery(query, options = {}) {
   return useLidoApolloQuery({
     query,
@@ -73,15 +56,5 @@ export function useLidoServerQuery(query, options = {}) {
     client: lidoServerClient,
     url: lidoServerUrl,
     errorMessage: "Failed to load Lido server data",
-  });
-}
-
-export function useLidoStakingRouterQuery(query, options = {}) {
-  return useLidoApolloQuery({
-    query,
-    options,
-    client: stakingRouterClient,
-    url: stakingRouterGraphqlUrl,
-    errorMessage: "Failed to load Lido data",
   });
 }
