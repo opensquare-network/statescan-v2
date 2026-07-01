@@ -1,12 +1,15 @@
-import { useQuery } from "@apollo/client";
+import { ApolloClient, InMemoryCache, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToast } from "../../store/reducers/toastSlice";
-import { lidoServerClient, lidoServerUrl } from "./lidoGraphqlClient";
 
-export { lidoServerClient, lidoServerUrl };
+const lidoServerUrl = process.env.REACT_APP_PUBLIC_LIDO_SERVER_URL;
+const lidoServerClient = new ApolloClient({
+  uri: lidoServerUrl || "/",
+  cache: new InMemoryCache(),
+});
 
-export function useLidoApolloQuery({
+function useLidoApolloQuery({
   query,
   options = {},
   client,
