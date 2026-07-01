@@ -28,7 +28,7 @@ export const GET_LIDO_WSTETH_HOLDERS = gql`
   }
 `;
 
-export const GET_LIDO_STETH_TOTALS = gql`
+export const GET_LIDO_SERVER_STETH_TOTALS = gql`
   query GetLidoStETHTotals {
     deposits(limit: 1, offset: 0) {
       total
@@ -42,7 +42,7 @@ export const GET_LIDO_STETH_TOTALS = gql`
   }
 `;
 
-export const GET_LIDO_WSTETH_TOTALS = gql`
+export const GET_LIDO_SERVER_WSTETH_TOTALS = gql`
   query GetLidoWstETHTotals {
     wrap(limit: 1, offset: 0) {
       total

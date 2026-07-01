@@ -66,6 +66,9 @@ export default function LidoRewardsVaultStats({
   decimals,
   symbol,
 }) {
+  const totalWithdrawalValue = stats?.value;
+  const totalWithdrawalCount = stats?.count;
+
   return (
     <StatsSection>
       <StatsSectionHeader>
@@ -88,11 +91,15 @@ export default function LidoRewardsVaultStats({
             label="Total withdrawal"
             value={
               <LoadableContent loading={loading}>
-                <Amount
-                  value={stats.value}
-                  decimals={decimals}
-                  symbol={symbol}
-                />
+                {totalWithdrawalValue == null && !loading ? (
+                  "--"
+                ) : (
+                  <Amount
+                    value={totalWithdrawalValue}
+                    decimals={decimals}
+                    symbol={symbol}
+                  />
+                )}
               </LoadableContent>
             }
             icon={<TransferSquareIcon />}
@@ -102,7 +109,9 @@ export default function LidoRewardsVaultStats({
             icon={<TransferSquareIcon />}
             value={
               <LoadableContent loading={loading}>
-                {formatCount(stats.count)}
+                {totalWithdrawalCount == null && !loading
+                  ? "--"
+                  : formatCount(totalWithdrawalCount)}
               </LoadableContent>
             }
           />

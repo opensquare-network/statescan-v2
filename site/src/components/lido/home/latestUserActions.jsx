@@ -6,8 +6,8 @@ import EvmAddress from "../evmAddress";
 import EvmExternalLink from "../evmExternalLink";
 import LatestList from "../../home/sections/latestList";
 import {
-  GET_LIDO_DEPOSITS,
-  GET_LIDO_WITHDRAWALS,
+  GET_LIDO_SERVER_DEPOSITS,
+  GET_LIDO_SERVER_WITHDRAWALS,
 } from "../../../services/gql/lido";
 import { useLidoServerQuery } from "../../../hooks/lido/useLidoQuery";
 import {
@@ -185,11 +185,11 @@ export default function LidoLatestUserActions({ decimals, symbol }) {
     offset: 0,
   };
   const { data: depositsQueryData, loading: depositsLoading } =
-    useLidoServerQuery(GET_LIDO_DEPOSITS, {
+    useLidoServerQuery(GET_LIDO_SERVER_DEPOSITS, {
       variables,
     });
   const { data: withdrawalsQueryData, loading: withdrawalsLoading } =
-    useLidoServerQuery(GET_LIDO_WITHDRAWALS, {
+    useLidoServerQuery(GET_LIDO_SERVER_WITHDRAWALS, {
       variables,
     });
   const deposits = depositsQueryData?.deposits?.items || [];

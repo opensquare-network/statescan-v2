@@ -85,14 +85,25 @@ export function useLidoServerListVariables({
   };
 }
 
-export function useLidoServerIndexerFilterVariables({
+export function useLidoServerFilterVariables({
   variables = EMPTY_OBJECT,
+  address: fixedAddress,
   txHash: fixedTxHash,
 } = EMPTY_OBJECT) {
-  const { txHash, timeDimensionParams } = useLidoListQueryParams();
+  const {
+    txHash,
+    params: { address },
+    timeDimensionParams,
+  } = useLidoListQueryParams();
+  const filterAddress = fixedAddress || address;
+  const queryVariables = { ...variables };
+
+  if (filterAddress) {
+    queryVariables.address = filterAddress;
+  }
 
   return pickLidoFilters({
-    ...variables,
+    ...queryVariables,
     filter: getLidoServerIndexerFilter({
       txHash: fixedTxHash ?? txHash,
       timeDimensionParams,

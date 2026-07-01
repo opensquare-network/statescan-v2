@@ -52,6 +52,32 @@ export const GET_LIDO_SERVER_NODE_OPERATOR = gql`
   }
 `;
 
+export const GET_LIDO_NODE_OPERATOR_TOTALS = gql`
+  query GetLidoNodeOperatorTotals(
+    $stakingModuleId: Int!
+    $nodeOperatorId: Int!
+  ) {
+    rewardsDistributeds(
+      stakingModuleId: $stakingModuleId
+      nodeOperatorId: $nodeOperatorId
+      limit: 1
+      offset: 0
+    ) {
+      total
+    }
+    operatorFeeDistributeds(
+      nodeOperatorId: $nodeOperatorId
+      limit: 1
+      offset: 0
+    ) {
+      total
+    }
+    operatorRewardClaims(nodeOperatorId: $nodeOperatorId, limit: 1, offset: 0) {
+      total
+    }
+  }
+`;
+
 export const GET_LIDO_REWARDS_DISTRIBUTEDS = gql`
   query GetLidoRewardsDistributeds(
     $stakingModuleId: Int

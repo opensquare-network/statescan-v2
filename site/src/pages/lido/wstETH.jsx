@@ -18,7 +18,7 @@ import {
   RateValue,
 } from "../../components/lido/home/metrics";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
-import { GET_LIDO_WSTETH_TOTALS } from "../../services/gql/lido";
+import { GET_LIDO_SERVER_WSTETH_TOTALS } from "../../services/gql/lido";
 import { useLidoServerQuery } from "../../hooks/lido/useLidoQuery";
 
 function LidoWstETHSummary() {
@@ -89,7 +89,7 @@ function LidoWstETHSummary() {
 
 export default function LidoWstETH() {
   const breadCrumb = <BreadCrumb data={[{ name: "wstETH" }]} />;
-  const { data: totals } = useLidoServerQuery(GET_LIDO_WSTETH_TOTALS);
+  const { data: totals } = useLidoServerQuery(GET_LIDO_SERVER_WSTETH_TOTALS);
   const tabs = [
     {
       name: "Wrap",

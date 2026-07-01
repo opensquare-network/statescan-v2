@@ -23,9 +23,11 @@ import {
   isCsmModule,
   isNorModule,
 } from "../../components/lido/stakingModule/utils";
+import { GET_LIDO_NODE_OPERATOR_TOTALS } from "../../services/gql/lido";
 import { useLidoNodeOperatorData } from "../../hooks/lido/useLidoNodeOperatorData";
 import { useLidoNodeOperatorSummaryData } from "../../hooks/lido/useLidoNodeOperatorSummaryData";
 import { useLidoStakingModuleData } from "../../hooks/lido/useLidoStakingModuleData";
+import { useLidoServerQuery } from "../../hooks/lido/useLidoQuery";
 import {
   toLidoAmount,
   toLidoBlockNumber,
@@ -210,16 +212,34 @@ function toNodeOperatorSummaryItems(summary) {
   ];
 }
 
+function toCsmRewardsCount(totals) {
+  const distributedTotal = totals?.operatorFeeDistributeds?.total;
+  const claimsTotal = totals?.operatorRewardClaims?.total;
+
+  if (isNil(distributedTotal) && isNil(claimsTotal)) {
+    return undefined;
+  }
+
+  return Number(distributedTotal || 0) + Number(claimsTotal || 0);
+}
+
 export default function LidoNodeOperator() {
   const { data, loading, stakingModuleId, nodeOperatorId } =
     useLidoNodeOperatorData();
   const { data: stakingModule, loading: stakingModuleLoading } =
     useLidoStakingModuleData();
+  const { data: totals } = useLidoServerQuery(GET_LIDO_NODE_OPERATOR_TOTALS, {
+    variables: {
+      stakingModuleId: Number(stakingModuleId),
+      nodeOperatorId: Number(nodeOperatorId),
+    },
+    skip: !stakingModuleId || !nodeOperatorId,
+  });
   const isNor = isNorModule(stakingModule);
   const isCsm = isCsmModule(stakingModule);
   const { data: summary, loading: summaryLoading } =
     useLidoNodeOperatorSummaryData(
-      stakingModule?.moduleAddress,
+      stakingModule?.stakingModule,
       nodeOperatorId,
     );
   const isSummaryLoading = stakingModuleLoading || summaryLoading;
@@ -269,13 +289,14 @@ export default function LidoNodeOperator() {
       value: "timeline",
       children: (
         <TabPanel>
-          <LidoNodeOperatorTimeline data={data.timelines} loading={loading} />
+          <LidoNodeOperatorTimeline data={data.timeline} loading={loading} />
         </TabPanel>
       ),
     },
     isNor && {
       name: "Rewards",
       value: "rewards",
+      count: totals?.rewardsDistributeds?.total,
       children: (
         <LidoNodeOperatorRewardsDistributed
           stakingModuleId={stakingModuleId}
@@ -286,6 +307,7 @@ export default function LidoNodeOperator() {
     isCsm && {
       name: "Rewards",
       value: "rewards",
+      count: toCsmRewardsCount(totals),
       children: <LidoNodeOperatorRewards nodeOperatorId={nodeOperatorId} />,
     },
   ].filter(Boolean);

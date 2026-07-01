@@ -1,15 +1,17 @@
 import { gql } from "@apollo/client";
 
-export const GET_LIDO_WITHDRAWALS = gql`
+export const GET_LIDO_SERVER_WITHDRAWALS = gql`
   query GetLidoWithdrawals(
     $limit: Int!
     $offset: Int!
+    $address: String
     $status: WithdrawalStatus
     $filter: IndexerFilterInput
   ) {
     withdrawals(
       limit: $limit
       offset: $offset
+      address: $address
       status: $status
       filter: $filter
     ) {
@@ -42,6 +44,8 @@ export const GET_LIDO_WITHDRAWAL = gql`
       owner
       amountOfStETH
       amountOfShares
+      cumulativeStETH
+      cumulativeShares
       status
       timeline
       indexer {

@@ -15,7 +15,7 @@ import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsDat
 import { useLidoStEthHolderCountData } from "../../hooks/lido/useLidoProtocolStatData";
 import { formatCount, OnchainAmount } from "../../components/lido/home/metrics";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
-import { GET_LIDO_STETH_TOTALS } from "../../services/gql/lido";
+import { GET_LIDO_SERVER_STETH_TOTALS } from "../../services/gql/lido";
 import { useLidoServerQuery } from "../../hooks/lido/useLidoQuery";
 
 function LidoStETHSummary() {
@@ -75,7 +75,7 @@ function LidoStETHSummary() {
 
 export default function LidoStETH() {
   const breadCrumb = <BreadCrumb data={[{ name: "stETH" }]} />;
-  const { data: totals } = useLidoServerQuery(GET_LIDO_STETH_TOTALS);
+  const { data: totals } = useLidoServerQuery(GET_LIDO_SERVER_STETH_TOTALS);
   const tabs = [
     {
       name: "Deposits",

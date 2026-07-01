@@ -11,7 +11,7 @@ import {
   stakingRouterGraphqlUrl,
 } from "./lidoGraphqlClient";
 
-export { lidoClient };
+export { lidoClient, lidoServerClient, lidoServerUrl };
 
 export function useLidoApolloQuery({
   query,

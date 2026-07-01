@@ -1,6 +1,6 @@
 import { GET_LIDO_MODULE_REWARDS } from "../../services/gql/lido";
 import { useLidoServerListQuery } from "./useLidoList";
-import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
+import { useLidoServerFilterVariables } from "./useLidoListVariables";
 import { useLidoListQueryParams } from "./useLidoListQueryParams";
 
 export function useLidoModuleRewardsData(fixedStakingModuleId) {
@@ -13,7 +13,7 @@ export function useLidoModuleRewardsData(fixedStakingModuleId) {
     queryVariables.stakingModuleId = Number(moduleId);
   }
 
-  const variables = useLidoServerIndexerFilterVariables({
+  const variables = useLidoServerFilterVariables({
     variables: queryVariables,
   });
 

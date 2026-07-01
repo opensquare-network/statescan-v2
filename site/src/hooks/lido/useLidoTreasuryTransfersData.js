@@ -4,7 +4,7 @@ import {
 } from "../../services/gql/lido";
 import { EMPTY_OBJECT } from "../../utils/constants";
 import { useLidoServerListQuery } from "./useLidoList";
-import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
+import { useLidoServerFilterVariables } from "./useLidoListVariables";
 
 export const LIDO_TREASURY_INCOME_TYPES = {
   eth: "eth",
@@ -30,7 +30,7 @@ export function useLidoTreasuryTransfersData(options = EMPTY_OBJECT) {
   const filters = options.filters || EMPTY_OBJECT;
   const type = options.type || LIDO_TREASURY_INCOME_TYPES.eth;
   const { query, field } = getTreasuryIncomeQueryConfig(type);
-  const variables = useLidoServerIndexerFilterVariables({
+  const variables = useLidoServerFilterVariables({
     txHash: filters.txHash == null ? undefined : String(filters.txHash),
   });
   return useLidoServerListQuery({

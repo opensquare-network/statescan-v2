@@ -1,27 +1,40 @@
 import {
-  GET_LIDO_PROTOCOL_STAT,
-  GET_LIDO_STETH_TOTALS,
-  GET_LIDO_WSTETH_TOTALS,
+  GET_LIDO_SERVER_LAST_DAILY_STATS,
+  GET_LIDO_SERVER_STETH_TOTALS,
+  GET_LIDO_SERVER_WSTETH_TOTALS,
 } from "../../services/gql/lido";
-import { useLidoQuery, useLidoServerQuery } from "./useLidoQuery";
+import { useLidoServerQuery } from "./useLidoQuery";
 
-export function useLidoProtocolStatData(id) {
-  const queryResult = useLidoQuery(GET_LIDO_PROTOCOL_STAT, {
-    variables: { id },
-    skip: !id,
-  });
+const WITHDRAWAL_VAULT_RECEIVED_STAT_ID = "withdrawalVaultETHReceived";
+const REWARDS_VAULT_RECEIVED_STAT_ID = "rewardsVaultETHReceived";
 
-  const queryData = queryResult.data;
-  const stat = queryData?.protocolStat;
+function getLastDailyProtocolStatsData(lastDailyStats) {
+  return {
+    [WITHDRAWAL_VAULT_RECEIVED_STAT_ID]: {
+      count: lastDailyStats?.withdrawalVaultETHReceivedCount,
+      id: WITHDRAWAL_VAULT_RECEIVED_STAT_ID,
+      value: lastDailyStats?.withdrawalVaultETHReceivedAmount,
+    },
+    [REWARDS_VAULT_RECEIVED_STAT_ID]: {
+      count: lastDailyStats?.rewardsVaultETHReceivedCount,
+      id: REWARDS_VAULT_RECEIVED_STAT_ID,
+      value: lastDailyStats?.rewardsVaultETHReceivedAmount,
+    },
+  };
+}
+
+export function useLidoLastDailyStatsData() {
+  const queryResult = useLidoServerQuery(GET_LIDO_SERVER_LAST_DAILY_STATS);
+  const queryData = queryResult.data || queryResult.previousData;
 
   return {
     ...queryResult,
-    data: stat,
+    data: getLastDailyProtocolStatsData(queryData?.lastDailyStats),
   };
 }
 
 export function useLidoStEthHolderCountData() {
-  const queryResult = useLidoServerQuery(GET_LIDO_STETH_TOTALS);
+  const queryResult = useLidoServerQuery(GET_LIDO_SERVER_STETH_TOTALS);
   const total = queryResult.data?.stethHolders?.total;
 
   return {
@@ -34,7 +47,7 @@ export function useLidoStEthHolderCountData() {
 }
 
 export function useLidoWstEthHolderCountData() {
-  const queryResult = useLidoServerQuery(GET_LIDO_WSTETH_TOTALS);
+  const queryResult = useLidoServerQuery(GET_LIDO_SERVER_WSTETH_TOTALS);
   const total = queryResult.data?.wstethHolders?.total;
 
   return {

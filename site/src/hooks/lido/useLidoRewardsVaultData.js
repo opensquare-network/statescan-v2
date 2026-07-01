@@ -1,9 +1,9 @@
 import { GET_LIDO_REWARDS_VAULT_ETH_RECEIVED } from "../../services/gql/lido";
 import { useLidoServerListQuery } from "./useLidoList";
-import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
+import { useLidoServerFilterVariables } from "./useLidoListVariables";
 
 export function useLidoRewardsVaultData() {
-  const variables = useLidoServerIndexerFilterVariables();
+  const variables = useLidoServerFilterVariables();
 
   return useLidoServerListQuery({
     query: GET_LIDO_REWARDS_VAULT_ETH_RECEIVED,

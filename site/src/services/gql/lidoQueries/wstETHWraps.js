@@ -4,9 +4,10 @@ export const GET_LIDO_WSTETH_WRAPS = gql`
   query GetLidoWstETHWraps(
     $limit: Int!
     $offset: Int!
+    $address: String
     $filter: IndexerFilterInput
   ) {
-    wrap(limit: $limit, offset: $offset, filter: $filter) {
+    wrap(limit: $limit, offset: $offset, address: $address, filter: $filter) {
       items {
         address
         value
@@ -29,9 +30,10 @@ export const GET_LIDO_WSTETH_UNWRAPS = gql`
   query GetLidoWstETHUnwraps(
     $limit: Int!
     $offset: Int!
+    $address: String
     $filter: IndexerFilterInput
   ) {
-    unwrap(limit: $limit, offset: $offset, filter: $filter) {
+    unwrap(limit: $limit, offset: $offset, address: $address, filter: $filter) {
       items {
         address
         value

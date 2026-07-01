@@ -1,6 +1,6 @@
 import { GET_LIDO_OPERATOR_REWARD_CLAIMS } from "../../services/gql/lido";
 import { useLidoServerListQuery } from "./useLidoList";
-import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
+import { useLidoServerFilterVariables } from "./useLidoListVariables";
 
 export function useLidoOperatorRewardClaimsData(nodeOperatorId) {
   const queryVariables = {};
@@ -8,7 +8,7 @@ export function useLidoOperatorRewardClaimsData(nodeOperatorId) {
     queryVariables.nodeOperatorId = Number(nodeOperatorId);
   }
 
-  const variables = useLidoServerIndexerFilterVariables({
+  const variables = useLidoServerFilterVariables({
     variables: queryVariables,
   });
 

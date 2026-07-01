@@ -176,9 +176,6 @@ export const GET_LIDO_EARN_VAULT_QUEUES = gql`
 
 export const GET_LIDO_EARN_TOTALS = gql`
   query GetLidoEarnTotals($market: EarnMarket) {
-    earnQueues(market: $market, limit: 1, offset: 0) {
-      total
-    }
     earnSubvaults(market: $market, limit: 1, offset: 0) {
       total
     }

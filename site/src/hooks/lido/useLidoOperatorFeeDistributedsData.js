@@ -1,6 +1,6 @@
 import { GET_LIDO_OPERATOR_FEE_DISTRIBUTEDS } from "../../services/gql/lido";
 import { useLidoServerListQuery } from "./useLidoList";
-import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
+import { useLidoServerFilterVariables } from "./useLidoListVariables";
 
 export function useLidoOperatorFeeDistributedsData(nodeOperatorId) {
   const queryVariables = {};
@@ -8,7 +8,7 @@ export function useLidoOperatorFeeDistributedsData(nodeOperatorId) {
     queryVariables.nodeOperatorId = Number(nodeOperatorId);
   }
 
-  const variables = useLidoServerIndexerFilterVariables({
+  const variables = useLidoServerFilterVariables({
     variables: queryVariables,
   });
 

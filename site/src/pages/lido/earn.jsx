@@ -470,7 +470,6 @@ function EarnTabs({ type }) {
     {
       name: "Queue",
       value: "queue",
-      count: totals?.earnQueues?.total,
       children: <EarnQueueTabs type={type} />,
     },
     {

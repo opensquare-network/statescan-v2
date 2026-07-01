@@ -1,12 +1,12 @@
 import { GET_LIDO_REWARDS_DISTRIBUTEDS } from "../../services/gql/lido";
 import { useLidoServerListQuery } from "./useLidoList";
-import { useLidoServerIndexerFilterVariables } from "./useLidoListVariables";
+import { useLidoServerFilterVariables } from "./useLidoListVariables";
 
 export function useLidoRewardsDistributedsData(
   stakingModuleId,
   nodeOperatorId,
 ) {
-  const variables = useLidoServerIndexerFilterVariables({
+  const variables = useLidoServerFilterVariables({
     variables: {
       stakingModuleId: Number(stakingModuleId),
       nodeOperatorId: Number(nodeOperatorId),
