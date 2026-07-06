@@ -25,13 +25,16 @@ const kusama = {
   treasuryWebsite: "https://kusama.dotreasury.com",
   subSquareWebsite: "https://kusama.subsquare.io",
   nodes: [
-    { name: "Parity", url: "wss://kusama-rpc.polkadot.io" },
-    { name: "OnFinality", url: "wss://kusama.api.onfinality.io/public-ws" },
     { name: "Allnodes", url: "wss://kusama-rpc.publicnode.com" },
-    { name: "LuckyFriday", url: "wss://rpc-kusama.luckyfriday.io" },
     { name: "Dwellir", url: "wss://kusama-rpc.n.dwellir.com" },
-    { name: "RadiumBlock", url: "wss://kusama.public.curie.radiumblock.co/ws" },
-    { name: "Stakeworld", url: "wss://ksm-rpc.stakeworld.io" },
+    { name: "Helixstreet", url: "wss://rpc-kusama.helixstreet.io" },
+    { name: "LuckyFriday", url: "wss://rpc-kusama.luckyfriday.io" },
+    { name: "OnFinality", url: "wss://kusama.api.onfinality.io/public-ws" },
+    { name: "Parity", url: "wss://kusama-rpc.polkadot.io" },
+    {
+      name: "Spectrum",
+      url: "wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/QXq7QZ6Q60NDzA/kusama/mainnet/",
+    },
   ],
   useOnChainBlockData: true,
 };
