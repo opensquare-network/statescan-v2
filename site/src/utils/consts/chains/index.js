@@ -16,10 +16,10 @@ import laos from "./laos";
 import paseo from "./paseo";
 import coretimePolkadot from "./coretime-polkadot";
 import coretimeKusama from "./coretime-kusama";
-import coretimePaseo from "./coretime-paseo";
-import peoplePaseo from "./people-paseo";
-import bridgehubPaseo from "./bridgehub-paseo";
-import assethubPaseo from "./assethub-paseo";
+// import coretimePaseo from "./coretime-paseo";
+// import peoplePaseo from "./people-paseo";
+// import bridgehubPaseo from "./bridgehub-paseo";
+// import assethubPaseo from "./assethub-paseo";
 import westend from "./westend";
 import peopleWestend from "./people-westend";
 import coretimeWestend from "./coretime-westend";
@@ -57,10 +57,10 @@ const chains = {
   "people-kusama": peopleKusama,
   // kintsugi,
   paseo,
-  "assethub-paseo": assethubPaseo,
-  "bridgehub-paseo": bridgehubPaseo,
-  "coretime-paseo": coretimePaseo,
-  "people-paseo": peoplePaseo,
+  // "assethub-paseo": assethubPaseo,
+  // "bridgehub-paseo": bridgehubPaseo,
+  // "coretime-paseo": coretimePaseo,
+  // "people-paseo": peoplePaseo,
   gargantua,
   westend,
   westmint,
