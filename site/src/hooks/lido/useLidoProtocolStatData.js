@@ -26,10 +26,11 @@ function getLastDailyProtocolStatsData(lastDailyStats) {
 export function useLidoLastDailyStatsData() {
   const queryResult = useLidoServerQuery(GET_LIDO_SERVER_LAST_DAILY_STATS);
   const queryData = queryResult.data || queryResult.previousData;
+  const lastDailyStats = queryData?.lidoDailyStats?.items?.[0];
 
   return {
     ...queryResult,
-    data: getLastDailyProtocolStatsData(queryData?.lastDailyStats),
+    data: getLastDailyProtocolStatsData(lastDailyStats),
   };
 }
 

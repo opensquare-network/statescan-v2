@@ -17,17 +17,22 @@ export const GET_LIDO_SERVER_USER_STAKING_STATS = gql`
 
 export const GET_LIDO_SERVER_LAST_DAILY_STATS = gql`
   query GetLidoServerLastDailyStats {
-    lastDailyStats {
-      date
-      rewardsVaultETHReceivedAmount
-      rewardsVaultETHReceivedCount
-      stethHolders
-      stethShares
-      stethSupply
-      withdrawalVaultETHReceivedAmount
-      withdrawalVaultETHReceivedCount
-      wstethHolders
-      wstethSupply
+    lidoDailyStats(limit: 1, offset: 1) {
+      limit
+      offset
+      total
+      items {
+        date
+        rewardsVaultETHReceivedAmount
+        rewardsVaultETHReceivedCount
+        stethHolders
+        stethShares
+        stethSupply
+        withdrawalVaultETHReceivedAmount
+        withdrawalVaultETHReceivedCount
+        wstethHolders
+        wstethSupply
+      }
     }
   }
 `;
