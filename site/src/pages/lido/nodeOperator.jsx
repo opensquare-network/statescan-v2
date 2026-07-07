@@ -140,11 +140,11 @@ function toNorNodeOperatorDetailItems(nodeOperator, stakingModule) {
       label: (
         <HelpLabel tip="Total rewards in shares.">Total Rewards</HelpLabel>
       ),
-      value: isNil(nodeOperator.rewardsDistributedShares) ? (
+      value: isNil(nodeOperator.totalRewards) ? (
         "--"
       ) : (
         <ValueDisplay
-          value={toLidoAmount(nodeOperator.rewardsDistributedShares, 18)}
+          value={toLidoAmount(nodeOperator.totalRewards, 18)}
           symbol=""
           showNotEqualTooltip
         />

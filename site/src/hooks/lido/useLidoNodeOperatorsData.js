@@ -1,14 +1,16 @@
 import { GET_LIDO_NODE_OPERATORS } from "../../services/gql/lido";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
+import { useLidoServerListVariables } from "./useLidoListVariables";
 import { useLidoServerQuery } from "./useLidoQuery";
 
 export function useLidoNodeOperatorsData(stakingModuleId) {
-  const queryResult = useLidoServerQuery(GET_LIDO_NODE_OPERATORS, {
+  const variables = useLidoServerListVariables({
     variables: {
       stakingModuleId: Number(stakingModuleId),
-      limit: LIST_DEFAULT_PAGE_SIZE,
-      offset: 0,
     },
+  });
+  const queryResult = useLidoServerQuery(GET_LIDO_NODE_OPERATORS, {
+    variables,
     skip: !stakingModuleId,
   });
   const data = queryResult.data?.nodeOperators;
@@ -21,7 +23,7 @@ export function useLidoNodeOperatorsData(stakingModuleId) {
     ...queryResult,
     data: {
       ...data,
-      offset: 0,
+      offset: variables.offset,
       limit: LIST_DEFAULT_PAGE_SIZE,
     },
   };

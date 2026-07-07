@@ -21,6 +21,7 @@ export const GET_LIDO_NODE_OPERATORS = gql`
         name
         nodeOperatorId
         rewardAddress
+        totalRewards
         stakingModuleId
       }
       total
@@ -47,6 +48,7 @@ export const GET_LIDO_SERVER_NODE_OPERATOR = gql`
       nodeOperatorId
       rewardAddress
       stakingModuleId
+      totalRewards
       timeline
     }
   }

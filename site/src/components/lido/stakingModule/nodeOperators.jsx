@@ -8,6 +8,7 @@ import { StyledPanelTableWrapper } from "../../styled/panel";
 import Table from "../../table";
 import HelpLabel from "../../tooltip/helpLabel";
 import { useLidoNodeOperatorsData } from "../../../hooks/lido/useLidoNodeOperatorsData";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 import { isCsmModule } from "./utils";
 import { toLidoAmount, toLidoBlockNumber } from "../../../utils/viewFuncs/lido";
 
@@ -84,7 +85,7 @@ function toNorNodeOperatorsTableData(items = []) {
       toOptionalNumber(
         item.vettedSigningKeysCount ?? item.approvedValidatorsCount,
       ),
-      toSharesValue(item.rewardsDistributedShares),
+      toSharesValue(item.totalRewards),
       renderBooleanTag(item.active, "Active", "Inactive"),
     ];
   });
@@ -119,6 +120,7 @@ function toCsmNodeOperatorsTableData(items = []) {
 }
 
 export default function LidoStakingModuleNodeOperators({ stakingModule }) {
+  const { page = 1 } = useQueryParams();
   const stakingModuleId = stakingModule?.stakingModuleId;
   const isCsm = isCsmModule(stakingModule);
   const { data, loading } = useLidoNodeOperatorsData(stakingModuleId);
@@ -130,7 +132,11 @@ export default function LidoStakingModuleNodeOperators({ stakingModule }) {
   return (
     <StyledPanelTableWrapper
       footer={
-        <Pagination page={1} pageSize={data?.limit} total={data?.total} />
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
       }
     >
       <Table heads={heads} data={tableData} loading={loading} />
