@@ -1,3 +1,5 @@
+const { LRUCache } = require("lru-cache");
+
 const CONFIG = {
   MAX_REQUESTS: parseInt(process.env.RATE_LIMIT_MAX) || 100,
   WINDOW_MS: (parseInt(process.env.RATE_LIMIT_WINDOW) || 1) * 1000,
@@ -7,11 +9,15 @@ const CONFIG = {
       .map((ip) => ip.trim())
       .filter(Boolean),
   ),
+  MAX_STORE_SIZE: parseInt(process.env.RATE_LIMIT_STORE_SIZE) || 10000,
 };
 
 console.log("Rate limit:", CONFIG);
 
-const rateLimitStore = new Map();
+const rateLimitStore = new LRUCache({
+  max: CONFIG.MAX_STORE_SIZE,
+  ttl: CONFIG.WINDOW_MS,
+});
 
 function normalizeIP(ip) {
   if (ip === "::1" || ip === "::ffff:127.0.0.1") {
@@ -32,15 +38,6 @@ function extractClientIP({ request, serverContext }) {
   return normalizeIP(ip);
 }
 
-function cleanupExpiredRecords() {
-  const now = Date.now();
-  for (const [ip, record] of rateLimitStore.entries()) {
-    if (now > record.resetTime) {
-      rateLimitStore.delete(ip);
-    }
-  }
-}
-
 function checkRateLimit(ip) {
   if (CONFIG.WHITELIST_IPS.has(ip)) {
     return { allowed: true };
@@ -49,11 +46,8 @@ function checkRateLimit(ip) {
   const record = rateLimitStore.get(ip);
 
   const now = Date.now();
-  if (!record || now > record.resetTime) {
-    rateLimitStore.set(ip, {
-      count: 1,
-      resetTime: now + CONFIG.WINDOW_MS,
-    });
+  if (!record) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + CONFIG.WINDOW_MS });
     return { allowed: true };
   }
 
@@ -112,7 +106,5 @@ function rateLimitPlugin() {
     },
   };
 }
-
-setInterval(() => cleanupExpiredRecords(), 30000);
 
 module.exports = { rateLimitPlugin };
