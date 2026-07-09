@@ -7,6 +7,8 @@ export function useLidoDepositsData(options = EMPTY_OBJECT) {
   const filters = options.filters || EMPTY_OBJECT;
   const variables = useLidoServerFilterVariables({
     address: filters.address,
+    withSort: true,
+    defaultSortQuery: "block_desc",
   });
 
   return useLidoServerListQuery({

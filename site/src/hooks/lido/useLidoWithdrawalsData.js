@@ -11,6 +11,8 @@ export function useLidoWithdrawalsData(options = EMPTY_OBJECT) {
     variables: pickLidoFilters({
       status: filters.status,
     }),
+    withSort: true,
+    defaultSortQuery: "block_desc",
   });
 
   return useLidoServerListQuery({

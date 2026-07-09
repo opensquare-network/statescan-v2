@@ -1,11 +1,10 @@
-import { useCallback } from "react";
 import { useQueryParams } from "../../../hooks/useQueryParams";
-import useQueryParamsUpdater from "../../../hooks/useQueryParamsUpdater";
 import { useLidoOperatorFeeDistributedsData } from "../../../hooks/lido/useLidoOperatorFeeDistributedsData";
 import TabBar from "../../accountIdentity/tabBar";
 import { Panel } from "../../styled/panel";
 import LidoOperatorFeeDistributedsTable from "../operatorFeeDistributeds/table";
 import LidoNodeOperatorRewardClaims from "./operatorRewardClaims";
+import { useLidoSubTabSwitcher } from "../../../hooks/lido/useLidoSubTabSwitcher";
 
 const TABS = {
   distributed: "distributed",
@@ -16,16 +15,10 @@ const tabs = [{ name: TABS.distributed }, { name: TABS.claims }];
 
 export default function LidoNodeOperatorRewards({ nodeOperatorId }) {
   const { sub } = useQueryParams({ parseNumbers: false });
-  const updateQueryParams = useQueryParamsUpdater();
   const selectedTab = sub || TABS.distributed;
   const { data: distributedData, loading: distributedLoading } =
     useLidoOperatorFeeDistributedsData(nodeOperatorId);
-  const setSelectedTab = useCallback(
-    (tab) => {
-      updateQueryParams("sub", tab);
-    },
-    [updateQueryParams],
-  );
+  const setSelectedTab = useLidoSubTabSwitcher();
 
   return (
     <Panel>

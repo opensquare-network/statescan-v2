@@ -21,6 +21,10 @@ import {
 const lidoRewardsVaultHead = [
   {
     name: "Block",
+    type: "sortable",
+    sortDefaultQueryValue: "block_desc",
+    sortAscendingQueryValue: "block_asc",
+    sortDescendingQueryValue: "block_desc",
     width: 160,
   },
   {
@@ -31,6 +35,9 @@ const lidoRewardsVaultHead = [
   { name: "Tx Hash", width: 220 },
   {
     name: "Amount",
+    type: "sortable",
+    sortAscendingQueryValue: "amount_asc",
+    sortDescendingQueryValue: "amount_desc",
     align: "right",
     width: 180,
   },

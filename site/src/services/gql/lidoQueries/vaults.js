@@ -5,8 +5,14 @@ export const GET_LIDO_REWARDS_VAULT_ETH_RECEIVED = gql`
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
+    $sort: AmountSortInput
   ) {
-    rewardsVaultReceived(limit: $limit, offset: $offset, filter: $filter) {
+    rewardsVaultReceived(
+      limit: $limit
+      offset: $offset
+      filter: $filter
+      sort: $sort
+    ) {
       items {
         amount
         indexer {

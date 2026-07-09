@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import styled from "styled-components";
 import BreadCrumb from "../../components/breadCrumb";
@@ -27,6 +25,7 @@ import {
   useLidoTreasuryTransfersData,
 } from "../../hooks/lido/useLidoTreasuryTransfersData";
 import { useQueryParams } from "../../hooks/useQueryParams";
+import { useLidoSubTabSwitcher } from "../../hooks/lido/useLidoSubTabSwitcher";
 
 const TOP_TREASURY_ASSETS_COUNT = 5;
 
@@ -201,21 +200,8 @@ function LidoTreasuryIncomeTableView({
 
 function LidoTreasuryIncomeTabs() {
   const { sub } = useQueryParams({ parseNumbers: false });
-  const location = useLocation();
-  const navigate = useNavigate();
   const selectedTab = sub || LIDO_TREASURY_INCOME_TYPES.eth;
-  const setSelectedTab = useCallback(
-    (tab) => {
-      const searchParams = new URLSearchParams(location.search);
-      searchParams.set("sub", tab);
-      searchParams.set("page", "1");
-      navigate({
-        pathname: location.pathname,
-        search: searchParams.toString(),
-      });
-    },
-    [location, navigate],
-  );
+  const setSelectedTab = useLidoSubTabSwitcher();
 
   return (
     <Panel>

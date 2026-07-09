@@ -13,6 +13,8 @@ export function useLidoStakingRouterETHDepositedsData(fixedStakingModuleId) {
     variables: pickLidoFilters({
       stakingModuleId: moduleId ? Number(moduleId) : undefined,
     }),
+    withSort: true,
+    defaultSortQuery: "block_desc",
   });
 
   return useLidoServerListQuery({

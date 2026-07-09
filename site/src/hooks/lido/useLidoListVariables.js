@@ -1,7 +1,10 @@
 import { EMPTY_OBJECT, LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { useQueryParams } from "../useQueryParams";
 import { useLidoListQueryParams } from "./useLidoListQueryParams";
+import { toLidoSort } from "./sort";
 import { pickLidoFilters } from "./utils";
+
+export { toLidoSort } from "./sort";
 
 export function getLidoServerIndexerFilter({
   txHash,
@@ -49,8 +52,11 @@ export function useLidoServerFilterVariables({
   variables = EMPTY_OBJECT,
   address: fixedAddress,
   txHash: fixedTxHash,
+  withSort = false,
+  defaultSortQuery,
 } = EMPTY_OBJECT) {
   const {
+    sortQuery,
     txHash,
     params: { address },
     timeDimensionParams,
@@ -64,6 +70,7 @@ export function useLidoServerFilterVariables({
 
   return pickLidoFilters({
     ...queryVariables,
+    ...(withSort ? { sort: toLidoSort(sortQuery || defaultSortQuery) } : {}),
     filter: getLidoServerIndexerFilter({
       txHash: fixedTxHash ?? txHash,
       timeDimensionParams,

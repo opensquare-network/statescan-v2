@@ -83,12 +83,14 @@ export const GET_LIDO_SERVER_STAKING_ROUTER_ETH_DEPOSITED = gql`
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
+    $sort: AmountSortInput
   ) {
     stakingRouterEthDeposited(
       stakingModuleId: $stakingModuleId
       limit: $limit
       offset: $offset
       filter: $filter
+      sort: $sort
     ) {
       items {
         amount

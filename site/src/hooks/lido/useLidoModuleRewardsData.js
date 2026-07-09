@@ -15,6 +15,8 @@ export function useLidoModuleRewardsData(fixedStakingModuleId) {
 
   const variables = useLidoServerFilterVariables({
     variables: queryVariables,
+    withSort: true,
+    defaultSortQuery: "block_desc",
   });
 
   return useLidoServerListQuery({

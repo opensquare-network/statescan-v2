@@ -23,9 +23,9 @@ function getLidoModuleRewardsHead(showModuleId) {
     {
       name: "Block",
       type: "sortable",
-      sortDefaultQueryValue: "blockNumber_desc",
-      sortAscendingQueryValue: "blockNumber_asc",
-      sortDescendingQueryValue: "blockNumber_desc",
+      sortDefaultQueryValue: "block_desc",
+      sortAscendingQueryValue: "block_asc",
+      sortDescendingQueryValue: "block_desc",
       width: 160,
     },
     {

@@ -6,12 +6,14 @@ export const GET_LIDO_NODE_OPERATORS = gql`
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
+    $sort: TotalRewardsSortInput
   ) {
     nodeOperators(
       stakingModuleId: $stakingModuleId
       limit: $limit
       offset: $offset
       filter: $filter
+      sort: $sort
     ) {
       items {
         active
@@ -120,21 +122,20 @@ export const GET_LIDO_OPERATOR_REWARD_CLAIMS = gql`
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
+    $sort: AmountSortInput
   ) {
     operatorRewardClaims(
       nodeOperatorId: $nodeOperatorId
       limit: $limit
       offset: $offset
       filter: $filter
+      sort: $sort
     ) {
       items {
-        claimAddress
-        claimedShares
-        claimedWstETHAmount
-        cumulativeFeeShares
+        amount
         nodeOperatorId
         requestId
-        requestedAmount
+        to
         type
         indexer {
           blockNumber
@@ -156,12 +157,14 @@ export const GET_LIDO_OPERATOR_FEE_DISTRIBUTEDS = gql`
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
+    $sort: SharesSortInput
   ) {
     operatorFeeDistributeds(
       nodeOperatorId: $nodeOperatorId
       limit: $limit
       offset: $offset
       filter: $filter
+      sort: $sort
     ) {
       items {
         nodeOperatorId

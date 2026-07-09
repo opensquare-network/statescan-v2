@@ -32,6 +32,8 @@ export function useLidoTreasuryTransfersData(options = EMPTY_OBJECT) {
   const { query, field } = getTreasuryIncomeQueryConfig(type);
   const variables = useLidoServerFilterVariables({
     txHash: filters.txHash == null ? undefined : String(filters.txHash),
+    withSort: type === LIDO_TREASURY_INCOME_TYPES.steth,
+    defaultSortQuery: "block_desc",
   });
   return useLidoServerListQuery({
     query,

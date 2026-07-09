@@ -27,9 +27,9 @@ const lidoWithdrawalsHead = [
   {
     name: "Block",
     type: "sortable",
-    sortDefaultQueryValue: "blockNumber_desc",
-    sortAscendingQueryValue: "blockNumber_asc",
-    sortDescendingQueryValue: "blockNumber_desc",
+    sortDefaultQueryValue: "block_desc",
+    sortAscendingQueryValue: "block_asc",
+    sortDescendingQueryValue: "block_desc",
     width: 160,
   },
   {
@@ -42,8 +42,8 @@ const lidoWithdrawalsHead = [
   {
     name: "Value",
     type: "sortable",
-    sortAscendingQueryValue: "value_asc",
-    sortDescendingQueryValue: "value_desc",
+    sortAscendingQueryValue: "amount_of_shares_asc",
+    sortDescendingQueryValue: "amount_of_shares_desc",
     align: "right",
     width: 180,
   },

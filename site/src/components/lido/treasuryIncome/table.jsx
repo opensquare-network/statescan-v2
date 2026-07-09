@@ -22,10 +22,6 @@ const TOKEN_DECIMALS = 18;
 const lidoTreasuryIncomeBaseHead = [
   {
     name: "Block",
-    type: "sortable",
-    sortDefaultQueryValue: "blockNumber_desc",
-    sortAscendingQueryValue: "blockNumber_asc",
-    sortDescendingQueryValue: "blockNumber_desc",
     width: 160,
   },
   {
@@ -48,7 +44,20 @@ const lidoTreasuryEthIncomeHead = [
 ];
 
 const lidoTreasuryStethIncomeHead = [
-  ...lidoTreasuryIncomeBaseHead,
+  {
+    ...lidoTreasuryIncomeBaseHead[0],
+    type: "sortable",
+    sortDefaultQueryValue: "block_desc",
+    sortAscendingQueryValue: "block_asc",
+    sortDescendingQueryValue: "block_desc",
+  },
+  ...lidoTreasuryIncomeBaseHead.slice(1, 3),
+  {
+    ...lidoTreasuryIncomeBaseHead[3],
+    type: "sortable",
+    sortAscendingQueryValue: "value_asc",
+    sortDescendingQueryValue: "value_desc",
+  },
   {
     name: (
       <HelpLabel
@@ -59,6 +68,9 @@ const lidoTreasuryStethIncomeHead = [
         Shares
       </HelpLabel>
     ),
+    type: "sortable",
+    sortAscendingQueryValue: "shares_asc",
+    sortDescendingQueryValue: "shares_desc",
     align: "right",
     width: 180,
   },

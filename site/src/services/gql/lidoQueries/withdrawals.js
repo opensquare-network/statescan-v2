@@ -7,6 +7,7 @@ export const GET_LIDO_SERVER_WITHDRAWALS = gql`
     $address: String
     $status: WithdrawalStatus
     $filter: IndexerFilterInput
+    $sort: WithdrawalSortInput
   ) {
     withdrawals(
       limit: $limit
@@ -14,6 +15,7 @@ export const GET_LIDO_SERVER_WITHDRAWALS = gql`
       address: $address
       status: $status
       filter: $filter
+      sort: $sort
     ) {
       items {
         requestId
@@ -63,8 +65,14 @@ export const GET_LIDO_WITHDRAWAL_VAULT_WITHDRAWALS_RECEIVED = gql`
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
+    $sort: AmountSortInput
   ) {
-    withdrawalVaultReceived(limit: $limit, offset: $offset, filter: $filter) {
+    withdrawalVaultReceived(
+      limit: $limit
+      offset: $offset
+      filter: $filter
+      sort: $sort
+    ) {
       items {
         amount
         indexer {

@@ -1,8 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_LIDO_STETH_HOLDERS = gql`
-  query GetLidoStETHHolders($limit: Int!, $offset: Int!) {
-    stethHolders(limit: $limit, offset: $offset) {
+  query GetLidoStETHHolders(
+    $limit: Int!
+    $offset: Int!
+    $sort: HolderSharesSortInput
+  ) {
+    stethHolders(limit: $limit, offset: $offset, sort: $sort) {
       items {
         address
         shares
@@ -15,8 +19,12 @@ export const GET_LIDO_STETH_HOLDERS = gql`
 `;
 
 export const GET_LIDO_WSTETH_HOLDERS = gql`
-  query GetLidoWstETHHolders($limit: Int!, $offset: Int!) {
-    wstethHolders(limit: $limit, offset: $offset) {
+  query GetLidoWstETHHolders(
+    $limit: Int!
+    $offset: Int!
+    $sort: BalanceSortInput
+  ) {
+    wstethHolders(limit: $limit, offset: $offset, sort: $sort) {
       items {
         address
         balance

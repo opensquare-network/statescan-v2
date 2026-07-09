@@ -35,11 +35,13 @@ export const GET_LIDO_TREASURY_STETH_INCOME = gql`
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
+    $sort: TreasuryStethTransferSortInput
   ) {
     treasuryStethIncome: treasuryStethTransfers(
       limit: $limit
       offset: $offset
       filter: $filter
+      sort: $sort
     ) {
       items {
         value

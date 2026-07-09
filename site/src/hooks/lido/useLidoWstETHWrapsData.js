@@ -9,6 +9,8 @@ import { useLidoServerFilterVariables } from "./useLidoListVariables";
 function useLidoWstETHWrapEventsData({ query, field, filters = EMPTY_OBJECT }) {
   const variables = useLidoServerFilterVariables({
     address: filters.address,
+    withSort: true,
+    defaultSortQuery: "block_desc",
   });
 
   return useLidoServerListQuery({ query, field, variables });

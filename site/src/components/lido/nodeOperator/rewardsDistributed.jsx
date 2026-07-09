@@ -19,10 +19,6 @@ import {
 const rewardsDistributedHead = [
   {
     name: "Block",
-    type: "sortable",
-    sortDefaultQueryValue: "blockNumber_desc",
-    sortAscendingQueryValue: "blockNumber_asc",
-    sortDescendingQueryValue: "blockNumber_desc",
     width: 160,
   },
   { name: "Time", type: "time", width: 200 },

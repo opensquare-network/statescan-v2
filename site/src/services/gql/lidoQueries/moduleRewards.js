@@ -6,12 +6,14 @@ export const GET_LIDO_MODULE_REWARDS = gql`
     $limit: Int!
     $offset: Int!
     $filter: IndexerFilterInput
+    $sort: CsmRewardSortInput
   ) {
     stethCsmRewards(
       stakingModuleId: $stakingModuleId
       limit: $limit
       offset: $offset
       filter: $filter
+      sort: $sort
     ) {
       items {
         sharesValue

@@ -9,7 +9,6 @@ import {
   StyledPanelTableWrapperNoBordered,
 } from "../../styled/panel";
 import Table from "../../table";
-import HelpLabel from "../../tooltip/helpLabel";
 import { useLidoOperatorRewardClaimsData } from "../../../hooks/lido/useLidoOperatorRewardClaimsData";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 import {
@@ -22,6 +21,10 @@ import {
 const operatorRewardClaimsHead = [
   {
     name: "Block",
+    type: "sortable",
+    sortDefaultQueryValue: "block_desc",
+    sortAscendingQueryValue: "block_asc",
+    sortDescendingQueryValue: "block_desc",
     width: 160,
   },
   { name: "Time", type: "time", width: 200 },
@@ -29,25 +32,13 @@ const operatorRewardClaimsHead = [
   { name: "Request ID", width: 140 },
   { name: "Claim Address", width: 220 },
   { name: "Type", width: 120 },
-  { name: "Requested Amount", align: "right", width: 180 },
   {
-    name: (
-      <HelpLabel tip="Reward amount in shares." align="right" fullWidth>
-        Claimed Shares
-      </HelpLabel>
-    ),
+    name: "Amount",
+    type: "sortable",
+    sortAscendingQueryValue: "amount_asc",
+    sortDescendingQueryValue: "amount_desc",
     align: "right",
     width: 180,
-  },
-  { name: "Claimed wstETH", align: "right", width: 180 },
-  {
-    name: (
-      <HelpLabel tip="Reward amount in shares." align="right" fullWidth>
-        Cumulative Fee Shares
-      </HelpLabel>
-    ),
-    align: "right",
-    width: 220,
   },
 ];
 
@@ -83,15 +74,12 @@ function toOperatorRewardClaimsTableData(items = []) {
       item.requestId,
       <EvmAddress
         key={`${rowKey}-claim-address`}
-        address={item.claimAddress}
+        address={item.to}
         copy={false}
         maxWidth="170px"
       />,
       item.type,
-      toAmountValue(item.requestedAmount),
-      toAmountValue(item.claimedShares),
-      toAmountValue(item.claimedWstETHAmount),
-      toAmountValue(item.cumulativeFeeShares),
+      toAmountValue(item.amount),
     ];
   });
 }

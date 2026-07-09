@@ -21,10 +21,6 @@ import { useQueryParams } from "../../../hooks/useQueryParams";
 const heads = [
   {
     name: "Block",
-    type: "sortable",
-    sortDefaultQueryValue: "blockNumber_desc",
-    sortAscendingQueryValue: "blockNumber_asc",
-    sortDescendingQueryValue: "blockNumber_desc",
     width: 160,
   },
   {

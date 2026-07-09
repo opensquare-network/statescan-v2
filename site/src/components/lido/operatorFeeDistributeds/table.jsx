@@ -20,6 +20,10 @@ import {
 const operatorFeeDistributedsHead = [
   {
     name: "Block",
+    type: "sortable",
+    sortDefaultQueryValue: "block_desc",
+    sortAscendingQueryValue: "block_asc",
+    sortDescendingQueryValue: "block_desc",
     width: 160,
   },
   { name: "Time", type: "time", width: 200 },
@@ -30,6 +34,9 @@ const operatorFeeDistributedsHead = [
         Shares
       </HelpLabel>
     ),
+    type: "sortable",
+    sortAscendingQueryValue: "shares_asc",
+    sortDescendingQueryValue: "shares_desc",
     align: "right",
     width: 180,
   },

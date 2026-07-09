@@ -23,6 +23,9 @@ const norNodeOperatorsHead = [
         Total Rewards
       </HelpLabel>
     ),
+    type: "sortable",
+    sortAscendingQueryValue: "total_rewards_asc",
+    sortDescendingQueryValue: "total_rewards_desc",
     align: "right",
     width: 180,
   },

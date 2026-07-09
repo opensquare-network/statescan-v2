@@ -6,8 +6,15 @@ export const GET_LIDO_WSTETH_WRAPS = gql`
     $offset: Int!
     $address: String
     $filter: IndexerFilterInput
+    $sort: ValueSortInput
   ) {
-    wrap(limit: $limit, offset: $offset, address: $address, filter: $filter) {
+    wrap(
+      limit: $limit
+      offset: $offset
+      address: $address
+      filter: $filter
+      sort: $sort
+    ) {
       items {
         address
         value
@@ -32,8 +39,15 @@ export const GET_LIDO_WSTETH_UNWRAPS = gql`
     $offset: Int!
     $address: String
     $filter: IndexerFilterInput
+    $sort: ValueSortInput
   ) {
-    unwrap(limit: $limit, offset: $offset, address: $address, filter: $filter) {
+    unwrap(
+      limit: $limit
+      offset: $offset
+      address: $address
+      filter: $filter
+      sort: $sort
+    ) {
       items {
         address
         value
