@@ -10,6 +10,7 @@ import {
   GET_LIDO_SERVER_WITHDRAWALS,
 } from "../../../services/gql/lido";
 import { useLidoServerQuery } from "../../../hooks/lido/useLidoQuery";
+import { toLidoSort } from "../../../hooks/lido/sort";
 import {
   Anchor,
   AnchorWrapper,
@@ -183,6 +184,7 @@ export default function LidoLatestUserActions({ decimals, symbol }) {
   const variables = {
     limit: LATEST_ITEMS_COUNT,
     offset: 0,
+    sort: toLidoSort("block_desc"),
   };
   const { data: depositsQueryData, loading: depositsLoading } =
     useLidoServerQuery(GET_LIDO_SERVER_DEPOSITS, {

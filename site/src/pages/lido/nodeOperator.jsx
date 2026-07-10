@@ -241,6 +241,7 @@ export default function LidoNodeOperator() {
     useLidoNodeOperatorSummaryData(
       stakingModule?.stakingModule,
       nodeOperatorId,
+      stakingModuleId,
     );
   const isSummaryLoading = stakingModuleLoading || summaryLoading;
   const breadCrumb = (

@@ -15,7 +15,7 @@ import { LidoDepositsTable } from "./deposits";
 import { LidoWithdrawalsTable } from "./withdrawals";
 import { LidoWstETHUnwrapsTable, LidoWstETHWrapsTable } from "./wstETHWraps";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
-import { useLidoAddressBalancesData } from "../../hooks/lido/useLidoAddressBalancesData";
+import { useLidoAddressBalancesData } from "../../hooks/lido/useLidoAddressProfileData";
 import { useParams } from "react-router-dom";
 import { toLidoEtherAmount } from "../../utils/viewFuncs/lido";
 

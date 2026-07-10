@@ -18,7 +18,7 @@ import CaretUprightIcon from "../../components/icons/caretUpright";
 import { Panel } from "../../components/styled/panel";
 import { TextSecondary } from "../../components/styled/text";
 import { useLidoTreasuryTransfersFilter } from "../../hooks/filter/useLidoTreasuryTransfersFilter";
-import { useLidoTreasuryAddressData } from "../../hooks/lido/useLidoTreasuryAddressData";
+import { useLidoTreasuryAddressData } from "../../hooks/lido/useLidoLocatorData";
 import { useLidoTreasuryTokenBalancesData } from "../../hooks/lido/useLidoTreasuryTokenBalancesData";
 import {
   LIDO_TREASURY_INCOME_TYPES,
@@ -95,6 +95,10 @@ function getAssetLabel(asset) {
   return asset.protocol ? `${asset.symbol} (${asset.protocol})` : asset.symbol;
 }
 
+function isValidTreasuryAsset(asset) {
+  return asset?.symbol && asset?.valueUsd !== undefined;
+}
+
 function LidoTreasurySummary({ treasuryAddress, treasuryAddressLoading }) {
   const { data: treasuryTokens, loading: tokensLoading } =
     useLidoTreasuryTokenBalancesData();
@@ -102,6 +106,7 @@ function LidoTreasurySummary({ treasuryAddress, treasuryAddressLoading }) {
   const defiAssets = getDefiAssets(treasuryTokens.defiProtocols);
   const assets = [...walletAssets, ...defiAssets];
   const topAssets = [...walletAssets]
+    .filter(isValidTreasuryAsset)
     .sort((a, b) =>
       new BigNumber(b.valueUsd || 0).minus(a.valueUsd || 0).toNumber(),
     )
@@ -144,21 +149,28 @@ function LidoTreasurySummary({ treasuryAddress, treasuryAddressLoading }) {
       ),
     },
   ];
-  const topAssetListData = topAssets.map((asset) => ({
-    label: getAssetLabel(asset),
-    value: (
-      <LoadableContent loading={tokensLoading}>
-        <ValueWrapper>
-          <ValueDisplay
-            value={asset.valueUsd}
-            symbol=""
-            prefix="$"
-            showNotEqualTooltip
-          />
-        </ValueWrapper>
-      </LoadableContent>
-    ),
-  }));
+  const topAssetListData = topAssets.length
+    ? topAssets.map((asset) => ({
+        label: getAssetLabel(asset),
+        value: (
+          <LoadableContent loading={tokensLoading}>
+            <ValueWrapper>
+              <ValueDisplay
+                value={asset.valueUsd}
+                symbol=""
+                prefix="$"
+                showNotEqualTooltip
+              />
+            </ValueWrapper>
+          </LoadableContent>
+        ),
+      }))
+    : [
+        {
+          label: "Top Assets",
+          value: <LoadableContent loading={tokensLoading}>--</LoadableContent>,
+        },
+      ];
 
   return (
     <Panel>

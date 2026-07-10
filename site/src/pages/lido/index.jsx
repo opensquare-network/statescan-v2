@@ -15,7 +15,7 @@ import {
 } from "../../services/evm/lido";
 import { useLidoDailyStatsData } from "../../hooks/lido/useLidoDailyStatsData";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
-import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoEvmBalanceData";
+import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoAddressProfileData";
 import { useLidoLastDailyStatsData } from "../../hooks/lido/useLidoProtocolStatData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 

@@ -13,7 +13,7 @@ import {
   useLidoStETHHoldersData,
   useLidoWstETHHoldersData,
 } from "../../hooks/lido/useLidoHoldersData";
-import { useLidoStEthSharesRateData } from "../../hooks/lido/useLidoStEthSharesRateData";
+import { useLidoStEthSharesRateData } from "../../hooks/lido/useLidoOnchainStatsData";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import {
   toLidoEtherAmount,

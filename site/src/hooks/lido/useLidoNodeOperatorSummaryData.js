@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import evmPublicClient from "../../services/evm/client";
-import { LIDO_NODE_OPERATORS_REGISTRY_ABI } from "../../services/evm/lido";
+import { normalizeEvmAddress } from "../../utils/normalizeAddress";
+import { useLidoStatusData } from "./useLidoStatusData";
 
 const emptyData = {
   targetLimitMode: null,
@@ -13,59 +12,66 @@ const emptyData = {
   depositableValidatorsCount: null,
 };
 
-function toSummaryData(result) {
-  if (!result) {
-    return emptyData;
-  }
+function findNodeOperatorSummary(
+  items = [],
+  address,
+  nodeOperatorId,
+  stakingModuleId,
+) {
+  const normalizedAddress = normalizeEvmAddress(address)?.toLowerCase();
+  const normalizedNodeOperatorId = Number(nodeOperatorId);
+  const normalizedStakingModuleId = Number(stakingModuleId);
+
+  return items.find((item) => {
+    if (Number(item.nodeOperatorId) !== normalizedNodeOperatorId) {
+      return false;
+    }
+
+    if (!Number.isNaN(normalizedStakingModuleId)) {
+      return Number(item.stakingModuleId) === normalizedStakingModuleId;
+    }
+
+    return item.address === normalizedAddress;
+  });
+}
+
+export function useLidoNodeOperatorSummaryData(
+  address,
+  nodeOperatorId,
+  stakingModuleId,
+) {
+  const queryResult = useLidoStatusData("lido-node-operator-summaries", {
+    items: [],
+  });
+  const item = findNodeOperatorSummary(
+    queryResult.data?.items,
+    address,
+    nodeOperatorId,
+    stakingModuleId,
+  );
 
   return {
-    targetLimitMode: result[0]?.toString(),
-    targetValidatorsCount: result[1]?.toString(),
-    stuckValidatorsCount: result[2]?.toString(),
-    refundedValidatorsCount: result[3]?.toString(),
-    stuckPenaltyEndTimestamp: result[4]?.toString(),
-    totalExitedValidators: result[5]?.toString(),
-    totalDepositedValidators: result[6]?.toString(),
-    depositableValidatorsCount: result[7]?.toString(),
+    ...queryResult,
+    data: item || emptyData,
   };
 }
 
-export function useLidoNodeOperatorSummaryData(address, nodeOperatorId) {
-  const [data, setData] = useState(emptyData);
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = useCallback(() => {
-    if (!evmPublicClient || !address || !nodeOperatorId) {
-      setData(emptyData);
-      return;
-    }
-
-    setLoading(true);
-
-    evmPublicClient
-      .readContract({
-        address,
-        abi: LIDO_NODE_OPERATORS_REGISTRY_ABI,
-        functionName: "getNodeOperatorSummary",
-        args: [window.BigInt(nodeOperatorId)],
-      })
-      .then((result) => {
-        setData(toSummaryData(result));
-      })
-      .catch(() => {
-        setData(emptyData);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [address, nodeOperatorId]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+export function useLidoCsmExtendedManagerPermissionsData(
+  address,
+  nodeOperatorId,
+) {
+  const normalizedAddress = normalizeEvmAddress(address)?.toLowerCase();
+  const queryResult = useLidoStatusData("lido-node-operator-summaries", {
+    items: [],
+  });
+  const item = queryResult.data?.items?.find(
+    (item) =>
+      item.address === normalizedAddress &&
+      Number(item.nodeOperatorId) === Number(nodeOperatorId),
+  );
 
   return {
-    data,
-    loading,
+    ...queryResult,
+    data: item?.extendedManagerPermissions ?? null,
   };
 }
