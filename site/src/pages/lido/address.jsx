@@ -24,10 +24,14 @@ function toApproximateValue(value) {
 }
 
 function toDisplayValue(value, symbol) {
+  if (isNil(value)) {
+    return <TextSecondary>--</TextSecondary>;
+  }
+
   return (
     <TextSecondary>
       <ValueDisplay
-        value={toLidoEtherAmount(value ?? "0")}
+        value={toLidoEtherAmount(value)}
         symbol={symbol}
         showNotEqualTooltip
       />
@@ -36,7 +40,11 @@ function toDisplayValue(value, symbol) {
 }
 
 function toWstEthValue(balance, stEthPerToken) {
-  const value = toLidoEtherAmount(balance ?? "0");
+  if (isNil(balance)) {
+    return <TextSecondary>--</TextSecondary>;
+  }
+
+  const value = toLidoEtherAmount(balance);
   if (isNil(stEthPerToken)) {
     return (
       <TextSecondary>
