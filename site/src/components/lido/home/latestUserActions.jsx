@@ -194,8 +194,14 @@ export default function LidoLatestUserActions({ decimals, symbol }) {
     useLidoServerQuery(GET_LIDO_SERVER_WITHDRAWALS, {
       variables,
     });
-  const deposits = depositsQueryData?.deposits?.items || [];
-  const withdrawals = withdrawalsQueryData?.withdrawals?.items || [];
+  const deposits = (depositsQueryData?.deposits?.items || []).slice(
+    0,
+    LATEST_ITEMS_COUNT,
+  );
+  const withdrawals = (withdrawalsQueryData?.withdrawals?.items || []).slice(
+    0,
+    LATEST_ITEMS_COUNT,
+  );
 
   return (
     <SectionsWrapper>
