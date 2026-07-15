@@ -2,6 +2,8 @@ import { getFilteredMenus } from "./chain";
 
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
+export const EMPTY_OBJECT = {};
+
 export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
@@ -865,6 +867,12 @@ export const RECOVERY_STATUS = {
 export const PROXY_STATUS = {
   ACTIVE: "active",
   REMOVED: "removed",
+};
+
+export const LIDO_WITHDRAWAL_STATUS = {
+  REQUEST: "REQUEST",
+  FINALIZED: "FINALIZED",
+  CLAIMED: "CLAIMED",
 };
 
 export const PROXY_ANNOUNCEMENT_STATUS = {

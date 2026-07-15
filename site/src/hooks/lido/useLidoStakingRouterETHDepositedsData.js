@@ -1,0 +1,25 @@
+import { GET_LIDO_SERVER_STAKING_ROUTER_ETH_DEPOSITED } from "../../services/gql/lido";
+import { useLidoServerListQuery } from "./useLidoList";
+import { useLidoServerFilterVariables } from "./useLidoListVariables";
+import { useLidoListQueryParams } from "./useLidoListQueryParams";
+import { pickLidoFilters } from "./utils";
+
+export function useLidoStakingRouterETHDepositedsData(fixedStakingModuleId) {
+  const {
+    params: { stakingModuleId = "" },
+  } = useLidoListQueryParams();
+  const moduleId = fixedStakingModuleId || stakingModuleId;
+  const variables = useLidoServerFilterVariables({
+    variables: pickLidoFilters({
+      stakingModuleId: moduleId ? Number(moduleId) : undefined,
+    }),
+    withSort: true,
+    defaultSortQuery: "block_desc",
+  });
+
+  return useLidoServerListQuery({
+    query: GET_LIDO_SERVER_STAKING_ROUTER_ETH_DEPOSITED,
+    field: "stakingRouterEthDeposited",
+    variables,
+  });
+}

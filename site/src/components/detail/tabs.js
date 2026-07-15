@@ -1,6 +1,6 @@
 // ant.design tabs component
 
-import { useState, Fragment } from "react";
+import { Fragment } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { no_scroll_bar } from "../../styles";
@@ -14,26 +14,31 @@ const TabsFlex = styled(Flex)`
   ${no_scroll_bar};
 `;
 
-export default function DetailTabs({ tabs = [] }) {
+export default function DetailTabs({ tabs = [], resetPage = true }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const getTabValue = (tab) => tab.value || tab.name;
 
-  const [activeTab, setActiveTab] = useState(
-    getTabFromQuery(location, tabs[0].name),
-  );
+  const activeTab = getTabFromQuery(location, getTabValue(tabs[0]));
 
   return (
     <>
       <TabsFlex>
         {tabs.map((tab) => (
           <Tab
-            key={tab.name}
+            key={getTabValue(tab)}
             text={tab.name}
             count={tab.count}
-            active={activeTab === tab.name}
+            active={activeTab === getTabValue(tab)}
             onClick={() => {
-              navigate({ search: `?tab=${tab.name}&page=1` });
-              setActiveTab(tab.name);
+              const value = getTabValue(tab);
+              const searchParams = new URLSearchParams({ tab: value });
+
+              if (resetPage) {
+                searchParams.set("page", "1");
+              }
+
+              navigate({ search: `?${searchParams.toString()}` });
             }}
           />
         ))}
@@ -41,8 +46,8 @@ export default function DetailTabs({ tabs = [] }) {
 
       {tabs.map(
         (tab) =>
-          activeTab === tab.name && (
-            <Fragment key={tab.name}>{tab.children}</Fragment>
+          activeTab === getTabValue(tab) && (
+            <Fragment key={getTabValue(tab)}>{tab.children}</Fragment>
           ),
       )}
     </>

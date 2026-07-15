@@ -1,0 +1,191 @@
+import styled from "styled-components";
+import BreadCrumb from "../../components/breadCrumb";
+import DetailTabs from "../../components/detail/tabs";
+import DetailLayout from "../../components/layout/detailLayout";
+import List from "../../components/list";
+import EvmAddress from "../../components/lido/evmAddress";
+import LidoStakingModuleETHDepositeds from "../../components/lido/stakingModule/ethDepositeds";
+import LidoModuleRewards from "../../components/lido/moduleRewards";
+import LidoStakingModuleNodeOperators from "../../components/lido/stakingModule/nodeOperators";
+import LidoRewardDistributionState from "../../components/lido/stakingModule/rewardDistributionState";
+import LidoStakingModuleStEthBalance from "../../components/lido/stakingModule/stEthBalance";
+import LidoStakingModuleStatus from "../../components/lido/stakingModule/status";
+import LidoStakingModuleTimeline from "../../components/lido/stakingModule/timeline";
+import LidoTransferSharesRewardsTotal from "../../components/lido/stakingModule/transferSharesRewardsTotal";
+import {
+  getShareLimit,
+  isCsmModule,
+  isNorModule,
+  toOptionalBlockNumber,
+} from "../../components/lido/stakingModule/utils";
+import Loading from "../../components/loadings/loading";
+import NoData from "../../components/noData";
+import { Panel } from "../../components/styled/panel";
+import { DetailedTime } from "../../components/styled/time";
+import HelpLabel from "../../components/tooltip/helpLabel";
+import { useLidoStakingModuleData } from "../../hooks/lido/useLidoStakingModuleData";
+import { useLidoServerQuery } from "../../hooks/lido/useLidoQuery";
+import { GET_LIDO_STAKING_MODULE_TOTALS } from "../../services/gql/lido";
+import { formatLidoBp, toLidoTimestamp } from "../../utils/viewFuncs/lido";
+
+const TabPanel = styled(Panel)`
+  padding: 24px;
+`;
+
+function toStakingModuleDetailItems(module) {
+  const moduleAddress = module.stakingModule;
+  const latestTimeline = module.timeline?.at(-1);
+
+  return [
+    { label: "Module ID", value: module.stakingModuleId },
+    { label: "Module Name", value: module.name },
+    {
+      label: "Module Address",
+      value: <EvmAddress address={moduleAddress} />,
+    },
+    isNorModule(module) && {
+      label: "stETH Balance",
+      value: <LidoStakingModuleStEthBalance moduleAddress={moduleAddress} />,
+    },
+    {
+      label: "Status",
+      value: <LidoStakingModuleStatus status={module.status} />,
+    },
+    isNorModule(module) && {
+      label: "Reward Distribution State",
+      value: (
+        <LidoRewardDistributionState state={module.rewardDistributionState} />
+      ),
+    },
+    {
+      label: "Created By",
+      value: <EvmAddress address={module.createdBy} />,
+    },
+    {
+      label: "Updated Time",
+      value: latestTimeline?.indexer?.blockTimestamp ? (
+        <DetailedTime
+          ts={toLidoTimestamp(latestTimeline.indexer?.blockTimestamp)}
+        />
+      ) : (
+        "--"
+      ),
+    },
+    isCsmModule(module) && {
+      label: (
+        <HelpLabel tip="Total rewards in shares." fullWidth>
+          Transfer Shares Rewards Total
+        </HelpLabel>
+      ),
+      value: (
+        <LidoTransferSharesRewardsTotal
+          value={module.transferSharesRewardsTotal}
+        />
+      ),
+    },
+    { type: "divider" },
+    {
+      label: "Staking Module Fee",
+      value: formatLidoBp(module.stakingModuleFee),
+    },
+    { label: "Treasury Fee", value: formatLidoBp(module.treasuryFee) },
+    {
+      label: "Stake Share Limit",
+      value: formatLidoBp(getShareLimit(module)),
+    },
+    {
+      label: "Priority Exit Share Threshold",
+      value: formatLidoBp(module.priorityExitShareThreshold),
+    },
+    { type: "divider" },
+    {
+      label: "Max Deposits Per Block",
+      value: toOptionalBlockNumber(module.maxDepositsPerBlock),
+    },
+    {
+      label: "Min Deposit Block Distance",
+      value: toOptionalBlockNumber(module.minDepositBlockDistance),
+    },
+  ].filter(Boolean);
+}
+
+export default function LidoStakingModule() {
+  const { data, loading, stakingModuleId } = useLidoStakingModuleData();
+  const { data: totals } = useLidoServerQuery(GET_LIDO_STAKING_MODULE_TOTALS, {
+    variables: {
+      stakingModuleId: Number(stakingModuleId),
+    },
+    skip: !stakingModuleId,
+  });
+  const breadCrumb = (
+    <BreadCrumb
+      data={[
+        { name: "Staking Modules", path: "/staking/modules" },
+        { name: `#${stakingModuleId}` },
+      ]}
+    />
+  );
+
+  if (loading) {
+    return (
+      <DetailLayout breadCrumb={breadCrumb}>
+        <Panel>
+          <Loading />
+        </Panel>
+      </DetailLayout>
+    );
+  }
+
+  if (!data) {
+    return (
+      <DetailLayout breadCrumb={breadCrumb}>
+        <Panel>
+          <NoData />
+        </Panel>
+      </DetailLayout>
+    );
+  }
+
+  const detailItems = toStakingModuleDetailItems(data);
+
+  const tabs = [
+    {
+      name: "Timeline",
+      value: "timeline",
+      children: (
+        <TabPanel>
+          <LidoStakingModuleTimeline events={data.timeline} />
+        </TabPanel>
+      ),
+    },
+    {
+      name: "Node Operators",
+      value: "node-operators",
+      count: totals?.nodeOperators?.total,
+      children: <LidoStakingModuleNodeOperators stakingModule={data} />,
+    },
+    {
+      name: "Deposits",
+      value: "deposits",
+      count: totals?.stakingRouterEthDeposited?.total,
+      children: (
+        <LidoStakingModuleETHDepositeds stakingModuleId={stakingModuleId} />
+      ),
+    },
+    isCsmModule(data) && {
+      name: "Fee Distributor",
+      value: "fee-distributor",
+      children: <LidoModuleRewards stakingModuleId={stakingModuleId} />,
+    },
+  ].filter(Boolean);
+
+  return (
+    <DetailLayout breadCrumb={breadCrumb}>
+      <Panel>
+        <List data={detailItems} />
+      </Panel>
+
+      <DetailTabs tabs={tabs} resetPage={false} />
+    </DetailLayout>
+  );
+}

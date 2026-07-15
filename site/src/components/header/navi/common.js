@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { Inter_14_600 } from "../../../styles/text";
 
-const MenuLabel = styled.div`
+export const MenuLabel = styled.div`
   margin-top: 24px;
   ${Inter_14_600};
   color: ${(p) => p.theme.fontTertiary};
