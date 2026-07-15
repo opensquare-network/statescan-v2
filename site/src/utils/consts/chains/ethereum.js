@@ -4,7 +4,7 @@ const ethereum = {
   name: "Lido",
   icon: <LidoIcon width="24" height="24" />,
   value: "ethereum",
-  domain: "ethereum",
+  domain: "lido",
   chain: "ethereum",
   protocol: "lido",
   symbol: "ETH",

@@ -32,6 +32,7 @@ import cere from "./cere";
 import frequency from "./frequency";
 // import datahavenTestnet from "./datahaven-testnet";
 import bulletinPolkadot from "./bulletin-polkadot";
+import ethereum from "./ethereum";
 
 const chains = {
   polkadot,
@@ -74,6 +75,7 @@ const chains = {
   // "fintra-testnet": fintraTestnet,
   frequency,
   // "datahaven-testnet": datahavenTestnet,
+  ethereum,
 };
 
 export default chains;
