@@ -1,8 +1,8 @@
 import isNil from "lodash.isnil";
 import styled from "styled-components";
 import EvmExternalLink from "../evmExternalLink";
-import EvmPagination from "../evmPagination";
 import EvmTxHash from "../evmTxHash";
+import Pagination from "../../pagination";
 import ValueDisplay from "../../displayValue";
 import { ColoredInterLink } from "../../styled/link";
 import { StyledPanelTableWrapper } from "../../styled/panel";
@@ -16,14 +16,11 @@ import {
 } from "../../../utils/viewFuncs/lido";
 import { useLidoWithdrawalQueueFinalizationsData } from "../../../hooks/lido/useLidoWithdrawalQueueData";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 
 const heads = [
   {
     name: "Block",
-    type: "sortable",
-    sortDefaultQueryValue: "blockNumber_desc",
-    sortAscendingQueryValue: "blockNumber_asc",
-    sortDescendingQueryValue: "blockNumber_desc",
     width: 160,
   },
   {
@@ -100,29 +97,46 @@ function toValue(value, { decimals, symbol }, key) {
 function toTableData(items = [], chainSettings) {
   const { decimals, symbol } = chainSettings;
 
-  return items.map((item) => [
-    <EvmExternalLink
-      href={getEtherscanBlockUrl(item.blockNumber)}
-      key={`${item.id}-block`}
-      copy={false}
-    >
-      {toLidoBlockNumber(item.blockNumber)}
-    </EvmExternalLink>,
-    toLidoTimestamp(item.blockTime),
-    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
-    toRequestRange(item.fromRequestId, item.toRequestId),
-    toValue(item.value, { decimals, symbol }, `${item.id}-value`),
-    toValue(item.shares, { decimals, symbol: "" }, `${item.id}-shares`),
-  ]);
+  return items.map((item) => {
+    const rowKey = [item.indexer?.txHash, item.indexer?.logIndex]
+      .filter(Boolean)
+      .join("-");
+
+    return [
+      <EvmExternalLink
+        href={getEtherscanBlockUrl(item.indexer?.blockNumber)}
+        key={`${rowKey}-block`}
+        copy={false}
+      >
+        {toLidoBlockNumber(item.indexer?.blockNumber)}
+      </EvmExternalLink>,
+      toLidoTimestamp(item.indexer?.blockTimestamp),
+      <EvmTxHash
+        key={`${rowKey}-tx`}
+        txHash={item.indexer?.txHash}
+        copy={false}
+      />,
+      toRequestRange(item.fromRequestId, item.toRequestId),
+      toValue(item.amountOfETHLocked, { decimals, symbol }, `${rowKey}-value`),
+      toValue(item.sharesToBurn, { decimals, symbol: "" }, `${rowKey}-shares`),
+    ];
+  });
 }
 
 export default function LidoWithdrawalQueueFinalizationsTable() {
+  const { page = 1 } = useQueryParams();
   const { data, loading } = useLidoWithdrawalQueueFinalizationsData();
   const chainSettings = useChainSettings();
 
   return (
     <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
       <Table
         heads={heads}

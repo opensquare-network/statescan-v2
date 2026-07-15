@@ -1,11 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import evmPublicClient from "../../services/evm/client";
-import {
-  LIDO_LOCATOR_ABI,
-  LIDO_LOCATOR_ADDRESS,
-  LIDO_WITHDRAWAL_QUEUE_ABI,
-} from "../../services/evm/lido";
 import isNil from "lodash.isnil";
+import { useLidoStatusData } from "./useLidoStatusData";
 
 const WITHDRAWAL_QUEUE_STATUS = {
   ACTIVE: "Active",
@@ -40,109 +34,49 @@ function toPausedStatus(isPaused) {
     : WITHDRAWAL_QUEUE_STATUS.ACTIVE;
 }
 
-async function getWithdrawalQueueAddress() {
-  return evmPublicClient.readContract({
-    address: LIDO_LOCATOR_ADDRESS,
-    abi: LIDO_LOCATOR_ABI,
-    functionName: "withdrawalQueue",
-  });
-}
+const FUNCTION_NAME_TO_STATUS_FIELD = {
+  getLastCheckpointIndex: "latestCheckpointIndex",
+  getLastFinalizedRequestId: "latestFinalization",
+  getLastRequestId: "latestRequest",
+  getLockedEtherAmount: "lockedEther",
+  getResumeSinceTimestamp: "resumeSinceTimestamp",
+  isPaused: "isPaused",
+  unfinalizedRequestNumber: "pendingRequests",
+  unfinalizedStETH: "unfinalizedStEth",
+};
 
-function getContract(address, functionName) {
-  return {
-    address,
-    abi: LIDO_WITHDRAWAL_QUEUE_ABI,
-    functionName,
-  };
-}
-
-function getFulfilledValue(result) {
-  return result.status === "fulfilled" ? result.value : null;
+function useWithdrawalQueueSummaryStatus() {
+  return useLidoStatusData("lido-withdrawal-queue-summary", {});
 }
 
 export function useWithdrawalQueueData({
   functionName,
   format = toStringOrNull,
 }) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = useCallback(async () => {
-    if (!evmPublicClient) {
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const withdrawalQueueAddress = await getWithdrawalQueueAddress();
-      const value = await evmPublicClient.readContract(
-        getContract(withdrawalQueueAddress, functionName),
-      );
-
-      setData(format(value));
-    } catch (e) {
-      setData(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [format, functionName]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const queryResult = useWithdrawalQueueSummaryStatus();
+  const fieldName = FUNCTION_NAME_TO_STATUS_FIELD[functionName];
+  const value = fieldName ? queryResult.data?.[fieldName] : null;
 
   return {
-    data,
-    loading,
+    ...queryResult,
+    data: format(value),
   };
 }
 
 export function useLidoWithdrawalQueuePendingRequestsData() {
-  const [data, setData] = useState(EMPTY_PENDING_REQUESTS_DATA);
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = useCallback(async () => {
-    if (!evmPublicClient) {
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const withdrawalQueueAddress = await getWithdrawalQueueAddress();
-      const [pendingRequests, latestFinalization, latestRequest] =
-        await Promise.all([
-          evmPublicClient.readContract(
-            getContract(withdrawalQueueAddress, "unfinalizedRequestNumber"),
-          ),
-          evmPublicClient.readContract(
-            getContract(withdrawalQueueAddress, "getLastFinalizedRequestId"),
-          ),
-          evmPublicClient.readContract(
-            getContract(withdrawalQueueAddress, "getLastRequestId"),
-          ),
-        ]);
-
-      setData({
-        pendingRequests: toStringOrNull(pendingRequests),
-        latestFinalization: toStringOrNull(latestFinalization),
-        latestRequest: toStringOrNull(latestRequest),
-      });
-    } catch (e) {
-      setData(EMPTY_PENDING_REQUESTS_DATA);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const queryResult = useWithdrawalQueueSummaryStatus();
 
   return {
-    data,
-    loading,
+    ...queryResult,
+    data: queryResult.data
+      ? {
+          pendingRequests: toStringOrNull(queryResult.data.pendingRequests),
+          latestFinalization: toStringOrNull(
+            queryResult.data.latestFinalization,
+          ),
+          latestRequest: toStringOrNull(queryResult.data.latestRequest),
+        }
+      : EMPTY_PENDING_REQUESTS_DATA,
   };
 }
 
@@ -154,46 +88,17 @@ export function useLidoWithdrawalQueueStatusData() {
 }
 
 export function useLidoWithdrawalQueueStatusSummaryData() {
-  const [data, setData] = useState(EMPTY_STATUS_SUMMARY_DATA);
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = useCallback(async () => {
-    if (!evmPublicClient) {
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const withdrawalQueueAddress = await getWithdrawalQueueAddress();
-      const [isPaused, resumeSinceTimestamp] = await Promise.allSettled([
-        evmPublicClient.readContract(
-          getContract(withdrawalQueueAddress, "isPaused"),
-        ),
-        evmPublicClient.readContract(
-          getContract(withdrawalQueueAddress, "getResumeSinceTimestamp"),
-        ),
-      ]);
-
-      setData({
-        status: toPausedStatus(getFulfilledValue(isPaused)),
-        resumeSinceTimestamp: toStringOrNull(
-          getFulfilledValue(resumeSinceTimestamp),
-        ),
-      });
-    } catch (e) {
-      setData(EMPTY_STATUS_SUMMARY_DATA);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const queryResult = useWithdrawalQueueSummaryStatus();
 
   return {
-    data,
-    loading,
+    ...queryResult,
+    data: queryResult.data
+      ? {
+          status: toPausedStatus(queryResult.data.isPaused),
+          resumeSinceTimestamp: toStringOrNull(
+            queryResult.data.resumeSinceTimestamp,
+          ),
+        }
+      : EMPTY_STATUS_SUMMARY_DATA,
   };
 }

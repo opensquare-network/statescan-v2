@@ -1,21 +1,61 @@
-import { GET_LIDO_PROTOCOL_STAT } from "../../services/gql/lido";
-import { useLidoQuery } from "./useLidoQuery";
+import {
+  GET_LIDO_SERVER_LAST_DAILY_STATS,
+  GET_LIDO_SERVER_STETH_TOTALS,
+  GET_LIDO_SERVER_WSTETH_TOTALS,
+} from "../../services/gql/lido";
+import { useLidoServerQuery } from "./useLidoQuery";
 
-const emptyData = {
-  count: 0,
-  value: 0,
-};
+const WITHDRAWAL_VAULT_RECEIVED_STAT_ID = "withdrawalVaultETHReceived";
+const REWARDS_VAULT_RECEIVED_STAT_ID = "rewardsVaultETHReceived";
 
-export function useLidoProtocolStatData(id) {
-  const queryResult = useLidoQuery(GET_LIDO_PROTOCOL_STAT, {
-    variables: { id },
-    skip: !id,
-  });
-  const queryData = queryResult.data;
-  const stat = queryData?.protocolStat;
+function getLastDailyProtocolStatsData(lastDailyStats) {
+  return {
+    [WITHDRAWAL_VAULT_RECEIVED_STAT_ID]: {
+      count: lastDailyStats?.withdrawalVaultETHReceivedCount,
+      id: WITHDRAWAL_VAULT_RECEIVED_STAT_ID,
+      value: lastDailyStats?.withdrawalVaultETHReceivedAmount,
+    },
+    [REWARDS_VAULT_RECEIVED_STAT_ID]: {
+      count: lastDailyStats?.rewardsVaultETHReceivedCount,
+      id: REWARDS_VAULT_RECEIVED_STAT_ID,
+      value: lastDailyStats?.rewardsVaultETHReceivedAmount,
+    },
+  };
+}
+
+export function useLidoLastDailyStatsData() {
+  const queryResult = useLidoServerQuery(GET_LIDO_SERVER_LAST_DAILY_STATS);
+  const queryData = queryResult.data || queryResult.previousData;
+  const lastDailyStats = queryData?.lidoDailyStats?.items?.[0];
 
   return {
     ...queryResult,
-    data: stat ?? emptyData,
+    data: getLastDailyProtocolStatsData(lastDailyStats),
+  };
+}
+
+export function useLidoStEthHolderCountData() {
+  const queryResult = useLidoServerQuery(GET_LIDO_SERVER_STETH_TOTALS);
+  const total = queryResult.data?.stethHolders?.total;
+
+  return {
+    ...queryResult,
+    data: {
+      count: total,
+      value: total,
+    },
+  };
+}
+
+export function useLidoWstEthHolderCountData() {
+  const queryResult = useLidoServerQuery(GET_LIDO_SERVER_WSTETH_TOTALS);
+  const total = queryResult.data?.wstethHolders?.total;
+
+  return {
+    ...queryResult,
+    data: {
+      count: total,
+      value: total,
+    },
   };
 }

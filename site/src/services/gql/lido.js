@@ -3,6 +3,7 @@ export * from "./lidoQueries/earn";
 export * from "./lidoQueries/holders";
 export * from "./lidoQueries/moduleRewards";
 export * from "./lidoQueries/nodeOperators";
+export * from "./lidoQueries/status";
 export * from "./lidoQueries/stakingModules";
 export * from "./lidoQueries/stats";
 export * from "./lidoQueries/vaults";

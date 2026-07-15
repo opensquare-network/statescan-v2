@@ -7,11 +7,7 @@ import { useQueryParams } from "../useQueryParams";
 const withdrawalStatusOptions = [
   { text: "All Status", value: "" },
   { type: "divider" },
-  ...[
-    LIDO_WITHDRAWAL_STATUS.PENDING,
-    LIDO_WITHDRAWAL_STATUS.FINALIZED,
-    LIDO_WITHDRAWAL_STATUS.CLAIMED,
-  ].map((value) => ({
+  ...Object.values(LIDO_WITHDRAWAL_STATUS).map((value) => ({
     text: value,
     value,
   })),

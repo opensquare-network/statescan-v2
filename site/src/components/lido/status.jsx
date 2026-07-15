@@ -3,7 +3,7 @@ import { Inter_14_500 } from "../../styles/text";
 import { LIDO_WITHDRAWAL_STATUS } from "../../utils/constants";
 
 const STATUS_COLORS = {
-  [LIDO_WITHDRAWAL_STATUS.PENDING]: "var(--fillPending)",
+  [LIDO_WITHDRAWAL_STATUS.REQUEST]: "var(--fillPending)",
   [LIDO_WITHDRAWAL_STATUS.FINALIZED]: "var(--fillPositive)",
   [LIDO_WITHDRAWAL_STATUS.CLAIMED]: "var(--fontSecondary)",
 };

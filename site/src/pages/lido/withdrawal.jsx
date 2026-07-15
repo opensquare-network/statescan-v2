@@ -46,21 +46,22 @@ function toTime(blockTime) {
 
 function toWithdrawalDetailItems(withdrawal, chainSettings) {
   const { decimals, symbol } = chainSettings;
+  const indexer = withdrawal.indexer;
 
   return [
     {
       label: "Request ID",
-      value: <LidoRequestId requestId={withdrawal.id} />,
+      value: <LidoRequestId requestId={withdrawal.requestId} />,
     },
-    { label: "Block", value: toBlockLink(withdrawal.blockNumber) },
-    { label: "Time", value: toTime(withdrawal.blockTime) },
+    { label: "Block", value: toBlockLink(indexer.blockNumber) },
+    { label: "Time", value: toTime(indexer.blockTimestamp) },
     {
       label: "Tx Hash",
-      value: <EvmTxHash txHash={withdrawal.txHash} />,
+      value: <EvmTxHash txHash={indexer.txHash} />,
     },
     {
       label: "Requestor",
-      value: <EvmAddress address={withdrawal.requestor} />,
+      value: <EvmAddress address={withdrawal.requester} />,
     },
     {
       label: "Owner",
@@ -70,7 +71,7 @@ function toWithdrawalDetailItems(withdrawal, chainSettings) {
       label: "Value",
       value: (
         <LidoValue
-          value={withdrawal.value}
+          value={withdrawal.amountOfStETH}
           decimals={decimals}
           symbol={symbol}
         />
@@ -79,7 +80,11 @@ function toWithdrawalDetailItems(withdrawal, chainSettings) {
     {
       label: "Shares",
       value: (
-        <LidoValue value={withdrawal.shares} decimals={decimals} symbol="" />
+        <LidoValue
+          value={withdrawal.amountOfShares}
+          decimals={decimals}
+          symbol=""
+        />
       ),
     },
     {

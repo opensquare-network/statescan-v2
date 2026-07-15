@@ -1,7 +1,7 @@
 import isNil from "lodash.isnil";
 import ValueDisplay from "../../displayValue";
 import EvmAddress from "../evmAddress";
-import EvmPagination from "../evmPagination";
+import Pagination from "../../pagination";
 import LidoInOutDelta from "./inOutDelta";
 import LidoVaultStatus from "./status";
 import { StyledPanelTableWrapper } from "../../styled/panel";
@@ -15,6 +15,7 @@ import {
   toLidoTimestamp,
 } from "../../../utils/viewFuncs/lido";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 
 const lidoStakingVaultsHead = [
   { name: "Vault", width: 140 },
@@ -82,33 +83,39 @@ function useLidoStakingVaultsTableData(items = []) {
   const { decimals, symbol } = useChainSettings();
 
   return items.map((item) => {
-    const timelines = item.timelines || [];
+    const id = item.vault;
     const report = item.lastReport;
-    const vaultCreated = timelines.find((t) => t.eventType === "VaultCreated");
 
     return [
-      <span key={`${item.id}-id`}>{renderVaultId(item.id)}</span>,
-      renderValue(report?.totalValue, decimals, symbol, `${item.id}-total`),
+      <span key={`${id}-id`}>{renderVaultId(id)}</span>,
+      renderValue(report?.reportTotalValue, decimals, symbol, `${id}-total`),
       <LidoInOutDelta
-        key={`${item.id}-in-out-delta`}
-        value={report?.inOutDelta}
+        key={`${id}-in-out-delta`}
+        value={report?.reportInOutDelta}
         decimals={decimals}
         symbol={symbol}
       />,
       formatLidoBp(item.reserveRatioBP),
-      toLidoTimestamp(report?.blockTime || vaultCreated?.blockTime),
-      renderAddress(item.id, "node-operator", item.nodeOperator),
-      <LidoVaultStatus key={`${item.id}-status`} status={item.status} />,
+      toLidoTimestamp(report?.indexer?.blockTimestamp),
+      renderAddress(id, "node-operator", item.nodeOperator),
+      <LidoVaultStatus key={`${id}-status`} status={item.status} />,
     ];
   });
 }
 
 export default function LidoStakingVaultsTable({ data, loading }) {
+  const { page = 1 } = useQueryParams();
   const tableData = useLidoStakingVaultsTableData(data?.items);
 
   return (
     <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
       <Table heads={lidoStakingVaultsHead} data={tableData} loading={loading} />
     </StyledPanelTableWrapper>

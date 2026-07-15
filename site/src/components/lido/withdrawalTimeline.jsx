@@ -3,30 +3,24 @@ import LidoValue from "./value";
 import Timeline from "../timeline";
 import TimelineItemFields from "../timeline/itemFields";
 import TimelineItemIcon from "../timeline/itemIcon";
-import { DetailedTime } from "../styled/time";
 import EvmTxHash from "./evmTxHash";
 import LidoRequestId from "./requestId";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import { toLidoTimestamp } from "../../utils/viewFuncs/lido";
 
-function toTimestampDetail(timestamp) {
-  if (!timestamp) {
-    return "--";
-  }
+const EVENT_NAMES = {
+  WithdrawalRequested: "Requested",
+  WithdrawalsFinalized: "Finalized",
+  WithdrawalClaimed: "Claimed",
+};
 
-  return <DetailedTime ts={Number(timestamp) * 1000} />;
-}
-
-function toBaseEventRows(event, itemId, eventName) {
+function toBaseEventRows(event) {
   const rows = [
     event.requestId && [
       "Request ID",
       <LidoRequestId requestId={event.requestId} />,
     ],
-    [
-      "Tx Hash",
-      <EvmTxHash txHash={event.txHash} key={`${itemId}-${eventName}-tx`} />,
-    ],
+    ["Tx Hash", <EvmTxHash txHash={event.indexer?.txHash} />],
   ];
 
   return rows.filter(Boolean);
@@ -43,53 +37,63 @@ function toValueRow(label, value, { decimals, symbol }) {
   ];
 }
 
-function toRequestRows(event, itemId, chainSettings) {
+function toRequestRows(event, chainSettings) {
   if (!event) {
     return [];
   }
 
   return [
-    ["Request ID", <LidoRequestId requestId={event.requestId || event.id} />],
-    ...toBaseEventRows(event, itemId, "request").filter(
-      ([label]) => label !== "Request ID",
-    ),
-    toValueRow("Value", event.value, chainSettings),
-    toValueRow("Shares", event.shares, {
+    ...toBaseEventRows(event),
+    ["Requester", <EvmAddress address={event.requester} />],
+    ["Owner", <EvmAddress address={event.owner} />],
+    toValueRow("Value", event.amountOfStETH, chainSettings),
+    toValueRow("Shares", event.amountOfShares, {
       decimals: chainSettings.decimals,
       symbol: "",
     }),
   ].filter(Boolean);
 }
 
-function toFinalizationRows(event, itemId, chainSettings) {
+function toFinalizationRows(event, chainSettings) {
   if (!event) {
     return [];
   }
 
   return [
-    ...toBaseEventRows(event, itemId, "finalization"),
+    ...toBaseEventRows(event),
     ["From Request ID", <LidoRequestId requestId={event.fromRequestId} />],
     ["To Request ID", <LidoRequestId requestId={event.toRequestId} />],
-    event.timestamp && ["Time", toTimestampDetail(event.timestamp)],
-    toValueRow("Value", event.value, chainSettings),
-    toValueRow("Shares", event.shares, {
+    toValueRow("Value", event.amountOfETHLocked, chainSettings),
+    toValueRow("Shares", event.sharesToBurn, {
       decimals: chainSettings.decimals,
       symbol: "",
     }),
   ].filter(Boolean);
 }
 
-function toClaimRows(event, itemId, chainSettings) {
+function toClaimRows(event, chainSettings) {
   if (!event) {
     return [];
   }
 
   return [
-    ...toBaseEventRows(event, itemId, "claim"),
+    ...toBaseEventRows(event),
     ["Owner", <EvmAddress address={event.owner} />],
     ["Receiver", <EvmAddress address={event.receiver} />],
-    toValueRow("Value", event.value, chainSettings),
+    toValueRow("Value", event.amountOfETH, chainSettings),
   ].filter(Boolean);
+}
+
+function toRows(event, chainSettings) {
+  if (event.eventName === "WithdrawalsFinalized") {
+    return toFinalizationRows(event, chainSettings);
+  }
+
+  if (event.eventName === "WithdrawalClaimed") {
+    return toClaimRows(event, chainSettings);
+  }
+
+  return toRequestRows(event, chainSettings);
 }
 
 function toTimelineItem({ name, event, rows }) {
@@ -98,38 +102,22 @@ function toTimelineItem({ name, event, rows }) {
     event,
     rows,
     indexer: {
-      blockTime: toLidoTimestamp(event?.blockTime),
-      blockHeight: event?.blockNumber,
+      blockTime: toLidoTimestamp(event?.indexer?.blockTimestamp),
+      blockHeight: event?.indexer?.blockNumber,
+      txHash: event?.indexer?.txHash,
     },
   };
 }
 
 export default function LidoWithdrawalTimeline({ withdrawal }) {
   const chainSettings = useChainSettings();
-  const request = withdrawal?.request || withdrawal;
-  const timeline = [
+  const timeline = withdrawal.timeline.map((event) =>
     toTimelineItem({
-      name: "Pending",
-      event: request,
-      rows: toRequestRows(request, withdrawal?.id, chainSettings),
+      name: EVENT_NAMES[event.eventName],
+      event,
+      rows: toRows(event, chainSettings),
     }),
-    withdrawal?.finalization &&
-      toTimelineItem({
-        name: "Finalized",
-        event: withdrawal?.finalization,
-        rows: toFinalizationRows(
-          withdrawal?.finalization,
-          withdrawal?.id,
-          chainSettings,
-        ),
-      }),
-    withdrawal?.claim &&
-      toTimelineItem({
-        name: "Claimed",
-        event: withdrawal?.claim,
-        rows: toClaimRows(withdrawal?.claim, withdrawal?.id, chainSettings),
-      }),
-  ].filter(Boolean);
+  );
 
   return (
     <Timeline

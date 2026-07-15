@@ -2,50 +2,66 @@ import { gql } from "@apollo/client";
 
 export const GET_LIDO_WSTETH_WRAPS = gql`
   query GetLidoWstETHWraps(
-    $first: Int!
-    $where: WstETHWrap_filter
-    $orderBy: WstETHWrap_orderBy
-    $orderDirection: OrderDirection
+    $limit: Int!
+    $offset: Int!
+    $address: String
+    $filter: IndexerFilterInput
+    $sort: ValueSortInput
   ) {
-    wstETHWraps(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    wrap(
+      limit: $limit
+      offset: $offset
+      address: $address
+      filter: $filter
+      sort: $sort
     ) {
-      address
-      blockNumber
-      blockTime
-      id
-      logIndex
-      stETHValue
-      txHash
-      value
+      items {
+        address
+        value
+        stETHValue
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;
 
 export const GET_LIDO_WSTETH_UNWRAPS = gql`
   query GetLidoWstETHUnwraps(
-    $first: Int!
-    $where: WstETHUnwrap_filter
-    $orderBy: WstETHUnwrap_orderBy
-    $orderDirection: OrderDirection
+    $limit: Int!
+    $offset: Int!
+    $address: String
+    $filter: IndexerFilterInput
+    $sort: ValueSortInput
   ) {
-    wstETHUnwraps(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    unwrap(
+      limit: $limit
+      offset: $offset
+      address: $address
+      filter: $filter
+      sort: $sort
     ) {
-      address
-      blockNumber
-      blockTime
-      id
-      logIndex
-      stETHValue
-      txHash
-      value
+      items {
+        address
+        value
+        stETHValue
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;

@@ -1,41 +1,79 @@
-import { useMemo } from "react";
-import { EMPTY_OBJECT } from "../../utils/constants";
-import {
-  getCursorFilter,
-  getSort,
-  getTimeDimensionFilter,
-  LIDO_LIST_PAGE_SIZE,
-  mergeCursorFilter,
-} from "./utils";
+import { EMPTY_OBJECT, LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
+import { useQueryParams } from "../useQueryParams";
+import { useLidoListQueryParams } from "./useLidoListQueryParams";
+import { toLidoSort } from "./sort";
+import { pickLidoFilters } from "./utils";
 
-export function useLidoListVariables({
-  sortQuery,
-  cursor,
-  where = EMPTY_OBJECT,
+export { toLidoSort } from "./sort";
+
+export function getLidoServerIndexerFilter({
+  txHash,
   timeDimensionParams = EMPTY_OBJECT,
-  pageSize,
 }) {
-  const limit = pageSize ?? LIDO_LIST_PAGE_SIZE;
+  const filter = Object.fromEntries(
+    Object.entries(
+      pickLidoFilters({
+        startBlock: timeDimensionParams.blockStart,
+        endBlock: timeDimensionParams.blockEnd,
+        startDate: timeDimensionParams.dateStart,
+        endDate: timeDimensionParams.dateEnd,
+      }),
+    )
+      .map(([key, value]) => [key, Number(value)])
+      .filter(([, value]) => !Number.isNaN(value)),
+  );
 
-  const variables = useMemo(() => {
-    const sort = getSort(sortQuery);
-    const baseFilters = {
-      ...where,
-      ...getTimeDimensionFilter(timeDimensionParams),
-    };
-    const cursorFilter = getCursorFilter(
-      cursor,
-      sort.orderBy,
-      sort.orderDirection,
-    );
-    const filters = mergeCursorFilter(baseFilters, cursorFilter);
+  Object.assign(filter, pickLidoFilters({ txHash }));
 
-    return {
-      first: limit,
-      ...sort,
-      ...(Object.keys(filters).length ? { where: filters } : {}),
-    };
-  }, [cursor, limit, sortQuery, timeDimensionParams, where]);
+  if (!Object.keys(filter).length) {
+    return;
+  }
 
-  return { variables, pageSize: limit };
+  return {
+    timeDimension: timeDimensionParams.timeDimension,
+    ...filter,
+  };
+}
+
+export function useLidoServerListVariables({
+  pageSize = LIST_DEFAULT_PAGE_SIZE,
+  variables = EMPTY_OBJECT,
+} = EMPTY_OBJECT) {
+  const { page = 1 } = useQueryParams();
+
+  return {
+    limit: pageSize,
+    offset: (page - 1) * pageSize,
+    ...variables,
+  };
+}
+
+export function useLidoServerFilterVariables({
+  variables = EMPTY_OBJECT,
+  address: fixedAddress,
+  txHash: fixedTxHash,
+  withSort = false,
+  defaultSortQuery,
+} = EMPTY_OBJECT) {
+  const {
+    sortQuery,
+    txHash,
+    params: { address },
+    timeDimensionParams,
+  } = useLidoListQueryParams();
+  const filterAddress = fixedAddress || address;
+  const queryVariables = { ...variables };
+
+  if (filterAddress) {
+    queryVariables.address = filterAddress;
+  }
+
+  return pickLidoFilters({
+    ...queryVariables,
+    ...(withSort ? { sort: toLidoSort(sortQuery || defaultSortQuery) } : {}),
+    filter: getLidoServerIndexerFilter({
+      txHash: fixedTxHash ?? txHash,
+      timeDimensionParams,
+    }),
+  });
 }

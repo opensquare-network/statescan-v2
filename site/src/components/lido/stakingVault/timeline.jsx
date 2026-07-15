@@ -7,7 +7,6 @@ import LidoValue from "../value";
 import { toAddressRow, toBpRow } from "../timelineRows";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 import { toLidoTimestamp } from "../../../utils/viewFuncs/lido";
-import { sortTimelineEvents } from "./utils";
 
 function toValueRow(label, value, { decimals, symbol }) {
   if (isNil(value)) {
@@ -31,18 +30,14 @@ function toInOutDeltaRow(label, value, { decimals, symbol }) {
   ];
 }
 
-function toDashboardCreatedRows(event) {
-  const payload = event.dashboardCreated;
-
+function toDashboardCreatedRows(payload) {
   return [
     toAddressRow("Admin", payload?.admin),
     toAddressRow("Dashboard", payload?.dashboard),
   ].filter(Boolean);
 }
 
-function toVaultConnectedRows(event, chainSettings) {
-  const payload = event.vaultConnected;
-
+function toVaultConnectedRows(payload, chainSettings) {
   return [
     toValueRow("Share Limit", payload?.shareLimit, chainSettings),
     toBpRow("Reserve Ratio", payload?.reserveRatioBP),
@@ -53,9 +48,7 @@ function toVaultConnectedRows(event, chainSettings) {
   ].filter(Boolean);
 }
 
-function toConnectionUpdatedRows(event, chainSettings) {
-  const payload = event.vaultConnectionUpdated;
-
+function toConnectionUpdatedRows(payload, chainSettings) {
   return [
     toAddressRow("Node Operator", payload?.nodeOperator),
     toValueRow("Share Limit", payload?.shareLimit, chainSettings),
@@ -64,17 +57,13 @@ function toConnectionUpdatedRows(event, chainSettings) {
   ].filter(Boolean);
 }
 
-function toDisconnectAbortedRows(event, chainSettings) {
-  const payload = event.vaultDisconnectAborted;
-
+function toDisconnectAbortedRows(payload, chainSettings) {
   return [
     toValueRow("Slashing Reserve", payload?.slashingReserve, chainSettings),
   ].filter(Boolean);
 }
 
-function toFeesUpdatedRows(event) {
-  const payload = event.vaultFeesUpdated;
-
+function toFeesUpdatedRows(payload) {
   return [
     toBpRow("Infra Fee", payload?.infraFeeBP),
     toBpRow("Previous Infra Fee", payload?.previousInfraFeeBP),
@@ -85,9 +74,7 @@ function toFeesUpdatedRows(event) {
   ].filter(Boolean);
 }
 
-function toReportAppliedRows(event, chainSettings) {
-  const payload = event.vaultReportApplied;
-
+function toReportAppliedRows(payload, chainSettings) {
   return [
     toValueRow("Total Value", payload?.totalValue, chainSettings),
     toInOutDeltaRow("In/Out Delta", payload?.inOutDelta, chainSettings),
@@ -108,29 +95,43 @@ function toReportAppliedRows(event, chainSettings) {
   ].filter(Boolean);
 }
 
+function toServerReportAppliedPayload(event) {
+  return {
+    totalValue: event.reportTotalValue,
+    inOutDelta: event.reportInOutDelta,
+    cumulativeLidoFees: event.reportCumulativeLidoFees,
+    slashingReserve: event.reportSlashingReserve,
+    liabilityShares: event.reportLiabilityShares,
+    maxLiabilityShares: event.reportMaxLiabilityShares,
+  };
+}
+
 function toEventRows(event, chainSettings) {
-  if (event.dashboardCreated) {
+  if (event.eventName === "DashboardCreated") {
     return toDashboardCreatedRows(event);
   }
 
-  if (event.vaultConnected) {
+  if (event.eventName === "VaultConnected") {
     return toVaultConnectedRows(event, chainSettings);
   }
 
-  if (event.vaultConnectionUpdated) {
+  if (event.eventName === "VaultConnectionUpdated") {
     return toConnectionUpdatedRows(event, chainSettings);
   }
 
-  if (event.vaultDisconnectAborted) {
+  if (event.eventName === "VaultDisconnectAborted") {
     return toDisconnectAbortedRows(event, chainSettings);
   }
 
-  if (event.vaultFeesUpdated) {
+  if (event.eventName === "VaultFeesUpdated") {
     return toFeesUpdatedRows(event);
   }
 
-  if (event.vaultReportApplied) {
-    return toReportAppliedRows(event, chainSettings);
+  if (event.eventName === "VaultReportApplied") {
+    return toReportAppliedRows(
+      toServerReportAppliedPayload(event),
+      chainSettings,
+    );
   }
 
   return [];
@@ -138,20 +139,20 @@ function toEventRows(event, chainSettings) {
 
 function toTimelineItem(event, chainSettings) {
   return {
-    name: event.eventType || "--",
+    name: event.eventName,
     event,
     rows: toEventRows(event, chainSettings),
     indexer: {
-      blockTime: toLidoTimestamp(event.blockTime),
-      blockHeight: event.blockNumber,
-      txHash: event.txHash,
+      blockTime: toLidoTimestamp(event.indexer?.blockTimestamp),
+      blockHeight: event.indexer?.blockNumber,
+      txHash: event.indexer?.txHash,
     },
   };
 }
 
 export default function LidoStakingVaultTimeline({ vault }) {
   const chainSettings = useChainSettings();
-  const timeline = sortTimelineEvents(vault?.timelines).map((event) =>
+  const timeline = (vault.timeline || []).map((event) =>
     toTimelineItem(event, chainSettings),
   );
 

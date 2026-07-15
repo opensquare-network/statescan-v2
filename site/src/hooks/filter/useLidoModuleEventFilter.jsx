@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import SearchIcon from "../../components/icons/searchIcon";
-import { GET_LIDO_STAKING_MODULES } from "../../services/gql/lido";
+import { GET_LIDO_SERVER_STAKING_MODULES } from "../../services/gql/lido";
 import { useTimeDimensionFilterItems } from "../../utils/hooks/useTimeDimensionFilterItems";
-import { useLidoStakingRouterQuery } from "../lido/useLidoQuery";
+import { useLidoServerQuery } from "../lido/useLidoQuery";
 import { useQueryParams } from "../useQueryParams";
 
 const STAKING_MODULES_VARIABLES = {
-  first: 100,
-  orderBy: "stakingModuleId",
-  orderDirection: "asc",
+  limit: 100,
+  offset: 0,
 };
 
 function toStakingModuleOptions(items = []) {
@@ -16,7 +15,7 @@ function toStakingModuleOptions(items = []) {
     { text: "All Modules", value: "" },
     { type: "divider" },
     ...items.map((item) => ({
-      text: item.name || "--",
+      text: item.name,
       value: String(item.stakingModuleId),
     })),
   ];
@@ -28,12 +27,12 @@ export function useLidoModuleEventFilter() {
   const { stakingModuleId = "", txHash = "" } = useQueryParams({
     parseNumbers: false,
   });
-  const { data } = useLidoStakingRouterQuery(GET_LIDO_STAKING_MODULES, {
+  const { data } = useLidoServerQuery(GET_LIDO_SERVER_STAKING_MODULES, {
     variables: STAKING_MODULES_VARIABLES,
   });
   const moduleOptions = useMemo(
-    () => toStakingModuleOptions(data?.stakingModules),
-    [data?.stakingModules],
+    () => toStakingModuleOptions(data?.stakingModules.items),
+    [data?.stakingModules.items],
   );
 
   useEffect(() => {

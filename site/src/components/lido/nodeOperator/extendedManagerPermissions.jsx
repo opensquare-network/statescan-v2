@@ -1,7 +1,7 @@
 import isNil from "lodash.isnil";
 import LoadableContent from "../../loadings/loadableContent";
 import { TagThemed } from "../../tag";
-import { useLidoCsmExtendedManagerPermissionsData } from "../../../hooks/lido/useLidoCsmExtendedManagerPermissionsData";
+import { useLidoCsmExtendedManagerPermissionsData } from "../../../hooks/lido/useLidoNodeOperatorSummaryData";
 
 function renderPermissions(value) {
   if (isNil(value)) {

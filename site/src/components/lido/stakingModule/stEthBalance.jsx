@@ -1,7 +1,7 @@
 import isNil from "lodash.isnil";
 import ValueDisplay from "../../displayValue";
 import LoadableContent from "../../loadings/loadableContent";
-import { useLidoStEthBalanceData } from "../../../hooks/lido/useLidoStEthBalanceData";
+import { useLidoStEthBalanceData } from "../../../hooks/lido/useLidoAddressProfileData";
 import { toLidoAmount } from "../../../utils/viewFuncs/lido";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 

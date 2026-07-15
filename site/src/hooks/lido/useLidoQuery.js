@@ -1,19 +1,15 @@
-import { useQuery } from "@apollo/client";
+import { ApolloClient, InMemoryCache, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToast } from "../../store/reducers/toastSlice";
-import {
-  lidoClient,
-  lidoGraphqlUrl,
-  lidoServerClient,
-  lidoServerUrl,
-  stakingRouterClient,
-  stakingRouterGraphqlUrl,
-} from "./lidoGraphqlClient";
 
-export { lidoClient };
+const lidoServerUrl = process.env.REACT_APP_PUBLIC_LIDO_SERVER_URL;
+const lidoServerClient = new ApolloClient({
+  uri: lidoServerUrl || "/",
+  cache: new InMemoryCache(),
+});
 
-export function useLidoApolloQuery({
+function useLidoApolloQuery({
   query,
   options = {},
   client,
@@ -56,16 +52,6 @@ export function useLidoApolloQuery({
   return queryResult;
 }
 
-export function useLidoQuery(query, options = {}) {
-  return useLidoApolloQuery({
-    query,
-    options,
-    client: lidoClient,
-    url: lidoGraphqlUrl,
-    errorMessage: "Failed to load Lido data",
-  });
-}
-
 export function useLidoServerQuery(query, options = {}) {
   return useLidoApolloQuery({
     query,
@@ -73,15 +59,5 @@ export function useLidoServerQuery(query, options = {}) {
     client: lidoServerClient,
     url: lidoServerUrl,
     errorMessage: "Failed to load Lido server data",
-  });
-}
-
-export function useLidoStakingRouterQuery(query, options = {}) {
-  return useLidoApolloQuery({
-    query,
-    options,
-    client: stakingRouterClient,
-    url: stakingRouterGraphqlUrl,
-    errorMessage: "Failed to load Lido data",
   });
 }

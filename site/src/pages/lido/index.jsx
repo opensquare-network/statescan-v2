@@ -15,11 +15,11 @@ import {
 } from "../../services/evm/lido";
 import { useLidoDailyStatsData } from "../../hooks/lido/useLidoDailyStatsData";
 import { useLidoOnchainStatsData } from "../../hooks/lido/useLidoOnchainStatsData";
-import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoEvmBalanceData";
-import { useLidoProtocolStatData } from "../../hooks/lido/useLidoProtocolStatData";
+import { useLidoEvmBalanceData } from "../../hooks/lido/useLidoAddressProfileData";
+import { useLidoLastDailyStatsData } from "../../hooks/lido/useLidoProtocolStatData";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 
-const WITHDRAWAL_VAULT_RECEIVED_STAT_ID = "withdrawalVaultReceived";
+const WITHDRAWAL_VAULT_RECEIVED_STAT_ID = "withdrawalVaultETHReceived";
 const REWARDS_VAULT_RECEIVED_STAT_ID = "rewardsVaultETHReceived";
 
 const SearchSection = styled.div`
@@ -37,10 +37,8 @@ export default function LidoHome() {
   const chainSettings = useChainSettings();
   const { decimals, symbol } = chainSettings;
   const { data, loading } = useLidoDailyStatsData();
-  const { data: withdrawalVaultData, loading: withdrawalVaultLoading } =
-    useLidoProtocolStatData(WITHDRAWAL_VAULT_RECEIVED_STAT_ID);
-  const { data: rewardsVaultData, loading: rewardsVaultLoading } =
-    useLidoProtocolStatData(REWARDS_VAULT_RECEIVED_STAT_ID);
+  const { data: vaultStats, loading: vaultStatsLoading } =
+    useLidoLastDailyStatsData();
   const {
     data: withdrawalVaultBalance,
     loading: withdrawalVaultBalanceLoading,
@@ -83,8 +81,8 @@ export default function LidoHome() {
 
       <Section>
         <LidoWithdrawalVaultStats
-          stats={withdrawalVaultData}
-          loading={withdrawalVaultLoading}
+          stats={vaultStats[WITHDRAWAL_VAULT_RECEIVED_STAT_ID]}
+          loading={vaultStatsLoading}
           balance={withdrawalVaultBalance}
           balanceLoading={withdrawalVaultBalanceLoading}
           decimals={decimals}
@@ -94,8 +92,8 @@ export default function LidoHome() {
 
       <Section>
         <LidoRewardsVaultStats
-          stats={rewardsVaultData}
-          loading={rewardsVaultLoading}
+          stats={vaultStats[REWARDS_VAULT_RECEIVED_STAT_ID]}
+          loading={vaultStatsLoading}
           balance={rewardsVaultBalance}
           balanceLoading={rewardsVaultBalanceLoading}
           decimals={decimals}

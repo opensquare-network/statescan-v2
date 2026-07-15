@@ -4,12 +4,13 @@ import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import EvmAddress from "../../components/lido/evmAddress";
 import EvmExternalLink from "../../components/lido/evmExternalLink";
-import EvmPagination from "../../components/lido/evmPagination";
 import EvmTxHash from "../../components/lido/evmTxHash";
+import Pagination from "../../components/pagination";
 import { StyledPanelTableWrapper } from "../../components/styled/panel";
 import Table from "../../components/table";
 import { useLidoDepositsFilter } from "../../hooks/filter/useLidoDepositsFilter";
 import { useLidoDepositsData } from "../../hooks/lido/useLidoDepositsData";
+import { useQueryParams } from "../../hooks/useQueryParams";
 import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 import {
   getEtherscanBlockUrl,
@@ -22,9 +23,9 @@ const lidoDepositsHead = [
   {
     name: "Block",
     type: "sortable",
-    sortDefaultQueryValue: "blockNumber_desc",
-    sortAscendingQueryValue: "blockNumber_asc",
-    sortDescendingQueryValue: "blockNumber_desc",
+    sortDefaultQueryValue: "block_desc",
+    sortAscendingQueryValue: "block_asc",
+    sortDescendingQueryValue: "block_desc",
     width: 160,
   },
   { name: "Depositor", width: 220 },
@@ -47,36 +48,53 @@ const lidoDepositsHead = [
 function useLidoDepositsTableData(items = []) {
   const { decimals, symbol } = useChainSettings();
 
-  return items.map((item) => [
-    <EvmExternalLink
-      href={getEtherscanBlockUrl(item.blockNumber)}
-      key={`${item.id}-block`}
-      copy={false}
-    >
-      {toLidoBlockNumber(item.blockNumber)}
-    </EvmExternalLink>,
-    <EvmAddress
-      key={`${item.id}-address`}
-      address={item.address}
-      copy={false}
-    />,
-    toLidoTimestamp(item.blockTime),
-    <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
-    <ValueDisplay
-      key={`${item.id}-value`}
-      value={toLidoAmount(item.value, decimals)}
-      symbol={symbol}
-      showNotEqualTooltip
-    />,
-  ]);
+  return items.map((item) => {
+    const rowKey = [item.indexer?.txHash, item.indexer?.logIndex]
+      .filter(Boolean)
+      .join("-");
+
+    return [
+      <EvmExternalLink
+        href={getEtherscanBlockUrl(item.indexer?.blockNumber)}
+        key={`${rowKey}-block`}
+        copy={false}
+      >
+        {toLidoBlockNumber(item.indexer?.blockNumber)}
+      </EvmExternalLink>,
+      <EvmAddress
+        key={`${rowKey}-address`}
+        address={item.address}
+        copy={false}
+      />,
+      toLidoTimestamp(item.indexer?.blockTimestamp),
+      <EvmTxHash
+        key={`${rowKey}-tx`}
+        txHash={item.indexer?.txHash}
+        copy={false}
+      />,
+      <ValueDisplay
+        key={`${rowKey}-value`}
+        value={toLidoAmount(item.value, decimals)}
+        symbol={symbol}
+        showNotEqualTooltip
+      />,
+    ];
+  });
 }
 
 function LidoDepositsTableView({ data, loading }) {
+  const { page = 1 } = useQueryParams();
   const tableData = useLidoDepositsTableData(data?.items);
 
   return (
     <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
       <Table heads={lidoDepositsHead} data={tableData} loading={loading} />
     </StyledPanelTableWrapper>

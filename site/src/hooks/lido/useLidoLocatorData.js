@@ -1,9 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import evmPublicClient from "../../services/evm/client";
-import {
-  LIDO_LOCATOR_ABI,
-  LIDO_LOCATOR_ADDRESS,
-} from "../../services/evm/lido";
+import { useLidoStatusData } from "./useLidoStatusData";
 
 export const lidoLocatorAddressItems = [
   { name: "Accounting", functionName: "accounting" },
@@ -80,53 +75,23 @@ const emptyData = lidoLocatorAddressItems.map(({ name, functionName }) => ({
 }));
 
 export function useLidoLocatorData() {
-  const [data, setData] = useState(emptyData);
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = useCallback(async () => {
-    if (!evmPublicClient) {
-      setData(emptyData);
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const addresses = await Promise.all(
-        lidoLocatorAddressItems.map((item) =>
-          evmPublicClient.readContract({
-            address: LIDO_LOCATOR_ADDRESS,
-            abi: LIDO_LOCATOR_ABI,
-            functionName: item.functionName,
-          }),
-        ),
-      );
-
-      setData(
-        lidoLocatorAddressItems.map((item, index) => ({
-          ...item,
-          address: item.components
-            ? item.components.map((name, addressIndex) => ({
-                name,
-                address: addresses[index][addressIndex],
-              }))
-            : addresses[index],
-        })),
-      );
-    } catch (e) {
-      setData(emptyData);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const queryResult = useLidoStatusData("lido-locator-addresses", {
+    items: emptyData,
+  });
 
   return {
-    data,
-    loading,
+    ...queryResult,
+    data: queryResult.data?.items || emptyData,
   };
+}
+
+export function useLidoTreasuryAddressData() {
+  const queryResult = useLidoStatusData("lido-locator-addresses", {
+    items: [],
+  });
+  const treasury = queryResult.data?.items?.find(
+    (item) => item.functionName === "treasury",
+  );
+
+  return { ...queryResult, data: treasury?.address ?? null };
 }

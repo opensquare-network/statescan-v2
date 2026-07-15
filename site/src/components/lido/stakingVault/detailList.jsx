@@ -52,17 +52,17 @@ function useVaultDetailItems(vault) {
   const report = vault.lastReport;
 
   return [
-    { label: "Vault", value: toVaultId(vault.id) },
+    { label: "Vault", value: toVaultId(vault.vault) },
     { label: "Status", value: <LidoVaultStatus status={vault.status} /> },
     {
       label: "Total",
-      value: toValue(report?.totalValue, chainSettings),
+      value: toValue(report?.reportTotalValue, chainSettings),
     },
     {
       label: "In/Out Delta",
       value: (
         <LidoInOutDelta
-          value={report?.inOutDelta}
+          value={report?.reportInOutDelta}
           decimals={decimals}
           symbol={symbol}
         />
@@ -71,7 +71,7 @@ function useVaultDetailItems(vault) {
     { label: "Reserve", value: formatLidoBp(vault.reserveRatioBP) },
     {
       label: "Last Report",
-      value: toTime(vault.lastReport?.blockTime),
+      value: toTime(report?.indexer?.blockTimestamp),
     },
     {
       label: "Share Limit",

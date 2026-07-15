@@ -7,6 +7,13 @@ export const LIDO_VAULT_STATUS = {
   DISCONNECTED: "Disconnected",
 };
 
+const LIDO_VAULT_STATUS_BY_VALUE = {
+  0: LIDO_VAULT_STATUS.CREATED,
+  1: LIDO_VAULT_STATUS.CONNECTED,
+  2: LIDO_VAULT_STATUS.PENDING_DISCONNECT,
+  3: LIDO_VAULT_STATUS.DISCONNECTED,
+};
+
 export const LIDO_VAULT_STATUS_OPTIONS = Object.values(LIDO_VAULT_STATUS);
 
 const STATUS_COMPONENTS = {
@@ -17,11 +24,12 @@ const STATUS_COMPONENTS = {
 };
 
 export default function LidoVaultStatus({ status }) {
-  if (!status) {
+  if (status == null || status === "") {
     return "--";
   }
 
-  const Status = STATUS_COMPONENTS[status] || Tag;
+  const statusText = LIDO_VAULT_STATUS_BY_VALUE[status] || status;
+  const Status = STATUS_COMPONENTS[statusText] || Tag;
 
-  return <Status>{status}</Status>;
+  return <Status>{statusText}</Status>;
 }

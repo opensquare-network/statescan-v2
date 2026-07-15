@@ -1,7 +1,7 @@
 import ValueDisplay from "../../displayValue";
 import EvmExternalLink from "../evmExternalLink";
-import EvmPagination from "../evmPagination";
 import EvmTxHash from "../evmTxHash";
+import Pagination from "../../pagination";
 import { ColoredInterLink } from "../../styled/link";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import Table from "../../table";
@@ -12,15 +12,16 @@ import {
   toLidoTimestamp,
 } from "../../../utils/viewFuncs/lido";
 import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 
 function getLidoStakingRouterETHDepositedsHead(showModuleId) {
   return [
     {
       name: "Block",
       type: "sortable",
-      sortDefaultQueryValue: "blockNumber_desc",
-      sortAscendingQueryValue: "blockNumber_asc",
-      sortDescendingQueryValue: "blockNumber_desc",
+      sortDefaultQueryValue: "block_desc",
+      sortAscendingQueryValue: "block_asc",
+      sortDescendingQueryValue: "block_desc",
       width: 160,
     },
     {
@@ -44,33 +45,36 @@ function getLidoStakingRouterETHDepositedsHead(showModuleId) {
 function useLidoStakingRouterETHDepositedsTableData(items = [], showModuleId) {
   const { decimals, symbol } = useChainSettings();
 
-  return items.map((item) =>
-    [
+  return items.map((item) => {
+    const indexer = item.indexer || {};
+    const rowKey = [indexer.txHash, indexer.logIndex].filter(Boolean).join("-");
+
+    return [
       <EvmExternalLink
-        href={getEtherscanBlockUrl(item.blockNumber)}
-        key={`${item.id}-block`}
+        href={getEtherscanBlockUrl(indexer.blockNumber)}
+        key={`${rowKey}-block`}
         copy={false}
       >
-        {toLidoBlockNumber(item.blockNumber)}
+        {toLidoBlockNumber(indexer.blockNumber)}
       </EvmExternalLink>,
-      toLidoTimestamp(item.blockTime),
-      <EvmTxHash key={`${item.id}-tx`} txHash={item.txHash} copy={false} />,
+      toLidoTimestamp(indexer.blockTimestamp),
+      <EvmTxHash key={`${rowKey}-tx`} txHash={indexer.txHash} copy={false} />,
       showModuleId && (
         <ColoredInterLink
-          key={`${item.id}-module`}
+          key={`${rowKey}-module`}
           to={`/staking/modules/${item.stakingModuleId}`}
         >
-          {item.stakingModule?.name || "--"}
+          {item.stakingModuleId}
         </ColoredInterLink>
       ),
       <ValueDisplay
-        key={`${item.id}-amount`}
+        key={`${rowKey}-amount`}
         value={toLidoAmount(item.amount, decimals)}
         symbol={symbol}
         showNotEqualTooltip
       />,
-    ].filter(Boolean),
-  );
+    ].filter(Boolean);
+  });
 }
 
 export default function LidoStakingRouterETHDepositedsTable({
@@ -82,10 +86,17 @@ export default function LidoStakingRouterETHDepositedsTable({
     data?.items,
     showModuleId,
   );
+  const { page = 1 } = useQueryParams();
 
   return (
     <StyledPanelTableWrapper
-      footer={<EvmPagination nextCursor={data?.nextCursor} />}
+      footer={
+        <Pagination
+          page={parseInt(page)}
+          pageSize={data?.limit}
+          total={data?.total}
+        />
+      }
     >
       <Table
         heads={getLidoStakingRouterETHDepositedsHead(showModuleId)}

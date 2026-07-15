@@ -1,191 +1,106 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import BigNumber from "bignumber.js";
 import {
-  GET_LIDO_DAILY_STATS,
   GET_LIDO_SERVER_STETH_DAILY_STATS,
+  GET_LIDO_SERVER_USER_STAKING_STATS,
   GET_LIDO_SERVER_WSTETH_DAILY_STATS,
-  GET_LIDO_STETH_DAILY_STATS_ANALYTICS,
-  GET_LIDO_WSTETH_DAILY_STATS_ANALYTICS,
 } from "../../services/gql/lido";
-import { toLidoTimestamp } from "../../utils/viewFuncs/lido";
-import { fetchLidoDailyStatsHolders } from "./fetchLidoDailyStatsHolders";
-import { lidoClient, useLidoQuery, useLidoServerQuery } from "./useLidoQuery";
+import { useMemo } from "react";
+import { useLidoServerQuery } from "./useLidoQuery";
 
-const DAYS = 30;
-const ANALYTICS_HOLDER_STATS_SIZE = 1000;
-
-const emptySummary = {
-  depositCount: 0,
-  depositValue: 0,
-  withdrawalRequestCount: 0,
-  withdrawalRequestValue: 0,
-};
-
-function sumBy(items, field) {
-  return items
-    .reduce((result, item) => {
-      return result.plus(item[field] || 0);
-    }, new BigNumber(0))
-    .toString();
-}
-
-function sumStats(items = []) {
-  return Object.keys(emptySummary).reduce((result, field) => {
-    return {
-      ...result,
-      [field]: sumBy(items, field),
-    };
-  }, {});
-}
-
-function getRecentStats(items = [], days) {
-  return sumStats(items.slice(-days));
+function getUserStakingStatsData(stats) {
+  return {
+    depositCount: stats?.deposits?.count ?? null,
+    depositValue: stats?.deposits?.amount ?? null,
+    withdrawalRequestCount: stats?.withdrawals?.count ?? null,
+    withdrawalRequestValue: stats?.withdrawals?.amount ?? null,
+  };
 }
 
 export function useLidoDailyStatsData() {
-  const queryResult = useLidoQuery(GET_LIDO_DAILY_STATS, {
-    variables: {
-      first: DAYS,
-      orderBy: "timestamp",
-      orderDirection: "desc",
+  const last7DaysQueryResult = useLidoServerQuery(
+    GET_LIDO_SERVER_USER_STAKING_STATS,
+    {
+      variables: { days: 7 },
     },
-  });
-  const queryData = queryResult.data || queryResult.previousData;
-
-  const data = useMemo(() => {
-    const items = [...(queryData?.dailyStats || [])].reverse();
-
-    return {
-      last7Days: getRecentStats(items, 7),
-      last30Days: getRecentStats(items, 30),
-    };
-  }, [queryData?.dailyStats]);
+  );
+  const last30DaysQueryResult = useLidoServerQuery(
+    GET_LIDO_SERVER_USER_STAKING_STATS,
+    {
+      variables: { days: 30 },
+    },
+  );
+  const last7DaysData =
+    last7DaysQueryResult.data || last7DaysQueryResult.previousData;
+  const last30DaysData =
+    last30DaysQueryResult.data || last30DaysQueryResult.previousData;
 
   return {
-    ...queryResult,
-    data,
+    data: {
+      last7Days: getUserStakingStatsData(last7DaysData?.userStakingStats),
+      last30Days: getUserStakingStatsData(last30DaysData?.userStakingStats),
+    },
+    error: last7DaysQueryResult.error || last30DaysQueryResult.error,
+    loading: last7DaysQueryResult.loading || last30DaysQueryResult.loading,
   };
 }
 
 const tokenConfigs = {
   stETH: {
-    query: GET_LIDO_STETH_DAILY_STATS_ANALYTICS,
     serverQuery: GET_LIDO_SERVER_STETH_DAILY_STATS,
     serverField: "stEthDailyStats",
-    holdersField: "stETHHolderCount",
+    holdersField: "stethHolders",
+    sharesField: "stethShares",
+    supplyField: "stethSupply",
   },
   wstETH: {
-    query: GET_LIDO_WSTETH_DAILY_STATS_ANALYTICS,
     serverQuery: GET_LIDO_SERVER_WSTETH_DAILY_STATS,
     serverField: "wstEthDailyStats",
-    holdersField: "wstETHHolderCount",
+    holdersField: "wstethHolders",
+    supplyField: "wstethSupply",
   },
 };
 
-function formatHolderStats(holderStats = [], holdersField) {
-  return [...holderStats]
-    .sort((a, b) => {
-      return Number(a.timestamp || 0) - Number(b.timestamp || 0);
-    })
+function toLidoDailyStatTimestamp(date) {
+  if (!date) {
+    return null;
+  }
+
+  const timestamp = Date.parse(`${date}T00:00:00Z`);
+
+  if (Number.isNaN(timestamp)) {
+    return null;
+  }
+
+  return Math.floor(timestamp / 1000);
+}
+
+function formatServerDailyStats(items = [], config) {
+  return items
     .map((item) => {
       return {
-        holders: item[holdersField] ?? null,
-        timestamp: item.timestamp,
+        holders: item[config.holdersField] ?? null,
+        shares: config.sharesField ? item[config.sharesField] ?? null : null,
+        timestamp: toLidoDailyStatTimestamp(item.date),
+        totalSupply: item[config.supplyField] ?? null,
       };
+    })
+    .filter((item) => item.timestamp)
+    .sort((a, b) => {
+      return a.timestamp - b.timestamp;
     });
-}
-
-function formatSupplyStats(supplyStats = []) {
-  return supplyStats.map((item) => {
-    return {
-      timestamp: item.timestamp,
-      totalSupply: item.totalSupply ?? null,
-    };
-  });
-}
-
-function getDateKey(timestamp) {
-  return new Date(toLidoTimestamp(timestamp)).toISOString().slice(0, 10);
-}
-
-function mergeStatsByHolderDate(holderStats, supplyStats) {
-  const supplyMap = new Map(
-    supplyStats.map((item) => [getDateKey(item.timestamp), item]),
-  );
-
-  return holderStats.map((holderItem) => {
-    const supplyItem = supplyMap.get(getDateKey(holderItem.timestamp));
-
-    return {
-      timestamp: holderItem.timestamp,
-      totalSupply: supplyItem?.totalSupply ?? null,
-      holders: holderItem.holders,
-    };
-  });
-}
-
-function useLidoDailyStatsHoldersData({ token, query }) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const cacheRef = useRef({ token: null, data: [] });
-
-  const fetchData = useCallback(async () => {
-    if (token === cacheRef.current.token) {
-      setData(cacheRef.current.data);
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const items = await fetchLidoDailyStatsHolders({
-        client: lidoClient,
-        query,
-        pageSize: ANALYTICS_HOLDER_STATS_SIZE,
-      });
-
-      cacheRef.current = { token, data: items };
-      setData(items);
-    } catch (e) {
-      setData([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [query, token]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  return {
-    data,
-    loading,
-  };
 }
 
 export function useLidoDailyStatsAnalyticsData(token) {
   const config = tokenConfigs[token];
-  const holdersQueryResult = useLidoDailyStatsHoldersData({
-    token,
-    query: config.query,
-  });
   const serverQueryResult = useLidoServerQuery(config.serverQuery);
   const serverQueryData =
     serverQueryResult.data || serverQueryResult.previousData;
-  const supplyStats = serverQueryData?.[config.serverField];
+  const serverStats = serverQueryData?.[config.serverField];
   const data = useMemo(() => {
-    const holderStats = formatHolderStats(
-      holdersQueryResult.data,
-      config.holdersField,
-    );
-    const formattedSupplyStats = formatSupplyStats(supplyStats);
-
-    return mergeStatsByHolderDate(holderStats, formattedSupplyStats);
-  }, [config.holdersField, holdersQueryResult.data, supplyStats]);
+    return formatServerDailyStats(serverStats, config);
+  }, [config, serverStats]);
 
   return {
     ...serverQueryResult,
-    loading: serverQueryResult.loading || holdersQueryResult.loading,
     data,
   };
 }

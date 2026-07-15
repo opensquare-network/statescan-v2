@@ -2,195 +2,183 @@ import { gql } from "@apollo/client";
 
 export const GET_LIDO_NODE_OPERATORS = gql`
   query GetLidoNodeOperators(
-    $first: Int!
-    $where: NodeOperator_filter
-    $orderBy: NodeOperator_orderBy
-    $orderDirection: OrderDirection
+    $stakingModuleId: Int
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
+    $sort: TotalRewardsSortInput
   ) {
     nodeOperators(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+      stakingModuleId: $stakingModuleId
+      limit: $limit
+      offset: $offset
+      filter: $filter
+      sort: $sort
     ) {
-      active
-      extendedManagerPermissions
-      id
-      managerAddress
-      name
-      nodeOperatorId
-      rewardAddress
-      rewardsDistributedShares
-      stakingModuleId
-      vettedSigningKeysCount
+      items {
+        active
+        approvedValidatorsCount
+        extendedManagerPermissions
+        managerAddress
+        name
+        nodeOperatorId
+        rewardAddress
+        totalRewards
+        stakingModuleId
+      }
+      total
+      offset
+      limit
     }
   }
 `;
 
-export const GET_LIDO_NODE_OPERATOR = gql`
-  query GetLidoNodeOperator(
-    $first: Int!
-    $where: NodeOperator_filter
-    $orderBy: NodeOperator_orderBy
-    $orderDirection: OrderDirection
+export const GET_LIDO_SERVER_NODE_OPERATOR = gql`
+  query GetLidoServerNodeOperator(
+    $stakingModuleId: Int!
+    $nodeOperatorId: Int!
   ) {
-    nodeOperators(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    nodeOperator(
+      stakingModuleId: $stakingModuleId
+      nodeOperatorId: $nodeOperatorId
     ) {
       active
+      approvedValidatorsCount
       extendedManagerPermissions
-      id
       managerAddress
       name
       nodeOperatorId
       rewardAddress
-      rewardsDistributedShares
       stakingModuleId
-      vettedSigningKeysCount
-      timelines {
-        blockNumber
-        blockTime
-        eventType
-        id
-        logIndex
-        nodeOperatorId
-        stakingModuleId
-        txHash
-        nodeOperator {
-          active
-          extendedManagerPermissions
-          id
-          managerAddress
-          name
-          nodeOperatorId
-          rewardAddress
-          rewardsDistributedShares
-          stakingModuleId
-          vettedSigningKeysCount
-        }
-        nodeOperatorActiveSet {
-          active
-          blockNumber
-          blockTime
-          id
-          logIndex
-          nodeOperatorId
-          txHash
-        }
-        nodeOperatorAdded {
-          blockNumber
-          blockTime
-          extendedManagerPermissions
-          id
-          logIndex
-          managerAddress
-          name
-          nodeOperatorId
-          rewardAddress
-          stakingLimit
-          txHash
-        }
-        nodeOperatorNameSet {
-          blockNumber
-          blockTime
-          id
-          logIndex
-          name
-          nodeOperatorId
-          txHash
-        }
-        nodeOperatorVettedSigningKeysCountChanged {
-          blockNumber
-          blockTime
-          id
-          logIndex
-          nodeOperatorId
-          txHash
-          vettedSigningKeysCount
-        }
-      }
+      totalRewards
+      timeline
+    }
+  }
+`;
+
+export const GET_LIDO_NODE_OPERATOR_TOTALS = gql`
+  query GetLidoNodeOperatorTotals(
+    $stakingModuleId: Int!
+    $nodeOperatorId: Int!
+  ) {
+    rewardsDistributeds(
+      stakingModuleId: $stakingModuleId
+      nodeOperatorId: $nodeOperatorId
+      limit: 1
+      offset: 0
+    ) {
+      total
+    }
+    operatorFeeDistributeds(
+      nodeOperatorId: $nodeOperatorId
+      limit: 1
+      offset: 0
+    ) {
+      total
+    }
+    operatorRewardClaims(nodeOperatorId: $nodeOperatorId, limit: 1, offset: 0) {
+      total
     }
   }
 `;
 
 export const GET_LIDO_REWARDS_DISTRIBUTEDS = gql`
   query GetLidoRewardsDistributeds(
-    $first: Int!
-    $where: RewardsDistributed_filter
-    $orderBy: RewardsDistributed_orderBy
-    $orderDirection: OrderDirection
+    $stakingModuleId: Int
+    $nodeOperatorId: Int
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
   ) {
     rewardsDistributeds(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+      stakingModuleId: $stakingModuleId
+      nodeOperatorId: $nodeOperatorId
+      limit: $limit
+      offset: $offset
+      filter: $filter
     ) {
-      blockNumber
-      blockTime
-      id
-      logIndex
-      nodeOperatorId
-      rewardAddress
-      sharesAmount
-      stakingModuleId
-      txHash
+      items {
+        nodeOperatorId
+        rewardAddress
+        sharesAmount
+        stakingModuleId
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;
 
 export const GET_LIDO_OPERATOR_REWARD_CLAIMS = gql`
   query GetLidoOperatorRewardClaims(
-    $first: Int!
-    $where: OperatorRewardClaim_filter
-    $orderBy: OperatorRewardClaim_orderBy
-    $orderDirection: OrderDirection
+    $nodeOperatorId: Int
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
+    $sort: AmountSortInput
   ) {
     operatorRewardClaims(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+      nodeOperatorId: $nodeOperatorId
+      limit: $limit
+      offset: $offset
+      filter: $filter
+      sort: $sort
     ) {
-      blockNumber
-      blockTime
-      claimAddress
-      claimedShares
-      claimedWstETHAmount
-      cumulativeFeeShares
-      id
-      nodeOperatorId
-      requestId
-      requestedAmount
-      txHash
-      type
+      items {
+        amount
+        nodeOperatorId
+        requestId
+        to
+        type
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;
 
 export const GET_LIDO_OPERATOR_FEE_DISTRIBUTEDS = gql`
   query GetLidoOperatorFeeDistributeds(
-    $first: Int!
-    $where: OperatorFeeDistributed_filter
-    $orderBy: OperatorFeeDistributed_orderBy
-    $orderDirection: OrderDirection
+    $nodeOperatorId: Int
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
+    $sort: SharesSortInput
   ) {
     operatorFeeDistributeds(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+      nodeOperatorId: $nodeOperatorId
+      limit: $limit
+      offset: $offset
+      filter: $filter
+      sort: $sort
     ) {
-      blockNumber
-      blockTime
-      id
-      logIndex
-      nodeOperatorId
-      shares
-      txHash
+      items {
+        nodeOperatorId
+        shares
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;

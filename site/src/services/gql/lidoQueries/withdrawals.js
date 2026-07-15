@@ -1,74 +1,90 @@
 import { gql } from "@apollo/client";
 
-export const GET_LIDO_WITHDRAWAL_REQUESTS = gql`
-  query GetLidoWithdrawalRequests(
-    $first: Int!
-    $where: WithdrawalRequest_filter
-    $orderBy: WithdrawalRequest_orderBy
-    $orderDirection: OrderDirection
+export const GET_LIDO_SERVER_WITHDRAWALS = gql`
+  query GetLidoWithdrawals(
+    $limit: Int!
+    $offset: Int!
+    $address: String
+    $status: WithdrawalStatus
+    $filter: IndexerFilterInput
+    $sort: WithdrawalSortInput
   ) {
-    withdrawalRequests(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    withdrawals(
+      limit: $limit
+      offset: $offset
+      address: $address
+      status: $status
+      filter: $filter
+      sort: $sort
     ) {
-      claim {
-        blockNumber
-        blockTime
-        logIndex
-        owner
-        receiver
+      items {
         requestId
-        txHash
-        value
+        requester
+        owner
+        amountOfStETH
+        amountOfShares
+        status
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
       }
-      finalization {
-        blockNumber
-        blockTime
-        fromRequestId
-        logIndex
-        shares
-        timestamp
-        toRequestId
-        txHash
-        value
-      }
-      blockNumber
-      blockTime
-      cumulativeShares
-      cumulativeStETH
-      id
-      logIndex
+      total
+      offset
+      limit
+    }
+  }
+`;
+
+export const GET_LIDO_WITHDRAWAL = gql`
+  query GetLidoWithdrawal($requestId: Int!) {
+    withdrawal(requestId: $requestId) {
+      requestId
+      requester
       owner
-      requestor
+      amountOfStETH
+      amountOfShares
+      cumulativeStETH
+      cumulativeShares
       status
-      value
-      txHash
-      shares
+      timeline
+      indexer {
+        blockNumber
+        blockTimestamp
+        txHash
+        logIndex
+      }
     }
   }
 `;
 
 export const GET_LIDO_WITHDRAWAL_VAULT_WITHDRAWALS_RECEIVED = gql`
   query GetLidoWithdrawalVaultWithdrawalsReceived(
-    $first: Int!
-    $where: WithdrawalVaultWithdrawalsReceived_filter
-    $orderBy: WithdrawalVaultWithdrawalsReceived_orderBy
-    $orderDirection: OrderDirection
+    $limit: Int!
+    $offset: Int!
+    $filter: IndexerFilterInput
+    $sort: AmountSortInput
   ) {
-    withdrawalVaultWithdrawalsReceiveds(
-      first: $first
-      where: $where
-      orderBy: $orderBy
-      orderDirection: $orderDirection
+    withdrawalVaultReceived(
+      limit: $limit
+      offset: $offset
+      filter: $filter
+      sort: $sort
     ) {
-      amount
-      blockNumber
-      blockTime
-      id
-      logIndex
-      txHash
+      items {
+        amount
+        indexer {
+          blockNumber
+          blockTimestamp
+          txHash
+          logIndex
+        }
+      }
+      total
+      offset
+      limit
     }
   }
 `;
