@@ -8,6 +8,9 @@ async function insertPalletAssetActivity(assetId, name, args = {}, indexer) {
   }
 
   const activeAsset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
+  if (!activeAsset) {
+    return;
+  }
   const col = await getAssetActivityCol();
   await col.insertOne({
     assetId,

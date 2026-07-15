@@ -3,14 +3,6 @@ import { kusamaColor } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://people-kusama.ibp.network",
-  },
-  {
-    name: "IBP2",
-    url: "wss://people-kusama.dotters.network",
-  },
-  {
     name: "Parity",
     url: "wss://kusama-people-rpc.polkadot.io",
   },

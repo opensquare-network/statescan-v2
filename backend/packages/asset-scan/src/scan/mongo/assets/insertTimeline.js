@@ -11,9 +11,7 @@ async function insertAssetTimeline(assetId, name, args = {}, indexer) {
 
   const activeAsset = await getActiveAsset(assetId);
   if (!activeAsset) {
-    throw new Error(
-      `Can not find asset: ${assetId} when insert timeline at ${indexer.blockHeight}`,
-    );
+    return;
   }
   const timelineCol = await getAssetTimelineCol();
   await timelineCol.insertOne({

@@ -6,6 +6,9 @@ const isEmpty = require("lodash.isempty");
 
 async function updateApproval(assetId, owner, delegate, indexer) {
   const asset = await getActiveAssetOrThrow(assetId, indexer.blockHeight);
+  if (!asset) {
+    return;
+  }
   const approval = await queryApproval(
     indexer.blockHash,
     assetId,

@@ -19,6 +19,9 @@ const {
 
 async function deleteAssetHolders(assetId, blockHeight) {
   const asset = await getActiveAssetOrThrow(assetId, blockHeight);
+  if (!asset) {
+    return;
+  }
   const col = await getAssetHolderCol();
   await col.deleteMany({
     assetId,

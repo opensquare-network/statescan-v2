@@ -3,14 +3,6 @@ import { polkadotColor } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://people-polkadot.ibp.network",
-  },
-  {
-    name: "IBP2",
-    url: "wss://people-polkadot.dotters.network",
-  },
-  {
     name: "OnFinality",
     url: "wss://people-polkadot.api.onfinality.io/public-ws",
   },

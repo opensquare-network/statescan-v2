@@ -5,8 +5,15 @@ import { Panel } from "../components/styled/panel";
 import List from "../components/list";
 import { toAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
-import { Analytics, Holders, Timeline, Transfers } from "../utils/constants";
+import {
+  Analytics,
+  Activity,
+  Holders,
+  Timeline,
+  Transfers,
+} from "../utils/constants";
 import AssetTimeline from "../components/asset/timeline";
+import AssetActivity from "../components/asset/activity";
 import AssetAnalyticsChart from "../components/charts/assetAnalytics";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
@@ -22,12 +29,13 @@ function Asset() {
       id: parseInt(assetId),
     },
   });
-  const { data: { assetTransfers, assetHolders, assetTimeline } = {} } =
-    useQuery(GET_ASSET_COUNTS, {
-      variables: {
-        assetId: parseInt(assetId),
-      },
-    });
+  const {
+    data: { assetTransfers, assetHolders, assetTimeline, assetActivity } = {},
+  } = useQuery(GET_ASSET_COUNTS, {
+    variables: {
+      assetId: parseInt(assetId),
+    },
+  });
   const detail = data?.asset;
 
   const listData = useMemo(
@@ -50,6 +58,11 @@ function Asset() {
       name: Timeline,
       count: assetTimeline?.total,
       children: <AssetTimeline assetId={assetId} asset={detail} />,
+    },
+    {
+      name: Activity,
+      count: assetActivity?.total,
+      children: <AssetActivity assetId={assetId} asset={detail} />,
     },
     {
       name: Analytics,

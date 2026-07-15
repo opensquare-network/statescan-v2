@@ -1,7 +1,5 @@
 import { WrappedEvents } from "./type/wrappedEvents";
 import { isSudoOk, getSudoInnerCallEvents } from "./utils/sudo";
-import { getBatchInnerCallEvents } from "./utils/batch";
-import { findInterrupted } from "./utils/checkInterrupted";
 import {
   isMultisigExecutedOk,
   getMultisigInnerCallEvents,
@@ -15,25 +13,58 @@ import {
   MultisigMethods,
   UtilityMethods,
   SudoMethods,
+  UtilityEvents,
 } from "./consts";
 import { GenericCall } from "@polkadot/types";
 
-let _callHandler;
+const UtilityBatchTerminalEvents = [
+  UtilityEvents.ItemCompleted,
+  UtilityEvents.BatchInterrupted,
+  UtilityEvents.ItemFailed,
+  UtilityEvents.BatchCompleted,
+  UtilityEvents.BatchCompletedWithErrors,
+];
 
-async function unwrapProxy(api, call, signer, extrinsicIndexer, wrappedEvents) {
+function findBatchTerminalEventIndex(events = [], from = 0, methods = []) {
+  return events.findIndex(({ event }, index) => {
+    return (
+      index >= from &&
+      event?.section === Modules.Utility &&
+      methods.includes(event?.method)
+    );
+  });
+}
+
+function getSlicedEvents(wrappedEvents, start, end, wrapped = true) {
+  return new WrappedEvents(
+    wrappedEvents.events.slice(start, end),
+    wrappedEvents.offset + start,
+    wrapped,
+  );
+}
+
+async function unwrapProxy(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
   if (!isProxyExecutedOk(wrappedEvents?.events)) {
-    return;
+    return 0;
   }
 
   const innerCallEvents = getProxyInnerCallEvents(wrappedEvents);
   const real = call.args[0].toString();
   const innerCall = call.args[2];
-  await handleWrappedCall(
+  return await handleWrappedCall(
     api,
     innerCall,
     real,
     extrinsicIndexer,
     innerCallEvents,
+    callHandler,
   );
 }
 
@@ -43,9 +74,10 @@ async function handleMultisig(
   signer,
   extrinsicIndexer,
   wrappedEvents,
+  callHandler,
 ) {
   if (!isMultisigExecutedOk(wrappedEvents.events)) {
-    return;
+    return 0;
   }
 
   const blockApi = await api.at(extrinsicIndexer.blockHash);
@@ -62,62 +94,227 @@ async function handleMultisig(
   try {
     innerCall = new GenericCall(blockApi.registry, callHex);
   } catch (e) {
-    // logger.error(`error when parse multiSig`, extrinsicIndexer);
-    return;
+    return 0;
   }
 
   const innerCallEvents = getMultisigInnerCallEvents(wrappedEvents);
-  await handleWrappedCall(
+  return await handleWrappedCall(
     api,
     innerCall,
     multisigAddr,
     extrinsicIndexer,
     innerCallEvents,
+    callHandler,
   );
 }
 
-async function unwrapBatch(api, call, signer, extrinsicIndexer, wrappedEvents) {
-  const method = call.method;
-  const interruptedEvent = findInterrupted(wrappedEvents);
-
-  if (UtilityMethods.batchAll === method && interruptedEvent) {
-    return;
-  }
-
-  let endIndex = call.args[0].length;
-  if (interruptedEvent) {
-    endIndex = interruptedEvent.event?.data[0].toNumber();
-  }
-
+// batch emits BatchInterrupted on the first failed item, otherwise BatchCompleted.
+async function unwrapBatch(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
   const innerCalls = call.args[0];
-  for (let index = 0; index < endIndex; index++) {
-    const innerCallEvents = getBatchInnerCallEvents(wrappedEvents, index);
-    await handleWrappedCall(
+  const events = wrappedEvents.events || [];
+  let cursor = 0;
+
+  for (const innerCall of innerCalls) {
+    cursor += await handleWrappedCall(
       api,
-      innerCalls[index],
+      innerCall,
       signer,
       extrinsicIndexer,
-      innerCallEvents,
+      getSlicedEvents(wrappedEvents, cursor, events.length, false),
+      callHandler,
     );
+
+    const itemEventIndex = findBatchTerminalEventIndex(events, cursor, [
+      UtilityEvents.ItemCompleted,
+      UtilityEvents.BatchInterrupted,
+    ]);
+
+    if (itemEventIndex < 0) {
+      cursor = events.length;
+      break;
+    }
+
+    if (
+      events[itemEventIndex].event.method === UtilityEvents.BatchInterrupted
+    ) {
+      cursor = itemEventIndex + 1;
+      break;
+    }
+
+    cursor = itemEventIndex + 1;
   }
+
+  if (
+    events[cursor]?.event?.section === Modules.Utility &&
+    events[cursor]?.event?.method === UtilityEvents.BatchCompleted
+  ) {
+    cursor++;
+  }
+
+  return cursor;
 }
 
-async function unwrapSudo(api, call, signer, extrinsicIndexer, wrappedEvents) {
+async function walkBatchAllItems(
+  api,
+  innerCalls,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
+  const events = wrappedEvents.events || [];
+  let cursor = 0;
+
+  for (const innerCall of innerCalls) {
+    cursor += await handleWrappedCall(
+      api,
+      innerCall,
+      signer,
+      extrinsicIndexer,
+      getSlicedEvents(wrappedEvents, cursor, events.length, false),
+      callHandler,
+    );
+
+    const itemEventIndex = findBatchTerminalEventIndex(
+      events,
+      cursor,
+      UtilityBatchTerminalEvents,
+    );
+
+    if (
+      itemEventIndex < 0 ||
+      events[itemEventIndex].event.method !== UtilityEvents.ItemCompleted
+    ) {
+      return 0;
+    }
+
+    cursor = itemEventIndex + 1;
+  }
+
+  if (
+    events[cursor]?.event?.section === Modules.Utility &&
+    events[cursor]?.event?.method === UtilityEvents.BatchCompleted
+  ) {
+    return cursor + 1;
+  }
+
+  return 0;
+}
+
+// batchAll is atomic. A failure rolls back previous item state and events, so
+// inner calls are emitted only after its own BatchCompleted is confirmed.
+async function unwrapBatchAll(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
+  const innerCalls = call.args[0];
+  const consumed = await walkBatchAllItems(
+    api,
+    innerCalls,
+    signer,
+    extrinsicIndexer,
+    wrappedEvents,
+    null,
+  );
+
+  if (!consumed) {
+    return 0;
+  }
+
+  return await walkBatchAllItems(
+    api,
+    innerCalls,
+    signer,
+    extrinsicIndexer,
+    wrappedEvents,
+    callHandler,
+  );
+}
+
+// forceBatch emits ItemFailed for failed items but continues processing.
+async function unwrapForceBatch(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
+  const innerCalls = call.args[0];
+  const events = wrappedEvents.events || [];
+  let cursor = 0;
+
+  for (const innerCall of innerCalls) {
+    cursor += await handleWrappedCall(
+      api,
+      innerCall,
+      signer,
+      extrinsicIndexer,
+      getSlicedEvents(wrappedEvents, cursor, events.length, false),
+      callHandler,
+    );
+
+    const itemEventIndex = findBatchTerminalEventIndex(events, cursor, [
+      UtilityEvents.ItemCompleted,
+      UtilityEvents.ItemFailed,
+    ]);
+
+    if (itemEventIndex < 0) {
+      cursor = events.length;
+      break;
+    }
+
+    cursor = itemEventIndex + 1;
+  }
+
+  if (
+    events[cursor]?.event?.section === Modules.Utility &&
+    [
+      UtilityEvents.BatchCompleted,
+      UtilityEvents.BatchCompletedWithErrors,
+    ].includes(events[cursor]?.event?.method)
+  ) {
+    cursor++;
+  }
+
+  return cursor;
+}
+
+async function unwrapSudo(
+  api,
+  call,
+  signer,
+  extrinsicIndexer,
+  wrappedEvents,
+  callHandler,
+) {
   const { method } = call;
   if (!isSudoOk(wrappedEvents.events, method)) {
-    return;
+    return 0;
   }
 
   const isSudoAs = SudoMethods.sudoAs === method;
   const targetCall = isSudoAs ? call.args[1] : call.args[0];
   const author = isSudoAs ? call.args[0].toString() : signer;
   const innerCallEvents = getSudoInnerCallEvents(wrappedEvents, method);
-  await handleWrappedCall(
+  return await handleWrappedCall(
     api,
     targetCall,
     author,
     extrinsicIndexer,
     innerCallEvents,
+    callHandler,
   );
 }
 
@@ -127,35 +324,84 @@ async function handleWrappedCall(
   signer,
   extrinsicIndexer,
   wrappedEvents,
+  callHandler,
 ) {
   const { section, method } = call;
+  let consumed = 0;
 
   if (Modules.Proxy === section && ProxyMethods.proxy === method) {
-    await unwrapProxy(...arguments);
+    consumed = await unwrapProxy(
+      api,
+      call,
+      signer,
+      extrinsicIndexer,
+      wrappedEvents,
+      callHandler,
+    );
   } else if (
     Modules.Multisig === section &&
     MultisigMethods.asMulti === method
   ) {
-    await handleMultisig(...arguments);
+    consumed = await handleMultisig(
+      api,
+      call,
+      signer,
+      extrinsicIndexer,
+      wrappedEvents,
+      callHandler,
+    );
+  } else if (Modules.Utility === section && UtilityMethods.batch === method) {
+    consumed = await unwrapBatch(
+      api,
+      call,
+      signer,
+      extrinsicIndexer,
+      wrappedEvents,
+      callHandler,
+    );
   } else if (
     Modules.Utility === section &&
-    [
-      UtilityMethods.batch,
-      UtilityMethods.batchAll,
-      UtilityMethods.forceBatch,
-    ].includes(method)
+    UtilityMethods.batchAll === method
   ) {
-    await unwrapBatch(...arguments);
+    consumed = await unwrapBatchAll(
+      api,
+      call,
+      signer,
+      extrinsicIndexer,
+      wrappedEvents,
+      callHandler,
+    );
+  } else if (
+    Modules.Utility === section &&
+    UtilityMethods.forceBatch === method
+  ) {
+    consumed = await unwrapForceBatch(
+      api,
+      call,
+      signer,
+      extrinsicIndexer,
+      wrappedEvents,
+      callHandler,
+    );
   } else if (
     Modules.Sudo === section &&
     [SudoMethods.sudo, SudoMethods.sudoAs].includes(method)
   ) {
-    await unwrapSudo(...arguments);
+    consumed = await unwrapSudo(
+      api,
+      call,
+      signer,
+      extrinsicIndexer,
+      wrappedEvents,
+      callHandler,
+    );
   }
 
-  if (_callHandler) {
-    await _callHandler(...arguments);
+  if (callHandler) {
+    await callHandler(api, call, signer, extrinsicIndexer, wrappedEvents);
   }
+
+  return consumed;
 }
 
 export async function handleCallsInExtrinsic(
@@ -169,6 +415,12 @@ export async function handleCallsInExtrinsic(
   const signer = extrinsic.signer.toString();
   const call = extrinsic.method;
 
-  _callHandler = callHandler;
-  await handleWrappedCall(api, call, signer, extrinsicIndexer, wrappedEvents);
+  await handleWrappedCall(
+    api,
+    call,
+    signer,
+    extrinsicIndexer,
+    wrappedEvents,
+    callHandler,
+  );
 }

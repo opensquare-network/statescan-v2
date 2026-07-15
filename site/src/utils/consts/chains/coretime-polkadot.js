@@ -3,14 +3,6 @@ import { polkadotColor } from "./common";
 
 const nodes = [
   {
-    name: "IBP1",
-    url: "wss://coretime-polkadot.ibp.network",
-  },
-  {
-    name: "IBP2",
-    url: "wss://coretime-polkadot.dotters.network",
-  },
-  {
     name: "Parity",
     url: "wss://polkadot-coretime-rpc.polkadot.io",
   },
