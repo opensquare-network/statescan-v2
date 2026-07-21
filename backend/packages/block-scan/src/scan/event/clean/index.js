@@ -2,14 +2,14 @@ const {
   env: { currentChain },
 } = require("@osn/scan-common");
 const {
-  commonNecessarySections,
+  necessaryEventSections,
   chainsNeedToClean,
 } = require("../../common/consts");
 
 function getEventWithCleanedArgs(normalizedEvent) {
   const { section } = normalizedEvent || {};
   if (
-    commonNecessarySections.includes(section) ||
+    necessaryEventSections.includes(section) ||
     !chainsNeedToClean.includes(currentChain())
   ) {
     return normalizedEvent;
