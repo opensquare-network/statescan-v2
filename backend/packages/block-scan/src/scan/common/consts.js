@@ -23,6 +23,14 @@ const commonNecessarySections = [
   "fellowshipTreasury",
 ];
 
+// Bulletin store extrinsic args carry the full data payload (up to 2MB),
+// so clean extrinsic args but keep transactionStorage events, which only
+// carry the CID/content hash.
+const necessaryEventSections = [
+  ...commonNecessarySections,
+  "transactionStorage",
+];
+
 const chainsNeedToClean = [
   "westend",
   "paseo",
@@ -34,12 +42,14 @@ const chainsNeedToClean = [
   "nexus",
   "datahaven-testnet",
   "argon",
+  "bulletin-polkadot",
 ];
 
 const chainsNoNeedCalls = [...chainsNeedToClean, "bridgehub-westend"];
 
 module.exports = {
   commonNecessarySections,
+  necessaryEventSections,
   chainsNeedToClean,
   chainsNoNeedCalls,
 };
