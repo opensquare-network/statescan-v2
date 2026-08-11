@@ -32,6 +32,7 @@ import cere from "./cere";
 import frequency from "./frequency";
 // import datahavenTestnet from "./datahaven-testnet";
 import bulletinPolkadot from "./bulletin-polkadot";
+import bulletinPaseo from "./bulletin-paseo";
 import ethereum from "./ethereum";
 
 const chains = {
@@ -63,6 +64,7 @@ const chains = {
   // "coretime-paseo": coretimePaseo,
   // "people-paseo": peoplePaseo,
   gargantua,
+  "bulletin-paseo": bulletinPaseo,
   westend,
   westmint,
   // "bridgehub-westend": bridgehubWestend,
