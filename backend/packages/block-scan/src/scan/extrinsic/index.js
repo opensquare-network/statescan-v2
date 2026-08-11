@@ -34,6 +34,7 @@ async function normalizeExtrinsics(
         "cere",
         "argon",
         "bulletin-polkadot",
+        "bulletin-paseo",
       ].includes(chain)
     ) {
       continue;
