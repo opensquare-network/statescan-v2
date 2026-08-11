@@ -52,6 +52,7 @@ const chains = Object.freeze({
   frequency: "frequency",
   "datahaven-testnet": "datahaven-testnet",
   "bulletin-polkadot": "bulletin-polkadot",
+  "bulletin-paseo": "bulletin-paseo",
 });
 
 const ss58Format = Object.freeze({
@@ -106,6 +107,7 @@ const ss58Format = Object.freeze({
   [chains["fintra-testnet"]]: 42,
   [chains.frequency]: 90,
   [chains["bulletin-polkadot"]]: 0,
+  [chains["bulletin-paseo"]]: 42,
 });
 
 const legacySs58Format = Object.freeze({
@@ -176,6 +178,7 @@ const transferOnBlockChains = [
   chains["fintra-testnet"],
   chains.frequency,
   chains["bulletin-polkadot"],
+  chains["bulletin-paseo"],
 ];
 
 module.exports = {
