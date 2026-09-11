@@ -8,6 +8,7 @@ const { isExemptedExtrinsic } = require("./exemption");
 const { isSimpleMode } = require("../../env");
 const { normalizeInSimpleMode } = require("./simpleNormalize");
 const { chainsNoNeedCalls } = require("../common/consts");
+const { resolveExtrinsic } = require("./general");
 
 async function normalizeExtrinsics(
   extrinsics = [],
@@ -24,8 +25,10 @@ async function normalizeExtrinsics(
     if (isExemptedExtrinsic(extrinsic)) {
       continue;
     }
+    // a general transaction authorized by its extensions counts as signed here
+    const { isSigned } = resolveExtrinsic(extrinsic);
     if (
-      !extrinsic.isSigned &&
+      !isSigned &&
       ![
         "tangle",
         "tangle-testnet",
