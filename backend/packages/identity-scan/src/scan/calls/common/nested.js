@@ -8,6 +8,7 @@ const {
     SudoMethods,
   },
   utils: { emptyFn, calcMultisigAddress },
+  chain: { getExtrinsicSigner },
   logger,
 } = require("@osn/scan-common");
 const { getBlockApiConditionally } = require("../../common/api");
@@ -101,7 +102,15 @@ async function handlePureNestedCalls(
   extrinsicIndexer,
   callHandler = emptyFn,
 ) {
-  const signer = extrinsic.signer.toString();
+  // polkadot.js throws on `signer` of a general transaction; see getExtrinsicSigner
+  const signer = getExtrinsicSigner(extrinsic);
+  if (!signer) {
+    logger.warn(
+      `Can not get the signer of extrinsic, skip its nested calls`,
+      extrinsicIndexer,
+    );
+    return;
+  }
   const call = extrinsic.method;
 
   _callHandler = callHandler;
