@@ -43,6 +43,7 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
     } else {
       const msg = `Can not find multisig from DB when executed at ${indexer.blockHeight}`;
       logger.error(msg);
+      return;
       // throw new Error(msg);
     }
   }
