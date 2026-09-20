@@ -10,6 +10,7 @@ const { sortApprovals } = require("./common/sortApprovals");
 const { normalizeDispatchResult } = require("./common/normalizeDispatchResult");
 const {
   consts: { TimelineItemTypes, Modules },
+  busLogger: logger,
 } = require("@osn/scan-common");
 const {
   getCallHashFromExtrinsic,
@@ -40,9 +41,9 @@ async function handleMultisigExecuted(event, indexer, extrinsic) {
     if (isFromAsMultiThreshold1(extrinsic)) {
       return;
     } else {
-      throw new Error(
-        `Can not find multisig from DB when executed at ${indexer.blockHeight}`,
-      );
+      const msg = `Can not find multisig from DB when executed at ${indexer.blockHeight}`;
+      logger.error(msg);
+      // throw new Error(msg);
     }
   }
 
