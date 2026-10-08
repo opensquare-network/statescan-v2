@@ -3,4 +3,5 @@ module.exports = {
   ...require("./registrar"),
   ...require("./chain"),
   ...require("./api"),
+  ...require("./block"),
 };

@@ -4,6 +4,7 @@ const {
   chain: { getApi, setSpecHeights, subscribeFinalizedHeight },
 } = require("@osn/scan-common");
 const { handleBlock } = require("./scan/block");
+const { fetchBlock } = require("./scan/common");
 const {
   identity: { initIdentityScanDb },
 } = require("@statescan/mongo");
@@ -27,12 +28,13 @@ async function main() {
     await setSpecHeights([height - 1]);
 
     const blockHash = await api.rpc.chain.getBlockHash(height);
-    const block = await api.rpc.chain.getBlock(blockHash);
-    const allEvents = await api.query.system.events.at(blockHash);
+    const blockApi = await api.at(blockHash);
+    const block = await fetchBlock(api, blockApi, blockHash);
+    const allEvents = await blockApi.query.system.events();
 
     await handleBlock({
       height,
-      block: block.block,
+      block,
       events: allEvents,
     });
     console.log(`${height} finished`);
