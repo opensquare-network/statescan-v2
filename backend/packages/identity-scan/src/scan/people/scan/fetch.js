@@ -1,17 +1,19 @@
 const { getPeopleChainApi } = require("../api/api");
+const { fetchBlock } = require("../../common");
 
 async function fetchOneBlock(height) {
   const api = await getPeopleChainApi();
   const blockHash = await api.rpc.chain.getBlockHash(height);
-  const promises = [
-    await api.rpc.chain.getBlock(blockHash),
-    await api.query.system.events.at(blockHash),
-  ];
+  const blockApi = await api.at(blockHash);
 
-  const [block, events] = await Promise.all(promises);
+  const [block, events] = await Promise.all([
+    fetchBlock(api, blockApi, blockHash),
+    blockApi.query.system.events(),
+  ]);
+
   return {
     height,
-    block: block.block,
+    block,
     events,
   };
 }

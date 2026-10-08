@@ -6,6 +6,7 @@ const {
 const { u8aToHex } = require("@polkadot/util");
 const { updateBlockIdentities } = require("../../scan/jobs/block/accounts");
 const { addBlockAccount } = require("../../store/account");
+const { fetchBlock } = require("../../scan/common");
 const {
   identity: { getIdentityCol, getIdentityTimelineCol },
 } = require("@statescan/mongo");
@@ -35,8 +36,9 @@ async function updateIdentityLatestUpdate(bulk, account) {
   const api = await getApi();
   const blockHeight = getLatestHeight();
   const blockHash = await api.rpc.chain.getBlockHash(blockHeight);
-  const block = await api.rpc.chain.getBlock(blockHash);
-  const indexer = getBlockIndexer(block.block);
+  const blockApi = await api.at(blockHash);
+  const block = await fetchBlock(api, blockApi, blockHash);
+  const indexer = getBlockIndexer(block);
   const col = await getIdentityCol();
 
   let total = 0;
