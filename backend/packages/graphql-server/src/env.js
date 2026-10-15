@@ -30,6 +30,10 @@ function hasEndpoints() {
   return !!process.env.WS_ENDPOINTS;
 }
 
+function hasBlockScan() {
+  return !!process.env.MONGO_BLOCK_SCAN_NAME;
+}
+
 function getEndpoints() {
   return (process.env.WS_ENDPOINTS || "").split(";");
 }
@@ -48,5 +52,6 @@ module.exports = {
   hasRecovery,
   hasProxy,
   hasEndpoints,
+  hasBlockScan,
   getEndpoints,
 };

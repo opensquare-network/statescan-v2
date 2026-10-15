@@ -7,8 +7,10 @@ const {
   hasRecovery,
   hasProxy,
   hasStaking,
+  hasBlockScan,
 } = require("../env");
 const {
+  block: { initBlockDb },
   vesting: { initVestingScanDb },
   palletAsset: { initPalletAssetScanDb },
   foreignAsset: { initForeignAssetScanDb },
@@ -43,6 +45,9 @@ async function initDbs() {
   }
   if (hasStaking()) {
     await initPalletStakingScanDb();
+  }
+  if (hasBlockScan()) {
+    await initBlockDb();
   }
 }
 

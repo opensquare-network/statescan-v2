@@ -8,6 +8,7 @@ const {
   hasProxy,
   hasEndpoints,
   hasStaking,
+  hasBlockScan,
 } = require("../env");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const {
@@ -47,6 +48,10 @@ const {
   typeDefs: chainTypeDefs,
 } = require("./chain");
 const {
+  resolvers: chainEventsResolvers,
+  typeDefs: chainEventsTypeDefs,
+} = require("./chainEvents");
+const {
   graphql: { indexer, json },
 } = require("@statescan/common");
 
@@ -56,6 +61,13 @@ let typeDefs = [indexer, json];
 if (hasEndpoints()) {
   resolvers = [...resolvers, chainResolvers];
   typeDefs = [...typeDefs, ...chainTypeDefs];
+
+  // The events list needs the block scan database, which only some deployments run
+  // alongside the node.
+  if (hasBlockScan()) {
+    resolvers = [...resolvers, chainEventsResolvers];
+    typeDefs = [...typeDefs, ...chainEventsTypeDefs];
+  }
 }
 if (hasVesting()) {
   resolvers = [...resolvers, vestingResolvers];
