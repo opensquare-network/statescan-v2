@@ -31,6 +31,9 @@ import { time } from "./time";
 import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
+import ExtrinsicEvmCall from "../../components/extrinsic/evmCall";
+import ContractLabel from "../../components/extrinsic/contractLabel";
+import { parseReviveCall } from "../revive";
 import CircledInfoIcon from "../../components/icons/circledInfoIcon";
 import { Flex, FlexCenter, FlexColumn } from "../../components/styled/flex";
 import isNil from "lodash.isnil";
@@ -246,7 +249,14 @@ export const toOnChainAccountDetailItem = (
   const data = [
     {
       label: "Address",
-      value: <AddressAndIdentity address={id} ellipsis={false} checkMultisig key={id} />,
+      value: (
+        <AddressAndIdentity
+          address={id}
+          ellipsis={false}
+          checkMultisig
+          key={id}
+        />
+      ),
     },
     {
       label: "Total Balance",
@@ -531,6 +541,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     (assetTransferredList?.length || uniqueTransferredList?.length);
 
   const { section, method } = extrinsic?.call || extrinsic || {};
+  const reviveCall = parseReviveCall(extrinsic?.call || extrinsic);
 
   return [
     getExtrinsicTime(extrinsic),
@@ -565,6 +576,14 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     {
       label: "Call",
       value: <TagThemed>{method}</TagThemed>,
+    },
+    reviveCall?.dest && {
+      label: "Contract",
+      value: <ContractLabel address={reviveCall.dest} showAddress />,
+    },
+    reviveCall && {
+      label: "Method",
+      value: <ExtrinsicEvmCall calldata={reviveCall.calldata} />,
     },
     extrinsic?.isSigned && {
       label: "Signer",

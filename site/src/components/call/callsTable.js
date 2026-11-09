@@ -2,10 +2,10 @@ import { callsHead } from "../../utils/constants";
 import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 import { ColoredLink } from "../styled/link";
 import Table from "../table";
-import { Tag } from "../tag";
 import ExtrinsicLink from "../extrinsic/link";
 import React from "react";
 import CallCell from "../table/callCell";
+import MethodCell from "../table/methodCell";
 
 export const toCallTableItem = (calls) => {
   return calls?.map((item) => {
@@ -21,7 +21,7 @@ export const toCallTableItem = (calls) => {
         {item?.indexer?.blockHeight.toLocaleString()}
       </ColoredLink>,
       item?.indexer?.blockTime,
-      <Tag>{item?.method}</Tag>,
+      <MethodCell call={item} />,
       <CallCell call={item} />,
       <ExtrinsicParametersDisplay extrinsic={{ call: item }} />,
     ];

@@ -4,6 +4,7 @@ import {
   convertArgsForTableView,
 } from "../utils/dataTransformer";
 import DataDisplay from "./dataDisplay";
+import { ReviveCallFormatProvider } from "./extrinsic/reviveCallData";
 
 export default function ExtrinsicParametersDisplay({
   extrinsic,
@@ -23,11 +24,13 @@ export default function ExtrinsicParametersDisplay({
   }, [extrinsic]);
 
   return (
-    <DataDisplay
-      tableData={tableData}
-      JSONData={jsonData}
-      title={title}
-      className={className}
-    />
+    <ReviveCallFormatProvider>
+      <DataDisplay
+        tableData={tableData}
+        JSONData={jsonData}
+        title={title}
+        className={className}
+      />
+    </ReviveCallFormatProvider>
   );
 }
