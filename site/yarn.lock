@@ -2568,9 +2568,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@osn/scan-common@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "@osn/scan-common@npm:1.2.2"
+"@osn/scan-common@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "@osn/scan-common@npm:1.2.3"
   dependencies:
     "@osn/provider-options": "npm:^1.1.13"
     "@polkadot/api": "npm:^16.5.6"
@@ -2590,7 +2590,7 @@ __metadata:
     "@polkadot/util": ^9.0.0
     "@polkadot/util-crypto": ^9.0.0
     mongodb: ^4.0.0
-  checksum: 10/9746247e11b13c4a641aa825381210d1931a680a55ca23cfb0ba387259170b8e47a8dcb9461a24dc8988ca48c7be615ad97135e70965dc95150d3452ff52a8d8
+  checksum: 10/f78b5a46a3aef36177c938c54991d3af271506289effc0212063fa19eb0c8915bac9a23f0d718f603c1c5861e50a9e37b777929fdfb11837c1f0a9ec2e786c1c
   languageName: node
   linkType: hard
 
@@ -14234,7 +14234,7 @@ __metadata:
     "@osn/common": "npm:^2.0.0"
     "@osn/constants": "npm:^1.1.2"
     "@osn/provider-options": "npm:^1.1.13"
-    "@osn/scan-common": "npm:^1.2.2"
+    "@osn/scan-common": "npm:^1.2.3"
     "@polkadot/api": "npm:^16.5.6"
     "@polkadot/util": "npm:^14.0.3"
     "@polkadot/util-crypto": "npm:^14.0.3"
