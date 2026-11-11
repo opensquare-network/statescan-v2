@@ -33,7 +33,8 @@ import { getNftInstanceParsedMetadata } from "../nft";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
 import ExtrinsicEvmCall from "../../components/extrinsic/evmCall";
 import ContractLabel from "../../components/extrinsic/contractLabel";
-import { parseReviveCall } from "../revive";
+import { getContractName, parseReviveCall } from "../revive";
+import { hashEllipsis } from "./text";
 import CircledInfoIcon from "../../components/icons/circledInfoIcon";
 import { Flex, FlexCenter, FlexColumn } from "../../components/styled/flex";
 import isNil from "lodash.isnil";
@@ -93,6 +94,56 @@ export const toBlockDetailItem = (block) => {
       <AddressOrIdentity address={block?.validator} ellipsis={false} />
     ),
   };
+};
+
+export const toContractDetailItem = (address, contract) => {
+  const name = getContractName(address);
+  const indexer = contract?.indexer;
+  const codeHash = contract?.codeHash;
+
+  const data = {
+    Address: <TextSecondaryWithCopy>{address}</TextSecondaryWithCopy>,
+    ...(name ? { "Contract Name": <Tag>{name}</Tag> } : {}),
+    Deployer: contract?.deployer ? (
+      <TextSecondaryWithCopy>{contract.deployer}</TextSecondaryWithCopy>
+    ) : (
+      <TextSecondary>--</TextSecondary>
+    ),
+    "Code Hash": codeHash ? (
+      <Tooltip tip={codeHash}>
+        <TextSecondaryWithCopy>{hashEllipsis(codeHash)}</TextSecondaryWithCopy>
+      </Tooltip>
+    ) : (
+      <TextSecondary>--</TextSecondary>
+    ),
+    "Code Size": (
+      <TextSecondary>
+        {contract?.codeLen
+          ? `${contract.codeLen.toLocaleString()} bytes`
+          : "--"}
+      </TextSecondary>
+    ),
+    "Creation Block": isNil(indexer?.blockHeight) ? (
+      <TextSecondary>--</TextSecondary>
+    ) : (
+      <DetailedBlock blockHeight={indexer.blockHeight} />
+    ),
+    "Creation Time": isNil(indexer?.blockTime) ? (
+      <TextSecondary>--</TextSecondary>
+    ) : (
+      <DetailedTime ts={indexer.blockTime} />
+    ),
+    "Creation Extrinsic": isNil(indexer?.extrinsicIndex) ? (
+      <TextSecondary>--</TextSecondary>
+    ) : (
+      <DetailedExtrinsicId
+        blockHeight={indexer.blockHeight}
+        id={indexer.extrinsicIndex}
+      />
+    ),
+  };
+
+  return data;
 };
 
 export const toAccountDetailItem = (id, account, chainSetting) => {

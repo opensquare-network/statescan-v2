@@ -35,6 +35,11 @@ export const achainableProfileApi = (id) =>
 // transfers
 export const transferListApi = "/transfers";
 
+// revive contracts
+export const contractListApi = "/contracts";
+export const contractApi = (address) => `/contracts/${address}`;
+export const contractCallsApi = (address) => `/contracts/${address}/calls`;
+
 // assets
 export const assetListApi = "/assets";
 export const assetApi = (id) => `/assets/${id}`;

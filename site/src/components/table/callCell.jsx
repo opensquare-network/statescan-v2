@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Tooltip from "../tooltip";
 import { FlexColumn } from "../styled/flex";
 import { Tag, TagThemed } from "../tag";
+import Link from "../styled/link";
 import { getContractName, parseReviveCall } from "../../utils/revive";
 
 const Wrapper = styled.div`
@@ -32,7 +33,7 @@ function getReviveDetail(call) {
     return null;
   }
 
-  return { name, evmMethod };
+  return { dest, name, evmMethod };
 }
 
 export default function CallCell({ call }) {
@@ -56,7 +57,11 @@ export default function CallCell({ call }) {
       <FlexColumn>
         <Wrapper>{text}</Wrapper>
         <Detail>
-          {detail.name && <Tag>{detail.name}</Tag>}
+          {detail.name && (
+            <Link to={`/contracts/${detail.dest}`}>
+              <Tag>{detail.name}</Tag>
+            </Link>
+          )}
           {detail.evmMethod && <TagThemed>{detail.evmMethod}</TagThemed>}
         </Detail>
       </FlexColumn>

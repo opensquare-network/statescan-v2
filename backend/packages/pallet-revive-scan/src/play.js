@@ -1,0 +1,213 @@
+require("dotenv").config();
+
+const fs = require("fs");
+const path = require("path");
+const {
+  chain: { fetchOneBlockFromNode, subscribeFinalizedHeight },
+} = require("@osn/scan-common");
+const { handleBlock } = require("./scan");
+const {
+  palletRevive: {
+    initPalletReviveScanDb,
+    getReviveDb,
+    getContractCol,
+    getCallCol,
+  },
+  knownHeight: { initKnownHeightDb },
+} = require("@statescan/mongo");
+
+// Written by src/scripts/fetchCallBlocks.js, a JSON array of block heights sorted in
+// ascending order.
+const defaultBlocksFile = path.resolve(__dirname, "../call-blocks.json");
+
+const defaultConcurrency = 8;
+
+// node src/play.js [blocks file] [--reverse] [--fresh] [--after=<height>]
+// [--concurrency=<n>]
+// --reverse walks the list from the newest block, so the latest business is reached
+// without going through the whole history first.
+// --fresh ignores the stored progress and scans the list from its start again.
+// --after starts after the given height, for the runs made before the progress was kept.
+// --concurrency is the number of blocks fetched ahead, SCAN_CONCURRENCY is the default.
+function parseArgs(argv) {
+  const after = argv.find((arg) => arg.startsWith("--after="));
+  const concurrency = argv.find((arg) => arg.startsWith("--concurrency="));
+
+  return {
+    blocksFile: argv.find((arg) => !arg.startsWith("--")),
+    reverse: argv.includes("--reverse"),
+    fresh: argv.includes("--fresh"),
+    after: after ? parseInt(after.slice("--after=".length)) : null,
+    concurrency: parseInt(
+      concurrency
+        ? concurrency.slice("--concurrency=".length)
+        : process.env.SCAN_CONCURRENCY || defaultConcurrency,
+    ),
+  };
+}
+
+function checkConcurrency(concurrency) {
+  if (!Number.isInteger(concurrency) || concurrency <= 0) {
+    throw new Error(
+      `Invalid concurrency ${concurrency}, it must be a positive integer`,
+    );
+  }
+}
+
+function getBlockHeights(file, reverse) {
+  if (!fs.existsSync(file)) {
+    throw new Error(
+      `Block heights file ${file} not found, run src/scripts/fetchCallBlocks.js first`,
+    );
+  }
+
+  const blockHeights = JSON.parse(fs.readFileSync(file, "utf8"));
+  if (!Array.isArray(blockHeights) || blockHeights.length <= 0) {
+    throw new Error(`No block heights found in ${file}`);
+  }
+
+  return reverse ? [...blockHeights].reverse() : blockHeights;
+}
+
+async function countAtHeight(col, height) {
+  return await col.countDocuments({ "indexer.blockHeight": height });
+}
+
+// A block is two rpc round trips away, fetching them one by one waits for the network
+// most of the time. The next blocks are fetched while the current one is written, but
+// only the fetching is concurrent: a block is always written before the next one, so
+// the database sees the heights in the order of the list.
+async function* fetchBlocksInOrder(heights, concurrency) {
+  const pending = new Map();
+  let next = 0;
+
+  const fill = () => {
+    while (pending.size < concurrency && next < heights.length) {
+      const index = next++;
+      const promise = fetchOneBlockFromNode(heights[index]);
+      // A block fetched ahead can fail before it is awaited, and a rejection without a
+      // handler ends the process. The error is still thrown when the block is awaited.
+      promise.catch(() => {});
+      pending.set(index, promise);
+    }
+  };
+
+  for (let index = 0; index < heights.length; index++) {
+    fill();
+
+    const promise = pending.get(index);
+    pending.delete(index);
+    yield await promise;
+  }
+}
+
+// Scanning the whole list takes a long while, so the height of the last handled block is
+// kept in the database and a rerun goes on after it. The direction and the blocks file
+// are part of the name, the two directions walk away from the stored height in opposite
+// directions and another file has another set of blocks.
+function progressName(direction, file) {
+  return `play-progress:${direction}:${file}`;
+}
+
+async function getProgressHeight(statusCol, name) {
+  const progress = await statusCol.findOne({ name });
+  return progress && typeof progress.value === "number" ? progress.value : null;
+}
+
+async function saveProgressHeight(statusCol, name, height) {
+  await statusCol.updateOne(
+    { name },
+    { $set: { value: height } },
+    { upsert: true },
+  );
+}
+
+function remainingBlockHeights(allHeights, lastScanned, reverse) {
+  if (lastScanned === null) {
+    return allHeights;
+  }
+
+  return reverse
+    ? allHeights.filter((height) => height < lastScanned)
+    : allHeights.filter((height) => height > lastScanned);
+}
+
+(async () => {
+  const { blocksFile, reverse, fresh, after, concurrency } = parseArgs(
+    process.argv.slice(2),
+  );
+  checkConcurrency(concurrency);
+  const file = blocksFile ? path.resolve(blocksFile) : defaultBlocksFile;
+  const direction = reverse ? "desc" : "asc";
+  const allHeights = getBlockHeights(file, reverse);
+
+  await initPalletReviveScanDb();
+  await initKnownHeightDb();
+  await subscribeFinalizedHeight();
+
+  const db = await getReviveDb();
+  const statusCol = await db.getStatusCol();
+  const name = progressName(direction, file);
+
+  if (fresh) {
+    await statusCol.deleteOne({ name });
+  }
+
+  let lastScanned = null;
+  if (!fresh) {
+    lastScanned = Number.isInteger(after)
+      ? after
+      : await getProgressHeight(statusCol, name);
+  }
+  const blockHeights = remainingBlockHeights(allHeights, lastScanned, reverse);
+  const skipped = allHeights.length - blockHeights.length;
+
+  console.log(
+    `Scanning ${blockHeights.length} of ${allHeights.length} blocks from ${file}, ` +
+      `${reverse ? "newest" : "oldest"} first`,
+  );
+  if (lastScanned !== null) {
+    console.log(
+      `Resuming after block ${lastScanned}, ${skipped} blocks already scanned`,
+    );
+  }
+
+  if (blockHeights.length <= 0) {
+    console.log("Nothing left to scan, use --fresh to scan the list again");
+    process.exit(0);
+  }
+
+  const contractCol = await getContractCol();
+  const callCol = await getCallCol();
+
+  console.log(
+    `Fetching up to ${concurrency} blocks ahead, the blocks are written in order`,
+  );
+
+  let index = 0;
+  let contractCount = 0;
+  let callCount = 0;
+  for await (const block of fetchBlocksInOrder(blockHeights, concurrency)) {
+    await handleBlock(block);
+    await saveProgressHeight(statusCol, name, block.height);
+
+    const [contracts, calls] = await Promise.all([
+      countAtHeight(contractCol, block.height),
+      countAtHeight(callCol, block.height),
+    ]);
+    contractCount += contracts;
+    callCount += calls;
+
+    index++;
+    console.log(
+      `${block.height} finished, ${skipped + index}/${
+        allHeights.length
+      }, contracts ${contracts}, calls ${calls}`,
+    );
+  }
+
+  console.log(
+    `finished, ${contractCount} contracts, ${callCount} calls indexed`,
+  );
+  process.exit(0);
+})();

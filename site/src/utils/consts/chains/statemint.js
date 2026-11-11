@@ -26,6 +26,7 @@ const statemint = {
       nominations: true,
       validators: true,
     },
+    revive: true,
   },
   para: {
     relay: "Polkadot",

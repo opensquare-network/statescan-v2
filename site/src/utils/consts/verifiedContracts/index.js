@@ -8,6 +8,7 @@
 // encoders, view helpers, proxies with an unverified implementation) are omitted.
 import intrinsicModule_022a16 from "./IntrinsicModule-022a16";
 import creatorFeeVault_11f2b6 from "./CreatorFeeVault-11f2b6";
+import omniBondingCurve_132c64 from "./OmniBondingCurve-132c64";
 import intentGatewayV2_16f9e5 from "./IntentGatewayV2-16f9e5";
 import tokenFactory_1816f4 from "./TokenFactory-1816f4";
 import referralStorage_1da550 from "./ReferralStorage-1da550";
@@ -80,6 +81,7 @@ import solverAccount_fcd233 from "./SolverAccount-fcd233";
 export const VERIFIED_CONTRACTS = {
   "0x022a168d64d85007ed8c7f08a672fd997e0c4bdd": intrinsicModule_022a16,
   "0x11f2b65e6e977c06b6c45cecaf504cb04fa04461": creatorFeeVault_11f2b6,
+  "0x132c64a7a8c2b85cda7f4ce46587243740b39fba": omniBondingCurve_132c64,
   "0x16f9e57f735bbff9f6c4e5276330f9c437d0e9e0": intentGatewayV2_16f9e5,
   "0x1816f4b4da58680a575bdfd6b5c09f8230902af9": tokenFactory_1816f4,
   "0x1da550fb425e381319a32585959dd0807374af45": referralStorage_1da550,

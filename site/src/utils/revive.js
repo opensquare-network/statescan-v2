@@ -1,4 +1,8 @@
-import { decodeFunctionData, toFunctionSelector } from "viem";
+import {
+  decodeFunctionData,
+  toFunctionSelector,
+  toFunctionSignature,
+} from "viem";
 import { CONTRACTS, EVM_CALL_ABI } from "./consts/evmAbi";
 
 function indexFunctionsBySelector(abi) {
@@ -43,6 +47,48 @@ function getArgValue(args, name, position) {
   return named ? named.value : args[position]?.value;
 }
 
+const ARRAY_SUFFIX = /\[.*\]$/;
+
+// Decoded arguments come as bigints, arrays, tuples, booleans and lower case
+// addresses, and are printed as they are read in the abi.
+export function formatEvmArgValue(value, type, components) {
+  if (value === undefined || value === null) {
+    return "--";
+  }
+
+  if (typeof value === "bigint") {
+    return value.toString();
+  }
+
+  if (Array.isArray(value)) {
+    const itemType = type?.replace(ARRAY_SUFFIX, "");
+    return `[${value
+      .map((item) => formatEvmArgValue(item, itemType, components))
+      .join(", ")}]`;
+  }
+
+  if (typeof value === "object") {
+    const fields =
+      components ?? Object.keys(value).map((name) => ({ name, type: null }));
+    return `{ ${fields
+      .map((field) => {
+        const fieldValue = formatEvmArgValue(
+          value[field.name],
+          field.type,
+          field.components,
+        );
+        return `${field.name}: ${fieldValue}`;
+      })
+      .join(", ")} }`;
+  }
+
+  if (type?.replace(ARRAY_SUFFIX, "") === "address") {
+    return String(value).toLowerCase();
+  }
+
+  return String(value);
+}
+
 export function decodeEvmCalldata(data, dest) {
   const hex = typeof data === "string" ? data.toLowerCase() : "0x";
   if (!hex.startsWith("0x") || hex.length < 10) {
@@ -74,9 +120,7 @@ export function decodeEvmCalldata(data, dest) {
     return {
       selector,
       functionName: decoded.functionName,
-      signature: `${decoded.functionName}(${abiItem.inputs
-        .map((input) => input.type)
-        .join(",")})`,
+      signature: toFunctionSignature(abiItem),
       inputs: abiItem.inputs,
       args: decoded.args ?? [],
       data: hex,
@@ -91,6 +135,34 @@ export function decodeEvmCalldata(data, dest) {
       data: hex,
     };
   }
+}
+
+// The table expanded under a revive call row: the method signature and, in a
+// nested table, the key-value pairs of its parameters. The selector and the raw
+// calldata are kept when the abi of the callee is unknown.
+export function getEvmCallTableData(calldata) {
+  if (!calldata?.functionName) {
+    const rows = [["method", calldata?.selector ?? "--"]];
+    if (calldata?.data && calldata.data !== "0x") {
+      rows.push(["data", calldata.data]);
+    }
+    return { object_type: "table_pairs", object_data: rows };
+  }
+
+  const parameters = calldata.inputs.map((input, index) => [
+    input.name || `arg${index}`,
+    formatEvmArgValue(calldata.args[index], input.type, input.components),
+  ]);
+
+  const rows = [["method", calldata.signature]];
+  if (parameters.length > 0) {
+    rows.push([
+      "parameters",
+      { object_type: "table_pairs", object_data: parameters },
+    ]);
+  }
+
+  return { object_type: "table_pairs", object_data: rows };
 }
 
 export function parseReviveCall(call) {

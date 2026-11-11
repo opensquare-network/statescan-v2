@@ -1,5 +1,5 @@
 const Router = require("koa-router");
-const { isAssetsChain, isUniquesChain } = require("./env");
+const { isAssetsChain, isUniquesChain, hasRevive } = require("./env");
 const router = new Router();
 
 const routes = [
@@ -22,6 +22,8 @@ const assetsRoutes = [require("./features/assets/routes")];
 
 const uniquesRoutes = [require("./features/uniques/routes")];
 
+const contractsRoutes = [require("./features/contracts/routes")];
+
 module.exports = (app) => {
   for (const r of routes) {
     router.use(r.routes(), r.allowedMethods({ throw: true }));
@@ -35,6 +37,12 @@ module.exports = (app) => {
 
   if (isUniquesChain()) {
     for (const r of uniquesRoutes) {
+      router.use(r.routes(), r.allowedMethods({ throw: true }));
+    }
+  }
+
+  if (hasRevive()) {
+    for (const r of contractsRoutes) {
       router.use(r.routes(), r.allowedMethods({ throw: true }));
     }
   }

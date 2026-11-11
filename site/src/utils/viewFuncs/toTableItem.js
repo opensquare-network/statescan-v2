@@ -31,6 +31,9 @@ import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
 import ExtrinsicLink from "../../components/extrinsic/link";
 import CallCell from "../../components/table/callCell";
+import ContractCallMethod from "../../components/table/contractCallMethod";
+import ContractCallParams from "../../components/table/contractCallParams";
+import ContractLabel from "../../components/extrinsic/contractLabel";
 import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
 import { addressEllipsis } from "@osn/common";
 import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
@@ -90,6 +93,67 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
             symbol={getTransferSymbol(transfer, chainSetting.symbol)}
           />
         </Tooltip>,
+      ];
+    }) ?? null
+  );
+};
+
+export const toContractsTableItem = (contracts = []) => {
+  return (
+    contracts?.map((contract, index) => {
+      const { address, deployer, callsCount, codeLen, indexer } =
+        contract || {};
+
+      return [
+        <ContractLabel key={`${index}-1`} address={address} />,
+        deployer?.startsWith("0x") ? (
+          <Tooltip key={`${index}-2`} tip={deployer}>
+            <TextSecondary>{addressEllipsis(deployer)}</TextSecondary>
+          </Tooltip>
+        ) : (
+          <AddressOrIdentity key={`${index}-2`} address={deployer} />
+        ),
+        <TextSecondary key={`${index}-3`} style={{ whiteSpace: "nowrap" }}>
+          {(callsCount ?? 0).toLocaleString()}
+        </TextSecondary>,
+        <TextSecondary key={`${index}-4`} style={{ whiteSpace: "nowrap" }}>
+          {codeLen ? `${codeLen.toLocaleString()} bytes` : "--"}
+        </TextSecondary>,
+        indexer?.blockHeight ? (
+          <ColoredLink key={`${index}-5`} to={`/blocks/${indexer.blockHeight}`}>
+            {indexer.blockHeight.toLocaleString()}
+          </ColoredLink>
+        ) : (
+          <TextSecondary key={`${index}-5`}>--</TextSecondary>
+        ),
+        indexer?.blockTime ?? null,
+      ];
+    }) ?? null
+  );
+};
+
+export const toContractCallsTabTableItem = (calls = []) => {
+  return (
+    calls?.map((call, index) => {
+      const caller = call?.caller;
+
+      return [
+        <ExtrinsicLink key={`${index}-1`} indexer={call?.indexer} />,
+        call?.indexer?.blockTime,
+        <ContractCallMethod key={`${index}-2`} call={call} />,
+        caller?.startsWith("0x") ? (
+          <Tooltip key={`${index}-3`} tip={caller}>
+            <TextSecondary>{addressEllipsis(caller)}</TextSecondary>
+          </Tooltip>
+        ) : (
+          <AddressOrIdentity key={`${index}-3`} address={caller} />
+        ),
+        call?.isSuccess ? (
+          <CheckIcon key={`${index}-4`} />
+        ) : (
+          <CrossIcon key={`${index}-4`} />
+        ),
+        <ContractCallParams key={`${index}-5`} call={call} />,
       ];
     }) ?? null
   );

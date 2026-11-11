@@ -5,6 +5,7 @@ import { Flex, FlexColumn } from "../styled/flex";
 import { TextSecondary } from "../styled/text";
 import { Overpass_Mono_14_500 } from "../../styles/text";
 import { hexEllipsis } from "../../utils";
+import { formatEvmArgValue } from "../../utils/revive";
 
 const Mono = styled.span`
   ${Overpass_Mono_14_500};
@@ -17,24 +18,6 @@ const ArgsGrid = styled.div`
   gap: 4px 12px;
   align-items: baseline;
 `;
-
-function formatArgValue(value, type) {
-  if (typeof value === "bigint") {
-    return value.toString();
-  }
-
-  const elementType = type?.replace(/\[.*\]$/, "");
-  if (Array.isArray(value)) {
-    return `[${value
-      .map((item) => formatArgValue(item, elementType))
-      .join(", ")}]`;
-  }
-  if (elementType === "address") {
-    return String(value).toLowerCase();
-  }
-
-  return String(value);
-}
 
 export default function ExtrinsicEvmCall({ calldata }) {
   if (!calldata) {
@@ -71,7 +54,9 @@ export default function ExtrinsicEvmCall({ calldata }) {
           {inputs.map((input, index) => (
             <Fragment key={index}>
               <TextSecondary>{input.name || `arg${index}`}</TextSecondary>
-              <Mono>{formatArgValue(args[index], input.type)}</Mono>
+              <Mono>
+                {formatEvmArgValue(args[index], input.type, input.components)}
+              </Mono>
             </Fragment>
           ))}
         </ArgsGrid>

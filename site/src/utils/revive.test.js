@@ -3,7 +3,9 @@
  */
 import {
   decodeEvmCalldata,
+  formatEvmArgValue,
   getContractName,
+  getEvmCallTableData,
   isReviveCall,
   parseReviveCall,
 } from "./revive";
@@ -13,6 +15,34 @@ const WRAPPED_DOT = "0xaf905e66038ece89e03d843b35a11d262053b630";
 const VIBE_PAIR = "0xd1ca19e67da8737c691bb0a1d8bc12e538c7b4f2";
 
 const SONE_VIBE_WRAPPED_XC20 = "0xbee14ad0949ebb63b90e04b8fd0a78af2f0f3354";
+
+const OMNI_BONDING_CURVE_PROXY = "0x132c64a7a8c2b85cda7f4ce46587243740b39fba";
+
+const OMNI_BUY_DATA =
+  "0x4aaf6fa40000000000000000000000000000000000000000000000000000000000000002" +
+  "0000000000000000000000000000000000000000000000008ac7230489e80000" +
+  "0000000000000000000000000000000000000000000002358df62bff289fbf89de" +
+  "0000000000000000000000000000000000000000000000000000000000000000";
+
+// createTokenDirect((string,string,bytes),address,bytes32,uint256,uint256,uint32)
+// of the OmniBondingCurve proxy, a token named 牛来 with the NIULAI symbol.
+const OMNI_CREATE_TOKEN_DATA =
+  "0x964c9eb700000000000000000000000000000000000000000000000000000000000000c0" +
+  "0000000000000000000000000000000000000000000000000000000000000000".repeat(5) +
+  "0000000000000000000000000000000000000000000000000000000000000060" +
+  "00000000000000000000000000000000000000000000000000000000000000a0" +
+  "00000000000000000000000000000000000000000000000000000000000000e0" +
+  "0000000000000000000000000000000000000000000000000000000000000006" +
+  "e7899be69da50000000000000000000000000000000000000000000000000000" +
+  "0000000000000000000000000000000000000000000000000000000000000006" +
+  "4e49554c41490000000000000000000000000000000000000000000000000000" +
+  "00000000000000000000000000000000000000000000000000000000000000a9" +
+  "7b2276223a312c22696d616765223a2268747470733a2f2f746a6c7331336964" +
+  "316f7032316763692e7075626c69632e626c6f622e76657263656c2d73746f72" +
+  "6167652e636f6d2f31306135356366342d663332662d346436642d393164322d" +
+  "3730346339343163383031622d5544426b766f6e5a344973414b316131734b70" +
+  "78636a74397575564a734b2e77656270222c226272616e64436f6c6f72223a22" +
+  "23663662633332227d0000000000000000000000000000000000000000000000";
 
 const UNKNOWN_CONTRACT = "0x1111111111111111111111111111111111111111";
 
@@ -221,6 +251,43 @@ describe("revive call parsing", () => {
     expect(getContractName(undefined)).toBeNull();
   });
 
+  test("decodes the calls of the OmniBondingCurve proxy", () => {
+    expect(getContractName(OMNI_BONDING_CURVE_PROXY)).toBe("OmniBondingCurve");
+
+    const decoded = decodeEvmCalldata(OMNI_BUY_DATA, OMNI_BONDING_CURVE_PROXY);
+
+    expect(decoded.signature).toBe("buy(uint256,uint256,uint256,bytes32)");
+    expect(decoded.inputs.map((input) => input.name)).toEqual([
+      "tokenId",
+      "quoteAmount",
+      "minTokenOut",
+      "referralCode",
+    ]);
+    expect(decoded.args[0].toString()).toBe("2");
+    expect(decoded.args[1].toString()).toBe("10000000000000000000");
+  });
+
+  test("decodes and prints the tuple of a createTokenDirect call", () => {
+    const decoded = decodeEvmCalldata(
+      OMNI_CREATE_TOKEN_DATA,
+      OMNI_BONDING_CURVE_PROXY,
+    );
+
+    expect(decoded.signature).toBe(
+      "createTokenDirect((string,string,bytes),address,bytes32,uint256,uint256,uint32)",
+    );
+
+    const [tokenInfo] = decoded.inputs;
+    const printed = formatEvmArgValue(
+      decoded.args[0],
+      tokenInfo.type,
+      tokenInfo.components,
+    );
+    expect(printed).toContain("name: 牛来");
+    expect(printed).toContain("symbol: NIULAI");
+    expect(printed).toContain("extraData: 0x7b2276223a312c");
+  });
+
   test("falls back to the selector for unknown calldata", () => {
     const decoded = decodeEvmCalldata(`0xdeadbeef${"00".repeat(32)}`);
 
@@ -250,5 +317,94 @@ describe("revive call parsing", () => {
 
     expect(parsed.dest).toBe("0xabc");
     expect(parsed.calldata.functionName).toBe("approve");
+  });
+});
+
+describe("evm argument formatting", () => {
+  test("prints bigints as plain numbers", () => {
+    expect(formatEvmArgValue(578830n, "uint256")).toBe("578830");
+  });
+
+  test("lower cases addresses", () => {
+    expect(formatEvmArgValue(`0x${"A".repeat(40)}`, "address")).toBe(
+      `0x${"a".repeat(40)}`,
+    );
+  });
+
+  test("keeps other values as they are", () => {
+    expect(formatEvmArgValue(true, "bool")).toBe("true");
+    expect(formatEvmArgValue("0xdeadbeef", "bytes")).toBe("0xdeadbeef");
+  });
+
+  test("prints arrays element by element", () => {
+    expect(formatEvmArgValue([1n, 2n], "uint256[]")).toBe("[1, 2]");
+    expect(formatEvmArgValue([[1n], [2n]], "uint256[][]")).toBe("[[1], [2]]");
+    expect(formatEvmArgValue([`0x${"A".repeat(40)}`], "address[]")).toBe(
+      `[0x${"a".repeat(40)}]`,
+    );
+  });
+
+  test("prints tuples field by field", () => {
+    const components = [
+      { name: "name", type: "string" },
+      { name: "amount", type: "uint256" },
+      { name: "owner", type: "address" },
+    ];
+
+    expect(
+      formatEvmArgValue(
+        { name: "Token", amount: 5n, owner: `0x${"A".repeat(40)}` },
+        "tuple",
+        components,
+      ),
+    ).toBe(`{ name: Token, amount: 5, owner: 0x${"a".repeat(40)} }`);
+  });
+
+  test("marks missing values", () => {
+    expect(formatEvmArgValue(undefined, "uint256")).toBe("--");
+  });
+});
+
+describe("calldata table data", () => {
+  const rowsOf = (data) => data.object_data;
+
+  test("shows the method and a nested table of its parameters", () => {
+    const data = getEvmCallTableData(
+      decodeEvmCalldata(APPROVE_DATA, WRAPPED_DOT),
+    );
+    const rows = rowsOf(data);
+
+    expect(data.object_type).toBe("table_pairs");
+    expect(rows[0]).toEqual(["method", "approve(address,uint256)"]);
+    expect(rows[1][0]).toBe("parameters");
+    expect(rowsOf(rows[1][1])).toEqual([
+      ["spender", "0x351acc8046a29dedd9c58753cf886ceac441c7f7"],
+      ["value", "4000000000000"],
+    ]);
+  });
+
+  test("keeps the method alone when it has no parameter", () => {
+    const data = getEvmCallTableData(
+      decodeEvmCalldata("0xd0e30db0", WRAPPED_DOT),
+    );
+
+    expect(rowsOf(data)).toEqual([["method", "deposit()"]]);
+  });
+
+  test("falls back to the selector and the raw data of an unknown method", () => {
+    const data = getEvmCallTableData(
+      decodeEvmCalldata(WITHDRAW_DATA, UNKNOWN_CONTRACT),
+    );
+
+    expect(rowsOf(data)).toEqual([
+      ["method", "0x2e1a7d4d"],
+      ["data", WITHDRAW_DATA],
+    ]);
+  });
+
+  test("has no method nor data without calldata", () => {
+    expect(rowsOf(getEvmCallTableData(decodeEvmCalldata("0x")))).toEqual([
+      ["method", "--"],
+    ]);
   });
 });
