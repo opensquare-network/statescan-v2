@@ -1,6 +1,7 @@
 const {
   palletRevive: { getVerifiedContractCol },
 } = require("@statescan/mongo");
+const { HttpError } = require("../../../utils/httpError");
 
 function normalizeAddress(value) {
   if (typeof value !== "string") {
@@ -100,7 +101,51 @@ async function getVerifiedContracts(ctx) {
   };
 }
 
+async function getVerifiedContract(ctx) {
+  const address = normalizeAddress(ctx.params.address);
+  if (!address) {
+    throw new HttpError(400, "invalid contract address");
+  }
+
+  const col = await getVerifiedContractCol();
+  const item = await col.findOne(
+    { address, isVerified: true },
+    {
+      projection: {
+        _id: 0,
+        address: 1,
+        name: 1,
+        compilerVersion: 1,
+        language: 1,
+        evmVersion: 1,
+        optimizationEnabled: 1,
+        optimizationRuns: 1,
+        licenseType: 1,
+        verifiedAt: 1,
+        isFullyVerified: 1,
+        isPartiallyVerified: 1,
+        filePath: 1,
+        sourceCode: 1,
+        additionalSources: 1,
+        proxyType: 1,
+        implementations: 1,
+      },
+    },
+  );
+  if (!item) {
+    throw new HttpError(404, "verified contract not found");
+  }
+
+  ctx.set("Cache-Control", "public, max-age=300");
+  ctx.body = {
+    ...item,
+    name: item.name || null,
+    implementations: normalizeImplementations(item.implementations),
+  };
+}
+
 module.exports = {
   getVerifiedContracts,
+  getVerifiedContract,
   toDecoderAbi,
 };

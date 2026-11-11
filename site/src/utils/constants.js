@@ -23,6 +23,7 @@ export const Attributes = "attributes";
 export const Nft = "NFT";
 export const NftTransfer = "NFT Transfer";
 export const Calls = "Calls";
+export const Contract = "Contract";
 
 export const menusBlockchainSimpleMode = [
   {

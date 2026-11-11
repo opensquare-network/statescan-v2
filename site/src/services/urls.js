@@ -40,6 +40,8 @@ export const contractListApi = "/contracts";
 export const contractApi = (address) => `/contracts/${address}`;
 export const contractCallsApi = (address) => `/contracts/${address}/calls`;
 export const verifiedContractsApi = "/contracts/verified";
+export const verifiedContractApi = (address) =>
+  `/contracts/verified/${address}`;
 
 // assets
 export const assetListApi = "/assets";

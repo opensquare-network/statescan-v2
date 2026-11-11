@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addressEllipsis } from "@osn/common";
@@ -8,7 +8,11 @@ import { Panel } from "../components/styled/panel";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
 import DetailTable from "../components/detail/table";
-import { Calls, contractCallsHead } from "../utils/constants";
+import {
+  Calls,
+  Contract as ContractTab,
+  contractCallsHead,
+} from "../utils/constants";
 import { toContractDetailItem } from "../utils/viewFuncs/toDetailItem";
 import { toContractCallsTabTableItem } from "../utils/viewFuncs/toTableItem";
 import {
@@ -17,9 +21,11 @@ import {
   contractDetailSelector,
   contractFetchDetail,
 } from "../store/reducers/contractSlice";
-import { contractCallsApi } from "../services/urls";
+import api from "../services/api";
+import { contractCallsApi, verifiedContractApi } from "../services/urls";
 import { getContractName } from "../utils/revive";
 import { useVerifiedContractsVersion } from "../context/verifiedContracts";
+import ContractCode from "../components/contract/contractCode";
 import {
   clearHttpError,
   handleApiError,
@@ -32,6 +38,7 @@ function Contract() {
   const detail = useSelector(contractDetailSelector);
   const detailLoading = useSelector(contractDetailLoadingSelector);
   const verifiedContractsVersion = useVerifiedContractsVersion();
+  const [verifiedContract, setVerifiedContract] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -45,6 +52,31 @@ function Contract() {
       dispatch(clearContractDetail());
     };
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    let cancelled = false;
+    setVerifiedContract(null);
+    api.fetch(verifiedContractApi(id)).then(({ result, error }) => {
+      if (cancelled) {
+        return;
+      }
+
+      setVerifiedContract(error ? null : result);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  const hasVerifiedSource =
+    !!verifiedContract &&
+    (!!verifiedContract.sourceCode ||
+      (verifiedContract.additionalSources || []).length > 0);
 
   const listData = useMemo(
     () => (detailLoading ? {} : toContractDetailItem(id, detail)),
@@ -65,6 +97,14 @@ function Contract() {
         />
       ),
     },
+    ...(hasVerifiedSource
+      ? [
+          {
+            name: ContractTab,
+            children: <ContractCode key={id} contract={verifiedContract} />,
+          },
+        ]
+      : []),
   ];
 
   return (
