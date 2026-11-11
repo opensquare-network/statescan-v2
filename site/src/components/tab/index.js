@@ -44,10 +44,26 @@ const TabTag = styled.div`
   border-radius: 16px;
 `;
 
-function Tab({ text, count, active, onClick }) {
+const TabLabel = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const TabIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+`;
+
+function Tab({ text, count, active, onClick, icon }) {
   return (
     <TabWrapper onClick={onClick}>
-      <TabText active={active}>{text}</TabText>
+      <TabText active={active}>
+        <TabLabel>
+          {text}
+          {icon && <TabIcon title="Fully verified">{icon}</TabIcon>}
+        </TabLabel>
+      </TabText>
       {count > -1 && <TabTag>{abbreviateBigNumber(count)}</TabTag>}
     </TabWrapper>
   );

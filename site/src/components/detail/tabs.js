@@ -29,6 +29,7 @@ export default function DetailTabs({ tabs = [], resetPage = true }) {
             key={getTabValue(tab)}
             text={tab.name}
             count={tab.count}
+            icon={tab.icon}
             active={activeTab === getTabValue(tab)}
             onClick={() => {
               const value = getTabValue(tab);

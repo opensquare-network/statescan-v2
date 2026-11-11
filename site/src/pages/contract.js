@@ -26,6 +26,7 @@ import { contractCallsApi, verifiedContractApi } from "../services/urls";
 import { getContractName } from "../utils/revive";
 import { useVerifiedContractsVersion } from "../context/verifiedContracts";
 import ContractCode from "../components/contract/contractCode";
+import { ReactComponent as CheckIcon } from "../components/icons/check.svg";
 import {
   clearHttpError,
   handleApiError,
@@ -60,13 +61,24 @@ function Contract() {
 
     let cancelled = false;
     setVerifiedContract(null);
-    api.fetch(verifiedContractApi(id)).then(({ result, error }) => {
-      if (cancelled) {
-        return;
-      }
+    api
+      .fetch(verifiedContractApi(id))
+      .then(({ result, error }) => {
+        if (cancelled) {
+          return;
+        }
 
-      setVerifiedContract(error ? null : result);
-    });
+        setVerifiedContract(error ? null : result ?? null);
+      })
+      // The api rejects for a non 200 response, an unverified contract is a
+      // normal case and must not surface as an unhandled rejection.
+      .catch(() => {
+        if (cancelled) {
+          return;
+        }
+
+        setVerifiedContract(null);
+      });
 
     return () => {
       cancelled = true;
@@ -101,6 +113,7 @@ function Contract() {
       ? [
           {
             name: ContractTab,
+            icon: verifiedContract.isFullyVerified ? <CheckIcon /> : null,
             children: <ContractCode key={id} contract={verifiedContract} />,
           },
         ]
