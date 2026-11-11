@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 // Read the .env of the package, so the script works from any directory.
-require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
+require("dotenv").config({ path: path.resolve(__dirname, "../../../.env") });
 
 // Collect the block heights of the contract deployments from the subscan open api and
-// merge them into the block list the play script scans, so that a scan covers the
+// merge them into the block list the rebuild script scans, so that a scan covers the
 // deployments as well as the calls.
 //
 // The heights are block numbers, so sorting them ascending sorts them by time.
@@ -18,7 +18,7 @@ const API_ROW = parseInt(process.env.SUBSCAN_API_ROW) || 25;
 const API_MAX_PAGES = parseInt(process.env.SUBSCAN_API_MAX_PAGES) || 0;
 // The call blocks take one request per page and a long while, they are opt in.
 const WITH_CALL_BLOCKS = parseInt(process.env.WITH_CALL_BLOCKS) === 1;
-const DEFAULT_BLOCKS_FILE = path.resolve(__dirname, "../../call-blocks.json");
+const DEFAULT_BLOCKS_FILE = path.resolve(__dirname, "call-blocks.json");
 
 const REQUEST_TIMEOUT = 30000;
 const RETRY_ATTEMPTS = 4;

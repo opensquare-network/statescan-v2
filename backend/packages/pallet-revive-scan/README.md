@@ -51,17 +51,22 @@ MONGO_DB_KNOWN_HEIGHTS_URL=mongodb://127.0.0.1:27017
 MONGO_DB_KNOWN_HEIGHTS_NAME=known-heights-statescan-statemint-revive
 ```
 
-## Scripts
+## Rebuilding history
 
-To only index the blocks which really hold revive business, instead of scanning the chain from the genesis block:
+The scripts in `src/scripts/rebuild` rebuild the contract and call history of a chain. They only index the blocks which
+really hold revive business, instead of scanning the chain from the genesis block:
 
 ```sh
 # 1. Merge the heights of the deployment blocks into the block list
-node src/scripts/fetchCallBlocks.js [blocks file]
+node src/scripts/rebuild/fetchCallBlocks.js [blocks file]
 
 # 2. Scan those blocks
-node src/play.js [blocks file] [--reverse]
+node src/scripts/rebuild/index.js [blocks file]
 ```
+
+Both scripts default to `src/scripts/rebuild/call-blocks.json`, which is where the block list is kept. The list is
+always scanned in ascending block order, so a completed run ends at its newest block and a normal revive-scan continues
+from the height right after it.
 
 `fetchCallBlocks.js` reads the `revive.Instantiated` events from the
 [subscan open api](https://support.subscan.io) and merges the block heights into the block list, which is kept sorted
@@ -85,8 +90,8 @@ request per page, which takes a long while.
 Every page is logged, and the list is saved after the deployments are merged, so a run which is stopped during the
 optional call walk still keeps the deployments.
 
-`play.js` goes through the list in the order it was saved, i.e. from the oldest block. Every block is reported with the
-number of contracts and calls it produced:
+`index.js` sorts the list ascending and goes through it from the oldest block. Every block is reported with the number
+of contracts and calls it produced:
 
 ```
 14830703 finished, 3/10338, contracts 1, calls 0
@@ -100,12 +105,11 @@ The blocks are fetched several at a time, the next ones wait in a queue while th
 fetching is concurrent, a block is always indexed before the next one, so the heights reach the database in the order of
 the list.
 
-| Flag                | Meaning                                                                                     |
-| ------------------- | ------------------------------------------------------------------------------------------- |
-| `--reverse`         | walks the list from the newest block, the progress of the two directions is kept separately |
-| `--fresh`           | drops the stored progress and scans the list from its start again                           |
-| `--after=<height>`  | starts after the given height, for the runs made before the progress was kept               |
-| `--concurrency=<n>` | blocks fetched ahead, defaults to `SCAN_CONCURRENCY` or 8                                   |
+| Flag                | Meaning                                                                       |
+| ------------------- | ----------------------------------------------------------------------------- |
+| `--fresh`           | drops the stored progress and scans the list from its start again             |
+| `--after=<height>`  | starts after the given height, for the runs made before the progress was kept |
+| `--concurrency=<n>` | blocks fetched ahead, defaults to `SCAN_CONCURRENCY` or 8                     |
 
 A public rpc endpoint rate limits a run with a big concurrency, lower it when blocks start to fail to be fetched.
 

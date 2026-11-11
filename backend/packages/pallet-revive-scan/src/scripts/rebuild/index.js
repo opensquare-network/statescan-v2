@@ -1,11 +1,13 @@
-require("dotenv").config();
+const path = require("path");
+
+// Read the .env of the package, so the script works from any directory.
+require("dotenv").config({ path: path.resolve(__dirname, "../../../.env") });
 
 const fs = require("fs");
-const path = require("path");
 const {
   chain: { fetchOneBlockFromNode, subscribeFinalizedHeight },
 } = require("@osn/scan-common");
-const { handleBlock } = require("./scan");
+const { handleBlock } = require("../../scan");
 const {
   palletRevive: {
     initPalletReviveScanDb,
@@ -16,16 +18,16 @@ const {
   knownHeight: { initKnownHeightDb },
 } = require("@statescan/mongo");
 
-// Written by src/scripts/fetchCallBlocks.js, a JSON array of block heights sorted in
-// ascending order.
-const defaultBlocksFile = path.resolve(__dirname, "../call-blocks.json");
+// Written by fetchCallBlocks.js in this directory, a JSON array of block heights
+// sorted in ascending order.
+const defaultBlocksFile = path.resolve(__dirname, "call-blocks.json");
 
 const defaultConcurrency = 8;
 
-// node src/play.js [blocks file] [--reverse] [--fresh] [--after=<height>]
-// [--concurrency=<n>]
-// --reverse walks the list from the newest block, so the latest business is reached
-// without going through the whole history first.
+// node src/scripts/rebuild/index.js [blocks file] [--fresh]
+// [--after=<height>] [--concurrency=<n>]
+// The list is always scanned in ascending block order, so the last handled block is the
+// newest one and the normal scan continues right after it.
 // --fresh ignores the stored progress and scans the list from its start again.
 // --after starts after the given height, for the runs made before the progress was kept.
 // --concurrency is the number of blocks fetched ahead, SCAN_CONCURRENCY is the default.
@@ -35,7 +37,6 @@ function parseArgs(argv) {
 
   return {
     blocksFile: argv.find((arg) => !arg.startsWith("--")),
-    reverse: argv.includes("--reverse"),
     fresh: argv.includes("--fresh"),
     after: after ? parseInt(after.slice("--after=".length)) : null,
     concurrency: parseInt(
@@ -54,10 +55,10 @@ function checkConcurrency(concurrency) {
   }
 }
 
-function getBlockHeights(file, reverse) {
+function getBlockHeights(file) {
   if (!fs.existsSync(file)) {
     throw new Error(
-      `Block heights file ${file} not found, run src/scripts/fetchCallBlocks.js first`,
+      `Block heights file ${file} not found, run src/scripts/rebuild/fetchCallBlocks.js first`,
     );
   }
 
@@ -66,7 +67,7 @@ function getBlockHeights(file, reverse) {
     throw new Error(`No block heights found in ${file}`);
   }
 
-  return reverse ? [...blockHeights].reverse() : blockHeights;
+  return [...blockHeights].sort((a, b) => a - b);
 }
 
 async function countAtHeight(col, height) {
@@ -102,11 +103,10 @@ async function* fetchBlocksInOrder(heights, concurrency) {
 }
 
 // Scanning the whole list takes a long while, so the height of the last handled block is
-// kept in the database and a rerun goes on after it. The direction and the blocks file
-// are part of the name, the two directions walk away from the stored height in opposite
-// directions and another file has another set of blocks.
-function progressName(direction, file) {
-  return `play-progress:${direction}:${file}`;
+// kept in the database and a rerun goes on after it. The blocks file is part of the name,
+// another file has another set of blocks.
+function progressName(file) {
+  return `rebuild-progress:${file}`;
 }
 
 async function getProgressHeight(statusCol, name) {
@@ -122,24 +122,21 @@ async function saveProgressHeight(statusCol, name, height) {
   );
 }
 
-function remainingBlockHeights(allHeights, lastScanned, reverse) {
+function remainingBlockHeights(allHeights, lastScanned) {
   if (lastScanned === null) {
     return allHeights;
   }
 
-  return reverse
-    ? allHeights.filter((height) => height < lastScanned)
-    : allHeights.filter((height) => height > lastScanned);
+  return allHeights.filter((height) => height > lastScanned);
 }
 
 (async () => {
-  const { blocksFile, reverse, fresh, after, concurrency } = parseArgs(
+  const { blocksFile, fresh, after, concurrency } = parseArgs(
     process.argv.slice(2),
   );
   checkConcurrency(concurrency);
   const file = blocksFile ? path.resolve(blocksFile) : defaultBlocksFile;
-  const direction = reverse ? "desc" : "asc";
-  const allHeights = getBlockHeights(file, reverse);
+  const allHeights = getBlockHeights(file);
 
   await initPalletReviveScanDb();
   await initKnownHeightDb();
@@ -147,7 +144,7 @@ function remainingBlockHeights(allHeights, lastScanned, reverse) {
 
   const db = await getReviveDb();
   const statusCol = await db.getStatusCol();
-  const name = progressName(direction, file);
+  const name = progressName(file);
 
   if (fresh) {
     await statusCol.deleteOne({ name });
@@ -159,12 +156,12 @@ function remainingBlockHeights(allHeights, lastScanned, reverse) {
       ? after
       : await getProgressHeight(statusCol, name);
   }
-  const blockHeights = remainingBlockHeights(allHeights, lastScanned, reverse);
+  const blockHeights = remainingBlockHeights(allHeights, lastScanned);
   const skipped = allHeights.length - blockHeights.length;
 
   console.log(
     `Scanning ${blockHeights.length} of ${allHeights.length} blocks from ${file}, ` +
-      `${reverse ? "newest" : "oldest"} first`,
+      "in ascending block order",
   );
   if (lastScanned !== null) {
     console.log(
