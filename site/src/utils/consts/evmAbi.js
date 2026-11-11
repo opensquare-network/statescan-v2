@@ -41,7 +41,3 @@ export const EVM_CALL_ABI = [
   ...ERC1155_ABI,
   ...ERC1363_ABI,
 ];
-
-// Verified contracts keyed by address, each with its display name and ABI. A
-// known contract's own ABI wins over EVM_CALL_ABI.
-export { VERIFIED_CONTRACTS as CONTRACTS } from "./verifiedContracts";

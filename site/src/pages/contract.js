@@ -19,6 +19,7 @@ import {
 } from "../store/reducers/contractSlice";
 import { contractCallsApi } from "../services/urls";
 import { getContractName } from "../utils/revive";
+import { useVerifiedContractsVersion } from "../context/verifiedContracts";
 import {
   clearHttpError,
   handleApiError,
@@ -30,6 +31,7 @@ function Contract() {
 
   const detail = useSelector(contractDetailSelector);
   const detailLoading = useSelector(contractDetailLoadingSelector);
+  const verifiedContractsVersion = useVerifiedContractsVersion();
 
   useEffect(() => {
     if (id) {
@@ -46,7 +48,9 @@ function Contract() {
 
   const listData = useMemo(
     () => (detailLoading ? {} : toContractDetailItem(id, detail)),
-    [id, detail, detailLoading],
+    // Recompute the name once the verified contracts are loaded.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id, detail, detailLoading, verifiedContractsVersion],
   );
 
   const tabs = [

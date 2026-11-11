@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { parseAbi } from "viem";
 import {
   decodeEvmCalldata,
   formatEvmArgValue,
@@ -8,6 +9,7 @@ import {
   getEvmCallTableData,
   isReviveCall,
   parseReviveCall,
+  setVerifiedContracts,
 } from "./revive";
 
 const WRAPPED_DOT = "0xaf905e66038ece89e03d843b35a11d262053b630";
@@ -17,6 +19,55 @@ const VIBE_PAIR = "0xd1ca19e67da8737c691bb0a1d8bc12e538c7b4f2";
 const SONE_VIBE_WRAPPED_XC20 = "0xbee14ad0949ebb63b90e04b8fd0a78af2f0f3354";
 
 const OMNI_BONDING_CURVE_PROXY = "0x132c64a7a8c2b85cda7f4ce46587243740b39fba";
+
+const OMNI_BONDING_CURVE_IMPLEMENTATION =
+  "0x93afe9ac0bdaac89a7045e5451b3de6d3f1210d6";
+
+const TEST_CONTRACTS = [
+  {
+    address: WRAPPED_DOT,
+    name: "WrappedDOT",
+    abi: parseAbi([
+      "function deposit()",
+      "function withdraw(uint256 amount)",
+      "function approve(address spender, uint256 value)",
+    ]),
+  },
+  {
+    address: VIBE_PAIR,
+    name: "VibePair",
+    abi: parseAbi([
+      "function swap(uint256 amount0Out, uint256 amount1Out, address to, bytes data)",
+      "function sync()",
+    ]),
+  },
+  {
+    address: SONE_VIBE_WRAPPED_XC20,
+    name: "SoneVibeWrappedXC20",
+    abi: parseAbi([
+      "function deposit(uint256 amount)",
+      "function withdraw(uint256 amount)",
+    ]),
+  },
+  {
+    address: OMNI_BONDING_CURVE_IMPLEMENTATION,
+    name: "OmniBondingCurve",
+    abi: parseAbi([
+      "function buy(uint256 tokenId, uint256 quoteAmount, uint256 minTokenOut, bytes32 referralCode)",
+      "function createTokenDirect((string name, string symbol, bytes extraData) tokenInfo, address quoteToken, bytes32 referralCode, uint256 ignitionAmount, uint256 minTokenOut, uint32 launcherId)",
+    ]),
+  },
+  {
+    address: OMNI_BONDING_CURVE_PROXY,
+    name: "ERC1967Proxy",
+    abi: parseAbi(["function upgradeTo(address newImplementation)"]),
+    implementations: [{ address: OMNI_BONDING_CURVE_IMPLEMENTATION }],
+  },
+];
+
+beforeAll(() => {
+  setVerifiedContracts(TEST_CONTRACTS);
+});
 
 const OMNI_BUY_DATA =
   "0x4aaf6fa40000000000000000000000000000000000000000000000000000000000000002" +
@@ -133,11 +184,10 @@ describe("revive call parsing", () => {
     expect(decoded.inputs.map((input) => input.name)).toEqual(["to", "amount"]);
   });
 
-  test("leaves methods of unknown contracts undecoded", () => {
+  test("decodes a known selector even when the callee has no abi", () => {
     const decoded = decodeEvmCalldata(WITHDRAW_DATA, UNKNOWN_CONTRACT);
 
-    expect(decoded.selector).toBe("0x2e1a7d4d");
-    expect(decoded.functionName).toBeNull();
+    expect(decoded.signature).toBe("withdraw(uint256)");
   });
 
   test("decodes ERC-1363 transferAndCall", () => {
@@ -233,14 +283,18 @@ describe("revive call parsing", () => {
     expect(decoded.args[0].toString()).toBe("10");
   });
 
-  test("decodes SoneVibeWrappedXC20 withdraw and keeps deposit() unknown", () => {
+  test("decodes SoneVibeWrappedXC20 deposit(uint256) and withdraw", () => {
     const withdraw = decodeEvmCalldata(WITHDRAW_DATA, SONE_VIBE_WRAPPED_XC20);
     expect(withdraw.signature).toBe("withdraw(uint256)");
     expect(withdraw.inputs[0].name).toBe("amount");
     expect(withdraw.args[0].toString()).toBe("578830");
 
-    const deposit = decodeEvmCalldata("0xd0e30db0", SONE_VIBE_WRAPPED_XC20);
-    expect(deposit.functionName).toBeNull();
+    const deposit = decodeEvmCalldata(
+      `0xb6b55f25${"0".repeat(63)}a`,
+      SONE_VIBE_WRAPPED_XC20,
+    );
+    expect(deposit.signature).toBe("deposit(uint256)");
+    expect(deposit.args[0].toString()).toBe("10");
   });
 
   test("resolves contract names case insensitively", () => {
@@ -392,13 +446,14 @@ describe("calldata table data", () => {
   });
 
   test("falls back to the selector and the raw data of an unknown method", () => {
+    const unknownData = `0xdeadbeef${"00".repeat(32)}`;
     const data = getEvmCallTableData(
-      decodeEvmCalldata(WITHDRAW_DATA, UNKNOWN_CONTRACT),
+      decodeEvmCalldata(unknownData, UNKNOWN_CONTRACT),
     );
 
     expect(rowsOf(data)).toEqual([
-      ["method", "0x2e1a7d4d"],
-      ["data", WITHDRAW_DATA],
+      ["method", "0xdeadbeef"],
+      ["data", unknownData],
     ]);
   });
 

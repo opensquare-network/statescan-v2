@@ -3,39 +3,127 @@ import {
   toFunctionSelector,
   toFunctionSignature,
 } from "viem";
-import { CONTRACTS, EVM_CALL_ABI } from "./consts/evmAbi";
+import { EVM_CALL_ABI } from "./consts/evmAbi";
 
-function indexFunctionsBySelector(abi) {
-  return new Map(
-    abi
-      .filter((item) => item.type === "function")
-      .map((item) => [toFunctionSelector(item), item]),
-  );
+function normalizeAddress(address) {
+  if (typeof address !== "string") {
+    return null;
+  }
+
+  const normalized = address.toLowerCase();
+  return /^0x[0-9a-f]{40}$/.test(normalized) ? normalized : null;
 }
 
-const FUNCTIONS_BY_SELECTOR = indexFunctionsBySelector(EVM_CALL_ABI);
+function indexFunctionsBySelector(abi) {
+  const index = new Map();
+  if (!Array.isArray(abi)) {
+    return index;
+  }
 
-const CONTRACT_FUNCTIONS_BY_SELECTOR = Object.fromEntries(
-  Object.entries(CONTRACTS).map(([address, contract]) => [
-    address.toLowerCase(),
-    indexFunctionsBySelector(contract.abi),
-  ]),
-);
+  for (const item of abi) {
+    if (item?.type !== "function") {
+      continue;
+    }
 
-// The ABI of a known callee wins over the generic one, so its parameter names
-// are used; selectors it does not declare still fall back to EVM_CALL_ABI.
+    try {
+      index.set(toFunctionSelector(item), item);
+    } catch {
+      // One malformed item must not drop the abi of the whole contract.
+    }
+  }
+
+  return index;
+}
+
+function normalizeImplementations(implementations) {
+  if (!Array.isArray(implementations)) {
+    return [];
+  }
+
+  return implementations
+    .map((item) => normalizeAddress(item?.address))
+    .filter(Boolean);
+}
+
+const GENERIC_FUNCTIONS_BY_SELECTOR = indexFunctionsBySelector(EVM_CALL_ABI);
+
+let CONTRACTS = new Map();
+let CONTRACT_FUNCTIONS_BY_SELECTOR = new Map();
+let FUNCTIONS_BY_SELECTOR = GENERIC_FUNCTIONS_BY_SELECTOR;
+
+// Called when the verified contracts are loaded from the server. A proxy uses
+// the name and the abi of its implementation when the implementation is
+// verified as well, and every verified function joins the global selector
+// index, so the calls of a proxy with an unverified implementation still
+// decode.
+export function setVerifiedContracts(contracts) {
+  const contractsByAddress = new Map();
+  const functionsByAddress = new Map();
+  const functionsBySelector = new Map(GENERIC_FUNCTIONS_BY_SELECTOR);
+
+  for (const contract of Array.isArray(contracts) ? contracts : []) {
+    const address = normalizeAddress(contract?.address);
+    if (!address) {
+      continue;
+    }
+
+    const functions = indexFunctionsBySelector(contract.abi);
+    contractsByAddress.set(address, {
+      name: contract.name || null,
+      implementations: normalizeImplementations(contract.implementations),
+    });
+    functionsByAddress.set(address, functions);
+
+    for (const [selector, item] of functions) {
+      if (!functionsBySelector.has(selector)) {
+        functionsBySelector.set(selector, item);
+      }
+    }
+  }
+
+  const resolvedContracts = new Map();
+  const resolvedFunctions = new Map();
+  for (const [address, contract] of contractsByAddress) {
+    const implementation = contract.implementations.find(
+      (impl) => functionsByAddress.get(impl)?.size > 0,
+    );
+    const implementationContract = implementation
+      ? contractsByAddress.get(implementation)
+      : null;
+    const implementationFunctions = implementation
+      ? functionsByAddress.get(implementation)
+      : null;
+
+    resolvedContracts.set(address, {
+      name: implementationContract?.name || contract.name,
+    });
+    resolvedFunctions.set(
+      address,
+      implementationFunctions?.size
+        ? implementationFunctions
+        : functionsByAddress.get(address) || new Map(),
+    );
+  }
+
+  CONTRACTS = resolvedContracts;
+  CONTRACT_FUNCTIONS_BY_SELECTOR = resolvedFunctions;
+  FUNCTIONS_BY_SELECTOR = functionsBySelector;
+}
+
+setVerifiedContracts([]);
+
+// The ABI of a known callee wins over the global one, so its parameter names
+// are used; selectors it does not declare still fall back to the functions of
+// every verified contract and then to EVM_CALL_ABI.
 function findAbiItem(selector, dest) {
-  const known = dest
-    ? CONTRACT_FUNCTIONS_BY_SELECTOR[dest.toLowerCase()]
-    : undefined;
+  const address = normalizeAddress(dest);
+  const known = address ? CONTRACT_FUNCTIONS_BY_SELECTOR.get(address) : null;
   return known?.get(selector) ?? FUNCTIONS_BY_SELECTOR.get(selector);
 }
 
 export function getContractName(address) {
-  if (typeof address !== "string") {
-    return null;
-  }
-  return CONTRACTS[address.toLowerCase()]?.name ?? null;
+  const normalized = normalizeAddress(address);
+  return normalized ? CONTRACTS.get(normalized)?.name ?? null : null;
 }
 
 export function isReviveCall(call) {

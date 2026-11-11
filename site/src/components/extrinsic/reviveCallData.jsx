@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Inter_12_600, Overpass_Mono_14_400 } from "../../styles/text";
 import { decodeEvmCalldata } from "../../utils/revive";
+import { useVerifiedContractsVersion } from "../../context/verifiedContracts";
 import ExtrinsicEvmCall from "./evmCall";
 
 const DECODE = "decode";
@@ -87,7 +88,13 @@ export function ReviveDataFieldName({ value }) {
 
 export function ReviveCallData({ value, dest }) {
   const { getFormat } = useContext(ReviveCallFormatContext);
-  const calldata = useMemo(() => decodeEvmCalldata(value, dest), [value, dest]);
+  const verifiedContractsVersion = useVerifiedContractsVersion();
+  const calldata = useMemo(
+    () => decodeEvmCalldata(value, dest),
+    // Decode again once the verified contracts are loaded.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [value, dest, verifiedContractsVersion],
+  );
 
   if (getFormat(value) === RAW) {
     return <RawData>{value}</RawData>;

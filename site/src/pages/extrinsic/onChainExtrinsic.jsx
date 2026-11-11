@@ -19,6 +19,7 @@ import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import { extrinsicApi } from "../../services/urls";
 import useExtrinsicInfo from "../../hooks/useExtrinsicInfo";
+import { useVerifiedContractsVersion } from "../../context/verifiedContracts";
 
 const useExtrinsic = (chainExtrinsic) => {
   const finalizedHeight = useSelector(finalizedHeightSelector);
@@ -44,6 +45,7 @@ function OnChainExtrinsicImpl({ extrinsicIndexer }) {
   const { isLoading, chainExtrinsic } = useChainExtrinsicData(extrinsicIndexer);
   const extrinsic = useExtrinsic(chainExtrinsic);
   const { modules } = useChainSettings();
+  const verifiedContractsVersion = useVerifiedContractsVersion();
 
   const listData = useMemo(
     () =>
@@ -52,7 +54,9 @@ function OnChainExtrinsicImpl({ extrinsicIndexer }) {
             modules,
           })
         : {},
-    [extrinsic, modules],
+    // Recompute the decoded call once the verified contracts are loaded.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [extrinsic, modules, verifiedContractsVersion],
   );
 
   const breadCrumb = (
