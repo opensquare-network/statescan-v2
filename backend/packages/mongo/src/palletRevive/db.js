@@ -7,6 +7,7 @@ let db = null;
 
 let contractCol = null;
 let callCol = null;
+let verifiedContractCol = null;
 
 async function initPalletReviveScanDb() {
   db = new ScanDb(
@@ -17,8 +18,10 @@ async function initPalletReviveScanDb() {
 
   contractCol = await db.createCol("contract");
   callCol = await db.createCol("call");
+  verifiedContractCol = await db.createCol("verifiedContract");
 
-  _createIndexes().then(() => console.log("revive scan DB indexes created!"));
+  await _createIndexes();
+  console.log("revive scan DB indexes created!");
 }
 
 async function _createIndexes() {
@@ -39,6 +42,10 @@ async function _createIndexes() {
     "indexer.extrinsicIndex": 1,
     "indexer.eventIndex": 1,
   });
+
+  await verifiedContractCol.createIndex({ address: 1 }, { unique: true });
+  await verifiedContractCol.createIndex({ verifiedAt: -1 });
+  await verifiedContractCol.createIndex({ name: 1 });
 }
 
 async function getReviveDb() {
@@ -65,9 +72,15 @@ async function getCallCol() {
   return callCol;
 }
 
+async function getVerifiedContractCol() {
+  await makeSureInit(verifiedContractCol);
+  return verifiedContractCol;
+}
+
 module.exports = {
   initPalletReviveScanDb,
   getReviveDb,
   getContractCol,
   getCallCol,
+  getVerifiedContractCol,
 };

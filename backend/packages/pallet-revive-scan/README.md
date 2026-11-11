@@ -9,6 +9,37 @@ chain, i.e. the contracts deployed through it and the calls made to them.
   and the indexer of the creating transaction.
 - `call`: one document per contract call, with the caller, the callee, the method selector parsed out of the call data,
   the indexer of the transaction and whether that transaction succeeded.
+- `verifiedContract`: the verified contracts of a Blockscout instance, with their source code, additional sources and
+  ABI. It is filled by `src/scripts/verifiedContracts/sync.js`, not by the block scan.
+
+## Verified contracts
+
+`src/scripts/verifiedContracts/sync.js` mirrors the verified contracts of a Blockscout instance into the
+`verifiedContract` collection of the revive database. Every contract is upserted by its lower case address. Contracts
+which disappeared from the Blockscout list are kept, so the collection can also be used as history.
+
+The script is meant to run from cron:
+
+```sh
+*/30 * * * * cd /path/to/pallet-revive-scan && mkdir -p log && node src/scripts/verifiedContracts/sync.js >> log/verified-contracts.log 2>&1
+```
+
+It exits with `0` when the run succeeded, `1` when at least one contract could not be fetched, and skips with `0` when
+another sync still holds the `syncLock` document. The lock is refreshed while the sync runs, so a crashed run does not
+block the next one for longer than `VERIFIED_CONTRACT_SYNC_LOCK_TTL_MS`.
+
+The first run fetches every contract detail. A rerun skips the details whose `verified_at` and compiler version did not
+change, and only refreshes `lastSeenAt`.
+
+| Variable                             | Meaning                                                       |
+| ------------------------------------ | ------------------------------------------------------------- |
+| `BLOCKSCOUT_API_HOST`                | Blockscout instance, default `https://blockscout.polkadot.io` |
+| `BLOCKSCOUT_REQUEST_TIMEOUT_MS`      | request timeout, default 30000                                |
+| `BLOCKSCOUT_REQUEST_RETRIES`         | retries of a rate limited or failed request, default 4        |
+| `BLOCKSCOUT_DETAIL_CONCURRENCY`      | contract details fetched in parallel, default 4               |
+| `BLOCKSCOUT_MAX_PAGES`               | list pages to walk, `0` walks all, default 0                  |
+| `VERIFIED_CONTRACT_UPSERT_BATCH`     | upserts per bulk write, default 50                            |
+| `VERIFIED_CONTRACT_SYNC_LOCK_TTL_MS` | lock ttl, refreshed while running, default 30 minutes         |
 
 ## Contract creation
 
