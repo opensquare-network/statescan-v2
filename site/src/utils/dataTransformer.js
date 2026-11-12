@@ -10,7 +10,7 @@ import {
   ReviveEthTransactData,
 } from "../components/extrinsic/reviveCallData";
 import ContractLabel from "../components/extrinsic/contractLabel";
-import { getContractName } from "./revive";
+import { getContractName, isReviveCallMethod } from "./revive";
 import maybeHexToUft8 from "./hex";
 
 export function convertCallForTableView(call) {
@@ -25,7 +25,11 @@ export function convertArgsForTableView(args, section, method) {
     return {
       object_type: "table_pairs",
       object_data: args.map((arg, index) => {
-        if (section === "revive" && method === "call" && arg.name === "dest") {
+        if (
+          section === "revive" &&
+          isReviveCallMethod(method) &&
+          arg.name === "dest"
+        ) {
           return [
             arg.name,
             <ContractLabel key={`arg-${index}`} address={arg.value} />,
@@ -63,7 +67,7 @@ export function convertArgsForTableView(args, section, method) {
           case "Bytes": {
             if (
               section === "revive" &&
-              method === "call" &&
+              isReviveCallMethod(method) &&
               arg.name === "data"
             ) {
               const dest = args.find((item) => item?.name === "dest")?.value;
@@ -168,7 +172,11 @@ export function convertArgsForJsonView(args, section, method) {
     args.map((arg) => [
       arg.name,
       (() => {
-        if (section === "revive" && method === "call" && arg.name === "dest") {
+        if (
+          section === "revive" &&
+          isReviveCallMethod(method) &&
+          arg.name === "dest"
+        ) {
           return getContractName(arg.value) ?? arg.value;
         }
 

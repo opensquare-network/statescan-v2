@@ -127,8 +127,16 @@ export function getContractName(address) {
   return normalized ? CONTRACTS.get(normalized)?.name ?? null : null;
 }
 
+// `revive.call` and `revive.ethCall` reach a contract with the same arguments:
+// dest, value, weight limit, [eth gas limit] and data.
+const CONTRACT_CALL_METHODS = ["call", "ethCall"];
+
+export function isReviveCallMethod(method) {
+  return CONTRACT_CALL_METHODS.includes(method);
+}
+
 export function isReviveCall(call) {
-  return call?.section === "revive" && call?.method === "call";
+  return call?.section === "revive" && isReviveCallMethod(call?.method);
 }
 
 export function isReviveEthTransact(call) {

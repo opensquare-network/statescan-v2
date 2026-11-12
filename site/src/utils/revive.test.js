@@ -126,15 +126,54 @@ const reviveCall = {
   ],
 };
 
+// revive.ethCall(dest, value, weightLimit, ethGasLimit, data, transactionEncoded, ...)
+const reviveEthCall = {
+  section: "revive",
+  method: "ethCall",
+  args: [
+    { name: "dest", type: "H160", value: WRAPPED_DOT },
+    { name: "value", type: "U256", value: "0" },
+    {
+      name: "weightLimit",
+      type: "Weight",
+      value: { refTime: 2907997201, proofSize: 8520 },
+    },
+    { name: "ethGasLimit", type: "U256", value: "1000" },
+    { name: "data", type: "Bytes", value: APPROVE_DATA },
+    { name: "transactionEncoded", type: "Bytes", value: "0x" },
+    { name: "effectiveGasPrice", type: "U256", value: "1000" },
+    { name: "encodedLen", type: "u32", value: 200 },
+    {
+      name: "authorizationList",
+      type: "Vec<AuthorizationListEntry>",
+      value: [],
+    },
+  ],
+};
+
 describe("revive call parsing", () => {
-  test("detects revive.call only", () => {
+  test("detects revive.call and revive.ethCall only", () => {
     expect(isReviveCall(reviveCall)).toBe(true);
+    expect(isReviveCall(reviveEthCall)).toBe(true);
     expect(isReviveCall({ section: "balances", method: "transfer" })).toBe(
       false,
     );
     expect(
       parseReviveCall({ section: "balances", method: "transfer" }),
     ).toBeNull();
+  });
+
+  test("extracts dest and calldata from a revive.ethCall", () => {
+    const parsed = parseReviveCall(reviveEthCall);
+
+    expect(parsed.dest).toBe(WRAPPED_DOT);
+    expect(parsed.value).toBe("0");
+    expect(parsed.calldata.functionName).toBe("approve");
+    expect(parsed.calldata.signature).toBe("approve(address,uint256)");
+    expect(parsed.calldata.inputs.map((input) => input.name)).toEqual([
+      "spender",
+      "value",
+    ]);
   });
 
   test("extracts dest and calldata from args", () => {
