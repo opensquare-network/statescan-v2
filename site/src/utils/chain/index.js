@@ -70,6 +70,10 @@ export function hasBusiness() {
   );
 }
 
+export function hasRevive() {
+  return !!getChainModules().revive;
+}
+
 export function getIsUseOnChainBlockData() {
   const settings = getChainSettings();
   return settings.useOnChainBlockData;

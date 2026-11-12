@@ -1,18 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import chains from "../utils/consts/chains";
-import { getEnvChain } from "../utils/env";
 import { loadVerifiedContracts } from "../services/verifiedContracts";
+import { hasRevive } from "../utils/chain";
 
 const VerifiedContractsVersionContext = createContext(0);
-
-const chain = chains[getEnvChain()];
-const hasRevive = chain?.modules?.revive === true;
 
 export function VerifiedContractsProvider({ children }) {
   const [version, setVersion] = useState(0);
 
   useEffect(() => {
-    if (!hasRevive) {
+    if (!hasRevive()) {
       return;
     }
 

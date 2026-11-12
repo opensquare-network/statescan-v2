@@ -1,10 +1,15 @@
 import api from "./api";
 import { verifiedContractsApi } from "./urls";
 import { setVerifiedContracts } from "../utils/revive";
+import { hasRevive } from "../utils/chain";
 
 let loadPromise = null;
 
 export function loadVerifiedContracts() {
+  if (!hasRevive()) {
+    return Promise.resolve([]);
+  }
+
   if (!loadPromise) {
     loadPromise = api
       .fetch(verifiedContractsApi, { compact: 1 })

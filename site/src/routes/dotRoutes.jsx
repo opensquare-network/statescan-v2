@@ -62,6 +62,7 @@ export default function DotRoutes() {
     recovery,
     proxy,
     tx,
+    revive,
   } = getChainModules();
   const isUseOnChainBlockData = getIsUseOnChainBlockData();
   useConnectApis();
@@ -119,8 +120,12 @@ export default function DotRoutes() {
       />
       <Route path="/calls" element={<Calls />} />
       <Route path="/calls/:id" element={<Call />} />
-      <Route path="/contracts" element={<Contracts />} />
-      <Route path="/contracts/:id" element={<Contract />} />
+      {revive && (
+        <>
+          <Route path="/contracts" element={<Contracts />} />
+          <Route path="/contracts/:id" element={<Contract />} />
+        </>
+      )}
       {identity && (
         <>
           <Route path="/identities" element={<IdentitiesPage />} />
