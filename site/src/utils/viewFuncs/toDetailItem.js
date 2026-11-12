@@ -33,7 +33,11 @@ import { getNftInstanceParsedMetadata } from "../nft";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
 import ExtrinsicEvmCall from "../../components/extrinsic/evmCall";
 import ContractLabel from "../../components/extrinsic/contractLabel";
-import { getContractName, parseReviveCall } from "../revive";
+import {
+  getContractName,
+  parseReviveCall,
+  parseReviveEthTransact,
+} from "../revive";
 import { hashEllipsis } from "./text";
 import CircledInfoIcon from "../../components/icons/circledInfoIcon";
 import { Flex, FlexCenter, FlexColumn } from "../../components/styled/flex";
@@ -592,7 +596,9 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     (assetTransferredList?.length || uniqueTransferredList?.length);
 
   const { section, method } = extrinsic?.call || extrinsic || {};
-  const reviveCall = parseReviveCall(extrinsic?.call || extrinsic);
+  const reviveCall =
+    parseReviveCall(extrinsic?.call || extrinsic) ??
+    parseReviveEthTransact(extrinsic?.call || extrinsic);
 
   return [
     getExtrinsicTime(extrinsic),

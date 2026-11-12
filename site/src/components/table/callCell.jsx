@@ -3,7 +3,11 @@ import Tooltip from "../tooltip";
 import { FlexColumn } from "../styled/flex";
 import { Tag, TagThemed } from "../tag";
 import Link from "../styled/link";
-import { getContractName, parseReviveCall } from "../../utils/revive";
+import {
+  getContractName,
+  parseReviveCall,
+  parseReviveEthTransact,
+} from "../../utils/revive";
 
 const Wrapper = styled.div`
   white-space: nowrap;
@@ -19,13 +23,15 @@ const Detail = styled.div`
   margin-top: 4px;
 `;
 
-// Decoded EVM call of a `revive.call`, shown under the substrate call.
+// Decoded EVM call of a `revive.call` or a `revive.ethTransact`, shown under the
+// substrate call.
 function getReviveDetail(call) {
-  if (call.section !== "revive" || call.method !== "call") {
+  const parsed = parseReviveCall(call) ?? parseReviveEthTransact(call);
+  if (!parsed) {
     return null;
   }
 
-  const { dest, calldata } = parseReviveCall(call);
+  const { dest, calldata } = parsed;
   const name = getContractName(dest);
   const evmMethod = calldata.functionName ?? calldata.selector;
 

@@ -7,6 +7,7 @@ import DecodableBytesDisplay from "../components/dataDisplay/decodableBytesDispl
 import {
   ReviveCallData,
   ReviveDataFieldName,
+  ReviveEthTransactData,
 } from "../components/extrinsic/reviveCallData";
 import ContractLabel from "../components/extrinsic/contractLabel";
 import { getContractName } from "./revive";
@@ -28,6 +29,23 @@ export function convertArgsForTableView(args, section, method) {
           return [
             arg.name,
             <ContractLabel key={`arg-${index}`} address={arg.value} />,
+          ];
+        }
+
+        // revive.ethTransact(payload) carries an encoded ethereum transaction.
+        if (
+          section === "revive" &&
+          method === "ethTransact" &&
+          typeof arg.value === "string" &&
+          (arg.name === "payload" || index === 0)
+        ) {
+          return [
+            <ReviveDataFieldName
+              key={`arg-${index}-name`}
+              value={arg.value}
+              label={arg.name || "payload"}
+            />,
+            <ReviveEthTransactData key={`arg-${index}`} value={arg.value} />,
           ];
         }
 

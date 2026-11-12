@@ -1,5 +1,6 @@
 import {
   decodeFunctionData,
+  parseTransaction,
   toFunctionSelector,
   toFunctionSignature,
 } from "viem";
@@ -128,6 +129,10 @@ export function getContractName(address) {
 
 export function isReviveCall(call) {
   return call?.section === "revive" && call?.method === "call";
+}
+
+export function isReviveEthTransact(call) {
+  return call?.section === "revive" && call?.method === "ethTransact";
 }
 
 function getArgValue(args, name, position) {
@@ -265,5 +270,49 @@ export function parseReviveCall(call) {
     dest,
     value: getArgValue(args, "value", 1) ?? null,
     calldata: decodeEvmCalldata(getArgValue(args, "data", 4), dest),
+  };
+}
+
+// The signed ethereum transaction a `revive.ethTransact` payload carries. It is
+// not shown as it is, only the call it makes, so the fields the page needs are
+// kept.
+export function parseEvmTransaction(serializedTransaction) {
+  if (
+    typeof serializedTransaction !== "string" ||
+    !serializedTransaction.startsWith("0x")
+  ) {
+    return null;
+  }
+
+  try {
+    const transaction = parseTransaction(serializedTransaction);
+    return {
+      // A transaction without a recipient deploys a contract.
+      to: normalizeAddress(transaction.to),
+      value: transaction.value ?? 0n,
+      data: transaction.data ?? "0x",
+    };
+  } catch {
+    return null;
+  }
+}
+
+// `revive.ethTransact(payload)`, the payload is the only argument.
+export function parseReviveEthTransact(call) {
+  if (!isReviveEthTransact(call)) {
+    return null;
+  }
+
+  const args = Array.isArray(call.args) ? call.args : [];
+  const payload = getArgValue(args, "payload", 0);
+  const transaction = parseEvmTransaction(payload);
+  if (!transaction) {
+    return null;
+  }
+
+  return {
+    dest: transaction.to,
+    value: transaction.value,
+    calldata: decodeEvmCalldata(transaction.data, transaction.to),
   };
 }

@@ -1,14 +1,17 @@
 /**
  * @jest-environment node
  */
-import { parseAbi } from "viem";
+import { parseAbi, serializeTransaction } from "viem";
 import {
   decodeEvmCalldata,
   formatEvmArgValue,
   getContractName,
   getEvmCallTableData,
   isReviveCall,
+  isReviveEthTransact,
+  parseEvmTransaction,
   parseReviveCall,
+  parseReviveEthTransact,
   setVerifiedContracts,
 } from "./revive";
 
@@ -461,5 +464,134 @@ describe("calldata table data", () => {
     expect(rowsOf(getEvmCallTableData(decodeEvmCalldata("0x")))).toEqual([
       ["method", "--"],
     ]);
+  });
+});
+
+describe("revive ethTransact parsing", () => {
+  const signature = {
+    r: `0x${"11".repeat(32)}`,
+    s: `0x${"22".repeat(32)}`,
+    yParity: 0,
+  };
+
+  const legacySignature = { ...signature, v: 27n };
+
+  const serialize = (transaction) =>
+    serializeTransaction(
+      {
+        chainId: 420420417,
+        nonce: 3,
+        maxPriorityFeePerGas: 1000000n,
+        maxFeePerGas: 1000000000n,
+        gas: 100000n,
+        value: 0n,
+        type: "eip1559",
+        ...transaction,
+      },
+      signature,
+    );
+
+  const ethTransactCall = (payload) => ({
+    section: "revive",
+    method: "ethTransact",
+    args: [{ name: "payload", type: "Bytes", value: payload }],
+  });
+
+  test("detects revive.ethTransact only", () => {
+    const call = ethTransactCall(serialize({ to: WRAPPED_DOT }));
+
+    expect(isReviveEthTransact(call)).toBe(true);
+    expect(isReviveEthTransact({ section: "revive", method: "call" })).toBe(
+      false,
+    );
+    expect(parseReviveEthTransact({ section: "revive", method: "call" })).toBe(
+      null,
+    );
+  });
+
+  test("decodes the ethereum transaction of the payload", () => {
+    const payload = serialize({ to: WRAPPED_DOT, data: WITHDRAW_DATA });
+    const transaction = parseEvmTransaction(payload);
+
+    expect(transaction.to).toBe(WRAPPED_DOT);
+    expect(transaction.data).toBe(WITHDRAW_DATA);
+    expect(transaction.value).toBe(0n);
+  });
+
+  test("decodes the call the payload makes", () => {
+    const parsed = parseReviveEthTransact(
+      ethTransactCall(serialize({ to: WRAPPED_DOT, data: WITHDRAW_DATA })),
+    );
+
+    expect(parsed.dest).toBe(WRAPPED_DOT);
+    expect(parsed.calldata.functionName).toBe("withdraw");
+    expect(parsed.calldata.signature).toBe("withdraw(uint256)");
+    expect(parsed.calldata.args[0].toString()).toBe("578830");
+  });
+
+  test("keeps the value of the ethereum transaction", () => {
+    const parsed = parseReviveEthTransact(
+      ethTransactCall(
+        serialize({ to: WRAPPED_DOT, data: "0xd0e30db0", value: 123n }),
+      ),
+    );
+
+    expect(parsed.value).toBe(123n);
+    expect(parsed.calldata.signature).toBe("deposit()");
+  });
+
+  test("decodes legacy ethereum transactions as well", () => {
+    const payload = serializeTransaction(
+      {
+        chainId: 420420417,
+        nonce: 1,
+        gasPrice: 1000000000n,
+        gas: 100000n,
+        to: WRAPPED_DOT,
+        data: WITHDRAW_DATA,
+      },
+      legacySignature,
+    );
+
+    expect(
+      parseReviveEthTransact(ethTransactCall(payload)).calldata.signature,
+    ).toBe("withdraw(uint256)");
+  });
+
+  test("keeps the selector of an unknown method", () => {
+    const unknownData = `0xdeadbeef${"00".repeat(32)}`;
+    const parsed = parseReviveEthTransact(
+      ethTransactCall(serialize({ to: UNKNOWN_CONTRACT, data: unknownData })),
+    );
+
+    expect(parsed.dest).toBe(UNKNOWN_CONTRACT);
+    expect(parsed.calldata.functionName).toBeNull();
+    expect(parsed.calldata.selector).toBe("0xdeadbeef");
+  });
+
+  test("has no destination when the transaction deploys a contract", () => {
+    const parsed = parseReviveEthTransact(
+      ethTransactCall(serialize({ data: "0x6080604052" })),
+    );
+
+    expect(parsed.dest).toBeNull();
+    expect(parsed.calldata.functionName).toBeNull();
+  });
+
+  test("leaves an unparsable payload undecoded", () => {
+    expect(parseEvmTransaction("0x1234")).toBeNull();
+    expect(parseEvmTransaction(undefined)).toBeNull();
+    expect(parseReviveEthTransact(ethTransactCall("0x1234"))).toBeNull();
+  });
+
+  test("reads a payload argument without a name", () => {
+    const payload = serialize({ to: WRAPPED_DOT, data: WITHDRAW_DATA });
+    const parsed = parseReviveEthTransact({
+      section: "revive",
+      method: "ethTransact",
+      args: [{ value: payload }],
+    });
+
+    expect(parsed.calldata.functionName).toBe("withdraw");
   });
 });
