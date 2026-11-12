@@ -24,6 +24,8 @@ export const Nft = "NFT";
 export const NftTransfer = "NFT Transfer";
 export const Calls = "Calls";
 export const Contract = "Contract";
+export const Contracts = "Contracts";
+export const ReviveCalls = "Revive Calls";
 
 export const menusBlockchainSimpleMode = [
   {
@@ -223,6 +225,23 @@ export const contractCallsHead = [
   { name: "Caller", width: 240 },
   { name: "Result", width: 96, align: "center" },
   { name: "Data", type: "data", align: "right" },
+];
+
+export const accountCallsHead = [
+  { name: "Extrinsic ID", width: 200 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "Contract", width: 320 },
+  { name: "Method", width: 240 },
+  { name: "Result", width: 96, align: "center" },
+  { name: "Data", type: "data", align: "right" },
+];
+
+export const accountContractsHead = [
+  { name: "Contract", width: 320 },
+  { name: "Calls", width: 96, align: "right" },
+  { name: "Code Size", width: 120, align: "right" },
+  { name: "Creation Block", width: 160 },
+  { name: "Time", type: "time", width: 200 },
 ];
 
 export const transfersHead = [

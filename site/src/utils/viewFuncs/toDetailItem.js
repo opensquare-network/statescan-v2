@@ -109,7 +109,7 @@ export const toContractDetailItem = (address, contract) => {
     Address: <TextSecondaryWithCopy>{address}</TextSecondaryWithCopy>,
     ...(name ? { "Contract Name": <Tag>{name}</Tag> } : {}),
     Deployer: contract?.deployer ? (
-      <TextSecondaryWithCopy>{contract.deployer}</TextSecondaryWithCopy>
+      <AddressOrIdentity address={contract.deployer} ellipsis={false} />
     ) : (
       <TextSecondary>--</TextSecondary>
     ),
@@ -292,6 +292,7 @@ export const toOnChainAccountDetailItem = (
   id,
   account,
   multisigAddressData,
+  evmInfo,
 ) => {
   const lockedBreakdown = account?.data?.lockedBreakdown?.length > 0 && (
     <LockedBreakdown lockedBreakdown={account?.data?.lockedBreakdown} />
@@ -301,18 +302,56 @@ export const toOnChainAccountDetailItem = (
     <ReservedBreakdown reservedBreakdown={account?.data?.reservedBreakdown} />
   );
 
+  const addressItems = evmInfo
+    ? [
+        {
+          label: "Address",
+          value: (
+            <AddressAndIdentity address={evmInfo.evmAddress} ellipsis={false} />
+          ),
+        },
+        {
+          label: "Substrate Address",
+          value: (
+            <AddressAndIdentity
+              address={evmInfo.substrateAddress}
+              ellipsis={false}
+            />
+          ),
+        },
+        {
+          label: "Account Type",
+          value: (
+            <TextSecondary>
+              {evmInfo.accountType?.type === "contract"
+                ? "Contract"
+                : evmInfo.accountType?.type === "eoa"
+                ? "EOA"
+                : "--"}
+            </TextSecondary>
+          ),
+        },
+        evmInfo.accountType?.type === "contract" && {
+          label: "Contract",
+          value: <ContractLabel address={evmInfo.evmAddress} />,
+        },
+      ].filter(Boolean)
+    : [
+        {
+          label: "Address",
+          value: (
+            <AddressAndIdentity
+              address={id}
+              ellipsis={false}
+              checkMultisig
+              key={id}
+            />
+          ),
+        },
+      ];
+
   const data = [
-    {
-      label: "Address",
-      value: (
-        <AddressAndIdentity
-          address={id}
-          ellipsis={false}
-          checkMultisig
-          key={id}
-        />
-      ),
-    },
+    ...addressItems,
     {
       label: "Total Balance",
       value: <ValueDisplayWithTooltip value={account?.data?.total} />,
@@ -636,7 +675,7 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     },
     reviveCall?.dest && {
       label: "Contract",
-      value: <ContractLabel address={reviveCall.dest} showAddress />,
+      value: <ContractLabel address={reviveCall.dest} />,
     },
     reviveCall && {
       label: "Method",

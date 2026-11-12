@@ -19,7 +19,10 @@ export default function DetailTabs({ tabs = [], resetPage = true }) {
   const location = useLocation();
   const getTabValue = (tab) => tab.value || tab.name;
 
-  const activeTab = getTabFromQuery(location, getTabValue(tabs[0]));
+  const requestedTab = getTabFromQuery(location, getTabValue(tabs[0]));
+  const activeTab = tabs.some((tab) => getTabValue(tab) === requestedTab)
+    ? requestedTab
+    : getTabValue(tabs[0]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import Account from "../pages/account";
 import Accounts from "../pages/accounts";
 import Asset from "../pages/asset";
@@ -21,6 +21,7 @@ import ForeignAsset from "../pages/foreignAsset";
 import ForeignAssets from "../pages/foreignAssets";
 import Home from "../pages";
 import IdentitiesPage from "../pages/identities";
+import EvmAccount from "../pages/evmAccount";
 import MultisigPage from "../pages/multisig";
 import MultisigAccountsPage from "../pages/multisigAccounts";
 import MultisigsPage from "../pages/multisigs";
@@ -47,8 +48,18 @@ import TXPage from "../pages/tx";
 import { VestingsPage } from "../pages/vestings";
 import useSetFinalizedHeight from "../hooks/useSetFinalizedHeight";
 import { getChainModules, getIsUseOnChainBlockData } from "../utils/chain";
+import { isReviveEvmAddress } from "../utils/isReviveAddress";
 import useConnectApis from "../utils/hooks/chain/apis/useConnectApis";
 import useUpdateNodesDelay from "../utils/hooks/useUpdateNodesDelay";
+
+function AccountRoute({ isUseOnChainBlockData }) {
+  const { id } = useParams();
+  if (isReviveEvmAddress(id)) {
+    return <EvmAccount />;
+  }
+
+  return isUseOnChainBlockData ? <OnChainAccount /> : <Account />;
+}
 
 export default function DotRoutes() {
   const {
@@ -116,7 +127,7 @@ export default function DotRoutes() {
       <Route path="/accounts" element={<Accounts />} />
       <Route
         path="/accounts/:id"
-        element={isUseOnChainBlockData ? <OnChainAccount /> : <Account />}
+        element={<AccountRoute isUseOnChainBlockData={isUseOnChainBlockData} />}
       />
       <Route path="/calls" element={<Calls />} />
       <Route path="/calls/:id" element={<Call />} />

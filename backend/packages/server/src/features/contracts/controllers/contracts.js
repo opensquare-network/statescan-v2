@@ -58,4 +58,5 @@ async function getContracts(ctx) {
 
 module.exports = {
   getContracts,
+  getCallsCountByAddress,
 };

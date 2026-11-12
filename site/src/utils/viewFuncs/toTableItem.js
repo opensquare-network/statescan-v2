@@ -106,12 +106,10 @@ export const toContractsTableItem = (contracts = []) => {
 
       return [
         <ContractLabel key={`${index}-1`} address={address} />,
-        deployer?.startsWith("0x") ? (
-          <Tooltip key={`${index}-2`} tip={deployer}>
-            <TextSecondary>{addressEllipsis(deployer)}</TextSecondary>
-          </Tooltip>
-        ) : (
+        deployer ? (
           <AddressOrIdentity key={`${index}-2`} address={deployer} />
+        ) : (
+          <TextSecondary key={`${index}-2`}>--</TextSecondary>
         ),
         <TextSecondary key={`${index}-3`} style={{ whiteSpace: "nowrap" }}>
           {(callsCount ?? 0).toLocaleString()}
@@ -141,12 +139,10 @@ export const toContractCallsTabTableItem = (calls = []) => {
         <ExtrinsicLink key={`${index}-1`} indexer={call?.indexer} />,
         call?.indexer?.blockTime,
         <ContractCallMethod key={`${index}-2`} call={call} />,
-        caller?.startsWith("0x") ? (
-          <Tooltip key={`${index}-3`} tip={caller}>
-            <TextSecondary>{addressEllipsis(caller)}</TextSecondary>
-          </Tooltip>
-        ) : (
+        caller ? (
           <AddressOrIdentity key={`${index}-3`} address={caller} />
+        ) : (
+          <TextSecondary key={`${index}-3`}>--</TextSecondary>
         ),
         call?.isSuccess ? (
           <CheckIcon key={`${index}-4`} />
@@ -154,6 +150,51 @@ export const toContractCallsTabTableItem = (calls = []) => {
           <CrossIcon key={`${index}-4`} />
         ),
         <ContractCallParams key={`${index}-5`} call={call} />,
+      ];
+    }) ?? null
+  );
+};
+
+export const toAccountCallsTabTableItem = (calls = []) => {
+  return (
+    calls?.map((call, index) => {
+      return [
+        <ExtrinsicLink key={`${index}-1`} indexer={call?.indexer} />,
+        call?.indexer?.blockTime,
+        <ContractLabel key={`${index}-2`} address={call?.dest} />,
+        <ContractCallMethod key={`${index}-3`} call={call} />,
+        call?.isSuccess ? (
+          <CheckIcon key={`${index}-4`} />
+        ) : (
+          <CrossIcon key={`${index}-4`} />
+        ),
+        <ContractCallParams key={`${index}-5`} call={call} />,
+      ];
+    }) ?? null
+  );
+};
+
+export const toAccountContractsTabTableItem = (contracts = []) => {
+  return (
+    contracts?.map((contract, index) => {
+      const { address, callsCount, codeLen, indexer } = contract || {};
+
+      return [
+        <ContractLabel key={`${index}-1`} address={address} />,
+        <TextSecondary key={`${index}-2`} style={{ whiteSpace: "nowrap" }}>
+          {(callsCount ?? 0).toLocaleString()}
+        </TextSecondary>,
+        <TextSecondary key={`${index}-3`} style={{ whiteSpace: "nowrap" }}>
+          {codeLen ? `${codeLen.toLocaleString()} bytes` : "--"}
+        </TextSecondary>,
+        indexer?.blockHeight ? (
+          <ColoredLink key={`${index}-4`} to={`/blocks/${indexer.blockHeight}`}>
+            {indexer.blockHeight.toLocaleString()}
+          </ColoredLink>
+        ) : (
+          <TextSecondary key={`${index}-4`}>--</TextSecondary>
+        ),
+        indexer?.blockTime ?? null,
       ];
     }) ?? null
   );

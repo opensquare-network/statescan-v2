@@ -146,11 +146,7 @@ export function ReviveEthTransactData({ value }) {
       <FlexColumn gap={8} style={{ width: "100%" }}>
         <Flex gap={8} style={{ flexWrap: "wrap" }}>
           <TextSecondary>to</TextSecondary>
-          {to ? (
-            <ContractLabel address={to} showAddress />
-          ) : (
-            <Tag>Contract creation</Tag>
-          )}
+          {to ? <ContractLabel address={to} /> : <Tag>Contract creation</Tag>}
         </Flex>
         {transactionValue > 0n && (
           <Flex gap={8} style={{ flexWrap: "wrap" }}>
