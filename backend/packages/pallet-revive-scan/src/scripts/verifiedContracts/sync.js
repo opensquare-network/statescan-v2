@@ -131,7 +131,9 @@ async function main() {
     const col = await getVerifiedContractCol();
     await col.createIndex({ address: 1 }, { unique: true });
 
-    log(`Syncing verified contracts from ${config.apiHost}`);
+    log(
+      `Syncing the ${config.network.name} verified contracts from ${config.apiHost}`,
+    );
     let pending = [];
 
     for await (const { page, items, hasNext } of iterateVerifiedContractPages(

@@ -3,6 +3,8 @@ const path = require("path");
 // Read the .env of the package, so the script works from any directory.
 require("dotenv").config({ path: path.resolve(__dirname, "../../../.env") });
 
+const { resolveNetwork } = require("../networks");
+
 function positiveInt(name, defaultValue) {
   const raw = process.env[name];
   if (raw === undefined || raw === "") {
@@ -31,9 +33,9 @@ function nonNegativeInt(name, defaultValue) {
   return value;
 }
 
-function getApiHost() {
+function getApiHost(network) {
   const host = (
-    process.env.BLOCKSCOUT_API_HOST || "https://blockscout.polkadot.io"
+    process.env.BLOCKSCOUT_API_HOST || network.blockscoutApiHost
   ).replace(/\/+$/, "");
 
   try {
@@ -45,8 +47,13 @@ function getApiHost() {
   return host;
 }
 
+// A chain this package does not index has no known blockscout instance, and the sync
+// would fill the collection with the contracts of another chain.
+const network = resolveNetwork();
+
 const config = {
-  apiHost: getApiHost(),
+  network,
+  apiHost: getApiHost(network),
   requestTimeoutMs: positiveInt("BLOCKSCOUT_REQUEST_TIMEOUT_MS", 30000),
   requestRetries: positiveInt("BLOCKSCOUT_REQUEST_RETRIES", 4),
   detailConcurrency: positiveInt("BLOCKSCOUT_DETAIL_CONCURRENCY", 4),

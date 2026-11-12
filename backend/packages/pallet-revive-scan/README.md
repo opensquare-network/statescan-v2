@@ -3,6 +3,22 @@
 Scan the [revive pallet](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/frame/revive) business of a
 chain, i.e. the contracts deployed through it and the calls made to them.
 
+## Chains
+
+The pallet runs on two chains, and everything which differs between them is kept in
+`src/scripts/networks.js`:
+
+| network    | `CHAIN`     | subscan host                               | blockscout host                         |
+| ---------- | ----------- | ------------------------------------------ | --------------------------------------- |
+| `polkadot` | `statemint` | `https://assethub-polkadot.api.subscan.io` | `https://blockscout.polkadot.io`        |
+| `kusama`   | `statemine` | `https://assethub-kusama.api.subscan.io`   | `https://blockscout-kusama.polkadot.io` |
+
+The scripts pick the network from their `--network=<name>` argument, or from the `CHAIN` of the `.env` when the argument
+is missing, `polkadot` when neither is set. A chain outside of these two has no revive pallet this package knows how to
+handle, so the scripts stop with an error instead of indexing it. A script which reads the chain state also checks the
+spec name of the node in `WS_ENDPOINT`, which is the same `statemint` or `statemine` name, so a node of another chain is
+rejected instead of having its contracts indexed into the wrong database.
+
 ## Collections
 
 - `contract`: one document per contract deployed by the pallet, with its address, deployer, code hash, original code
@@ -16,7 +32,8 @@ chain, i.e. the contracts deployed through it and the calls made to them.
 
 `src/scripts/verifiedContracts/sync.js` mirrors the verified contracts of a Blockscout instance into the
 `verifiedContract` collection of the revive database. Every contract is upserted by its lower case address. Contracts
-which disappeared from the Blockscout list are kept, so the collection can also be used as history.
+which disappeared from the Blockscout list are kept, so the collection can also be used as history. The instance follows
+the network, and a chain outside of the two supported ones is rejected.
 
 The script is meant to run from cron:
 
@@ -31,15 +48,15 @@ block the next one for longer than `VERIFIED_CONTRACT_SYNC_LOCK_TTL_MS`.
 The first run fetches every contract detail. A rerun skips the details whose `verified_at` and compiler version did not
 change, and only refreshes `lastSeenAt`.
 
-| Variable                             | Meaning                                                       |
-| ------------------------------------ | ------------------------------------------------------------- |
-| `BLOCKSCOUT_API_HOST`                | Blockscout instance, default `https://blockscout.polkadot.io` |
-| `BLOCKSCOUT_REQUEST_TIMEOUT_MS`      | request timeout, default 30000                                |
-| `BLOCKSCOUT_REQUEST_RETRIES`         | retries of a rate limited or failed request, default 4        |
-| `BLOCKSCOUT_DETAIL_CONCURRENCY`      | contract details fetched in parallel, default 4               |
-| `BLOCKSCOUT_MAX_PAGES`               | list pages to walk, `0` walks all, default 0                  |
-| `VERIFIED_CONTRACT_UPSERT_BATCH`     | upserts per bulk write, default 50                            |
-| `VERIFIED_CONTRACT_SYNC_LOCK_TTL_MS` | lock ttl, refreshed while running, default 30 minutes         |
+| Variable                             | Meaning                                                 |
+| ------------------------------------ | ------------------------------------------------------- |
+| `BLOCKSCOUT_API_HOST`                | Blockscout instance, defaults to the one of the network |
+| `BLOCKSCOUT_REQUEST_TIMEOUT_MS`      | request timeout, default 30000                          |
+| `BLOCKSCOUT_REQUEST_RETRIES`         | retries of a rate limited or failed request, default 4  |
+| `BLOCKSCOUT_DETAIL_CONCURRENCY`      | contract details fetched in parallel, default 4         |
+| `BLOCKSCOUT_MAX_PAGES`               | list pages to walk, `0` walks all, default 0            |
+| `VERIFIED_CONTRACT_UPSERT_BATCH`     | upserts per bulk write, default 50                      |
+| `VERIFIED_CONTRACT_SYNC_LOCK_TTL_MS` | lock ttl, refreshed while running, default 30 minutes   |
 
 ## Contract creation
 
@@ -53,6 +70,57 @@ the contract is then read from the chain state at that block:
 
 Everything the pallet offers to deploy a contract is covered the same way: `instantiate`, `instantiateWithCode`,
 `ethInstantiateWithCode` and the `ethTransact` carrying a transaction without a recipient.
+
+### Contracts deployed by another contract
+
+A contract which is deployed from inside another one, e.g. by a factory calling `CREATE`, emits no `Instantiated`
+event: the pallet emits it for a top level instantiation only. Such a contract leaves no trace in the block other than
+the logs it emits while its constructor runs, so the scan treats every address that emitted a `revive.ContractEmitted`
+event as a deployment candidate and asks the chain state instead of the events:
+
+- `revive.accountInfoOf(address)` at the scanned block tells whether the address is really a contract account, which
+  filters the precompiles out, and gives the code hash;
+- the same lookup at the parent block tells whether the contract already existed. When it did, the contract was missed
+  by an earlier run and the creation block is located by a binary search: the account info of an address is written
+  when its contract is created, so the first block holding it is the creation block. The search needs an archive node,
+  when the state of a past block is not served the contract is indexed at the block it was first seen in, without a
+  deployer.
+
+The deployer of an observed deployment is the sender of the carrying transaction, which is the account that paid for
+the deployment rather than the factory contract, the same way explorers report it.
+
+The limitation is a contract which emits no log while being constructed: it is only indexed once it emits an event or is
+called, and the creation block is found from the state at that point.
+
+### Sweeping the whole state
+
+`revive.accountInfoOf` is a plain storage map, so every account the pallet knows can be enumerated, by
+`state_getKeysPaged` or `entriesAt`, at most 1000 keys per page. The block scan leaves it alone, the cost of reading it
+grows with the number of accounts, but `src/scripts/contracts/syncContracts.js` reads the whole map at the head block
+and indexes the contracts the database does not know yet, locating their creation block with the same state search:
+
+```sh
+# repair every contract missing from the database
+node src/scripts/contracts/syncContracts.js
+
+# only the first 10, handy to try it out
+node src/scripts/contracts/syncContracts.js 10
+```
+
+Run it from cron after the block scan caught up, or once after a rebuild, it catches the contracts which emit no log
+while being constructed. The first run walks the history of every contract it adds, the later ones only handle what
+appeared since, so give it the archive endpoint in `WS_ENDPOINT`: the creation block of a contract which was missed is
+located by reading the state of past blocks, and the script stops at the start when the endpoint does not serve them. A
+contract whose creation block cannot be confirmed is skipped instead of being indexed at a block it was not created in.
+
+The map is small on AssetHub Polkadot, a few hundred entries which fit in a single page, but it holds the externally
+owned accounts too, so it is only a snapshot: the entry of an address is written when its contract is created, which is
+what the creation block search relies on.
+
+| Variable           | Meaning                                          |
+| ------------------ | ------------------------------------------------ |
+| `SYNC_CONCURRENCY` | contracts handled in parallel, default 4         |
+| `WS_ENDPOINT`      | must be an archive endpoint, see `CHAIN` as well |
 
 ## Caller
 
@@ -88,16 +156,22 @@ The scripts in `src/scripts/rebuild` rebuild the contract and call history of a 
 really hold revive business, instead of scanning the chain from the genesis block:
 
 ```sh
-# 1. Merge the heights of the deployment blocks into the block list
-node src/scripts/rebuild/fetchCallBlocks.js [blocks file]
+# 1. Merge the heights of the deployment and call blocks into the block list
+node src/scripts/rebuild/fetchCallBlocks.js [blocks file] [--network=<name>]
 
 # 2. Scan those blocks
-node src/scripts/rebuild/index.js [blocks file]
+node src/scripts/rebuild/index.js [blocks file] [--network=<name>]
 ```
 
-Both scripts default to `src/scripts/rebuild/call-blocks.json`, which is where the block list is kept. The list is
-always scanned in ascending block order, so a completed run ends at its newest block and a normal revive-scan continues
-from the height right after it.
+The block lists are: `call-blocks.json` for AssetHub Polkadot, which `--network=polkadot` picks and is the default, and
+`call-blocks-kusama.json` for AssetHub Kusama, which `--network=kusama` picks. Both live in `src/scripts/rebuild`. Every
+chain has its own revive history, so the two lists are collected and scanned separately.
+
+A Kusama rebuild needs the Kusama `WS_ENDPOINT`, `CHAIN` and database names in the `.env`. `index.js` refuses a list
+which does not belong to the chain it is configured for, so the two cannot be mixed up by accident.
+
+The list is always scanned in ascending block order, so a completed run ends at its newest block and a normal revive-scan
+continues from the height right after it.
 
 `fetchCallBlocks.js` reads the `revive.Instantiated` events from the
 [subscan open api](https://support.subscan.io) and merges the block heights into the block list, which is kept sorted
@@ -107,19 +181,22 @@ The deployments have to come from the event search: a contract deployed before t
 being called in the call list, so a block list built from calls alone never makes the scan handle an `Instantiated`
 event.
 
-The call blocks are collected too when `WITH_CALL_BLOCKS=1` is set. That walks every revive extrinsic of the chain, one
-request per page, which takes a long while.
+The blocks of the `revive.eth_transact` extrinsics are always merged too, read with the `call` filter of the extrinsic
+search, so a list collected without the full walk still covers the blocks of the ethereum transactions.
+
+The blocks of the remaining revive calls are collected as well when `WITH_CALL_BLOCKS=1` is set. That walks every revive
+extrinsic of the chain, one request per page, which takes a long while.
 
 | Variable                | Meaning                                                    |
 | ----------------------- | ---------------------------------------------------------- |
 | `SUBSCAN_API_KEY`       | required, a key is available at https://support.subscan.io |
-| `SUBSCAN_API_HOST`      | overrides the api host                                     |
+| `SUBSCAN_API_HOST`      | overrides the api host of the network                      |
 | `SUBSCAN_API_ROW`       | items per request, 25 is the biggest the api accepts       |
 | `SUBSCAN_API_MAX_PAGES` | walks only the newest pages, handy to try it out           |
-| `WITH_CALL_BLOCKS`      | set to `1` to collect the call blocks as well              |
+| `WITH_CALL_BLOCKS`      | set to `1` to walk every revive extrinsic as well          |
 
-Every page is logged, and the list is saved after the deployments are merged, so a run which is stopped during the
-optional call walk still keeps the deployments.
+Every page is logged, and the list is saved after the deployments are merged and again after the calls are, so a run
+which is stopped during the call walk still keeps what it collected so far.
 
 `index.js` sorts the list ascending and goes through it from the oldest block. Every block is reported with the number
 of contracts and calls it produced:
@@ -138,6 +215,7 @@ the list.
 
 | Flag                | Meaning                                                                       |
 | ------------------- | ----------------------------------------------------------------------------- |
+| `--network=<name>`  | `polkadot` or `kusama`, defaults to the network of `CHAIN`                    |
 | `--fresh`           | drops the stored progress and scans the list from its start again             |
 | `--after=<height>`  | starts after the given height, for the runs made before the progress was kept |
 | `--concurrency=<n>` | blocks fetched ahead, defaults to `SCAN_CONCURRENCY` or 8                     |

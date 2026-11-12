@@ -9,7 +9,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest src",
-    "sync:verified-contracts": "node src/scripts/verifiedContracts/sync.js"
+    "sync:verified-contracts": "node src/scripts/verifiedContracts/sync.js",
+    "sync:contracts": "node src/scripts/contracts/syncContracts.js"
   },
   "eslintConfig": {
     "plugins": [

@@ -29,7 +29,9 @@ function getOrigin(extrinsic) {
 
 // Only the contract calls are indexed here. A contract deployment is indexed from the
 // `revive.Instantiated` event instead, see ../events/revive/events/instantiated.js,
-// because the address a creation call deploys is only known from that event.
+// because the address a creation call deploys is only known from that event. The
+// contracts deployed by another contract emit no such event, they are picked up from the
+// events they emit, see ../contracts/index.js.
 async function handleExtrinsics(extrinsics = [], allEvents = [], indexer) {
   let index = 0;
 
