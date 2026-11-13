@@ -37,15 +37,18 @@ rejected instead of having its contracts indexed into the wrong database.
 which disappeared from the Blockscout list are kept, so the collection can also be used as history. The instance follows
 the network, and a chain outside of the two supported ones is rejected.
 
-The script is meant to run from cron:
+The scan process runs the same function by itself, from `src/jobs`, at 04:00 on the odd days of the month, i.e. every
+other day, right after the contract sweep an hour and a half earlier. The script is still the way to run it once by hand,
+or from cron when the scan process is not up:
 
 ```sh
-*/30 * * * * cd /path/to/pallet-revive-scan && mkdir -p log && node src/scripts/verifiedContracts/sync.js >> log/verified-contracts.log 2>&1
+node src/scripts/verifiedContracts/sync.js
 ```
 
 It exits with `0` when the run succeeded, `1` when at least one contract could not be fetched, and skips with `0` when
 another sync still holds the `syncLock` document. The lock is refreshed while the sync runs, so a crashed run does not
-block the next one for longer than `VERIFIED_CONTRACT_SYNC_LOCK_TTL_MS`.
+block the next one for longer than `VERIFIED_CONTRACT_SYNC_LOCK_TTL_MS`. The lock protects the job in the scan process
+just as well, a tick which finds the document held by a run in flight returns without touching the collection.
 
 The first run fetches every contract detail. A rerun skips the details whose `verified_at` and compiler version did not
 change, and only refreshes `lastSeenAt`.

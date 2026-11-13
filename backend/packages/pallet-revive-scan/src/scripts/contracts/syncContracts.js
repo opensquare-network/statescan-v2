@@ -16,6 +16,10 @@ const { resolveNetwork, checkNodeChain } = require("../networks");
 // The state of a block this old is served by an archive node only.
 const STATE_PROBE_DEPTH = 1000000;
 
+function elapsedSeconds(startedAt) {
+  return `${((Date.now() - startedAt) / 1000).toFixed(1)}s`;
+}
+
 // The address is the first argument of the `revive.accountInfoOf(address)` storage key.
 function getEntryAddress(key) {
   const address = key.args?.[0]?.toHex?.();
@@ -87,7 +91,9 @@ async function syncContracts({ limit = 0, api: givenApi = null } = {}) {
   const missing = contracts.filter(({ address }) => !known.has(address));
   console.log(`${missing.length} contracts are not indexed`);
 
-  const queue = limit > 0 ? missing.slice(0, limit) : missing;
+  // The queue is shifted by the workers, a copy keeps the count of the missing ones.
+  const missingCount = missing.length;
+  const queue = limit > 0 ? missing.slice(0, limit) : [...missing];
 
   const block = {
     hash: { toHex: () => blockHash },
@@ -97,12 +103,25 @@ async function syncContracts({ limit = 0, api: givenApi = null } = {}) {
     },
   };
 
+  const concurrency = Math.max(
+    1,
+    parseInt(process.env.SYNC_CONCURRENCY || "4"),
+  );
+  const total = queue.length;
+  if (total > 0) {
+    // Locating the creation block reads the state of past blocks, a contract takes
+    // seconds, so every contract is reported instead of a summary every batch.
+    console.log(`Indexing ${total} contracts, ${concurrency} at a time`);
+  }
+
   let added = 0;
   let skipped = 0;
   let failed = 0;
+  let processed = 0;
   const worker = async () => {
     while (queue.length > 0) {
       const { address, codeHash } = queue.shift();
+      const startedAt = Date.now();
       try {
         const saved = await saveObservedContract(col, api, block, {
           address,
@@ -121,17 +140,25 @@ async function syncContracts({ limit = 0, api: givenApi = null } = {}) {
         } else {
           skipped++;
         }
+        processed++;
+        console.log(
+          `  ${processed}/${total} ${address} ` +
+            `${saved ? "indexed" : "skipped"}, ${elapsedSeconds(startedAt)}, ` +
+            `${added} added, ${skipped} skipped, ${failed} failed`,
+        );
       } catch (e) {
         failed++;
+        processed++;
+        console.log(
+          `  ${processed}/${total} ${address} ` +
+            `failed, ${elapsedSeconds(startedAt)}, ` +
+            `${added} added, ${skipped} skipped, ${failed} failed`,
+        );
         logger.error(`Error in indexing contract ${address}`, e);
       }
     }
   };
 
-  const concurrency = Math.max(
-    1,
-    parseInt(process.env.SYNC_CONCURRENCY || "4"),
-  );
   await Promise.all(
     Array.from({ length: Math.min(concurrency, queue.length) }, worker),
   );
@@ -140,7 +167,7 @@ async function syncContracts({ limit = 0, api: givenApi = null } = {}) {
     network: network.name,
     blockHeight,
     contracts: contracts.length,
-    missing: missing.length,
+    missing: missingCount,
     added,
     skipped,
     failed,

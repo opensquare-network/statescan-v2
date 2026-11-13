@@ -81,42 +81,21 @@ async function loadExisting(col, addresses) {
   return new Map(docs.map((doc) => [doc.address, doc]));
 }
 
-async function main() {
+// The verified contracts of the Blockscout instance of the network, the source code and
+// the ABI the contract pages read. Returns the number of contracts which could not be
+// fetched. The run holds the lock of ./lock.js, a run killed without releasing it is taken
+// over when the ttl expires.
+async function syncVerifiedContracts() {
   const db = await getReviveDb();
   const owner = `${process.pid}-${Date.now()}`;
   const lock = await acquireLock(db, config.lockTtlMs, owner);
 
   if (!lock.acquired) {
     log("Another verified contract sync is running, skip this run");
-    await db.close();
     return 0;
   }
 
   const heartbeat = startHeartbeat(lock.col, config.lockTtlMs, owner);
-  let cleanupPromise = null;
-  const cleanup = () => {
-    if (!cleanupPromise) {
-      cleanupPromise = (async () => {
-        clearInterval(heartbeat);
-        try {
-          await releaseLock(lock.col, owner);
-        } finally {
-          await db.close();
-        }
-      })();
-    }
-
-    return cleanupPromise;
-  };
-
-  // Cron may stop the process with a signal, release the lock at once instead
-  // of waiting for the ttl to expire.
-  const onSignal = (signal) => {
-    log(`Received ${signal}, stop the sync`);
-    cleanup().finally(() => process.exit(0));
-  };
-  process.once("SIGINT", onSignal);
-  process.once("SIGTERM", onSignal);
 
   const startedAt = Date.now();
   let listed = 0;
@@ -241,19 +220,23 @@ async function main() {
         `skipped ${skipped}, written ${written}, failed ${failed}`,
     );
 
-    return failed > 0 ? 1 : 0;
+    return failed;
   } finally {
-    process.removeListener("SIGINT", onSignal);
-    process.removeListener("SIGTERM", onSignal);
-    await cleanup();
+    clearInterval(heartbeat);
+    await releaseLock(lock.col, owner);
   }
 }
 
-main()
-  .then((code) => {
-    process.exitCode = code;
-  })
-  .catch((error) => {
+// node src/scripts/verifiedContracts/sync.js
+// The same function the scheduled job of the scan calls, see src/jobs.
+async function main() {
+  const failed = await syncVerifiedContracts();
+  await (await getReviveDb()).close();
+  process.exitCode = failed > 0 ? 1 : 0;
+}
+
+if (require.main === module) {
+  main().catch((error) => {
     console.error(
       new Date().toISOString(),
       "Verified contract sync failed",
@@ -261,3 +244,8 @@ main()
     );
     process.exitCode = 1;
   });
+}
+
+module.exports = {
+  syncVerifiedContracts,
+};
