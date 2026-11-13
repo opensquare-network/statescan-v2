@@ -4,6 +4,7 @@ import { createFetchIdentity } from "@osn/common";
 import { gql } from "@apollo/client";
 import { IDENTITY_ID_TYPE, IDENTITY_JUDGEMENT } from "../utils/constants";
 import { useIdentityLazyQuery } from "./apollo";
+import { isEvmAddress } from "../utils/reviveAddress";
 
 export const fetchIdentity = createFetchIdentity(
   process.env.REACT_APP_PUBLIC_IDENTITY_SERVER_HOST,
@@ -15,12 +16,13 @@ export function useIdentity(address = "") {
   const chainSettings = useChainSettings();
   const { modules } = chainSettings;
   const hasIdentity = modules?.identity;
+  const addressIsEvm = isEvmAddress(address);
 
   const [identity, setIdentity] = useState(identityCacheMap[address]);
   const fetcher = useGqlFetcher(address);
 
   useEffect(() => {
-    if (identity) {
+    if (identity || addressIsEvm) {
       return;
     }
 
@@ -40,7 +42,14 @@ export function useIdentity(address = "") {
         identityCacheMap[address] = identity;
       });
     }
-  }, [identity, address, hasIdentity, chainSettings.identity, fetcher]);
+  }, [
+    identity,
+    address,
+    hasIdentity,
+    chainSettings.identity,
+    fetcher,
+    addressIsEvm,
+  ]);
 
   return identity;
 }

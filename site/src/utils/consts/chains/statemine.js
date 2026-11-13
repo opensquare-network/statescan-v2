@@ -25,6 +25,7 @@ const statemine = {
       nominations: true,
       validators: true,
     },
+    revive: true,
   },
   para: {
     relay: "Kusama",

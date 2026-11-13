@@ -17,6 +17,7 @@ import Tooltip from "../tooltip";
 import { ReactComponent as IdentitySpecial } from "../icons/identity/identity-special.svg";
 import { FlexCenter } from "../styled/flex";
 import { normalizeAddress } from "../../utils/normalizeAddress";
+import { isEvmAddress } from "../../utils/reviveAddress";
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -83,6 +84,7 @@ export function AddressAndIdentity({
   checkMultisig = false,
 }) {
   const normalizedAddress = normalizeAddress(address);
+  const addressIsEvm = isEvmAddress(normalizedAddress);
   const identity = useIdentity(normalizedAddress);
   const displayAddress = ellipsis
     ? addressEllipsis(normalizedAddress)
@@ -91,10 +93,10 @@ export function AddressAndIdentity({
     useMultisigAddressLazyData(normalizedAddress);
 
   useEffect(() => {
-    if (checkMultisig) {
+    if (checkMultisig && !addressIsEvm) {
       fetchMultisigAddressData();
     }
-  }, [checkMultisig, fetchMultisigAddressData]);
+  }, [checkMultisig, addressIsEvm, fetchMultisigAddressData]);
 
   const AddressTag = ellipsis ? AddressLink : AddressLinkWithCopy;
 
@@ -137,9 +139,12 @@ function AddressOrIdentity({
   noLink = false,
 }) {
   const normalizedAddress = normalizeAddress(address);
-  const knownAddr = KNOWN_ADDR_MATCHERS.map((matcher) =>
-    matcher(normalizedAddress),
-  ).find(Boolean);
+  const addressIsEvm = isEvmAddress(normalizedAddress);
+  const knownAddr =
+    !addressIsEvm &&
+    KNOWN_ADDR_MATCHERS.map((matcher) => matcher(normalizedAddress)).find(
+      Boolean,
+    );
 
   const identity = useIdentity(normalizedAddress);
   let displayAddress = ellipsis

@@ -6,12 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import GlobalProvider from "./context/provider";
+import { VerifiedContractsProvider } from "./context/verifiedContracts";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <GlobalProvider>
-      <App />
+      <VerifiedContractsProvider>
+        <App />
+      </VerifiedContractsProvider>
     </GlobalProvider>
   </Provider>,
 );

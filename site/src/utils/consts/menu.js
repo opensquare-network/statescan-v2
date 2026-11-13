@@ -109,6 +109,23 @@ export const proxyMenu = {
   value: "proxy",
 };
 
+export const contractSubMenus = [
+  {
+    name: "Contracts",
+    value: "contracts",
+  },
+  {
+    name: "ERC20 Tokens",
+    value: "tokens",
+  },
+];
+
+const contractMenus = {
+  type: "group",
+  title: "Contract",
+  menus: contractSubMenus,
+};
+
 export default function getBusinessMenus() {
   const {
     identity,
@@ -119,6 +136,7 @@ export default function getBusinessMenus() {
     assets,
     foreignAssets,
     staking,
+    revive,
   } = getChainModules();
   const hasDivider = identity && multisig;
 
@@ -177,6 +195,13 @@ export default function getBusinessMenus() {
       menus.push(divider);
     }
     menus.push(foreignAssetsMenuItem);
+  }
+
+  if (revive) {
+    if (menus.length > 0) {
+      menus.push(divider);
+    }
+    menus.push(contractMenus);
   }
 
   return menus;

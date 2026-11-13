@@ -24,13 +24,16 @@ import {
   getNftStatus,
 } from "../nft";
 import { time } from "./time";
-import { TextSecondary } from "../../components/styled/text";
+import { MonoText, TextSecondary } from "../../components/styled/text";
 import NftStatus from "../../components/nft/status";
 import NftName from "../../components/nft/name";
 import Thumbnail from "../../components/nft/thumbnail";
 import getTransferDecimals from "./transferDecimals";
 import ExtrinsicLink from "../../components/extrinsic/link";
 import CallCell from "../../components/table/callCell";
+import ContractCallMethod from "../../components/table/contractCallMethod";
+import ContractCallParams from "../../components/table/contractCallParams";
+import ContractLabel from "../../components/extrinsic/contractLabel";
 import AssetSymbolAndName from "../../components/asset/assetSymbolAndName";
 import { addressEllipsis } from "@osn/common";
 import ForeignAssetsLocation from "../../components/foreignAssetsLocation";
@@ -90,6 +93,158 @@ export const toTransferTabTableItem = (transfers, chainSetting) => {
             symbol={getTransferSymbol(transfer, chainSetting.symbol)}
           />
         </Tooltip>,
+      ];
+    }) ?? null
+  );
+};
+
+export const toContractsTableItem = (contracts = []) => {
+  return (
+    contracts?.map((contract, index) => {
+      const { address, deployer, callsCount, codeLen, indexer } =
+        contract || {};
+
+      return [
+        <ContractLabel key={`${index}-1`} address={address} />,
+        deployer ? (
+          <AddressOrIdentity key={`${index}-2`} address={deployer} />
+        ) : (
+          <TextSecondary key={`${index}-2`}>--</TextSecondary>
+        ),
+        <TextSecondary key={`${index}-3`} style={{ whiteSpace: "nowrap" }}>
+          {(callsCount ?? 0).toLocaleString()}
+        </TextSecondary>,
+        <TextSecondary key={`${index}-4`} style={{ whiteSpace: "nowrap" }}>
+          {codeLen ? `${codeLen.toLocaleString()} bytes` : "--"}
+        </TextSecondary>,
+        indexer?.blockHeight ? (
+          <ColoredLink key={`${index}-5`} to={`/blocks/${indexer.blockHeight}`}>
+            {indexer.blockHeight.toLocaleString()}
+          </ColoredLink>
+        ) : (
+          <TextSecondary key={`${index}-5`}>--</TextSecondary>
+        ),
+        indexer?.blockTime ?? null,
+      ];
+    }) ?? null
+  );
+};
+
+export const toTokensTableItem = (tokens = []) => {
+  return (
+    tokens?.map((token, index) => {
+      const {
+        address,
+        name,
+        symbol,
+        decimals,
+        totalSupply,
+        precompile,
+        assetId,
+      } = token || {};
+      // A precompile token is an asset of the pallet-assets, the asset page is its
+      // canonical page, a deployed token is a contract.
+      const to =
+        precompile && assetId ? `/assets/${assetId}` : `/contracts/${address}`;
+
+      return [
+        address && name ? (
+          <ColoredLink key={`${index}-1`} to={to} style={{ fontWeight: 500 }}>
+            {name}
+          </ColoredLink>
+        ) : null,
+        <TextSecondary key={`${index}-2`}>{symbol}</TextSecondary>,
+        address ? (
+          <Tooltip key={`${index}-3`} tip={address}>
+            {precompile ? (
+              // A precompile has no contract page, the address is not linked.
+              <MonoText>{hashEllipsis(address, 8, 6)}</MonoText>
+            ) : (
+              <ColoredMonoLink to={to}>
+                {hashEllipsis(address, 8, 6)}
+              </ColoredMonoLink>
+            )}
+          </Tooltip>
+        ) : null,
+        <TextSecondary key={`${index}-4`} style={{ whiteSpace: "nowrap" }}>
+          {decimals}
+        </TextSecondary>,
+        <ValueDisplay
+          key={`${index}-5`}
+          value={toPrecision(totalSupply ?? 0, decimals ?? 0)}
+          symbol={symbol}
+          showNotEqualTooltip
+        />,
+      ];
+    }) ?? null
+  );
+};
+
+export const toContractCallsTabTableItem = (calls = []) => {
+  return (
+    calls?.map((call, index) => {
+      const caller = call?.caller;
+
+      return [
+        <ExtrinsicLink key={`${index}-1`} indexer={call?.indexer} />,
+        call?.indexer?.blockTime,
+        <ContractCallMethod key={`${index}-2`} call={call} />,
+        caller ? (
+          <AddressOrIdentity key={`${index}-3`} address={caller} />
+        ) : (
+          <TextSecondary key={`${index}-3`}>--</TextSecondary>
+        ),
+        call?.isSuccess ? (
+          <CheckIcon key={`${index}-4`} />
+        ) : (
+          <CrossIcon key={`${index}-4`} />
+        ),
+        <ContractCallParams key={`${index}-5`} call={call} />,
+      ];
+    }) ?? null
+  );
+};
+
+export const toAccountCallsTabTableItem = (calls = []) => {
+  return (
+    calls?.map((call, index) => {
+      return [
+        <ExtrinsicLink key={`${index}-1`} indexer={call?.indexer} />,
+        call?.indexer?.blockTime,
+        <ContractLabel key={`${index}-2`} address={call?.dest} />,
+        <ContractCallMethod key={`${index}-3`} call={call} />,
+        call?.isSuccess ? (
+          <CheckIcon key={`${index}-4`} />
+        ) : (
+          <CrossIcon key={`${index}-4`} />
+        ),
+        <ContractCallParams key={`${index}-5`} call={call} />,
+      ];
+    }) ?? null
+  );
+};
+
+export const toAccountContractsTabTableItem = (contracts = []) => {
+  return (
+    contracts?.map((contract, index) => {
+      const { address, callsCount, codeLen, indexer } = contract || {};
+
+      return [
+        <ContractLabel key={`${index}-1`} address={address} />,
+        <TextSecondary key={`${index}-2`} style={{ whiteSpace: "nowrap" }}>
+          {(callsCount ?? 0).toLocaleString()}
+        </TextSecondary>,
+        <TextSecondary key={`${index}-3`} style={{ whiteSpace: "nowrap" }}>
+          {codeLen ? `${codeLen.toLocaleString()} bytes` : "--"}
+        </TextSecondary>,
+        indexer?.blockHeight ? (
+          <ColoredLink key={`${index}-4`} to={`/blocks/${indexer.blockHeight}`}>
+            {indexer.blockHeight.toLocaleString()}
+          </ColoredLink>
+        ) : (
+          <TextSecondary key={`${index}-4`}>--</TextSecondary>
+        ),
+        indexer?.blockTime ?? null,
       ];
     }) ?? null
   );

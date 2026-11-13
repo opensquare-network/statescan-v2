@@ -13,7 +13,9 @@ const {
   block: { initBlockDb },
   account: { initAccountScanDb },
   runtime: { initRuntimeScanDb },
+  palletRevive: { initPalletReviveScanDb },
 } = require("@statescan/mongo");
+const { hasRevive } = require("./env");
 
 const app = new Koa();
 
@@ -32,6 +34,9 @@ const port = parseInt(process.env.PORT) || 5010;
   await initBlockDb();
   await initAccountScanDb();
   await initRuntimeScanDb();
+  if (hasRevive()) {
+    await initPalletReviveScanDb();
+  }
   await startJobs();
   await setupSocketAndEmit(server);
 

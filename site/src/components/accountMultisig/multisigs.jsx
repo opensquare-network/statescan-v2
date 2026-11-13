@@ -1,7 +1,7 @@
 import { useMultisigQuery } from "../../hooks/apollo";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { useQueryParams } from "../../hooks/useQueryParams";
-import { useParams } from "react-router-dom";
+import { useAccountAddress } from "../account/context/accountAddressContext";
 import { StyledPanelTableWrapperNoBordered } from "../styled/panel";
 import Pagination from "../pagination";
 import MultisigTable from "../multisig/table";
@@ -9,7 +9,7 @@ import { GET_MULTISIGS } from "../../services/gqls";
 import { useState } from "react";
 
 export default function AccountTabMultisigMultisigs() {
-  const { id } = useParams();
+  const address = useAccountAddress();
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const [data, setData] = useState(null);
@@ -18,7 +18,7 @@ export default function AccountTabMultisigMultisigs() {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
-      account: id,
+      account: address,
     },
     onCompleted: setData,
   });

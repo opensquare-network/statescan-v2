@@ -1,0 +1,41 @@
+{
+  "name": "@statescan/pallet-revive-scan",
+  "main": "src/index.js",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">18.0.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest src",
+    "sync:verified-contracts": "node src/scripts/verifiedContracts/sync.js",
+    "sync:contracts": "node src/scripts/contracts/syncContracts.js",
+    "sync:tokens": "node src/scripts/tokens/syncTokens.js"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "jest"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:jest/recommended"
+    ],
+    "env": {
+      "jest/globals": true
+    }
+  },
+  "dependencies": {
+    "@osn/scan-common": "^1.2.2",
+    "@polkadot/util": "^14.0.3",
+    "@polkadot/util-crypto": "^14.0.3",
+    "@statescan/common": "1.0.0",
+    "@statescan/mongo": "1.0.0",
+    "cron": "^3.1.7",
+    "dotenv": "^16.0.1"
+  },
+  "devDependencies": {
+    "eslint-plugin-jest": "^27.2.1",
+    "jest": "^28.1.3"
+  }
+}

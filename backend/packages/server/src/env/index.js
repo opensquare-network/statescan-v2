@@ -38,9 +38,16 @@ function isUniquesChain() {
   return uniquesModuleChains.includes(chain);
 }
 
+// The revive business is served from its own database, which only the deployments which
+// scan it configure.
+function hasRevive() {
+  return !!process.env.MONGO_PALLET_REVIVE_SCAN_NAME;
+}
+
 module.exports = {
   isPolimec,
   currentChain,
   isAssetsChain,
   isUniquesChain,
+  hasRevive,
 };

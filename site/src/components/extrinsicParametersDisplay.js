@@ -4,6 +4,8 @@ import {
   convertArgsForTableView,
 } from "../utils/dataTransformer";
 import DataDisplay from "./dataDisplay";
+import { ReviveCallFormatProvider } from "./extrinsic/reviveCallData";
+import { useVerifiedContractsVersion } from "../context/verifiedContracts";
 
 export default function ExtrinsicParametersDisplay({
   extrinsic,
@@ -12,6 +14,7 @@ export default function ExtrinsicParametersDisplay({
 }) {
   const [tableData, setTableData] = useState();
   const [jsonData, setJsonData] = useState();
+  const verifiedContractsVersion = useVerifiedContractsVersion();
 
   useEffect(() => {
     if (!extrinsic) {
@@ -20,14 +23,16 @@ export default function ExtrinsicParametersDisplay({
     const { section, method, args = [] } = extrinsic?.call || extrinsic;
     setTableData(convertArgsForTableView(args, section, method));
     setJsonData(convertArgsForJsonView(args, section, method));
-  }, [extrinsic]);
+  }, [extrinsic, verifiedContractsVersion]);
 
   return (
-    <DataDisplay
-      tableData={tableData}
-      JSONData={jsonData}
-      title={title}
-      className={className}
-    />
+    <ReviveCallFormatProvider>
+      <DataDisplay
+        tableData={tableData}
+        JSONData={jsonData}
+        title={title}
+        className={className}
+      />
+    </ReviveCallFormatProvider>
   );
 }

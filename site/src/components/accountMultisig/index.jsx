@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useAccountAddress } from "../account/context/accountAddressContext";
 import { useMultisigAddressData } from "../../hooks/multisig/useMultisigAddressData";
 import { Panel } from "../styled/panel";
 import { useQueryParams } from "../../hooks/useQueryParams";
@@ -11,8 +11,8 @@ import { ReactComponent as IconMultisig } from "../icons/multisig.svg";
 import { ReactComponent as IconMultisigAccount } from "../icons/multisig-account.svg";
 
 export default function AccountTabMultisig() {
-  const { id } = useParams();
-  const { data: multisigAddressData } = useMultisigAddressData(id);
+  const address = useAccountAddress();
+  const { data: multisigAddressData } = useMultisigAddressData(address);
   const { sub } = useQueryParams();
   const updateQueryParams = useQueryParamsUpdater();
 

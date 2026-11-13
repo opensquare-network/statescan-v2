@@ -26,12 +26,14 @@ import {
   extrinsicUniqueTransfersApi,
 } from "../../services/urls";
 import ExtrinsicDetailTabs from "./detailTabs";
+import { useVerifiedContractsVersion } from "../../context/verifiedContracts";
 
 function Extrinsic() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const extrinsic = useSelector(extrinsicDetailSelector);
   const { modules } = useChainSettings();
+  const verifiedContractsVersion = useVerifiedContractsVersion();
 
   const [assetTransferredList, setAssetTransferredList] = useState([]);
   const [uniqueTransferredList, setUniqueTransferredList] = useState([]);
@@ -45,7 +47,15 @@ function Extrinsic() {
             uniqueTransferredList,
           })
         : {},
-    [extrinsic, modules, assetTransferredList, uniqueTransferredList],
+    // Recompute the decoded call once the verified contracts are loaded.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      extrinsic,
+      modules,
+      assetTransferredList,
+      uniqueTransferredList,
+      verifiedContractsVersion,
+    ],
   );
 
   useEffect(() => {
