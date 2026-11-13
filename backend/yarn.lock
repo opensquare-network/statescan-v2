@@ -2394,6 +2394,7 @@ __metadata:
     "@polkadot/util-crypto": "npm:^14.0.3"
     "@statescan/common": "npm:1.0.0"
     "@statescan/mongo": "npm:1.0.0"
+    cron: "npm:^3.1.7"
     dotenv: "npm:^16.0.1"
     eslint-plugin-jest: "npm:^27.2.1"
     jest: "npm:^28.1.3"

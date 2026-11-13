@@ -8,17 +8,13 @@ const {
   logger,
 } = require("@osn/scan-common");
 const {
-  palletRevive: { getContractCol, initPalletReviveScanDb },
+  palletRevive: { getContractCol },
 } = require("@statescan/mongo");
 const { saveObservedContract } = require("../../scan/contracts");
 const { resolveNetwork, checkNodeChain } = require("../networks");
 
 // The state of a block this old is served by an archive node only.
 const STATE_PROBE_DEPTH = 1000000;
-
-// The chain of the node in WS_ENDPOINT decides what is in the state, a chain this package
-// does not index is rejected here, before anything is read.
-const network = resolveNetwork();
 
 // The address is the first argument of the `revive.accountInfoOf(address)` storage key.
 function getEntryAddress(key) {
@@ -62,11 +58,16 @@ async function ensureStateHistory(api, blockHeight) {
   }
 }
 
-async function main() {
-  console.log(`Reading the ${network.name} contract state`);
-
-  const api = await getApi();
+// The contracts of the chain state the database does not know yet. The scan finds a
+// contract by the events of its deployment, so one which deploys without leaving a log is
+// only visible here.
+async function syncContracts({ limit = 0, api: givenApi = null } = {}) {
+  // The chain of the node in WS_ENDPOINT decides what is in the state, a chain this
+  // package does not index is rejected here, before anything is read.
+  const network = resolveNetwork();
+  const api = givenApi ?? (await getApi());
   checkNodeChain(api, network);
+  console.log(`Reading the ${network.name} contract state`);
   const header = await api.rpc.chain.getHeader();
   const blockHeight = header.number.toNumber();
   const blockHash = (await api.rpc.chain.getBlockHash(blockHeight)).toHex();
@@ -78,7 +79,6 @@ async function main() {
     `${contracts.length} contracts in the state of block ${blockHeight}`,
   );
 
-  await initPalletReviveScanDb();
   const col = await getContractCol();
   const knownContracts = await col
     .find({}, { projection: { _id: 0, address: 1 } })
@@ -87,7 +87,6 @@ async function main() {
   const missing = contracts.filter(({ address }) => !known.has(address));
   console.log(`${missing.length} contracts are not indexed`);
 
-  const limit = parseInt(process.argv[2] || "0");
   const queue = limit > 0 ? missing.slice(0, limit) : missing;
 
   const block = {
@@ -137,14 +136,39 @@ async function main() {
     Array.from({ length: Math.min(concurrency, queue.length) }, worker),
   );
 
-  console.log(`${added} contracts added, ${skipped} skipped, ${failed} failed`);
+  return {
+    network: network.name,
+    blockHeight,
+    contracts: contracts.length,
+    missing: missing.length,
+    added,
+    skipped,
+    failed,
+  };
+}
+
+// node src/scripts/contracts/syncContracts.js [limit]
+// The same function the scheduled job of the scan calls, see src/jobs.
+async function main() {
+  const result = await syncContracts({
+    limit: parseInt(process.argv[2] || "0"),
+  });
+  console.log(
+    `${result.added} contracts added, ${result.skipped} skipped, ${result.failed} failed`,
+  );
   process.exit(0);
 }
 
-main().catch((e) => {
-  console.error(
-    `Error in syncing the contracts of the chain state: ${e.message}`,
-  );
-  logger.error("Error in syncing the contracts of the chain state", e);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((e) => {
+    console.error(
+      `Error in syncing the contracts of the chain state: ${e.message}`,
+    );
+    logger.error("Error in syncing the contracts of the chain state", e);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  syncContracts,
+};

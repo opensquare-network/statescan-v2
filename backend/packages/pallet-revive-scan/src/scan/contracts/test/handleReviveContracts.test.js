@@ -17,6 +17,8 @@ const ETH_TRANSACT_PAYLOAD =
 
 let mockApi = null;
 let mockContracts = [];
+let mockTokens = [];
+let mockVerifiedAddresses = new Set();
 
 jest.mock("@osn/scan-common", () => ({
   chain: {
@@ -33,9 +35,20 @@ jest.mock("@statescan/mongo", () => ({
       find: () => ({
         toArray: async () => mockContracts.map(({ address }) => ({ address })),
       }),
+      findOne: async ({ address }) =>
+        mockContracts.find((contract) => contract.address === address) || null,
       updateOne: async (filter, update) => {
         mockContracts.push(update.$setOnInsert);
       },
+    }),
+    getTokenCol: async () => ({
+      updateOne: async (filter, update) => {
+        mockTokens.push(update.$set);
+      },
+    }),
+    getVerifiedContractCol: async () => ({
+      findOne: async ({ address }) =>
+        mockVerifiedAddresses.has(address) ? { _id: address } : null,
     }),
   },
 }));
@@ -56,8 +69,22 @@ function someAccountInfo() {
 const noneAccountInfo = { isEmpty: true };
 
 // A chain where the contract account info appears at `creationHeight` and stays.
-function makeApi(creationHeight) {
+function makeApi(creationHeight, { token = false } = {}) {
   return {
+    call: {
+      reviveApi: {
+        call: async (origin, address, value, weight, deposit, data) => {
+          const answer = token ? TOKEN_ANSWERS[data] : null;
+          return answer
+            ? {
+                toJSON: () => ({
+                  result: { ok: { flags: { bits: 0 }, data: answer } },
+                }),
+              }
+            : REVERTED_GETTER;
+        },
+      },
+    },
     query: {
       revive: {
         accountInfoOf: {
@@ -109,6 +136,42 @@ function makeBlock() {
   };
 }
 
+const TOKEN_NAME = "Vibe Pair Token";
+const TOKEN_SYMBOL = "VIBE";
+const TOKEN_DECIMALS = 18;
+const TOKEN_SUPPLY = 1000000000000000000000n;
+
+function uintWord(value) {
+  return `0x${BigInt(value).toString(16).padStart(64, "0")}`;
+}
+
+// The offset and the length of the bytes followed by the zero padded text.
+function abiString(text) {
+  const bytes = Buffer.from(text, "utf8");
+  const padding = Buffer.alloc((32 - (bytes.length % 32)) % 32);
+  return `0x${uintWord(32).slice(2)}${uintWord(bytes.length).slice(
+    2,
+  )}${Buffer.concat([bytes, padding]).toString("hex")}`;
+}
+
+function bytes32String(text) {
+  const bytes = Buffer.from(text, "utf8");
+  return `0x${Buffer.concat([bytes, Buffer.alloc(32 - bytes.length)]).toString(
+    "hex",
+  )}`;
+}
+
+const TOKEN_ANSWERS = {
+  "0x06fdde03": abiString(TOKEN_NAME),
+  "0x95d89b41": bytes32String(TOKEN_SYMBOL),
+  "0x313ce567": uintWord(TOKEN_DECIMALS),
+  "0x18160ddd": uintWord(TOKEN_SUPPLY),
+};
+
+const REVERTED_GETTER = {
+  toJSON: () => ({ result: { ok: { flags: { bits: 1 }, data: "0x" } } }),
+};
+
 const BLOCK_INDEXER = {
   blockHeight: HEIGHT,
   blockHash: hashOfHeight(HEIGHT),
@@ -127,6 +190,8 @@ const CONTRACT_EMITTED = {
 describe("handleReviveContracts", () => {
   beforeEach(() => {
     mockContracts = [];
+    mockTokens = [];
+    mockVerifiedAddresses = new Set();
   });
 
   it("stores a contract which is created by this block", async () => {
@@ -197,9 +262,52 @@ describe("handleReviveContracts", () => {
 
     expect(mockContracts).toEqual([]);
   });
+
+  it("stores the metadata of a token contract as soon as it is indexed", async () => {
+    mockApi = makeApi(HEIGHT, { token: true });
+    mockVerifiedAddresses = new Set([CONTRACT]);
+
+    await handleReviveContracts({
+      block: makeBlock(),
+      events: [CONTRACT_EMITTED],
+      blockIndexer: BLOCK_INDEXER,
+    });
+
+    expect(mockTokens).toHaveLength(1);
+    expect(mockTokens[0]).toMatchObject({
+      address: CONTRACT,
+      name: TOKEN_NAME,
+      symbol: TOKEN_SYMBOL,
+      decimals: TOKEN_DECIMALS,
+      totalSupply: TOKEN_SUPPLY.toString(),
+      standard: "ERC20",
+      verified: true,
+      deployer: SENDER,
+      codeHash: CODE_HASH,
+      indexer: { ...BLOCK_INDEXER, extrinsicIndex: 0, eventIndex: 0 },
+      readAt: { blockHeight: HEIGHT, blockTime: BLOCK_TIME },
+    });
+  });
+
+  it("keeps a contract which reverts on the getters out of the token list", async () => {
+    mockApi = makeApi(HEIGHT);
+
+    await handleReviveContracts({
+      block: makeBlock(),
+      events: [CONTRACT_EMITTED],
+      blockIndexer: BLOCK_INDEXER,
+    });
+
+    expect(mockContracts).toHaveLength(1);
+    expect(mockTokens).toEqual([]);
+  });
 });
 
 describe("saveObservedContract", () => {
+  beforeEach(() => {
+    mockContracts = [];
+  });
+
   it("indexes a contract read from the state with the given code hash", async () => {
     mockApi = makeApi(HEIGHT);
     const pristineCode = jest.fn(async () => ({

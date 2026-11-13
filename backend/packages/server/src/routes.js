@@ -24,6 +24,8 @@ const uniquesRoutes = [require("./features/uniques/routes")];
 
 const contractsRoutes = [require("./features/contracts/routes")];
 
+const tokensRoutes = [require("./features/tokens/routes")];
+
 const reviveAccountsRoutes = [require("./features/reviveAccounts/routes")];
 
 module.exports = (app) => {
@@ -45,6 +47,10 @@ module.exports = (app) => {
 
   if (hasRevive()) {
     for (const r of contractsRoutes) {
+      router.use(r.routes(), r.allowedMethods({ throw: true }));
+    }
+
+    for (const r of tokensRoutes) {
       router.use(r.routes(), r.allowedMethods({ throw: true }));
     }
 

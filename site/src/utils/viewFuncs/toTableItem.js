@@ -24,7 +24,7 @@ import {
   getNftStatus,
 } from "../nft";
 import { time } from "./time";
-import { TextSecondary } from "../../components/styled/text";
+import { MonoText, TextSecondary } from "../../components/styled/text";
 import NftStatus from "../../components/nft/status";
 import NftName from "../../components/nft/name";
 import Thumbnail from "../../components/nft/thumbnail";
@@ -125,6 +125,56 @@ export const toContractsTableItem = (contracts = []) => {
           <TextSecondary key={`${index}-5`}>--</TextSecondary>
         ),
         indexer?.blockTime ?? null,
+      ];
+    }) ?? null
+  );
+};
+
+export const toTokensTableItem = (tokens = []) => {
+  return (
+    tokens?.map((token, index) => {
+      const {
+        address,
+        name,
+        symbol,
+        decimals,
+        totalSupply,
+        precompile,
+        assetId,
+      } = token || {};
+      // A precompile token is an asset of the pallet-assets, the asset page is its
+      // canonical page, a deployed token is a contract.
+      const to =
+        precompile && assetId ? `/assets/${assetId}` : `/contracts/${address}`;
+
+      return [
+        address && name ? (
+          <ColoredLink key={`${index}-1`} to={to} style={{ fontWeight: 500 }}>
+            {name}
+          </ColoredLink>
+        ) : null,
+        <TextSecondary key={`${index}-2`}>{symbol}</TextSecondary>,
+        address ? (
+          <Tooltip key={`${index}-3`} tip={address}>
+            {precompile ? (
+              // A precompile has no contract page, the address is not linked.
+              <MonoText>{hashEllipsis(address, 8, 6)}</MonoText>
+            ) : (
+              <ColoredMonoLink to={to}>
+                {hashEllipsis(address, 8, 6)}
+              </ColoredMonoLink>
+            )}
+          </Tooltip>
+        ) : null,
+        <TextSecondary key={`${index}-4`} style={{ whiteSpace: "nowrap" }}>
+          {decimals}
+        </TextSecondary>,
+        <ValueDisplay
+          key={`${index}-5`}
+          value={toPrecision(totalSupply ?? 0, decimals ?? 0)}
+          symbol={symbol}
+          showNotEqualTooltip
+        />,
       ];
     }) ?? null
   );

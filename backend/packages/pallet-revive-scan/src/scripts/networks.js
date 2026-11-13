@@ -5,7 +5,7 @@ const networks = Object.freeze({
     chain: "statemint",
     subscanApiHost: "https://assethub-polkadot.api.subscan.io",
     blockscoutApiHost: "https://blockscout.polkadot.io",
-    blocksFile: "call-blocks.json",
+    blocksFile: "call-blocks-polkadot.json",
   },
   kusama: {
     chain: "statemine",

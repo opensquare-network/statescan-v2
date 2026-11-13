@@ -27,6 +27,8 @@ rejected instead of having its contracts indexed into the wrong database.
   the indexer of the transaction and whether that transaction succeeded.
 - `verifiedContract`: the verified contracts of a Blockscout instance, with their source code, additional sources and
   ABI. It is filled by `src/scripts/verifiedContracts/sync.js`, not by the block scan.
+- `token`: one document per ERC-20 token of the chain, with its name, symbol, decimals and total supply, read from the
+  contract state by `src/scripts/tokens/syncTokens.js`.
 
 ## Verified contracts
 
@@ -107,20 +109,69 @@ node src/scripts/contracts/syncContracts.js
 node src/scripts/contracts/syncContracts.js 10
 ```
 
-Run it from cron after the block scan caught up, or once after a rebuild, it catches the contracts which emit no log
-while being constructed. The first run walks the history of every contract it adds, the later ones only handle what
-appeared since, so give it the archive endpoint in `WS_ENDPOINT`: the creation block of a contract which was missed is
-located by reading the state of past blocks, and the script stops at the start when the endpoint does not serve them. A
-contract whose creation block cannot be confirmed is skipped instead of being indexed at a block it was not created in.
+It catches the contracts which emit no log while being constructed. The first run walks the history of every contract
+it adds, the later ones only handle what appeared since, so give it the archive endpoint in `WS_ENDPOINT`: the creation
+block of a contract which was missed is located by reading the state of past blocks, and the run stops at the start when
+the endpoint does not serve them. A contract whose creation block cannot be confirmed is skipped instead of being
+indexed at a block it was not created in.
+
+The scan process runs the same sweep by itself, from `src/jobs`, at 03:30 on the odd days of the month, i.e. every
+other day. One run at a time, and a failing run is logged and retried at the next tick instead of stopping the scan. The
+cron expression comes from `CONTRACT_SYNC_CRON`, set it to a pattern to run at another time, e.g. `0 0 5 * * *` for a
+daily run, or to `0` to keep the job out of the scan process and run the script from cron instead.
 
 The map is small on AssetHub Polkadot, a few hundred entries which fit in a single page, but it holds the externally
 owned accounts too, so it is only a snapshot: the entry of an address is written when its contract is created, which is
 what the creation block search relies on.
 
-| Variable           | Meaning                                          |
-| ------------------ | ------------------------------------------------ |
-| `SYNC_CONCURRENCY` | contracts handled in parallel, default 4         |
-| `WS_ENDPOINT`      | must be an archive endpoint, see `CHAIN` as well |
+| Variable             | Meaning                                                  |
+| -------------------- | -------------------------------------------------------- |
+| `SYNC_CONCURRENCY`   | contracts handled in parallel, default 4                 |
+| `WS_ENDPOINT`        | must be an archive endpoint, see `CHAIN` as well         |
+| `CONTRACT_SYNC_CRON` | schedule of the job in the scan process, `0` disables it |
+
+## Tokens
+
+The scan detects a token as soon as it indexes the contract which deploys it, so the `token` collection follows the
+blocks. The contracts it indexed before this hook existed, and the precompiles of the `pallet-assets`, are left to
+`src/scripts/tokens/syncTokens.js`, which sweeps them and can refresh the metadata of the whole list.
+
+Only the EIP-20 metadata getters are read, `name()`, `symbol()`, `decimals()` and `totalSupply()`: a contract which
+answers all four with a value that decodes is a token, and the four values are stored with it.
+
+The getters go through the `reviveApi.call` runtime api, which the node executes as a dry run: no transaction, no fee
+and no state change, only the weight of the node is spent. Two details of that api decide the detection:
+
+- a reverted call is reported as a successful result carrying the revert flag, so the flag is checked before the answer
+  is read;
+- a contract with a fallback answers every selector with success and no data at all, so the bytes are decoded strictly
+  (`uint256`, `uint8`, `string`, or the single word an old contract returns), and a value which does not decode means
+  the contract is not a token.
+
+The assets of the `pallet-assets` are exposed to the revive pallet as ERC-20 precompiles, one per asset, at an
+address derived from the asset id (`assetId << 128 | 0x0120 << 16`). A precompile is no deployed contract: it has no
+code and no account info, so it never reaches the `contract` collection the list is built from. The script enumerates
+the assets of the chain and reads their metadata through the same getters, so they reach the list as well. Their
+documents carry `precompile: true` and the `assetId`, and no deployer, code hash or creation indexer.
+
+```sh
+# the contracts which are not tokens yet, and the assets of the chain
+node src/scripts/tokens/syncTokens.js --network=kusama
+
+# read every contract again, which refreshes the metadata of the known tokens
+node src/scripts/tokens/syncTokens.js --network=kusama --all
+```
+
+| Flag                | Meaning                                                                        |
+| ------------------- | ------------------------------------------------------------------------------ |
+| `--network=<name>`  | `polkadot` or `kusama`, defaults to the network of `CHAIN`                     |
+| `--all`             | reads every contract and asset, otherwise the ones known as tokens are skipped |
+| `--limit=<n>`       | handles only the first n items of each queue                                   |
+| `--concurrency=<n>` | items read in parallel, defaults to `SYNC_CONCURRENCY` or 4                    |
+
+The `token` collection holds one document per token: the address, `name`, `symbol`, `decimals`, `totalSupply` as the
+string of the uint256, `standard`, whether the contract is verified, the `deployer` and `codeHash` of the contract, the
+creation `indexer` and `readAt`, the block the metadata was read at.
 
 ## Caller
 
@@ -163,9 +214,9 @@ node src/scripts/rebuild/fetchCallBlocks.js [blocks file] [--network=<name>]
 node src/scripts/rebuild/index.js [blocks file] [--network=<name>]
 ```
 
-The block lists are: `call-blocks.json` for AssetHub Polkadot, which `--network=polkadot` picks and is the default, and
-`call-blocks-kusama.json` for AssetHub Kusama, which `--network=kusama` picks. Both live in `src/scripts/rebuild`. Every
-chain has its own revive history, so the two lists are collected and scanned separately.
+The block lists are: `call-blocks-polkadot.json` for AssetHub Polkadot, which `--network=polkadot` picks and is the
+default, and `call-blocks-kusama.json` for AssetHub Kusama, which `--network=kusama` picks. Both live in
+`src/scripts/rebuild`. Every chain has its own revive history, so the two lists are collected and scanned separately.
 
 A Kusama rebuild needs the Kusama `WS_ENDPOINT`, `CHAIN` and database names in the `.env`. `index.js` refuses a list
 which does not belong to the chain it is configured for, so the two cannot be mixed up by accident.

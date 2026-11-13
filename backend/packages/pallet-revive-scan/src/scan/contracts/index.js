@@ -9,6 +9,7 @@ const { normalizeAddress } = require("../common/call");
 const { parseEthereumTransaction } = require("../common/ethereum");
 const { getReviveSection } = require("../common/section");
 const { getPristineCode, getCodeLen } = require("./code");
+const { saveReviveToken } = require("./token");
 
 function isReviveEvent(event, method) {
   return event?.section === getReviveSection() && event?.method === method;
@@ -250,7 +251,20 @@ async function handleReviveContracts({ block, events, blockIndexer }) {
   const blockApi = await findBlockApi(blockIndexer.blockHash);
   for (const address of unknown) {
     try {
-      await saveObservedContract(col, blockApi, block, candidates.get(address));
+      const saved = await saveObservedContract(
+        col,
+        blockApi,
+        block,
+        candidates.get(address),
+      );
+      // Only a contract the scan just indexed is read, the ones already in the database
+      // were handled by the run which added them.
+      if (saved) {
+        await saveReviveToken(blockApi, address, {
+          blockHeight: blockIndexer.blockHeight,
+          blockTime: blockIndexer.blockTime,
+        });
+      }
     } catch (e) {
       logger.error(
         `Error in handling contract ${address} at ${blockIndexer.blockHeight}`,

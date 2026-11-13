@@ -114,6 +114,10 @@ export const contractSubMenus = [
     name: "Contracts",
     value: "contracts",
   },
+  {
+    name: "ERC20 Tokens",
+    value: "tokens",
+  },
 ];
 
 const contractMenus = {

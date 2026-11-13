@@ -9,6 +9,7 @@ const {
   env: { isUseMetaDb },
 } = require("@osn/scan-common");
 const { scan } = require("./scan");
+const { startJobs } = require("./jobs");
 
 (async () => {
   await initPalletReviveScanDb();
@@ -20,5 +21,7 @@ const { scan } = require("./scan");
     checkSpecs();
   }
 
+  // scan() never returns, the jobs share the process and its api connection.
+  startJobs();
   await scan();
 })();

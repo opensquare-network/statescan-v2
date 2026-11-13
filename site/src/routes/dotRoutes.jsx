@@ -9,6 +9,7 @@ import Blocks from "../pages/blocks";
 import Call from "../pages/call";
 import Contract from "../pages/contract";
 import Contracts from "../pages/contracts";
+import Tokens from "../pages/tokens";
 import Calls from "../pages/calls";
 import DestroyedAssets from "../pages/destroyed/assets";
 import DestroyedNfts from "../pages/destroyed/nfts";
@@ -135,6 +136,7 @@ export default function DotRoutes() {
         <>
           <Route path="/contracts" element={<Contracts />} />
           <Route path="/contracts/:id" element={<Contract />} />
+          <Route path="/tokens" element={<Tokens />} />
         </>
       )}
       {identity && (

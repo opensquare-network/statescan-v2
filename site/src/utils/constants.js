@@ -218,6 +218,14 @@ export const contractsHead = [
   { name: "Time", type: "time", width: 200 },
 ];
 
+export const tokensHead = [
+  { name: "Token", width: 280 },
+  { name: "Symbol", width: 140 },
+  { name: "Contract", width: 300 },
+  { name: "Decimals", width: 100, align: "right" },
+  { name: "Total Supply", width: 220, align: "right" },
+];
+
 export const contractCallsHead = [
   { name: "Extrinsic ID", width: 200 },
   { name: "Time", type: "time", width: 200 },

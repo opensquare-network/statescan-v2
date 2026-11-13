@@ -43,6 +43,9 @@ export const verifiedContractsApi = "/contracts/verified";
 export const verifiedContractApi = (address) =>
   `/contracts/verified/${address}`;
 
+// revive tokens
+export const tokenListApi = "/tokens";
+
 // revive accounts
 const withSubstrateAddress = (url, substrateAddress) =>
   substrateAddress
