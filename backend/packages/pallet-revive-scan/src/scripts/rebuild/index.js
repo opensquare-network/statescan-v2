@@ -18,6 +18,8 @@ const {
   knownHeight: { initKnownHeightDb },
 } = require("@statescan/mongo");
 const { resolveNetwork, checkNodeChain } = require("../networks");
+const { syncContracts } = require("../contracts/syncContracts");
+const { syncTokens } = require("../tokens/syncTokens");
 
 const defaultConcurrency = 8;
 
@@ -32,6 +34,10 @@ const defaultConcurrency = 8;
 // --fresh ignores the stored progress and scans the list from its start again.
 // --after starts after the given height, for the runs made before the progress was kept.
 // --concurrency is the number of blocks fetched ahead, SCAN_CONCURRENCY is the default.
+// The blocks do not tell every contract, a contract which deploys without leaving a log is
+// only visible in the state, and the precompiles of the pallet-assets are no contracts at
+// all. The rebuild therefore sweeps the contract state and the token list when its blocks
+// are done, --no-sync skips that and leaves the two scripts to the caller.
 function parseArgs(argv) {
   const network = argv.find((arg) => arg.startsWith("--network="));
   const after = argv.find((arg) => arg.startsWith("--after="));
@@ -42,6 +48,7 @@ function parseArgs(argv) {
     blocksFile: argv.find((arg) => !arg.startsWith("--")),
     fresh: argv.includes("--fresh"),
     after: after ? parseInt(after.slice("--after=".length)) : null,
+    sync: !argv.includes("--no-sync"),
     concurrency: parseInt(
       concurrency
         ? concurrency.slice("--concurrency=".length)
@@ -137,6 +144,41 @@ async function saveProgressHeight(statusCol, name, height) {
   );
 }
 
+// The state sweep adds the contracts the blocks could not show, the token sweep then reads
+// the contracts it added together with the missing precompiles of the pallet-assets. A
+// finished rebuild sweeps anyway, so its blocks and the lists they feed always agree.
+// The token sweep reads every contract which is not a token yet on each run, that is the
+// minute or two a rerun costs even when nothing is missing.
+async function syncAfterBlocks() {
+  const contracts = await syncContracts();
+  console.log(
+    `contract sweep: ${contracts.missing} contracts were missing, ${contracts.added} added`,
+  );
+
+  const tokens = await syncTokens();
+  console.log(
+    `token sweep: ${tokens.added} tokens added, ${tokens.refreshed} refreshed`,
+  );
+}
+
+async function runSweeps(enabled) {
+  if (!enabled) {
+    console.log(
+      "contract and token sweeps skipped, run src/scripts/contracts/syncContracts.js " +
+        "and src/scripts/tokens/syncTokens.js when needed",
+    );
+    return true;
+  }
+
+  try {
+    await syncAfterBlocks();
+    return true;
+  } catch (e) {
+    console.error(`Error in the sync after the rebuild: ${e.message}`);
+    return false;
+  }
+}
+
 function remainingBlockHeights(allHeights, lastScanned) {
   if (lastScanned === null) {
     return allHeights;
@@ -152,6 +194,7 @@ function remainingBlockHeights(allHeights, lastScanned) {
     fresh,
     after,
     concurrency,
+    sync,
   } = parseArgs(process.argv.slice(2));
   checkConcurrency(concurrency);
   const network = resolveNetwork(networkArg);
@@ -195,7 +238,7 @@ function remainingBlockHeights(allHeights, lastScanned) {
 
   if (blockHeights.length <= 0) {
     console.log("Nothing left to scan, use --fresh to scan the list again");
-    process.exit(0);
+    process.exit((await runSweeps(sync)) ? 0 : 1);
   }
 
   const contractCol = await getContractCol();
@@ -230,5 +273,6 @@ function remainingBlockHeights(allHeights, lastScanned) {
   console.log(
     `finished, ${contractCount} contracts, ${callCount} calls indexed`,
   );
-  process.exit(0);
+
+  process.exit((await runSweeps(sync)) ? 0 : 1);
 })();

@@ -8,12 +8,7 @@ const {
   logger,
 } = require("@osn/scan-common");
 const {
-  palletRevive: {
-    initPalletReviveScanDb,
-    getContractCol,
-    getTokenCol,
-    getVerifiedContractCol,
-  },
+  palletRevive: { getContractCol, getTokenCol, getVerifiedContractCol },
 } = require("@statescan/mongo");
 const { resolveNetwork, checkNodeChain } = require("../networks");
 const { readTokenMetadata } = require("./erc20");
@@ -214,7 +209,10 @@ async function saveToken(tokenCol, counter, doc) {
   }
 }
 
-async function syncTokens(api, { label, queue, concurrency, tokenCol, toDoc }) {
+async function syncTokenQueue(
+  api,
+  { label, queue, concurrency, tokenCol, toDoc },
+) {
   const counter = createCounter(label);
   counter.total = queue.length;
 
@@ -250,16 +248,21 @@ async function readBlockIndexer(api, header) {
   return { blockHeight: header.number.toNumber(), blockTime };
 }
 
-async function main() {
-  const {
-    network: networkArg,
-    all,
-    limit,
-    concurrency,
-  } = parseArgs(process.argv.slice(2));
+// The token list of the chain: the deployed contracts answering the EIP-20 getters and
+// the precompiles of the pallet-assets. `all` reads the known tokens again, otherwise only
+// the contracts and assets which are not in the list yet are read.
+async function syncTokens({
+  network: networkArg = null,
+  all = false,
+  limit = 0,
+  concurrency = null,
+  api: givenApi = null,
+} = {}) {
   const network = resolveNetwork(networkArg);
-
-  const api = await getApi();
+  const parallel =
+    concurrency ??
+    parseInt(process.env.SYNC_CONCURRENCY || DEFAULT_CONCURRENCY, 10);
+  const api = givenApi ?? (await getApi());
   checkNodeChain(api, network);
   if (typeof api.call.reviveApi?.call !== "function") {
     throw new Error(
@@ -267,10 +270,8 @@ async function main() {
     );
   }
 
-  await initPalletReviveScanDb();
   const contractCol = await getContractCol();
   const tokenCol = await getTokenCol();
-
   const contractQueue = await getContractCandidates(
     contractCol,
     tokenCol,
@@ -283,39 +284,57 @@ async function main() {
 
   console.log(
     `Reading the ${network.name} token metadata at block ${readAt.blockHeight}, ` +
-      `${concurrency} at a time: ` +
+      `${parallel} at a time: ` +
       `${contractQueue.length} contracts, ${assetQueue.length} assets`,
   );
 
-  const contractCounter = await syncTokens(api, {
+  const contracts = await syncTokenQueue(api, {
     label: "contracts",
     queue: contractQueue,
-    concurrency,
+    concurrency: parallel,
     tokenCol,
     toDoc: (contract, metadata) =>
       toContractTokenDoc(contract, metadata, { readAt, verified }),
   });
 
-  const assetCounter = await syncTokens(api, {
+  const precompiles = await syncTokenQueue(api, {
     label: "precompiles",
     queue: assetQueue,
-    concurrency,
+    concurrency: parallel,
     tokenCol,
     toDoc: (asset, metadata) => toPrecompileTokenDoc(asset, metadata, readAt),
   });
 
-  console.log("");
-  summarize(contractCounter);
-  summarize(assetCounter);
+  return {
+    readAt,
+    contracts,
+    precompiles,
+    added: contracts.added + precompiles.added,
+    refreshed: contracts.refreshed + precompiles.refreshed,
+  };
+}
 
-  const added = contractCounter.added + assetCounter.added;
-  const refreshed = contractCounter.refreshed + assetCounter.refreshed;
-  console.log(`${added} tokens added, ${refreshed} refreshed`);
+// node src/scripts/tokens/syncTokens.js [--network=<name>] [--all] [--limit=<n>]
+// [--concurrency=<n>]
+// The same function the rebuild calls when it ends, see ../rebuild/index.js.
+async function main() {
+  const result = await syncTokens(parseArgs(process.argv.slice(2)));
+
+  console.log("");
+  summarize(result.contracts);
+  summarize(result.precompiles);
+  console.log(`${result.added} tokens added, ${result.refreshed} refreshed`);
   process.exit(0);
 }
 
-main().catch((e) => {
-  console.error(`Error in syncing the tokens of the chain: ${e.message}`);
-  logger.error("Error in syncing the tokens of the chain", e);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((e) => {
+    console.error(`Error in syncing the tokens of the chain: ${e.message}`);
+    logger.error("Error in syncing the tokens of the chain", e);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  syncTokens,
+};

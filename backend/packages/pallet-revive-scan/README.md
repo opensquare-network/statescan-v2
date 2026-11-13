@@ -116,19 +116,16 @@ the endpoint does not serve them. A contract whose creation block cannot be conf
 indexed at a block it was not created in.
 
 The scan process runs the same sweep by itself, from `src/jobs`, at 03:30 on the odd days of the month, i.e. every
-other day. One run at a time, and a failing run is logged and retried at the next tick instead of stopping the scan. The
-cron expression comes from `CONTRACT_SYNC_CRON`, set it to a pattern to run at another time, e.g. `0 0 5 * * *` for a
-daily run, or to `0` to keep the job out of the scan process and run the script from cron instead.
+other day. A failing run is logged and retried at the next tick instead of stopping the scan.
 
 The map is small on AssetHub Polkadot, a few hundred entries which fit in a single page, but it holds the externally
 owned accounts too, so it is only a snapshot: the entry of an address is written when its contract is created, which is
 what the creation block search relies on.
 
-| Variable             | Meaning                                                  |
-| -------------------- | -------------------------------------------------------- |
-| `SYNC_CONCURRENCY`   | contracts handled in parallel, default 4                 |
-| `WS_ENDPOINT`        | must be an archive endpoint, see `CHAIN` as well         |
-| `CONTRACT_SYNC_CRON` | schedule of the job in the scan process, `0` disables it |
+| Variable           | Meaning                                          |
+| ------------------ | ------------------------------------------------ |
+| `SYNC_CONCURRENCY` | contracts handled in parallel, default 4         |
+| `WS_ENDPOINT`      | must be an archive endpoint, see `CHAIN` as well |
 
 ## Tokens
 
@@ -210,8 +207,8 @@ really hold revive business, instead of scanning the chain from the genesis bloc
 # 1. Merge the heights of the deployment and call blocks into the block list
 node src/scripts/rebuild/fetchCallBlocks.js [blocks file] [--network=<name>]
 
-# 2. Scan those blocks
-node src/scripts/rebuild/index.js [blocks file] [--network=<name>]
+# 2. Scan those blocks, then complete the contract and token lists
+node src/scripts/rebuild/index.js [blocks file] [--network=<name>] [--no-sync]
 ```
 
 The block lists are: `call-blocks-polkadot.json` for AssetHub Polkadot, which `--network=polkadot` picks and is the
@@ -223,6 +220,12 @@ which does not belong to the chain it is configured for, so the two cannot be mi
 
 The list is always scanned in ascending block order, so a completed run ends at its newest block and a normal revive-scan
 continues from the height right after it.
+
+The blocks do not tell the whole story, so the rebuild completes the index when they are done: it sweeps the contract
+state, which is the only trace of a contract deployed without emitting a log, and then the token list, which also covers
+the precompiles of the `pallet-assets`. `--no-sync` skips both and leaves them to the caller. The token sweep reads every
+contract which is not a token yet on each run, a minute or two of node work, so it is worth the skip when the rebuild is
+only replayed to pick up a few blocks.
 
 `fetchCallBlocks.js` reads the `revive.Instantiated` events from the
 [subscan open api](https://support.subscan.io) and merges the block heights into the block list, which is kept sorted
