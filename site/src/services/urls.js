@@ -35,6 +35,30 @@ export const achainableProfileApi = (id) =>
 // transfers
 export const transferListApi = "/transfers";
 
+// revive contracts
+export const contractListApi = "/contracts";
+export const contractApi = (address) => `/contracts/${address}`;
+export const contractCallsApi = (address) => `/contracts/${address}/calls`;
+export const verifiedContractsApi = "/contracts/verified";
+export const verifiedContractApi = (address) =>
+  `/contracts/verified/${address}`;
+
+// revive tokens
+export const tokenListApi = "/tokens";
+
+// revive accounts
+const withSubstrateAddress = (url, substrateAddress) =>
+  substrateAddress
+    ? `${url}?substrateAddress=${encodeURIComponent(substrateAddress)}`
+    : url;
+
+export const reviveAccountCallsApi = (address, substrateAddress) =>
+  withSubstrateAddress(`/accounts/${address}/calls`, substrateAddress);
+export const reviveAccountContractsApi = (address) =>
+  `/accounts/${address}/contracts`;
+export const reviveAccountSummaryApi = (address, substrateAddress) =>
+  withSubstrateAddress(`/accounts/${address}/revive-summary`, substrateAddress);
+
 // assets
 export const assetListApi = "/assets";
 export const assetApi = (id) => `/assets/${id}`;

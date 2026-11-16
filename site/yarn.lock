@@ -12745,6 +12745,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prismjs@npm:^1.30.0":
+  version: 1.30.0
+  resolution: "prismjs@npm:1.30.0"
+  checksum: 10/6b48a2439a82e5c6882f48ebc1564c3890e16463ba17ac10c3ad4f62d98dea5b5c915b172b63b83023a70ad4f5d7be3e8a60304420db34a161fae69dd4e3e2da
+  languageName: node
+  linkType: hard
+
 "proc-log@npm:^7.0.0":
   version: 7.0.0
   resolution: "proc-log@npm:7.0.0"
@@ -14265,6 +14272,7 @@ __metadata:
     lodash.startcase: "npm:^4.4.0"
     lodash.toupper: "npm:^4.1.2"
     moment: "npm:^2.29.4"
+    prismjs: "npm:^1.30.0"
     query-string: "npm:^7.1.1"
     react: "npm:^18.2.0"
     react-chartjs-2: "npm:^5.1.0"

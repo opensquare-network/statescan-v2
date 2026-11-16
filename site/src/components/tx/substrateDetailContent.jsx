@@ -8,9 +8,11 @@ import { toExtrinsicDetailItem } from "../../utils/viewFuncs/toDetailItem";
 import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 import List from "../list";
 import { Panel } from "../styled/panel";
+import { useVerifiedContractsVersion } from "../../context/verifiedContracts";
 
 export default function TxSubstrateDetailContent({ data = {} }) {
   const { modules } = useChainSettings();
+  const verifiedContractsVersion = useVerifiedContractsVersion();
   const finalizedHeight = useSelector(finalizedHeightSelector);
   const { blockHeight, extrinsicIndex } = data?.indexer || {};
   const isFinalized = blockHeight <= finalizedHeight;
@@ -35,13 +37,14 @@ export default function TxSubstrateDetailContent({ data = {} }) {
     };
   }, [chainExtrinsic, isFinalized, loading]);
 
+  // Recompute the decoded call once the verified contracts are loaded.
   const listData = useMemo(() => {
     if (loading) {
       return [];
     }
 
     return toExtrinsicDetailItem(extrinsic, { modules });
-  }, [extrinsic, modules, loading]);
+  }, [extrinsic, modules, loading, verifiedContractsVersion]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

@@ -12,6 +12,7 @@ const palletRecovery = require("./palletRecovery");
 const palletProxy = require("./palletProxy");
 const foreignAsset = require("./foreignAsset");
 const palletStaking = require("./palletStaking");
+const palletRevive = require("./palletRevive");
 
 module.exports = {
   account,
@@ -28,4 +29,5 @@ module.exports = {
   foreignAsset,
   knownHeight,
   palletStaking,
+  palletRevive,
 };

@@ -16,6 +16,8 @@ import {
   transfersHead,
   ACCOUNT_IDENTITY_TAB_NAME,
   extrinsicsHeadSimpleMode,
+  accountCallsHead,
+  ReviveCalls,
 } from "../../utils/constants";
 import DetailTable from "../detail/table";
 import {
@@ -25,6 +27,7 @@ import {
   toTransferTabTableItem,
   toInstancesTabTableItem,
   toExtrinsicsTabTableItemSimpleMode,
+  toAccountCallsTabTableItem,
 } from "../../utils/viewFuncs/toTableItem";
 import { clearDetailTables } from "../../store/reducers/detailTablesSlice";
 import {
@@ -38,9 +41,12 @@ import { NftInstancePreview } from "../nft/preview/index";
 import useAccountIdentity from "../accountIdentity";
 import { useMultisigAddressData } from "../../hooks/multisig/useMultisigAddressData";
 import AccountTabMultisig from "../accountMultisig";
-import { getChainModules } from "../../utils/chain";
+import { getChainModules, hasRevive } from "../../utils/chain";
 import { getIsSimpleMode } from "../../utils/env";
+import useReviveAccountSummary from "../../hooks/revive/useReviveAccountSummary";
+import { reviveAccountCallsApi } from "../../services/urls";
 import AccountDetailRecoverablesTab from "./tabs/recoverables";
+import { AccountAddressProvider } from "./context/accountAddressContext";
 import { useRecoverablesData } from "../../hooks/recovery/useRecoverablesData";
 import { useQuery } from "@apollo/client";
 import {
@@ -55,16 +61,25 @@ import {
 } from "./context/foreignAssetsContext";
 import AccountTabStaking from "../accountStaking";
 
-function AccountDetailCommonInContext({ id }) {
+function AccountDetailCommonInContext({
+  address,
+  extraTabs = [],
+  showReviveCalls = true,
+  reviveCalls = null,
+}) {
   const chainSetting = useSelector(chainSettingSelector);
   const dispatch = useDispatch();
   const [previewNft, setPreviewNft] = useState();
   const [isPreview, setIsPreview] = useState(false);
-  const { data: multisigAddressData } = useMultisigAddressData(id);
+  const { data: multisigAddressData } = useMultisigAddressData(address);
   const { multisig: hasMultisig } = getChainModules();
   const isSimpleMode = getIsSimpleMode();
-  const { data: recoverables } = useRecoverablesData({ lostAccount: id });
+  const { data: recoverables } = useRecoverablesData({ lostAccount: address });
   const { foreignAssetsCount } = useAccountForeignAssets();
+  const reviveCallsEnabled = showReviveCalls && hasRevive();
+  const reviveSummary = useReviveAccountSummary(
+    reviveCallsEnabled && !reviveCalls ? address : null,
+  );
 
   const showPreview = useCallback((nft) => {
     setPreviewNft(nft);
@@ -80,12 +95,13 @@ function AccountDetailCommonInContext({ id }) {
     };
   }, [dispatch]);
 
-  const { hasIdentity, component: accountIdentity } = useAccountIdentity(id);
+  const { hasIdentity, component: accountIdentity } =
+    useAccountIdentity(address);
 
-  const transfersApiKey = `/accounts/${id}/transfers`;
-  const extrinsicsApiKey = `/accounts/${id}/extrinsics`;
-  const nftInstanceApiKey = `/accounts/${id}/nft/instances`;
-  const nftTransfersApiKey = `/accounts/${id}/nft/transfers`;
+  const transfersApiKey = `/accounts/${address}/transfers`;
+  const extrinsicsApiKey = `/accounts/${address}/extrinsics`;
+  const nftInstanceApiKey = `/accounts/${address}/nft/instances`;
+  const nftTransfersApiKey = `/accounts/${address}/nft/transfers`;
 
   const tabs = [
     {
@@ -100,6 +116,17 @@ function AccountDetailCommonInContext({ id }) {
               ? toExtrinsicsTabTableItemSimpleMode
               : toExtrinsicsTabTableItem
           }
+        />
+      ),
+    },
+    reviveCallsEnabled && {
+      name: ReviveCalls,
+      count: reviveCalls?.count ?? reviveSummary?.callsCount,
+      children: (
+        <DetailTable
+          url={reviveCalls?.url ?? reviveAccountCallsApi(address)}
+          heads={accountCallsHead}
+          transformData={toAccountCallsTabTableItem}
         />
       ),
     },
@@ -120,7 +147,7 @@ function AccountDetailCommonInContext({ id }) {
       children: (
         <DetailTableGraphql
           graphql={GET_ACCOUNT_ASSET}
-          id={id}
+          id={address}
           heads={accountAssetsHead}
           transformData={toAssetsTabItem}
         />
@@ -195,17 +222,20 @@ function AccountDetailCommonInContext({ id }) {
       name: "staking",
       children: <AccountTabStaking />,
     },
+    ...extraTabs,
   ].filter(Boolean);
 
   useEffect(() => {
-    if (id) {
-      dispatch(accountFetchSummary(id));
+    if (address) {
+      dispatch(accountFetchSummary(address));
     }
-  }, [dispatch, id]);
+  }, [dispatch, address]);
 
   return (
     <>
-      {chainSetting.modules?.assets && id && <DetailAssetsSummary id={id} />}
+      {chainSetting.modules?.assets && address && (
+        <DetailAssetsSummary id={address} />
+      )}
       <DetailTabs tabs={tabs} />
       <NftInstancePreview
         open={isPreview}
@@ -217,12 +247,25 @@ function AccountDetailCommonInContext({ id }) {
   );
 }
 
-export default function AccountDetailCommon() {
+export default function AccountDetailCommon({
+  address,
+  extraTabs = [],
+  showReviveCalls = true,
+  reviveCalls = null,
+}) {
   const { id } = useParams();
+  const accountAddress = address || id;
   return (
-    <AccountForeignAssetsProvider address={id}>
-      <AccountDetailCommonInContext id={id} />
-    </AccountForeignAssetsProvider>
+    <AccountAddressProvider address={accountAddress}>
+      <AccountForeignAssetsProvider address={accountAddress}>
+        <AccountDetailCommonInContext
+          address={accountAddress}
+          extraTabs={extraTabs}
+          showReviveCalls={showReviveCalls}
+          reviveCalls={reviveCalls}
+        />
+      </AccountForeignAssetsProvider>
+    </AccountAddressProvider>
   );
 }
 

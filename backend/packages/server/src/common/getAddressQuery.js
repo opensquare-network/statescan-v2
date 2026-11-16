@@ -1,4 +1,4 @@
-const { encodeAddress } = require("@polkadot/util-crypto");
+const { encodeAddress, isEthereumAddress } = require("@polkadot/util-crypto");
 const {
   getSs58FormatOrThrow,
   hasLegacySs58Format,
@@ -21,6 +21,12 @@ function getMultiAddressQuery(fieldName, address, chain) {
 }
 
 function getAddressQuery(fieldName, address) {
+  if (isEthereumAddress(address)) {
+    return {
+      [fieldName]: address.toLowerCase(),
+    };
+  }
+
   const chain = currentChain();
   if (hasLegacySs58Format(chain)) {
     return getMultiAddressQuery(fieldName, address, chain);
