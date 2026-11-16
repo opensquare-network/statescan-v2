@@ -92,7 +92,12 @@ export default function SortableHead({
   });
 
   function handleSort() {
-    const newQueryParams = omit(queryParams, [TABLE_SORT_QUERY_KEY]);
+    const newQueryParams = omit(queryParams, [
+      TABLE_SORT_QUERY_KEY,
+      "cursor",
+      "prev",
+      "page",
+    ]);
 
     if (!active) {
       setDescending(true);

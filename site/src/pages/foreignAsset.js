@@ -5,7 +5,7 @@ import { Panel } from "../components/styled/panel";
 import List from "../components/list";
 import { toForeignAssetDetailItem } from "../utils/viewFuncs/toDetailItem";
 import AssetInfo from "../components/asset/assetInfo";
-import { Holders, Timeline, Transfers } from "../utils/constants";
+import { Activity, Holders, Timeline, Transfers } from "../utils/constants";
 import DetailLayout from "../components/layout/detailLayout";
 import DetailTabs from "../components/detail/tabs";
 import { useQuery } from "@apollo/client";
@@ -17,6 +17,7 @@ import { addressEllipsis } from "@osn/common";
 import ForeignAssetTransfers from "../components/foreign-asset/transfers";
 import ForeignAssetHolders from "../components/foreign-asset/holders";
 import ForeignAssetTimeline from "../components/foreign-asset/timeline";
+import ForeignAssetActivity from "../components/foreign-asset/activity";
 import ForeignAssetLocationContent from "../components/foreignAssetsLocation/foreignAssetLocationContent";
 import { Title, Wrapper } from "../components/dataDisplay";
 
@@ -32,6 +33,7 @@ function ForeignAsset() {
       foreignAssetTransfers,
       foreignAssetHolders,
       foreignAssetTimeline,
+      foreignAssetActivity,
     } = {},
   } = useQuery(GET_FOREIGN_ASSET_COUNTS, {
     variables: {
@@ -60,6 +62,11 @@ function ForeignAsset() {
       name: Timeline,
       count: foreignAssetTimeline?.total,
       children: <ForeignAssetTimeline assetId={assetId} asset={detail} />,
+    },
+    {
+      name: Activity,
+      count: foreignAssetActivity?.total,
+      children: <ForeignAssetActivity assetId={assetId} asset={detail} />,
     },
   ];
 

@@ -7,8 +7,8 @@ import { Inter_12_500, Inter_14_600 } from "../../../styles/text";
 import { mobilecss } from "../../../styles/responsive";
 import CaretRightIcon from "../../icons/caretRightIcon";
 import { useOnClickOutside } from "@osn/common";
-import chains from "../../../utils/consts/chains";
 import { ArrowDownIcon, Dropdown } from "../styled";
+import useChainOptions from "./useChainOptions";
 
 const Wrapper = styled.div`
   position: relative;
@@ -80,6 +80,7 @@ const ChainGroupItemCaretWrapper = styled.span`
 
 const ChainGroupItem = styled.a`
   display: inline-flex;
+  align-items: center;
   padding: 8px 0;
   text-decoration: none;
   ${mobilecss(css`
@@ -100,44 +101,12 @@ const ChainGroupItem = styled.a`
   }
 `;
 
-const polkadotChains = Object.values(chains).filter(
-  (i) => i.chain === "polkadot",
-);
-const kusamaChains = Object.values(chains).filter((i) => i.chain === "kusama");
-const westendChains = Object.values(chains).filter(
-  (i) => i.chain === "westend",
-);
-const paseoChains = Object.values(chains).filter((i) => i.chain === "paseo");
-const testnetOrSoloChains = Object.values(chains).filter((i) => !i.chain);
-
 export default function ChainSwitch() {
   const currentNode = useSelector(chainSettingSelector);
   const [show, setShow] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
-
-  const chainOptions = [
-    {
-      title: "Polkadot & Parachains",
-      chains: polkadotChains,
-    },
-    {
-      title: "Kusama & Parachains",
-      chains: kusamaChains,
-    },
-    {
-      title: "Westend Parachains",
-      chains: westendChains,
-    },
-    testnetOrSoloChains.length > 0 && {
-      title: "Solo chains & Testnet",
-      chains: testnetOrSoloChains,
-    },
-    paseoChains.length > 0 && {
-      title: "Paseo & Parachains",
-      chains: paseoChains,
-    },
-  ].filter(Boolean);
+  const chainOptions = useChainOptions();
 
   return (
     <Wrapper ref={ref} onClick={() => setShow((state) => !state)}>

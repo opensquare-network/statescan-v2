@@ -91,6 +91,10 @@ export default function DetailTable({
           dispatch(setDetailTable({ key: url, value: result }));
         }
       })
+      .catch(() => {
+        // A failed table request leaves the table empty instead of surfacing
+        // an unhandled rejection, e.g. when a feature api is not enabled.
+      })
       .finally(() => {
         dispatch(setDetailTablesLoading(false));
       });

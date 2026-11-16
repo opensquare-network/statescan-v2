@@ -2,9 +2,9 @@ import { callsHead } from "../../utils/constants";
 import ExtrinsicParametersDisplay from "../extrinsicParametersDisplay";
 import { ColoredLink } from "../styled/link";
 import Table from "../table";
-import { Tag } from "../tag";
 import ExtrinsicLink from "../extrinsic/link";
 import React from "react";
+import { Tag } from "../tag";
 import CallCell from "../table/callCell";
 
 export const toCallTableItem = (calls) => {

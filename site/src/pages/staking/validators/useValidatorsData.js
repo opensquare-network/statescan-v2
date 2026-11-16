@@ -43,6 +43,11 @@ export function useValidatorsWithIdentity(rawValidators) {
       return;
     }
 
+    if (!chainSettings.identity) {
+      setValidatorsWithIdentity(rawValidators);
+      return;
+    }
+
     const validators = rawValidators.items;
     setLoading(true);
 

@@ -2,6 +2,7 @@ const { keccakAsHex } = require("@polkadot/util-crypto");
 const { normalizeCall } = require("@osn/scan-common");
 const {
   utils: { isExtrinsicSuccess },
+  chain: { getExtrinsicSigner },
 } = require("@osn/scan-common");
 
 function getLifetime(extrinsic, indexer) {
@@ -93,7 +94,12 @@ function normalizeExtrinsic(extrinsic, events, indexer) {
   }
   const call = normalizeCall(extrinsic.method);
 
-  const isSigned = extrinsic.isSigned;
+  // a general transaction is authorized by its transaction extensions, so polkadot.js
+  // reports it as not signed and throws when `signer` or `signature` is read
+  const isGeneral =
+    typeof extrinsic.isGeneral === "function" && extrinsic.isGeneral();
+  const generalSigner = isGeneral ? getExtrinsicSigner(extrinsic) : undefined;
+  const isSigned = isGeneral ? !!generalSigner : extrinsic.isSigned;
   let obj = {
     indexer,
     version,
@@ -107,15 +113,13 @@ function normalizeExtrinsic(extrinsic, events, indexer) {
   if (isSigned) {
     const tip = extrinsic.tip ? extrinsic.tip.toBigInt().toString() : "0";
     const nonce = extrinsic.nonce.toNumber();
-    const signer = extrinsic.signer.toString();
-    const signature = extrinsic.signature.toString();
     const lifetime = getLifetime(extrinsic, indexer);
 
     obj = {
       ...obj,
       nonce,
-      signer,
-      signature,
+      signer: isGeneral ? generalSigner : extrinsic.signer.toString(),
+      ...(isGeneral ? {} : { signature: extrinsic.signature.toString() }),
       tip,
       lifetime,
     };

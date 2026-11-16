@@ -1,13 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
 import { useQueryParams } from "../useQueryParams";
 import SearchIcon from "../../components/icons/searchIcon";
+import useChainSettings from "../../utils/hooks/chain/useChainSettings";
 
 export function useValidatorsFilter() {
   const [filter, setFilter] = useState([]);
+  const { identity } = useChainSettings();
   const {
     search = "",
     onlyActive = "Yes",
-    hasIdentityOnly = "Yes",
+    hasIdentityOnly = identity ? "Yes" : "No",
     no100Commission = "Yes",
   } = useQueryParams();
 
@@ -67,10 +69,17 @@ export function useValidatorsFilter() {
       searchFilter,
       { type: "divider" },
       activeOnlyFilter,
-      hasIdentityFilter,
+      ...(identity ? [hasIdentityFilter] : []),
       no100CommissionFilter,
     ]);
-  }, [search, onlyActive, hasIdentityOnly, no100Commission, stableSetFilter]);
+  }, [
+    search,
+    onlyActive,
+    hasIdentityOnly,
+    no100Commission,
+    identity,
+    stableSetFilter,
+  ]);
 
   return filter;
 }

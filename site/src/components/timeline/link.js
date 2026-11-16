@@ -4,8 +4,10 @@ import { Flex } from "../styled/flex";
 import { Link as RouteLink } from "react-router-dom";
 import CaretUprightIcon from "../icons/caretUpright";
 import isNil from "lodash.isnil";
+import ExternalLink from "../externalLink";
+import { isLidoProtocol } from "../../utils/env";
 
-const Wrapper = styled(Flex)`
+export const Wrapper = styled(Flex)`
   cursor: pointer;
   ${Inter_12_400}
   padding: 2px 8px;
@@ -30,6 +32,10 @@ const MyLink = styled(RouteLink)`
   text-decoration: none;
 `;
 
+const MyExternalLink = styled(ExternalLink)`
+  text-decoration: none;
+`;
+
 const Links = styled(Flex)`
   > :nth-child(1) {
     margin-right: 8px;
@@ -44,6 +50,38 @@ function Link({ name, to }) {
         <CaretUprightIcon />
       </Wrapper>
     </MyLink>
+  );
+}
+
+function ExternalTimelineLink({ name, href }) {
+  return (
+    <MyExternalLink href={href}>
+      <Wrapper>
+        <div>{name}</div>
+        <CaretUprightIcon />
+      </Wrapper>
+    </MyExternalLink>
+  );
+}
+
+function EtherscanLink({ indexer }) {
+  const { blockHeight, extrinsicIndex, eventIndex, txHash } = indexer;
+
+  return (
+    <Links>
+      {isNil(extrinsicIndex) && isNil(eventIndex) && (
+        <ExternalTimelineLink
+          name="Block"
+          href={`https://etherscan.io/block/${blockHeight}`}
+        />
+      )}
+      {txHash && (
+        <ExternalTimelineLink
+          name="Transaction"
+          href={`https://etherscan.io/tx/${txHash}`}
+        />
+      )}
+    </Links>
   );
 }
 
@@ -75,6 +113,10 @@ export default function IndexerLinks({ indexer }) {
   const { blockHeight, extrinsicIndex, eventIndex, chain } = indexer;
   if (isNil(blockHeight) && isNil(extrinsicIndex) && isNil(eventIndex)) {
     return null;
+  }
+
+  if (isLidoProtocol()) {
+    return <EtherscanLink indexer={indexer} />;
   }
 
   if (chain === "people" && process.env.REACT_APP_PUBLIC_CHAIN === "polkadot") {

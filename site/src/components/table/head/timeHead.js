@@ -13,13 +13,16 @@ const Item = styled.div`
   cursor: pointer;
 `;
 
-export default function TimeHead({ timeType, setTimeType }) {
+export default function TimeHead({ labels, timeType, setTimeType }) {
+  const displayLabel =
+    timeType === timeTypes.date ? labels?.time || "Time" : labels?.age || "Age";
+
   return (
     <Wrapper>
       {timeType === timeTypes.date ? (
-        <Item onClick={() => setTimeType(timeTypes.age)}>Time</Item>
+        <Item onClick={() => setTimeType(timeTypes.age)}>{displayLabel}</Item>
       ) : (
-        <Item onClick={() => setTimeType(timeTypes.date)}>Age</Item>
+        <Item onClick={() => setTimeType(timeTypes.date)}>{displayLabel}</Item>
       )}
     </Wrapper>
   );

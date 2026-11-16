@@ -2,6 +2,8 @@ import { getFilteredMenus } from "./chain";
 
 export const LIST_DEFAULT_PAGE_SIZE = 25;
 
+export const EMPTY_OBJECT = {};
+
 export const CACHE_KEY = {
   themeMode: "theme-mode",
 };
@@ -14,11 +16,16 @@ export const Holders = "holders";
 export const Events = "events";
 export const Logs = "logs";
 export const Timeline = "timeline";
+export const Activity = "activities";
 export const Analytics = "analytics";
 export const Instances = "instances";
 export const Attributes = "attributes";
 export const Nft = "NFT";
 export const NftTransfer = "NFT Transfer";
+export const Calls = "Calls";
+export const Contract = "Contract";
+export const Contracts = "Contracts";
+export const ReviveCalls = "Revive Calls";
 
 export const menusBlockchainSimpleMode = [
   {
@@ -200,6 +207,49 @@ export const callsHead = [
     align: "right",
     display: "table",
   },
+];
+
+export const contractsHead = [
+  { name: "Contract", width: 320 },
+  { name: "Deployer", width: 240 },
+  { name: "Calls", width: 96, align: "right" },
+  { name: "Code Size", width: 120, align: "right" },
+  { name: "Creation Block", width: 160 },
+  { name: "Time", type: "time", width: 200 },
+];
+
+export const tokensHead = [
+  { name: "Token", width: 280 },
+  { name: "Symbol", width: 140 },
+  { name: "Contract", width: 300 },
+  { name: "Decimals", width: 100, align: "right" },
+  { name: "Total Supply", width: 220, align: "right" },
+];
+
+export const contractCallsHead = [
+  { name: "Extrinsic ID", width: 200 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "Method", width: 240 },
+  { name: "Caller", width: 240 },
+  { name: "Result", width: 96, align: "center" },
+  { name: "Data", type: "data", align: "right" },
+];
+
+export const accountCallsHead = [
+  { name: "Extrinsic ID", width: 200 },
+  { name: "Time", type: "time", width: 200 },
+  { name: "Contract", width: 320 },
+  { name: "Method", width: 240 },
+  { name: "Result", width: 96, align: "center" },
+  { name: "Data", type: "data", align: "right" },
+];
+
+export const accountContractsHead = [
+  { name: "Contract", width: 320 },
+  { name: "Calls", width: 96, align: "right" },
+  { name: "Code Size", width: 120, align: "right" },
+  { name: "Creation Block", width: 160 },
+  { name: "Time", type: "time", width: 200 },
 ];
 
 export const transfersHead = [
@@ -864,6 +914,12 @@ export const RECOVERY_STATUS = {
 export const PROXY_STATUS = {
   ACTIVE: "active",
   REMOVED: "removed",
+};
+
+export const LIDO_WITHDRAWAL_STATUS = {
+  REQUEST: "REQUEST",
+  FINALIZED: "FINALIZED",
+  CLAIMED: "CLAIMED",
 };
 
 export const PROXY_ANNOUNCEMENT_STATUS = {

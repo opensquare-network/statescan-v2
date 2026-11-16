@@ -13,14 +13,16 @@ import { useQueryParams } from "../../../hooks/useQueryParams";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../../utils/constants";
 import { useValidatorsFilter } from "../../../hooks/filter/useValidatorsFilter";
 import Filter from "../../../components/filter";
+import useChainSettings from "../../../utils/hooks/chain/useChainSettings";
 
 export default function StakingValidators() {
+  const { identity } = useChainSettings();
   const {
     page = 1,
     search = "",
     onlyActive = "Yes",
     no100Commission = "Yes",
-    hasIdentityOnly = "Yes",
+    hasIdentityOnly = identity ? "Yes" : "No",
   } = useQueryParams();
   const filter = useValidatorsFilter();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;

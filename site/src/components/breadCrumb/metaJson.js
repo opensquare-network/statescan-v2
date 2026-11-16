@@ -1,6 +1,27 @@
 export default function getMetaData(breadCrumbs) {
   const json = [
     {
+      name: "stETH",
+      desc: "Lido is an ERC-20 rebasing token, which represents staked ether, stETH. Tokens are minted upon ether submission and burned when redeemed. stETH holder balances are updated daily with oracle reports. It also implements the ERC-2612 permit and ERC-1271 signature validation extensions.",
+      wikiLink: "https://docs.lido.fi/contracts/lido/",
+    },
+    {
+      name: "wstETH",
+      desc: "It's an ERC-20 value-accruing token wrapper for stETH. Its balance does not change with each oracle report, but its value in stETH does. Internally, it represents the user's share of the total supply of stETH tokens.",
+      wikiLink: "https://docs.lido.fi/contracts/wsteth/",
+    },
+    {
+      name: "Staking Modules",
+      desc: "Modules are registered with StakingRouter through the Lido DAO voting process. To be considered by the governance, the applying module contract should implement the appropriate module interface, meet security requirements, and have a fee structure aligned with the Lido protocol sustainability. Once voted in, the module starts receiving stake and protocol fees.",
+      wikiLink:
+        "https://docs.lido.fi/contracts/staking-router/#module-management",
+    },
+    {
+      name: "Module Deposits",
+      desc: "Module Deposits record the submission of buffered ETH along with validator keys by a staking module to Ethereum’s DepositContract, creating new validators in batches of 32 ETH each.",
+      wikiLink: "https://docs.lido.fi/contracts/staking-router/#deposit",
+    },
+    {
       name: "Multisigs",
       desc: "All history multisig records and their status and we can filter them by address or status.",
       wikiLink: "https://wiki.polkadot.network/learn/learn-account-multisig/",

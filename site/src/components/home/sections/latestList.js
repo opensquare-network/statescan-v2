@@ -59,9 +59,14 @@ function mapLoadingState(props) {
   };
 }
 
-function LatestList({ items = [], loading = false, noDataText = "No Data" }) {
+function LatestList({
+  items = [],
+  loading = false,
+  noDataText = "No Data",
+  noDataClassName,
+}) {
   if (!items.length && !loading) {
-    return <NoData text={noDataText} />;
+    return <NoData text={noDataText} className={noDataClassName} />;
   }
 
   return (

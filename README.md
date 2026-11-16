@@ -26,6 +26,9 @@ Currently, we have the following packages for data indexing.
   for [proxy pallet](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/frame/proxy) business.
 - [pallet-recovery-scan](./backend/packages/pallet-recovery-scan)
   for [recover pallet](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/frame/recovery) business.
+- [pallet-revive-scan](./backend/packages/pallet-revive-scan)
+  for [revive pallet](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/frame/revive) business, i.e. the
+  deployed contracts and their calls.
 - [vesting-scan](./backend/packages/vesting-scan) for latest vesting data.
 - [multisig-scan](./backend/packages/multisig-scan) for multisig data indexing.
 - [uniques-scan](./backend/packages/uniques-scan) for previous uniques pallet business indexing, outdated.

@@ -7,20 +7,19 @@ import { useMemo } from "react";
 export function useTimeDimensionFilterItems() {
   const currentFilterValue = useSelector(currentFilterValueSelector);
   const location = useLocation();
+  const timeDimensionValue =
+    currentFilterValue.time_dimension ??
+    getFromQuery(location, "time_dimension", "block");
+  const blockStartValue =
+    currentFilterValue.block_start ?? getFromQuery(location, "block_start");
+  const blockEndValue =
+    currentFilterValue.block_end ?? getFromQuery(location, "block_end");
+  const dateStartValue =
+    currentFilterValue.date_start ?? getFromQuery(location, "date_start");
+  const dateEndValue =
+    currentFilterValue.date_end ?? getFromQuery(location, "date_end");
 
   return useMemo(() => {
-    const timeDimensionValue =
-      currentFilterValue.time_dimension ??
-      getFromQuery(location, "time_dimension", "block");
-    const blockStartValue =
-      currentFilterValue.block_start ?? getFromQuery(location, "block_start");
-    const blockEndValue =
-      currentFilterValue.block_end ?? getFromQuery(location, "block_end");
-    const dateStartValue =
-      currentFilterValue.date_start ?? getFromQuery(location, "date_start");
-    const dateEndValue =
-      currentFilterValue.date_end ?? getFromQuery(location, "date_end");
-
     const timeDimension = {
       value: timeDimensionValue,
       name: "Time Dimension",
@@ -78,11 +77,10 @@ export function useTimeDimensionFilterItems() {
       ...(timeDimensionValue === "date" ? [dateStart, dateEnd] : []),
     ].filter(Boolean);
   }, [
-    currentFilterValue.block_end,
-    currentFilterValue.block_start,
-    currentFilterValue.date_end,
-    currentFilterValue.date_start,
-    currentFilterValue.time_dimension,
-    location,
+    blockEndValue,
+    blockStartValue,
+    dateEndValue,
+    dateStartValue,
+    timeDimensionValue,
   ]);
 }

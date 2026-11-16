@@ -37,17 +37,22 @@ const SybmolEllipsis = styled.span`
 export default function ValueDisplay({
   value,
   symbol,
+  prefix = "",
   abbreviate = true,
   showNotEqualTooltip = false,
+  tooltipContent,
   symbolWidth = 0,
 }) {
   if (isNaN(value)) {
     return <Wrapper>--</Wrapper>;
   }
 
-  let symbolDisplay = <span className="symbol">{symbol}</span>;
+  const hasSymbol = !!symbol;
+  let symbolDisplay = hasSymbol ? (
+    <span className="symbol">{symbol}</span>
+  ) : null;
 
-  if (symbolWidth > 0) {
+  if (hasSymbol && symbolWidth > 0) {
     symbolDisplay = (
       <SymbolTooltip tip={symbol}>
         <SybmolEllipsis className="symbol" style={{ maxWidth: symbolWidth }}>
@@ -64,24 +69,30 @@ export default function ValueDisplay({
     const abbreviated = abbreviateBigNumber(value, 2);
     let display = (
       <Wrapper>
-        {abbreviated} {symbol}
+        {prefix}
+        {abbreviated}
+        {hasSymbol ? ` ${symbol}` : ""}
       </Wrapper>
     );
     if (getEffectiveNumbers(abbreviated) !== getEffectiveNumbers(value)) {
-      let notEqualDisplay = <span className="figures">{abbreviated}</span>;
+      let notEqualDisplay = (
+        <span className="figures">
+          {prefix}
+          {abbreviated}
+        </span>
+      );
 
-      if (showNotEqualTooltip) {
-        notEqualDisplay = (
-          <Tooltip tip={bigNumberToLocaleString(value)}>
-            {notEqualDisplay}
-          </Tooltip>
-        );
+      const tip =
+        tooltipContent || `${prefix}${bigNumberToLocaleString(value)}`;
+
+      if (showNotEqualTooltip || tooltipContent) {
+        notEqualDisplay = <Tooltip tip={tip}>{notEqualDisplay}</Tooltip>;
       }
       display = (
         <NotEqual>
           {notEqualDisplay}
-          <span style={{ width: 4 }} />
-          {symbolDisplay}
+          {hasSymbol && <span style={{ width: 4 }} />}
+          {hasSymbol && symbolDisplay}
         </NotEqual>
       );
     }
@@ -92,29 +103,51 @@ export default function ValueDisplay({
   if (decimal?.length > 5 && abbreviate) {
     const shortDeciaml = decimal.substring(0, 2);
 
+    let figures = (
+      <span className="figures">
+        {prefix}
+        {bigNumberToLocaleString(int)}.{shortDeciaml}
+      </span>
+    );
+
+    if (tooltipContent) {
+      figures = <Tooltip tip={tooltipContent}>{figures}</Tooltip>;
+    }
+
     let display = (
       <NotEqual>
-        <span className="figures">
-          {bigNumberToLocaleString(int)}.{shortDeciaml}
-        </span>
-        <span style={{ width: 4 }} />
-        {symbolDisplay}
+        {figures}
+        {hasSymbol && <span style={{ width: 4 }} />}
+        {hasSymbol && symbolDisplay}
       </NotEqual>
     );
 
     if (showNotEqualTooltip) {
       display = (
-        <Tooltip tip={bigNumberToLocaleString(value)}>{display}</Tooltip>
+        <Tooltip tip={`${prefix}${bigNumberToLocaleString(value)}`}>
+          {display}
+        </Tooltip>
       );
     }
 
     return display;
   }
+  let figures = (
+    <span className="figures">
+      {prefix}
+      {value}
+    </span>
+  );
+
+  if (tooltipContent) {
+    figures = <Tooltip tip={tooltipContent}>{figures}</Tooltip>;
+  }
+
   return (
     <Wrapper>
-      <span className="figures">{value} </span>
-      <span style={{ width: 4 }} />
-      {symbolDisplay}
+      {figures}
+      {hasSymbol && <span style={{ width: 4 }} />}
+      {hasSymbol && symbolDisplay}
     </Wrapper>
   );
 }

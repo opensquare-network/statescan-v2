@@ -38,6 +38,9 @@ export const GET_FOREIGN_ASSET_COUNTS = gql`
     foreignAssetTimeline(assetId: $assetId, limit: 10, offset: 0) {
       total
     }
+    foreignAssetActivity(assetId: $assetId, limit: 10, offset: 0) {
+      total
+    }
     foreignAssetTransfers(assetId: $assetId, limit: 10, offset: 0) {
       total
     }
@@ -111,6 +114,29 @@ export const GET_FOREIGN_ASSET_HOLDERS_LIST = gql`
 export const GET_FOREIGN_ASSET_TIMELINE_LIST = gql`
   query MyQuery($limit: Int!, $offset: Int!, $assetId: String!) {
     foreignAssetTimeline(assetId: $assetId, limit: $limit, offset: $offset) {
+      items {
+        args
+        assetId
+        indexer {
+          blockHash
+          blockHeight
+          blockTime
+          chain
+          eventIndex
+          extrinsicIndex
+        }
+        name
+      }
+      limit
+      offset
+      total
+    }
+  }
+`;
+
+export const GET_FOREIGN_ASSET_ACTIVITY_LIST = gql`
+  query MyQuery($limit: Int!, $offset: Int!, $assetId: String!) {
+    foreignAssetActivity(assetId: $assetId, limit: $limit, offset: $offset) {
       items {
         args
         assetId

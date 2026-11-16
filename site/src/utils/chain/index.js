@@ -54,6 +54,8 @@ export function hasBusiness() {
     proxy,
     assets,
     foreignAssets,
+    staking,
+    revive,
   } = getChainModules();
   return (
     identity ||
@@ -62,8 +64,14 @@ export function hasBusiness() {
     vestings ||
     proxy ||
     assets ||
-    foreignAssets
+    foreignAssets ||
+    staking?.validators ||
+    revive
   );
+}
+
+export function hasRevive() {
+  return !!getChainModules().revive;
 }
 
 export function getIsUseOnChainBlockData() {

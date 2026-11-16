@@ -31,6 +31,14 @@ import { time } from "./time";
 import { isCid } from "../cid";
 import { getNftInstanceParsedMetadata } from "../nft";
 import ExtrinsicAssetsTransferredList from "../../components/extrinsicAssetsTransferredList";
+import ExtrinsicEvmCall from "../../components/extrinsic/evmCall";
+import ContractLabel from "../../components/extrinsic/contractLabel";
+import {
+  getContractName,
+  parseReviveCall,
+  parseReviveEthTransact,
+} from "../revive";
+import { hashEllipsis } from "./text";
 import CircledInfoIcon from "../../components/icons/circledInfoIcon";
 import { Flex, FlexCenter, FlexColumn } from "../../components/styled/flex";
 import isNil from "lodash.isnil";
@@ -90,6 +98,56 @@ export const toBlockDetailItem = (block) => {
       <AddressOrIdentity address={block?.validator} ellipsis={false} />
     ),
   };
+};
+
+export const toContractDetailItem = (address, contract) => {
+  const name = getContractName(address);
+  const indexer = contract?.indexer;
+  const codeHash = contract?.codeHash;
+
+  const data = {
+    Address: <TextSecondaryWithCopy>{address}</TextSecondaryWithCopy>,
+    ...(name ? { "Contract Name": <Tag>{name}</Tag> } : {}),
+    Deployer: contract?.deployer ? (
+      <AddressOrIdentity address={contract.deployer} ellipsis={false} />
+    ) : (
+      <TextSecondary>--</TextSecondary>
+    ),
+    "Code Hash": codeHash ? (
+      <Tooltip tip={codeHash}>
+        <TextSecondaryWithCopy>{hashEllipsis(codeHash)}</TextSecondaryWithCopy>
+      </Tooltip>
+    ) : (
+      <TextSecondary>--</TextSecondary>
+    ),
+    "Code Size": (
+      <TextSecondary>
+        {contract?.codeLen
+          ? `${contract.codeLen.toLocaleString()} bytes`
+          : "--"}
+      </TextSecondary>
+    ),
+    "Creation Block": isNil(indexer?.blockHeight) ? (
+      <TextSecondary>--</TextSecondary>
+    ) : (
+      <DetailedBlock blockHeight={indexer.blockHeight} />
+    ),
+    "Creation Time": isNil(indexer?.blockTime) ? (
+      <TextSecondary>--</TextSecondary>
+    ) : (
+      <DetailedTime ts={indexer.blockTime} />
+    ),
+    "Creation Extrinsic": isNil(indexer?.extrinsicIndex) ? (
+      <TextSecondary>--</TextSecondary>
+    ) : (
+      <DetailedExtrinsicId
+        blockHeight={indexer.blockHeight}
+        id={indexer.extrinsicIndex}
+      />
+    ),
+  };
+
+  return data;
 };
 
 export const toAccountDetailItem = (id, account, chainSetting) => {
@@ -234,6 +292,7 @@ export const toOnChainAccountDetailItem = (
   id,
   account,
   multisigAddressData,
+  evmInfo,
 ) => {
   const lockedBreakdown = account?.data?.lockedBreakdown?.length > 0 && (
     <LockedBreakdown lockedBreakdown={account?.data?.lockedBreakdown} />
@@ -243,11 +302,56 @@ export const toOnChainAccountDetailItem = (
     <ReservedBreakdown reservedBreakdown={account?.data?.reservedBreakdown} />
   );
 
+  const addressItems = evmInfo
+    ? [
+        {
+          label: "Address",
+          value: (
+            <AddressAndIdentity address={evmInfo.evmAddress} ellipsis={false} />
+          ),
+        },
+        {
+          label: "Substrate Address",
+          value: (
+            <AddressAndIdentity
+              address={evmInfo.substrateAddress}
+              ellipsis={false}
+            />
+          ),
+        },
+        {
+          label: "Account Type",
+          value: (
+            <TextSecondary>
+              {evmInfo.accountType?.type === "contract"
+                ? "Contract"
+                : evmInfo.accountType?.type === "eoa"
+                ? "EOA"
+                : "--"}
+            </TextSecondary>
+          ),
+        },
+        evmInfo.accountType?.type === "contract" && {
+          label: "Contract",
+          value: <ContractLabel address={evmInfo.evmAddress} />,
+        },
+      ].filter(Boolean)
+    : [
+        {
+          label: "Address",
+          value: (
+            <AddressAndIdentity
+              address={id}
+              ellipsis={false}
+              checkMultisig
+              key={id}
+            />
+          ),
+        },
+      ];
+
   const data = [
-    {
-      label: "Address",
-      value: <AddressAndIdentity address={id} ellipsis={false} checkMultisig key={id} />,
-    },
+    ...addressItems,
     {
       label: "Total Balance",
       value: <ValueDisplayWithTooltip value={account?.data?.total} />,
@@ -531,6 +635,9 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     (assetTransferredList?.length || uniqueTransferredList?.length);
 
   const { section, method } = extrinsic?.call || extrinsic || {};
+  const reviveCall =
+    parseReviveCall(extrinsic?.call || extrinsic) ??
+    parseReviveEthTransact(extrinsic?.call || extrinsic);
 
   return [
     getExtrinsicTime(extrinsic),
@@ -565,6 +672,14 @@ export const toExtrinsicDetailItem = (extrinsic, opts) => {
     {
       label: "Call",
       value: <TagThemed>{method}</TagThemed>,
+    },
+    reviveCall?.dest && {
+      label: "Contract",
+      value: <ContractLabel address={reviveCall.dest} />,
+    },
+    reviveCall && {
+      label: "Method",
+      value: <ExtrinsicEvmCall calldata={reviveCall.calldata} />,
     },
     extrinsic?.isSigned && {
       label: "Signer",

@@ -17,6 +17,13 @@ const cere = {
   color: "#403DFF",
   colorSecondary: "rgba(64, 61, 255, 0.1)",
   useOnChainBlockData: true,
+  modules: {
+    staking: {
+      rewards: true,
+      nominations: true,
+      validators: true,
+    },
+  },
 };
 
 export default cere;

@@ -6,6 +6,7 @@ const {
 const {
   utils: { getExtrinsicHash },
 } = require("@statescan/common");
+const { resolveExtrinsic } = require("./general");
 
 function ignoreInExtrinsicList(call) {
   const { section, method } = call;
@@ -31,7 +32,7 @@ function normalizeExtrinsic(extrinsic, events, indexer) {
   const call = normalizeCall(extrinsic.method);
 
   const listIgnore = ignoreInExtrinsicList(extrinsic.method);
-  const isSigned = extrinsic.isSigned;
+  const { isGeneral, isSigned, signer } = resolveExtrinsic(extrinsic);
   let obj = {
     indexer,
     version,
@@ -46,15 +47,15 @@ function normalizeExtrinsic(extrinsic, events, indexer) {
   if (isSigned) {
     const tip = extrinsic.tip ? extrinsic.tip.toBigInt().toString() : "0";
     const nonce = extrinsic.nonce.toNumber();
-    const signer = extrinsic.signer.toString();
-    const signature = extrinsic.signature.toString();
     const lifetime = getLifetime(extrinsic, indexer);
 
     obj = {
       ...obj,
       nonce,
-      signer,
-      signature,
+      signer: isGeneral ? signer : extrinsic.signer.toString(),
+      // a general transaction has no top level signature, and the one carried by its
+      // extensions is not what the `signature` field is about
+      ...(isGeneral ? {} : { signature: extrinsic.signature.toString() }),
       tip,
       lifetime,
     };

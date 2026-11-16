@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useAccountAddress } from "../context/accountAddressContext";
 import RecoverablesTable from "../../recovery/recoverables/table";
 import { StyledPanelTableWrapper } from "../../styled/panel";
 import { useRecoverablesData } from "../../../hooks/recovery/useRecoverablesData";
@@ -6,9 +6,9 @@ import Pagination from "../../pagination";
 import { useQueryParams } from "../../../hooks/useQueryParams";
 
 export default function AccountDetailRecoverablesTab() {
-  const { id } = useParams();
+  const address = useAccountAddress();
   const { page = 1 } = useQueryParams();
-  const { data, loading } = useRecoverablesData({ lostAccount: id });
+  const { data, loading } = useRecoverablesData({ lostAccount: address });
 
   return (
     <StyledPanelTableWrapper

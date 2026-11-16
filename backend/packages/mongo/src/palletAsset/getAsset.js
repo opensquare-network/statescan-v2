@@ -12,7 +12,9 @@ async function getActiveAssetOrThrow(assetId, blockHeight) {
   const q = { assetId, destroyed: false };
   const asset = await col.findOne(q);
   if (!asset) {
-    logger.error(`Can not find asset ${assetId} when update approval at ${blockHeight}`);
+    logger.error(
+      `Can not find asset ${assetId} when update approval at ${blockHeight}`,
+    );
     return null;
   }
 

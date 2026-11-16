@@ -1,7 +1,7 @@
 import { useState, memo } from "react";
 import { LIST_DEFAULT_PAGE_SIZE } from "../../../utils/constants";
 import { useQueryParams } from "../../../hooks/useQueryParams";
-import { useParams } from "react-router-dom";
+import { useAccountAddress } from "../../account/context/accountAddressContext";
 import { StyledPanelTableWrapperNoBordered } from "../../styled/panel";
 import Pagination from "../../pagination";
 import AccountStakingRewardsTable from "./table";
@@ -9,7 +9,7 @@ import { useStakingQuery } from "../../../hooks/apollo";
 import { GET_STAKING_REWARDS } from "../../../services/gqls";
 
 function AccountTabStakingRewards() {
-  const { id } = useParams();
+  const address = useAccountAddress();
   const { page = 1 } = useQueryParams();
   const pageSize = LIST_DEFAULT_PAGE_SIZE;
   const [data, setData] = useState(null);
@@ -18,7 +18,7 @@ function AccountTabStakingRewards() {
     variables: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
-      address: id,
+      address,
     },
     onCompleted: setData,
   });

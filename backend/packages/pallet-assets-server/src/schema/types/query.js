@@ -29,6 +29,12 @@ const queries = /* GraphQL */ `
       assetId: Int!
       assetHeight: Int
     ): PagedTimeline!
+    assetActivity(
+      offset: Int!
+      limit: Int!
+      assetId: Int!
+      assetHeight: Int
+    ): PagedActivity!
     assetStatistic(assetId: Int!, assetHeight: Int): Statistics!
     assetHistoryStatistics(
       assetId: Int!

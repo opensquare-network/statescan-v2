@@ -83,7 +83,11 @@ export default function TableHead({ heads }) {
           let content = name;
           if (type === "time") {
             content = (
-              <TimeHead timeType={timeType} setTimeType={doSetTimeType} />
+              <TimeHead
+                labels={typeof name === "object" ? name : undefined}
+                timeType={timeType}
+                setTimeType={doSetTimeType}
+              />
             );
           }
 
