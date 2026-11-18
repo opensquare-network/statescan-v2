@@ -59,7 +59,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "deploy": "yarn run build && wrangler deploy",
+    "preview": "yarn run build && wrangler dev"
   },
   "browserslist": {
     "production": [
@@ -78,7 +80,8 @@
   "devDependencies": {
     "@types/react-datepicker": "^4.19.1",
     "eslint": "^8.43.0",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "wrangler": "^4.113.0"
   },
   "overrides": {
     "react-json-view": {
